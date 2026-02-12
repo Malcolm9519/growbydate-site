@@ -1,28 +1,109 @@
 :root {
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   --max: 920px;
+
+  --text: #111;
+  --muted: rgba(0,0,0,0.72);
+  --border: #ddd;
+  --bg: #fff;
+  --radius: 16px;
 }
 
-body { margin: 0; line-height: 1.5; }
-.container { max-width: var(--max); margin: 0 auto; padding: 48px 16px; }
-.header { margin-bottom: 24px; }
-.tagline { margin-top: 6px; opacity: 0.8; }
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  line-height: 1.55;
+  color: var(--text);
+  background: var(--bg);
+}
+
+.container {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 52px 16px;
+}
+
+.header {
+  margin-bottom: 26px;
+}
+
+.brand h1 {
+  margin: 0;
+  font-size: 34px;
+  letter-spacing: -0.02em;
+}
+
+.tagline {
+  margin: 8px 0 0;
+  color: var(--muted);
+}
+
+.lede {
+  margin: 16px 0 0;
+  font-size: 18px;
+  color: var(--muted);
+}
 
 .card {
-  border: 1px solid #ddd;
-  border-radius: 16px;
-  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+
+.cardHead h2 {
+  margin: 0;
+  font-size: 20px;
+  letter-spacing: -0.01em;
+}
+
+.cardHead .muted {
+  margin: 8px 0 0;
+}
+
+.tool h3 {
+  margin: 14px 0 8px;
+  font-size: 18px;
+}
+
+.tool p {
+  margin: 0 0 14px;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 10px;
 }
 
 .button {
   display: inline-block;
-  margin-top: 10px;
   padding: 10px 14px;
   border: 1px solid #111;
   border-radius: 12px;
   text-decoration: none;
   color: inherit;
+  background: transparent;
 }
 
-.button:hover { opacity: 0.85; }
-.footer { margin-top: 48px; opacity: 0.7; font-size: 14px; }
+.button:hover { opacity: 0.86; }
+
+.button.primary {
+  background: #111;
+  color: #fff;
+}
+
+.button.subtle {
+  border-color: var(--border);
+}
+
+.muted { color: var(--muted); }
+.fine { font-size: 14px; margin-top: 14px; }
+
+.footer {
+  margin-top: 44px;
+  opacity: 0.7;
+  font-size: 14px;
+}
