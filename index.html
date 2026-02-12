@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>GrowByDate — Plan smarter for your growing season</title>
+  <meta name="description" content="Simple planning tools for gardeners: seed starting dates, planting windows, and short-season timing." />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <main class="container">
+    <header class="header">
+      <h1>GrowByDate</h1>
+      <p class="tagline">Plan smarter for your growing season.</p>
+    </header>
+
+    <section class="card">
+      <h2>Tools</h2>
+      <p>Start with our seed starting and planting date planner.</p>
+      <a class="button" href="/tools/seed-start-planner.html">Seed Starting Planner</a>
+    </section>
+
+    <footer class="footer">
+      <p>© <span id="y"></span> GrowByDate</p>
+    </footer>
+  </main>
+
+  <script>
+    document.getElementById("y").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
