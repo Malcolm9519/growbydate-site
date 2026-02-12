@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://growbydate.com/sitemap.xml
