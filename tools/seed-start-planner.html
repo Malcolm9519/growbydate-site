@@ -4,13 +4,329 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Seed Starting Planner — GrowByDate</title>
+  <meta name="description" content="Enter your last frost date and crop to get seed starting, hardening off, and planting windows—ideal for short growing seasons." />
   <link rel="stylesheet" href="/styles.css" />
+  <style>
+    .grid { display: grid; gap: 14px; }
+    .row { display: grid; gap: 10px; grid-template-columns: 1fr; }
+    @media (min-width: 720px) { .row { grid-template-columns: 1fr 1fr; } }
+    label { font-weight: 600; }
+    input, select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      font: inherit;
+    }
+    .small { font-size: 14px; opacity: .8; }
+    .card + .card { margin-top: 14px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { padding: 10px 8px; border-bottom: 1px solid #e5e5e5; text-align: left; vertical-align: top; }
+    th { font-weight: 700; }
+    .pill { display: inline-block; padding: 2px 8px; border: 1px solid #222; border-radius: 999px; font-size: 12px; opacity: .85; }
+    .warn { border: 1px solid #e3c46b; border-radius: 12px; padding: 10px 12px; background: #fff8e1; }
+    .muted { opacity: .85; }
+    .btn {
+      display: inline-block;
+      padding: 10px 14px;
+      border: 1px solid #111;
+      border-radius: 12px;
+      background: transparent;
+      cursor: pointer;
+      font: inherit;
+    }
+    .btn:hover { opacity: .85; }
+  </style>
 </head>
 <body>
   <main class="container">
     <a href="/">← Back</a>
     <h1>Seed Starting Planner</h1>
-    <p>Coming online next.</p>
+    <p class="muted">Enter your <strong>average last frost date</strong> and choose a crop. You’ll get a simple window for starting seeds indoors, hardening off, and planting outside.</p>
+
+    <section class="card">
+      <div class="grid">
+        <div class="row">
+          <div>
+            <label for="lastFrost">Average last frost date</label>
+            <input id="lastFrost" type="date" />
+            <div class="small">Example: May 10 (varies by location and year)</div>
+          </div>
+
+          <div>
+            <label for="crop">Crop</label>
+            <select id="crop"></select>
+            <div class="small">We’ll start with 10 common vegetables. More coming.</div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label for="protection">Season protection</label>
+            <select id="protection">
+              <option value="0">None (open garden)</option>
+              <option value="7">Some protection (row cover / cloche) — ~1 week earlier</option>
+              <option value="14">More protection (cold frame / tunnel) — ~2 weeks earlier</option>
+            </select>
+            <div class="small">This shifts your outdoor planting window slightly earlier.</div>
+          </div>
+
+          <div style="display:flex; align-items:end; gap:10px;">
+            <button class="btn" id="calcBtn" type="button">Calculate</button>
+            <button class="btn" id="resetBtn" type="button">Reset</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" id="resultsCard" style="display:none;">
+      <h2>Results</h2>
+      <div class="small"><span class="pill">Tip</span> These are planning ranges. Weather can shift things by a week or more.</div>
+      <table>
+        <thead>
+          <tr>
+            <th>Task</th>
+            <th>Recommended window</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody id="resultsBody"></tbody>
+      </table>
+    </section>
+
+    <section class="warn" id="warnBox" style="display:none;"></section>
+
+    <section class="card">
+      <h2>How this works</h2>
+      <p class="muted">
+        Most seed starting schedules count backwards from your average last frost date. Warm-season crops (tomatoes, peppers)
+        usually start indoors earlier; cool-season crops can be direct sown outdoors near the frost date.
+      </p>
+      <p class="muted small">
+        This planner is for general guidance and does not replace local extension recommendations.
+      </p>
+    </section>
   </main>
+
+  <script>
+    // ---- Data model ----
+    // indoorStartWeeks: [startEarlierWeeks, startLaterWeeks] relative to last frost (before last frost)
+    // transplantWeeks:  [earlierWeeks, laterWeeks] relative to last frost (after subtracting protection offset)
+    // directSowWeeks:   [earlierWeeks, laterWeeks] relative to last frost (can be negative = before frost date)
+    const CROPS = [
+      {
+        id: "tomato",
+        name: "Tomatoes",
+        indoorStartWeeks: [8, 6],
+        transplantWeeks: [2, 3],
+        directSowWeeks: null,
+        notes: "Warm-season. Transplant after nights warm up."
+      },
+      {
+        id: "pepper",
+        name: "Peppers",
+        indoorStartWeeks: [10, 8],
+        transplantWeeks: [2, 4],
+        directSowWeeks: null,
+        notes: "Very warm-season. Needs heat to germinate well."
+      },
+      {
+        id: "cucumber",
+        name: "Cucumbers",
+        indoorStartWeeks: [4, 3],
+        transplantWeeks: [1, 2],
+        directSowWeeks: [1, 2],
+        notes: "Doesn't love root disturbance; start in larger cells/pots."
+      },
+      {
+        id: "zucchini",
+        name: "Zucchini / Summer squash",
+        indoorStartWeeks: [4, 3],
+        transplantWeeks: [1, 2],
+        directSowWeeks: [1, 2],
+        notes: "Fast grower. Give it room."
+      },
+      {
+        id: "bean",
+        name: "Bush beans",
+        indoorStartWeeks: null,
+        transplantWeeks: null,
+        directSowWeeks: [1, 2],
+        notes: "Direct sow when soil warms. Sensitive to frost."
+      },
+      {
+        id: "lettuce",
+        name: "Lettuce",
+        indoorStartWeeks: [6, 4],
+        transplantWeeks: [-2, 0],
+        directSowWeeks: [-4, 1],
+        notes: "Cool-season. Can handle light frosts."
+      },
+      {
+        id: "spinach",
+        name: "Spinach",
+        indoorStartWeeks: null,
+        transplantWeeks: null,
+        directSowWeeks: [-6, -2],
+        notes: "Very cold-hardy. Direct sow early."
+      },
+      {
+        id: "kale",
+        name: "Kale",
+        indoorStartWeeks: [8, 6],
+        transplantWeeks: [-2, 1],
+        directSowWeeks: [-4, 0],
+        notes: "Cold-hardy. Great for short seasons."
+      },
+      {
+        id: "broccoli",
+        name: "Broccoli",
+        indoorStartWeeks: [8, 6],
+        transplantWeeks: [-2, 0],
+        directSowWeeks: null,
+        notes: "Cool-season. Likes consistent moisture and cool temps."
+      },
+      {
+        id: "cabbage",
+        name: "Cabbage",
+        indoorStartWeeks: [8, 6],
+        transplantWeeks: [-2, 0],
+        directSowWeeks: null,
+        notes: "Cool-season. Transplant while weather is still cool."
+      }
+    ];
+
+    // ---- Helpers ----
+    const byId = (id) => document.getElementById(id);
+
+    function toDate(inputValue) {
+      // inputValue like "2026-05-10"
+      if (!inputValue) return null;
+      const [y, m, d] = inputValue.split("-").map(Number);
+      // Use local time noon to reduce DST weirdness.
+      return new Date(y, m - 1, d, 12, 0, 0, 0);
+    }
+
+    function fmt(date) {
+      return date.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+    }
+
+    function addDays(date, days) {
+      const out = new Date(date);
+      out.setDate(out.getDate() + days);
+      return out;
+    }
+
+    function weeksToDays(weeks) { return Math.round(weeks * 7); }
+
+    function windowFromWeeks(anchorDate, earlierWeeks, laterWeeks, protectionDays) {
+      // earlierWeeks is larger (more weeks before frost) for indoor start; we handle sign outside.
+      const start = addDays(anchorDate, -weeksToDays(earlierWeeks));
+      const end   = addDays(anchorDate, -weeksToDays(laterWeeks));
+      // Protection shifts outdoor windows earlier (subtract days) — for indoor start we do not shift.
+      return [start, end].map(d => addDays(d, -protectionDays));
+    }
+
+    function windowFromWeeksRelative(anchorDate, earlierWeeks, laterWeeks, protectionDays) {
+      // For transplant/direct sow windows relative to frost date:
+      // weeks may be negative (before frost date) or positive (after)
+      const start = addDays(anchorDate, weeksToDays(earlierWeeks));
+      const end   = addDays(anchorDate, weeksToDays(laterWeeks));
+      return [start, end].map(d => addDays(d, -protectionDays));
+    }
+
+    function addRow(task, windowText, notes) {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td><strong>${task}</strong></td>
+        <td>${windowText}</td>
+        <td class="muted">${notes || ""}</td>
+      `;
+      byId("resultsBody").appendChild(tr);
+    }
+
+    // ---- Init UI ----
+    function initCropSelect() {
+      const sel = byId("crop");
+      sel.innerHTML = "";
+      for (const c of CROPS) {
+        const opt = document.createElement("option");
+        opt.value = c.id;
+        opt.textContent = c.name;
+        sel.appendChild(opt);
+      }
+    }
+
+    initCropSelect();
+
+    // ---- Main calculate ----
+    function calculate() {
+      byId("warnBox").style.display = "none";
+      byId("resultsCard").style.display = "none";
+      byId("resultsBody").innerHTML = "";
+
+      const frost = toDate(byId("lastFrost").value);
+      const protectionDays = parseInt(byId("protection").value, 10) || 0;
+      const cropId = byId("crop").value;
+      const crop = CROPS.find(c => c.id === cropId);
+
+      if (!frost) {
+        byId("warnBox").style.display = "block";
+        byId("warnBox").innerHTML = "Please enter an average <strong>last frost date</strong> to calculate your windows.";
+        return;
+      }
+
+      // Indoor start window (not shifted by protection)
+      if (crop.indoorStartWeeks) {
+        const [earlier, later] = crop.indoorStartWeeks;
+        const [start, end] = windowFromWeeks(frost, earlier, later, 0);
+        addRow("Start seeds indoors", `${fmt(start)} – ${fmt(end)}`, crop.notes);
+        // Harden off: roughly 7–10 days before transplant window opens
+      } else {
+        addRow("Start seeds indoors", "Not typically recommended", crop.notes);
+      }
+
+      // Transplant window (shifted earlier by protection)
+      if (crop.transplantWeeks) {
+        const [earlier, later] = crop.transplantWeeks;
+        const [start, end] = windowFromWeeksRelative(frost, earlier, later, protectionDays);
+        const hardenStart = addDays(start, -10);
+        const hardenEnd = addDays(start, -7);
+        addRow("Begin hardening off", `${fmt(hardenStart)} – ${fmt(hardenEnd)}`, "Start gradual outdoor exposure ~7–10 days before transplanting.");
+        addRow("Transplant outdoors", `${fmt(start)} – ${fmt(end)}`, protectionDays ? "Shifted earlier due to season protection." : "Open-garden timing.");
+      } else {
+        addRow("Transplant outdoors", "Not applicable", "");
+      }
+
+      // Direct sow window (shifted earlier by protection)
+      if (crop.directSowWeeks) {
+        const [earlier, later] = crop.directSowWeeks;
+        const [start, end] = windowFromWeeksRelative(frost, earlier, later, protectionDays);
+        addRow("Direct sow outdoors", `${fmt(start)} – ${fmt(end)}`, protectionDays ? "Shifted earlier due to season protection." : "");
+      } else {
+        addRow("Direct sow outdoors", "Not typical for this crop", "");
+      }
+
+      // Simple “confidence note”
+      const frostNote = `Last frost date used: <strong>${fmt(frost)}</strong>.`;
+      byId("warnBox").style.display = "block";
+      byId("warnBox").innerHTML = frostNote + " If your site gets late frosts, consider choosing the later end of each window.";
+
+      byId("resultsCard").style.display = "block";
+    }
+
+    function resetForm() {
+      byId("lastFrost").value = "";
+      byId("protection").value = "0";
+      byId("crop").selectedIndex = 0;
+      byId("warnBox").style.display = "none";
+      byId("resultsCard").style.display = "none";
+      byId("resultsBody").innerHTML = "";
+    }
+
+    byId("calcBtn").addEventListener("click", calculate);
+    byId("resetBtn").addEventListener("click", resetForm);
+  </script>
 </body>
 </html>
+
