@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <title>First Frost & Fall Planting Planner | GrowByDate</title>
+  <meta name="description" content="Enter your average first frost date to calculate last sowing dates and harvest windows for fall planting in short growing seasons." />
+  <link rel="canonical" href="https://growbydate.com/tools/first-frost-planner.html" />
+
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <main class="container">
+    <header class="header">
+      <h1>First Frost & Fall Planting Planner</h1>
+      <p class="tagline">
+        Plan backward from your first frost date to protect your fall harvest.
+      </p>
+      <p class="lede">
+        In shorter growing seasons, fall planting requires reverse planning.
+        This tool helps you determine the latest safe sowing window.
+      </p>
+    </header>
+
+    <section class="card">
+      <label for="firstFrost"><strong>Average first fall frost date</strong></label>
+      <input id="firstFrost" type="date" style="margin-top:6px; padding:8px; border-radius:8px; border:1px solid #ccc;" />
+
+      <div style="margin-top:14px;">
+        <label for="crop"><strong>Crop</strong></label>
+        <select id="crop" style="display:block; margin-top:6px; padding:8px; border-radius:8px; border:1px solid #ccc;"></select>
+      </div>
+
+      <div style="margin-top:14px;">
+        <label for="protection"><strong>Season extension</strong></label>
+        <select id="protection" style="display:block; margin-top:6px; padding:8px; border-radius:8px; border:1px solid #ccc;">
+          <option value="0">None</option>
+          <option value="7">Light protection (~1 week)</option>
+          <option value="14">Tunnel / strong protection (~2 weeks)</option>
+        </select>
+      </div>
+
+      <button id="calcBtn" class="button primary" style="margin-top:18px;">Calculate</button>
+    </section>
+
+    <section class="card" id="results" style="display:none;">
+      <h2>Results</h2>
+      <div id="output"></div>
+    </section>
+
+    <section class="card">
+      <h2>How This Works</h2>
+      <p>
+        Each crop has a typical "days to maturity." This planner subtracts those days
+        from your first frost date to determine your last recommended sowing window.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Related Tools</h2>
+      <ul>
+        <li><a href="/tools/seed-start-planner.html">Seed Starting Planner</a></li>
+      </ul>
+    </section>
+
+    <footer class="footer">
+      <p><a href="/">← Back to GrowByDate</a></p>
+    </footer>
+  </main>
+
+<script>
+const CROPS = [
+  { name: "Spinach", days: 45, hardy: true },
+  { name: "Lettuce", days: 50, hardy: true },
+  { name: "Kale", days: 60, hardy: true },
+  { name: "Radishes", days: 30, hardy: true },
+  { name: "Bush Beans", days: 55, hardy: false },
+  { name: "Carrots", days: 70, hardy: true },
+  { name: "Broccoli", days: 75, hardy: true }
+
+];
+
+const cropSelect = document.getElementById("crop");
+CROPS.forEach(c => {
+  const opt = document.createElement("option");
+  opt.value = c.name;
+  opt.textContent = c.name;
+  cropSelect.appendChild(opt);
+});
+
+function calculate() {
+  const frost = document.getElementById("firstFrost").value;
+  if (!frost) return alert("Enter a first frost date.");
+
+  const frostDate = new Date(frost);
+  const protection = parseInt(document.getElementById("protection").value);
+  const cropName = cropSelect.value;
+  const crop = CROPS.find(c => c.name === cropName);
+
+  const maturityMs = crop.days * 24 * 60 * 60 * 1000;
+  const protectionMs = protection * 24 * 60 * 60 * 1000;
+
+  const lastSow = new Date(frostDate - maturityMs + protectionMs);
+
+  document.getElementById("results").style.display = "block";
+  document.getElementById("output").innerHTML = `
+    <p><strong>Crop:</strong> ${crop.name}</p>
+    <p><strong>Days to maturity:</strong> ${crop.days}</p>
+    <p><strong>Latest recommended sow date:</strong> ${lastSow.toDateString()}</p>
+  `;
+}
+
+document.getElementById("calcBtn").addEventListener("click", calculate);
+</script>
+
+</body>
+</html>
