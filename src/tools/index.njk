@@ -10,11 +10,11 @@ canonical: "https://growbydate.com/tools/"
   <p class="small" style="opacity:0.86;">Fast, practical calculators you can use without accounts or tracking.</p>
 
   <ul class="list" style="margin-top:0.75rem;">
-    {%- for p in collections.tools | sort(attribute="data.title") -%}
+    {%- for t in tools | sort(attribute="order") -%}
       <li class="note">
-        <a href="{{ p.url }}"><strong>{{ p.data.title or p.fileSlug }}</strong></a>
+        <a href="/tools/{{ t.slug }}/"><strong>{{ t.name }}</strong></a>
         {%- if p.data.description -%}
-          <div class="small" style="opacity:0.85; margin-top:0.25rem;">{{ p.data.description }}</div>
+          <div class="small" style="opacity:0.85; margin-top:0.25rem;">{{ t.description }}</div>
         {%- endif -%}
       </li>
     {%- endfor -%}
