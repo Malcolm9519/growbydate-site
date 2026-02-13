@@ -1,0 +1,12 @@
+# Dependencies
+node_modules/
+
+# Eleventy build output
+_site/
+
+# Logs
+*.log
+
+# OS junk
+.DS_Store
+Thumbs.db
