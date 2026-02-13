@@ -22,7 +22,7 @@ permalink: /crops/
     {% for crop in crops | sort(attribute="order") %}
       <li>
         <strong><a href="/crops/{{ crop.slug }}/">{{ crop.name }}</a></strong>
-        — {{ crop.indexBlurb }}
+        — {{ crop.indexBlurb or crop.tagline or crop.description }}
       </li>
     {% endfor %}
   </ul>
