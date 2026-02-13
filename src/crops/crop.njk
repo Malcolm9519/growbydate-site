@@ -6,57 +6,73 @@ pagination:
   alias: crop
 permalink: "crops/{{ crop.slug }}/"
 title: "Growing {{ crop.name }} in Short Growing Seasons | GrowByDate"
-description: "How to grow {{ crop.name | lower }} in short growing seasons. Indoor start timing, transplant windows, and fall planning notes."
+description: "{{ crop.description }}"
 canonical: "https://growbydate.com/crops/{{ crop.slug }}/"
 ---
 
 <header class="header">
   <h1>Growing {{ crop.name }} in Short Growing Seasons</h1>
   <p class="tagline">{{ crop.tagline or "Practical crop-by-crop planning references." }}</p>
-  <p class="lede">{{ crop.lede or crop.description }}</p>
+  <p class="lede">{{ crop.lede or "Use this page for timing ranges and decision points. For exact dates based on your frost window, use the tools below." }}</p>
 </header>
 
 <section class="card">
   <h2>Quick Planning Reference</h2>
+
   <ul>
     {% if crop.indoorStartWeeks %}
       <li>
         <strong>Indoor start:</strong>
-        {{ crop.indoorStartWeeks[1] }}–{{ crop.indoorStartWeeks[0] }} weeks before {% if crop.seasonType == "warm" %}your average {% endif %}last frost{% if crop.slug == "kale" %} (optional){% endif %}
+        {{ crop.indoorStartWeeks[1] }}–{{ crop.indoorStartWeeks[0] }} weeks before your average last frost
       </li>
-    {% else %}
-      {# Spinach-style default #}
-      <li><strong>Indoor start:</strong> Not typically needed (direct sow works well)</li>
     {% endif %}
 
     {% if crop.transplantWeeks %}
       <li>
-        <strong>Transplant{% if crop.seasonType != "warm" %} / outdoor timing{% endif %}:</strong>
-        {% if crop.transplantWeeks[0] < 0 %}
-          ~{{ crop.transplantWeeks[0] | abs }} weeks before to ~{{ crop.transplantWeeks[1] }} week{% if crop.transplantWeeks[1] != 1 %}s{% endif %} after last frost
+        <strong>Transplant:</strong>
+        {% if crop.transplantWeeks[0] < 0 or crop.transplantWeeks[1] < 0 %}
+          {{ crop.transplantWeeks[0] | abs }}–{{ crop.transplantWeeks[1] | abs }} weeks <em>before</em> last frost (weather permitting)
         {% else %}
-          ~{{ crop.transplantWeeks[0] }}–{{ crop.transplantWeeks[1] }} weeks after last frost{% if crop.slug == "peppers" %} (warm nights matter){% endif %}{% if crop.slug == "tomatoes" %} (when nights are consistently above 50°F / 10°C){% endif %}
+          {{ crop.transplantWeeks[1] }}–{{ crop.transplantWeeks[0] }} weeks <em>after</em> last frost (once conditions are suitable)
         {% endif %}
       </li>
-    {% elif crop.directSowWeeks %}
+    {% endif %}
+
+    {% if crop.directSowWeeks %}
       <li>
-        <strong>Transplant / outdoor timing:</strong>
-        Direct sow ~{{ crop.directSowWeeks[0] | abs }}–{{ crop.directSowWeeks[1] | abs }} weeks before last frost (as soil can be worked)
+        <strong>Direct sow:</strong>
+        {% if crop.directSowWeeks[0] < 0 or crop.directSowWeeks[1] < 0 %}
+          {{ crop.directSowWeeks[0] | abs }}–{{ crop.directSowWeeks[1] | abs }} weeks <em>before</em> last frost
+        {% else %}
+          {{ crop.directSowWeeks[0] }}–{{ crop.directSowWeeks[1] }} weeks <em>after</em> last frost (once soil is warm)
+        {% endif %}
       </li>
     {% endif %}
 
     {% if crop.daysToMaturity %}
       <li>
         <strong>Days to maturity:</strong>
-        {{ crop.daysToMaturity[0] }}–{{ crop.daysToMaturity[1] }} days{% if crop.slug in ["tomatoes","peppers","broccoli"] %} depending on variety{% endif %}{% if crop.slug == "kale" or crop.slug == "spinach" %} (baby leaves sooner){% endif %}{% if crop.slug == "peppers" %}+{% endif %}
+        {{ crop.daysToMaturity[0] }}–{{ crop.daysToMaturity[1] }} days (variety-dependent)
       </li>
     {% endif %}
 
     <li><strong>Frost tolerance:</strong> {{ crop.frostTolerance }}</li>
   </ul>
+
+  <p class="fine muted" style="margin-top:14px;">
+    These are practical ranges. Local conditions matter—especially soil temperature, wind exposure, and cold nights.
+  </p>
 </section>
 
-{# Crop-specific detail cards (varieties, mistakes, fall notes, etc.) #}
+<section class="card">
+  <h2>Planning Tools</h2>
+  <ul>
+    <li><a href="/tools/seed-start-planner/">Seed Starting Planner</a></li>
+    <li><a href="/tools/first-frost-planner/">First Frost &amp; Fall Planting Planner</a></li>
+  </ul>
+</section>
+
+{# Optional crop-specific details: src/_includes/crops/{{ crop.slug }}-details.njk #}
 {% set detailsPath = "crops/" + crop.slug + "-details.njk" %}
 {% include detailsPath ignore missing %}
 
