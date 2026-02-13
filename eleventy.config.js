@@ -13,15 +13,12 @@ module.exports = function (eleventyConfig) {
   });
 });
 
-
 eleventyConfig.addCollection("guides", (collectionApi) => {
   return collectionApi.getAll().filter((p) => {
     const url = p.url || "";
     return url.startsWith("/guides/") && url !== "/guides/";
   });
 });
-
-
 
   // ✅ Add this filter (used by crops/crop.njk)
   eleventyConfig.addFilter("fileExists", function (relativeIncludePath) {
