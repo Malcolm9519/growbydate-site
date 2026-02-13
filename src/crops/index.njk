@@ -1,21 +1,46 @@
 ---
 layout: layout-base.njk
 title: Crops for Short Growing Seasons | GrowByDate
-description: Practical crop guides built around planning tools—so you can plant on time in a shorter season.
-permalink: /crops/
+description: Crop-specific planning guides for short growing seasons. Indoor start timing, transplant windows, maturity expectations, and fall planning notes.
 canonical: https://growbydate.com/crops/
+permalink: /crops/
 ---
 
 <header class="header">
-  <h1>Crops</h1>
-  <p class="lede">Crop timing references for short growing seasons. Each page links back to the tools that generate your exact dates.</p>
+  <h1>Crops for Short Growing Seasons</h1>
+  <p class="tagline">Practical crop-by-crop planning references.</p>
+  <p class="lede">
+    Each crop page includes indoor start timing, transplant guidance,
+    maturity expectations, and fall planning considerations.
+  </p>
 </header>
 
 <section class="card">
-  <h2>Crop Library</h2>
+  <h2>Crop Guides</h2>
+
   <ul>
-    {% for crop in crops | sort(attribute="name") %}
-      <li><a href="/crops/{{ crop.slug }}/">{{ crop.name }}</a> — {{ crop.description }}</li>
+    {# Use "order" to preserve your preferred list order #}
+    {% for crop in crops | sort(attribute="order") %}
+      <li>
+        <strong><a href="/crops/{{ crop.slug }}/">{{ crop.name }}</a></strong>
+        — {{ crop.indexBlurb }}
+      </li>
     {% endfor %}
   </ul>
+
+  <p class="fine muted">
+    Additional crops will be added gradually.
+  </p>
 </section>
+
+<section class="card">
+  <h2>Planning Tools</h2>
+  <ul>
+    <li><a href="/tools/seed-start-planner/">Seed Starting Planner</a></li>
+    <li><a href="/tools/first-frost-planner/">First Frost &amp; Fall Planting Planner</a></li>
+  </ul>
+</section>
+
+<p class="small muted" style="margin-top:18px;">
+  <a href="/">← Back to GrowByDate</a>
+</p>
