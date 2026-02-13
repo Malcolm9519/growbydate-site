@@ -5,22 +5,19 @@
   </div>
 
   <nav class="actions" aria-label="Primary">
+    <!-- Tools -->
     <details class="navdrop">
       <summary class="button subtle">Tools</summary>
       <div class="navpanel" role="menu" aria-label="Tools">
         <a role="menuitem" href="/tools/"><strong>All tools</strong></a>
         <hr />
-        {%- set toolPages = collections.tools -%}
-{%- for p in toolPages -%}
-          {%- set navLabel = (p.data.navTitle or t.name)
-  | replace(" | GrowByDate", "")
-  | replace(" | GrowByDate.com", "")
--%}
-<a role="menuitem" href="/tools/{{ t.slug }}/">{{ t.name }}</a>
+        {%- for t in tools | sort(attribute="order") -%}
+          <a role="menuitem" href="/tools/{{ t.slug }}/">{{ t.name }}</a>
         {%- endfor -%}
       </div>
     </details>
 
+    <!-- Crops -->
     <details class="navdrop">
       <summary class="button subtle">Crops</summary>
       <div class="navpanel" role="menu" aria-label="Crops">
@@ -32,18 +29,18 @@
       </div>
     </details>
 
+    <!-- Guides -->
     <details class="navdrop">
       <summary class="button subtle">Guides</summary>
       <div class="navpanel" role="menu" aria-label="Guides">
         <a role="menuitem" href="/guides/"><strong>All guides</strong></a>
         <hr />
-        {%- set guidePages = collections.guides -%}
-{%- for p in guidePages -%}
-          {%- set navLabel = (p.data.navTitle or t.name)
-  | replace(" | GrowByDate", "")
-  | replace(" | GrowByDate.com", "")
--%}
-<a role="menuitem" href="/tools/{{ t.slug }}/">{{ t.name }}</a>
+        {%- for p in collections.guides | sort(attribute="data.title") -%}
+          {%- set navLabel = (p.data.navTitle or p.data.title or p.fileSlug)
+            | replace(" | GrowByDate", "")
+            | replace(" | GrowByDate.com", "")
+          -%}
+          <a role="menuitem" href="{{ p.url }}">{{ navLabel }}</a>
         {%- endfor -%}
       </div>
     </details>
