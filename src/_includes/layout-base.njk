@@ -16,5 +16,37 @@
     {{ content | safe }}
     {% include "footer.njk" %}
   </main>
+  <script>
+  (function () {
+    const drops = Array.from(document.querySelectorAll("details.navdrop"));
+    if (!drops.length) return;
+
+    function closeAll(except) {
+      for (const d of drops) {
+        if (d !== except) d.removeAttribute("open");
+      }
+    }
+
+    // When one opens, close the rest
+    for (const d of drops) {
+      d.addEventListener("toggle", () => {
+        if (d.open) closeAll(d);
+      });
+    }
+
+    // Close on Escape
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        closeAll(null);
+      }
+    });
+
+    // Click outside closes
+    document.addEventListener("click", (e) => {
+      const clickedInside = drops.some((d) => d.contains(e.target));
+      if (!clickedInside) closeAll(null);
+    });
+  })();
+</script>
 </body>
 </html>
