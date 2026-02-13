@@ -12,7 +12,11 @@
         <hr />
         {%- set toolPages = collections.tools -%}
 {%- for p in toolPages -%}
-          <a role="menuitem" href="{{ p.url }}">{{ p.data.title or p.fileSlug }}</a>
+          {%- set navLabel = (p.data.navTitle or p.data.title or p.fileSlug)
+  | replace(" | GrowByDate", "")
+  | replace(" | GrowByDate.com", "")
+-%}
+<a role="menuitem" href="{{ p.url }}">{{ navLabel }}</a>
         {%- endfor -%}
       </div>
     </details>
@@ -35,7 +39,11 @@
         <hr />
         {%- set guidePages = collections.guides -%}
 {%- for p in guidePages -%}
-          <a role="menuitem" href="{{ p.url }}">{{ p.data.title or p.fileSlug }}</a>
+          {%- set navLabel = (p.data.navTitle or p.data.title or p.fileSlug)
+  | replace(" | GrowByDate", "")
+  | replace(" | GrowByDate.com", "")
+-%}
+<a role="menuitem" href="{{ p.url }}">{{ navLabel }}</a>
         {%- endfor -%}
       </div>
     </details>
