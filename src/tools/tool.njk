@@ -20,6 +20,10 @@ canonical: "https://growbydate.com/tools/{{ tool.slug }}/"
 </section>
 
 {% set relatedCrops = maps.toolToCrops[tool.slug] or [] %}
+{% set relatedCrops = maps.toolToCrops[tool.slug] or [] %}
+
+<p class="muted">DEBUG: tool.slug={{ tool.slug }}, relatedCrops={{ relatedCrops | length }}</p>
+
 
 {% if relatedCrops.length %}
 <section class="section">
