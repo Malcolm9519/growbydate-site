@@ -12,23 +12,28 @@ canonical: "https://growbydate.com/crops/{{ crop.slug }}/"
 
 <header class="header">
   <h1>Growing {{ crop.name }} in Short Growing Seasons</h1>
-  <p class="tagline">Practical timing and a clear plan—without the hype.</p>
-  <p class="lede">{{ crop.description }}</p>
+  <p class="tagline">Practical crop-by-crop planning references.</p>
+  <p class="lede">
+    Use this page for timing ranges and decision points. For exact dates based on your frost window,
+    use the tools below.
+  </p>
 </header>
 
 <section class="card">
   <h2>Quick Planning Reference</h2>
+
   <ul>
     {% if crop.indoorStartWeeks %}
-      <li><strong>Indoor start:</strong> {{ crop.indoorStartWeeks[1] }}–{{ crop.indoorStartWeeks[0] }} weeks before your average last frost</li>
+      <li>
+        <strong>Indoor start:</strong>
+        {{ crop.indoorStartWeeks[1] }}–{{ crop.indoorStartWeeks[0] }} weeks before your average last frost
+      </li>
     {% endif %}
 
     {% if crop.transplantWeeks %}
-      {# transplantWeeks: [latest, earliest] or [max, min] depending on crop.
-         For warm crops you’ll likely keep both positive (weeks after last frost).
-         For cool crops you may use negatives (weeks before last frost).
-      #}
-      <li><strong>Transplant:</strong>
+      <li>
+        <strong>Transplant:</strong>
+        {# If either value is negative, treat as "before last frost" window #}
         {% if crop.transplantWeeks[0] < 0 or crop.transplantWeeks[1] < 0 %}
           {{ crop.transplantWeeks[0] | abs }}–{{ crop.transplantWeeks[1] | abs }} weeks <em>before</em> last frost (weather permitting)
         {% else %}
@@ -38,49 +43,43 @@ canonical: "https://growbydate.com/crops/{{ crop.slug }}/"
     {% endif %}
 
     {% if crop.directSowWeeks %}
-      <li><strong>Direct sow:</strong>
-        {% if crop.directSowWeeks[0] < 0 or crop.directSowWeeks[1] < 0 %}
-          {{ crop.directSowWeeks[0] | abs }}–{{ crop.directSowWeeks[1] | abs }} weeks <em>before</em> last frost
-        {% else %}
-          {{ crop.directSowWeeks[1] }}–{{ crop.directSowWeeks[0] }} weeks <em>before</em> last frost
-        {% endif %}
+      <li>
+        <strong>Direct sow:</strong>
+        {{ crop.directSowWeeks[1] }}–{{ crop.directSowWeeks[0] }} weeks before last frost
       </li>
     {% endif %}
 
     {% if crop.daysToMaturity %}
-      <li><strong>Days to maturity:</strong> {{ crop.daysToMaturity[0] }}–{{ crop.daysToMaturity[1] }} days (variety-dependent)</li>
+      <li>
+        <strong>Days to maturity:</strong>
+        {{ crop.daysToMaturity[0] }}–{{ crop.daysToMaturity[1] }} days (variety-dependent)
+      </li>
     {% endif %}
+
     <li><strong>Frost tolerance:</strong> {{ crop.frostTolerance }}</li>
   </ul>
 
-  <p>
-    To generate exact windows based on your dates, use the
-    <a href="/tools/seed-start-planner/">Seed Starting Planner</a>.
+  <p class="fine muted" style="margin-top:14px;">
+    These are practical ranges. Local conditions matter—especially soil temperature, wind exposure, and cold nights.
   </p>
 </section>
 
-{# Optional per-crop notes (drop in a file at _includes/crops/{{ crop.slug }}-notes.md ) #}
-{% set notesPath = "crops/" + crop.slug + "-notes.md" %}
-{% if (notesPath | fileExists) %}
-  <section class="card">
-    <h2>Notes for Short Seasons</h2>
-    {% include notesPath %}
-  </section>
-{% endif %}
-
 <section class="card">
-  <h2>Related Tools</h2>
+  <h2>Planning Tools</h2>
   <ul>
-    {% for toolId in crop.relatedTools %}
-      {% for tool in tools %}
-        {% if tool.id == toolId %}
-          <li><a href="{{ tool.url }}">{{ tool.name }}</a></li>
-        {% endif %}
-      {% endfor %}
-    {% endfor %}
+    <li><a href="/tools/seed-start-planner/">Seed Starting Planner</a></li>
+    <li><a href="/tools/first-frost-planner/">First Frost &amp; Fall Planting Planner</a></li>
   </ul>
 </section>
 
-<footer class="footer">
-  <p><a href="/crops/">← Back to Crops</a></p>
-</footer>
+{# Optional crop-specific notes. Create: src/_includes/crops/{{ crop.slug }}-notes.md #}
+{% set notesPath = "crops/" + crop.slug + "-notes.md" %}
+{% include notesPath ignore missing %}
+
+<p class="small muted" style="margin-top:18px;">
+  <a href="/crops/">← Back to Crops</a>
+</p>
+
+<p class="small muted" style="margin-top:8px;">
+  <a href="/">← Back to GrowByDate</a>
+</p>
