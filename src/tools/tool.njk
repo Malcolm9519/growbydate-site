@@ -15,6 +15,8 @@ canonical: "https://growbydate.com/tools/{{ tool.slug }}/"
   <p class="lede">{{ tool.description }}</p>
 </header>
 
+{% include "tools/" + tool.slug + ".njk" ignore missing %}
+
 <section class="section">
   <p class="muted">Tool page placeholder.</p>
 </section>
