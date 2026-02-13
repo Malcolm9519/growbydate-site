@@ -150,11 +150,11 @@
     function confidenceLabel(daysMargin, hardy) {
       // Margin is how many days you have AFTER maturity+buffer before frost.
       // More margin = higher confidence.
-      if (daysMargin >= 14) return { cls: "ok",  title: "High confidence", text: "You have a comfortable buffer before frost." };
-      if (daysMargin >= 7)  return { cls: "warn", title: "Medium confidence", text: "This is workable, but variety choice and protection may matter." };
+      if (daysMargin >= 14) return { cls: "ok",  title: "High confidence:", text: "You have a comfortable buffer before frost." };
+      if (daysMargin >= 7)  return { cls: "warn", title: "Medium confidence:", text: "This is workable, but variety choice and protection may matter." };
       // If hardy, small negative margins can still be plausible with protection/harvest stages
       if (hardy && daysMargin >= -3) return { cls: "warn", title: "Borderline", text: "Close to frost. Consider protection and fast varieties." };
-      return { cls: "risk", title: "Low confidence", text: "This is likely too tight for reliable maturity in most short seasons." };
+      return { cls: "risk", title: "Low confidence:", text: "This is likely too tight for reliable maturity in most short seasons." };
     }
 
     function calculate() {
