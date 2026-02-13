@@ -136,7 +136,8 @@
     </footer>
   </main>
 
-  <script>
+  <script type="application/json" id="siteCropsJson">{{ crops | dump | safe }}</script>
+<script>
     // Notes:
     // - days: typical days to maturity (rough planning)
     // - hardy: true means it tolerates light frosts better (still slows down in cold)
@@ -173,8 +174,9 @@
     }
 
     function cropUrl(cropId) {
-      // Adjust if your crop URLs differ
-      return `/crops/${cropId}/`;
+      const meta = SITE_CROPS_BY_ID[cropId];
+      const slug = meta && meta.slug ? meta.slug : cropId;
+      return `/crops/${slug}/`;
     }
 
 

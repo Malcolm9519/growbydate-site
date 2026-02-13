@@ -4,6 +4,7 @@
 
 
 <!-- Structured Data: Tool -->
+<script type="application/json" id="siteCropsJson">{{ crops | dump | safe }}</script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -298,6 +299,29 @@
   // ---- Helpers ----
   const byId = (id) => document.getElementById(id);
 
+  // Site crop metadata (slug, etc.) from Eleventy data. Used for linking.
+  const SITE_CROPS = (() => {
+    try {
+      const el = document.getElementById("siteCropsJson");
+      if (!el) return [];
+      return JSON.parse(el.textContent || "[]");
+    } catch (e) {
+      return [];
+    }
+  })();
+
+  const SITE_CROPS_BY_ID = Object.create(null);
+  for (const c of SITE_CROPS) {
+    if (c && c.id) SITE_CROPS_BY_ID[c.id] = c;
+  }
+
+  function cropUrl(cropId) {
+    const meta = SITE_CROPS_BY_ID[cropId];
+    const slug = meta && meta.slug ? meta.slug : cropId;
+    return `/crops/${slug}/`;
+  }
+
+
   function toDate(inputValue) {
     if (!inputValue) return null;
     const [y, m, d] = inputValue.split("-").map(Number);
@@ -369,6 +393,9 @@
       byId("warnBox").innerHTML = "Please enter an average <strong>last frost date</strong> to calculate your windows.";
       return;
     }
+
+    // Crop page
+    addRow("Crop", `<a href="${cropUrl(crop.id)}">${crop.name}</a>`, "");
 
     // Indoor start window (not shifted by protection)
     if (crop.indoorStartWeeks) {
