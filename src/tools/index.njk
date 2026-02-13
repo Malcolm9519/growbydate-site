@@ -1,23 +1,32 @@
 ---
-layout: layout-base.njk
-title: Tools | GrowByDate
-description: Practical calculators and planners for short growing seasons.
-canonical: "https://growbydate.com/tools/"
-permalink: "/tools/"
+layout: layouts/layout-base.njk
+title: Tools
+description: Planning tools for short growing seasons.
 ---
 
-<header class="header">
-  <h1>Tools</h1>
-  <p class="lede">Practical calculators and planners for short growing seasons.</p>
-</header>
+<section class="card">
+  <h2>Tools</h2>
+  <p class="small" style="opacity:0.86;">Fast, practical calculators you can use without accounts or tracking.</p>
 
-<section class="section">
-  <div class="cardGrid">
-    {% for tool in tools | sort(false, false, "order") %}
-      <article class="card">
-        <h2><a href="/tools/{{ tool.slug }}/">{{ tool.name }}</a></h2>
-        <p>{{ tool.description }}</p>
-      </article>
-    {% endfor %}
+  <ul class="list" style="margin-top:0.75rem;">
+    {%- set toolPages = collections.all
+      | selectattr("url", "defined")
+      | selectattr("url", "match", "^/tools/(?!$)")
+    -%}
+    {# Filter only real tool pages (exclude /tools/ index) #}
+    {%- for p in toolPages | sort(attribute="data.title") -%}
+      {%- if p.url != "/tools/" and p.url != "/tools/index/" -%}
+      <li class="note">
+        <a href="{{ p.url }}"><strong>{{ p.data.title or p.fileSlug }}</strong></a>
+        {%- if p.data.description -%}
+          <div class="small" style="opacity:0.85; margin-top:0.25rem;">{{ p.data.description }}</div>
+        {%- endif -%}
+      </li>
+      {%- endif -%}
+    {%- endfor -%}
+  </ul>
+
+  <div class="note small" style="opacity:0.86; margin-top:0.75rem;">
+    <span class="pill">Tip</span> If you’re not sure where to start, try the Seed Start Planner first.
   </div>
 </section>

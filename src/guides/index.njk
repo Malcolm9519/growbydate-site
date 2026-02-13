@@ -1,0 +1,27 @@
+---
+layout: layouts/layout-base.njk
+title: Guides
+description: Practical growing guides for short seasons.
+---
+
+<section class="card">
+  <h2>Guides</h2>
+  <p class="small" style="opacity:0.86;">Short, practical write-ups to help you make good decisions quickly.</p>
+
+  <ul class="list" style="margin-top:0.75rem;">
+    {%- set guidePages = collections.all
+      | selectattr("url", "defined")
+      | selectattr("url", "match", "^/guides/(?!$)")
+    -%}
+    {%- for p in guidePages | sort(attribute="data.title") -%}
+      {%- if p.url != "/guides/" and p.url != "/guides/index/" -%}
+      <li class="note">
+        <a href="{{ p.url }}"><strong>{{ p.data.title or p.fileSlug }}</strong></a>
+        {%- if p.data.description -%}
+          <div class="small" style="opacity:0.85; margin-top:0.25rem;">{{ p.data.description }}</div>
+        {%- endif -%}
+      </li>
+      {%- endif -%}
+    {%- endfor -%}
+  </ul>
+</section>
