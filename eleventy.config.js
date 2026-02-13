@@ -6,19 +6,21 @@ module.exports = function (eleventyConfig) {
 
   // Collections for navigation + index pages
   // Uses URL prefixes so you don't have to maintain front matter flags.
-  eleventyConfig.addCollection("tools", (collectionApi) => {
-    return collectionApi.getAll().filter((p) => {
-      const url = p.url || "";
-      return url.startsWith("/tools/") && url !== "/tools/" && url !== "/tools/index/" && !url.endsWith("/index/");
-    });
+ eleventyConfig.addCollection("tools", (collectionApi) => {
+  return collectionApi.getAll().filter((p) => {
+    const url = p.url || "";
+    return url.startsWith("/tools/") && url !== "/tools/";
   });
+});
 
-  eleventyConfig.addCollection("guides", (collectionApi) => {
-    return collectionApi.getAll().filter((p) => {
-      const url = p.url || "";
-      return url.startsWith("/guides/") && url !== "/guides/" && url !== "/guides/index/" && !url.endsWith("/index/");
-    });
+
+eleventyConfig.addCollection("guides", (collectionApi) => {
+  return collectionApi.getAll().filter((p) => {
+    const url = p.url || "";
+    return url.startsWith("/guides/") && url !== "/guides/";
   });
+});
+
 
 
   // ✅ Add this filter (used by crops/crop.njk)
