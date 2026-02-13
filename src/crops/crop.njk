@@ -1,0 +1,86 @@
+---
+layout: layout-base.njk
+pagination:
+  data: crops
+  size: 1
+  alias: crop
+permalink: "crops/{{ crop.slug }}/"
+title: "Growing {{ crop.name }} in Short Growing Seasons | GrowByDate"
+description: "{{ crop.description }}"
+canonical: "https://growbydate.com/crops/{{ crop.slug }}/"
+---
+
+<header class="header">
+  <h1>Growing {{ crop.name }} in Short Growing Seasons</h1>
+  <p class="tagline">Practical timing and a clear plan—without the hype.</p>
+  <p class="lede">{{ crop.description }}</p>
+</header>
+
+<section class="card">
+  <h2>Quick Planning Reference</h2>
+  <ul>
+    {% if crop.indoorStartWeeks %}
+      <li><strong>Indoor start:</strong> {{ crop.indoorStartWeeks[1] }}–{{ crop.indoorStartWeeks[0] }} weeks before your average last frost</li>
+    {% endif %}
+
+    {% if crop.transplantWeeks %}
+      {# transplantWeeks: [latest, earliest] or [max, min] depending on crop.
+         For warm crops you’ll likely keep both positive (weeks after last frost).
+         For cool crops you may use negatives (weeks before last frost).
+      #}
+      <li><strong>Transplant:</strong>
+        {% if crop.transplantWeeks[0] < 0 or crop.transplantWeeks[1] < 0 %}
+          {{ crop.transplantWeeks[0] | abs }}–{{ crop.transplantWeeks[1] | abs }} weeks <em>before</em> last frost (weather permitting)
+        {% else %}
+          {{ crop.transplantWeeks[1] }}–{{ crop.transplantWeeks[0] }} weeks <em>after</em> last frost (once conditions are suitable)
+        {% endif %}
+      </li>
+    {% endif %}
+
+    {% if crop.directSowWeeks %}
+      <li><strong>Direct sow:</strong>
+        {% if crop.directSowWeeks[0] < 0 or crop.directSowWeeks[1] < 0 %}
+          {{ crop.directSowWeeks[0] | abs }}–{{ crop.directSowWeeks[1] | abs }} weeks <em>before</em> last frost
+        {% else %}
+          {{ crop.directSowWeeks[1] }}–{{ crop.directSowWeeks[0] }} weeks <em>before</em> last frost
+        {% endif %}
+      </li>
+    {% endif %}
+
+    {% if crop.daysToMaturity %}
+      <li><strong>Days to maturity:</strong> {{ crop.daysToMaturity[0] }}–{{ crop.daysToMaturity[1] }} days (variety-dependent)</li>
+    {% endif %}
+    <li><strong>Frost tolerance:</strong> {{ crop.frostTolerance }}</li>
+  </ul>
+
+  <p>
+    To generate exact windows based on your dates, use the
+    <a href="/tools/seed-start-planner/">Seed Starting Planner</a>.
+  </p>
+</section>
+
+{# Optional per-crop notes (drop in a file at _includes/crops/{{ crop.slug }}-notes.md ) #}
+{% set notesPath = "crops/" + crop.slug + "-notes.md" %}
+{% if (notesPath | fileExists) %}
+  <section class="card">
+    <h2>Notes for Short Seasons</h2>
+    {% include notesPath %}
+  </section>
+{% endif %}
+
+<section class="card">
+  <h2>Related Tools</h2>
+  <ul>
+    {% for toolId in crop.relatedTools %}
+      {% for tool in tools %}
+        {% if tool.id == toolId %}
+          <li><a href="{{ tool.url }}">{{ tool.name }}</a></li>
+        {% endif %}
+      {% endfor %}
+    {% endfor %}
+  </ul>
+</section>
+
+<footer class="footer">
+  <p><a href="/crops/">← Back to Crops</a></p>
+</footer>
