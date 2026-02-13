@@ -3,127 +3,75 @@
     "id": "broccoli",
     "name": "Broccoli",
     "slug": "broccoli",
-    "description": "Broccoli grows best in cool weather\u2014use an indoor start and a clear transplant window to stay ahead of heat in short seasons.",
+    "order": 5,
+    "indexBlurb": "Cool-season timing, transplant windows, and avoiding heat stress.",
+    "description": "Broccoli grows best in cool weather—use an indoor start and a clear transplant window to stay ahead of heat in short seasons.",
     "seasonType": "cool",
     "frostTolerance": "light (tolerates light frost)",
-    "daysToMaturity": [
-      55,
-      90
-    ],
-    "indoorStartWeeks": [
-      8,
-      6
-    ],
-    "transplantWeeks": [
-      2,
-      0
-    ],
-    "directSowWeeks": [
-      4,
-      2
-    ],
-    "relatedTools": [
-      "seed-start-planner",
-      "first-frost-planner"
-    ]
+    "daysToMaturity": [55, 90],
+    "indoorStartWeeks": [8, 6],
+    "transplantWeeks": [2, 0],
+    "directSowWeeks": [4, 2],
+    "relatedTools": ["seed-start-planner", "first-frost-planner"]
   },
   {
     "id": "kale",
     "name": "Kale",
     "slug": "kale",
-    "description": "Kale is one of the most forgiving short-season crops\u2014start early and keep it growing into fall.",
+    "order": 3,
+    "indexBlurb": "Reliable cool-season crop with flexible sowing and strong fall performance.",
+    "description": "Kale is one of the most forgiving short-season crops—start early and keep it growing into fall.",
     "seasonType": "cool",
     "frostTolerance": "hardy (handles multiple frosts)",
-    "daysToMaturity": [
-      45,
-      75
-    ],
-    "indoorStartWeeks": [
-      6,
-      4
-    ],
-    "transplantWeeks": [
-      4,
-      1
-    ],
-    "directSowWeeks": [
-      4,
-      2
-    ],
-    "relatedTools": [
-      "seed-start-planner",
-      "first-frost-planner"
-    ]
+    "daysToMaturity": [45, 75],
+    "indoorStartWeeks": [6, 4],
+    "transplantWeeks": [4, 1],
+    "directSowWeeks": [4, 2],
+    "relatedTools": ["seed-start-planner", "first-frost-planner"]
   },
   {
     "id": "spinach",
     "name": "Spinach",
     "slug": "spinach",
-    "description": "Spinach prefers cool temperatures\u2014timing matters more than fertilizing in short seasons.",
+    "order": 4,
+    "indexBlurb": "Direct sow timing for cool soil, bolt avoidance, and fall sowing options.",
+    "description": "Spinach prefers cool temperatures—timing matters more than fertilizing in short seasons.",
     "seasonType": "cool",
     "frostTolerance": "hardy (handles multiple frosts)",
-    "daysToMaturity": [
-      35,
-      55
-    ],
+    "daysToMaturity": [35, 55],
     "indoorStartWeeks": null,
     "transplantWeeks": null,
-    "directSowWeeks": [
-      6,
-      2
-    ],
-    "relatedTools": [
-      "first-frost-planner"
-    ]
+    "directSowWeeks": [6, 2],
+    "relatedTools": ["first-frost-planner"]
   },
   {
     "id": "tomatoes",
     "name": "Tomatoes",
     "slug": "tomatoes",
+    "order": 1,
+    "indexBlurb": "Indoor start timing, variety selection, and fall maturity planning.",
     "description": "Tomatoes can succeed in short seasons with the right indoor start window and early varieties.",
     "seasonType": "warm",
     "frostTolerance": "none (protect from all frost)",
-    "daysToMaturity": [
-      55,
-      85
-    ],
-    "indoorStartWeeks": [
-      8,
-      6
-    ],
-    "transplantWeeks": [
-      3,
-      1
-    ],
+    "daysToMaturity": [55, 85],
+    "indoorStartWeeks": [8, 6],
+    "transplantWeeks": [3, 1],
     "directSowWeeks": null,
-    "relatedTools": [
-      "seed-start-planner",
-      "first-frost-planner"
-    ]
+    "relatedTools": ["seed-start-planner", "first-frost-planner"]
   },
   {
     "id": "peppers",
     "name": "Peppers",
     "slug": "peppers",
-    "description": "Peppers need a longer runway than tomatoes\u2014start indoors early and protect heat.",
+    "order": 2,
+    "indexBlurb": "Longer indoor start window, warmth needs, and transplant timing.",
+    "description": "Peppers need a longer runway than tomatoes—start indoors early and protect heat.",
     "seasonType": "warm",
     "frostTolerance": "none (protect from all frost)",
-    "daysToMaturity": [
-      60,
-      100
-    ],
-    "indoorStartWeeks": [
-      10,
-      8
-    ],
-    "transplantWeeks": [
-      4,
-      2
-    ],
+    "daysToMaturity": [60, 100],
+    "indoorStartWeeks": [10, 8],
+    "transplantWeeks": [4, 2],
     "directSowWeeks": null,
-    "relatedTools": [
-      "seed-start-planner",
-      "first-frost-planner"
-    ]
+    "relatedTools": ["seed-start-planner", "first-frost-planner"]
   }
 ]
