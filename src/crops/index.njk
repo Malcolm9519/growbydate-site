@@ -19,7 +19,6 @@ permalink: /crops/
   <h2>Crop Guides</h2>
 
   <ul>
-    {# Use "order" to preserve your preferred list order #}
     {% for crop in crops | sort(attribute="order") %}
       <li>
         <strong><a href="/crops/{{ crop.slug }}/">{{ crop.name }}</a></strong>
