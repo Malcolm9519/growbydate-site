@@ -5,9 +5,10 @@ pagination:
   size: 1
   alias: crop
 permalink: "crops/{{ crop.slug }}/"
-title: "Growing {{ crop.name }} in Short Growing Seasons | GrowByDate"
-description: "{{ crop.description }}"
-canonical: "https://growbydate.com/crops/{{ crop.slug }}/"
+eleventyComputed:
+  title: "Growing {{ crop.name }} in Short Growing Seasons | GrowByDate"
+  description: "{{ crop.description }}"
+  canonical: "https://growbydate.com/crops/{{ crop.slug }}/"
 ---
 
 <header class="header">
@@ -84,8 +85,10 @@ canonical: "https://growbydate.com/crops/{{ crop.slug }}/"
 {% endif %}
 
 {# Optional crop-specific details: src/_includes/crops/{{ crop.slug }}-details.njk #}
-{% set detailsPath = "crops/" + crop.slug + "-details.njk" %}
-{% include detailsPath ignore missing %}
+{% set detailsPathA = "crops/" + crop.slug + "-details.njk" %}
+{% set detailsPathB = crop.slug + "-details.njk" %}
+{% include detailsPathA ignore missing %}
+{% include detailsPathB ignore missing %}
 
 <p class="small muted" style="margin-top:18px;">
   <a href="/crops/">← Back to Crops</a>
