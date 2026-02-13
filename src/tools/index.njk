@@ -8,21 +8,16 @@ description: Planning tools for short growing seasons.
   <h2>Tools</h2>
   <p class="small" style="opacity:0.86;">Fast, practical calculators you can use without accounts or tracking.</p>
 
+  {%- set toolPages = collections.all | selectattr("data.tool") -%}
+
   <ul class="list" style="margin-top:0.75rem;">
-    {%- set toolPages = collections.all
-      | selectattr("url", "defined")
-      | selectattr("url", "match", "^/tools/(?!$)")
-    -%}
-    {# Filter only real tool pages (exclude /tools/ index) #}
     {%- for p in toolPages | sort(attribute="data.title") -%}
-      {%- if p.url != "/tools/" and p.url != "/tools/index/" -%}
       <li class="note">
         <a href="{{ p.url }}"><strong>{{ p.data.title or p.fileSlug }}</strong></a>
         {%- if p.data.description -%}
           <div class="small" style="opacity:0.85; margin-top:0.25rem;">{{ p.data.description }}</div>
         {%- endif -%}
       </li>
-      {%- endif -%}
     {%- endfor -%}
   </ul>
 
