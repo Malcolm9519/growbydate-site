@@ -315,9 +315,16 @@
     if (c && c.id) SITE_CROPS_BY_ID[c.id] = c;
   }
 
+  // Tool crop IDs don't always match site crop IDs (e.g., tomato → tomatoes).
+  const CROP_ID_ALIASES = {
+    tomato: "tomatoes",
+    pepper: "peppers",
+  };
+
   function cropUrl(cropId) {
-    const meta = SITE_CROPS_BY_ID[cropId];
-    const slug = meta && meta.slug ? meta.slug : cropId;
+    const normalizedId = CROP_ID_ALIASES[cropId] || cropId;
+    const meta = SITE_CROPS_BY_ID[normalizedId];
+    const slug = meta && meta.slug ? meta.slug : normalizedId;
     return `/crops/${slug}/`;
   }
 
