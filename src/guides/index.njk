@@ -8,7 +8,7 @@ description: Practical growing guides for short seasons.
   <h2>Guides</h2>
   <p class="small" style="opacity:0.86;">Short, practical write-ups to help you make good decisions quickly.</p>
 
-  {%- set guidePages = collections.all | selectattr("data.guide") -%}
+  {%- set guidePages = collections.all | selectattr("data.isGuide") -%}
 
   <ul class="list" style="margin-top:0.75rem;">
     {%- for p in guidePages | sort(attribute="data.title") -%}

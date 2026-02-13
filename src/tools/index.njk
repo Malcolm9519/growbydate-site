@@ -8,7 +8,7 @@ description: Planning tools for short growing seasons.
   <h2>Tools</h2>
   <p class="small" style="opacity:0.86;">Fast, practical calculators you can use without accounts or tracking.</p>
 
-  {%- set toolPages = collections.all | selectattr("data.tool") -%}
+  {%- set toolPages = collections.all | selectattr("data.isTool") -%}
 
   <ul class="list" style="margin-top:0.75rem;">
     {%- for p in toolPages | sort(attribute="data.title") -%}
@@ -20,8 +20,4 @@ description: Planning tools for short growing seasons.
       </li>
     {%- endfor -%}
   </ul>
-
-  <div class="note small" style="opacity:0.86; margin-top:0.75rem;">
-    <span class="pill">Tip</span> If you’re not sure where to start, try the Seed Start Planner first.
-  </div>
 </section>

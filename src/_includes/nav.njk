@@ -5,20 +5,18 @@
   </div>
 
   <nav class="actions" aria-label="Primary">
-    {# Tools dropdown (only pages with tool: true) #}
     <details class="navdrop">
       <summary class="button subtle">Tools</summary>
       <div class="navpanel" role="menu" aria-label="Tools">
         <a role="menuitem" href="/tools/"><strong>All tools</strong></a>
         <hr />
-        {%- set toolPages = collections.all | selectattr("data.tool") | sort(attribute="data.title") -%}
+        {%- set toolPages = collections.all | selectattr("data.isTool") | sort(attribute="data.title") -%}
         {%- for p in toolPages -%}
           <a role="menuitem" href="{{ p.url }}">{{ p.data.title or p.fileSlug }}</a>
         {%- endfor -%}
       </div>
     </details>
 
-    {# Crops dropdown (from crops.json) #}
     <details class="navdrop">
       <summary class="button subtle">Crops</summary>
       <div class="navpanel" role="menu" aria-label="Crops">
@@ -30,13 +28,12 @@
       </div>
     </details>
 
-    {# Guides dropdown (only pages with guide: true) #}
     <details class="navdrop">
       <summary class="button subtle">Guides</summary>
       <div class="navpanel" role="menu" aria-label="Guides">
         <a role="menuitem" href="/guides/"><strong>All guides</strong></a>
         <hr />
-        {%- set guidePages = collections.all | selectattr("data.guide") | sort(attribute="data.title") -%}
+        {%- set guidePages = collections.all | selectattr("data.isGuide") | sort(attribute="data.title") -%}
         {%- for p in guidePages -%}
           <a role="menuitem" href="{{ p.url }}">{{ p.data.title or p.fileSlug }}</a>
         {%- endfor -%}
