@@ -154,6 +154,37 @@
       { id: "beans",    name: "Bush beans",    days: 55, hardy: false, notes: "Not frost-tolerant. Needs warmth and time." }
     ];
 
+// Crop metadata from Eleventy data (crops.json). Used for crop page links.
+const CROP_ID_ALIASES = {
+  tomato: "tomatoes",
+  pepper: "peppers",
+  carrot: "carrots",
+  beet: "beets",
+};
+
+const SITE_CROPS_BY_ID = Object.create(null);
+const SITE_CROPS_BY_SLUG = Object.create(null);
+
+(function initSiteCropMaps() {
+  const el = document.getElementById("siteCropsJson");
+  if (!el) return;
+  try {
+    const arr = JSON.parse(el.textContent || "[]");
+    for (const c of arr) {
+      if (c && c.id) SITE_CROPS_BY_ID[c.id] = c;
+      if (c && c.slug) SITE_CROPS_BY_SLUG[c.slug] = c;
+    }
+  } catch (e) {
+    // If parsing fails, we fall back to tool IDs for links.
+  }
+})();
+
+function resolveCropMeta(cropId) {
+  const normalized = CROP_ID_ALIASES[cropId] || cropId;
+  return SITE_CROPS_BY_ID[normalized] || SITE_CROPS_BY_SLUG[normalized] || null;
+}
+
+
     const byId = (id) => document.getElementById(id);
 
     function setError(msg) {
@@ -174,8 +205,8 @@
     }
 
     function cropUrl(cropId) {
-      const meta = SITE_CROPS_BY_ID[cropId];
-      const slug = meta && meta.slug ? meta.slug : cropId;
+      const meta = resolveCropMeta(cropId);
+      const slug = meta && meta.slug ? meta.slug : (CROP_ID_ALIASES[cropId] || cropId);
       return `/crops/${slug}/`;
     }
 
