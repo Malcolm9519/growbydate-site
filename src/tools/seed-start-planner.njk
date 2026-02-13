@@ -179,6 +179,7 @@ canonical: https://growbydate.com/tools/seed-start-planner/
         <button class="btn" id="calcBtn" type="button">Calculate</button>
         <button class="btn" id="resetBtn" type="button">Reset</button>
         <button class="btn" id="printBtn" type="button" style="display:none;">Print results</button>
+        <button class="btn" id="copyLinkBtn" type="button" style="display:none;">Copy link</button>
       </div>
     </div>
   </div>
@@ -288,91 +289,155 @@ canonical: https://growbydate.com/tools/seed-start-planner/
   // indoorStartWeeks: [startEarlierWeeks, startLaterWeeks] relative to last frost (before last frost)
   // transplantWeeks:  [earlierWeeks, laterWeeks] relative to last frost (after subtracting protection offset)
   // directSowWeeks:   [earlierWeeks, laterWeeks] relative to last frost (can be negative = before frost date)
-  const CROPS = [
-    {
-      id: "tomato",
-      name: "Tomatoes",
-      indoorStartWeeks: [8, 6],
-      transplantWeeks: [2, 3],
-      directSowWeeks: null,
-      notes: "Warm-season. Transplant after nights warm up."
-    },
-    {
-      id: "pepper",
-      name: "Peppers",
-      indoorStartWeeks: [10, 8],
-      transplantWeeks: [2, 4],
-      directSowWeeks: null,
-      notes: "Very warm-season. Needs heat to germinate well."
-    },
-    {
-      id: "cucumber",
-      name: "Cucumbers",
-      indoorStartWeeks: [4, 3],
-      transplantWeeks: [1, 2],
-      directSowWeeks: [1, 2],
-      notes: "Doesn't love root disturbance; start in larger cells/pots."
-    },
-    {
-      id: "zucchini",
-      name: "Zucchini / Summer squash",
-      indoorStartWeeks: [4, 3],
-      transplantWeeks: [1, 2],
-      directSowWeeks: [1, 2],
-      notes: "Fast grower. Give it room."
-    },
-    {
-      id: "bean",
-      name: "Bush beans",
-      indoorStartWeeks: null,
-      transplantWeeks: null,
-      directSowWeeks: [1, 2],
-      notes: "Direct sow when soil warms. Sensitive to frost."
-    },
-    {
-      id: "lettuce",
-      name: "Lettuce",
-      indoorStartWeeks: [6, 4],
-      transplantWeeks: [-2, 0],
-      directSowWeeks: [-4, 1],
-      notes: "Cool-season. Can handle light frosts."
-    },
-    {
-      id: "spinach",
-      name: "Spinach",
-      indoorStartWeeks: null,
-      transplantWeeks: null,
-      directSowWeeks: [-6, -2],
-      notes: "Very cold-hardy. Direct sow early."
-    },
-    {
-      id: "kale",
-      name: "Kale",
-      indoorStartWeeks: [8, 6],
-      transplantWeeks: [-2, 1],
-      directSowWeeks: [-4, 0],
-      notes: "Cold-hardy. Great for short seasons."
-    },
-    {
-      id: "broccoli",
-      name: "Broccoli",
-      indoorStartWeeks: [8, 6],
-      transplantWeeks: [-2, 0],
-      directSowWeeks: null,
-      notes: "Cool-season. Likes consistent moisture and cool temps."
-    },
-    {
-      id: "cabbage",
-      name: "Cabbage",
-      indoorStartWeeks: [8, 6],
-      transplantWeeks: [-2, 0],
-      directSowWeeks: null,
-      notes: "Cool-season. Transplant while weather is still cool."
+  // CROPS come from site data (src/_data/crops.json) plus a few extras that
+// you may not have crop pages for yet (e.g., cucumbers).
+// This keeps tool + crop pages in sync for shared crops.
+const SITE_CROPS = {{ crops | dump | safe }};
+
+function normalizeCropForTool(c) {
+  // Tool expects:
+  // - indoorStartWeeks: [earlierWeeks, laterWeeks] (weeks BEFORE last frost)
+  // - transplantWeeks/directSowWeeks: [earlierWeeks, laterWeeks] (weeks RELATIVE to last frost; negatives allowed)
+  // Your crop data uses a simpler convention for "before last frost" ranges.
+  const out = {
+    id: c.slug || c.id,
+    name: c.name,
+    indoorStartWeeks: c.indoorStartWeeks ?? null,
+    transplantWeeks: null,
+    directSowWeeks: null,
+    notes: c.description || ""
+  };
+
+  // Transplant: interpret crop data as a range that may include "before last frost" for cool crops.
+  // - cool crops: [beforeWeeks, afterWeeks] (both positive) -> [-beforeWeeks, afterWeeks]
+  // - warm crops: [afterMax, afterMin] or [afterMax, afterMin] -> sort ascending -> [min, max]
+  if (Array.isArray(c.transplantWeeks) && c.transplantWeeks.length === 2) {
+    const a = Number(c.transplantWeeks[0]);
+    const b = Number(c.transplantWeeks[1]);
+
+    if (c.seasonType === "cool") {
+      const before = Math.max(a, b);
+      const after = Math.min(a, b);
+      out.transplantWeeks = [-before, after]; // allows early transplanting before last frost when conditions permit
+    } else {
+      const minAfter = Math.min(a, b);
+      const maxAfter = Math.max(a, b);
+      out.transplantWeeks = [minAfter, maxAfter];
     }
-  ];
+  }
+
+  // Direct sow: usually a "before last frost" range in your crop data.
+  // Convert [beforeStart, beforeEnd] -> [-beforeStart, -beforeEnd] (e.g., [6,2] -> [-6,-2])
+  if (Array.isArray(c.directSowWeeks) && c.directSowWeeks.length === 2) {
+    const a = Number(c.directSowWeeks[0]);
+    const b = Number(c.directSowWeeks[1]);
+
+    if (c.seasonType === "cool") {
+      const startBefore = Math.max(a, b);
+      const endBefore = Math.min(a, b);
+      out.directSowWeeks = [-startBefore, -endBefore];
+    } else {
+      // warm crops: treat as after-last-frost window if you ever set it (rare).
+      const minRel = Math.min(a, b);
+      const maxRel = Math.max(a, b);
+      out.directSowWeeks = [minRel, maxRel];
+    }
+  }
+
+  return out;
+}
+
+const CROPS = [
+  ...SITE_CROPS.map(normalizeCropForTool),
+
+  // Extras (not necessarily in /crops/ yet)
+  {
+    id: "cucumber",
+    name: "Cucumbers",
+    indoorStartWeeks: [4, 3],
+    transplantWeeks: [1, 2],
+    directSowWeeks: [1, 2],
+    notes: "Doesn't love root disturbance; start in larger cells/pots."
+  },
+  {
+    id: "zucchini",
+    name: "Zucchini / Summer squash",
+    indoorStartWeeks: [4, 3],
+    transplantWeeks: [1, 2],
+    directSowWeeks: [1, 2],
+    notes: "Fast grower. Give it room."
+  },
+  {
+    id: "bean",
+    name: "Bush beans",
+    indoorStartWeeks: null,
+    transplantWeeks: null,
+    directSowWeeks: [1, 2],
+    notes: "Direct sow when soil warms. Sensitive to frost."
+  },
+  {
+    id: "lettuce",
+    name: "Lettuce",
+    indoorStartWeeks: [6, 4],
+    transplantWeeks: [-2, 0],
+    directSowWeeks: [-4, 1],
+    notes: "Cool-season. Can handle light frosts."
+  },
+  {
+    id: "cabbage",
+    name: "Cabbage",
+    indoorStartWeeks: [8, 6],
+    transplantWeeks: [-2, 0],
+    directSowWeeks: null,
+    notes: "Cool-season. Transplant while weather is still cool."
+  }
+];
+
 
   // ---- Helpers ----
   const byId = (id) => document.getElementById(id);
+
+// ---- Shareable state (query params) ----
+// URL params:
+//   frost=YYYY-MM-DD
+//   crop=<crop id>
+//   prot=<protection days>
+function readParamsIntoUI() {
+  const params = new URLSearchParams(window.location.search);
+
+  const frost = params.get("frost");
+  const crop = params.get("crop");
+  const prot = params.get("prot");
+
+  if (frost) byId("lastFrost").value = frost;
+  if (prot) byId("protection").value = prot;
+  // crop select is populated later, so we store it on the element for init.
+  if (crop) byId("crop").dataset.preselect = crop;
+}
+
+function updateURLFromUI() {
+  const frost = byId("lastFrost").value;
+  const crop = byId("crop").value;
+  const prot = byId("protection").value;
+
+  const url = new URL(window.location.href);
+  if (frost) url.searchParams.set("frost", frost); else url.searchParams.delete("frost");
+  if (crop) url.searchParams.set("crop", crop); else url.searchParams.delete("crop");
+  if (prot && prot !== "0") url.searchParams.set("prot", prot); else url.searchParams.delete("prot");
+
+  window.history.replaceState({}, "", url);
+}
+
+async function copyShareLink() {
+  try {
+    await navigator.clipboard.writeText(window.location.href);
+    byId("copyLinkBtn").textContent = "Copied!";
+    setTimeout(() => (byId("copyLinkBtn").textContent = "Copy link"), 1200);
+  } catch (e) {
+    // Fallback: prompt
+    window.prompt("Copy this link:", window.location.href);
+  }
+}
 
   function toDate(inputValue) {
     if (!inputValue) return null;
@@ -414,6 +479,8 @@ canonical: https://growbydate.com/tools/seed-start-planner/
     byId("resultsBody").appendChild(tr);
   }
 
+  readParamsIntoUI();
+
   // ---- Init UI ----
   function initCropSelect() {
     const sel = byId("crop");
@@ -424,9 +491,22 @@ canonical: https://growbydate.com/tools/seed-start-planner/
       opt.textContent = c.name;
       sel.appendChild(opt);
     }
+// Apply preselect (from URL param) if present
+const pre = sel.dataset.preselect;
+if (pre) {
+  const opt = Array.from(sel.options).find(o => o.value === pre);
+  if (opt) sel.value = pre;
+  delete sel.dataset.preselect;
+}
+
   }
 
   initCropSelect();
+
+// Auto-calculate if URL params provided
+if (byId("lastFrost").value) {
+  calculate();
+}
 
   // ---- Main calculate ----
   function calculate() {
@@ -434,6 +514,7 @@ canonical: https://growbydate.com/tools/seed-start-planner/
     byId("resultsCard").style.display = "none";
     byId("resultsBody").innerHTML = "";
     byId("printBtn").style.display = "none";
+    byId("copyLinkBtn").style.display = "none";
 
     const frost = toDate(byId("lastFrost").value);
     const protectionDays = parseInt(byId("protection").value, 10) || 0;
@@ -483,6 +564,8 @@ canonical: https://growbydate.com/tools/seed-start-planner/
 
     byId("resultsCard").style.display = "block";
     byId("printBtn").style.display = "inline-block";
+    byId("copyLinkBtn").style.display = "inline-block";
+    updateURLFromUI();
   }
 
   function resetForm() {
@@ -493,6 +576,8 @@ canonical: https://growbydate.com/tools/seed-start-planner/
     byId("resultsCard").style.display = "none";
     byId("resultsBody").innerHTML = "";
     byId("printBtn").style.display = "none";
+    byId("copyLinkBtn").style.display = "none";
+    window.history.replaceState({}, "", window.location.pathname);
   }
 
   function printResults() {
@@ -502,4 +587,5 @@ canonical: https://growbydate.com/tools/seed-start-planner/
   byId("calcBtn").addEventListener("click", calculate);
   byId("resetBtn").addEventListener("click", resetForm);
   byId("printBtn").addEventListener("click", printResults);
+  byId("copyLinkBtn").addEventListener("click", copyShareLink);
 </script>
