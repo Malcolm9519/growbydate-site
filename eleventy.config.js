@@ -4,6 +4,23 @@ const path = require("path");
 module.exports = function (eleventyConfig) {
   eleventyConfig.addShortcode("year", () => `${new Date().getFullYear()}`);
 
+  // Collections for navigation + index pages
+  // Uses URL prefixes so you don't have to maintain front matter flags.
+  eleventyConfig.addCollection("tools", (collectionApi) => {
+    return collectionApi.getAll().filter((p) => {
+      const url = p.url || "";
+      return url.startsWith("/tools/") && url !== "/tools/" && url !== "/tools/index/" && !url.endsWith("/index/");
+    });
+  });
+
+  eleventyConfig.addCollection("guides", (collectionApi) => {
+    return collectionApi.getAll().filter((p) => {
+      const url = p.url || "";
+      return url.startsWith("/guides/") && url !== "/guides/" && url !== "/guides/index/" && !url.endsWith("/index/");
+    });
+  });
+
+
   // ✅ Add this filter (used by crops/crop.njk)
   eleventyConfig.addFilter("fileExists", function (relativeIncludePath) {
     // Your includes dir is: src/_includes/

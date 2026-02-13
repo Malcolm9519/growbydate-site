@@ -10,8 +10,8 @@
       <div class="navpanel" role="menu" aria-label="Tools">
         <a role="menuitem" href="/tools/"><strong>All tools</strong></a>
         <hr />
-        {%- set toolPages = collections.all | selectattr("data.isTool") | sort(attribute="data.title") -%}
-        {%- for p in toolPages -%}
+        {%- set toolPages = collections.tools -%}
+{%- for p in toolPages -%}
           <a role="menuitem" href="{{ p.url }}">{{ p.data.title or p.fileSlug }}</a>
         {%- endfor -%}
       </div>
@@ -33,8 +33,8 @@
       <div class="navpanel" role="menu" aria-label="Guides">
         <a role="menuitem" href="/guides/"><strong>All guides</strong></a>
         <hr />
-        {%- set guidePages = collections.all | selectattr("data.isGuide") | sort(attribute="data.title") -%}
-        {%- for p in guidePages -%}
+        {%- set guidePages = collections.guides -%}
+{%- for p in guidePages -%}
           <a role="menuitem" href="{{ p.url }}">{{ p.data.title or p.fileSlug }}</a>
         {%- endfor -%}
       </div>

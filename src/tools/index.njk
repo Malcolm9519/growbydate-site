@@ -2,16 +2,15 @@
 layout: layout-base.njk
 title: Tools
 description: Planning tools for short growing seasons.
+canonical: "https://growbydate.com/tools/"
 ---
 
 <section class="card">
   <h2>Tools</h2>
   <p class="small" style="opacity:0.86;">Fast, practical calculators you can use without accounts or tracking.</p>
 
-  {%- set toolPages = collections.all | selectattr("data.isTool") -%}
-
   <ul class="list" style="margin-top:0.75rem;">
-    {%- for p in toolPages | sort(attribute="data.title") -%}
+    {%- for p in collections.tools | sort(attribute="data.title") -%}
       <li class="note">
         <a href="{{ p.url }}"><strong>{{ p.data.title or p.fileSlug }}</strong></a>
         {%- if p.data.description -%}

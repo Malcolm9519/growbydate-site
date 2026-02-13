@@ -2,16 +2,15 @@
 layout: layout-base.njk
 title: Guides
 description: Practical growing guides for short seasons.
+canonical: "https://growbydate.com/guides/"
 ---
 
 <section class="card">
   <h2>Guides</h2>
   <p class="small" style="opacity:0.86;">Short, practical write-ups to help you make good decisions quickly.</p>
 
-  {%- set guidePages = collections.all | selectattr("data.isGuide") -%}
-
   <ul class="list" style="margin-top:0.75rem;">
-    {%- for p in guidePages | sort(attribute="data.title") -%}
+    {%- for p in collections.guides | sort(attribute="data.title") -%}
       <li class="note">
         <a href="{{ p.url }}"><strong>{{ p.data.title or p.fileSlug }}</strong></a>
         {%- if p.data.description -%}
