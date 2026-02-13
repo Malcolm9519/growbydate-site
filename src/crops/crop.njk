@@ -64,13 +64,24 @@ canonical: "https://growbydate.com/crops/{{ crop.slug }}/"
   </p>
 </section>
 
+{% if crop.relatedTools and crop.relatedTools.length %}
 <section class="card">
   <h2>Planning Tools</h2>
   <ul>
-    <li><a href="/tools/seed-start-planner/">Seed Starting Planner</a></li>
-    <li><a href="/tools/first-frost-planner/">First Frost &amp; Fall Planting Planner</a></li>
+    {% for toolSlug in crop.relatedTools %}
+      {% set tool = maps.toolsBySlug[toolSlug] %}
+      {% if tool %}
+        <li>
+          <a href="/tools/{{ tool.slug }}/">{{ tool.name }}</a>
+          {% if tool.description %}
+            <span class="muted"> — {{ tool.description }}</span>
+          {% endif %}
+        </li>
+      {% endif %}
+    {% endfor %}
   </ul>
 </section>
+{% endif %}
 
 {# Optional crop-specific details: src/_includes/crops/{{ crop.slug }}-details.njk #}
 {% set detailsPath = "crops/" + crop.slug + "-details.njk" %}

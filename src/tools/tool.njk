@@ -1,0 +1,22 @@
+---
+pagination:
+  data: tools
+  size: 1
+  alias: tool
+permalink: "/tools/{{ tool.slug }}/"
+layout: layout-base.njk
+title: "{{ tool.name }} | GrowByDate"
+description: "{{ tool.description }}"
+canonical: "https://growbydate.com/tools/{{ tool.slug }}/"
+---
+
+<header class="header">
+  <h1>{{ tool.name }}</h1>
+  <p class="lede">{{ tool.description }}</p>
+</header>
+
+<section class="section">
+  <p class="muted">Tool page placeholder.</p>
+</section>
+
+{# In Step 6 we’ll add “Common crops this tool helps” here #}

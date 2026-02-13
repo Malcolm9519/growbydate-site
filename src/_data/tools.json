@@ -1,12 +1,14 @@
 [
   {
-    "id": "seed-start-planner",
+    "slug": "seed-start-planner",
     "name": "Seed Starting Planner",
-    "url": "/tools/seed-start-planner/"
+    "description": "Generate indoor seed start dates based on your last frost.",
+    "order": 1
   },
   {
-    "id": "first-frost-planner",
+    "slug": "first-frost-planner",
     "name": "First Frost & Fall Planting Planner",
-    "url": "/tools/first-frost-planner/"
+    "description": "Plan fall planting and harvest timing before your first frost.",
+    "order": 2
   }
 ]

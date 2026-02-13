@@ -347,51 +347,8 @@ function normalizeCropForTool(c) {
   return out;
 }
 
-const CROPS = [
-  ...SITE_CROPS.map(normalizeCropForTool),
+const CROPS = SITE_CROPS.map(normalizeCropForTool);
 
-  // Extras (not necessarily in /crops/ yet)
-  {
-    id: "cucumber",
-    name: "Cucumbers",
-    indoorStartWeeks: [4, 3],
-    transplantWeeks: [1, 2],
-    directSowWeeks: [1, 2],
-    notes: "Doesn't love root disturbance; start in larger cells/pots."
-  },
-  {
-    id: "zucchini",
-    name: "Zucchini / Summer squash",
-    indoorStartWeeks: [4, 3],
-    transplantWeeks: [1, 2],
-    directSowWeeks: [1, 2],
-    notes: "Fast grower. Give it room."
-  },
-  {
-    id: "bean",
-    name: "Bush beans",
-    indoorStartWeeks: null,
-    transplantWeeks: null,
-    directSowWeeks: [1, 2],
-    notes: "Direct sow when soil warms. Sensitive to frost."
-  },
-  {
-    id: "lettuce",
-    name: "Lettuce",
-    indoorStartWeeks: [6, 4],
-    transplantWeeks: [-2, 0],
-    directSowWeeks: [-4, 1],
-    notes: "Cool-season. Can handle light frosts."
-  },
-  {
-    id: "cabbage",
-    name: "Cabbage",
-    indoorStartWeeks: [8, 6],
-    transplantWeeks: [-2, 0],
-    directSowWeeks: null,
-    notes: "Cool-season. Transplant while weather is still cool."
-  }
-];
 
 
   // ---- Helpers ----

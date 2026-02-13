@@ -1,0 +1,23 @@
+---
+layout: layout-base.njk
+title: Tools | GrowByDate
+description: Practical calculators and planners for short growing seasons.
+canonical: "https://growbydate.com/tools/"
+permalink: "/tools/"
+---
+
+<header class="header">
+  <h1>Tools</h1>
+  <p class="lede">Practical calculators and planners for short growing seasons.</p>
+</header>
+
+<section class="section">
+  <div class="cardGrid">
+    {% for tool in tools | sort(false, false, "order") %}
+      <article class="card">
+        <h2><a href="/tools/{{ tool.slug }}/">{{ tool.name }}</a></h2>
+        <p>{{ tool.description }}</p>
+      </article>
+    {% endfor %}
+  </div>
+</section>
