@@ -21,19 +21,3 @@ canonical: "https://growbydate.com/tools/{{ tool.slug }}/"
   <p class="muted">Tool page placeholder.</p>
 </section>
 
-{% set relatedCrops = maps.toolToCrops[tool.slug] or [] %}
-
-{% if relatedCrops.length %}
-<section class="section">
-  <h2>Common crops this tool helps</h2>
-  <ul>
-    {% for crop in relatedCrops %}
-      <li>
-        <a href="/crops/{{ crop.slug }}/">
-          Growing {{ crop.name }}
-        </a>
-      </li>
-    {% endfor %}
-  </ul>
-</section>
-{% endif %}
