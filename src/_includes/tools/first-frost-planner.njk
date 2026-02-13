@@ -1,32 +1,39 @@
-    <section class="card" aria-label="Fall planting planner inputs">
-      <div class="grid">
+    <section class="card" aria-labelledby="ff-title">
+      <header>
+        <h2 id="ff-title">First frost → fall planting window</h2>
+        <p class="small" style="opacity:0.86;">
+          Enter your <strong>average first fall frost date</strong>. This tool counts backward using days to maturity + your buffer.
+        </p>
+      </header>
+
+      <div class="grid" role="form" aria-describedby="ff-assumptions">
         <div class="row">
           <div>
-            <label for="firstFrost">Average first fall frost date</label>
-            <input id="firstFrost" type="date" aria-describedby="firstFrostHelp" />
-            <div class="small" id="firstFrostHelp">Use an average date for your area (not the earliest ever).</div>
+            <label for="firstFrost"><strong>Average first fall frost date</strong></label>
+            <input id="firstFrost" type="date" aria-describedby="firstFrostHelp ff-error" />
+            <div class="small" id="firstFrostHelp">Use the typical first frost for your area (not the earliest ever).</div>
           </div>
 
           <div>
-            <label for="crop">Crop</label>
+            <label for="crop"><strong>Crop</strong></label>
             <select id="crop" aria-describedby="cropHelp"></select>
-            <div class="small" id="cropHelp">Days to maturity are typical ranges. Varieties and weather can vary.</div>
+            <div class="small" id="cropHelp">Days to maturity are typical ranges. Variety and fall conditions can shift timing.</div>
           </div>
         </div>
 
         <div class="row">
           <div>
-            <label for="protection">Season extension</label>
+            <label for="protection"><strong>Season extension</strong></label>
             <select id="protection" aria-describedby="protectionHelp">
               <option value="0">None</option>
               <option value="7">Light protection (row cover / cloche) — ~1 week</option>
               <option value="14">Stronger protection (tunnel / cold frame) — ~2 weeks</option>
             </select>
-            <div class="small" id="protectionHelp">This shifts your effective frost date later by ~1–2 weeks.</div>
+            <div class="small" id="protectionHelp">Shifts your effective frost date later by ~1–2 weeks.</div>
           </div>
 
           <div>
-            <label for="buffer">Safety buffer</label>
+            <label for="buffer"><strong>Safety buffer</strong></label>
             <select id="buffer" aria-describedby="bufferHelp">
               <option value="7">Conservative (7 days)</option>
               <option value="10" selected>Standard (10 days)</option>
@@ -37,33 +44,71 @@
           </div>
         </div>
 
+        <details class="note small" id="ff-assumptions" style="opacity:0.9;">
+          <summary><span class="pill">Assumptions</span> What this tool is doing</summary>
+          <ul class="tight" style="margin:0.5rem 0 0 1.25rem;">
+            <li>Counts backward from your <strong>average first frost</strong>.</li>
+            <li>Adds your chosen <strong>protection</strong> to create an “effective frost date.”</li>
+            <li>Subtracts <strong>days to maturity</strong> + your <strong>buffer</strong> to suggest a latest sow date.</li>
+          </ul>
+        </details>
+
+        <p class="note small" id="ff-error" role="alert" style="display:none;"></p>
+        <p class="sr-only" id="ff-status" role="status" aria-live="polite"></p>
+
         <div class="btnRow">
-          <button class="button primary" id="calcBtn" type="button">Calculate</button>
+          <button class="button primary" id="calcBtn" type="button">Calculate planting window</button>
           <button class="button" id="resetBtn" type="button">Reset</button>
           <button class="button" id="printBtn" type="button" style="display:none;">Print results</button>
         </div>
       </div>
     </section>
 
-    <section class="card" id="resultsCard" style="display:none;">
-      <h2>Results</h2>
+    <section class="card" id="resultsCard" style="display:none;" aria-labelledby="resultsTitle">
+      <h2 id="resultsTitle">Results</h2>
 
-      <div class="note" id="confidenceBox"></div>
+      <div class="note" id="confidenceBox" role="note" aria-labelledby="confidenceTitle">
+        <div class="pill" id="confidenceTitle">Frost timing confidence</div>
+        <div id="confidenceText" class="small" style="margin-top:0.35rem; opacity:0.95;"></div>
+        <div id="confidenceHelp" class="small" style="margin-top:0.35rem; opacity:0.82;"></div>
+      </div>
 
-      <table>
+      <div class="grid" style="margin-top:0.75rem;">
+        <div class="row">
+          <div class="note">
+            <div class="small" style="opacity:0.85;">Latest recommended sow date</div>
+            <div id="outLastSow" style="font-size:1.15rem; font-weight:700; margin-top:0.15rem;">—</div>
+            <div class="small" style="opacity:0.82;">Aim to sow on or before this date.</div>
+          </div>
+
+          <div class="note">
+            <div class="small" style="opacity:0.85;">Effective frost date</div>
+            <div id="outEffectiveFrost" style="font-size:1.05rem; font-weight:700; margin-top:0.15rem;">—</div>
+            <div id="outEffectiveNote" class="small" style="opacity:0.82;"></div>
+          </div>
+        </div>
+      </div>
+
+      <table aria-label="Calculation details" style="margin-top:0.75rem;">
         <thead>
           <tr>
-            <th>Item</th>
-            <th>Result</th>
-            <th>Notes</th>
+            <th>Detail</th>
+            <th>Value</th>
+            <th>What this means</th>
           </tr>
         </thead>
         <tbody id="resultsBody"></tbody>
       </table>
 
-      <div class="note small" style="opacity:0.86;">
+      <div class="note small" style="opacity:0.86; margin-top:0.75rem;">
         <span class="pill">Planning tip</span>
-        Fall growth often slows as days shorten. If you’re close to the cutoff, choose faster varieties or add protection.
+        If you’re close to the cutoff, choose faster varieties or use protection.
+      </div>
+
+      <div class="note small" style="opacity:0.86; margin-top:0.75rem;">
+        <span class="pill">More</span>
+        <a href="/crops/">Browse crops</a> •
+        <a href="/tools/seed-start-planner/">Seed starting planner</a>
       </div>
     </section>
 
@@ -109,6 +154,29 @@
     ];
 
     const byId = (id) => document.getElementById(id);
+
+    function setError(msg) {
+      const el = byId("ff-error");
+      if (!el) return;
+      if (!msg) {
+        el.style.display = "none";
+        el.textContent = "";
+        return;
+      }
+      el.style.display = "block";
+      el.textContent = msg;
+    }
+
+    function setStatus(msg) {
+      const el = byId("ff-status");
+      if (el) el.textContent = msg || "";
+    }
+
+    function cropUrl(cropId) {
+      // Adjust if your crop URLs differ
+      return `/crops/${cropId}/`;
+    }
+
 
     function initCropSelect() {
       const sel = byId("crop");
@@ -167,8 +235,12 @@
       byId("printBtn").style.display = "none";
       byId("resultsCard").style.display = "none";
 
+      setError("");
+      setStatus("");
+
       if (!firstFrost) {
-        alert("Please enter an average first fall frost date.");
+        setError("Please enter an average first fall frost date.");
+        setStatus("Missing frost date.");
         return;
       }
 
@@ -182,9 +254,32 @@
       const conf = confidenceLabel(daysMargin, crop.hardy);
       const box = byId("confidenceBox");
       box.className = `note ${conf.cls}`;
-      box.innerHTML = `<span class="pill">${conf.title}</span> ${conf.text}`;
+      const t = byId("confidenceText");
+      const h = byId("confidenceHelp");
+      if (t) t.textContent = `${conf.title} ${conf.text}`;
+      if (h) {
+        h.textContent =
+          conf.cls === "ok"  ? "Still plan for weather variation—earlier sowing is usually easier." :
+          conf.cls === "warn"? "If you’re close, choose faster varieties or use protection." :
+                               "Consider a faster crop, earlier sowing, or stronger protection.";
+      }
 
-      addRow("Crop", crop.name, crop.notes);
+
+
+      // Quick-scan summary
+      const outLastSow = byId("outLastSow");
+      if (outLastSow) outLastSow.textContent = fmt(lastSow);
+
+      const outEffectiveFrost = byId("outEffectiveFrost");
+      if (outEffectiveFrost) outEffectiveFrost.textContent = fmt(effectiveFrost);
+
+      const outEffectiveNote = byId("outEffectiveNote");
+      if (outEffectiveNote) {
+        outEffectiveNote.textContent = protectionDays
+          ? `Includes ~${protectionDays} days of protection.`
+          : "No protection applied.";
+      }
+      addRow("Crop", `<a href="${cropUrl(crop.id)}">${crop.name}</a>`, crop.notes);
       addRow("Average first frost date", fmt(firstFrost), "Your input.");
       addRow("Effective frost date", fmt(effectiveFrost), protectionDays ? `Includes ~${protectionDays} days of protection.` : "No protection applied.");
       addRow("Safety buffer", `${bufferDays} days`, "Extra time to account for slower fall growth.");
@@ -194,6 +289,7 @@
 
       byId("resultsCard").style.display = "block";
       byId("printBtn").style.display = "inline-block";
+      setStatus("Results updated.");
     }
 
     function resetForm() {
@@ -204,6 +300,21 @@
       byId("resultsBody").innerHTML = "";
       byId("resultsCard").style.display = "none";
       byId("printBtn").style.display = "none";
+
+      setError("");
+      setStatus("");
+
+      const outLastSow = byId("outLastSow");
+      if (outLastSow) outLastSow.textContent = "—";
+      const outEffectiveFrost = byId("outEffectiveFrost");
+      if (outEffectiveFrost) outEffectiveFrost.textContent = "—";
+      const outEffectiveNote = byId("outEffectiveNote");
+      if (outEffectiveNote) outEffectiveNote.textContent = "";
+
+      const t = byId("confidenceText");
+      if (t) t.textContent = "";
+      const h = byId("confidenceHelp");
+      if (h) h.textContent = "";
     }
 
     function printResults() {
