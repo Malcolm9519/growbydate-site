@@ -4,10 +4,13 @@ pagination:
   size: 1
   alias: tool
 permalink: "/tools/{{ tool.slug }}/"
-layout: layout-base.njk
-title: "{{ tool.name }} | GrowByDate"
-description: "{{ tool.description }}"
-canonical: "https://growbydate.com/tools/{{ tool.slug }}/"
+layout: layouts/layout-base.njk
+tool: true
+
+eleventyComputed:
+  title: "{{ tool.name }} | GrowByDate"
+  description: "{{ tool.description }}"
+  canonical: "https://growbydate.com/tools/{{ tool.slug }}/"
 ---
 
 <header class="header">
@@ -20,4 +23,3 @@ canonical: "https://growbydate.com/tools/{{ tool.slug }}/"
 <section class="section">
   <p class="muted">Tool page placeholder.</p>
 </section>
-
