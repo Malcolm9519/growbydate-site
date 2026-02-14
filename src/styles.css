@@ -191,8 +191,8 @@ th {
 .brand h1::before {
   content: "";
   display: inline-block;
-  width: 14px;
-  height: 14px;
+  width: 24px;
+  height: 24px;
   margin-right: 8px;
   vertical-align: middle;
 
