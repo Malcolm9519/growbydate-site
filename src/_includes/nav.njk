@@ -1,52 +1,44 @@
-<header class="header">
-  <div class="brand">
-    <h1><a href="/" style="text-decoration:none;color:inherit;">{{ site.name }}</a></h1>
-    <p class="tagline">Practical planning tools for short growing seasons.</p>
-  </div>
+<div class="brand">
+  <h1>
+    <a href="/" style="text-decoration:none; color:inherit;">
+      GrowByDate
+    </a>
+  </h1>
+  <p class="tagline">
+    Practical planning tools for short growing seasons.
+  </p>
+</div>
 
-  <nav class="actions" aria-label="Primary">
-  
-    <!-- Tools -->
-    <details class="navdrop">
-      <summary class="button subtle">Tools</summary>
-      <div class="navpanel" role="menu" aria-label="Tools">
-        <a role="menuitem" href="/tools/"><strong>All tools</strong></a>
-        <hr />
-        {%- for t in tools | sort(attribute="order") -%}
-          <a role="menuitem" href="/tools/{{ t.slug }}/">{{ t.name }}</a>
-        {%- endfor -%}
-      </div>
-    </details>
+<nav class="siteNav">
 
-    <!-- Crops -->
-    <details class="navdrop">
-      <summary class="button subtle">Crops</summary>
-      <div class="navpanel" role="menu" aria-label="Crops">
-        <a role="menuitem" href="/crops/"><strong>All crops</strong></a>
-        <hr />
-        {%- for crop in crops | sort(attribute="name") -%}
-          <a role="menuitem" href="/crops/{{ crop.slug }}/">{{ crop.name }}</a>
-        {%- endfor -%}
-      </div>
-    </details>
+  <a href="/tools/seed-start-planner/" class="primaryLink">
+    Seed Planner
+  </a>
 
-    <!-- Guides -->
-    <details class="navdrop">
-      <summary class="button subtle">Guides</summary>
-      <div class="navpanel" role="menu" aria-label="Guides">
-        <a role="menuitem" href="/guides/"><strong>All guides</strong></a>
-        <hr />
-        {%- for p in collections.guides | sort(attribute="data.title") -%}
-          {%- set navLabel = (p.data.navTitle or p.data.title or p.fileSlug)
-            | replace(" | GrowByDate", "")
-            | replace(" | GrowByDate.com", "")
-          -%}
-          <a role="menuitem" href="{{ p.url }}">{{ navLabel }}</a>
-        {%- endfor -%}
-      </div>
-    </details>
-  </nav>
-  <nav class="siteNav">
-  ...
+  <details class="navdrop">
+    <summary>Tools</summary>
+    <div class="navpanel">
+      {% for t in tools | sort(attribute="order") %}
+        <a href="/tools/{{ t.slug }}/">
+          {{ t.name }}
+        </a>
+      {% endfor %}
+    </div>
+  </details>
+
+  <details class="navdrop">
+    <summary>Guides</summary>
+    <div class="navpanel">
+      {% for g in collections.guides %}
+        <a href="{{ g.url }}">
+          {{ g.data.title | stripSiteSuffix }}
+        </a>
+      {% endfor %}
+    </div>
+  </details>
+
+  <a href="/crops/">
+    Crops
+  </a>
+
 </nav>
-</header>
