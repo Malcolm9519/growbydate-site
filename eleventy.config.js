@@ -19,6 +19,13 @@ eleventyConfig.addCollection("guides", (collectionApi) => {
     return url.startsWith("/guides/") && url !== "/guides/";
   });
 });
+// Strip site suffix from titles in nav labels
+eleventyConfig.addFilter("stripSiteSuffix", function (title) {
+  if (!title) return "";
+  return String(title)
+    .replace(/\s*\|\s*GrowByDate(?:\.com)?\s*$/i, "")
+    .trim();
+});
 
   // ✅ Add this filter (used by crops/crop.njk)
   eleventyConfig.addFilter("fileExists", function (relativeIncludePath) {
