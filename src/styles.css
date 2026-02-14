@@ -339,3 +339,60 @@ th {
   background: #eee;
   margin: 0.4rem 0;
 }
+/* Desktop vs mobile nav */
+.siteNavMobile { display: none; }
+
+@media (max-width: 720px) {
+  .siteNavDesktop { display: none; }
+  .siteNavMobile { display: flex; }
+}
+
+/* Hamburger icon */
+.hamburger {
+  display: inline-block;
+  width: 16px;
+  height: 12px;
+  position: relative;
+  margin-right: 8px;
+}
+
+.hamburger::before,
+.hamburger::after,
+.hamburger {
+  background: transparent;
+}
+
+.hamburger::before,
+.hamburger::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(0,0,0,0.75);
+  border-radius: 2px;
+}
+
+.hamburger::before { top: 0; }
+.hamburger::after  { bottom: 0; }
+
+/* middle line */
+.hamburger {
+  border-top: 2px solid rgba(0,0,0,0.75);
+  border-bottom: 2px solid rgba(0,0,0,0.75);
+  border-radius: 2px;
+}
+
+/* Mobile menu panel alignment */
+.mobileMenu .navpanel {
+  right: 0;
+  top: 120%;
+  min-width: 260px;
+}
+
+/* Labels inside mobile menu */
+.navlabel {
+  margin: 10px 0 6px;
+  font-size: 13px;
+  color: var(--muted);
+}
