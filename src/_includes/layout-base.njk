@@ -11,11 +11,17 @@
   <link rel="stylesheet" href="/styles.css" />
 </head>
 <body>
+  <header class="siteHeader">
+    <div class="container siteHeaderInner">
+      {% include "nav.njk" %}
+    </div>
+  </header>
+
   <main class="container">
-    {% include "nav.njk" %}
     {{ content | safe }}
     {% include "footer.njk" %}
   </main>
+
   <script>
   (function () {
     const drops = Array.from(document.querySelectorAll("details.navdrop"));
@@ -47,6 +53,7 @@
       if (!clickedInside) closeAll(null);
     });
   })();
-</script>
+  </script>
 </body>
+
 </html>
