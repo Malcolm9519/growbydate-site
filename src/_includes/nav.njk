@@ -4,10 +4,8 @@
       <a href="/" class="brandLink">GrowByDate</a>
     </h1>
 
-    {# Keep for SEO/accessibility, hide visually via CSS #}
-    <p class="tagline sr-only">
-      Practical planning tools for short growing seasons.
-    </p>
+    {# keep for SEO, hide visually #}
+    <p class="tagline sr-only">Practical planning tools for short growing seasons.</p>
   </div>
 
   <nav class="siteNav" aria-label="Primary">
@@ -16,6 +14,8 @@
     <details class="navdrop">
       <summary>Tools</summary>
       <div class="navpanel">
+        <a class="navall" href="/tools/">View all tools</a>
+        <div class="navsep" aria-hidden="true"></div>
         {% for t in tools | sort(attribute="order") %}
           <a href="/tools/{{ t.slug }}/">{{ t.name }}</a>
         {% endfor %}
@@ -25,12 +25,23 @@
     <details class="navdrop">
       <summary>Guides</summary>
       <div class="navpanel">
+        <a class="navall" href="/guides/">View all guides</a>
+        <div class="navsep" aria-hidden="true"></div>
         {% for g in collections.guides %}
           <a href="{{ g.url }}">{{ g.data.title | stripSiteSuffix }}</a>
         {% endfor %}
       </div>
     </details>
 
-    <a href="/crops/">Crops</a>
+    <details class="navdrop">
+      <summary>Crops</summary>
+      <div class="navpanel">
+        <a class="navall" href="/crops/">View all crops</a>
+        <div class="navsep" aria-hidden="true"></div>
+        {% for c in crops | sort(attribute="name") %}
+          <a href="/crops/{{ c.slug }}/">{{ c.name }}</a>
+        {% endfor %}
+      </div>
+    </details>
   </nav>
 </div>

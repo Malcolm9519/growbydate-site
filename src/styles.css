@@ -317,3 +317,22 @@ th {
 .navpanel {
   border-radius: 12px;
 }
+/* Dropdown links should look like menu items, not pills */
+.navpanel a {
+  display: block;
+  padding: 0.45rem 0.75rem;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+/* Optional: style the "view all" line slightly */
+.navpanel a.navall {
+  font-weight: 600;
+}
+
+.navsep {
+  height: 1px;
+  background: #eee;
+  margin: 0.4rem 0;
+}
