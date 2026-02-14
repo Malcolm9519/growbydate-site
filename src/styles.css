@@ -241,7 +241,7 @@ th {
   position: sticky;
   top: 0;
   z-index: 200;
-  background: rgba(59, 188, 61, 0.08); /* subtle green tint */
+  background: #eef9ef; /* solid, subtle green */
   border-bottom: 1px solid rgba(0,0,0,0.08);
 }
 
