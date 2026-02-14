@@ -4,24 +4,96 @@ pagination:
   data: crops
   size: 1
   alias: crop
-permalink: "/crops/{{ crop.slug }}/"
+permalink: "crops/{{ crop.slug }}/"
+eleventyComputed:
+  title: "Growing {{ crop.name }} in Short Growing Seasons | GrowByDate"
+  description: "{{ crop.description }}"
+  canonical: "https://growbydate.com/crops/{{ crop.slug }}/"
 ---
 
 <header class="header">
-  <h1>{{ crop.name }}</h1>
-  {% if crop.description %}
-    <p class="lede">{{ crop.description }}</p>
-  {% endif %}
+  <h1>Growing {{ crop.name }} in Short Growing Seasons</h1>
+  <p class="tagline">{{ crop.tagline or "Practical crop-by-crop planning references." }}</p>
+  <p class="lede">{{ crop.lede or "Use this page for timing ranges and decision points. For exact dates based on your frost window, use the tools below." }}</p>
 </header>
 
 <section class="card">
-  {% set cropPartial = "crops/" + crop.slug + ".njk" %}
+  <h2>Quick Planning Reference</h2>
 
-  {% if cropPartial | fileExists %}
-    {% include cropPartial %}
-  {% else %}
-    <p>
-      Growing information for {{ crop.name | lower }} is coming soon.
-    </p>
-  {% endif %}
+  <ul>
+    {% if crop.indoorStartWeeks %}
+      <li>
+        <strong>Indoor start:</strong>
+        {{ crop.indoorStartWeeks[1] }}–{{ crop.indoorStartWeeks[0] }} weeks before your average last frost
+      </li>
+    {% endif %}
+
+    {% if crop.transplantWeeks %}
+      <li>
+        <strong>Transplant:</strong>
+        {% if crop.transplantWeeks[0] < 0 or crop.transplantWeeks[1] < 0 %}
+          {{ crop.transplantWeeks[0] | abs }}–{{ crop.transplantWeeks[1] | abs }} weeks <em>before</em> last frost (weather permitting)
+        {% else %}
+          {{ crop.transplantWeeks[1] }}–{{ crop.transplantWeeks[0] }} weeks <em>after</em> last frost (once conditions are suitable)
+        {% endif %}
+      </li>
+    {% endif %}
+
+    {% if crop.directSowWeeks %}
+      <li>
+        <strong>Direct sow:</strong>
+        {% if crop.directSowWeeks[0] < 0 or crop.directSowWeeks[1] < 0 %}
+          {{ crop.directSowWeeks[0] | abs }}–{{ crop.directSowWeeks[1] | abs }} weeks <em>before</em> last frost
+        {% else %}
+          {{ crop.directSowWeeks[0] }}–{{ crop.directSowWeeks[1] }} weeks <em>after</em> last frost (once soil is warm)
+        {% endif %}
+      </li>
+    {% endif %}
+
+    {% if crop.daysToMaturity %}
+      <li>
+        <strong>Days to maturity:</strong>
+        {{ crop.daysToMaturity[0] }}–{{ crop.daysToMaturity[1] }} days (variety-dependent)
+      </li>
+    {% endif %}
+
+    <li><strong>Frost tolerance:</strong> {{ crop.frostTolerance }}</li>
+  </ul>
+
+  <p class="fine muted" style="margin-top:14px;">
+    These are practical ranges. Local conditions matter—especially soil temperature, wind exposure, and cold nights.
+  </p>
 </section>
+
+{% if crop.relatedTools and crop.relatedTools.length %}
+<section class="card">
+  <h2>Planning Tools</h2>
+  <ul>
+    {% for toolSlug in crop.relatedTools %}
+      {% set tool = maps.toolsBySlug[toolSlug] %}
+      {% if tool %}
+        <li>
+          <a href="/tools/{{ tool.slug }}/">{{ tool.name }}</a>
+          {% if tool.description %}
+            <span class="muted"> — {{ tool.description }}</span>
+          {% endif %}
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+</section>
+{% endif %}
+
+{# Optional crop-specific details: src/_includes/crops/{{ crop.slug }}-details.njk #}
+{% set detailsPathA = "crops/" + crop.slug + "-details.njk" %}
+{% set detailsPathB = crop.slug + "-details.njk" %}
+{% include detailsPathA ignore missing %}
+{% include detailsPathB ignore missing %}
+
+<p class="small muted" style="margin-top:18px;">
+  <a href="/crops/">← Back to Crops</a>
+</p>
+
+<p class="small muted" style="margin-top:8px;">
+  <a href="/">← Back to GrowByDate</a>
+</p>
