@@ -4,15 +4,23 @@ permalink: /sitemap.xml
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 {%- set base = "https://growbydate.com" -%}
-{%- for page in collections.all | sort(attribute="url") -%}
-  {%- if page.url
-    and page.url != "/sitemap.xml"
-    and page.url != "/robots.txt"
-    and page.url != "/404/"
-  -%}
-  <url>
-    <loc>{{- base -}}{{- page.url -}}</loc>
-  </url>
+{# Core pages #}
+  <url><loc>{{- base -}}/</loc></url>
+  <url><loc>{{- base -}}/tools/</loc></url>
+  <url><loc>{{- base -}}/guides/</loc></url>
+  <url><loc>{{- base -}}/crops/</loc></url>
+{# Tools from tools.json (deterministic) #}
+{%- for t in tools | sort(attribute="order") -%}
+  <url><loc>{{- base -}}/tools/{{- t.slug -}}/</loc></url>
+{%- endfor -%}
+{# Guides from your guides collection #}
+{%- for g in collections.guides | sort(attribute="url") -%}
+  {%- if g.url -%}
+  <url><loc>{{- base -}}{{- g.url -}}</loc></url>
   {%- endif -%}
+{%- endfor -%}
+{# Crops from crops.json (deterministic) #}
+{%- for c in crops | sort(attribute="slug") -%}
+  <url><loc>{{- base -}}/crops/{{- c.slug -}}/</loc></url>
 {%- endfor -%}
 </urlset>
