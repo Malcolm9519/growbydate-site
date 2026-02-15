@@ -11,6 +11,22 @@
 
 * { box-sizing: border-box; }
 
+:root {
+  --link: #3bbc3d;          /* calming green */
+  --link-hover: #2fa331;    /* slightly deeper green */
+}
+
+/* Default link styling */
+a {
+  color: var(--link);
+  text-decoration: underline;
+}
+
+a:hover {
+  color: var(--link-hover);
+}
+
+
 body {
   margin: 0;
   line-height: 1.55;
