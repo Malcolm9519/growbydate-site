@@ -1,29 +1,20 @@
 ---
 permalink: /sitemap.xml
-eleventyExcludeFromCollections: true
 ---
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-{%- set base = "https://growbydate.com" -%}
+{% set base = "https://growbydate.com" %}
 
-{# Collect pages and filter out non-indexable stuff #}
-{%- for p in collections.all
-  | rejectattr("url", "undefined")
--%}
-  {%- set url = p.url -%}
-
-  {# Skip things we don't want in sitemap #}
-  {%- if url
-    and url != "/sitemap.xml"
-    and url != "/robots.txt"
-    and url != "/404/"
-    and not url.startsWith("/admin")
-    and not url.endsWith(".json")
-    and not url.endsWith(".xml")
-  -%}
+{% for page in collections.all | sort(attribute="url") %}
+  {% if page.url
+    and page.url != "/sitemap.xml"
+    and page.url != "/robots.txt"
+    and page.url != "/404/"
+  %}
   <url>
-    <loc>{{ base }}{{ url }}</loc>
+    <loc>{{ base }}{{ page.url }}</loc>
   </url>
-  {%- endif -%}
-{%- endfor -%}
+  {% endif %}
+{% endfor %}
+
 </urlset>
