@@ -91,6 +91,11 @@ body {
 .button:hover { opacity: 0.86; }
 
 .button.primary {
+  display: inline-block;
+  padding: 10px 14px;
+  border: 1px solid #111;
+  border-radius: 12px;
+  text-decoration: none;
   background: #3bbc3d;
   color: #fff;
 }
