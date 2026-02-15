@@ -69,7 +69,7 @@
       <h2 id="resultsTitle">Results</h2>
 
       <div class="note" id="confidenceBox" role="note" aria-labelledby="confidenceTitle">
-        <div class="pill" id="confidenceTitle">Frost timing confidence</div>
+        <div class="pill" id="confidenceTitle"><strong>Frost Timing Confidence:</strong></div>
         <div id="confidenceText" class="small" style="margin-top:0.35rem; opacity:0.95;"></div>
         <div id="confidenceHelp" class="small" style="margin-top:0.35rem; opacity:0.82;"></div>
       </div>
@@ -252,7 +252,7 @@ function resolveCropMeta(cropId) {
     function confidenceLabel(daysMargin, hardy) {
       // Margin is how many days you have AFTER maturity+buffer before frost.
       // More margin = higher confidence.
-      if (daysMargin >= 14) return { cls: "ok",  title: "High confidence:", text: "You have a comfortable buffer before frost." };
+      if (daysMargin >= 14) return { cls: "ok",  title: "<strong>High confidence:</strong>", text: "You have a comfortable buffer before frost." };
       if (daysMargin >= 7)  return { cls: "warn", title: "Medium confidence:", text: "This is workable, but variety choice and protection may matter." };
       // If hardy, small negative margins can still be plausible with protection/harvest stages
       if (hardy && daysMargin >= -3) return { cls: "warn", title: "Borderline", text: "Close to frost. Consider protection and fast varieties." };
