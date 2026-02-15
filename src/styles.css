@@ -12,8 +12,8 @@
 * { box-sizing: border-box; }
 
 :root {
-  --link: #3bbc3d;          /* calming green */
-  --link-hover: #2fa331;    /* slightly deeper green */
+--link: #4a9c63;
+--link-hover: #3f8756;
 }
 
 /* Default link styling */
