@@ -4,7 +4,6 @@ permalink: /sitemap.xml
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 {%- set base = "https://growbydate.com" -%}
-
 {%- for page in collections.all | sort(attribute="url") -%}
   {%- if page.url
     and page.url != "/sitemap.xml"
@@ -16,5 +15,4 @@ permalink: /sitemap.xml
   </url>
   {%- endif -%}
 {%- endfor -%}
-
 </urlset>
