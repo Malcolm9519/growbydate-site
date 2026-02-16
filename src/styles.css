@@ -374,6 +374,10 @@ th {
   font-size: 14px;
 }
 
+.noteIcon {
+  opacity: 1 !important;
+}
+
 @media (min-width: 760px) {
   .index-list { grid-template-columns: 1fr 1fr; }
 }
