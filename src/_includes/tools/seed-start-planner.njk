@@ -438,80 +438,79 @@
   initCropSelect();
 
   // ---- Main calculate ----
-  function calculate() {
-    byId("warnBox").style.display = "none";
-    byId("resultsCard").style.display = "none";
-    byId("resultsBody").innerHTML = "";
-    byId("printBtn").style.display = "none";
+function calculate() {
+  byId("warnBox").style.display = "none";
+  byId("resultsCard").style.display = "none";
+  byId("resultsBody").innerHTML = "";
+  byId("printBtn").style.display = "none";
 
-    const frost = toDate(byId("lastFrost").value);
-    const protectionDays = parseInt(byId("protection").value, 10) || 0;
-    const cropId = byId("crop").value;
-    const crop = CROPS.find(c => c.id === cropId);
+  const frost = toDate(byId("lastFrost").value);
+  const protectionDays = parseInt(byId("protection").value, 10) || 0;
+  const cropId = byId("crop").value;
+  const crop = CROPS.find(c => c.id === cropId);
 
-    if (!frost) {
-      byId("warnBox").style.display = "block";
-      byId("warnBox").innerHTML = "Please enter an average <strong>last frost date</strong> to calculate your windows.";
-      return;
-    }
-
-    // Crop page
-    addRow("Crop", `<a href="${cropUrl(crop.id)}">${crop.name}</a>`, "");
-
-    // Indoor start window (not shifted by protection)
-    if (crop.indoorStartWeeks) {
-      const [earlier, later] = crop.indoorStartWeeks;
-      const [start, end] = windowFromWeeks(frost, earlier, later, 0);
-      addRow("Start seeds indoors", `${fmt(start)} – ${fmt(end)}`, crop.notes);
-    } else {
-      addRow("Start seeds indoors", "Not typically recommended", crop.notes);
-    }
-
-    // Transplant window (shifted earlier by protection)
-    if (crop.transplantWeeks) {
-      const [earlier, later] = crop.transplantWeeks;
-      const [start, end] = windowFromWeeksRelative(frost, earlier, later, protectionDays);
-      const hardenStart = addDays(start, -10);
-      const hardenEnd = addDays(start, -7);
-      addRow("Begin hardening off", `${fmt(hardenStart)} – ${fmt(hardenEnd)}`, "Start gradual outdoor exposure ~7–10 days before transplanting.");
-      addRow("Transplant outdoors", `${fmt(start)} – ${fmt(end)}`, protectionDays ? "Shifted earlier due to season protection." : "Open-garden timing.");
-    } else {
-      addRow("Transplant outdoors", "Not applicable", "");
-    }
-
-    // Direct sow window (shifted earlier by protection)
-    if (crop.directSowWeeks) {
-      const [earlier, later] = crop.directSowWeeks;
-      const [start, end] = windowFromWeeksRelative(frost, earlier, later, protectionDays);
-      addRow("Direct sow outdoors", `${fmt(start)} – ${fmt(end)}`, protectionDays ? "Shifted earlier due to season protection." : "");
-    } else {
-      addRow("Direct sow outdoors", "Not typical for this crop", "");
-    }
-
-    // Confidence note
-    const frostNote = `Last frost date used: <strong>${fmt(frost)}</strong>.`;
+  if (!frost) {
     byId("warnBox").style.display = "block";
-    byId("warnBox").innerHTML = frostNote + " If your site gets late frosts, consider choosing the later end of each window.";
-
-    byId("resultsCard").style.display = "block";
-    byId("printBtn").style.display = "inline-block";
+    byId("warnBox").innerHTML = "Please enter an average <strong>last frost date</strong> to calculate your windows.";
+    return;
   }
 
-  function resetForm() {
-    byId("lastFrost").value = "";
-    byId("protection").value = "0";
-    byId("crop").selectedIndex = 0;
-    byId("warnBox").style.display = "none";
-    byId("resultsCard").style.display = "none";
-    byId("resultsBody").innerHTML = "";
-    byId("printBtn").style.display = "none";
+  // Crop page + crop-specific notes
+  addRow(
+    "Crop",
+    `<a href="${cropUrl(crop.id)}">${crop.name}</a>`,
+    crop.notes || ""
+  );
+
+  // Indoor start window (not shifted by protection)
+  if (crop.indoorStartWeeks) {
+    const [earlier, later] = crop.indoorStartWeeks;
+    const [start, end] = windowFromWeeks(frost, earlier, later, 0);
+    addRow("Start seeds indoors", `${fmt(start)} – ${fmt(end)}`, "");
+  } else {
+    addRow("Start seeds indoors", "Not typically recommended", "");
   }
 
-  function printResults() {
-    window.print();
+  // Transplant window (shifted earlier by protection)
+  if (crop.transplantWeeks) {
+    const [earlier, later] = crop.transplantWeeks;
+    const [start, end] = windowFromWeeksRelative(frost, earlier, later, protectionDays);
+    const hardenStart = addDays(start, -10);
+    const hardenEnd = addDays(start, -7);
+
+    addRow(
+      "Begin hardening off",
+      `${fmt(hardenStart)} – ${fmt(hardenEnd)}`,
+      "Start gradual outdoor exposure ~7–10 days before transplanting."
+    );
+
+    addRow(
+      "Transplant outdoors",
+      `${fmt(start)} – ${fmt(end)}`,
+      protectionDays ? "Shifted earlier due to season protection." : "Open-garden timing."
+    );
+  } else {
+    addRow("Transplant outdoors", "Not applicable", "");
   }
 
-  byId("calcBtn").addEventListener("click", calculate);
-  byId("resetBtn").addEventListener("click", resetForm);
-  byId("printBtn").addEventListener("click", printResults);
-</script>
+  // Direct sow window (shifted earlier by protection)
+  if (crop.directSowWeeks) {
+    const [earlier, later] = crop.directSowWeeks;
+    const [start, end] = windowFromWeeksRelative(frost, earlier, later, protectionDays);
+    addRow(
+      "Direct sow outdoors",
+      `${fmt(start)} – ${fmt(end)}`,
+      protectionDays ? "Shifted earlier due to season protection." : ""
+    );
+  } else {
+    addRow("Direct sow outdoors", "Not typical for this crop", "");
+  }
+
+  // Confidence note
+  const frostNote = `Last frost date used: <strong>${fmt(frost)}</strong>.`;
+  byId("warnBox").style.display = "block";
+  byId("warnBox").innerHTML = frostNote + " If your site gets late frosts, consider choosing the later end of each window.";
+
+  byId("resultsCard").style.display = "block";
+  byId("printBtn").style.display = "inline-block";
+}
