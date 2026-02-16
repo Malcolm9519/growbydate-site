@@ -1,33 +1,69 @@
 ---
 layout: layout-base.njk
-title: Crops for Short Growing Seasons | GrowByDate
-description: Crop-specific planning guides for short growing seasons. Indoor start timing, transplant windows, maturity expectations, and fall planning notes.
-canonical: https://growbydate.com/crops/
-permalink: /crops/
+title: Crops for Short Growing Seasons
+description: Practical crop-by-crop planning references.
+canonical: "https://growbydate.com/crops/"
 ---
 
-<header class="header">
+<section class="card index-card">
   <h1>Crops for Short Growing Seasons</h1>
-  <p class="tagline">Practical crop-by-crop planning references.</p>
-  <p class="lede">
-    Each crop page includes indoor start timing, transplant guidance,
-    maturity expectations, and fall planning considerations.
+  <p class="small intro">
+    Crop-by-crop planning references for short seasons: indoor timing, transplant windows, and fall considerations.
   </p>
-</header>
 
-<section class="card">
-  <h2>Crop Guides</h2>
+  <ul class="index-list" style="margin-top:0.75rem;">
+    <li class="index-item">
+      <a class="index-link" href="/crops/broccoli/"><strong>Broccoli</strong></a>
+      <div class="small index-desc">Cool-weather crop—use an indoor start and a clear transplant window to stay ahead of heat.</div>
+    </li>
 
-  <ul>
-    {% for crop in crops | sort(attribute="order") %}
-      <li>
-        <strong><a href="/crops/{{ crop.slug }}/">{{ crop.name }}</a></strong>
-        — {{ crop.indexBlurb or crop.tagline or crop.description }}
-      </li>
-    {% endfor %}
+    <li class="index-item">
+      <a class="index-link" href="/crops/kale/"><strong>Kale</strong></a>
+      <div class="small index-desc">Forgiving and cold-tolerant—start early and keep it going into fall.</div>
+    </li>
+
+    <li class="index-item">
+      <a class="index-link" href="/crops/spinach/"><strong>Spinach</strong></a>
+      <div class="small index-desc">Prefers cool temperatures—timing matters more than inputs in short seasons.</div>
+    </li>
+
+    <li class="index-item">
+      <a class="index-link" href="/crops/tomatoes/"><strong>Tomatoes</strong></a>
+      <div class="small index-desc">Very workable in short seasons with the right indoor window and early varieties.</div>
+    </li>
+
+    <li class="index-item">
+      <a class="index-link" href="/crops/peppers/"><strong>Peppers</strong></a>
+      <div class="small index-desc">Need a longer runway—start indoors early and protect heat.</div>
+    </li>
+
+    <li class="index-item">
+      <a class="index-link" href="/crops/lettuce/"><strong>Lettuce</strong></a>
+      <div class="small index-desc">Fast cool-season greens—best when timed to avoid heat.</div>
+    </li>
+
+    <li class="index-item">
+      <a class="index-link" href="/crops/cabbage/"><strong>Cabbage</strong></a>
+      <div class="small index-desc">Cool-season staple—start early and transplant with protection if needed.</div>
+    </li>
+
+    <li class="index-item">
+      <a class="index-link" href="/crops/beans/"><strong>Beans</strong></a>
+      <div class="small index-desc">Direct-sow warm-season crop—wait for soil warmth, not just the calendar.</div>
+    </li>
+
+    <li class="index-item">
+      <a class="index-link" href="/crops/cucumbers/"><strong>Cucumbers</strong></a>
+      <div class="small index-desc">Warm-season vines—start only if you can give consistent warmth.</div>
+    </li>
+
+    <li class="index-item">
+      <a class="index-link" href="/crops/zucchini/"><strong>Zucchini</strong></a>
+      <div class="small index-desc">Warm-season squash—direct sow after last frost once soil is warm.</div>
+    </li>
   </ul>
 
-  <p class="fine muted">
+  <p class="small" style="margin-top:0.75rem; opacity:0.85;">
     Additional crops will be added gradually.
   </p>
 </section>

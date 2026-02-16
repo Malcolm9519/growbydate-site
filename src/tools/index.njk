@@ -1,20 +1,22 @@
 ---
 layout: layout-base.njk
 title: Tools
-description: Planning tools for short growing seasons.
+description: Fast, practical planning tools for short growing seasons.
 canonical: "https://growbydate.com/tools/"
 ---
 
-<section class="card">
-  <h2>Tools</h2>
-  <p class="small" style="opacity:0.86;">Fast, practical calculators you can use without accounts or tracking.</p>
+<section class="card index-card">
+  <h1>Tools</h1>
+  <p class="small intro">
+    Fast, practical calculators you can use without accounts or tracking.
+  </p>
 
-  <ul class="list" style="margin-top:0.75rem;">
+  <ul class="index-list" style="margin-top:0.75rem;">
     {%- for t in tools | sort(attribute="order") -%}
-      <li class="note">
-        <a href="/tools/{{ t.slug }}/"><strong>{{ t.name }}</strong></a>
-        {%- if p.data.description -%}
-          <div class="small" style="opacity:0.85; margin-top:0.25rem;">{{ t.description }}</div>
+      <li class="index-item">
+        <a class="index-link" href="/tools/{{ t.slug }}/"><strong>{{ t.name }}</strong></a>
+        {%- if t.description -%}
+          <div class="small index-desc">{{ t.description }}</div>
         {%- endif -%}
       </li>
     {%- endfor -%}

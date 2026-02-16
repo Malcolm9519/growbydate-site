@@ -5,16 +5,22 @@ description: Practical growing guides for short seasons.
 canonical: "https://growbydate.com/guides/"
 ---
 
-<section class="card">
-  <h2>Guides</h2>
-  <p class="small" style="opacity:0.86;">Short, practical write-ups to help you make good decisions quickly.</p>
+<section class="card index-card">
+  <h1>Guides</h1>
+  <p class="small intro">
+    Short, practical write-ups to help you make good decisions quickly.
+  </p>
 
-  <ul class="list" style="margin-top:0.75rem;">
+  <ul class="index-list" style="margin-top:0.75rem;">
     {%- for p in collections.guides | sort(attribute="data.title") -%}
-      <li class="note">
-        <a href="{{ p.url }}"><strong>{{ p.data.title or p.fileSlug }}</strong></a>
+      {%- set rawTitle = p.data.title or p.fileSlug -%}
+      {%- set cleanTitle = rawTitle | replace(" | GrowByDate", "") -%}
+
+      <li class="index-item">
+        <a class="index-link" href="{{ p.url }}"><strong>{{ cleanTitle }}</strong></a>
+
         {%- if p.data.description -%}
-          <div class="small" style="opacity:0.85; margin-top:0.25rem;">{{ p.data.description }}</div>
+          <div class="small index-desc">{{ p.data.description }}</div>
         {%- endif -%}
       </li>
     {%- endfor -%}
