@@ -206,7 +206,7 @@
   </div>
 
   <p class="small muted" style="margin-top:10px;">
-    Quick check: your real “go” signal is steady nighttime temperatures. Frost dates guide planning, but your yard decides the final timing.
+    Quick check: your real “go” signal is steady nighttime temperatures. Frost dates guide your planning, but your yard decides the final timing.
   </p>
 </section>
 
@@ -507,10 +507,6 @@
     }
 
     // Confidence note
-    const frostNote = `Last frost date used: <strong>${fmt(frost)}</strong>.`;
-    byId("warnBox").style.display = "block";
-    byId("warnBox").innerHTML = frostNote + " If your site gets late frosts, consider choosing the later end of each window.";
-
     byId("resultsCard").style.display = "block";
     byId("printBtn").style.display = "inline-block";
   }
