@@ -399,30 +399,81 @@
     pepper: "peppers",
   };
 
-  function cropUrl(cropId) {
-    const normalizedId = CROP_ID_ALIASES[cropId] || cropId;
-    const meta = SITE_CROPS_BY_ID[normalizedId];
-    const slug = meta && meta.slug ? meta.slug : normalizedId;
-    return `/crops/${slug}/`;
-  }
-
 function cropIcon(id) {
   const icons = {
-    tomatoes: `
-      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-        <circle cx="12" cy="13" r="6" fill="currentColor" />
-        <path d="M12 7c1.5-2 3-2 3-2s-1 3-3 3-3-3-3-3 1.5 0 3 2z" fill="currentColor"/>
+    tomato: `
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+        <circle cx="12" cy="13" r="6" fill="currentColor"></circle>
+        <path d="M12 6c1.8-2.2 4-2 4-2s-1.3 3.6-4 3.6S8 4 8 4s2.2-.2 4 2z" fill="currentColor"></path>
+      </svg>
+    `,
+    pepper: `
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+        <path d="M12 6c2.5 0 5 2 5 6 0 4.5-2.2 8-5 8s-5-3.5-5-8c0-4 2.5-6 5-6z" fill="currentColor"></path>
+        <path d="M12 6c.2-2 2-3 3-3 0 1.5-.8 3-3 3z" fill="currentColor"></path>
+      </svg>
+    `,
+    cucumber: `
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+        <rect x="7" y="4" width="10" height="16" rx="5" fill="currentColor"></rect>
+        <circle cx="10" cy="8" r="0.7" fill="#fff"></circle>
+        <circle cx="14" cy="12" r="0.7" fill="#fff"></circle>
+        <circle cx="11.5" cy="16" r="0.7" fill="#fff"></circle>
+      </svg>
+    `,
+    zucchini: `
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+        <path d="M8 6h9c2 0 3 2 3 6s-1 6-3 6H8c-2 0-4-2-4-6s2-6 4-6z" fill="currentColor"></path>
+      </svg>
+    `,
+    bean: `
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+        <path d="M7 17c5-1 8-6 10-11 2 2 2 5 0 8-2 3-6 6-10 3z" fill="currentColor"></path>
+      </svg>
+    `,
+    lettuce: `
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+        <path d="M12 4c4 2 6 5 6 8 0 5-3 8-6 8s-6-3-6-8c0-3 2-6 6-8z" fill="currentColor"></path>
+        <path d="M12 6v12" stroke="#fff" stroke-width="1.3" opacity=".9"></path>
       </svg>
     `,
     spinach: `
-      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-        <path d="M12 3c5 4 6 9 0 18C6 12 7 7 12 3z" fill="currentColor"/>
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+        <path d="M12 3c5 4 6 9 0 18C6 12 7 7 12 3z" fill="currentColor"></path>
+      </svg>
+    `,
+    kale: `
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+        <path d="M12 4c4 2 6 5 6 9 0 5-3 8-6 8s-6-3-6-8c0-4 2-7 6-9z" fill="currentColor"></path>
+        <path d="M8 12c2-1 6-1 8 0" stroke="#fff" stroke-width="1.3" opacity=".9"></path>
+      </svg>
+    `,
+    broccoli: `
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+        <circle cx="9" cy="9" r="3" fill="currentColor"></circle>
+        <circle cx="15" cy="9" r="3" fill="currentColor"></circle>
+        <circle cx="12" cy="7" r="3" fill="currentColor"></circle>
+        <rect x="11" y="11" width="2" height="9" rx="1" fill="currentColor"></rect>
+      </svg>
+    `,
+    cabbage: `
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+        <circle cx="12" cy="12" r="7" fill="currentColor"></circle>
+        <path d="M8 12c2-2 6-2 8 0M9 15c1.5-1.5 4.5-1.5 6 0" stroke="#fff" stroke-width="1.2" opacity=".9" fill="none"></path>
       </svg>
     `
   };
 
   return icons[id] || "";
 }
+
+
+  function cropUrl(cropId) {
+    const normalizedId = CROP_ID_ALIASES[cropId] || cropId;
+    const meta = SITE_CROPS_BY_ID[normalizedId];
+    const slug = meta && meta.slug ? meta.slug : normalizedId;
+    return `/crops/${slug}/`;
+  }
 
   function toDate(inputValue) {
     if (!inputValue) return null;
@@ -500,7 +551,7 @@ function cropIcon(id) {
 addRow(
   "Crop",
   `<a href="${cropUrl(crop.id)}">${crop.name}</a>`,
-  cropIcon(crop.id)
+  `<span class="noteIcon" title="${crop.name}">${cropIcon(crop.id)}</span>`
 );
 
     // Indoor start window (not shifted by protection)
