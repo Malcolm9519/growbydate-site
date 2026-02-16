@@ -98,6 +98,12 @@
 
   .linkRow { display:flex; gap:10px; flex-wrap: wrap; }
   .linkRow a { text-decoration: none; border-bottom: 1px solid currentColor; }
+
+#resultsBody svg {
+  display: inline-block;
+  vertical-align: middle;
+  opacity: .85;
+}
 </style>
 
 <p class="muted">
@@ -400,6 +406,23 @@
     return `/crops/${slug}/`;
   }
 
+function cropIcon(id) {
+  const icons = {
+    tomatoes: `
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+        <circle cx="12" cy="13" r="6" fill="currentColor" />
+        <path d="M12 7c1.5-2 3-2 3-2s-1 3-3 3-3-3-3-3 1.5 0 3 2z" fill="currentColor"/>
+      </svg>
+    `,
+    spinach: `
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+        <path d="M12 3c5 4 6 9 0 18C6 12 7 7 12 3z" fill="currentColor"/>
+      </svg>
+    `
+  };
+
+  return icons[id] || "";
+}
 
   function toDate(inputValue) {
     if (!inputValue) return null;
@@ -474,7 +497,11 @@
     }
 
     // Crop page
-    addRow("Crop", `<a href="${cropUrl(crop.id)}">${crop.name}</a>`, "");
+addRow(
+  "Crop",
+  `<a href="${cropUrl(crop.id)}">${crop.name}</a>`,
+  cropIcon(crop.id)
+);
 
     // Indoor start window (not shifted by protection)
     if (crop.indoorStartWeeks) {
