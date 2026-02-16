@@ -476,18 +476,24 @@ function cropIcon(id) {
   }
 
   // ---- Init UI ----
-  function initCropSelect() {
-    const sel = byId("crop");
-    sel.innerHTML = "";
-    for (const c of CROPS) {
-      const opt = document.createElement("option");
-      opt.value = c.id;
-      opt.textContent = c.name;
-      sel.appendChild(opt);
-    }
-  }
+function initCropSelect() {
+  const sel = byId("crop");
+  sel.innerHTML = "";
 
-  initCropSelect();
+  // Sort crops alphabetically by name (without mutating original array)
+  const sortedCrops = [...CROPS].sort((a, b) =>
+    a.name.localeCompare(b.name, undefined, { sensitivity: "base" })
+  );
+
+  for (const c of sortedCrops) {
+    const opt = document.createElement("option");
+    opt.value = c.id;
+    opt.textContent = c.name;
+    sel.appendChild(opt);
+  }
+}
+
+initCropSelect();
 
   // ---- Main calculate ----
   function calculate() {
