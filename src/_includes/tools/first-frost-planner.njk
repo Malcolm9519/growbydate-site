@@ -1,4 +1,7 @@
 
+<section class="section">
+  <div id="first-frost-planner" class="toolRoot">
+
     <section class="card" aria-labelledby="ff-title">
       <header>
         <h2 id="ff-title">First frost → fall planting window</h2>
@@ -7,45 +10,41 @@
         </p>
       </header>
 
-      <div class="grid" role="form" aria-describedby="ff-assumptions">
-        <div class="row">
-          <div>
-            <label for="firstFrost"><strong>Average first fall frost date</strong></label>
-            <input id="firstFrost" type="date" aria-describedby="firstFrostHelp ff-error" />
-            <div class="small" id="firstFrostHelp">Use the typical first frost for your area (not the earliest ever).</div>
-          </div>
-
-          <div>
-            <label for="crop"><strong>Crop</strong></label>
-            <select id="crop" aria-describedby="cropHelp"></select>
-            <div class="small" id="cropHelp">Days to maturity are typical ranges. Variety and fall conditions can shift timing.</div>
-          </div>
+      <div role="form" aria-describedby="ff-assumptions">
+        <div style="margin-top:10px;">
+          <label for="firstFrost"><strong>Average first fall frost date</strong></label>
+          <input id="firstFrost" type="date" aria-describedby="firstFrostHelp ff-error" />
+          <div class="small" id="firstFrostHelp">Use the typical first frost for your area (not the earliest ever).</div>
         </div>
 
-        <div class="row">
-          <div>
-            <label for="protection"><strong>Season extension</strong></label>
-            <select id="protection" aria-describedby="protectionHelp">
-              <option value="0">None</option>
-              <option value="7">Light protection (row cover / cloche) — ~1 week</option>
-              <option value="14">Stronger protection (tunnel / cold frame) — ~2 weeks</option>
-            </select>
-            <div class="small" id="protectionHelp">Shifts your effective frost date later by ~1–2 weeks.</div>
-          </div>
-
-          <div>
-            <label for="buffer"><strong>Safety buffer</strong></label>
-            <select id="buffer" aria-describedby="bufferHelp">
-              <option value="7">Conservative (7 days)</option>
-              <option value="10" selected>Standard (10 days)</option>
-              <option value="14">Extra cautious (14 days)</option>
-              <option value="0">None</option>
-            </select>
-            <div class="small" id="bufferHelp">Accounts for slower fall growth, cool soil, and harvest delays.</div>
-          </div>
+        <div style="margin-top:10px;">
+          <label><strong>Crops</strong></label>
+          <div class="small" id="cropHelp">Select one or more crops to calculate fall cutoffs.</div>
+          <div id="cropList" class="cropList" aria-describedby="cropHelp"></div>
         </div>
 
-        <details class="note small" id="ff-assumptions" style="opacity:0.9;">
+        <div style="margin-top:10px;">
+          <label for="protection"><strong>Season extension</strong></label>
+          <select id="protection" aria-describedby="protectionHelp">
+            <option value="0">None</option>
+            <option value="7">Light protection (row cover / cloche) — ~1 week</option>
+            <option value="14">Stronger protection (tunnel / cold frame) — ~2 weeks</option>
+          </select>
+          <div class="small" id="protectionHelp">Shifts your effective frost date later by ~1–2 weeks.</div>
+        </div>
+
+        <div style="margin-top:10px;">
+          <label for="buffer"><strong>Safety buffer</strong></label>
+          <select id="buffer" aria-describedby="bufferHelp">
+            <option value="7">Conservative (7 days)</option>
+            <option value="10" selected>Standard (10 days)</option>
+            <option value="14">Extra cautious (14 days)</option>
+            <option value="0">None</option>
+          </select>
+          <div class="small" id="bufferHelp">Accounts for slower fall growth, cool soil, and harvest delays.</div>
+        </div>
+
+        <details class="note small" id="ff-assumptions" style="opacity:0.9; margin-top:12px;">
           <summary><span class="pill">Assumptions</span> What this tool is doing</summary>
           <ul class="tight" style="margin:0.5rem 0 0 1.25rem;">
             <li>Counts backward from your <strong>average first frost</strong>.</li>
@@ -57,10 +56,13 @@
         <p class="note small" id="ff-error" role="alert" style="display:none;"></p>
         <p class="sr-only" id="ff-status" role="status" aria-live="polite"></p>
 
-        <div class="btnRow">
-          <button class="button primary" id="calcBtn" type="button">Calculate planting window</button>
+        <div class="btnRow" style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;">
+          <button class="button primary" id="calcBtn" type="button">Calculate</button>
           <button class="button" id="resetBtn" type="button">Reset</button>
-          <button class="button" id="printBtn" type="button" style="display:none;">Print results</button>
+          <button class="button" id="copyBtn" type="button" style="display:none;">Copy plan</button>
+          <button class="button" id="csvBtn" type="button" style="display:none;">Download CSV</button>
+          <button class="button" id="txtBtn" type="button" style="display:none;">Download text</button>
+          <button class="button" id="printBtn" type="button" style="display:none;">Print</button>
         </div>
       </div>
     </section>
@@ -68,292 +70,378 @@
     <section class="card" id="resultsCard" style="display:none;" aria-labelledby="resultsTitle">
       <h2 id="resultsTitle">Results</h2>
 
-      <div class="note" id="confidenceBox" role="note" aria-labelledby="confidenceTitle">
-        <div class="pill" id="confidenceTitle"><strong>Frost Timing Confidence:</strong></div>
-        <div id="confidenceText" class="small" style="margin-top:0.35rem; opacity:0.95;"></div>
-        <div id="confidenceHelp" class="small" style="margin-top:0.35rem; opacity:0.82;"></div>
-      </div>
-
-      <div class="grid" style="margin-top:0.75rem;">
-        <div class="row">
-          <div class="note">
-            <div class="small" style="opacity:0.85;">Latest recommended sow date</div>
-            <div id="outLastSow" style="font-size:1.15rem; font-weight:700; margin-top:0.15rem;">—</div>
-            <div class="small" style="opacity:0.82;">Aim to sow on or before this date.</div>
-          </div>
-
-          <div class="note">
-            <div class="small" style="opacity:0.85;">Effective frost date</div>
-            <div id="outEffectiveFrost" style="font-size:1.05rem; font-weight:700; margin-top:0.15rem;">—</div>
-            <div id="outEffectiveNote" class="small" style="opacity:0.82;"></div>
-          </div>
-        </div>
-      </div>
-
-      <table aria-label="Calculation details" style="margin-top:0.75rem;">
-        <thead>
-          <tr>
-            <th>Detail</th>
-            <th>Value</th>
-            <th>What this means</th>
-          </tr>
-        </thead>
+      <table aria-label="Fall cutoff results" style="margin-top:0.75rem;">
         <tbody id="resultsBody"></tbody>
       </table>
 
-      <div class="note small" style="opacity:0.86; margin-top:0.75rem;">
-        <span class="pill">Planning tip</span>
-        If you’re close to the cutoff, choose faster varieties or use protection.
-      </div>
-
+      <p class="small muted" style="margin-top:10px;">
+        If you’re close to the cutoff, choose faster varieties, protect the crop, or aim for “baby” harvests.
+      </p>
     </section>
 
     <section class="card">
-      <h2>How this works</h2>
-      <p>
-        We start with your <strong>average first fall frost date</strong>. Then we adjust it by any season protection you select.
-        From that “effective frost date,” we subtract your crop’s typical days to maturity plus a safety buffer.
-      </p>
-      <p class="small" style="opacity:0.82;">
-        This is a planning tool, not a guarantee. Weather swings, variety choice, and fall light levels can shift results.
-      </p>
+      <h2>Short-season notes</h2>
+      <ul class="tight">
+        <li><strong>Fall growth slows down.</strong> Days to maturity often stretch as nights cool and daylight drops.</li>
+        <li><strong>Buffers matter.</strong> A 7–14 day buffer is a practical default for cold-climate planning.</li>
+        <li><strong>Protection buys time, not heat.</strong> Row cover and tunnels can push frost risk later, but they don’t make a warm-season crop happy.</li>
+        <li><strong>Variety choice is leverage.</strong> If you’re tight on time, pick the fastest days-to-maturity varieties.</li>
+      </ul>
     </section>
 
     <section class="card">
       <h2>Related</h2>
       <ul>
         <li><a href="/tools/seed-start-planner/">Seed Starting Planner</a></li>
-        <li><a href="/guides/seed-starting-short-season/">Seed starting method for short seasons (guide)</a></li>
       </ul>
     </section>
 
-    <footer class="footer">
-      <p><a href="/">← Back to GrowByDate</a></p>
-    </footer>
-  </main>
+  </div>
+</section>
 
-  <script type="application/json" id="siteCropsJson">{{ crops | dump | safe }}</script>
-<script>
-    // Notes:
-    // - days: typical days to maturity (rough planning)
-    // - hardy: true means it tolerates light frosts better (still slows down in cold)
-    const CROPS = [
-      { id: "radish",   name: "Radishes",      days: 30, hardy: true,  notes: "Fast and forgiving. Great late-season choice." },
-      { id: "spinach",  name: "Spinach",       days: 45, hardy: true,  notes: "Cold-hardy, but can stall in deep cold." },
-      { id: "lettuce",  name: "Lettuce",       days: 50, hardy: true,  notes: "Handles cool weather well; protect from hard freezes." },
-      { id: "arugula",  name: "Arugula",       days: 35, hardy: true,  notes: "Quick harvest. Can handle cool nights." },
-      { id: "kale",     name: "Kale",          days: 60, hardy: true,  notes: "Very cold-tolerant; quality improves after light frosts." },
-      { id: "bokchoy",  name: "Bok choy",      days: 45, hardy: true,  notes: "Fast fall crop; watch for bolting in heat." },
-      { id: "beet",     name: "Beets",         days: 60, hardy: true,  notes: "Roots size up slower in cold; buffer helps." },
-      { id: "carrot",   name: "Carrots",       days: 70, hardy: true,  notes: "Slower to mature; consider smaller/faster varieties." },
-      { id: "broccoli", name: "Broccoli",      days: 75, hardy: true,  notes: "Can work, but is close in short falls—variety choice matters." },
-      { id: "beans",    name: "Bush beans",    days: 55, hardy: false, notes: "Not frost-tolerant. Needs warmth and time." }
-    ];
+<script type="application/json" id="siteCropsJson">{{ crops | dump | safe }}</script>
 
-// Crop metadata from Eleventy data (crops.json). Used for crop page links.
-const CROP_ID_ALIASES = {
-  tomato: "tomatoes",
-  pepper: "peppers",
-  carrot: "carrots",
-  beet: "beets",
-};
-
-const SITE_CROPS_BY_ID = Object.create(null);
-const SITE_CROPS_BY_SLUG = Object.create(null);
-
-(function initSiteCropMaps() {
-  const el = document.getElementById("siteCropsJson");
-  if (!el) return;
-  try {
-    const arr = JSON.parse(el.textContent || "[]");
-    for (const c of arr) {
-      if (c && c.id) SITE_CROPS_BY_ID[c.id] = c;
-      if (c && c.slug) SITE_CROPS_BY_SLUG[c.slug] = c;
-    }
-  } catch (e) {
-    // If parsing fails, we fall back to tool IDs for links.
+<style>
+  /* Keep checkboxes from inheriting full-width input styles */
+  .cropList input[type="checkbox"] { width: auto !important; }
+  .cropList {
+    margin-top: 8px;
+    border: 1px solid rgba(0,0,0,0.12);
+    border-radius: 10px;
+    padding: 8px;
+    max-height: 260px;
+    overflow: auto;
+    background: rgba(0,0,0,0.02);
   }
-})();
+  .cropRow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .cropRow:hover { background: rgba(0,0,0,0.04); }
+  .cropRow + .cropRow { border-top: 1px solid rgba(0,0,0,0.06); }
+  .cropRow .cropName { font-weight: 600; }
+  .cropRow .cropMeta { margin-left: auto; opacity: 0.75; font-size: 0.9em; }
+  .cropHeaderRow td {
+    background: rgba(0,0,0,0.04);
+    border-top: 1px solid rgba(0,0,0,0.10);
+    padding-top: 10px;
+  }
+  .sepRow td { padding: 0; height: 10px; border: 0; }
+  .valueCell { white-space: nowrap; font-variant-numeric: tabular-nums; }
+  @media print {
+    body * { visibility: hidden; }
+    #resultsCard, #resultsCard * { visibility: visible; }
+    #resultsCard { position: absolute; left: 0; top: 0; width: 100%; }
+    #copyBtn, #csvBtn, #txtBtn, #printBtn { display: none !important; }
+  }
+</style>
 
-function resolveCropMeta(cropId) {
-  const normalized = CROP_ID_ALIASES[cropId] || cropId;
-  return SITE_CROPS_BY_ID[normalized] || SITE_CROPS_BY_SLUG[normalized] || null;
-}
+<script>
+  // ---- Helpers ----
+  const byId = (id) => document.getElementById(id);
 
+  const SITE_CROPS = (() => {
+    try {
+      const el = document.getElementById("siteCropsJson");
+      if (!el) return [];
+      return JSON.parse(el.textContent || "[]");
+    } catch (e) { return []; }
+  })();
 
-    const byId = (id) => document.getElementById(id);
+  // Only crops that belong to this tool
+  const TOOL_SLUG = "first-frost-planner";
+  const TOOL_CROPS = (SITE_CROPS || [])
+    .filter(c => c && Array.isArray(c.relatedTools) && c.relatedTools.includes(TOOL_SLUG))
+    .sort((a, b) => (a.name || "").localeCompare(b.name || "", undefined, { sensitivity: "base" }));
 
-    function setError(msg) {
-      const el = byId("ff-error");
-      if (!el) return;
-      if (!msg) {
-        el.style.display = "none";
-        el.textContent = "";
-        return;
-      }
-      el.style.display = "block";
-      el.textContent = msg;
-    }
+  function toDate(inputValue) {
+    if (!inputValue) return null;
+    const [y, m, d] = inputValue.split("-").map(Number);
+    return new Date(y, m - 1, d, 12, 0, 0, 0); // local noon reduces DST weirdness
+  }
 
-    function setStatus(msg) {
-      const el = byId("ff-status");
-      if (el) el.textContent = msg || "";
-    }
+  function fmt(date) {
+    return date.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+  }
 
-    function cropUrl(cropId) {
-      const meta = resolveCropMeta(cropId);
-      const slug = meta && meta.slug ? meta.slug : (CROP_ID_ALIASES[cropId] || cropId);
-      return `/crops/${slug}/`;
-    }
+  function addDays(date, days) {
+    const out = new Date(date);
+    out.setDate(out.getDate() + days);
+    return out;
+  }
 
+  function getDtmRange(crop) {
+    const d = crop && crop.daysToMaturity;
+    if (Array.isArray(d) && d.length === 2) return [Number(d[0]), Number(d[1])].sort((a,b)=>a-b);
+    if (Number.isFinite(d)) return [Number(d), Number(d)];
+    return null;
+  }
 
-    function initCropSelect() {
-      const sel = byId("crop");
-      sel.innerHTML = "";
-      for (const c of CROPS) {
-        const opt = document.createElement("option");
-        opt.value = c.id;
-        opt.textContent = c.name;
-        sel.appendChild(opt);
-      }
-    }
+  function cropUrl(crop) {
+    const slug = crop && crop.slug ? crop.slug : (crop && crop.id ? crop.id : "");
+    return `/crops/${slug}/`;
+  }
 
-    function toDate(inputValue) {
-      if (!inputValue) return null;
-      const [y, m, d] = inputValue.split("-").map(Number);
-      return new Date(y, m - 1, d, 12, 0, 0, 0); // local noon to reduce DST issues
-    }
+  function clearError() {
+    const el = byId("ff-error");
+    el.style.display = "none";
+    el.textContent = "";
+  }
 
-    function addDays(date, days) {
-      const out = new Date(date);
-      out.setDate(out.getDate() + days);
-      return out;
-    }
+  function showError(html) {
+    const el = byId("ff-error");
+    el.style.display = "block";
+    el.innerHTML = html;
+  }
 
-    function fmt(date) {
-      return date.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
-    }
+  // ---- Crop checkbox list ----
+  function initCropList() {
+    const wrap = byId("cropList");
+    wrap.innerHTML = "";
 
-    function addRow(item, result, notes) {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td><strong>${item}</strong></td>
-        <td>${result}</td>
-        <td style="opacity:0.85;">${notes || ""}</td>
+    for (const c of TOOL_CROPS) {
+      const dtm = getDtmRange(c);
+      const dtmText = dtm ? `${dtm[0]}–${dtm[1]}d` : "";
+      const id = `crop_${c.id}`;
+
+      const row = document.createElement("div");
+      row.className = "cropRow";
+      row.innerHTML = `
+        <input type="checkbox" id="${id}" value="${c.id}" />
+        <div>
+          <div class="cropName">${c.name}</div>
+          <div class="small" style="opacity:0.8;">${(c.indexBlurb || c.tagline || "").toString()}</div>
+        </div>
+        <div class="cropMeta">${dtmText}</div>
       `;
-      byId("resultsBody").appendChild(tr);
+      row.addEventListener("click", (e) => {
+        // allow clicking anywhere on row
+        if (e.target && e.target.tagName === "INPUT") return;
+        const cb = row.querySelector("input[type='checkbox']");
+        cb.checked = !cb.checked;
+      });
+
+      wrap.appendChild(row);
+    }
+  }
+
+  function selectedCropIds() {
+    return Array.from(byId("cropList").querySelectorAll("input[type='checkbox']:checked")).map(cb => cb.value);
+  }
+
+  // ---- Results table helpers ----
+  function addCropHeader(crop) {
+    const tr = document.createElement("tr");
+    tr.className = "cropHeaderRow";
+    tr.innerHTML = `<td colspan="3"><strong><a href="${cropUrl(crop)}">${crop.name}</a></strong></td>`;
+    byId("resultsBody").appendChild(tr);
+  }
+
+  function addRow(task, value, notes) {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td style="width:38%;"><strong>${task}</strong></td>
+      <td class="valueCell" style="width:26%;">${value}</td>
+      <td class="muted">${notes || ""}</td>
+    `;
+    byId("resultsBody").appendChild(tr);
+  }
+
+  function addSeparator() {
+    const tr = document.createElement("tr");
+    tr.className = "sepRow";
+    tr.innerHTML = `<td colspan="3"></td>`;
+    byId("resultsBody").appendChild(tr);
+  }
+
+  // ---- Export helpers ----
+  function escapeCsv(value) {
+    const s = (value ?? "").toString();
+    if (/[",\n]/.test(s)) return `"${s.replace(/"/g, '""')}"`;
+    return s;
+  }
+
+  function buildTextPlan(rows, firstFrost, effectiveFrost, protectionDays, bufferDays) {
+    const lines = [];
+    lines.push("GrowByDate — First Frost Fall Planner");
+    lines.push(`Average first frost: ${fmt(firstFrost)}`);
+    lines.push(`Effective frost (with protection): ${fmt(effectiveFrost)} (protection +${protectionDays} days)`);
+    lines.push(`Buffer: ${bufferDays} days`);
+    lines.push("");
+
+    let currentCrop = "";
+    for (const r of rows) {
+      if (r.crop !== currentCrop) {
+        currentCrop = r.crop;
+        lines.push(currentCrop);
+        lines.push("-".repeat(currentCrop.length));
+      }
+      lines.push(`${r.task}: ${r.window}${r.notes ? " — " + r.notes : ""}`);
+    }
+    return lines.join("\n");
+  }
+
+  function downloadBlob(filename, content, mime) {
+    const blob = new Blob([content], { type: mime });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  // ---- Main calculate ----
+  let lastPlanRows = null;
+  let lastPlanMeta = null;
+
+  function calculate() {
+    clearError();
+    byId("resultsCard").style.display = "none";
+    byId("resultsBody").innerHTML = "";
+    byId("copyBtn").style.display = "none";
+    byId("csvBtn").style.display = "none";
+    byId("txtBtn").style.display = "none";
+    byId("printBtn").style.display = "none";
+    lastPlanRows = null;
+    lastPlanMeta = null;
+
+    const firstFrost = toDate(byId("firstFrost").value);
+    const protectionDays = parseInt(byId("protection").value, 10) || 0;
+    const bufferDays = parseInt(byId("buffer").value, 10) || 0;
+    const cropIds = selectedCropIds();
+
+    if (!firstFrost) {
+      showError("Please enter an average <strong>first fall frost date</strong> to calculate your cutoff.");
+      return;
+    }
+    if (!cropIds.length) {
+      showError("Please select at least <strong>one crop</strong>.");
+      return;
     }
 
-    function confidenceLabel(daysMargin, hardy) {
-      // Margin is how many days you have AFTER maturity+buffer before frost.
-      // More margin = higher confidence.
-      if (daysMargin >= 14) return { cls: "ok",  title: "<strong>High confidence:</strong>", text: "You have a comfortable buffer before frost." };
-      if (daysMargin >= 7)  return { cls: "warn", title: "Medium confidence:", text: "This is workable, but variety choice and protection may matter." };
-      // If hardy, small negative margins can still be plausible with protection/harvest stages
-      if (hardy && daysMargin >= -3) return { cls: "warn", title: "Borderline", text: "Close to frost. Consider protection and fast varieties." };
-      return { cls: "risk", title: "Low confidence:", text: "This is likely too tight for reliable maturity in most short seasons." };
-    }
+    const effectiveFrost = addDays(firstFrost, protectionDays);
 
-    function calculate() {
-      const firstFrost = toDate(byId("firstFrost").value);
-      const protectionDays = parseInt(byId("protection").value, 10) || 0;
-      const bufferDays = parseInt(byId("buffer").value, 10) || 0;
-      const crop = CROPS.find(c => c.id === byId("crop").value);
+    const planRows = [];
 
-      byId("resultsBody").innerHTML = "";
-      byId("printBtn").style.display = "none";
-      byId("resultsCard").style.display = "none";
+    cropIds.forEach((id, idx) => {
+      const crop = TOOL_CROPS.find(c => c.id === id);
+      if (!crop) return;
 
-      setError("");
-      setStatus("");
+      if (idx > 0) addSeparator();
+      addCropHeader(crop);
 
-      if (!firstFrost) {
-        setError("Please enter an average first fall frost date.");
-        setStatus("Missing frost date.");
+      const dtm = getDtmRange(crop);
+      if (!dtm) {
+        addRow("Latest recommended sow date", "—", "No days-to-maturity data available for this crop.");
         return;
       }
 
-      const effectiveFrost = addDays(firstFrost, protectionDays);
-      const lastSow = addDays(effectiveFrost, -(crop.days + bufferDays));
+      const [minDtm, maxDtm] = dtm;
+      const conservative = addDays(effectiveFrost, -(maxDtm + bufferDays));
+      const fastVariety = addDays(effectiveFrost, -(minDtm + bufferDays));
 
-      // If you sow on "lastSow", maturity lands at:
-      const maturityDate = addDays(lastSow, crop.days);
-      const daysMargin = Math.round((effectiveFrost - maturityDate) / (1000 * 60 * 60 * 24));
+      const windowText = (minDtm === maxDtm)
+        ? fmt(conservative)
+        : `${fmt(conservative)} – ${fmt(fastVariety)}`;
 
-      const conf = confidenceLabel(daysMargin, crop.hardy);
-      const box = byId("confidenceBox");
-      box.className = `note ${conf.cls}`;
-      const t = byId("confidenceText");
-      const h = byId("confidenceHelp");
-      if (t) t.textContent = `${conf.title} ${conf.text}`;
-      if (h) {
-        h.textContent =
-          conf.cls === "ok"  ? "Still plan for weather variation—earlier sowing is usually easier." :
-          conf.cls === "warn"? "If you’re close, choose faster varieties or use protection." :
-                               "Consider a faster crop, earlier sowing, or stronger protection.";
-      }
+      addRow(
+        "Latest recommended sow date",
+        windowText,
+        minDtm === maxDtm
+          ? `Uses ${maxDtm} days + ${bufferDays} day buffer.`
+          : `Uses ${minDtm}–${maxDtm} days + ${bufferDays} day buffer (fast → slow varieties).`
+      );
 
+      addRow(
+        "Effective frost date",
+        fmt(effectiveFrost),
+        protectionDays ? `Based on ${fmt(firstFrost)} + ${protectionDays} days protection.` : `No protection applied.`
+      );
 
+      // Crop note (keep it practical)
+      const note = (crop.indexBlurb || crop.tagline || crop.notes || "").toString().trim();
+      if (note) addRow("Crop note", "—", note);
 
-      // Quick-scan summary
-      const outLastSow = byId("outLastSow");
-      if (outLastSow) outLastSow.textContent = fmt(lastSow);
+      // Frost tolerance at bottom
+      if (crop.frostTolerance) addRow("Frost tolerance", "—", crop.frostTolerance);
 
-      const outEffectiveFrost = byId("outEffectiveFrost");
-      if (outEffectiveFrost) outEffectiveFrost.textContent = fmt(effectiveFrost);
+      planRows.push(
+        { crop: crop.name, task: "Latest recommended sow date", window: windowText, notes: "" },
+        { crop: crop.name, task: "Effective frost date", window: fmt(effectiveFrost), notes: protectionDays ? `Avg first frost ${fmt(firstFrost)} + ${protectionDays}d` : `Avg first frost ${fmt(firstFrost)}` },
+      );
+    });
 
-      const outEffectiveNote = byId("outEffectiveNote");
-      if (outEffectiveNote) {
-        outEffectiveNote.textContent = protectionDays
-          ? `Includes ~${protectionDays} days of protection.`
-          : "No protection applied.";
-      }
-      addRow("Crop", `<a href="${cropUrl(crop.id)}">${crop.name}</a>`, crop.notes);
-      addRow("Average first frost date", fmt(firstFrost), "Your input.");
-      addRow("Effective frost date", fmt(effectiveFrost), protectionDays ? `Includes ~${protectionDays} days of protection.` : "No protection applied.");
-      addRow("Safety buffer", `${bufferDays} days`, "Extra time to account for slower fall growth.");
-      addRow("Latest recommended sow date", fmt(lastSow), "Aim to sow on or before this date for the best chance to finish.");
-      addRow("Estimated maturity date (if sown on the latest date)", fmt(maturityDate), "Actual timing depends on variety and conditions.");
-      addRow("Timing margin", `${daysMargin} days`, daysMargin >= 0 ? "Days remaining before frost." : "Maturity is projected after frost.");
+    lastPlanRows = planRows;
+    lastPlanMeta = { firstFrost, effectiveFrost, protectionDays, bufferDays };
 
-      byId("resultsCard").style.display = "block";
-      byId("printBtn").style.display = "inline-block";
-      setStatus("Results updated.");
+    byId("resultsCard").style.display = "block";
+    byId("copyBtn").style.display = "inline-block";
+    byId("csvBtn").style.display = "inline-block";
+    byId("txtBtn").style.display = "inline-block";
+    byId("printBtn").style.display = "inline-block";
+
+    // Scroll to results
+    setTimeout(() => {
+      const results = byId("resultsCard");
+      if (results) results.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 50);
+  }
+
+  function resetForm() {
+    byId("firstFrost").value = "";
+    byId("protection").value = "0";
+    byId("buffer").value = "10";
+    Array.from(byId("cropList").querySelectorAll("input[type='checkbox']")).forEach(cb => cb.checked = false);
+    clearError();
+    byId("resultsCard").style.display = "none";
+    byId("resultsBody").innerHTML = "";
+    byId("copyBtn").style.display = "none";
+    byId("csvBtn").style.display = "none";
+    byId("txtBtn").style.display = "none";
+    byId("printBtn").style.display = "none";
+    lastPlanRows = null;
+    lastPlanMeta = null;
+  }
+
+  function copyPlan() {
+    if (!lastPlanRows || !lastPlanMeta) return;
+    const { firstFrost, effectiveFrost, protectionDays, bufferDays } = lastPlanMeta;
+    const text = buildTextPlan(lastPlanRows, firstFrost, effectiveFrost, protectionDays, bufferDays);
+    navigator.clipboard.writeText(text).catch(() => {});
+  }
+
+  function downloadCsv() {
+    if (!lastPlanRows) return;
+    const lines = [];
+    lines.push(["Crop","Task","Recommended window","Notes"].map(escapeCsv).join(","));
+    for (const r of lastPlanRows) {
+      lines.push([r.crop, r.task, r.window, r.notes].map(escapeCsv).join(","));
     }
+    downloadBlob("growbydate-fall-plan.csv", lines.join("\n"), "text/csv;charset=utf-8");
+  }
 
-    function resetForm() {
-      byId("firstFrost").value = "";
-      byId("protection").value = "0";
-      byId("buffer").value = "10";
-      byId("crop").selectedIndex = 0;
-      byId("resultsBody").innerHTML = "";
-      byId("resultsCard").style.display = "none";
-      byId("printBtn").style.display = "none";
+  function downloadText() {
+    if (!lastPlanRows || !lastPlanMeta) return;
+    const { firstFrost, effectiveFrost, protectionDays, bufferDays } = lastPlanMeta;
+    const text = buildTextPlan(lastPlanRows, firstFrost, effectiveFrost, protectionDays, bufferDays);
+    downloadBlob("growbydate-fall-plan.txt", text, "text/plain;charset=utf-8");
+  }
 
-      setError("");
-      setStatus("");
+  function printResults() { window.print(); }
 
-      const outLastSow = byId("outLastSow");
-      if (outLastSow) outLastSow.textContent = "—";
-      const outEffectiveFrost = byId("outEffectiveFrost");
-      if (outEffectiveFrost) outEffectiveFrost.textContent = "—";
-      const outEffectiveNote = byId("outEffectiveNote");
-      if (outEffectiveNote) outEffectiveNote.textContent = "";
-
-      const t = byId("confidenceText");
-      if (t) t.textContent = "";
-      const h = byId("confidenceHelp");
-      if (h) h.textContent = "";
-    }
-
-    function printResults() {
-      window.print();
-    }
-
-    initCropSelect();
-    byId("calcBtn").addEventListener("click", calculate);
-    byId("resetBtn").addEventListener("click", resetForm);
-    byId("printBtn").addEventListener("click", printResults);
-  </script>
-</body>
-</html>
+  initCropList();
+  byId("calcBtn").addEventListener("click", calculate);
+  byId("resetBtn").addEventListener("click", resetForm);
+  byId("copyBtn").addEventListener("click", copyPlan);
+  byId("csvBtn").addEventListener("click", downloadCsv);
+  byId("txtBtn").addEventListener("click", downloadText);
+  byId("printBtn").addEventListener("click", printResults);
+</script>
