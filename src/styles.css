@@ -167,6 +167,7 @@ th {
   align-items: center;
   justify-content: space-between;
   gap: 14px;
+    min-height: 0;
 }
 
 /* Brand should be smaller than page H1 */
