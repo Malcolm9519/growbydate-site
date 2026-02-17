@@ -413,13 +413,13 @@ th {
 
 /* Keep logo sizes you want */
 .brandLogo {
-  height: 120px;
+  height: 600px;
   width: auto;
   display: block;
 }
 
 @media (min-width: 768px) {
   .brandLogo {
-    height: 150px;
+    height: 80px;
   }
 }
