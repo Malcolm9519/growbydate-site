@@ -381,3 +381,9 @@ th {
 @media (min-width: 760px) {
   .index-list { grid-template-columns: 1fr 1fr; }
 }
+
+.cropPickLabel input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+  flex: 0 0 auto;
+}

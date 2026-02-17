@@ -159,14 +159,40 @@
 
 
   /* Crop checklist */
-  .cropList { border: 1px solid var(--border, #ddd); border-radius: 10px; padding: 8px; max-height: 260px; overflow: auto; }
+.cropList {
+  border: 1px solid var(--border, #ddd);
+  border-radius: 10px;
+  padding: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 10px;     /* row gap, column gap */
+  max-height: none;  /* remove internal scroll */
+  overflow: visible;
+}
   .cropPickRow { margin: 0; }
-  .cropPickLabel { display: flex; align-items: center; gap: 10px; padding: 6px 8px; border-radius: 8px; cursor: pointer; user-select: none; }
   .cropPickLabel:hover { background: rgba(0,0,0,0.04); }
   .cropPickLabel input { flex: 0 0 auto; }
   .cropPickIcon { margin-right: 6px; }
-  .cropPickName { display: inline-flex; align-items: center; gap: 6px; min-width: 0; }
-  .cropPickLabel { width: 100%; }
+.cropPickName {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+.cropPickLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  border-radius: 999px;
+  cursor: pointer;
+  user-select: none;
+  border: 1px solid rgba(0,0,0,0.10);
+  background: rgba(0,0,0,0.02);
+}
+
+/* Remove the full-width stacking */
+.cropPickLabel { width: auto; }
 
   /* Multi-crop clarity in results */
   .cropHeaderRow td { padding: 10px 12px; background: rgba(0,0,0,0.04); border-top: 1px solid rgba(0,0,0,0.08); }
