@@ -181,10 +181,16 @@ th {
 }
 
 .brandLogo {
-  height: 140px;
+  height: 70px;
   width: auto;
-  display: block;
 }
+
+@media (min-width: 768px) {
+  .brandLogo {
+    height: 70px;
+  }
+}
+
 /* Hide tagline visually but keep in DOM */
 .sr-only {
   position: absolute;
