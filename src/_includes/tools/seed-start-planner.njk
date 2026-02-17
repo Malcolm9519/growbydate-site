@@ -31,7 +31,7 @@
 
   label { font-weight: 600; }
 
-  input, select {
+  input[type="date"], input[type="text"], input[type="number"], select {
     width: 100%;
     padding: 10px 12px;
     border: 1px solid #ccc;
@@ -165,6 +165,8 @@
   .cropPickLabel:hover { background: rgba(0,0,0,0.04); }
   .cropPickLabel input { flex: 0 0 auto; }
   .cropPickIcon { margin-right: 6px; }
+  .cropPickName { display: inline-flex; align-items: center; gap: 6px; min-width: 0; }
+  .cropPickLabel { width: 100%; }
 
   /* Multi-crop clarity in results */
   .cropHeaderRow td { padding: 10px 12px; background: rgba(0,0,0,0.04); border-top: 1px solid rgba(0,0,0,0.08); }
@@ -182,8 +184,12 @@
     font-variant-numeric: tabular-nums;
     letter-spacing: .2px;
     white-space: nowrap;
+    background: rgba(0,0,0,0.035);
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 10px;
+    padding: 2px 8px;
   }
-  .dateRange .date { font-weight: 650; }
+  .dateRange .date { font-weight: 400; }
   .dateRange .rangeSep { opacity: .65; }
 
 </style>
@@ -198,7 +204,6 @@
     <div>
       <label for="lastFrost">Average last frost date</label>
       <input id="lastFrost" type="date" aria-describedby="lastFrostHelp" />
-      <div class="small" id="lastFrostHelp">Example: May 10 (varies by location and year)</div>
     </div>
 
     <div>
@@ -301,12 +306,14 @@
 <section class="card">
   <h2>Short-season notes (what matters most)</h2>
   <div class="muted">
-    <p><strong><a href="/guides/seed-starting-short-season/">Start the right crops early.</a></strong> In shorter seasons, warm-season crops usually need an indoor head start.</p>
-    <p><strong><a href="/guides/how-to-harden-off-seedlings/">Hardening off is part of the schedule.</a></strong> Even healthy seedlings can stall if they go outside too quickly.</p>
-    <p><strong>Protection helps, but it isn’t magic.</strong> Row covers and tunnels can move planting earlier, but cold soil and cold nights still slow growth.</p>
+    <p><strong><a href="/guides/seed-starting-short-season/">Win the season at the start.</a></strong> Warm-season crops with longer maturity windows usually need an indoor head start in short climates (tomatoes, peppers, etc.).</p>
+    <p><strong>Soil temperature is the real gate.</strong> Frost dates tell you when freeze risk drops — but many crops still stall in cold soil. If the ground is cold and wet, use the <em>later</em> end of the outdoor range (or protection).</p>
+    <p><strong><a href="/guides/how-to-harden-off-seedlings/">Harden off on purpose.</a></strong> Plan 7–10 days so seedlings don’t shock and pause growth right when the season is finally opening.</p>
+    <p><strong>Use protection to reduce risk, not to ignore conditions.</strong> Row cover and tunnels can buy you days, but cold nights slow warm-season crops even without frost.</p>
+    <p><strong>Think in windows, not one “perfect day.”</strong> Use the middle of each range by default, then adjust based on microclimate (raised beds warm faster; windy/shaded yards stay colder).</p>
   </div>
   <p class="small muted">
-    This planner is for general guidance and does not replace local extension recommendations.
+    For fall cutoffs and “is it too late?” decisions, use the <a href="/tools/first-frost-planner/">First Frost Planner</a>.
   </p>
 </section>
 
@@ -453,6 +460,37 @@ function cropIcon(id) {
   }
 
   
+
+  function startIndoorsNote(crop) {
+    const noteParts = [];
+
+    if (crop.indoorStartWeeks && Array.isArray(crop.indoorStartWeeks)) {
+      const [earlier, later] = crop.indoorStartWeeks;
+      const leadWeeks = Math.max(0, Math.round((earlier + later) / 2));
+
+      if (leadWeeks >= 9) noteParts.push("Long lead-time crop: starting on schedule helps avoid a late harvest.");
+      else if (leadWeeks <= 4) noteParts.push("Short lead-time crop: don’t start too early or seedlings outgrow their space.");
+
+      if (crop.seasonType === "warm") {
+        noteParts.push("Warm-season seedlings stay stocky with strong light and warm nights indoors.");
+      } else if (crop.seasonType === "cool") {
+        noteParts.push("Cool-season seedlings tolerate cooler indoor temps; avoid overheating under lights.");
+      }
+    }
+
+    if (crop.notes) noteParts.push(crop.notes);
+    return noteParts.join(" ").trim();
+  }
+
+  function noIndoorStartNote(crop) {
+    const noteParts = [];
+    if (crop.directSowWeeks) noteParts.push("Usually direct sown.");
+    else if (crop.transplantWeeks) noteParts.push("Usually transplanted as a purchased start or from trays.");
+    if (crop.seasonType === "warm") noteParts.push("Warm-season crops still need warm soil/nights outside.");
+    if (crop.notes) noteParts.push(crop.notes);
+    return noteParts.join(" ").trim();
+  }
+
   function fmtRange(start, end) {
     return `<span class="dateRange"><span class="date">${fmt(start)}</span><span class="rangeSep">→</span><span class="date">${fmt(end)}</span></span>`;
   }
@@ -536,9 +574,8 @@ function initCropSelect() {
 
   for (const c of sortedCrops) {
     const id = `crop_${c.id}`;
-    const row = document.createElement("label");
-    row.className = "cropPick";
-    row.setAttribute("for", id);
+    const row = document.createElement("div");
+    row.className = "cropPickRow";
 
     row.innerHTML = `
       <label class="cropPickLabel" for="${id}">
@@ -596,9 +633,9 @@ initCropSelect();
       if (crop.indoorStartWeeks) {
         const [earlier, later] = crop.indoorStartWeeks;
         const [start, end] = windowFromWeeks(frost, earlier, later, 0);
-        addRow("Start seeds indoors", `${fmtRange(start, end)}`, `Count back from your last frost. If you have weak light, start 1–2 weeks later. ${crop.notes || ""}`.trim());
+        addRow("Start seeds indoors", `${fmtRange(start, end)}`, startIndoorsNote(crop));
       } else {
-        addRow("Start seeds indoors", "Not typically recommended", `Direct sow or transplant instead. ${crop.notes || ""}`.trim());
+        addRow("Start seeds indoors", "Not typically recommended", noIndoorStartNote(crop));
       }
 
       // Track the first outdoor step for harvest estimates
