@@ -181,13 +181,13 @@ th {
 }
 
 .brandLogo {
-  height: 70px;
+  height: 100px;
   width: auto;
 }
 
 @media (min-width: 768px) {
   .brandLogo {
-    height: 1000px;
+    height: 150px;
   }
 }
 
