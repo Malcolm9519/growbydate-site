@@ -25,14 +25,13 @@
   .grid { display: grid; gap: 14px; }
 
   .row { display: grid; gap: 10px; grid-template-columns: 1fr; }
-  @media (min-width: 720px) { .row { grid-template-columns: 1fr 1fr; } }
 
   /* Prevent grid children from overflowing their column (fixes date input “spill”) */
   .row > div { min-width: 0; }
 
   label { font-weight: 600; }
 
-  input[type="date"], select {
+  input, select {
     width: 100%;
     padding: 10px 12px;
     border: 1px solid #ccc;
@@ -136,45 +135,7 @@
 
 
 /* Print: only print the results card */
-
-  .stack { display: flex; flex-direction: column; gap: 14px; }
-
-  .cropList {
-    border: 1px solid #ccc;
-    border-radius: 12px;
-    padding: 6px;
-    max-height: 320px;
-    overflow: auto;
-  }
-
-  .cropPick {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 10px;
-    border-radius: 10px;
-    cursor: pointer;
-    user-select: none;
-  }
-  .cropPick:hover { background: rgba(0,0,0,0.04); }
-
-  .cropPick input[type="checkbox"] {
-    width: auto;
-    margin: 0;
-  }
-
-  .cropPickName { display: inline-flex; align-items: center; gap: 8px; }
-  .cropPickIcon { width: 1.4em; display: inline-block; }
-
-  tr.cropHeader td {
-    background: rgba(0,0,0,0.04);
-    border-top: 1px solid rgba(0,0,0,0.10);
-    padding-top: 12px;
-  }
-  tr.cropHeader td a { text-decoration: none; }
-
-
-  @media print {
+@media print {
   /* Hide everything by default */
   body * { visibility: hidden !important; }
 
@@ -196,6 +157,35 @@
   #resultsActions { display: none !important; }
 }
 
+
+  /* Crop checklist */
+  .cropList { border: 1px solid var(--border, #ddd); border-radius: 10px; padding: 8px; max-height: 260px; overflow: auto; }
+  .cropPickRow { margin: 0; }
+  .cropPickLabel { display: flex; align-items: center; gap: 10px; padding: 6px 8px; border-radius: 8px; cursor: pointer; user-select: none; }
+  .cropPickLabel:hover { background: rgba(0,0,0,0.04); }
+  .cropPickLabel input { flex: 0 0 auto; }
+  .cropPickIcon { margin-right: 6px; }
+
+  /* Multi-crop clarity in results */
+  .cropHeaderRow td { padding: 10px 12px; background: rgba(0,0,0,0.04); border-top: 1px solid rgba(0,0,0,0.08); }
+  .cropHeaderRow:first-child td { border-top: 0; }
+  .cropHeaderIcon { margin-right: 8px; }
+  .cropHeaderLink { font-weight: 700; text-decoration: none; }
+  .cropHeaderLink:hover { text-decoration: underline; }
+  .cropSeparatorRow td { padding: 0; height: 10px; background: transparent; }
+
+  /* Date range readability */
+  .dateRange {
+    display: inline-flex;
+    align-items: baseline;
+    gap: .35rem;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: .2px;
+    white-space: nowrap;
+  }
+  .dateRange .date { font-weight: 650; }
+  .dateRange .rangeSep { opacity: .65; }
+
 </style>
 
 <p class="muted">
@@ -208,12 +198,13 @@
     <div>
       <label for="lastFrost">Average last frost date</label>
       <input id="lastFrost" type="date" aria-describedby="lastFrostHelp" />
+      <div class="small" id="lastFrostHelp">Example: May 10 (varies by location and year)</div>
     </div>
 
     <div>
       <label for="cropList">Crops</label>
       <div id="cropList" class="cropList" aria-describedby="cropHelp"></div>
-      <div class="small" id="cropHelp">Select one or more crops (tap/click to toggle).</div>
+      <div class="small" id="cropHelp">Select one or more crops.</div>
     </div>
 
     <div>
@@ -224,14 +215,13 @@
         <option value="14">More protection (cold frame / tunnel) — ~2 weeks earlier</option>
         <option value="21">A lot of protection (heated / heavy cover) — ~3 weeks earlier</option>
       </select>
-      <div class="small" id="protectionHelp">This shifts outdoor planting windows slightly earlier.</div>
+      <div class="small" id="protectionHelp">This shifts outdoor planting windows slightly earlier (it does not change freeze damage at 32°F / 0°C).</div>
     </div>
 
     <div class="btnRow">
       <button class="button primary" id="calcBtn" type="button">Calculate</button>
       <button class="btn" id="resetBtn" type="button">Reset</button>
-      <button class="btn" id="printBtn" type="button" style="display:none;">Print results</button>
-    </div>
+</div>
   </div>
 </section>
 
@@ -242,18 +232,12 @@
     These are ranges. Spring weather can shift timing by a week or more — if you’re unsure, use the later end of each window.
   </div>
   <table>
-    <thead>
-      <tr>
-        <th>Task</th>
-        <th>Recommended window</th>
-        <th>Notes</th>
-      </tr>
-    </thead>
-    <tbody id="resultsBody"></tbody>
+<tbody id="resultsBody"></tbody>
   </table>
 
   <div class="btnRow" id="resultsActions" style="margin-top:12px;">
     <button class="btn" id="copyBtn" type="button" style="display:none;">Copy plan</button>
+    <button class="btn" id="printBtn" type="button" style="display:none;">Print</button>
     <button class="btn" id="csvBtn" type="button" style="display:none;">Download CSV</button>
     <button class="btn" id="txtBtn" type="button" style="display:none;">Download text</button>
   </div>
@@ -468,7 +452,20 @@ function cropIcon(id) {
     return date.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
   }
 
-  function addDays(date, days) {
+  
+  function fmtRange(start, end) {
+    return `<span class="dateRange"><span class="date">${fmt(start)}</span><span class="rangeSep">→</span><span class="date">${fmt(end)}</span></span>`;
+  }
+
+  function frostToleranceNote(ft) {
+    const s = String(ft || "").toLowerCase();
+    if (!s) return "";
+    if (s.includes("none") || s.includes("protect")) return "Tender crop — protect from any frost.";
+    if (s.includes("semi") || s.includes("half")) return "Handles light frost; protect if temperatures dip further.";
+    if (s.includes("hardy")) return "Tolerates light frosts; hard freezes can still damage.";
+    return "Use row cover if frost is in the forecast.";
+  }
+function addDays(date, days) {
     const out = new Date(date);
     out.setDate(out.getDate() + days);
     return out;
@@ -486,15 +483,6 @@ function cropIcon(id) {
     const start = addDays(anchorDate, weeksToDays(earlierWeeks));
     const end   = addDays(anchorDate, weeksToDays(laterWeeks));
     return [start, end].map(d => addDays(d, -protectionDays));
-  }
-
-  function addCropHeader(crop) {
-    const tr = document.createElement("tr");
-    tr.className = "cropHeader";
-    tr.innerHTML = `
-      <td colspan="3"><strong><a href="${cropUrl(crop.id)}">${cropIcon(crop.id)} ${crop.name}</a></strong></td>
-    `;
-    byId("resultsBody").appendChild(tr);
   }
 
   function addRow(task, windowText, notes) {
@@ -517,9 +505,22 @@ function cropIcon(id) {
     }
   }
 
+  function addCropHeader(crop) {
+    const tr = document.createElement("tr");
+    tr.className = "cropHeaderRow";
+    tr.innerHTML = `
+      <td colspan="3">
+        <span class="cropHeaderIcon" aria-hidden="true">${cropIcon(crop.id)}</span>
+        <a class="cropHeaderLink" href="${cropUrl(crop.id)}">${crop.name}</a>
+      </td>
+    `;
+    byId("resultsBody").appendChild(tr);
+  }
+
   function addSeparator() {
     const tr = document.createElement("tr");
-    tr.innerHTML = `<td colspan="3" style="padding: 6px 0;"></td>`;
+    tr.className = "cropSeparatorRow";
+    tr.innerHTML = `<td colspan="3"></td>`;
     byId("resultsBody").appendChild(tr);
   }
 
@@ -528,6 +529,7 @@ function initCropSelect() {
   const list = byId("cropList");
   list.innerHTML = "";
 
+  // Sort crops alphabetically by name (without mutating original array)
   const sortedCrops = [...CROPS].sort((a, b) =>
     a.name.localeCompare(b.name, undefined, { sensitivity: "base" })
   );
@@ -537,19 +539,24 @@ function initCropSelect() {
     const row = document.createElement("label");
     row.className = "cropPick";
     row.setAttribute("for", id);
+
     row.innerHTML = `
-      <input type="checkbox" id="${id}" name="cropPick" value="${c.id}" />
-      <span class="cropPickName"><span class="cropPickIcon" aria-hidden="true">${cropIcon(c.id)}</span>${c.name}</span>
+      <label class="cropPickLabel" for="${id}">
+        <input type="checkbox" id="${id}" name="cropPick" value="${c.id}" />
+        <span class="cropPickName"><span class="cropPickIcon" aria-hidden="true">${cropIcon(c.id)}</span>${c.name}</span>
+      </label>
     `;
     list.appendChild(row);
   }
 
+  // Default: check the first crop
   const first = list.querySelector('input[type="checkbox"]');
   if (first) first.checked = true;
 }
 
 initCropSelect();
-// ---- Main calculate ----
+
+  // ---- Main calculate ----
   function calculate() {
     byId("warnBox").style.display = "none";
     byId("resultsCard").style.display = "none";
@@ -565,7 +572,7 @@ initCropSelect();
 
     const frost = toDate(byId("lastFrost").value);
     const protectionDays = parseInt(byId("protection").value, 10) || 0;
-    const selectedCropIds = Array.from(document.querySelectorAll('#cropList input[name="cropPick"]:checked')).map(i => i.value);
+    const selectedCropIds = Array.from(document.querySelectorAll('input[name="cropPick"]:checked')).map(el => el.value);
     if (!selectedCropIds.length) {
       byId("warnBox").style.display = "block";
       byId("warnBox").innerHTML = "Please select at least one crop.";
@@ -582,16 +589,16 @@ initCropSelect();
     // One plan can include multiple crops
     for (let i = 0; i < selectedCrops.length; i++) {
       const crop = selectedCrops[i];
-      CURRENT_CROP = crop.name || crop.id;
-      // Crop header
+      CURRENT_CROP = crop.name || crop.id;      // Crop header
       addCropHeader(crop);
+
 // Indoor start window (not shifted by protection)
       if (crop.indoorStartWeeks) {
         const [earlier, later] = crop.indoorStartWeeks;
         const [start, end] = windowFromWeeks(frost, earlier, later, 0);
-        addRow("Start seeds indoors", `${fmt(start)} – ${fmt(end)}`, crop.notes || "");
+        addRow("Start seeds indoors", `${fmtRange(start, end)}`, `Count back from your last frost. If you have weak light, start 1–2 weeks later. ${crop.notes || ""}`.trim());
       } else {
-        addRow("Start seeds indoors", "Not typically recommended", crop.notes || "");
+        addRow("Start seeds indoors", "Not typically recommended", `Direct sow or transplant instead. ${crop.notes || ""}`.trim());
       }
 
       // Track the first outdoor step for harvest estimates
@@ -604,8 +611,8 @@ initCropSelect();
         const [start, end] = windowFromWeeksRelative(frost, earlier, later, protectionDays);
         const hardenStart = addDays(start, -10);
         const hardenEnd = addDays(start, -7);
-        addRow("Begin hardening off", `${fmt(hardenStart)} – ${fmt(hardenEnd)}`, "Start gradual outdoor exposure ~7–10 days before transplanting.");
-        addRow("Transplant outdoors", `${fmt(start)} – ${fmt(end)}`, protectionDays ? "Shifted earlier due to season protection." : "Open-garden timing.");
+        addRow("Begin hardening off", `${fmtRange(hardenStart, hardenEnd)}`, "Start gradual outdoor exposure ~7–10 days before transplanting.");
+        addRow("Transplant outdoors", `${fmtRange(start, end)}`, protectionDays ? "Shifted earlier due to season protection." : "Open-garden timing.");
 
         firstOutdoorDate = start;
         firstOutdoorLabel = "transplanting";
@@ -617,7 +624,7 @@ initCropSelect();
       if (crop.directSowWeeks) {
         const [earlier, later] = crop.directSowWeeks;
         const [start, end] = windowFromWeeksRelative(frost, earlier, later, protectionDays);
-        addRow("Direct sow outdoors", `${fmt(start)} – ${fmt(end)}`, protectionDays ? "Shifted earlier due to season protection." : "");
+        addRow("Direct sow outdoors", `${fmtRange(start, end)}`, protectionDays ? "Shifted earlier due to season protection." : "");
 
         // Use direct sow as the anchor if we didn't already anchor on transplant
         if (!firstOutdoorDate) {
@@ -636,18 +643,19 @@ initCropSelect();
           const estMax = addDays(firstOutdoorDate, maxDays);
           addRow(
             "Estimated first harvest",
-            `${fmt(estMin)} – ${fmt(estMax)}`,
+            `${fmtRange(estMin, estMax)}`,
             `Based on ${minDays}–${maxDays} days to maturity from ${firstOutdoorLabel}.`
           );
         }
       }
 
+      // Frost tolerance (placed near bottom so action steps stay at the top)
+      if (crop.frostTolerance) {
+        addRow("Frost tolerance", crop.frostTolerance, frostToleranceNote(crop.frostTolerance));
+      }
 
-    
-      // Frost tolerance (moved to bottom)
-      addRow("Frost tolerance", crop.frostTolerance || "—", "");
-
-}
+      if (i < selectedCrops.length - 1) addSeparator();
+    }
 // Confidence note
     byId("resultsCard").style.display = "block";
     byId("printBtn").style.display = "inline-block";
@@ -659,9 +667,9 @@ initCropSelect();
   function resetForm() {
     byId("lastFrost").value = "";
     byId("protection").value = "0";
-    for (const cb of document.querySelectorAll('#cropList input[name="cropPick"]')) cb.checked = false;
-    const first = document.querySelector('#cropList input[name="cropPick"]');
-    if (first) first.checked = true;
+    for (const opt of byId("crop").options) opt.selected = false;
+    // Select the first option for a sensible default
+    if (byId("crop").options.length) byId("crop").options[0].selected = true;
     byId("warnBox").style.display = "none";
     byId("resultsCard").style.display = "none";
     byId("resultsBody").innerHTML = "";
