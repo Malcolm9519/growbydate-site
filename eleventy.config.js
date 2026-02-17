@@ -36,6 +36,8 @@ eleventyConfig.addFilter("stripSiteSuffix", function (title) {
 
   eleventyConfig.addPassthroughCopy({ "src/styles.css": "styles.css" });
   eleventyConfig.addPassthroughCopy({ "src/robots.txt": "robots.txt" });
+  eleventyConfig.addPassthroughCopy({ "src/assets": "assets" });
+
   
   return {
     dir: {
