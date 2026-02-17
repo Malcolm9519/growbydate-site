@@ -1,7 +1,7 @@
 [
   {
     "slug": "seed-start-planner",
-    "name": "Seed Starting Planner - When to Start Seeds Indoors",
+    "name": "Seed Starting Planner: When to Start Seeds Indoors",
     "description": "Generate indoor seed start dates based on your last frost.",
     "order": 1
   },
