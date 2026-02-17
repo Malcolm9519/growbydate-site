@@ -4,7 +4,7 @@
 
     <section class="card" aria-labelledby="ff-title">
       <header>
-        <h2 id="ff-title">First frost → fall planting window</h2>
+        <h2 id="ff-title" class="sr-only">First frost planner</h2>
         <p class="small" style="opacity:0.86;">
           Enter your <strong>average first fall frost date</strong>. This tool counts backward using days to maturity + your buffer.
         </p>
@@ -60,7 +60,45 @@
           <button class="button primary" id="calcBtn" type="button">Calculate</button>
           <button class="button" id="resetBtn" type="button">Reset</button>
         </div>
-      </div>
+      
+        <div style="margin-top:14px;">
+          <div class="muted" style="margin-bottom:14px;">
+            <div class="pill">1</div>
+            <p style="margin:6px 0 0;"><strong>Enter your first frost date</strong></p>
+            <p class="small" style="margin:6px 0 0;">
+              Use your <strong>average</strong> first fall frost date to plan. This tool counts backward from that anchor.
+            </p>
+          </div>
+
+          <div class="muted" style="margin-bottom:14px;">
+            <div class="pill">2</div>
+            <p style="margin:6px 0 0;"><strong>Choose one or more crops</strong></p>
+            <p class="small" style="margin:6px 0 0;">
+              Each crop uses its typical <strong>days to maturity</strong> plus a safety buffer to estimate a fall cutoff.
+            </p>
+          </div>
+
+          <div class="muted" style="margin-bottom:14px;">
+            <div class="pill">3</div>
+            <p style="margin:6px 0 0;"><strong>Set buffer and protection</strong></p>
+            <p class="small" style="margin:6px 0 0;">
+              Buffer adds breathing room. Season protection shifts your effective frost date later (row cover / tunnel / cold frame).
+            </p>
+          </div>
+
+          <div class="muted" style="margin-bottom:14px;">
+            <div class="pill">4</div>
+            <p style="margin:6px 0 0;"><strong>Read the cutoff dates correctly</strong></p>
+            <p class="small" style="margin:6px 0 0;">
+              These are planning cutoffs, not guarantees. If nights cool early, growth slows and your true window shrinks.
+            </p>
+          </div>
+        </div>
+
+        <p class="small muted" style="margin-top:6px;" id="ff-quickcheck">
+          Quick check: fall success depends on daylight and night temperatures. Frost dates guide planning — your yard decides final timing.
+        </p>
+</div>
     </section>
 
     <section class="card" id="resultsCard" style="display:none;" aria-labelledby="resultsTitle">
