@@ -134,6 +134,30 @@
   color: rgba(0, 0, 0, 0.75);
 }
 
+
+/* Print: only print the results card */
+@media print {
+  /* Hide everything by default */
+  body * { visibility: hidden !important; }
+
+  /* Show results */
+  #resultsCard, #resultsCard * { visibility: visible !important; }
+
+  /* Position results at top-left for printing */
+  #resultsCard {
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    display: block !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  /* Hide interactive controls inside results */
+  #resultsActions { display: none !important; }
+}
+
 </style>
 
 <p class="muted">
@@ -192,6 +216,13 @@
     </thead>
     <tbody id="resultsBody"></tbody>
   </table>
+
+  <div class="btnRow" id="resultsActions" style="margin-top:12px;">
+    <button class="btn" id="copyBtn" type="button" style="display:none;">Copy plan</button>
+    <button class="btn" id="csvBtn" type="button" style="display:none;">Download CSV</button>
+    <button class="btn" id="txtBtn" type="button" style="display:none;">Download text</button>
+  </div>
+
 </section>
 <section class="warn" id="warnBox" style="display:none;"></section>
 
@@ -405,6 +436,17 @@
   // ---- Helpers ----
   const byId = (id) => document.getElementById(id);
 
+  // Exportable plan rows (built during calculate)
+  let PLAN_ROWS = [];
+  let CURRENT_CROP = "";
+
+  function stripHtml(html) {
+    const tmp = document.createElement("div");
+    tmp.innerHTML = html || "";
+    return (tmp.textContent || "").replace(/\s+/g, " ").trim();
+  }
+
+
   // Site crop metadata (slug, etc.) from Eleventy data. Used for linking.
   const SITE_CROPS = (() => {
     try {
@@ -490,6 +532,16 @@ function cropIcon(id) {
       <td class="muted">${notes || ""}</td>
     `;
     byId("resultsBody").appendChild(tr);
+
+    // Build export rows (skip the decorative Crop header row; crop is already a column)
+    if (task !== "Crop") {
+      PLAN_ROWS.push({
+        crop: CURRENT_CROP,
+        task: stripHtml(task),
+        window: stripHtml(windowText),
+        notes: stripHtml(notes || "")
+      });
+    }
   }
 
   // ---- Init UI ----
@@ -517,7 +569,14 @@ initCropSelect();
     byId("warnBox").style.display = "none";
     byId("resultsCard").style.display = "none";
     byId("resultsBody").innerHTML = "";
+    PLAN_ROWS = [];
     byId("printBtn").style.display = "none";
+    byId("copyBtn").style.display = "none";
+    byId("csvBtn").style.display = "none";
+    byId("txtBtn").style.display = "none";
+    byId("copyBtn").style.display = "none";
+    byId("csvBtn").style.display = "none";
+    byId("txtBtn").style.display = "none";
 
     const frost = toDate(byId("lastFrost").value);
     const protectionDays = parseInt(byId("protection").value, 10) || 0;
@@ -571,17 +630,109 @@ addRow(
     // Confidence note
     byId("resultsCard").style.display = "block";
     byId("printBtn").style.display = "inline-block";
+    byId("copyBtn").style.display = "inline-block";
+    byId("csvBtn").style.display = "inline-block";
+    byId("txtBtn").style.display = "inline-block";
   }
 
   function resetForm() {
     byId("lastFrost").value = "";
     byId("protection").value = "0";
-    byId("crop").selectedIndex = 0;
+    for (const opt of byId("crop").options) opt.selected = false;
+    // Select the first option for a sensible default
+    if (byId("crop").options.length) byId("crop").options[0].selected = true;
     byId("warnBox").style.display = "none";
     byId("resultsCard").style.display = "none";
     byId("resultsBody").innerHTML = "";
     byId("printBtn").style.display = "none";
+    byId("copyBtn").style.display = "none";
+    byId("csvBtn").style.display = "none";
+    byId("txtBtn").style.display = "none";
   }
+
+
+  // ---- Export helpers ----
+  function planToCSV(rows) {
+    const esc = (v) => {
+      const s = String(v ?? "");
+      // Escape quotes and wrap fields that contain commas/newlines/quotes
+      const needs = /[",\n\r]/.test(s);
+      const out = s.replace(/"/g, '""');
+      return needs ? `"${out}"` : out;
+    };
+    const header = ["Crop", "Task", "Window", "Notes"];
+    const lines = [header.map(esc).join(",")];
+    for (const r of rows) {
+      lines.push([r.crop, r.task, r.window, r.notes].map(esc).join(","));
+    }
+    return lines.join("\n");
+  }
+
+  function planToText(rows) {
+    // Group by crop, keep original order
+    const groups = new Map();
+    for (const r of rows) {
+      if (!groups.has(r.crop)) groups.set(r.crop, []);
+      groups.get(r.crop).push(r);
+    }
+
+    const out = [];
+    out.push("GrowByDate.com — Seed Starting Plan");
+    const frostVal = byId("lastFrost").value ? fmt(toDate(byId("lastFrost").value)) : "";
+    const prot = parseInt(byId("protection").value, 10) || 0;
+    if (frostVal) out.push(`Last frost (average): ${frostVal}`);
+    out.push(`Season extension (days): ${prot}`);
+    out.push("");
+    out.push("Freeze damage can begin at 32°F / 0°C.");
+    out.push("");
+
+    for (const [crop, items] of groups.entries()) {
+      out.push(crop);
+      out.push("-".repeat(Math.min(60, crop.length)));
+      for (const r of items) {
+        out.push(`• ${r.task}: ${r.window}${r.notes ? " — " + r.notes : ""}`);
+      }
+      out.push("");
+    }
+    return out.join("\n");
+  }
+
+  function downloadFile(filename, content, mime) {
+    const blob = new Blob([content], { type: mime });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  async function copyPlan() {
+    const txt = planToText(PLAN_ROWS);
+    try {
+      await navigator.clipboard.writeText(txt);
+      byId("copyBtn").textContent = "Copied!";
+      setTimeout(() => (byId("copyBtn").textContent = "Copy plan"), 1200);
+    } catch (e) {
+      // Fallback: prompt (still lightweight)
+      window.prompt("Copy your plan:", txt);
+    }
+  }
+
+  function downloadCSV() {
+    const csv = planToCSV(PLAN_ROWS);
+    const stamp = byId("lastFrost").value || "plan";
+    downloadFile(`seed-start-plan-${stamp}.csv`, csv, "text/csv;charset=utf-8");
+  }
+
+  function downloadText() {
+    const txt = planToText(PLAN_ROWS);
+    const stamp = byId("lastFrost").value || "plan";
+    downloadFile(`seed-start-plan-${stamp}.txt`, txt, "text/plain;charset=utf-8");
+  }
+
 
   function printResults() {
     window.print();
@@ -590,4 +741,7 @@ addRow(
   byId("calcBtn").addEventListener("click", calculate);
   byId("resetBtn").addEventListener("click", resetForm);
   byId("printBtn").addEventListener("click", printResults);
+  byId("copyBtn").addEventListener("click", copyPlan);
+  byId("csvBtn").addEventListener("click", downloadCSV);
+  byId("txtBtn").addEventListener("click", downloadText);
 </script>
