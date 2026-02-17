@@ -396,3 +396,30 @@ th {
   margin: 0;
   flex: 0 0 auto;
 }
+/* Shrink the sticky header height (override global .container padding) */
+.siteHeader .container {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  padding-left: 16px !important;
+  padding-right: 16px !important;
+}
+
+/* Remove any extra vertical space inside the header row */
+.siteHeaderRow {
+  padding: 0 !important;
+  margin: 0 !important;
+  align-items: center;
+}
+
+/* Keep logo sizes you want */
+.brandLogo {
+  height: 120px;
+  width: auto;
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .brandLogo {
+    height: 150px;
+  }
+}
