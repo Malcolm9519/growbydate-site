@@ -157,8 +157,8 @@ th {
 }
 
 .siteHeader .container {
-  padding-top: 14px;
-  padding-bottom: 14px;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 /* Single row: brand left, nav right */
