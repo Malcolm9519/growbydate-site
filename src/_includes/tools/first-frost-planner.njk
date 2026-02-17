@@ -25,23 +25,23 @@
 
         <div style="margin-top:10px;">
           <label for="protection">Season extension</label>
+          <div class="small" id="protectionHelp">Shifts your effective frost date later by ~1–2 weeks.</div>
           <select id="protection" aria-describedby="protectionHelp">
             <option value="0">None</option>
             <option value="7">Light protection (row cover / cloche) — ~1 week</option>
             <option value="14">Stronger protection (tunnel / cold frame) — ~2 weeks</option>
           </select>
-          <div class="small" id="protectionHelp">Shifts your effective frost date later by ~1–2 weeks.</div>
         </div>
 
         <div style="margin-top:10px;">
           <label for="buffer">Safety buffer</label>
+          <div class="small" id="bufferHelp">Accounts for slower fall growth, cool soil, and harvest delays.</div>
           <select id="buffer" aria-describedby="bufferHelp">
             <option value="7">Conservative (7 days)</option>
             <option value="10" selected>Standard (10 days)</option>
             <option value="14">Extra cautious (14 days)</option>
             <option value="0">None</option>
           </select>
-          <div class="small" id="bufferHelp">Accounts for slower fall growth, cool soil, and harvest delays.</div>
         </div>
 
         <p class="note small" id="ff-error" role="alert" style="display:none;"></p>
