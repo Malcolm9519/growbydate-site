@@ -159,7 +159,7 @@ th {
 .siteHeader .container {
   max-width: none;     /* override global .container max width */
   margin: 0;           /* remove centering margin */
-  padding: 10px 24px;  /* tighter vertical, comfy horizontal */
+  padding: 10px 16px;  /* tighter vertical, comfy horizontal */
 }
 
 /* Single row: brand left, nav right */
