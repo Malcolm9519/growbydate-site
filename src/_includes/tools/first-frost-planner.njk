@@ -44,15 +44,6 @@
           <div class="small" id="bufferHelp">Accounts for slower fall growth, cool soil, and harvest delays.</div>
         </div>
 
-        <details class="note small" id="ff-assumptions" style="opacity:0.9; margin-top:12px;">
-          <summary><span class="pill">Assumptions</span> What this tool is doing</summary>
-          <ul class="tight" style="margin:0.5rem 0 0 1.25rem;">
-            <li>Counts backward from your <strong>average first frost</strong>.</li>
-            <li>Adds your chosen <strong>protection</strong> to create an “effective frost date.”</li>
-            <li>Subtracts <strong>days to maturity</strong> + your <strong>buffer</strong> to suggest a latest sow date.</li>
-          </ul>
-        </details>
-
         <p class="note small" id="ff-error" role="alert" style="display:none;"></p>
         <p class="sr-only" id="ff-status" role="status" aria-live="polite"></p>
 
@@ -60,6 +51,28 @@
           <button class="button primary" id="calcBtn" type="button">Calculate</button>
           <button class="button" id="resetBtn" type="button">Reset</button>
         </div>
+</div>
+    </section>
+
+    <section class="card" id="resultsCard" style="display:none;" aria-labelledby="resultsTitle">
+      <h2 id="resultsTitle">Results</h2>
+
+      <table aria-label="Fall cutoff results" style="margin-top:0.75rem;">
+        <tbody id="resultsBody"></tbody>
+      </table>
+
+      <div id="resultsActions" style="margin-top:12px;">
+        <button class="btn" id="copyBtn" type="button" style="display:none;">Copy plan</button>
+        <button class="btn" id="printBtn" type="button" style="display:none;">Print</button>
+        <button class="btn" id="csvBtn" type="button" style="display:none;">Download CSV</button>
+        <button class="btn" id="txtBtn" type="button" style="display:none;">Download text</button>
+      </div>
+
+      <p class="small muted" style="margin-top:10px;">
+        If you’re close to the cutoff, choose faster varieties, protect the crop, or aim for “baby” harvests.
+      </p>
+    </section>
+
       
         <div style="margin-top:14px;">
           <div class="muted" style="margin-bottom:14px;">
@@ -98,27 +111,6 @@
         <p class="small muted" style="margin-top:6px;" id="ff-quickcheck">
           Quick check: fall success depends on daylight and night temperatures. Frost dates guide planning — your yard decides final timing.
         </p>
-</div>
-    </section>
-
-    <section class="card" id="resultsCard" style="display:none;" aria-labelledby="resultsTitle">
-      <h2 id="resultsTitle">Results</h2>
-
-      <table aria-label="Fall cutoff results" style="margin-top:0.75rem;">
-        <tbody id="resultsBody"></tbody>
-      </table>
-
-      <div id="resultsActions" style="margin-top:12px;">
-        <button class="btn" id="copyBtn" type="button" style="display:none;">Copy plan</button>
-        <button class="btn" id="printBtn" type="button" style="display:none;">Print</button>
-        <button class="btn" id="csvBtn" type="button" style="display:none;">Download CSV</button>
-        <button class="btn" id="txtBtn" type="button" style="display:none;">Download text</button>
-      </div>
-
-      <p class="small muted" style="margin-top:10px;">
-        If you’re close to the cutoff, choose faster varieties, protect the crop, or aim for “baby” harvests.
-      </p>
-    </section>
 
     <section class="card">
       <h2>Short-season notes</h2>
@@ -455,6 +447,16 @@
     byId("resultsBody").appendChild(tr);
   }
 
+  function addRowSpan(task, content) {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td style="width:38%;"><strong>${task}</strong></td>
+      <td class="muted" colspan="2">${content || ""}</td>
+    `;
+    byId("resultsBody").appendChild(tr);
+  }
+
+
   function addSeparator() {
     const tr = document.createElement("tr");
     tr.className = "cropSeparatorRow";
@@ -575,12 +577,17 @@
 
       // Crop note (keep it practical)
       const note = (crop.indexBlurb || crop.tagline || crop.notes || "").toString().trim();
-      if (note) addRow("Crop note", "—", note);
+      if (note) {
+        addRowSpan("Crop note", note);
+        planRows.push({ crop: crop.name, task: "Crop note", window: note, notes: "" });
+      }
 
       // Frost tolerance at bottom
-      if (crop.frostTolerance) addRow("Frost tolerance", "—", crop.frostTolerance);
-
-      planRows.push(
+      if (crop.frostTolerance) {
+        addRowSpan("Frost tolerance", crop.frostTolerance);
+        planRows.push({ crop: crop.name, task: "Frost tolerance", window: crop.frostTolerance, notes: "" });
+      }
+planRows.push(
         { crop: crop.name, task: "Latest recommended sow date", window: windowTextPlain, notes: "" },
         { crop: crop.name, task: "Effective frost date", window: fmt(effectiveFrost), notes: protectionDays ? `Avg first frost ${fmt(firstFrost)} + ${protectionDays}d` : `Avg first frost ${fmt(firstFrost)}` },
       );
