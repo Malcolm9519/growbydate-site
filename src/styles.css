@@ -151,7 +151,9 @@ th {
   z-index: 200;
   background: #eef9ef; /* subtle green tint */
   border-bottom: 1px solid rgba(0,0,0,0.08);
-    padding: 0.4rem 1.25rem;
+      padding: 0 1.25rem;      /* remove vertical padding */
+  display: flex;
+  align-items: center;     /* vertically center content */
 }
 
 .siteHeader .container {
@@ -174,6 +176,11 @@ th {
   letter-spacing: -0.01em;
 }
 
+.siteHeader .brand {
+  display: flex;
+  align-items: center;
+}
+
 .brandLink {
   text-decoration: none;
   color: inherit;
@@ -184,6 +191,8 @@ th {
 .brandLogo {
   height: 120px;
   width: auto;
+    display: block;          /* removes inline spacing */
+  line-height: 0;          /* prevents text line height expansion */
 }
 
 @media (min-width: 768px) {
