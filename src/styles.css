@@ -157,9 +157,9 @@ th {
 }
 
 .siteHeader .container {
-  padding-top: 0;
-  padding-bottom: 0;
+  padding: 0 16px; /* keep left/right spacing, remove vertical padding */
 }
+
 
 /* Single row: brand left, nav right */
 .siteHeaderRow {
