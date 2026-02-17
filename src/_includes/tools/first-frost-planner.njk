@@ -59,10 +59,6 @@
         <div class="btnRow" style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;">
           <button class="button primary" id="calcBtn" type="button">Calculate</button>
           <button class="button" id="resetBtn" type="button">Reset</button>
-          <button class="button" id="copyBtn" type="button" style="display:none;">Copy plan</button>
-          <button class="button" id="csvBtn" type="button" style="display:none;">Download CSV</button>
-          <button class="button" id="txtBtn" type="button" style="display:none;">Download text</button>
-          <button class="button" id="printBtn" type="button" style="display:none;">Print</button>
         </div>
       </div>
     </section>
@@ -73,6 +69,13 @@
       <table aria-label="Fall cutoff results" style="margin-top:0.75rem;">
         <tbody id="resultsBody"></tbody>
       </table>
+
+      <div id="resultsActions" style="margin-top:12px;">
+        <button class="btn" id="copyBtn" type="button" style="display:none;">Copy plan</button>
+        <button class="btn" id="printBtn" type="button" style="display:none;">Print</button>
+        <button class="btn" id="csvBtn" type="button" style="display:none;">Download CSV</button>
+        <button class="btn" id="txtBtn" type="button" style="display:none;">Download text</button>
+      </div>
 
       <p class="small muted" style="margin-top:10px;">
         If you’re close to the cutoff, choose faster varieties, protect the crop, or aim for “baby” harvests.
@@ -102,43 +105,175 @@
 <script type="application/json" id="siteCropsJson">{{ crops | dump | safe }}</script>
 
 <style>
-  /* Keep checkboxes from inheriting full-width input styles */
-  .cropList input[type="checkbox"] { width: auto !important; }
-  .cropList {
-    margin-top: 8px;
-    border: 1px solid rgba(0,0,0,0.12);
-    border-radius: 10px;
-    padding: 8px;
-    max-height: 260px;
-    overflow: auto;
-    background: rgba(0,0,0,0.02);
+  .grid { display: grid; gap: 14px; }
+
+  .row { display: grid; gap: 10px; grid-template-columns: 1fr; }
+
+  /* Prevent grid children from overflowing their column (fixes date input “spill”) */
+  .row > div { min-width: 0; }
+
+  label { font-weight: 600; }
+
+  input[type="date"], input[type="text"], input[type="number"], select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    font: inherit;
+    box-sizing: border-box;
   }
-  .cropRow {
-    display: flex;
+
+  /* Extra safety for the frost date field specifically */
+  #firstFrost { min-width: 0; max-width: 100%; }
+
+  .small { font-size: 14px; opacity: .85; }
+  .card + .card { margin-top: 14px; }
+
+  table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+  th, td { padding: 10px 8px; border-bottom: 1px solid #e5e5e5; text-align: left; vertical-align: top; }
+  th { font-weight: 700; }
+
+  .pill { display: inline-block; padding: 2px 8px; border: 1px solid #222; border-radius: 999px; font-size: 12px; opacity: .9; }
+
+  .warn { border: 1px solid #e3c46b; border-radius: 12px; padding: 10px 12px; background: #fff8e1; }
+ .muted { color: rgba(0, 0, 0, 0.75); }
+
+  .btn {
+    display: inline-flex;
     align-items: center;
-    gap: 10px;
-    padding: 8px 8px;
-    border-radius: 8px;
+    justify-content: center;
+    padding: 10px 14px;
+    border: 1px solid #111;
+    border-radius: 12px;
+    background: transparent;
     cursor: pointer;
-    user-select: none;
+    font: inherit;
+    line-height: 1.2;
+    white-space: nowrap;
+    box-sizing: border-box;
   }
-  .cropRow:hover { background: rgba(0,0,0,0.04); }
-  .cropRow + .cropRow { border-top: 1px solid rgba(0,0,0,0.06); }
-  .cropRow .cropName { font-weight: 600; }
-  .cropRow .cropMeta { margin-left: auto; opacity: 0.75; font-size: 0.9em; }
-  .cropHeaderRow td {
-    background: rgba(0,0,0,0.04);
-    border-top: 1px solid rgba(0,0,0,0.10);
-    padding-top: 10px;
+  .btn:hover { opacity: .85; }
+
+  .btnRow { display:flex; align-items:end; gap:10px; flex-wrap: wrap; }
+
+  /* If your primary action uses .button / .button.primary, normalize it to match .btn */
+  .btnRow .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 14px;
+    border-radius: 12px;
+    font: inherit;
+    line-height: 1.2;
+    white-space: nowrap;
+    box-sizing: border-box;
   }
-  .sepRow td { padding: 0; height: 10px; border: 0; }
-  .valueCell { white-space: nowrap; font-variant-numeric: tabular-nums; }
-  @media print {
-    body * { visibility: hidden; }
-    #resultsCard, #resultsCard * { visibility: visible; }
-    #resultsCard { position: absolute; left: 0; top: 0; width: 100%; }
-    #copyBtn, #csvBtn, #txtBtn, #printBtn { display: none !important; }
+
+  .content { max-width: 760px; }
+
+  .faq details { border: 1px solid #e8e8e8; border-radius: 12px; padding: 10px 12px; background: #fff; }
+  .faq details + details { margin-top: 10px; }
+  .faq summary { cursor: pointer; font-weight: 650; }
+
+  .breadcrumbs { font-size: 14px; opacity: .85; margin-bottom: 10px; }
+  .breadcrumbs a { text-decoration: none; }
+
+  .linkRow { display:flex; gap:10px; flex-wrap: wrap; }
+  .linkRow a { text-decoration: none; border-bottom: 1px solid currentColor; }
+
+  .noteIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  line-height: 1;
+}
+
+#resultsBody svg {
+  display: inline-block;
+  vertical-align: middle;
+  opacity: .85;
+}
+
+#resultsBody td.muted {
+  opacity: 1;
+  color: rgba(0, 0, 0, 0.75);
+}
+
+.noteIcon svg {
+  display: inline-block;
+  vertical-align: middle;
+  opacity: .85;
+}
+
+/* Keep planner text “muted” without fading emoji/icons */
+#resultsCard .muted,
+#resultsCard .small {
+  opacity: 1;
+}
+
+#resultsCard .muted {
+  color: rgba(0, 0, 0, 0.75);
+}
+
+
+/* Print: only print the results card */
+@media print {
+  /* Hide everything by default */
+  body * { visibility: hidden !important; }
+
+  /* Show results */
+  #resultsCard, #resultsCard * { visibility: visible !important; }
+
+  /* Position results at top-left for printing */
+  #resultsCard {
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    display: block !important;
+    box-shadow: none !important;
+    border: none !important;
   }
+
+  /* Hide interactive controls inside results */
+  #resultsActions { display: none !important; }
+}
+
+
+  /* Crop checklist */
+  .cropList { border: 1px solid var(--border, #ddd); border-radius: 10px; padding: 8px; max-height: 260px; overflow: auto; }
+  .cropPickRow { margin: 0; }
+  .cropPickLabel { display: flex; align-items: center; gap: 10px; padding: 6px 8px; border-radius: 8px; cursor: pointer; user-select: none; }
+  .cropPickLabel:hover { background: rgba(0,0,0,0.04); }
+  .cropPickLabel input { flex: 0 0 auto; }
+  .cropPickIcon { margin-right: 6px; }
+  .cropPickName { display: inline-flex; align-items: center; gap: 6px; min-width: 0; }
+  .cropPickLabel { width: 100%; }
+
+  /* Multi-crop clarity in results */
+  .cropHeaderRow td { padding: 10px 12px; background: rgba(0,0,0,0.04); border-top: 1px solid rgba(0,0,0,0.08); }
+  .cropHeaderRow:first-child td { border-top: 0; }
+  .cropHeaderIcon { margin-right: 8px; }
+  .cropHeaderLink { font-weight: 700; text-decoration: none; }
+  .cropHeaderLink:hover { text-decoration: underline; }
+  .cropSeparatorRow td { padding: 0; height: 10px; background: transparent; }
+
+  /* Date range readability */
+  .dateRange {
+    display: inline-flex;
+    align-items: baseline;
+    gap: .35rem;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: .2px;
+    white-space: nowrap;
+    background: rgba(0,0,0,0.035);
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 10px;
+    padding: 2px 8px;
+  }
+  .dateRange .date { font-weight: 400; }
+  .dateRange .rangeSep { opacity: .65; }
 </style>
 
 <script>
@@ -159,6 +294,29 @@
     .filter(c => c && Array.isArray(c.relatedTools) && c.relatedTools.includes(TOOL_SLUG))
     .sort((a, b) => (a.name || "").localeCompare(b.name || "", undefined, { sensitivity: "base" }));
 
+
+  function cropIcon(id) {
+    const icons = {
+      tomato: "🍅",
+      pepper: "🫑",
+      cucumber: "🥒",
+      zucchini: "🥒",
+      bean: "🫘",
+      lettuce: "🥬",
+      spinach: "🍃",
+      kale: "🥬",
+      broccoli: "🥦",
+      cabbage: "🥬",
+      carrot: "🥕",
+      beet: "🫒",
+      pea: "🟢",
+      onion: "🧅",
+      garlic: "🧄",
+      radish: "🌶️",
+      potato: "🥔"
+    };
+    return icons[id] || "🌱";
+  }
   function toDate(inputValue) {
     if (!inputValue) return null;
     const [y, m, d] = inputValue.split("-").map(Number);
@@ -169,6 +327,14 @@
     return date.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
   }
 
+
+  function fmtRange(start, end) {
+    return `<span class="dateRange"><span class="date">${fmt(start)}</span><span class="rangeSep">→</span><span class="date">${fmt(end)}</span></span>`;
+  }
+
+  function fmtSingle(date) {
+    return `<span class="dateRange"><span class="date">${fmt(date)}</span></span>`;
+  }
   function addDays(date, days) {
     const out = new Date(date);
     out.setDate(out.getDate() + days);
@@ -210,22 +376,17 @@
       const id = `crop_${c.id}`;
 
       const row = document.createElement("div");
-      row.className = "cropRow";
+      row.className = "cropPickRow";
       row.innerHTML = `
-        <input type="checkbox" id="${id}" value="${c.id}" />
-        <div>
-          <div class="cropName">${c.name}</div>
-          <div class="small" style="opacity:0.8;">${(c.indexBlurb || c.tagline || "").toString()}</div>
-        </div>
-        <div class="cropMeta">${dtmText}</div>
+        <label class="cropPickLabel" for="${id}">
+          <input type="checkbox" id="${id}" value="${c.id}" />
+          <span class="cropPickName">
+            <span class="cropPickIcon" aria-hidden="true">${cropIcon(c.id)}</span>
+            <span>${c.name}</span>
+          </span>
+          <span class="small muted" style="margin-left:auto; white-space:nowrap;">${dtmText}</span>
+        </label>
       `;
-      row.addEventListener("click", (e) => {
-        // allow clicking anywhere on row
-        if (e.target && e.target.tagName === "INPUT") return;
-        const cb = row.querySelector("input[type='checkbox']");
-        cb.checked = !cb.checked;
-      });
-
       wrap.appendChild(row);
     }
   }
@@ -238,7 +399,11 @@
   function addCropHeader(crop) {
     const tr = document.createElement("tr");
     tr.className = "cropHeaderRow";
-    tr.innerHTML = `<td colspan="3"><strong><a href="${cropUrl(crop)}">${crop.name}</a></strong></td>`;
+    tr.innerHTML = `
+      <td colspan="3">
+        <span class="cropHeaderIcon" aria-hidden="true">${cropIcon(crop.id)}</span>
+        <a class="cropHeaderLink" href="${cropUrl(crop)}">${crop.name}</a>
+      </td>`;
     byId("resultsBody").appendChild(tr);
   }
 
@@ -254,7 +419,7 @@
 
   function addSeparator() {
     const tr = document.createElement("tr");
-    tr.className = "sepRow";
+    tr.className = "cropSeparatorRow";
     tr.innerHTML = `<td colspan="3"></td>`;
     byId("resultsBody").appendChild(tr);
   }
@@ -348,9 +513,13 @@
       const conservative = addDays(effectiveFrost, -(maxDtm + bufferDays));
       const fastVariety = addDays(effectiveFrost, -(minDtm + bufferDays));
 
-      const windowText = (minDtm === maxDtm)
+      const windowTextPlain = (minDtm === maxDtm)
         ? fmt(conservative)
         : `${fmt(conservative)} – ${fmt(fastVariety)}`;
+
+      const windowText = (minDtm === maxDtm)
+        ? fmtSingle(conservative)
+        : fmtRange(conservative, fastVariety);
 
       addRow(
         "Latest recommended sow date",
@@ -362,7 +531,7 @@
 
       addRow(
         "Effective frost date",
-        fmt(effectiveFrost),
+        fmtSingle(effectiveFrost),
         protectionDays ? `Based on ${fmt(firstFrost)} + ${protectionDays} days protection.` : `No protection applied.`
       );
 
@@ -374,7 +543,7 @@
       if (crop.frostTolerance) addRow("Frost tolerance", "—", crop.frostTolerance);
 
       planRows.push(
-        { crop: crop.name, task: "Latest recommended sow date", window: windowText, notes: "" },
+        { crop: crop.name, task: "Latest recommended sow date", window: windowTextPlain, notes: "" },
         { crop: crop.name, task: "Effective frost date", window: fmt(effectiveFrost), notes: protectionDays ? `Avg first frost ${fmt(firstFrost)} + ${protectionDays}d` : `Avg first frost ${fmt(firstFrost)}` },
       );
     });
