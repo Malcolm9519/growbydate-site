@@ -151,6 +151,7 @@ th {
   z-index: 200;
   background: #eef9ef; /* subtle green tint */
   border-bottom: 1px solid rgba(0,0,0,0.08);
+    padding: 0.4rem 1.25rem;
 }
 
 .siteHeader .container {
@@ -181,7 +182,7 @@ th {
 }
 
 .brandLogo {
-  height: 100px;
+  height: 120px;
   width: auto;
 }
 
