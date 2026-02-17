@@ -134,35 +134,11 @@
   color: rgba(0, 0, 0, 0.75);
 }
 
-
-/* Print: only print the results card */
-@media print {
-  /* Hide everything by default */
-  body * { visibility: hidden !important; }
-
-  /* Show results */
-  #resultsCard, #resultsCard * { visibility: visible !important; }
-
-  /* Position results at top-left for printing */
-  #resultsCard {
-    position: absolute !important;
-    left: 0 !important;
-    top: 0 !important;
-    width: 100% !important;
-    display: block !important;
-    box-shadow: none !important;
-    border: none !important;
-  }
-
-  /* Hide interactive controls inside results */
-  #resultsActions { display: none !important; }
-}
-
 </style>
 
 <p class="muted">
-  Enter your average last frost date and choose a crop. You’ll get a clear window for starting seeds indoors,
-  hardening off, and planting outside — built for shorter growing seasons where timing matters.
+  Enter your average last frost date and choose one or more crops. You’ll get a clear window for starting seeds indoors,
+  hardening off, and planting outside — plus frost-risk notes and an estimated first-harvest range.
 </p>
 
 <section class="card" aria-label="Seed starting planner inputs">
@@ -175,7 +151,8 @@
 
       <div>
         <label for="crop">Crop</label>
-        <select id="crop" aria-describedby="cropHelp"></select>
+        <select id="crop" aria-describedby="cropHelp" multiple size="8"></select>
+        <div class="small" id="cropHelp">Tip: select multiple crops to build one printable plan.</div>
       </div>
     </div>
 
@@ -187,7 +164,7 @@
           <option value="7">Some protection (row cover / cloche) — ~1 week earlier</option>
           <option value="14">More protection (cold frame / tunnel) — ~2 weeks earlier</option>
         </select>
-        <div class="small" id="protectionHelp">This shifts your outdoor planting window slightly earlier.</div>
+        <div class="small" id="protectionHelp">This shifts outdoor steps earlier by the amount selected. Freeze damage still begins at <strong>32°F / 0°C</strong>.</div>
       </div>
 
       <div class="btnRow">
@@ -201,6 +178,7 @@
 
 <section class="card" id="resultsCard" style="display:none;">
   <h2>Results</h2>
+  <div class="warn" id="freezeReality" style="margin:10px 0 0; display:none;"></div>
   <div class="small">
     <span class="pill">Planning tip</span>
     These are ranges. Spring weather can shift timing by a week or more — if you’re unsure, use the later end of each window.
@@ -215,13 +193,6 @@
     </thead>
     <tbody id="resultsBody"></tbody>
   </table>
-
-  <div class="btnRow" id="resultsActions" style="margin-top:12px;">
-    <button class="btn" id="copyBtn" type="button" style="display:none;">Copy plan</button>
-    <button class="btn" id="csvBtn" type="button" style="display:none;">Download CSV</button>
-    <button class="btn" id="txtBtn" type="button" style="display:none;">Download text</button>
-  </div>
-
 </section>
 <section class="warn" id="warnBox" style="display:none;"></section>
 
@@ -346,105 +317,13 @@
 
 <script>
   // ---- Data model ----
-  // indoorStartWeeks: [startEarlierWeeks, startLaterWeeks] relative to last frost (before last frost)
-  // transplantWeeks:  [earlierWeeks, laterWeeks] relative to last frost (after subtracting protection offset)
-  // directSowWeeks:   [earlierWeeks, laterWeeks] relative to last frost (can be negative = before frost date)
-  const CROPS = [
-    {
-      id: "tomato",
-      name: "Tomatoes",
-      indoorStartWeeks: [8, 6],
-      transplantWeeks: [2, 3],
-      directSowWeeks: null,
-      notes: "Warm-season. Transplant after nights warm up."
-    },
-    {
-      id: "pepper",
-      name: "Peppers",
-      indoorStartWeeks: [10, 8],
-      transplantWeeks: [2, 4],
-      directSowWeeks: null,
-      notes: "Very warm-season. Needs heat to germinate well."
-    },
-    {
-      id: "cucumber",
-      name: "Cucumbers",
-      indoorStartWeeks: [4, 3],
-      transplantWeeks: [1, 2],
-      directSowWeeks: [1, 2],
-      notes: "Doesn't love root disturbance; start in larger cells/pots."
-    },
-    {
-      id: "zucchini",
-      name: "Zucchini / Summer squash",
-      indoorStartWeeks: [4, 3],
-      transplantWeeks: [1, 2],
-      directSowWeeks: [1, 2],
-      notes: "Fast grower. Give it room."
-    },
-    {
-      id: "bean",
-      name: "Bush beans",
-      indoorStartWeeks: null,
-      transplantWeeks: null,
-      directSowWeeks: [1, 2],
-      notes: "Direct sow when soil warms. Sensitive to frost."
-    },
-    {
-      id: "lettuce",
-      name: "Lettuce",
-      indoorStartWeeks: [6, 4],
-      transplantWeeks: [-2, 0],
-      directSowWeeks: [-4, 1],
-      notes: "Cool-season. Can handle light frosts."
-    },
-    {
-      id: "spinach",
-      name: "Spinach",
-      indoorStartWeeks: null,
-      transplantWeeks: null,
-      directSowWeeks: [-6, -2],
-      notes: "Very cold-hardy. Direct sow early."
-    },
-    {
-      id: "kale",
-      name: "Kale",
-      indoorStartWeeks: [8, 6],
-      transplantWeeks: [-2, 1],
-      directSowWeeks: [-4, 0],
-      notes: "Cold-hardy. Great for short seasons."
-    },
-    {
-      id: "broccoli",
-      name: "Broccoli",
-      indoorStartWeeks: [8, 6],
-      transplantWeeks: [-2, 0],
-      directSowWeeks: null,
-      notes: "Cool-season. Likes consistent moisture and cool temps."
-    },
-    {
-      id: "cabbage",
-      name: "Cabbage",
-      indoorStartWeeks: [8, 6],
-      transplantWeeks: [-2, 0],
-      directSowWeeks: null,
-      notes: "Cool-season. Transplant while weather is still cool."
-    }
-  ];
+  // This tool reads crop timing from the site-wide crops dataset (dumped by Eleventy as JSON).
+  // The key idea: all schedule windows are expressed as *weeks relative to your last frost date*.
+  // - Indoor starts are typically weeks *before* last frost.
+  // - Outdoor steps (transplant / direct sow) may be before or after last frost depending on crop tolerance.
 
   // ---- Helpers ----
   const byId = (id) => document.getElementById(id);
-
-  // Exportable plan rows (built during calculate)
-  let PLAN_ROWS = [];
-  let CURRENT_CROP = "";
-
-  function stripHtml(html) {
-    const tmp = document.createElement("div");
-    tmp.innerHTML = html || "";
-    return (tmp.textContent || "").replace(/\s+/g, " ").trim();
-  }
-
 
   // Site crop metadata (slug, etc.) from Eleventy data. Used for linking.
   const SITE_CROPS = (() => {
@@ -462,19 +341,28 @@
     if (c && c.id) SITE_CROPS_BY_ID[c.id] = c;
   }
 
-  // Tool crop IDs don't always match site crop IDs (e.g., tomato → tomatoes).
-  const CROP_ID_ALIASES = {
-    tomato: "tomatoes",
-    pepper: "peppers",
-  };
+  const CROPS = SITE_CROPS
+    .filter(c => c && c.id && Array.isArray(c.relatedTools) && c.relatedTools.includes("seed-start-planner"))
+    .map(c => ({
+      id: c.id,
+      name: c.name,
+      slug: c.slug,
+      seasonType: c.seasonType,
+      frostTolerance: c.frostTolerance,
+      daysToMaturity: c.daysToMaturity,
+      indoorStartWeeks: c.indoorStartWeeks,
+      transplantWeeks: c.transplantWeeks,
+      directSowWeeks: c.directSowWeeks,
+      notes: c.description || c.tagline || ""
+    }));
 
 function cropIcon(id) {
   const icons = {
-    tomato: "🍅",
-    pepper: "🫑",
+    tomatoes: "🍅",
+    peppers: "🫑",
     cucumber: "🥒",
     zucchini: "🥒",      // no zucchini emoji; cucumber is closest
-    bean: "🫘",
+    beans: "🫘",
     lettuce: "🥬",
     spinach: "🍃",       // no spinach emoji; leafy greens works
     kale: "🥬",
@@ -487,9 +375,8 @@ function cropIcon(id) {
 
 
   function cropUrl(cropId) {
-    const normalizedId = CROP_ID_ALIASES[cropId] || cropId;
-    const meta = SITE_CROPS_BY_ID[normalizedId];
-    const slug = meta && meta.slug ? meta.slug : normalizedId;
+    const meta = SITE_CROPS_BY_ID[cropId];
+    const slug = meta && meta.slug ? meta.slug : cropId;
     return `/crops/${slug}/`;
   }
 
@@ -511,16 +398,62 @@ function cropIcon(id) {
 
   function weeksToDays(weeks) { return Math.round(weeks * 7); }
 
-  function windowFromWeeks(anchorDate, earlierWeeks, laterWeeks, protectionDays) {
-    const start = addDays(anchorDate, -weeksToDays(earlierWeeks));
-    const end   = addDays(anchorDate, -weeksToDays(laterWeeks));
+  function windowFromWeeksSigned(anchorDate, startWeeks, endWeeks, protectionDays) {
+    const start = addDays(anchorDate, weeksToDays(startWeeks));
+    const end   = addDays(anchorDate, weeksToDays(endWeeks));
     return [start, end].map(d => addDays(d, -protectionDays));
   }
 
-  function windowFromWeeksRelative(anchorDate, earlierWeeks, laterWeeks, protectionDays) {
-    const start = addDays(anchorDate, weeksToDays(earlierWeeks));
-    const end   = addDays(anchorDate, weeksToDays(laterWeeks));
-    return [start, end].map(d => addDays(d, -protectionDays));
+  function normalizeOutdoorWeeks(crop, weeksPair) {
+    if (!weeksPair) return null;
+    let [a, b] = weeksPair;
+    // For cool-season crops, many schedules are written as “X weeks before last frost”.
+    // If the dataset provides positive numbers for a cool-season outdoor window, treat them as weeks *before* last frost.
+    if (crop && crop.seasonType === "cool" && a >= 0 && b >= 0) {
+      a = -a;
+      b = -b;
+    }
+    return [a, b];
+  }
+
+  function indoorWindow(crop, frostDate) {
+    if (!crop.indoorStartWeeks) return null;
+    const [earlier, later] = crop.indoorStartWeeks;
+    // Indoor starts are expressed as weeks BEFORE last frost.
+    return windowFromWeeksSigned(frostDate, -earlier, -later, 0);
+  }
+
+  function outdoorWindow(crop, frostDate, weeksPair, protectionDays) {
+    const norm = normalizeOutdoorWeeks(crop, weeksPair);
+    if (!norm) return null;
+    const [startW, endW] = norm;
+    return windowFromWeeksSigned(frostDate, startW, endW, protectionDays);
+  }
+
+  function frostRiskLabel(crop) {
+    const ft = (crop.frostTolerance || "").toLowerCase();
+    if (ft.includes("none")) return "Tender (avoid frost)";
+    if (ft.includes("hardy")) return "Hardy (handles multiple frosts)";
+    if (ft.includes("light")) return "Light frost tolerant";
+    return crop.seasonType === "warm" ? "Warm-season" : "Cool-season";
+  }
+
+  function frostRiskNote(crop) {
+    const label = frostRiskLabel(crop);
+    if (label.startsWith("Tender")) return "Freeze damage can occur at 32°F (0°C). Use the later end of outdoor windows unless nights are reliably warm.";
+    if (label.startsWith("Hardy")) return "Can handle light frost, but hard freezes still damage plants. Use protection to reduce risk, not to ignore conditions.";
+    if (label.startsWith("Light")) return "Usually tolerates light frost. A hard freeze can still damage.";
+    return "Use the ranges as planning windows. Your actual timing should follow soil warmth and night temperatures.";
+  }
+
+  function harvestEstimateRow(crop, outdoorStartDate) {
+    const dtm = crop.daysToMaturity;
+    if (!outdoorStartDate || !Array.isArray(dtm) || dtm.length !== 2) return null;
+    const [minDays, maxDays] = dtm;
+    if (!Number.isFinite(minDays) || !Number.isFinite(maxDays)) return null;
+    const earliest = addDays(outdoorStartDate, minDays);
+    const latest = addDays(outdoorStartDate, maxDays);
+    return `${fmt(earliest)} – ${fmt(latest)}`;
   }
 
   function addRow(task, windowText, notes) {
@@ -531,16 +464,6 @@ function cropIcon(id) {
       <td class="muted">${notes || ""}</td>
     `;
     byId("resultsBody").appendChild(tr);
-
-    // Build export rows (skip the decorative Crop header row; crop is already a column)
-    if (task !== "Crop") {
-      PLAN_ROWS.push({
-        crop: CURRENT_CROP,
-        task: stripHtml(task),
-        window: stripHtml(windowText),
-        notes: stripHtml(notes || "")
-      });
-    }
   }
 
   // ---- Init UI ----
@@ -568,19 +491,13 @@ initCropSelect();
     byId("warnBox").style.display = "none";
     byId("resultsCard").style.display = "none";
     byId("resultsBody").innerHTML = "";
-    PLAN_ROWS = [];
     byId("printBtn").style.display = "none";
-    byId("copyBtn").style.display = "none";
-    byId("csvBtn").style.display = "none";
-    byId("txtBtn").style.display = "none";
-    byId("copyBtn").style.display = "none";
-    byId("csvBtn").style.display = "none";
-    byId("txtBtn").style.display = "none";
+    byId("freezeReality").style.display = "none";
 
     const frost = toDate(byId("lastFrost").value);
     const protectionDays = parseInt(byId("protection").value, 10) || 0;
-    const cropId = byId("crop").value;
-    const crop = CROPS.find(c => c.id === cropId);
+    const selected = [...byId("crop").selectedOptions].map(o => o.value);
+    const selectedCrops = selected.map(id => CROPS.find(c => c.id === id)).filter(Boolean);
 
     if (!frost) {
       byId("warnBox").style.display = "block";
@@ -588,150 +505,84 @@ initCropSelect();
       return;
     }
 
-    // Crop page
-addRow(
-  "Crop",
-  `<a href="${cropUrl(crop.id)}">${crop.name}</a>`,
-  `<span class="noteIcon" title="${crop.name}" aria-label="${crop.name} icon">${cropIcon(crop.id)}</span>`
-);
-
-
-    // Indoor start window (not shifted by protection)
-    if (crop.indoorStartWeeks) {
-      const [earlier, later] = crop.indoorStartWeeks;
-      const [start, end] = windowFromWeeks(frost, earlier, later, 0);
-      addRow("Start seeds indoors", `${fmt(start)} – ${fmt(end)}`, crop.notes);
-    } else {
-      addRow("Start seeds indoors", "Not typically recommended", crop.notes);
+    if (!selectedCrops.length) {
+      byId("warnBox").style.display = "block";
+      byId("warnBox").innerHTML = "Please select at least one <strong>crop</strong>.";
+      return;
     }
 
-    // Transplant window (shifted earlier by protection)
-    if (crop.transplantWeeks) {
-      const [earlier, later] = crop.transplantWeeks;
-      const [start, end] = windowFromWeeksRelative(frost, earlier, later, protectionDays);
-      const hardenStart = addDays(start, -10);
-      const hardenEnd = addDays(start, -7);
-      addRow("Begin hardening off", `${fmt(hardenStart)} – ${fmt(hardenEnd)}`, "Start gradual outdoor exposure ~7–10 days before transplanting.");
-      addRow("Transplant outdoors", `${fmt(start)} – ${fmt(end)}`, protectionDays ? "Shifted earlier due to season protection." : "Open-garden timing.");
-    } else {
-      addRow("Transplant outdoors", "Not applicable", "");
-    }
+    // Always show freeze reality at the top of results.
+    const freezeBox = byId("freezeReality");
+    freezeBox.style.display = "block";
+    freezeBox.innerHTML = `<strong>Freeze reality:</strong> plant tissue can be damaged at <strong>32°F / 0°C</strong>. Use these ranges to plan, then confirm with night temperatures and your setup.`;
 
-    // Direct sow window (shifted earlier by protection)
-    if (crop.directSowWeeks) {
-      const [earlier, later] = crop.directSowWeeks;
-      const [start, end] = windowFromWeeksRelative(frost, earlier, later, protectionDays);
-      addRow("Direct sow outdoors", `${fmt(start)} – ${fmt(end)}`, protectionDays ? "Shifted earlier due to season protection." : "");
-    } else {
-      addRow("Direct sow outdoors", "Not typical for this crop", "");
+    for (const crop of selectedCrops) {
+      // Crop header
+      addRow(
+        "Crop",
+        `<a href="${cropUrl(crop.id)}">${crop.name}</a>`,
+        `<span class="noteIcon" title="${crop.name}" aria-label="${crop.name} icon">${cropIcon(crop.id)}</span>`
+      );
+
+      addRow("Frost tolerance", frostRiskLabel(crop), frostRiskNote(crop));
+
+      // Indoor start window (not shifted by protection)
+      const indoor = indoorWindow(crop, frost);
+      if (indoor) {
+        const [start, end] = indoor;
+        addRow("Start seeds indoors", `${fmt(start)} – ${fmt(end)}`, crop.notes);
+      } else {
+        addRow("Start seeds indoors", "Not typically recommended", crop.notes);
+      }
+
+      // Transplant window (shifted earlier by protection)
+      const transplant = outdoorWindow(crop, frost, crop.transplantWeeks, protectionDays);
+      let outdoorAnchor = null;
+      if (transplant) {
+        const [start, end] = transplant;
+        outdoorAnchor = start;
+        const hardenStart = addDays(start, -10);
+        const hardenEnd = addDays(start, -7);
+        addRow("Begin hardening off", `${fmt(hardenStart)} – ${fmt(hardenEnd)}`, "Start gradual outdoor exposure ~7–10 days before transplanting.");
+        addRow("Transplant outdoors", `${fmt(start)} – ${fmt(end)}`, protectionDays ? `Shifted earlier by ${protectionDays} day(s) due to protection.` : "Open-garden timing.");
+      } else {
+        addRow("Transplant outdoors", "Not applicable", "");
+      }
+
+      // Direct sow window (shifted earlier by protection)
+      const direct = outdoorWindow(crop, frost, crop.directSowWeeks, protectionDays);
+      if (direct) {
+        const [start, end] = direct;
+        // If there is no transplant step, use direct sow as the outdoor anchor for harvest estimates.
+        if (!outdoorAnchor) outdoorAnchor = start;
+        addRow("Direct sow outdoors", `${fmt(start)} – ${fmt(end)}`, protectionDays ? `Shifted earlier by ${protectionDays} day(s) due to protection.` : "");
+      } else {
+        addRow("Direct sow outdoors", "Not typical for this crop", "");
+      }
+
+      // Harvest estimate (based on the first outdoor step)
+      const harvest = harvestEstimateRow(crop, outdoorAnchor);
+      if (harvest) {
+        addRow("Estimated first harvest", harvest, "Based on typical days-to-maturity and the first outdoor planting step. Weather, variety, and temperature can shift this." );
+      }
     }
 
     // Confidence note
     byId("resultsCard").style.display = "block";
     byId("printBtn").style.display = "inline-block";
-    byId("copyBtn").style.display = "inline-block";
-    byId("csvBtn").style.display = "inline-block";
-    byId("txtBtn").style.display = "inline-block";
   }
 
   function resetForm() {
     byId("lastFrost").value = "";
     byId("protection").value = "0";
+    // Clear multi-select
     for (const opt of byId("crop").options) opt.selected = false;
-    // Select the first option for a sensible default
-    if (byId("crop").options.length) byId("crop").options[0].selected = true;
     byId("warnBox").style.display = "none";
     byId("resultsCard").style.display = "none";
     byId("resultsBody").innerHTML = "";
     byId("printBtn").style.display = "none";
-    byId("copyBtn").style.display = "none";
-    byId("csvBtn").style.display = "none";
-    byId("txtBtn").style.display = "none";
+    byId("freezeReality").style.display = "none";
   }
-
-
-  // ---- Export helpers ----
-  function planToCSV(rows) {
-    const esc = (v) => {
-      const s = String(v ?? "");
-      // Escape quotes and wrap fields that contain commas/newlines/quotes
-      const needs = /[",\n\r]/.test(s);
-      const out = s.replace(/"/g, '""');
-      return needs ? `"${out}"` : out;
-    };
-    const header = ["Crop", "Task", "Window", "Notes"];
-    const lines = [header.map(esc).join(",")];
-    for (const r of rows) {
-      lines.push([r.crop, r.task, r.window, r.notes].map(esc).join(","));
-    }
-    return lines.join("\n");
-  }
-
-  function planToText(rows) {
-    // Group by crop, keep original order
-    const groups = new Map();
-    for (const r of rows) {
-      if (!groups.has(r.crop)) groups.set(r.crop, []);
-      groups.get(r.crop).push(r);
-    }
-
-    const out = [];
-    out.push("GrowByDate.com — Seed Starting Plan");
-    const frostVal = byId("lastFrost").value ? fmt(toDate(byId("lastFrost").value)) : "";
-    const prot = parseInt(byId("protection").value, 10) || 0;
-    if (frostVal) out.push(`Last frost (average): ${frostVal}`);
-    out.push(`Season extension (days): ${prot}`);
-    out.push("");
-    out.push("Freeze damage can begin at 32°F / 0°C.");
-    out.push("");
-
-    for (const [crop, items] of groups.entries()) {
-      out.push(crop);
-      out.push("-".repeat(Math.min(60, crop.length)));
-      for (const r of items) {
-        out.push(`• ${r.task}: ${r.window}${r.notes ? " — " + r.notes : ""}`);
-      }
-      out.push("");
-    }
-    return out.join("\n");
-  }
-
-  function downloadFile(filename, content, mime) {
-    const blob = new Blob([content], { type: mime });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    URL.revokeObjectURL(url);
-  }
-
-  async function copyPlan() {
-    const txt = planToText(PLAN_ROWS);
-    try {
-      await navigator.clipboard.writeText(txt);
-      byId("copyBtn").textContent = "Copied!";
-      setTimeout(() => (byId("copyBtn").textContent = "Copy plan"), 1200);
-    } catch (e) {
-      // Fallback: prompt (still lightweight)
-      window.prompt("Copy your plan:", txt);
-    }
-  }
-
-  function downloadCSV() {
-    const csv = planToCSV(PLAN_ROWS);
-    const stamp = byId("lastFrost").value || "plan";
-    downloadFile(`seed-start-plan-${stamp}.csv`, csv, "text/csv;charset=utf-8");
-  }
-
-  function downloadText() {
-    const txt = planToText(PLAN_ROWS);
-    const stamp = byId("lastFrost").value || "plan";
-    downloadFile(`seed-start-plan-${stamp}.txt`, txt, "text/plain;charset=utf-8");
-  }
-
 
   function printResults() {
     window.print();
@@ -740,7 +591,4 @@ addRow(
   byId("calcBtn").addEventListener("click", calculate);
   byId("resetBtn").addEventListener("click", resetForm);
   byId("printBtn").addEventListener("click", printResults);
-  byId("copyBtn").addEventListener("click", copyPlan);
-  byId("csvBtn").addEventListener("click", downloadCSV);
-  byId("txtBtn").addEventListener("click", downloadText);
 </script>
