@@ -152,9 +152,14 @@ th {
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 }
 
-/* Keep normal side gutters, but remove the global container's large vertical padding */
+/*
+  Make the header feel “full width” so the logo can sit far left
+  and the nav can sit far right, independent of the page content width.
+*/
 .siteHeader .container {
-  padding: 10px 16px;
+  max-width: none;     /* override global .container max width */
+  margin: 0;           /* remove centering margin */
+  padding: 10px 24px;  /* tighter vertical, comfy horizontal */
 }
 
 /* Single row: brand left, nav right */
@@ -303,6 +308,7 @@ th {
 .siteNavMobile { display: none; }
 
 @media (max-width: 720px) {
+  .siteHeader .container { padding: 10px 16px; } /* a little tighter on small screens */
   .siteNavDesktop { display: none; }
   .siteNavMobile { display: flex; }
 }
