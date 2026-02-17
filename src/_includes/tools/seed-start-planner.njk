@@ -691,6 +691,16 @@ initCropSelect();
     }
 // Confidence note
     byId("resultsCard").style.display = "block";
+    // Scroll to results after rendering
+setTimeout(() => {
+  const results = byId("resultsCard");
+  if (results) {
+    results.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  }
+}, 50);
     byId("printBtn").style.display = "inline-block";
     byId("copyBtn").style.display = "inline-block";
     byId("csvBtn").style.display = "inline-block";
