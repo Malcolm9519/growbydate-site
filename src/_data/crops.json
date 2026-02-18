@@ -543,6 +543,6 @@
     "indoorStartWeeks": null,
     "transplantWeeks": null,
     "directSowWeeks": null,
-    "relatedTools": []
+    "relatedTools": ["first-frost-planner"]
   }
 ]
