@@ -349,21 +349,22 @@
     .sort((a, b) => (a.name || "").localeCompare(b.name || "", undefined, { sensitivity: "base" }));
 
 
-  function cropIcon(id) {
+    function cropIcon(id) {
     const icons = {
       tomato: "🍅",
       tomatoes: "🍅",
       pepper: "🫑",
       peppers: "🫑",
       cucumber: "🥒",
+      cucumbers: "🥒",
       zucchini: "🥒",
-      bean: "🫑",
+      bean: "🫘",
+      beans: "🫘",
       lettuce: "🥬",
       spinach: "🍃",
       kale: "🥬",
       broccoli: "🥦",
       cabbage: "🥬",
-
       carrot: "🥕",
       carrots: "🥕",
       beet: "🫒",
@@ -375,14 +376,11 @@
       garlic: "🧄",
       radish: "🔴",
       radishes: "🔴",
-      potato: "🥔",
-
       "swiss-chard": "🥬",
       cauliflower: "🥦",
-      "winter-squash": "🎃"
+      "winter-squash": "🎃",
+      potato: "🥔"
     };
-    return icons[id] || "🌱";
-  };
     return icons[id] || "🌱";
   }
   function toDate(inputValue) {
