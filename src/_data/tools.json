@@ -2,7 +2,7 @@
   {
     "slug": "seed-start-planner",
     "name": "Spring Planting Planner (By Last Frost Date)",
-    "description": "Generate indoor seed start dates based on your last frost.",
+    "description": "Generate indoor start, transplant, and direct sow dates based on your last frost.",
     "order": 1
   },
   {
