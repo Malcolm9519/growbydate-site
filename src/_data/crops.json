@@ -10,11 +10,26 @@
     "lede": "Broccoli performs best when it grows through cool spring temperatures. In short seasons, start indoors, transplant on time, and aim to mature heads before summer heat speeds up bolting.",
     "seasonType": "cool",
     "frostTolerance": "light (tolerates light frost)",
-    "daysToMaturity": [55, 90],
-    "indoorStartWeeks": [8, 6],
-    "transplantWeeks": [2, 0],
-    "directSowWeeks": [4, 2],
-    "relatedTools": ["seed-start-planner", "first-frost-planner"]
+    "daysToMaturity": [
+      55,
+      90
+    ],
+    "indoorStartWeeks": [
+      8,
+      6
+    ],
+    "transplantWeeks": [
+      2,
+      0
+    ],
+    "directSowWeeks": [
+      4,
+      2
+    ],
+    "relatedTools": [
+      "seed-start-planner",
+      "first-frost-planner"
+    ]
   },
   {
     "id": "kale",
@@ -27,11 +42,26 @@
     "lede": "Kale handles cool weather better than most crops. In short seasons, the main advantage is flexibility: you can start early, transplant into cool conditions, and keep harvesting as fall temperatures drop.",
     "seasonType": "cool",
     "frostTolerance": "hardy (handles multiple frosts)",
-    "daysToMaturity": [45, 75],
-    "indoorStartWeeks": [6, 4],
-    "transplantWeeks": [4, 1],
-    "directSowWeeks": [4, 2],
-    "relatedTools": ["seed-start-planner", "first-frost-planner"]
+    "daysToMaturity": [
+      45,
+      75
+    ],
+    "indoorStartWeeks": [
+      6,
+      4
+    ],
+    "transplantWeeks": [
+      4,
+      1
+    ],
+    "directSowWeeks": [
+      4,
+      2
+    ],
+    "relatedTools": [
+      "seed-start-planner",
+      "first-frost-planner"
+    ]
   },
   {
     "id": "spinach",
@@ -44,11 +74,19 @@
     "lede": "Spinach grows quickly when temperatures are cool and often struggles once heat arrives. In short seasons, the key is sowing early for spring harvest and again later so plants mature into fall conditions.",
     "seasonType": "cool",
     "frostTolerance": "hardy (handles multiple frosts)",
-    "daysToMaturity": [35, 55],
+    "daysToMaturity": [
+      35,
+      55
+    ],
     "indoorStartWeeks": null,
     "transplantWeeks": null,
-    "directSowWeeks": [6, 2],
-    "relatedTools": ["first-frost-planner"]
+    "directSowWeeks": [
+      6,
+      2
+    ],
+    "relatedTools": [
+      "first-frost-planner"
+    ]
   },
   {
     "id": "tomatoes",
@@ -61,11 +99,23 @@
     "lede": "Tomatoes are tender warm-season plants that don’t tolerate frost and slow down in cool nights. In short seasons, start indoors on time, transplant after frost risk declines, and prioritize earlier varieties for reliable harvest.",
     "seasonType": "warm",
     "frostTolerance": "None (protect from all frost)",
-    "daysToMaturity": [55, 85],
-    "indoorStartWeeks": [8, 6],
-    "transplantWeeks": [3, 1],
+    "daysToMaturity": [
+      55,
+      85
+    ],
+    "indoorStartWeeks": [
+      8,
+      6
+    ],
+    "transplantWeeks": [
+      3,
+      1
+    ],
     "directSowWeeks": null,
-    "relatedTools": ["seed-start-planner", "first-frost-planner"]
+    "relatedTools": [
+      "seed-start-planner",
+      "first-frost-planner"
+    ]
   },
   {
     "id": "peppers",
@@ -78,11 +128,23 @@
     "lede": "Peppers are more cold-sensitive than tomatoes and often stall if transplanted into cool conditions. In short seasons, start indoors early, wait for warm nights and soil, and choose varieties that mature reliably before fall cool-down.",
     "seasonType": "warm",
     "frostTolerance": "None (protect from all frost)",
-    "daysToMaturity": [60, 100],
-    "indoorStartWeeks": [10, 8],
-    "transplantWeeks": [4, 2],
+    "daysToMaturity": [
+      60,
+      100
+    ],
+    "indoorStartWeeks": [
+      10,
+      8
+    ],
+    "transplantWeeks": [
+      4,
+      2
+    ],
     "directSowWeeks": null,
-    "relatedTools": ["seed-start-planner", "first-frost-planner"]
+    "relatedTools": [
+      "seed-start-planner",
+      "first-frost-planner"
+    ]
   },
   {
     "id": "lettuce",
@@ -95,11 +157,26 @@
     "lede": "Lettuce grows quickly in cool conditions. In short seasons, the main goal is to get it established early and keep it from bolting in summer heat.",
     "seasonType": "cool",
     "frostTolerance": "light (tolerates light frost)",
-    "daysToMaturity": [30, 60],
-    "indoorStartWeeks": [6, 4],
-    "transplantWeeks": [-2, 0],
-    "directSowWeeks": [6, 2],
-    "relatedTools": ["seed-start-planner", "first-frost-planner"]
+    "daysToMaturity": [
+      30,
+      60
+    ],
+    "indoorStartWeeks": [
+      6,
+      4
+    ],
+    "transplantWeeks": [
+      -2,
+      0
+    ],
+    "directSowWeeks": [
+      6,
+      2
+    ],
+    "relatedTools": [
+      "seed-start-planner",
+      "first-frost-planner"
+    ]
   },
   {
     "id": "cabbage",
@@ -112,11 +189,26 @@
     "lede": "Cabbage handles cool weather well, but it needs time. Start indoors, transplant into cool spring conditions, and plan harvest before peak heat where possible.",
     "seasonType": "cool",
     "frostTolerance": "light to moderate (tolerates light frost)",
-    "daysToMaturity": [60, 110],
-    "indoorStartWeeks": [10, 8],
-    "transplantWeeks": [-4, -2],
-    "directSowWeeks": [4, 2],
-    "relatedTools": ["seed-start-planner", "first-frost-planner"]
+    "daysToMaturity": [
+      60,
+      110
+    ],
+    "indoorStartWeeks": [
+      10,
+      8
+    ],
+    "transplantWeeks": [
+      -4,
+      -2
+    ],
+    "directSowWeeks": [
+      4,
+      2
+    ],
+    "relatedTools": [
+      "seed-start-planner",
+      "first-frost-planner"
+    ]
   },
   {
     "id": "beans",
@@ -129,11 +221,19 @@
     "lede": "Beans dislike cold soil. In short seasons, the reliable approach is to sow after last frost when soil has warmed, and pick varieties with shorter maturity.",
     "seasonType": "warm",
     "frostTolerance": "None (protect from all frost)",
-    "daysToMaturity": [50, 70],
+    "daysToMaturity": [
+      50,
+      70
+    ],
     "indoorStartWeeks": null,
     "transplantWeeks": null,
-    "directSowWeeks": [1, 3],
-    "relatedTools": ["first-frost-planner"]
+    "directSowWeeks": [
+      1,
+      3
+    ],
+    "relatedTools": [
+      "first-frost-planner"
+    ]
   },
   {
     "id": "cucumber",
@@ -146,11 +246,26 @@
     "lede": "Cucumbers hate cold starts. In short seasons, focus on warm planting conditions and early varieties so you’re harvesting before fall cool-down.",
     "seasonType": "warm",
     "frostTolerance": "None (protect from all frost)",
-    "daysToMaturity": [45, 70],
-    "indoorStartWeeks": [4, 3],
-    "transplantWeeks": [3, 2],
-    "directSowWeeks": [2, 4],
-    "relatedTools": ["seed-start-planner", "first-frost-planner"]
+    "daysToMaturity": [
+      45,
+      70
+    ],
+    "indoorStartWeeks": [
+      4,
+      3
+    ],
+    "transplantWeeks": [
+      3,
+      2
+    ],
+    "directSowWeeks": [
+      2,
+      4
+    ],
+    "relatedTools": [
+      "seed-start-planner",
+      "first-frost-planner"
+    ]
   },
   {
     "id": "zucchini",
@@ -163,10 +278,271 @@
     "lede": "Zucchini grows quickly once conditions are warm. In short seasons, avoid cold starts and aim for early fruit set before nights cool down.",
     "seasonType": "warm",
     "frostTolerance": "None (protect from all frost)",
-    "daysToMaturity": [45, 65],
-    "indoorStartWeeks": [4, 3],
-    "transplantWeeks": [3, 2],
-    "directSowWeeks": [2, 4],
-    "relatedTools": ["seed-start-planner", "first-frost-planner"]
+    "daysToMaturity": [
+      45,
+      65
+    ],
+    "indoorStartWeeks": [
+      4,
+      3
+    ],
+    "transplantWeeks": [
+      3,
+      2
+    ],
+    "directSowWeeks": [
+      2,
+      4
+    ],
+    "relatedTools": [
+      "seed-start-planner",
+      "first-frost-planner"
+    ]
+  },
+  {
+    "id": "carrots",
+    "name": "Carrots",
+    "slug": "carrots",
+    "order": 11,
+    "indexBlurb": "Direct-sown root crop—timing is about cool soil and steady moisture.",
+    "description": "Carrots are a cold-tolerant, direct-sow crop—success in short seasons comes from sowing into workable soil and choosing maturity lengths that fit before frost.",
+    "tagline": "Direct sow into cool soil—plan around frost and slow early growth.",
+    "lede": "Carrots prefer cool conditions and can tolerate light frosts once established. In short seasons, the decision point is simple: sow as soon as soil is workable, and use days-to-maturity to ensure the crop sizes up before fall frost slows growth.",
+    "seasonType": "cool",
+    "frostTolerance": "light to moderate (tolerates light frost; quality can improve after cool nights)",
+    "daysToMaturity": [
+      60,
+      80
+    ],
+    "indoorStartWeeks": null,
+    "transplantWeeks": null,
+    "directSowWeeks": [
+      -2,
+      2
+    ],
+    "relatedTools": [
+      "seed-start-planner",
+      "first-frost-planner"
+    ]
+  },
+  {
+    "id": "beets",
+    "name": "Beets",
+    "slug": "beets",
+    "order": 12,
+    "indexBlurb": "Cool-season root crop—direct sow early and use DTM for fall cutoffs.",
+    "description": "Beets are reliable in short seasons when sown early into cool soil and timed so roots size up before fall slows growth.",
+    "tagline": "Direct sow into cool soil—fast roots with real frost flexibility.",
+    "lede": "Beets tolerate cool conditions and can handle light frosts once established. In short seasons, the main win is predictable maturity: sow early for spring, and count backward from first frost for fall roots.",
+    "seasonType": "cool",
+    "frostTolerance": "light (tolerates light frost; hard freezes can damage tops)",
+    "daysToMaturity": [
+      50,
+      70
+    ],
+    "indoorStartWeeks": null,
+    "transplantWeeks": null,
+    "directSowWeeks": [
+      -2,
+      2
+    ],
+    "relatedTools": [
+      "seed-start-planner",
+      "first-frost-planner"
+    ]
+  },
+  {
+    "id": "radishes",
+    "name": "Radishes",
+    "slug": "radishes",
+    "order": 13,
+    "indexBlurb": "Fast cool-season crop—perfect for tight frost windows and fall cutoffs.",
+    "description": "Radishes mature quickly in cool conditions—short seasons favor frequent sowing and fall timing based on first frost.",
+    "tagline": "Short maturity, cool weather—built for frost-first planning.",
+    "lede": "Radishes are one of the fastest crops you can grow. In short seasons, they’re a precision tool: sow early in cool soil, then use first frost to time late summer sowings that mature into fall.",
+    "seasonType": "cool",
+    "frostTolerance": "light to moderate (tolerates light frost; growth slows in cold nights)",
+    "daysToMaturity": [
+      20,
+      35
+    ],
+    "indoorStartWeeks": null,
+    "transplantWeeks": null,
+    "directSowWeeks": [
+      -4,
+      4
+    ],
+    "relatedTools": [
+      "seed-start-planner",
+      "first-frost-planner"
+    ]
+  },
+  {
+    "id": "onions",
+    "name": "Onions",
+    "slug": "onions",
+    "order": 14,
+    "indexBlurb": "Long-runway crop—start indoors early and transplant before last frost.",
+    "description": "Onions need time. In short seasons, starting indoors early and transplanting into cool spring conditions is the reliable path to mature bulbs.",
+    "tagline": "Start early indoors—bulb size depends on runway.",
+    "lede": "Onions aren’t difficult, but they are time-dependent. In short seasons, start seeds early indoors and transplant outdoors before or around last frost so plants can build size before summer daylength shifts and fall cool-down slows growth.",
+    "seasonType": "cool",
+    "frostTolerance": "light (tolerates light frost once established)",
+    "daysToMaturity": [
+      90,
+      120
+    ],
+    "indoorStartWeeks": [
+      12,
+      10
+    ],
+    "transplantWeeks": [
+      -4,
+      -2
+    ],
+    "directSowWeeks": null,
+    "relatedTools": [
+      "seed-start-planner",
+      "first-frost-planner"
+    ]
+  },
+  {
+    "id": "swiss-chard",
+    "name": "Swiss Chard",
+    "slug": "swiss-chard",
+    "order": 15,
+    "indexBlurb": "Flexible cool-season crop—handles cool nights and bridges summer into fall.",
+    "description": "Swiss chard is a durable short-season crop—start early, transplant into cool weather, and keep harvesting as fall temperatures drop.",
+    "tagline": "A cold-tolerant workhorse with a long harvest window.",
+    "lede": "Swiss chard is resilient in variable conditions. In short seasons, it’s valuable because it can be started early, transplanted into cool spring weather, and harvested into fall as temperatures drop.",
+    "seasonType": "cool",
+    "frostTolerance": "light to moderate (tolerates light frost; hard freezes can damage leaves)",
+    "daysToMaturity": [
+      50,
+      70
+    ],
+    "indoorStartWeeks": [
+      6,
+      4
+    ],
+    "transplantWeeks": [
+      -2,
+      0
+    ],
+    "directSowWeeks": [
+      -2,
+      2
+    ],
+    "relatedTools": [
+      "seed-start-planner",
+      "first-frost-planner"
+    ]
+  },
+  {
+    "id": "cauliflower",
+    "name": "Cauliflower",
+    "slug": "cauliflower",
+    "order": 16,
+    "indexBlurb": "Timing-sensitive cool-season crop—start indoors and transplant on schedule.",
+    "description": "Cauliflower rewards precision: start indoors, transplant into cool weather, and avoid heat that disrupts head formation—especially in short seasons.",
+    "tagline": "Cool-season precision crop—hit the window, avoid heat.",
+    "lede": "Cauliflower is less forgiving than broccoli. In short seasons, the main requirement is a tight planting window: start indoors, transplant on time into cool spring conditions, and aim to mature before summer heat disrupts head quality.",
+    "seasonType": "cool",
+    "frostTolerance": "light (tolerates light frost; protect from hard freezes)",
+    "daysToMaturity": [
+      60,
+      100
+    ],
+    "indoorStartWeeks": [
+      8,
+      6
+    ],
+    "transplantWeeks": [
+      2,
+      0
+    ],
+    "directSowWeeks": null,
+    "relatedTools": [
+      "seed-start-planner",
+      "first-frost-planner"
+    ]
+  },
+  {
+    "id": "peas",
+    "name": "Peas",
+    "slug": "peas",
+    "order": 17,
+    "indexBlurb": "Frost-friendly spring crop—direct sow early, before last frost when soil is workable.",
+    "description": "Peas thrive in cool weather. In short seasons, the key is early sowing into workable soil and avoiding summer heat.",
+    "tagline": "Cool soil crop—sow early, harvest before heat.",
+    "lede": "Peas are one of the most frost-tolerant garden crops and perform best in cool spring temperatures. In short seasons, sow early into workable soil and plan harvest before heat slows flowering and pod set.",
+    "seasonType": "cool",
+    "frostTolerance": "hardy (handles multiple frosts)",
+    "daysToMaturity": [
+      55,
+      75
+    ],
+    "indoorStartWeeks": null,
+    "transplantWeeks": null,
+    "directSowWeeks": [
+      -6,
+      -2
+    ],
+    "relatedTools": [
+      "seed-start-planner",
+      "first-frost-planner"
+    ]
+  },
+  {
+    "id": "winter-squash",
+    "name": "Winter Squash",
+    "slug": "winter-squash",
+    "order": 18,
+    "indexBlurb": "Long warm-season crop—start indoors or direct sow only with enough runway before first frost.",
+    "description": "Winter squash is a long-maturity warm-season crop—short-season success depends on warmth at planting and enough time to finish before fall frost.",
+    "tagline": "Warm soil + long runway—first frost sets the real limit.",
+    "lede": "Winter squash is tender and time-hungry. In short seasons, you’re balancing two constraints: planting into warm soil after last frost, and finishing fruit before first frost ends the season.",
+    "seasonType": "warm",
+    "frostTolerance": "None (protect from all frost)",
+    "daysToMaturity": [
+      80,
+      110
+    ],
+    "indoorStartWeeks": [
+      4,
+      3
+    ],
+    "transplantWeeks": [
+      3,
+      2
+    ],
+    "directSowWeeks": [
+      1,
+      3
+    ],
+    "relatedTools": [
+      "seed-start-planner",
+      "first-frost-planner"
+    ]
+  },
+  {
+    "id": "garlic",
+    "name": "Garlic",
+    "slug": "garlic",
+    "order": 19,
+    "indexBlurb": "Fall-planted crop—timing is frost-based, but harvest is next season.",
+    "description": "Garlic is usually planted in fall and harvested the following summer. It’s frost-hardy once established, but it doesn’t match single-season maturity timing.",
+    "tagline": "Planted before winter, harvested next summer—frost-first, but multi-season.",
+    "lede": "Garlic is planted in fall, establishes roots before freeze-up, then resumes growth in spring for a summer harvest. In a frost-first system, it’s still frost-timed—but it doesn’t fit a single-season days-to-maturity cutoff before first frost.",
+    "seasonType": "cool",
+    "frostTolerance": "hardy (handles multiple frosts once established)",
+    "daysToMaturity": [
+      240,
+      300
+    ],
+    "indoorStartWeeks": null,
+    "transplantWeeks": null,
+    "directSowWeeks": null,
+    "relatedTools": []
   }
 ]
