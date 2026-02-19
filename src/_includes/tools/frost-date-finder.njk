@@ -1,0 +1,84 @@
+<section class="section">
+  <div class="toolRoot">
+
+    <header class="card">
+      <h1>Frost Date Finder (ZIP / Postal Code)</h1>
+      <p class="muted">
+        Get your <strong>average</strong> frost dates at the <strong>32°F / 0°C</strong> freeze threshold.
+        Use the results to prefill GrowByDate planners for cold-climate timing.
+      </p>
+
+      <ul class="small" style="margin-top:10px; opacity:0.92;">
+        <li><strong>Last spring frost</strong> (average date your area stops freezing)</li>
+        <li><strong>First fall frost</strong> (average date freezing returns)</li>
+      </ul>
+    </header>
+
+    <section class="card" aria-label="Lookup frost dates by ZIP or postal code">
+      <h2>Look up my frost dates</h2>
+      <p class="small" style="opacity:0.86; margin-top:6px;">
+        Enter a <strong>5-digit ZIP</strong> or the <strong>first 3 characters</strong> of your postal code (FSA).
+      </p>
+
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
+        <input type="text" id="frost-lookup-input" placeholder="ZIP or Postal Code" autocomplete="postal-code" aria-label="ZIP or postal code">
+        <button id="lookup-btn" type="button">Find frost dates</button>
+      </div>
+
+      <div id="lookup-result" style="margin-top:10px;"></div>
+    </section>
+
+    <section class="card" aria-label="How to use frost dates">
+      <h2>How to use these dates</h2>
+      <p class="small" style="opacity:0.92;">
+        Frost dates are <strong>averages</strong>. Freezing (32°F / 0°C) can happen earlier or later in any given year.
+        Use this as a planning baseline, then adjust for your microclimate (wind exposure, elevation, urban heat, and cold pockets).
+      </p>
+
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
+        <a class="button" href="/tools/seed-start-planner/">Go to Spring Seed Start Planner</a>
+        <a class="button" href="/tools/first-frost-planner/">Go to Fall Planting Planner</a>
+      </div>
+    </section>
+
+    <section class="card" aria-label="FAQ">
+      <h2>FAQ</h2>
+
+      <h3 class="h4" style="margin-top:10px;">What does “32°F / 0°C” mean?</h3>
+      <p class="small" style="opacity:0.92;">
+        It’s the freezing point of water. Many vegetables are damaged when temperatures hit 32°F / 0°C,
+        especially tender crops and seedlings.
+      </p>
+
+      <h3 class="h4" style="margin-top:10px;">Are these the earliest frosts ever?</h3>
+      <p class="small" style="opacity:0.92;">
+        No. These are <strong>average</strong> frost dates. A hard freeze can occur earlier or later than the average.
+        If you garden in a shorter season, plan a buffer.
+      </p>
+
+      <h3 class="h4" style="margin-top:10px;">Why use ZIP / postal code instead of a city?</h3>
+      <p class="small" style="opacity:0.92;">
+        ZIPs and FSAs are fast to type, and they connect cleanly to a static dataset (no APIs).
+        For mountainous and coastal areas, your local microclimate may differ.
+      </p>
+    </section>
+
+  </div>
+</section>
+
+<script type="module">
+  import { lookupFrost, renderResultCard } from "/assets/js/frost-lookup.js";
+
+  const input = document.getElementById("frost-lookup-input");
+  const btn = document.getElementById("lookup-btn");
+  const out = document.getElementById("lookup-result");
+
+  async function doLookup() {
+    if (!input || !out) return;
+    const frost = await lookupFrost(input.value);
+    renderResultCard(out, frost);
+  }
+
+  if (btn) btn.addEventListener("click", doLookup);
+  if (input) input.addEventListener("keydown", (e) => { if (e.key === "Enter") doLookup(); });
+</script>

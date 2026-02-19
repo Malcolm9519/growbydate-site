@@ -10,5 +10,11 @@
     "name": "Fall Planting Planner (By First Frost Date)",
     "description": "Plan fall planting and harvest timing before your first frost.",
     "order": 2
+  },
+  {
+    "slug": "frost-date-finder",
+    "name": "Frost Date Finder (ZIP / Postal Code)",
+    "description": "Look up average last and first frost dates to prefill the planners.",
+    "order": 3
   }
 ]

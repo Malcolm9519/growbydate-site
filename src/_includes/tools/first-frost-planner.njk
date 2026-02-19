@@ -2,7 +2,7 @@
 <section class="section">
   <div id="first-frost-planner" class="toolRoot">
 
-    <section class="card" aria-labelledby="ff-title">
+<section class="card" aria-labelledby="ff-title">
       <header>
         <h2 id="ff-title" class="sr-only">First frost planner</h2>
         <p class="small" style="opacity:0.86;">
@@ -11,8 +11,18 @@
 
       <div role="form" aria-describedby="ff-assumptions">
         <div style="margin-top:10px;">
+          <h3 class="h4" style="margin:0 0 6px 0;">Start Here</h3>
+          <label for="frost-lookup-input">Find my frost date (ZIP / postal code)</label>
+          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:6px;">
+            <input type="text" id="frost-lookup-input" placeholder="ZIP or Postal Code" autocomplete="postal-code">
+            <button id="lookup-btn" type="button">Find</button>
+          </div>
+          <div id="lookup-result" style="margin-top:10px;"></div>
+        </div>
+
+        <div style="margin-top:10px;">
           <label for="firstFrost">Average first fall frost date</label>
-          <div class="small" id="firstFrostHelp">Enter your average first fall frost date (not the earliest ever). This tool counts backward using days to maturity + your buffer.</div>
+          <div class="small" id="firstFrostHelp"></div>
           <input id="firstFrost" type="date" aria-describedby="firstFrostHelp ff-error" />
         </div>
 
@@ -694,4 +704,50 @@ planRows.push(
   byId("csvBtn").addEventListener("click", downloadCsv);
   byId("txtBtn").addEventListener("click", downloadText);
   byId("printBtn").addEventListener("click", printResults);
+</script>
+
+<script type="module">
+  import {
+    lookupFrost,
+    populateDateInput,
+    renderResultCard,
+    buildPlannerLink,
+    applyQueryPrefill
+  } from "/assets/js/frost-lookup.js";
+
+  const firstFrostInput = document.getElementById("firstFrost");
+  const input = document.getElementById("frost-lookup-input");
+  const btn = document.getElementById("lookup-btn");
+  const out = document.getElementById("lookup-result");
+
+  function runPlanner() {
+    const calcBtn = document.getElementById("calcBtn");
+    if (calcBtn) calcBtn.click();
+  }
+
+  async function doLookup() {
+    if (!input || !out) return;
+    const frost = await lookupFrost(input.value);
+
+    renderResultCard(out, frost);
+
+
+    if (frost && firstFrostInput) {
+      populateDateInput(firstFrostInput, frost.firstFrost);
+      
+      // Keep the top reference clean: bring the First frost date field to the top of the viewport.
+      const firstFrostLabel = document.querySelector('label[for="firstFrost"]') || firstFrostInput;
+      if (firstFrostLabel) {
+        const y = firstFrostLabel.getBoundingClientRect().top + window.scrollY - 80;
+        window.scrollTo({ top: y, behavior: "smooth" });
+      }
+runPlanner();
+    }
+  }
+
+  if (btn) btn.addEventListener("click", doLookup);
+  if (input) input.addEventListener("keydown", (e) => { if (e.key === "Enter") doLookup(); });
+
+  // Query param prefill: ?firstFrost=MM-DD
+  applyQueryPrefill("firstFrost", firstFrostInput, () => runPlanner());
 </script>

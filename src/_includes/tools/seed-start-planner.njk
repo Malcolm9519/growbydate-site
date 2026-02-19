@@ -220,13 +220,22 @@
 </style>
 
 <p class="muted">
-  Enter your average last frost date and choose a crop. You’ll get a clear window for starting seeds indoors,
-  hardening off, and planting outside — built for shorter growing seasons where timing matters.
+  Enter your average last frost date — or look it up with a ZIP or postal code — and choose a crop. You’ll get a clear window for starting seeds indoors, hardening off, and planting outside — built for shorter growing seasons where timing matters.
 </p>
 
 <section class="card" aria-label="Seed starting planner inputs">
   <div class="stack">
-    <div>
+    
+    <div class="stack" style="margin-bottom:10px;">
+      <h3 class="h4" style="margin:0 0 6px 0;">Start Here</h3>
+      <label for="frost-lookup-input">Find my frost date (ZIP / postal code)</label>
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:6px;">
+        <input type="text" id="frost-lookup-input" placeholder="ZIP or Postal Code" autocomplete="postal-code">
+        <button id="lookup-btn" type="button">Find</button>
+      </div>
+      <div id="lookup-result" style="margin-top:10px;"></div>
+    </div>
+<div>
       <label for="lastFrost">Average last frost date</label>
       <input id="lastFrost" type="date" aria-describedby="lastFrostHelp" />
     </div>
@@ -590,10 +599,7 @@ function initCropSelect() {
     `;
     list.appendChild(row);
   }
-
-  // Default: check the first crop
-  const first = list.querySelector('input[type="checkbox"]');
-  if (first) first.checked = true;
+  // Default: no crop selected (user chooses)
 }
 
 initCropSelect();
@@ -825,4 +831,66 @@ setTimeout(() => {
   byId("copyBtn").addEventListener("click", copyPlan);
   byId("csvBtn").addEventListener("click", downloadCSV);
   byId("txtBtn").addEventListener("click", downloadText);
+</script>
+
+<script type="module">
+  import {
+    lookupFrost,
+    populateDateInput,
+    renderResultCard,
+    buildPlannerLink,
+    applyQueryPrefill
+  } from "/assets/js/frost-lookup.js";
+
+  const lastFrostInput = document.getElementById("lastFrost");
+  const input = document.getElementById("frost-lookup-input");
+  const btn = document.getElementById("lookup-btn");
+  const out = document.getElementById("lookup-result");
+
+  function anyCropSelected() {
+    return Array.from(document.querySelectorAll('#cropList input[type="checkbox"]'))
+      .some((el) => el.checked);
+  }
+
+  function runPlannerIfReady() {
+    // Only run if user has selected a crop (prevents auto-running with an unintended default).
+    if (!anyCropSelected()) return;
+    const calcBtn = document.getElementById("calcBtn");
+    if (calcBtn) calcBtn.click();
+  }
+
+  async function doLookup() {
+    if (!input || !out) return;
+    const frost = await lookupFrost(input.value);
+
+    renderResultCard(out, frost);
+
+
+    if (frost && lastFrostInput) {
+      populateDateInput(lastFrostInput, frost.lastFrost);
+      // Keep the top reference clean: bring the Average last frost date field to the top of the viewport.
+      const lastFrostLabel = document.querySelector('label[for="lastFrost"]') || lastFrostInput;
+
+      // Use an explicit offset so the field becomes the clean top reference (accounts for sticky headers).
+      if (lastFrostLabel) {
+        const y = lastFrostLabel.getBoundingClientRect().top + window.scrollY - 80;
+        window.scrollTo({ top: y, behavior: "smooth" });
+      }
+
+      // Focus crop selection without triggering an extra scroll jump.
+      const firstCrop = document.querySelector('#cropList input[type="checkbox"]');
+      try {
+        firstCrop?.focus({ preventScroll: true });
+      } catch {
+        // Older browsers: focus may scroll; acceptable fallback.
+        firstCrop?.focus();
+      }
+    }
+  }
+
+  if (btn) btn.addEventListener("click", doLookup);
+  if (input) input.addEventListener("keydown", (e) => { if (e.key === "Enter") doLookup(); });
+
+  // Query param prefill: ?lastFrost=MM-DD
+  applyQueryPrefill("lastFrost", lastFrostInput, () => runPlannerIfReady());
 </script>
