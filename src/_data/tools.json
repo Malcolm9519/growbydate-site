@@ -14,7 +14,7 @@
   {
     "slug": "frost-date-finder",
     "name": "Frost Date Finder (ZIP / Postal Code)",
-    "description": "Look up average last and first frost dates.",
+    "description": "Look up your average last spring frost date and first fall frost date at the 32°F / 0°C freeze threshold.",
     "order": 3
   }
 ]
