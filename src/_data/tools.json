@@ -14,7 +14,7 @@
   {
     "slug": "frost-date-finder",
     "name": "Frost Date Finder (ZIP / Postal Code)",
-    "description": "Look up average last and first frost dates to prefill the planners.",
+    "description": "Look up average last and first frost dates.",
     "order": 3
   }
 ]
