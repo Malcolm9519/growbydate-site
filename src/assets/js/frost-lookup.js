@@ -126,7 +126,6 @@ export function renderResultCard(targetEl, frost, options = {}) {
       <div class="small" style="margin-top:6px;">
         <div>Average last spring frost: <strong>${formatMmddLong(frost.lastFrost)}</strong></div>
         <div>Average first fall frost: <strong>${formatMmddLong(frost.firstFrost)}</strong></div>
-        
 <p class="muted">
   Use your frost dates with the tools below:
 </p>
