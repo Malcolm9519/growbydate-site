@@ -126,7 +126,7 @@ export function renderResultCard(targetEl, frost, options = {}) {
       <div class="small" style="margin-top:6px;">
         <div>Average last spring frost: <strong>${formatMmddLong(frost.lastFrost)}</strong></div>
         <div>Average first fall frost: <strong>${formatMmddLong(frost.firstFrost)}</strong></div>
-        <a class="button primary" href="/tools/seed-start-planner/">Seed Starting Planner (Spring)</a>
+        <a class="button" href="/tools/seed-start-planner/">Seed Starting Planner (Spring)</a>
         <a class="button" href="/tools/first-frost-planner/">First Frost Planner (Fall)</a>
         </div>
       <div class="small" style="margin-top:8px; opacity:0.86;">
