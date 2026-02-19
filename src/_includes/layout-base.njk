@@ -10,15 +10,26 @@
 
   <link rel="stylesheet" href="/styles.css" />
 
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-1B458R6ZB7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <!-- Google Analytics (production only) -->
+  <script>
+    (function () {
+      // Only track on production domains
+      const allowedHosts = ["growbydate.com", "www.growbydate.com"];
+      if (!allowedHosts.includes(location.hostname)) return;
 
-  gtag('config', 'G-1B458R6ZB7');
-</script>
+      var s = document.createElement("script");
+      s.async = true;
+      s.src = "https://www.googletagmanager.com/gtag/js?id=G-1B458R6ZB7";
+      document.head.appendChild(s);
+
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      window.gtag = gtag;
+
+      gtag("js", new Date());
+      gtag("config", "G-1B458R6ZB7");
+    })();
+  </script>
 
 </head>
 <body>
@@ -66,5 +77,4 @@
   })();
   </script>
 </body>
-
 </html>
