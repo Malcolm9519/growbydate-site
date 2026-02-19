@@ -131,7 +131,6 @@ export function renderResultCard(targetEl, frost, options = {}) {
 </p>
         <a class="button" href="/tools/seed-start-planner/">Seed Starting Planner (Spring)</a>
         <a class="button" href="/tools/first-frost-planner/">First Frost Planner (Fall)</a>
-        </div>
       <div class="small" style="margin-top:8px; opacity:0.86;">
         Frost dates are averages. Freezing (32°F / 0°C) may occur earlier or later.
       </div>
