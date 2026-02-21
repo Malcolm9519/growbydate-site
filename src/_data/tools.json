@@ -19,7 +19,7 @@
   },
   {
     "slug": "growing-degree-day-planner",
-    "name": "GDD Planner (Maturity Before First Frost)",
+      "name": "Growing Degree Day Planner (Will Your Crop Mature Before First Frost)",
     "description": "Estimate whether a crop can reach maturity before your typical first frost using climate normals growing degree days (GDD).",
     "order": 4
   }
