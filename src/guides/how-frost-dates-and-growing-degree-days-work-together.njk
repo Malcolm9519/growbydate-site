@@ -33,10 +33,8 @@ isGuide: true
 
   <p>
     These dates use the 32°F threshold because most frost-sensitive crops are damaged at or near that temperature.
-    If you want a deeper explanation of that cutoff, see
-    <a href="/guides/what-happens-to-seedlings-at-32-degrees/">What Happens to Seedlings at 32 Degrees?</a>
-    and
-    <a href="/guides/light-freeze-vs-hard-freeze/">Light Freeze vs Hard Freeze</a>.
+    (If you want the deeper 32°F explanation, see
+    <a href="/guides/what-happens-to-seedlings-at-32-degrees/">What Happens to Seedlings at 32 Degrees?</a>.)
   </p>
 
   <p>
@@ -58,19 +56,18 @@ isGuide: true
   </p>
 
   <p>
-    As explained in
-    <a href="/guides/average-frost-date-vs-actual-weather/">Average Frost Date vs Actual Weather</a>,
-    climate normals describe what typically happens — not what happens every year.
-    The same principle applies to heat accumulation.
-  </p>
-
-  <p>
     In cooler climates, early summer nights in the 40s and low 50s slow plant metabolism.
     Late summer cooling reduces development speed before first frost risk returns.
   </p>
 
   <p>
     The calendar window is open — but thermal progress may be slower than expected.
+  </p>
+
+  <p>
+    This is one reason “average frost dates” should be treated as planning anchors rather than exact promises.
+    (If you want that framing, see
+    <a href="/guides/average-frost-date-vs-actual-weather/">Average Frost Date vs Actual Weather</a>.)
   </p>
 </section>
 
@@ -92,14 +89,11 @@ GDD = ((Daily High + Daily Low) ÷ 2) − Base Temperature
 
   <p>
     Each day contributes heat units. Over a season, those units accumulate.
-  </p>
-
-  <p>
     Crops require a certain total GDD range to mature.
-    The key planning question becomes:
   </p>
 
   <p>
+    The key planning question becomes:
     <strong>How many heat units typically accumulate between your last and first frost?</strong>
   </p>
 
@@ -133,11 +127,6 @@ GDD = ((Daily High + Daily Low) ÷ 2) − Base Temperature
     In the lower-GDD climate, long-season tomatoes or winter squash may not fully mature before first frost.
     In the higher-GDD climate, those same varieties may finish comfortably.
   </p>
-
-  <p>
-    This is why relying only on “days to maturity” can be misleading —
-    especially in cold climates. (We’ll explore that in more depth in the next guide in this series.)
-  </p>
 </section>
 
 <section class="card">
@@ -151,24 +140,19 @@ GDD = ((Daily High + Daily Low) ÷ 2) − Base Temperature
   </ol>
 
   <p>
-    This creates a deterministic planning chain:
-  </p>
-
-  <p>
-    <strong>Frost → Season Length → GDD → Crop Maturity</strong>
+    This creates the deterministic planning chain GrowByDate is built on:
+    <strong>Frost → Season Length → GDD → Crop Maturity</strong>.
   </p>
 
   <p>
     If your expected GDD total is close to a crop’s requirement,
-    maturity risk increases in a typical year.
-    If your total comfortably exceeds it, your buffer is larger.
+    maturity risk increases in a typical year. If your total comfortably exceeds it, your buffer is larger.
   </p>
 
   <p>
-    When planning transplant timing relative to frost risk,
-    you can anchor indoor starts using the
-    <a href="/tools/seed-start-planner/">Seed Start Planner</a>
-    so that maturity modeling aligns with your frost boundary.
+    If you need additional buffer, starting seeds earlier indoors may help — but only if it meaningfully changes transplant timing relative to frost risk.
+    You can anchor indoor timing with the
+    <a href="/tools/seed-start-planner/">Seed Start Planner</a>.
   </p>
 </section>
 
@@ -182,15 +166,14 @@ GDD = ((Daily High + Daily Low) ÷ 2) − Base Temperature
   </p>
 
   <p>
-    As discussed in
-    <a href="/guides/why-frost-dates-matter-more-than-planting-calendars/">Why Frost Dates Matter More Than Planting Calendars</a>,
-    climate-based timing is more reliable than fixed calendar dates.
+    That’s why climate-based timing consistently outperforms fixed calendar advice.
+    (Related: <a href="/guides/why-frost-dates-matter-more-than-planting-calendars/">Why Frost Dates Matter More Than Planting Calendars</a>.)
   </p>
 
   <p>
-    Adding GDD modeling to frost timing completes the system.
-    You are no longer asking “When can I plant?”
-    You are asking “Will this crop mature before first frost in a typical year?”
+    Adding GDD modeling to frost timing completes the system:
+    you’re no longer asking “When can I plant?” — you’re asking,
+    “Will this crop mature before first frost in a typical year?”
   </p>
 </section>
 
@@ -207,10 +190,5 @@ GDD = ((Daily High + Daily Low) ÷ 2) − Base Temperature
   <p>
     When frost timing and heat accumulation are used together,
     crop maturity planning becomes climate-based rather than calendar-based.
-  </p>
-
-  <p>
-    That integration — frost boundaries plus GDD totals —
-    is the foundation of GrowByDate’s climate intelligence model.
   </p>
 </section>
