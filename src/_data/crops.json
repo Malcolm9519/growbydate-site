@@ -28,7 +28,8 @@
     ],
     "relatedTools": [
       "seed-start-planner",
-      "first-frost-planner"
+      "first-frost-planner",
+      "gdd-planner"
     ]
   },
   {
@@ -85,8 +86,9 @@
       2
     ],
     "relatedTools": [
-            "seed-start-planner",
-      "first-frost-planner"
+      "seed-start-planner",
+      "first-frost-planner",
+      "gdd-planner"
     ]
   },
   {
@@ -115,7 +117,8 @@
     "directSowWeeks": null,
     "relatedTools": [
       "seed-start-planner",
-      "first-frost-planner"
+      "first-frost-planner",
+      "gdd-planner"
     ]
   },
   {
@@ -144,7 +147,8 @@
     "directSowWeeks": null,
     "relatedTools": [
       "seed-start-planner",
-      "first-frost-planner"
+      "first-frost-planner",
+      "gdd-planner"
     ]
   },
   {
@@ -176,7 +180,8 @@
     ],
     "relatedTools": [
       "seed-start-planner",
-      "first-frost-planner"
+      "first-frost-planner",
+      "gdd-planner"
     ]
   },
   {
@@ -208,7 +213,8 @@
     ],
     "relatedTools": [
       "seed-start-planner",
-      "first-frost-planner"
+      "first-frost-planner",
+      "gdd-planner"
     ]
   },
   {
@@ -233,8 +239,9 @@
       3
     ],
     "relatedTools": [
-            "seed-start-planner",
-      "first-frost-planner"
+      "seed-start-planner",
+      "first-frost-planner",
+      "gdd-planner"
     ]
   },
   {
@@ -266,7 +273,8 @@
     ],
     "relatedTools": [
       "seed-start-planner",
-      "first-frost-planner"
+      "first-frost-planner",
+      "gdd-planner"
     ]
   },
   {
@@ -298,7 +306,8 @@
     ],
     "relatedTools": [
       "seed-start-planner",
-      "first-frost-planner"
+      "first-frost-planner",
+      "gdd-planner"
     ]
   },
   {
@@ -324,7 +333,8 @@
     ],
     "relatedTools": [
       "seed-start-planner",
-      "first-frost-planner"
+      "first-frost-planner",
+      "gdd-planner"
     ]
   },
   {
@@ -349,8 +359,9 @@
       2
     ],
     "relatedTools": [
-            "seed-start-planner",
-      "first-frost-planner"
+      "seed-start-planner",
+      "first-frost-planner",
+      "gdd-planner"
     ]
   },
   {
@@ -375,7 +386,7 @@
       4
     ],
     "relatedTools": [
-            "seed-start-planner",
+      "seed-start-planner",
       "first-frost-planner"
     ]
   },
@@ -405,7 +416,8 @@
     "directSowWeeks": null,
     "relatedTools": [
       "seed-start-planner",
-      "first-frost-planner"
+      "first-frost-planner",
+      "gdd-planner"
     ]
   },
   {
@@ -466,7 +478,8 @@
     "directSowWeeks": null,
     "relatedTools": [
       "seed-start-planner",
-      "first-frost-planner"
+      "first-frost-planner",
+      "gdd-planner"
     ]
   },
   {
@@ -491,8 +504,9 @@
       -2
     ],
     "relatedTools": [
-            "seed-start-planner",
-      "first-frost-planner"
+      "seed-start-planner",
+      "first-frost-planner",
+      "gdd-planner"
     ]
   },
   {
@@ -524,7 +538,8 @@
     ],
     "relatedTools": [
       "seed-start-planner",
-      "first-frost-planner"
+      "first-frost-planner",
+      "gdd-planner"
     ]
   },
   {
@@ -546,5 +561,59 @@
     "transplantWeeks": null,
     "directSowWeeks": null,
     "relatedTools": []
+  },
+  {
+    "id": "corn-sweet",
+    "name": "Sweet Corn",
+    "slug": "corn-sweet",
+    "order": 20,
+    "indexBlurb": "Warm-season classic—needs enough heat units before frost.",
+    "description": "Sweet corn is a warm-season crop that depends on heat accumulation. In short seasons, variety selection and timely planting determine whether ears finish before fall frost.",
+    "tagline": "Heat-hungry, variety-dependent, and sensitive to timing.",
+    "lede": "Sweet corn matures on a heat schedule. In cooler summers, choose earlier varieties and plant when soil is warm enough to germinate reliably.",
+    "seasonType": "warm",
+    "frostTolerance": "none (tender—protect from frost)",
+    "daysToMaturity": [
+      70,
+      100
+    ],
+    "indoorStartWeeks": null,
+    "transplantWeeks": null,
+    "directSowWeeks": [
+      2,
+      4
+    ],
+    "relatedTools": [
+      "gdd-planner",
+      "seed-start-planner",
+      "first-frost-planner"
+    ]
+  },
+  {
+    "id": "potato",
+    "name": "Potatoes",
+    "slug": "potato",
+    "order": 21,
+    "indexBlurb": "Cool-season staple—can be planted before last frost, but needs time to finish.",
+    "description": "Potatoes tolerate cool weather and can be planted before the last frost date. In short seasons, planting date and variety maturity length are the main constraints.",
+    "tagline": "A cool-season crop that rewards early planting.",
+    "lede": "Plant seed potatoes as soon as soil can be worked. Earlier planting helps long-season varieties finish before fall frost, but protect new growth if a hard freeze is forecast.",
+    "seasonType": "cool",
+    "frostTolerance": "light (new growth can be damaged by hard freezes)",
+    "daysToMaturity": [
+      70,
+      120
+    ],
+    "indoorStartWeeks": null,
+    "transplantWeeks": null,
+    "directSowWeeks": [
+      -4,
+      -2
+    ],
+    "relatedTools": [
+      "gdd-planner",
+      "seed-start-planner",
+      "first-frost-planner"
+    ]
   }
 ]

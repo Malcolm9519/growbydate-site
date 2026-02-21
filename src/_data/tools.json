@@ -16,5 +16,11 @@
     "name": "Frost Date Finder (ZIP / Postal Code)",
     "description": "Look up your average last spring frost and first fall frost dates at the 32°F / 0°C freeze threshold — the baseline used for frost-based planting schedules.",
     "order": 3
+  },
+  {
+    "slug": "growing-degree-day-planner",
+    "name": "GDD Planner (Maturity Before First Frost)",
+    "description": "Estimate whether a crop can reach maturity before your typical first frost using climate normals growing degree days (GDD).",
+    "order": 4
   }
 ]

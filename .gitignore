@@ -10,3 +10,6 @@ _site/
 # OS junk
 .DS_Store
 Thumbs.db
+
+# Local data generation scripts (not part of deployed site)
+scripts/

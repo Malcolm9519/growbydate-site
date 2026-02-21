@@ -1,0 +1,9 @@
+---
+pagination:
+  data: gddStationSeries
+  size: 1
+  alias: station
+permalink: "/assets/data/gdd-stations/{{ station.station_id }}.json"
+eleventyExcludeFromCollections: true
+---
+{{ station | dump | safe }}

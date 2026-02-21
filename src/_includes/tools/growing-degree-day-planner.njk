@@ -1,0 +1,234 @@
+<script type="application/json" id="siteCropsJson">{{ crops | dump | safe }}</script>
+<script type="application/json" id="gddCropsJson">{{ gddCrops | dump | safe }}</script>
+
+<section class="section">
+  <div class="toolRoot">
+
+    <header class="header">
+      <p class="muted">
+        This planner uses <strong>climate normals</strong> (a “typical year”) to estimate when a crop could reach maturity after planting — then compares that date to your area’s <strong>average first fall frost</strong>.
+      </p>
+    </header>
+
+    <section class="card" aria-label="Growing degree day planner">
+      <h2>Will my crop mature before first frost?</h2>
+      <p class="small" style="opacity:0.86; margin-top:6px;">
+        Enter a <strong>5-digit ZIP</strong> (U.S.) or the <strong>first 3 characters</strong> of your postal code (Canada FSA), select one or more crops, and choose your planting date.
+      </p>
+
+      <div class="stack" style="margin-top:10px;">
+        <div>
+          <label for="gdd-location">ZIP / Postal</label>
+          <input type="text" id="gdd-location" placeholder="ZIP or Postal Code" autocomplete="postal-code" aria-label="ZIP or postal code">
+        </div>
+
+        <div>
+          <label for="gdd-cropList">Crops</label>
+          <div class="small" id="gdd-cropHelp">Select one or more crops.</div>
+          <div id="gdd-cropList" class="cropList" aria-describedby="gdd-cropHelp"></div>
+        </div>
+
+        <div>
+          <label for="gdd-planting">Planting date</label>
+          <input type="date" id="gdd-planting" aria-label="Planting date">
+        </div>
+      </div>
+
+      <div class="btnRow" style="margin-top:12px;">
+        <button class="button primary" id="gdd-run" type="button">Estimate maturity</button>
+        <button class="btn" id="gdd-reset" type="button">Reset</button>
+        <div class="small muted" id="gdd-status" aria-live="polite" style="align-self:center;"></div>
+      </div>
+
+      <div class="warn" id="gdd-formWarn" style="display:none; margin-top:12px;" role="alert"></div>
+
+      <p class="small muted" style="margin-top:12px;">
+        Reminder: microclimates matter. Gardens in wind-sheltered low spots often frost earlier than the “average” for a ZIP or FSA.
+      </p>
+    </section>
+
+    <section class="card" id="gdd-resultsCard" style="display:none;" aria-labelledby="gdd-resultsTitle">
+      <h2 id="gdd-resultsTitle">Results</h2>
+
+      <div class="small">
+        <span class="pill">Planning tip</span>
+        This is a “typical year” estimate. For short seasons, aim to mature <strong>before</strong> the risk window — not inside it.
+      </div>
+
+      <table aria-label="GDD maturity estimate" style="margin-top:0.75rem;">
+        <tbody id="gdd-resultsBody"></tbody>
+      </table>
+
+      <div class="warn" id="gdd-riskBox" style="display:none; margin-top:12px;">
+        <div><strong id="gdd-riskLabel"></strong></div>
+        <div class="small" id="gdd-riskNote" style="margin-top:6px;"></div>
+      </div>
+
+      <p class="small muted" id="gdd-footnote" style="margin-top:12px;"></p>
+
+      <div class="btnRow" id="gdd-resultsActions" style="margin-top:12px;">
+        <button class="btn" id="gdd-copyBtn" type="button" style="display:none;">Copy results</button>
+        <button class="btn" id="gdd-printBtn" type="button" style="display:none;">Print</button>
+        <button class="btn" id="gdd-csvBtn" type="button" style="display:none;">Download CSV</button>
+        <button class="btn" id="gdd-txtBtn" type="button" style="display:none;">Download text</button>
+      </div>
+    </section>
+
+    <section class="card" aria-label="How to use this result">
+      <h2>How to use this result</h2>
+      <p class="muted" style="margin-top:0;">
+        This tool answers one planning question: <strong>in a typical year</strong>, will your planting date likely reach maturity before first frost?
+      </p>
+
+      <div class="row" style="margin-top:10px;">
+        <div class="muted">
+          <div class="pill">1</div>
+          <p style="margin:6px 0 0;"><strong>Start with the “Latest typical planting date”</strong></p>
+          <p class="small" style="margin:6px 0 0;">If you’re planting after that date, consider a faster variety, protection, or a different crop.</p>
+        </div>
+
+        <div class="muted">
+          <div class="pill">2</div>
+          <p style="margin:6px 0 0;"><strong>Use the crop pages to choose varieties</strong></p>
+          <p class="small" style="margin:6px 0 0;">Click a crop name in your results to open its page.</p>
+        </div>
+      </div>
+
+      <p class="small muted" style="margin-top:10px;">
+        Tip: if your garden frosts earlier than average (low spot, open wind, rural exposure), plan as if frost is 7–14 days earlier.
+      </p>
+    </section>
+
+    <section class="card" aria-label="How this estimate works">
+      <h2>How this estimate works</h2>
+      <ul>
+        <li><strong>GDD:</strong> heat accumulation over the season, using a fixed base temperature for each crop.</li>
+        <li><strong>Maturity estimate:</strong> finds the typical calendar date your location reaches the crop’s required cumulative GDD after your planting date.</li>
+        <li><strong>Frost comparison:</strong> compares that maturity date to your <strong>average first fall frost</strong>.</li>
+      </ul>
+      <p class="muted">This is a normals-based planning tool — not a real-time tracker.</p>
+    </section>
+
+  </div>
+</section>
+
+<style>
+  .row { display: grid; gap: 10px; grid-template-columns: 1fr; }
+  .row > div { min-width: 0; }
+
+  label { font-weight: 600; }
+
+  input[type="date"], input[type="text"], input[type="number"], select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    font: inherit;
+    box-sizing: border-box;
+  }
+
+  .small { font-size: 14px; opacity: .85; }
+  .muted { color: rgba(0, 0, 0, 0.75); }
+  .card + .card { margin-top: 14px; }
+
+  table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+  th, td { padding: 10px 8px; border-bottom: 1px solid #e5e5e5; text-align: left; vertical-align: top; }
+  th { font-weight: 700; }
+
+  .pill { display: inline-block; padding: 2px 8px; border: 1px solid #222; border-radius: 999px; font-size: 12px; opacity: .9; }
+  .warn { border: 1px solid #e3c46b; border-radius: 12px; padding: 10px 12px; background: #fff8e1; }
+
+  .btnRow { display:flex; align-items:end; gap:10px; flex-wrap: wrap; }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 14px;
+    border: 1px solid #111;
+    border-radius: 12px;
+    background: transparent;
+    cursor: pointer;
+    font: inherit;
+    line-height: 1.2;
+    white-space: nowrap;
+    box-sizing: border-box;
+  }
+  .btn:hover { opacity: .85; }
+
+  /* Normalize .button within btn rows to match the frost planner rhythm */
+  .btnRow .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 14px;
+    border-radius: 12px;
+    font: inherit;
+    line-height: 1.2;
+    white-space: nowrap;
+    box-sizing: border-box;
+  }
+
+  /* Crop checklist */
+  .cropList {
+    border: 1px solid var(--border, #ddd);
+    border-radius: 10px;
+    padding: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 10px;
+    max-height: none;
+    overflow: visible;
+  }
+  .cropPickRow { width: auto; display: inline-flex; }
+  .cropPickIcon { margin-right: 6px; }
+  .cropPickLabel:hover { background: rgba(0,0,0,0.04); }
+  .cropPickLabel input { flex: 0 0 auto; }
+  .cropPickName {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+  }
+  .cropPickLabel {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 10px;
+    border-radius: 999px;
+    cursor: pointer;
+    user-select: none;
+    border: 1px solid rgba(0,0,0,0.10);
+    background: rgba(0,0,0,0.02);
+    width: auto;
+  }
+
+  /* Multi-crop clarity in results */
+  .cropHeaderRow td { padding: 10px 12px; background: rgba(0,0,0,0.04); border-top: 1px solid rgba(0,0,0,0.08); }
+  .cropHeaderRow:first-child td { border-top: 0; }
+  .cropHeaderIcon { margin-right: 8px; }
+  .cropHeaderLink { font-weight: 700; text-decoration: none; }
+  .cropHeaderLink:hover { text-decoration: underline; }
+
+  /* Keep planner text “muted” without fading emoji/icons */
+  #gdd-resultsCard .muted,
+  #gdd-resultsCard .small { opacity: 1; }
+
+  /* Print: only print the results card */
+  @media print {
+    body * { visibility: hidden !important; }
+    #gdd-resultsCard, #gdd-resultsCard * { visibility: visible !important; }
+    #gdd-resultsCard {
+      position: absolute !important;
+      left: 0 !important;
+      top: 0 !important;
+      width: 100% !important;
+      display: block !important;
+      box-shadow: none !important;
+      border: none !important;
+    }
+    #gdd-resultsActions { display: none !important; }
+  }
+</style>
+
+<script type="module" src="/assets/js/gdd-planner.js"></script>
