@@ -74,42 +74,104 @@
       </div>
     </section>
 
-    <section class="card" aria-label="How to use this result">
-      <h2>How to use this result</h2>
-      <p class="muted" style="margin-top:0;">
-        This tool answers one planning question: <strong>in a typical year</strong>, will your planting date likely reach maturity before first frost?
+<section class="card" aria-label="How to use this result">
+  <h2>How to use this result</h2>
+
+  <p class="muted" style="margin-top:0;">
+    This tool answers one planning question:
+    <strong>in a typical year based on 1991–2020 climate normals</strong>,
+    will your planting date likely reach maturity before frost at 32°F (0°C)?
+  </p>
+
+  <div class="row" style="margin-top:10px;">
+    <div class="muted">
+      <div class="pill">1</div>
+      <p style="margin:6px 0 0;">
+        <strong>Start with the “Latest typical planting date”</strong>
       </p>
-
-      <div class="row" style="margin-top:10px;">
-        <div class="muted">
-          <div class="pill">1</div>
-          <p style="margin:6px 0 0;"><strong>Start with the “Latest typical planting date”</strong></p>
-          <p class="small" style="margin:6px 0 0;">If you’re planting after that date, consider a faster variety, protection, or a different crop.</p>
-        </div>
-
-        <div class="muted">
-          <div class="pill">2</div>
-          <p style="margin:6px 0 0;"><strong>Use the crop pages to choose varieties</strong></p>
-          <p class="small" style="margin:6px 0 0;">Click a crop name in your results to open its page.</p>
-        </div>
-      </div>
-
-      <p class="small muted" style="margin-top:10px;">
-        Tip: if your garden frosts earlier than average (low spot, open wind, rural exposure), plan as if frost is 7–14 days earlier.
+      <p class="small" style="margin:6px 0 0;">
+        This date reflects when, historically, the required Growing Degree Days
+        (GDD) still accumulate before your area’s average first fall frost
+        (50% probability at 32°F).
       </p>
-    </section>
+      <p class="small" style="margin:6px 0 0;">
+        If you plant after that date, maturity becomes less reliable in a typical year.
+        Consider choosing a faster-maturing variety, selecting a lower heat-demand crop,
+        or building additional frost protection margin.
+      </p>
+    </div>
 
-    <section class="card" aria-label="How this estimate works">
-      <h2>How this estimate works</h2>
-      <ul>
-        <li><strong>GDD:</strong> heat accumulation over the season, using a fixed base temperature for each crop.</li>
-        <li><strong>Maturity estimate:</strong> finds the typical calendar date your location reaches the crop’s required cumulative GDD after your planting date.</li>
-        <li><strong>Frost comparison:</strong> compares that maturity date to your <strong>average first fall frost</strong>.</li>
-      </ul>
-      <p class="muted">This is a normals-based planning tool — not a real-time tracker.</p>
-    </section>
-
+    <div class="muted">
+      <div class="pill">2</div>
+      <p style="margin:6px 0 0;">
+        <strong>Match crop heat demand to your seasonal heat budget</strong>
+      </p>
+      <p class="small" style="margin:6px 0 0;">
+        Each crop requires a specific cumulative GDD total to reach maturity.
+        Your results estimate whether your remaining season typically provides that heat.
+      </p>
+      <p class="small" style="margin:6px 0 0;">
+        Click a crop name in your results to review variety guidance
+        and maturity expectations for that crop.
+      </p>
+    </div>
   </div>
+
+  <p class="small muted" style="margin-top:10px;">
+    Tip: If your garden tends to frost earlier than your regional average
+    (low-lying ground, rural exposure, cold-air drainage),
+    plan as if first frost occurs 7–14 days earlier to preserve a safety margin.
+  </p>
+
+  <p class="small muted">
+    This planner is designed for probability-based planning.
+    Some years accumulate more heat than average; others accumulate less.
+    A comfortable margin between required GDD and available GDD improves reliability.
+  </p>
+</section>
+
+<section class="card" aria-label="How this estimate works">
+  <h2>How this estimate works</h2>
+
+  <ul>
+    <li>
+      <strong>Growing Degree Days (GDD):</strong>
+      GDD measures seasonal heat accumulation using a fixed base temperature
+      appropriate for the crop (commonly 50°F / 10°C for warm-season crops).
+      Daily heat units are added across the season to reflect development speed.
+    </li>
+
+    <li>
+      <strong>Maturity estimate:</strong>
+      Starting from your selected planting date,
+      the model calculates when your location typically accumulates
+      the crop’s required cumulative GDD in a normals-based year.
+    </li>
+
+    <li>
+      <strong>Frost comparison:</strong>
+      That estimated maturity date is compared to your
+      <strong>average first fall frost at 32°F</strong>,
+      calculated at the 50% probability level.
+    </li>
+  </ul>
+
+  <p class="muted">
+    If the estimated maturity date occurs before the typical first frost,
+    the crop is likely viable in a typical year.
+    If maturity extends beyond that boundary,
+    frost risk increases and harvest reliability decreases.
+  </p>
+
+  <p class="muted">
+    This is a climate normals planning model — not a real-time weather tracker.
+    It evaluates long-term seasonal heat patterns rather than short-term forecasts.
+  </p>
+
+  <p class="muted">
+    The planning sequence is:
+    <strong>Planting Date → Seasonal GDD Accumulation → Crop Requirement → First Frost Boundary → Risk Margin</strong>.
+  </p>
 </section>
 
 <style>
