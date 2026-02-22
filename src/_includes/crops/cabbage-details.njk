@@ -1,3 +1,6 @@
+```njk
+<!-- cabbage-details.njk (UPDATED) -->
+
 <section class="card">
   <h2>About Cabbage</h2>
 
@@ -7,11 +10,26 @@
 
   <p class="lede">
     <strong>Cabbage thrives in cool weather and tolerates light frost.</strong>
-    In short seasons, the key is giving it enough time to size up before heat arrives. Start indoors early, transplant on schedule, and aim for consistent growth—delays often lead to smaller heads or heat stress.
+    For GrowByDate planning, frost is defined as 32°F (0°C). In a typical year (1991–2020 climate normals at the 50% probability level), cabbage success is mostly about runway: enough frost-free time to size up, plus enough seasonal heat to form a firm head before sustained cold or heat stress interrupts development.
   </p>
 
   <p>
-    Cabbage works well across cold-climate regions in both the northern U.S. and comparable Canadian areas because it’s frost-aware by nature and doesn’t need warm nights to establish.
+    Cabbage works well across cold-climate regions because it establishes in cool conditions that would stall warm-season crops. The common failure mode in short seasons is not “instant frost kill”—it’s delayed growth that pushes heading into heat or into late-season slowdown with minimal buffer.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Quick Planning Reference</h2>
+
+  <ul>
+    <li><strong>Start indoors:</strong> 8–10 weeks before transplant window</li>
+    <li><strong>Transplant:</strong> 2–4 weeks before last frost (after hardening off)</li>
+    <li><strong>Days to maturity:</strong> 60–110 days (variety-dependent)</li>
+    <li><strong>Frost tolerance:</strong> Light to moderate (quality risk rises with repeated hard freezes)</li>
+  </ul>
+
+  <p class="fine muted">
+    These are practical ranges. Local exposure matters—especially wind, rapid temperature swings, and how quickly summer heat arrives.
   </p>
 </section>
 
@@ -21,14 +39,14 @@
   <ul>
     <li><strong>Optimal growth:</strong> 55–70°F (13–21°C)</li>
     <li><strong>Slow growth:</strong> Below 45°F (7°C)</li>
-    <li><strong>Heat stress / bolting risk:</strong> Above 80°F (27°C)</li>
-    <li><strong>Light frost tolerance:</strong> 26–30°F (-3 to -1°C)</li>
-    <li><strong>Hard freeze damage:</strong> Below 20–25°F (-6 to -4°C)</li>
+    <li><strong>Heat stress / bolting risk:</strong> Above ~80°F (27°C)</li>
+    <li><strong>Planning frost boundary:</strong> 32°F (0°C)</li>
+    <li><strong>Light freeze tolerance:</strong> Often tolerates brief dips below 32°F (0°C) once established</li>
   </ul>
 
   <p>
-    Established cabbage handles light freezes well, especially after hardening off outdoors. A brief freeze at 32°F (0°C) is usually not damaging.
-    The bigger risk is heat: warm spells can stall head formation or push plants toward bolting, especially if growth was slowed earlier by stress.
+    Established cabbage often tolerates a brief freeze at 32°F (0°C) without major damage, but repeated hard freezes can degrade outer leaves and reduce head quality.
+    In short seasons, heat and growth interruptions are usually more limiting than a single light frost event.
   </p>
 </section>
 
@@ -36,77 +54,105 @@
   <h2>Frost Timing & Planting Window</h2>
 
   <p>
-    In short growing seasons, cabbage is usually grown from transplants. Start seeds indoors so plants are ready to go outside early—cabbage can handle cool conditions that would stall warm-season crops.
+    In a typical year (1991–2020 normals, 50% probability), use your frost dates as boundaries and schedule transplants so cabbage builds size during cool weeks.
+    This is deterministic planning: you’re fitting a maturity requirement inside a frost-defined season.
   </p>
 
   <ul>
-    <li><strong>Spring crop:</strong> Start indoors about 8–10 weeks before last frost, then transplant 2–4 weeks before last frost.</li>
-    <li><strong>Fall crop:</strong> Start or sow so plants have time to form heads before sustained freezing. Fall cabbage often performs well because temperatures cool gradually.</li>
+    <li><strong>Spring crop:</strong> Start indoors ~8–10 weeks before your target transplant window, then transplant 2–4 weeks before last frost after hardening off.</li>
+    <li><strong>Fall crop:</strong> Time sowing/transplants so heads form before sustained freezing; fall heading often improves in gradually cooling weather.</li>
   </ul>
 
   <p>
-    Use the <a href="/tools/seed-start-planner/">Seed Starting Planner</a> to calculate your indoor start and transplant window from your frost dates.
+    Use the <a href="/tools/seed-start-planner/">Seed Starting Planner</a> to calculate indoor start and transplant windows from your frost dates.
   </p>
 
-  <p class="fine muted">
-    Cabbage can survive frost, but it still needs time and steady temperatures to build a full head. Timing is about giving it runway before heat or deep cold.
-  </p>
-</section>
-
-<section class="card">
-  <h2>Seed Starting</h2>
-
-  <p>
-    Start cabbage indoors under strong light. Keep seedlings around 60–70°F (16–21°C) for steady growth, then harden off gradually before transplanting.
-    Cabbage transplants are resilient and usually handle cool spring planting well once hardened.
-  </p>
-
-  <p>
-    Transplant before plants become oversized in their cells. Stalled or root-bound seedlings can struggle to resume uniform growth outdoors.
+  <p class="fine">
+    If you want a clear reminder of what frost dates represent (and what they don’t), see:
+    <a href="/guides/average-frost-date-vs-actual-weather/">Average frost date vs actual weather</a>.
   </p>
 </section>
 
 <section class="card">
-  <h2>Soil & Site Requirements</h2>
+  <h2>Typical GDD Requirement</h2>
+
+  <p><strong>Base temperature:</strong> 50°F (10°C)</p>
+  <p><strong>Approximate GDD needed:</strong> ~900–1,400 GDD (base 50) depending on variety length (early vs storage types)</p>
 
   <p>
-    Cabbage prefers full sun and fertile, evenly moist soil. Consistent moisture supports steady leaf production and head formation.
-    Irregular watering (especially during warm spells) increases stress and can lead to slower head development.
+    Cabbage is a cool-season crop, but head formation still depends on accumulated seasonal heat. When seasonal heat is weak, development slows and maturity can drift later—reducing your buffer before the season boundary.
   </p>
 
-  <p>
-    In cold climates, the practical site priority is wind protection early in the season. Cold wind can slow seedlings even when temperatures are technically acceptable.
+  <p class="fine muted" style="margin-top:14px;">
+    GDD = ((Daily High + Daily Low) ÷ 2) − 50
+  </p>
+
+  <div class="actions">
+    <a class="button subtle" href="/tools/growing-degree-day-planner/">Use the GDD Planner</a>
+  </div>
+
+  <p class="fine">
+    For the combined model (frost boundary + heat budget), see:
+    <a href="/guides/how-frost-dates-and-growing-degree-days-work-together/">How frost dates and Growing Degree Days work together</a>.
   </p>
 </section>
 
 <section class="card">
-  <h2>Variety Considerations</h2>
+  <h2>Minimum Frost-Free Days</h2>
 
   <p>
-    In short seasons, variety choice is mostly about maturity time and harvest timing:
+    Cabbage is variety-dependent. Early types can fit tighter windows, while storage types need a longer runway.
+    As a rough planning baseline, many cabbage crops need <strong>60–110 frost-free days</strong> from transplant to harvest, depending on variety and growing conditions.
   </p>
+
+  <p>
+    If your frost-free window is short, cabbage can still be viable—but variety selection and early transplant timing become the deciding factors.
+  </p>
+
+  <div class="actions">
+    <a class="button subtle" href="/tools/frost-date-finder/">Check Your Frost-Free Season</a>
+  </div>
+</section>
+
+<section class="card">
+  <h2>Short-Season Viability Flag</h2>
 
   <ul>
-    <li><strong>Early cabbage:</strong> Faster heading (often best for short springs)</li>
-    <li><strong>Main-season cabbage:</strong> Larger heads but longer maturity</li>
-    <li><strong>Storage cabbage:</strong> Longer season; best where you can reliably grow into fall</li>
+    <li><strong>Good choice under 100 days?</strong> Often yes (especially early varieties, started indoors)</li>
+    <li><strong>Risky under 90 days?</strong> Can be without early varieties and on-time transplanting</li>
+    <li><strong>Needs season extension?</strong> Sometimes helpful for wind protection and steadier early growth (light cover), not for pushing through hard freezes</li>
   </ul>
+</section>
 
-  <p class="fine muted">
-    If your summers heat up quickly, prioritize early varieties to avoid head formation during peak heat.
+<section class="card">
+  <h2>First Frost Sensitivity</h2>
+
+  <p>
+    Cabbage can tolerate light frost, but repeated hard freezes can damage outer leaves and reduce quality. For planning, treat 32°F (0°C) as the frost boundary and aim to form firm heads with buffer ahead of sustained cold.
   </p>
 </section>
 
 <section class="card">
-  <h2>Fall Frost Considerations</h2>
+  <h2>Early-Maturing Strategy</h2>
 
-  <p>
-    Cabbage tolerates light frost well and often improves in flavor as temperatures cool.
-    The main fall risk is extended hard freezes below about 20–25°F (-6 to -4°C), which can damage outer leaves and compromise head quality.
+  <ul>
+    <li>Start indoors so you can transplant early and protect the cool-season window</li>
+    <li>Choose early-heading varieties when your frost window is tight</li>
+    <li>Prioritize steady growth (avoid drought stress and long stalls)</li>
+    <li>Use microclimates: full sun + wind shelter to preserve effective heat accumulation</li>
+  </ul>
+</section>
+
+<section class="card">
+  <h2>Planning Model</h2>
+
+  <p class="muted">
+    Frost → Season Length → GDD → Crop Requirement → Risk Margin
   </p>
 
   <p>
-    If deep cold is approaching, harvest firm heads and store them cool. Leaving mature heads in the garden through repeated hard freezes can reduce quality.
+    In a typical year, cabbage is viable when your frost-free window provides enough time and your seasonal heat budget provides enough GDD to reach heading with buffer.
+    When buffer is thin, timing slips (late transplant, stalled early growth) are the main failure mode.
   </p>
 </section>
 
@@ -115,25 +161,30 @@
 
   <h3>Can cabbage survive frost?</h3>
   <p>
-    Yes. Established cabbage commonly tolerates light frost and brief freezes down to roughly 26–30°F (-3 to -1°C).
+    Often, yes—established cabbage commonly tolerates light frost. For GrowByDate planning, use 32°F (0°C) as the frost boundary date and treat deeper, repeated freezes as a quality risk.
   </p>
 
   <h3>Why didn’t my cabbage form a head?</h3>
   <p>
-    Head formation often fails when plants experience uneven growth—stress from heat, drought, or long stalls early in development can prevent tight heading.
+    Head formation often fails when growth is uneven—heat stress, drought, or long stalls early can prevent tight heading or cause loose heads.
   </p>
 
   <h3>Is cabbage better in spring or fall?</h3>
   <p>
-    Both can work in cold climates. Spring cabbage relies on early transplanting to beat heat, while fall cabbage often heads more consistently in cooling temperatures.
+    Both can work. Spring cabbage depends on early transplanting to beat heat. Fall cabbage often heads more consistently as temperatures cool—if planted early enough to size up before sustained freezing.
   </p>
 </section>
 
 <section class="card">
   <h2>Summary</h2>
 
-  <p>
-    Cabbage is a frost-tolerant cool-season crop that thrives with early starts and steady growth.
-    Start indoors, transplant before last frost, and aim for head formation in cool temperatures—heat and delays are the most common reasons for poor results in short seasons.
-  </p>
+  <ul>
+    <li>Use frost at 32°F (0°C) as the planning boundary (1991–2020 normals, 50% probability).</li>
+    <li>Cabbage is usually limited by runway and growth interruptions, not immediate frost kill.</li>
+    <li>Typical fit improves with indoor starts, early transplanting, and early varieties when seasons are tight.</li>
+    <li>Model viability using frost window (time) + seasonal heat budget (GDD) + variety requirement + risk margin.</li>
+  </ul>
 </section>
+```
+
+Ready for the next crop file?

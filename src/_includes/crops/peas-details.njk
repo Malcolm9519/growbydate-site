@@ -1,93 +1,183 @@
+<!-- peas-details.njk (UPDATED) -->
+
 <section class="card">
   <h2>About Peas</h2>
+
+  <p class="tagline">
+    Hardy spring crop—thrives in cool soil and finishes before heat.
+  </p>
+
+  <p class="lede">
+    <strong>Peas are one of the most cold-tolerant garden crops and can handle light frost.</strong>
+    For GrowByDate modeling, frost is defined as 32°F (0°C). In a typical year (1991–2020 climate normals at the 50% probability level), peas are rarely limited by last frost. Instead, they are limited by rising summer heat.
+  </p>
+
   <p>
-    This page is a frost-first reference for timing peas in short growing seasons. Use your frost dates as anchors,
-    then adjust based on temperature thresholds and how quickly growth slows in cool nights.
+    In short seasons, peas are often a reliable early win. The primary planning challenge is sowing early enough to mature before sustained heat reduces flowering and pod set.
   </p>
 </section>
 
 <section class="card">
-  <h2>Cold Sensitivity & Temperature Requirements</h2>
+  <h2>Quick Planning Reference</h2>
+
   <ul>
-    <li><strong>Optimal growth:</strong> 50–65°F (10–18°C)</li>
-    <li><strong>Slow growth:</strong> Below 45°F (7°C)</li>
-    <li><strong>Stress threshold:</strong> Above 75°F (24°C)</li>
-    <li><strong>Cold stress:</strong> Around 30–35°F (-1–2°C)</li>
-    <li><strong>Freeze damage:</strong> 32°F (0°C)</li>
+    <li><strong>Direct sow:</strong> 6–2 weeks before last frost (as soon as soil is workable)</li>
+    <li><strong>Days to maturity:</strong> 55–75 days (variety-dependent)</li>
+    <li><strong>Frost tolerance:</strong> Hardy (handles multiple light frosts)</li>
+  </ul>
+
+  <p class="fine muted">
+    These are baseline ranges. Soil drainage and exposure strongly affect early success.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Cold Tolerance & Temperature Profile</h2>
+
+  <ul>
+    <li><strong>Minimum soil temperature:</strong> ~40°F (4°C) for germination</li>
+    <li><strong>Optimal growth:</strong> 55–70°F (13–21°C)</li>
+    <li><strong>Heat stress:</strong> Above ~80°F (27°C) reduces flowering</li>
+    <li><strong>Planning frost boundary:</strong> 32°F (0°C)</li>
+  </ul>
+
+  <p>
+    Pea seedlings tolerate light frost and often continue growing after brief dips below 32°F (0°C).
+    However, extended hard freezes can damage tender growth.
+  </p>
+
+  <p class="fine">
+    For frost-type context, see:
+    <a href="/guides/light-freeze-vs-hard-freeze/">Light freeze vs hard freeze</a>.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Spring Timing Logic</h2>
+
+  <p>
+    Peas should be sown as soon as soil is workable in spring.
+    Early planting preserves the cool-season runway before rising temperatures reduce productivity.
+  </p>
+
+  <ul>
+    <li><strong>Too early:</strong> Risk of seed rot in poorly drained cold soil</li>
+    <li><strong>On time:</strong> Strong early growth before heat arrives</li>
+    <li><strong>Too late:</strong> Reduced flowering due to early heat</li>
+  </ul>
+
+  <p>
+    Use the <a href="/tools/frost-date-finder/">Frost Date Finder</a> to anchor your last frost reference.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Typical GDD Requirement</h2>
+
+  <p><strong>Base temperature:</strong> 50°F (10°C)</p>
+  <p><strong>Approximate GDD needed:</strong> ~700–1,000 GDD (base 50) for many varieties</p>
+
+  <p>
+    Peas are moderately heat-dependent. In cool springs, maturity may drift slightly beyond label timing,
+    but overall GDD demand is modest compared to warm-season crops.
+  </p>
+
+  <p class="fine muted" style="margin-top:14px;">
+    GDD = ((Daily High + Daily Low) ÷ 2) − 50
+  </p>
+
+  <div class="actions">
+    <a class="button subtle" href="/tools/growing-degree-day-planner/">Use the GDD Planner</a>
+  </div>
+
+  <p class="fine">
+    To understand how frost boundaries and seasonal heat work together, see:
+    <a href="/guides/how-frost-dates-and-growing-degree-days-work-together/">How frost dates and Growing Degree Days work together</a>.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Minimum Frost-Free Days</h2>
+
+  <p>
+    Most pea varieties require <strong>55–75 frost-free days</strong> to reach harvest.
+    Because peas tolerate frost, the main limitation is whether maturity occurs before sustained summer heat.
+  </p>
+
+  <div class="actions">
+    <a class="button subtle" href="/tools/frost-date-finder/">Check Your Frost-Free Season</a>
+  </div>
+</section>
+
+<section class="card">
+  <h2>Short-Season Viability Flag</h2>
+
+  <ul>
+    <li><strong>Good choice under 100 days?</strong> Yes (excellent short-season crop)</li>
+    <li><strong>Risky under 90 days?</strong> Rarely, unless spring is extremely cool or delayed</li>
+    <li><strong>Needs season extension?</strong> Usually no; frost tolerance provides buffer</li>
   </ul>
 </section>
 
 <section class="card">
-  <h2>Frost Timing & Planting Window</h2>
+  <h2>First Frost Sensitivity</h2>
+
   <p>
-    Plan spring timing from your <strong>last frost</strong>. Cool-season crops can often be planted earlier than warm-season crops,
-    but cold soil slows germination and early growth. Warm-season crops should only be planted after frost risk and cold nights decline.
-  </p>
-  <p>
-    Plan fall timing from your <strong>first frost</strong>. Count backward using days to maturity, then add practical buffer for slower growth
-    as nights cool into the low 40s°F (single digits °C).
+    Peas tolerate light frost near 32°F (0°C). However, repeated hard freezes can damage foliage and flowers.
+    In fall plantings (where viable), treat 32°F (0°C) as the planning boundary.
   </p>
 </section>
 
 <section class="card">
-  <h2>Seed Starting</h2>
-  <p>
-    Use the seed-start planner for indoor start and transplant windows when applicable. If this crop is typically direct sown,
-    timing is still frost-first—start when soil is workable and temperatures support steady growth.
-  </p>
-</section>
+  <h2>Early-Maturing Strategy</h2>
 
-<section class="card">
-  <h2>Soil & Site Requirements</h2>
   <ul>
-    <li>Full sun (or light shade for leafy crops in warmer spells)</li>
-    <li>Well-drained soil to avoid cold, waterlogged roots</li>
-    <li>Consistent moisture during establishment</li>
+    <li>Sow as soon as soil is workable in spring</li>
+    <li>Select early-maturing varieties in tight frost windows</li>
+    <li>Use well-drained soil to reduce early rot risk</li>
+    <li>Prioritize full sun to preserve effective heat accumulation</li>
   </ul>
 </section>
 
 <section class="card">
-  <h2>Variety Considerations</h2>
-  <ul>
-    <li><strong>Faster varieties:</strong> improve reliability in short seasons.</li>
-    <li><strong>Slower varieties:</strong> require earlier planting and a wider frost window.</li>
-    <li><strong>Quality is temperature-driven:</strong> frost-first timing is the main control.</li>
-  </ul>
-</section>
+  <h2>Planning Model</h2>
 
-<section class="card">
-  <h2>Fall Frost Considerations</h2>
+  <p class="muted">
+    Frost → Season Length → GDD → Crop Requirement → Risk Margin
+  </p>
+
   <p>
-    As first frost approaches, growth rate matters as much as frost tolerance. Even if foliage survives light frost, plants may stop sizing up when
-    nights stay cold. When temperatures approach 32°F (0°C), protect or harvest depending on the crop.
+    In a typical year, peas are viable in most short seasons because their frost tolerance and modest heat requirement provide natural margin.
+    The primary risk factor is late planting that shifts maturity into warm weather.
   </p>
 </section>
 
 <section class="card">
   <h2>Frequently Asked Questions</h2>
 
-  <details>
-    <summary>What temperature stops growth for this crop?</summary>
-    <p>Expect slow growth below the listed slow-growth threshold, and rapid slowdown as nights cool into the low 40s°F (single digits °C).</p>
-  </details>
+  <h3>Can peas survive frost?</h3>
+  <p>
+    Yes. Peas tolerate light frost near 32°F (0°C), though prolonged hard freezes may cause damage.
+  </p>
 
-  <details>
-    <summary>Is frost tolerance the same as “keeps growing”?</summary>
-    <p>No. A crop may survive light frost, but still stop growing when temperatures are too cold for steady development.</p>
-  </details>
+  <h3>Why did my peas stop producing?</h3>
+  <p>
+    Sustained heat above ~80°F (27°C) commonly reduces flowering and pod set.
+  </p>
 
-  <details>
-    <summary>How should I use frost dates?</summary>
-    <p>Use last frost for spring planting windows and first frost for fall cutoffs, then adjust based on temperature thresholds.</p>
-  </details>
+  <h3>Are peas better than beans in short seasons?</h3>
+  <p>
+    Often yes. Peas tolerate cooler soil and frost, while beans require warm soil and have no frost buffer.
+  </p>
 </section>
 
 <section class="card">
   <h2>Summary</h2>
-  <ol>
-    <li>Use frost dates as anchors, then check temperature thresholds.</li>
-    <li>Cold soil slows early progress; warm-season crops need warm nights.</li>
-    <li>Fall timing is a maturity problem—count back from first frost with buffer.</li>
-    <li>32°F (0°C) is the freeze damage threshold to plan around.</li>
-  </ol>
+
+  <ul>
+    <li>Use 32°F (0°C) as the frost boundary (50% probability, 1991–2020 normals).</li>
+    <li>Peas tolerate frost and are limited more by heat than cold.</li>
+    <li>Typical requirement: 55–75 days, ~700–1,000 GDD (base 50).</li>
+    <li>Model viability using frost window + seasonal heat budget + variety requirement + risk margin.</li>
+  </ul>
 </section>

@@ -1,93 +1,183 @@
+<!-- onions-details.njk (UPDATED) -->
+
 <section class="card">
   <h2>About Onions</h2>
+
+  <p class="tagline">
+    Long-runway cool-season crop—bulb size depends on early establishment and seasonal heat.
+  </p>
+
+  <p class="lede">
+    <strong>Onions tolerate light frost once established but require a long development window.</strong>
+    For GrowByDate modeling, frost is defined as 32°F (0°C). In a typical year (1991–2020 climate normals at the 50% probability level), onion viability depends on starting early enough to build plant size before bulbing begins, then accumulating enough seasonal heat to mature before fall frost.
+  </p>
+
   <p>
-    This page is a frost-first reference for timing onions in short growing seasons. Use your frost dates as anchors,
-    then adjust based on temperature thresholds and how quickly growth slows in cool nights.
+    Onions are time-dependent crops. In short seasons, success hinges less on surviving frost and more on securing enough runway between last frost and first frost for bulb formation and curing.
   </p>
 </section>
 
 <section class="card">
-  <h2>Cold Sensitivity & Temperature Requirements</h2>
+  <h2>Quick Planning Reference</h2>
+
+  <ul>
+    <li><strong>Start indoors:</strong> 10–12 weeks before transplant window</li>
+    <li><strong>Transplant:</strong> 2–4 weeks before last frost (after hardening off)</li>
+    <li><strong>Days to maturity:</strong> 90–120 days (variety-dependent)</li>
+    <li><strong>Frost tolerance:</strong> Light (established plants tolerate brief dips near 32°F / 0°C)</li>
+  </ul>
+
+  <p class="fine muted">
+    These are baseline ranges. Variety type (short-day, intermediate-day, long-day) must match latitude for proper bulbing.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Cold Tolerance & Temperature Profile</h2>
+
   <ul>
     <li><strong>Optimal growth:</strong> 55–75°F (13–24°C)</li>
-    <li><strong>Slow growth:</strong> Below 45°F (7°C)</li>
-    <li><strong>Stress threshold:</strong> Above 85°F (29°C)</li>
-    <li><strong>Cold stress:</strong> Around 35°F (2°C)</li>
-    <li><strong>Freeze damage:</strong> 32°F (0°C)</li>
+    <li><strong>Slow growth:</strong> Below ~40°F (4°C)</li>
+    <li><strong>Heat stress:</strong> Above ~85°F (29°C)</li>
+    <li><strong>Planning frost boundary:</strong> 32°F (0°C)</li>
   </ul>
-</section>
 
-<section class="card">
-  <h2>Frost Timing & Planting Window</h2>
   <p>
-    Plan spring timing from your <strong>last frost</strong>. Cool-season crops can often be planted earlier than warm-season crops,
-    but cold soil slows germination and early growth. Warm-season crops should only be planted after frost risk and cold nights decline.
+    Onions tolerate light frost once established, making early transplanting feasible in many climates.
+    However, hard or repeated freezes can damage foliage and reduce growth rate.
   </p>
-  <p>
-    Plan fall timing from your <strong>first frost</strong>. Count backward using days to maturity, then add practical buffer for slower growth
-    as nights cool into the low 40s°F (single digits °C).
+
+  <p class="fine">
+    For frost probability context, see:
+    <a href="/guides/average-frost-date-vs-actual-weather/">Average frost date vs actual weather</a>.
   </p>
 </section>
 
 <section class="card">
-  <h2>Seed Starting</h2>
-  <p>
-    Use the seed-start planner for indoor start and transplant windows when applicable. If this crop is typically direct sown,
-    timing is still frost-first—start when soil is workable and temperatures support steady growth.
-  </p>
-</section>
+  <h2>Runway & Bulbing Logic</h2>
 
-<section class="card">
-  <h2>Soil & Site Requirements</h2>
+  <p>
+    Onions first build leaf mass, then begin bulbing as day length increases.
+    If plants are too small when bulbing begins, final bulb size is limited.
+  </p>
+
   <ul>
-    <li>Full sun (or light shade for leafy crops in warmer spells)</li>
-    <li>Well-drained soil to avoid cold, waterlogged roots</li>
-    <li>Consistent moisture during establishment</li>
+    <li><strong>Too late to start:</strong> Reduced bulb size due to limited vegetative growth</li>
+    <li><strong>On time:</strong> Adequate leaf growth before bulbing</li>
+    <li><strong>Too early:</strong> Risk of transplant stress in extreme cold</li>
   </ul>
-</section>
 
-<section class="card">
-  <h2>Variety Considerations</h2>
-  <ul>
-    <li><strong>Faster varieties:</strong> improve reliability in short seasons.</li>
-    <li><strong>Slower varieties:</strong> require earlier planting and a wider frost window.</li>
-    <li><strong>Quality is temperature-driven:</strong> frost-first timing is the main control.</li>
-  </ul>
-</section>
-
-<section class="card">
-  <h2>Fall Frost Considerations</h2>
   <p>
-    As first frost approaches, growth rate matters as much as frost tolerance. Even if foliage survives light frost, plants may stop sizing up when
-    nights stay cold. When temperatures approach 32°F (0°C), protect or harvest depending on the crop.
+    Use the <a href="/tools/seed-start-planner/">Seed Starting Planner</a> to determine indoor start timing from your last frost date.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Typical GDD Requirement</h2>
+
+  <p><strong>Base temperature:</strong> 50°F (10°C)</p>
+  <p><strong>Approximate GDD needed:</strong> ~1,200–1,800 GDD (base 50) depending on variety and desired bulb size</p>
+
+  <p>
+    Onions are moderately heat-dependent. Weak heat accumulation during spring and early summer can slow development and delay maturity.
+  </p>
+
+  <p class="fine muted" style="margin-top:14px;">
+    GDD = ((Daily High + Daily Low) ÷ 2) − 50
+  </p>
+
+  <div class="actions">
+    <a class="button subtle" href="/tools/growing-degree-day-planner/">Use the GDD Planner</a>
+  </div>
+
+  <p class="fine">
+    For the combined frost + heat model, see:
+    <a href="/guides/how-frost-dates-and-growing-degree-days-work-together/">How frost dates and Growing Degree Days work together</a>.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Minimum Frost-Free Days</h2>
+
+  <p>
+    Most onion varieties require <strong>90–120 frost-free days</strong> from transplant to maturity.
+    In short seasons, starting indoors early is critical to preserve enough runway.
+  </p>
+
+  <div class="actions">
+    <a class="button subtle" href="/tools/frost-date-finder/">Check Your Frost-Free Season</a>
+  </div>
+</section>
+
+<section class="card">
+  <h2>Short-Season Viability Flag</h2>
+
+  <ul>
+    <li><strong>Good choice under 100 days?</strong> Sometimes (early varieties + early indoor starts required)</li>
+    <li><strong>Risky under 90 days?</strong> Often, unless started very early indoors</li>
+    <li><strong>Needs season extension?</strong> Rarely for frost protection, but early indoor starts are essential</li>
+  </ul>
+</section>
+
+<section class="card">
+  <h2>First Frost Sensitivity</h2>
+
+  <p>
+    Onions tolerate light frost near 32°F (0°C), but sustained hard freezes can damage foliage.
+    For planning, treat 32°F (0°C) as the frost boundary and aim to mature bulbs with buffer ahead of fall freeze.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Early-Maturing Strategy</h2>
+
+  <ul>
+    <li>Start seeds indoors 10–12 weeks before transplant window</li>
+    <li>Select varieties suited to your latitude (long-day vs short-day)</li>
+    <li>Transplant early into cool conditions after hardening off</li>
+    <li>Prioritize full sun to maximize effective heat accumulation</li>
+  </ul>
+</section>
+
+<section class="card">
+  <h2>Planning Model</h2>
+
+  <p class="muted">
+    Frost → Season Length → GDD → Crop Requirement → Risk Margin
+  </p>
+
+  <p>
+    In a typical year, onion viability depends on securing enough runway before bulbing begins and accumulating sufficient heat before first frost.
+    Short frost windows require disciplined indoor starts and appropriate variety selection.
   </p>
 </section>
 
 <section class="card">
   <h2>Frequently Asked Questions</h2>
 
-  <details>
-    <summary>What temperature stops growth for this crop?</summary>
-    <p>Expect slow growth below the listed slow-growth threshold, and rapid slowdown as nights cool into the low 40s°F (single digits °C).</p>
-  </details>
+  <h3>Can onions survive frost?</h3>
+  <p>
+    Yes. Established onions tolerate light frost near 32°F (0°C), though repeated hard freezes can damage foliage.
+  </p>
 
-  <details>
-    <summary>Is frost tolerance the same as “keeps growing”?</summary>
-    <p>No. A crop may survive light frost, but still stop growing when temperatures are too cold for steady development.</p>
-  </details>
+  <h3>Why are my onion bulbs small?</h3>
+  <p>
+    Most often, plants did not build enough leaf mass before bulbing began, usually due to late starting or insufficient runway.
+  </p>
 
-  <details>
-    <summary>How should I use frost dates?</summary>
-    <p>Use last frost for spring planting windows and first frost for fall cutoffs, then adjust based on temperature thresholds.</p>
-  </details>
+  <h3>Are onions difficult in short seasons?</h3>
+  <p>
+    They can be. Early indoor starts and proper day-length variety selection are essential for reliable bulb sizing.
+  </p>
 </section>
 
 <section class="card">
   <h2>Summary</h2>
-  <ol>
-    <li>Use frost dates as anchors, then check temperature thresholds.</li>
-    <li>Cold soil slows early progress; warm-season crops need warm nights.</li>
-    <li>Fall timing is a maturity problem—count back from first frost with buffer.</li>
-    <li>32°F (0°C) is the freeze damage threshold to plan around.</li>
-  </ol>
+
+  <ul>
+    <li>Use 32°F (0°C) as the frost boundary (50% probability, 1991–2020 normals).</li>
+    <li>Onions require long runway: 90–120 days, ~1,200–1,800 GDD (base 50).</li>
+    <li>Indoor starts are critical in short seasons.</li>
+    <li>Model viability using frost window + seasonal heat budget + variety requirement + risk margin.</li>
+  </ul>
 </section>

@@ -1,40 +1,181 @@
+<!-- spinach-details.njk (UPDATED) -->
+
 <section class="card">
   <h2>About Spinach</h2>
 
   <p class="tagline">
-    Fast-growing cool-season greens that prefer cold over heat.
+    Cool-season greens—fast maturity, highly tolerant of cold.
   </p>
 
   <p class="lede">
-    <strong>Spinach performs best in cool temperatures and struggles once heat arrives.</strong>
-    In short growing seasons, timing matters more than fertilizing or variety choice. Plant early for spring harvest and again in late summer so plants mature into fall cooling rather than summer heat.
+    <strong>Spinach thrives in cool temperatures and tolerates light frost.</strong>
+    For GrowByDate modeling, frost is defined as 32°F (0°C). In a typical year (1991–2020 climate normals at the 50% probability level), spinach is rarely limited by first frost. Instead, viability depends on fitting maturity into cool windows before heat triggers bolting.
   </p>
 
   <p>
-    Because spinach tolerates frost well, it fits naturally into frost-based planting schedules across northern U.S. and comparable Canadian climates.
+    In short seasons, spinach is one of the most reliable early crops. Its low heat requirement and frost tolerance provide natural margin, especially in northern climates.
   </p>
 </section>
 
 <section class="card">
-  <h2>Cold Sensitivity & Temperature Requirements</h2>
+  <h2>Quick Planning Reference</h2>
 
   <ul>
-    <li><strong>Optimal growth:</strong> 50–65°F (10–18°C)</li>
-    <li><strong>Slow growth:</strong> Below 40°F (4°C)</li>
-    <li><strong>Heat stress / bolting risk:</strong> Above 75°F (24°C)</li>
-    <li><strong>Light frost tolerance:</strong> 25–28°F (-4 to -2°C)</li>
-    <li><strong>Hard freeze damage:</strong> Below 20°F (-6°C)</li>
+    <li><strong>Direct sow:</strong> 6–2 weeks before last frost (soil workable)</li>
+    <li><strong>Fall sowing:</strong> Count backward from first frost with buffer</li>
+    <li><strong>Days to maturity:</strong> 35–55 days (variety-dependent)</li>
+    <li><strong>Frost tolerance:</strong> Hardy (handles multiple light frosts)</li>
+  </ul>
+
+  <p class="fine muted">
+    These are baseline ranges. Heat spikes often end harvest before frost does.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Temperature Profile</h2>
+
+  <ul>
+    <li><strong>Optimal growth:</strong> 45–65°F (7–18°C)</li>
+    <li><strong>Slow growth:</strong> Below ~40°F (4°C)</li>
+    <li><strong>Bolting risk:</strong> Above ~75°F (24°C)</li>
+    <li><strong>Planning frost boundary:</strong> 32°F (0°C)</li>
   </ul>
 
   <p>
-    Spinach easily handles light frost once established. A freeze at 32°F (0°C) is rarely damaging.
-    The real threat is heat. Extended warm weather quickly triggers bolting, causing leaves to become bitter and plants to flower.
+    Spinach tolerates light frost and may even survive brief dips below 32°F (0°C).
+    Sustained hard freezes eventually halt growth, but first frost is rarely the immediate endpoint.
+  </p>
+
+  <p class="fine">
+    For context on freeze intensity, see:
+    <a href="/guides/light-freeze-vs-hard-freeze/">Light freeze vs hard freeze</a>.
   </p>
 </section>
 
 <section class="card">
-  <h2>Frost Timing & Planting Window</h2>
+  <h2>Spring vs Fall Timing</h2>
 
   <p>
-    In cold climates, spinach is usually direct sown rather than transplanted.
-    Seeds germinate in cool soil and plants grow steadily in spring temperatures
+    Spinach is well suited to both spring and fall:
+  </p>
+
+  <ul>
+    <li><strong>Spring crop:</strong> Sow early for harvest before sustained heat.</li>
+    <li><strong>Fall crop:</strong> Count backward from first frost and allow buffer for slower late-season growth.</li>
+  </ul>
+
+  <p>
+    Use the <a href="/tools/first-frost-planner/">First Frost Planner</a> to anchor fall sowing dates.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Typical GDD Requirement</h2>
+
+  <p><strong>Base temperature:</strong> 50°F (10°C)</p>
+  <p><strong>Approximate GDD needed:</strong> ~400–700 GDD (base 50)</p>
+
+  <p>
+    Spinach has a modest heat requirement. In cool springs, maturity may extend slightly beyond labeled days, but overall GDD demand is low compared to warm-season crops.
+  </p>
+
+  <p class="fine muted" style="margin-top:14px;">
+    GDD = ((Daily High + Daily Low) ÷ 2) − 50
+  </p>
+
+  <div class="actions">
+    <a class="button subtle" href="/tools/growing-degree-day-planner/">Use the GDD Planner</a>
+  </div>
+
+  <p class="fine">
+    For the full frost + heat interaction model, see:
+    <a href="/guides/how-frost-dates-and-growing-degree-days-work-together/">How frost dates and Growing Degree Days work together</a>.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Minimum Frost-Free Days</h2>
+
+  <p>
+    Most spinach varieties reach harvest in <strong>35–55 frost-free days</strong>.
+    Because spinach tolerates frost, effective harvest windows may extend slightly beyond first frost in mild conditions.
+  </p>
+
+  <div class="actions">
+    <a class="button subtle" href="/tools/frost-date-finder/">Check Your Frost-Free Season</a>
+  </div>
+</section>
+
+<section class="card">
+  <h2>Short-Season Viability Flag</h2>
+
+  <ul>
+    <li><strong>Good choice under 100 days?</strong> Yes (very reliable)</li>
+    <li><strong>Risky under 90 days?</strong> Rarely; short maturity minimizes risk</li>
+    <li><strong>Needs season extension?</strong> Usually no; frost tolerance provides buffer</li>
+  </ul>
+</section>
+
+<section class="card">
+  <h2>First Frost Sensitivity</h2>
+
+  <p>
+    Spinach tolerates light frost near 32°F (0°C), though repeated hard freezes can eventually halt growth.
+    For planning consistency, treat 32°F (0°C) as the frost boundary while recognizing spinach’s extended tolerance.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Early-Maturing Strategy</h2>
+
+  <ul>
+    <li>Sow as soon as soil is workable in spring</li>
+    <li>Select bolt-resistant varieties for late spring plantings</li>
+    <li>For fall crops, allow buffer for slower growth as days shorten</li>
+    <li>Use partial shade in warm climates to delay bolting</li>
+  </ul>
+</section>
+
+<section class="card">
+  <h2>Planning Model</h2>
+
+  <p class="muted">
+    Frost → Season Length → GDD → Crop Requirement → Risk Margin
+  </p>
+
+  <p>
+    In a typical year, spinach is viable in most short-season climates because of its low GDD requirement and frost tolerance.
+    The primary constraint is heat-triggered bolting, not frost survival.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Frequently Asked Questions</h2>
+
+  <h3>Can spinach survive frost?</h3>
+  <p>
+    Yes. Spinach commonly tolerates light frost and may survive brief dips below 32°F (0°C).
+  </p>
+
+  <h3>Why did my spinach bolt?</h3>
+  <p>
+    Bolting is usually triggered by sustained heat and long days rather than frost.
+  </p>
+
+  <h3>Is spinach reliable in very short seasons?</h3>
+  <p>
+    Yes. Its quick maturity and modest heat requirement make it one of the safest crops.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Summary</h2>
+
+  <ul>
+    <li>Use 32°F (0°C) as the frost boundary (50% probability, 1991–2020 normals).</li>
+    <li>Spinach tolerates frost and is limited more by heat than cold.</li>
+    <li>Typical requirement: 35–55 days, ~400–700 GDD (base 50).</li>
+    <li>Model viability using frost window + seasonal heat budget + variety requirement + risk margin.</li>
+  </ul>
+</section>

@@ -1,93 +1,181 @@
+<!-- carrots-details.njk (UPDATED) -->
+
 <section class="card">
   <h2>About Carrots</h2>
+
+  <p class="tagline">
+    Cool-season roots that reward early sowing and disciplined fall cutoffs.
+  </p>
+
+  <p class="lede">
+    <strong>Carrots are a cool-season, direct-sown crop that tolerate light frost.</strong>
+    For GrowByDate modeling, frost is defined as 32°F (0°C). In a typical year (1991–2020 climate normals at the 50% probability level), carrots are usually limited by time and late-season slowdowns—not immediate frost damage.
+  </p>
+
   <p>
-    This page is a frost-first reference for timing carrots in short growing seasons. Use your frost dates as anchors,
-    then adjust based on temperature thresholds and how quickly growth slows in cool nights.
+    Carrots grow best in steady, cool conditions. In short seasons, success comes from early spring sowing and carefully counting backward from first fall frost so roots size up before cold nights slow development.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Quick Planning Reference</h2>
+
+  <ul>
+    <li><strong>Direct sow:</strong> 2 weeks before to 2 weeks after last frost (once soil is workable)</li>
+    <li><strong>Days to maturity:</strong> 60–80 days (variety-dependent)</li>
+    <li><strong>Frost tolerance:</strong> Light to moderate (tops may be damaged by harder freezes)</li>
+  </ul>
+
+  <p class="fine muted">
+    These are practical ranges. Soil temperature, day length, and fall night temperatures all influence how quickly roots size up.
   </p>
 </section>
 
 <section class="card">
   <h2>Cold Sensitivity & Temperature Requirements</h2>
-  <ul>
-    <li><strong>Optimal growth:</strong> 60–70°F (16–21°C)</li>
-    <li><strong>Slow growth:</strong> Below 45°F (7°C)</li>
-    <li><strong>Stress threshold:</strong> Above 80°F (27°C)</li>
-    <li><strong>Cold stress:</strong> Around 35°F (2°C)</li>
-    <li><strong>Freeze damage:</strong> 32°F (0°C)</li>
-  </ul>
-</section>
 
-<section class="card">
-  <h2>Frost Timing & Planting Window</h2>
+  <ul>
+    <li><strong>Optimal growth:</strong> 55–70°F (13–21°C)</li>
+    <li><strong>Slow growth:</strong> Below ~45°F (7°C)</li>
+    <li><strong>Heat stress:</strong> Above ~85°F (29°C) can reduce quality</li>
+    <li><strong>Planning frost boundary:</strong> 32°F (0°C)</li>
+  </ul>
+
   <p>
-    Plan spring timing from your <strong>last frost</strong>. Cool-season crops can often be planted earlier than warm-season crops,
-    but cold soil slows germination and early growth. Warm-season crops should only be planted after frost risk and cold nights decline.
-  </p>
-  <p>
-    Plan fall timing from your <strong>first frost</strong>. Count backward using days to maturity, then add practical buffer for slower growth
-    as nights cool into the low 40s°F (single digits °C).
+    Carrot roots tolerate cool soil well once established. However, as nights consistently drop toward freezing, growth rate slows significantly.
+    In fall plantings, the common failure mode is insufficient sizing time before sustained cold—not immediate crop loss.
   </p>
 </section>
 
 <section class="card">
-  <h2>Seed Starting</h2>
+  <h2>Spring vs Fall Timing</h2>
+
   <p>
-    Use the seed-start planner for indoor start and transplant windows when applicable. If this crop is typically direct sown,
-    timing is still frost-first—start when soil is workable and temperatures support steady growth.
+    Carrots fit both spring and fall windows. The timing model is slightly different for each:
+  </p>
+
+  <ul>
+    <li><strong>Spring crop:</strong> Sow early into workable soil so roots size up during cool, lengthening days.</li>
+    <li><strong>Fall crop:</strong> Count backward from first frost and add buffer for slower late-season growth.</li>
+  </ul>
+
+  <p>
+    Use the <a href="/tools/first-frost-planner/">First Frost Planner</a> to determine your fall cutoff date based on variety maturity length.
+  </p>
+
+  <p class="fine">
+    For the underlying logic behind counting backward from frost, see:
+    <a href="/guides/counting-backward-from-frost-how-seed-timing-works/">Counting backward from frost: how seed timing works</a>.
   </p>
 </section>
 
 <section class="card">
-  <h2>Soil & Site Requirements</h2>
-  <ul>
-    <li>Full sun (or light shade for leafy crops in warmer spells)</li>
-    <li>Well-drained soil to avoid cold, waterlogged roots</li>
-    <li>Consistent moisture during establishment</li>
-  </ul>
-</section>
+  <h2>Typical GDD Requirement</h2>
 
-<section class="card">
-  <h2>Variety Considerations</h2>
-  <ul>
-    <li><strong>Faster varieties:</strong> improve reliability in short seasons.</li>
-    <li><strong>Slower varieties:</strong> require earlier planting and a wider frost window.</li>
-    <li><strong>Quality is temperature-driven:</strong> frost-first timing is the main control.</li>
-  </ul>
-</section>
+  <p><strong>Base temperature:</strong> 50°F (10°C)</p>
+  <p><strong>Approximate GDD needed:</strong> ~600–1,000 GDD (base 50) depending on variety and sizing target</p>
 
-<section class="card">
-  <h2>Fall Frost Considerations</h2>
   <p>
-    As first frost approaches, growth rate matters as much as frost tolerance. Even if foliage survives light frost, plants may stop sizing up when
-    nights stay cold. When temperatures approach 32°F (0°C), protect or harvest depending on the crop.
+    Carrots are not highly heat-demanding, but accumulated seasonal heat still affects development speed.
+    In cooler summers, maturity can extend beyond labeled days-to-maturity, reducing fall buffer.
+  </p>
+
+  <p class="fine muted" style="margin-top:14px;">
+    GDD = ((Daily High + Daily Low) ÷ 2) − 50
+  </p>
+
+  <div class="actions">
+    <a class="button subtle" href="/tools/growing-degree-day-planner/">Use the GDD Planner</a>
+  </div>
+
+  <p class="fine">
+    To understand how frost boundaries and heat accumulation interact, see:
+    <a href="/guides/how-frost-dates-and-growing-degree-days-work-together/">How frost dates and Growing Degree Days work together</a>.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Minimum Frost-Free Days</h2>
+
+  <p>
+    Most carrot varieties require <strong>60–80 frost-free days</strong> to reach full size.
+    For fall carrots, it’s wise to build additional buffer because shortening day length and cool nights slow final root expansion.
+  </p>
+
+  <div class="actions">
+    <a class="button subtle" href="/tools/frost-date-finder/">Check Your Frost-Free Season</a>
+  </div>
+</section>
+
+<section class="card">
+  <h2>Short-Season Viability Flag</h2>
+
+  <ul>
+    <li><strong>Good choice under 100 days?</strong> Yes (carrots are a reliable short-season root)</li>
+    <li><strong>Risky under 90 days?</strong> Usually workable with early varieties and disciplined fall cutoffs</li>
+    <li><strong>Needs season extension?</strong> Sometimes helpful in fall (light mulch or row cover to slow soil cooling)</li>
+  </ul>
+</section>
+
+<section class="card">
+  <h2>First Frost Sensitivity</h2>
+
+  <p>
+    Carrot foliage can tolerate light frost, but repeated hard freezes can damage tops and halt growth.
+    For frost-first modeling, treat 32°F (0°C) as the boundary date and aim to reach harvest size before sustained freezing conditions.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Early-Maturing Strategy</h2>
+
+  <ul>
+    <li>Choose shorter-maturity varieties when your frost window is tight</li>
+    <li>Sow as soon as soil is workable in spring</li>
+    <li>For fall crops, add 7–14 days of buffer beyond label maturity</li>
+    <li>Use full sun sites to preserve effective heat accumulation</li>
+  </ul>
+</section>
+
+<section class="card">
+  <h2>Planning Model</h2>
+
+  <p class="muted">
+    Frost → Season Length → GDD → Crop Requirement → Risk Margin
+  </p>
+
+  <p>
+    In a typical year, carrots are viable when your frost-free window provides enough time and your seasonal heat budget supports steady development.
+    Failure usually occurs when fall plantings are scheduled too close to first frost without buffer for slowdown.
   </p>
 </section>
 
 <section class="card">
   <h2>Frequently Asked Questions</h2>
 
-  <details>
-    <summary>What temperature stops growth for this crop?</summary>
-    <p>Expect slow growth below the listed slow-growth threshold, and rapid slowdown as nights cool into the low 40s°F (single digits °C).</p>
-  </details>
+  <h3>Can carrots survive frost?</h3>
+  <p>
+    Yes. Carrots tolerate light frost, and flavor may improve after cool nights. However, repeated hard freezes can damage foliage and halt growth.
+  </p>
 
-  <details>
-    <summary>Is frost tolerance the same as “keeps growing”?</summary>
-    <p>No. A crop may survive light frost, but still stop growing when temperatures are too cold for steady development.</p>
-  </details>
+  <h3>Why are my fall carrots small?</h3>
+  <p>
+    Most often, planting occurred too close to first frost. Cool nights slow root expansion before full size is reached.
+  </p>
 
-  <details>
-    <summary>How should I use frost dates?</summary>
-    <p>Use last frost for spring planting windows and first frost for fall cutoffs, then adjust based on temperature thresholds.</p>
-  </details>
+  <h3>Do carrots need high heat to mature?</h3>
+  <p>
+    No. They are cool-season crops, but they still require sufficient accumulated heat (GDD) to reach size within your frost window.
+  </p>
 </section>
 
 <section class="card">
   <h2>Summary</h2>
-  <ol>
-    <li>Use frost dates as anchors, then check temperature thresholds.</li>
-    <li>Cold soil slows early progress; warm-season crops need warm nights.</li>
-    <li>Fall timing is a maturity problem—count back from first frost with buffer.</li>
-    <li>32°F (0°C) is the freeze damage threshold to plan around.</li>
-  </ol>
+
+  <ul>
+    <li>Use 32°F (0°C) frost timing as the planning boundary (50% probability, 1991–2020 normals).</li>
+    <li>Carrots fit short seasons well but require buffer in fall due to slowdowns.</li>
+    <li>Typical maturity: 60–80 days, ~600–1,000 GDD (base 50).</li>
+    <li>Model viability using frost window + seasonal heat budget + variety requirement + risk margin.</li>
+  </ul>
 </section>
