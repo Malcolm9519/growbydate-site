@@ -84,14 +84,15 @@
   </p>
 
   <p>
-    Instead of relying on calendar “days to maturity,”
+    Rather than relying on calendar “days to maturity,”
     this tool models seasonal heat accumulation using Growing Degree Days (GDD)
-    and compares it to your area’s average first fall frost
-    (50% probability threshold).
+    and compares that to your area’s average first fall frost
+    (calculated at the 50% probability level).
   </p>
 
   <p>
-    The result is not a guarantee — it is a probability-based feasibility estimate.
+    If you are unfamiliar with how frost probability works,
+    see <a href="/guides/what-does-50-percent-frost-probability-mean/">What 50% Frost Probability Means</a>.
   </p>
 </section>
 
@@ -102,45 +103,39 @@
   <div class="row" style="margin-top:6px;">
     <div class="muted">
       <div class="pill">1</div>
-      <p style="margin:6px 0 0;">
-        <strong>Comfortable Margin</strong>
-      </p>
+      <p style="margin:6px 0 0;"><strong>Comfortable Margin</strong></p>
       <p class="small" style="margin:6px 0 0;">
-        If your crop reaches required GDD well before first frost,
-        maturity is likely in a typical year.
-        Extra heat margin improves reliability.
+        The crop reaches required GDD well before your typical first frost.
+        Maturity is likely in a typical year.
+        Extra margin improves reliability.
       </p>
     </div>
 
     <div class="muted">
       <div class="pill">2</div>
-      <p style="margin:6px 0 0;">
-        <strong>Borderline</strong>
-      </p>
+      <p style="margin:6px 0 0;"><strong>Borderline</strong></p>
       <p class="small" style="margin:6px 0 0;">
-        If maturity occurs close to your typical first frost date,
-        results become more sensitive to cooler summers or early frost years.
-        Consider earlier varieties or protection.
+        Maturity occurs close to your typical first frost date.
+        Cooler summers or earlier-than-average frost can reduce reliability.
+        Consider earlier varieties or minor season extension.
       </p>
     </div>
 
     <div class="muted">
       <div class="pill">3</div>
-      <p style="margin:6px 0 0;">
-        <strong>Unlikely</strong>
-      </p>
+      <p style="margin:6px 0 0;"><strong>Unlikely</strong></p>
       <p class="small" style="margin:6px 0 0;">
-        If required GDD extends past first frost,
-        the crop may not reliably mature in a typical year.
-        Selecting a lower heat-demand crop improves feasibility.
+        Required GDD extends beyond the frost boundary.
+        The crop may not reliably mature in a typical year.
+        Choosing a lower heat-demand crop improves feasibility.
       </p>
     </div>
   </div>
 
   <p class="small muted" style="margin-top:10px;">
-    Tip: If your garden frosts earlier than regional averages
+    Tip: If your garden typically frosts earlier than your regional average
     (low spots, cold-air drainage, rural exposure),
-    plan as if first frost arrives 7–14 days earlier.
+    plan as if frost arrives 7–14 days earlier to preserve a safety margin.
   </p>
 </section>
 
@@ -154,11 +149,7 @@
 
   <p>
     Growing Degree Days (GDD) measure seasonal heat accumulation using a fixed base temperature
-    appropriate for the crop (often 50°F / 10°C for warm-season crops).
-  </p>
-
-  <p>
-    Daily heat units are calculated and added across the season:
+    appropriate for the crop (commonly 50°F / 10°C for warm-season crops).
   </p>
 
   <p class="muted">
@@ -166,70 +157,99 @@
   </p>
 
   <p>
-    Cooler summers accumulate heat more slowly.
-    Short seasons with limited heat often fail not because days run out —
-    but because total heat supply never meets crop demand.
+    In cooler climates, heat accumulates more slowly.
+    Many short-season crop failures occur because seasonal heat never reaches the crop’s requirement,
+    even if frost arrives “on time.”
+  </p>
+
+  <p>
+    For a deeper explanation of how frost timing and heat accumulation interact,
+    see <a href="/guides/how-frost-dates-and-growing-degree-days-work-together/">How Frost Dates and Growing Degree Days Work Together</a>.
   </p>
 </section>
 
 
-<section class="card" aria-label="How this estimate works">
-  <h2>How this estimate works</h2>
+<section class="card" aria-label="Common mistakes when using GDD">
+  <h2>Common mistakes when using GDD</h2>
 
   <ul>
-    <li>
-      <strong>Step 1 – Seasonal Heat Modeling:</strong>
-      Starting from your planting date, the planner estimates
-      how quickly cumulative GDD typically accumulates in your location.
-    </li>
-
-    <li>
-      <strong>Step 2 – Crop Requirement:</strong>
-      Each crop has a required cumulative GDD threshold for maturity.
-    </li>
-
-    <li>
-      <strong>Step 3 – Frost Boundary:</strong>
-      The estimated maturity date is compared to your
-      <strong>average first fall frost at 32°F</strong>,
-      calculated at the 50% probability level.
-    </li>
+    <li><strong>Relying only on days to maturity.</strong> Calendar estimates assume ideal warmth.</li>
+    <li><strong>Ignoring risk margin.</strong> Borderline results are sensitive to variation.</li>
+    <li><strong>Forgetting microclimates.</strong> Local elevation and exposure can shift frost timing.</li>
+    <li><strong>Planting too late.</strong> Later planting compresses the heat window.</li>
   </ul>
 
-  <p class="muted">
-    If maturity occurs before that frost boundary,
-    the crop is typically viable.
-    If not, frost risk increases.
-  </p>
-
-  <p class="muted">
-    This is a normals-based climate planning model —
-    not a real-time weather tracker.
+  <p>
+    If you are evaluating late-season planting, see
+    <a href="/guides/when-is-it-too-late-to-plant-for-fall-harvest/">When Is It Too Late to Plant for Fall Harvest?</a>.
   </p>
 </section>
 
 
-<section class="card" aria-label="The planning model behind this tool">
-  <h2>The planning model behind this tool</h2>
+<section class="card" aria-label="Why this is more reliable than planting calendars">
+  <h2>Why this is more reliable than planting calendars</h2>
 
   <p>
-    Climate-based crop feasibility follows this sequence:
+    Generic planting calendars group large regions into zones
+    without accounting for seasonal heat accumulation.
   </p>
 
   <p>
-    <strong>
-      Planting Date →
-      Seasonal GDD Accumulation →
-      Crop Heat Requirement →
-      First Frost Boundary →
-      Risk Margin
-    </strong>
+    This planner evaluates:
+  </p>
+
+  <p class="muted">
+    <strong>Planting Date → Seasonal GDD → Crop Requirement → First Frost Boundary → Risk Margin</strong>
   </p>
 
   <p>
-    The greater the margin between required heat and available heat,
-    the more reliable maturity becomes in a typical year.
+    That sequence provides climate-specific feasibility modeling
+    rather than broad calendar guidance.
   </p>
+
+  <p>
+    For broader planning context, see
+    <a href="/guides/how-to-plan-a-garden-in-a-short-growing-season/">How to Plan a Garden in a Short Growing Season</a>.
+  </p>
+</section>
+
+
+<section class="card" aria-label="Frequently Asked Questions">
+  <h2>Frequently Asked Questions</h2>
+
+  <details>
+    <summary>Is this tool predicting weather this year?</summary>
+    <p>
+      No. This planner uses historical climate normals (1991–2020)
+      to model a typical year.
+      It does not track real-time weather.
+    </p>
+  </details>
+
+  <details>
+    <summary>What if my maturity date is only a few days before frost?</summary>
+    <p>
+      Results that fall within a narrow margin of first frost
+      carry higher sensitivity to seasonal variation.
+      Earlier varieties or minor protection can improve reliability.
+    </p>
+  </details>
+
+  <details>
+    <summary>Does elevation affect my result?</summary>
+    <p>
+      Yes. Higher elevations often accumulate heat more slowly.
+      See <a href="/guides/how-elevation-affects-growing-degree-days/">How Elevation Affects Growing Degree Days</a>.
+    </p>
+  </details>
+
+  <details>
+    <summary>How do I find my first frost date?</summary>
+    <p>
+      Use the <a href="/tools/first-frost-planner/">First Frost Planner</a>
+      to identify your typical frost boundary.
+    </p>
+  </details>
 </section>
 
 <style>
