@@ -85,50 +85,211 @@
       </p>
     </section>
 
-    <section class="card">
+<section class="card">
+  <h2>What This Planner Answers</h2>
 
-  <h2>How This Planner Works</h2>
+  <p>
+    In a typical year, when is the latest you can plant a crop and still expect it to mature before your first fall frost?
+  </p>
 
-  <p class="muted" style="margin-top:0;">
+  <p>
+    This planner uses your <strong>average first fall frost date</strong>, defined at
+    <strong>32°F (0°C)</strong> and calculated from 1991–2020 climate normals
+    at the <strong>50% probability level</strong>.
+    It counts backward from that boundary to estimate realistic fall planting cutoffs.
+  </p>
 
-        <div style="margin-top:14px;">
-          <div class="muted" style="margin-bottom:14px;">
-            <div class="pill">1</div>
-            <p style="margin:6px 0 0;"><strong>Enter your first frost date</strong></p>
-            <p class="small" style="margin:6px 0 0;">
-              Use your <strong>average</strong> first fall frost date to plan. This tool counts backward from that anchor.
-            </p>
-          </div>
+  <p>
+    Frost dates are not guarantees.
+    A 50% first frost date means that in roughly half of years, frost arrives earlier.
+    This tool models typical-year conditions to help you plan with margin,
+    not certainty.
+  </p>
 
-          <div class="muted" style="margin-bottom:14px;">
-            <div class="pill">2</div>
-            <p style="margin:6px 0 0;"><strong>Choose one or more crops</strong></p>
-            <p class="small" style="margin:6px 0 0;">
-              Each crop uses its typical <strong>days to maturity</strong> plus a safety buffer to estimate a fall cutoff.
-            </p>
-          </div>
+  <p>
+    If you are unsure of your local frost boundary,
+    start with the <a href="/tools/frost-date-finder/">Frost Date Finder</a>
+    before using this planner.
+  </p>
+</section>
 
-          <div class="muted" style="margin-bottom:14px;">
-            <div class="pill">3</div>
-            <p style="margin:6px 0 0;"><strong>Set buffer and protection</strong></p>
-            <p class="small" style="margin:6px 0 0;">
-              Buffer adds breathing room. Season protection shifts your effective frost date later (row cover / tunnel / cold frame).
-            </p>
-          </div>
+<section class="card">
+  <h2>How This Model Works</h2>
 
-          <div class="muted" style="margin-bottom:14px;">
-            <div class="pill">4</div>
-            <p style="margin:6px 0 0;"><strong>Read the cutoff dates correctly</strong></p>
-            <p class="small" style="margin:6px 0 0;">
-              These are planning cutoffs, not guarantees. If nights cool early, growth slows and your true window shrinks.
-            </p>
-          </div>
-        </div>
+  <p>
+    This planner estimates fall planting cutoffs by working backward from your
+    <strong>average first fall frost date</strong> (32°F / 0°C threshold, 50% probability).
+    That frost boundary represents when freeze risk typically returns in a typical year.
+  </p>
 
-        <p class="small muted" style="margin-top:6px;" id="ff-quickcheck">
-          Quick check: fall success depends on daylight and night temperatures. Frost dates guide planning — your yard decides final timing.
-        </p>
-        </section>
+  <p>
+    For each crop selected, the model uses its typical <strong>days to maturity</strong>
+    as a baseline estimate of how long it takes to reach harvest under normal growing conditions.
+    It then subtracts that duration from your frost boundary to calculate a projected planting cutoff.
+  </p>
+
+  <p>
+    You can add a <strong>buffer period</strong> to build margin.
+    A 7–14 day buffer is commonly used in short or cool climates to account for:
+  </p>
+
+  <ul class="tight">
+    <li>Late-season temperature decline</li>
+    <li>Slower growth as daylight decreases</li>
+    <li>Normal year-to-year variation in frost timing</li>
+  </ul>
+
+  <p>
+    Optional season protection (row cover, low tunnels, cold frames)
+    shifts your effective frost boundary later.
+    This adjustment assumes protection reduces freeze exposure,
+    but it does not materially increase heat accumulation.
+  </p>
+
+  <p>
+    Importantly, this model is deterministic.
+    It does not use real-time weather data.
+    It compares crop maturity estimates to historical climate normals
+    to determine whether sufficient time typically exists before frost returns.
+  </p>
+
+  <p>
+    Because fall growth often slows as nights cool,
+    borderline cutoffs should be interpreted cautiously —
+    especially for warm-season crops such as
+    <a href="/crops/tomatoes/">tomatoes</a>.
+  </p>
+</section>
+
+<section class="card">
+  <h2>How to Interpret Your Results</h2>
+
+  <p>
+    The planting cutoff date shown by this planner represents the latest date
+    a crop would typically need to be planted in order to mature
+    before your average first fall frost.
+  </p>
+
+  <p>
+    Not all results carry equal margin. Interpretation depends on how tightly
+    the crop’s maturity window fits inside your frost boundary.
+  </p>
+
+  <ul class="tight">
+    <li>
+      <strong>Comfortable margin:</strong>
+      The cutoff falls well before your frost boundary.
+      Even with modest seasonal variation or slower late-season growth,
+      maturity is likely in a typical year.
+    </li>
+    <li>
+      <strong>Borderline margin:</strong>
+      The cutoff sits close to the frost boundary.
+      Slightly earlier frost or cooler-than-average late-season temperatures
+      may reduce the effective growing window.
+    </li>
+    <li>
+      <strong>Unlikely maturity:</strong>
+      The projected planting window is extremely narrow or already past.
+      Structural constraints make reliable harvest unlikely in a typical year.
+    </li>
+  </ul>
+
+  <p>
+    Fall seasons are uniquely sensitive because heat accumulation declines
+    before frost actually arrives.
+    Even if calendar days remain, cooler nights and shorter daylight
+    slow development.
+  </p>
+
+  <p>
+    If your results appear borderline, consider selecting earlier-maturing varieties
+    or evaluating your seasonal heat budget with the
+    <a href="/tools/growing-degree-day-planner/">Growing Degree Day Planner</a>.
+    Heat accumulation — not calendar days alone —
+    ultimately determines whether crops finish.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Common Fall Planning Mistakes</h2>
+
+  <ul class="tight">
+    <li>
+      <strong>Confusing frost-free days with effective growing time.</strong>
+      The number of days between last and first frost does not guarantee
+      sufficient heat accumulation for maturity.
+    </li>
+
+    <li>
+      <strong>Using days-to-maturity alone.</strong>
+      Seed packet labels assume normal heat conditions.
+      In late season, declining temperatures can stretch maturity timelines.
+      This is explained in more detail in
+      <a href="/guides/why-days-to-maturity-isnt-enough-in-cold-climates/">
+        Why Days to Maturity Isn’t Enough in Cold Climates
+      </a>.
+    </li>
+
+    <li>
+      <strong>Ignoring late-season heat decline.</strong>
+      Growth slows before frost arrives.
+      Calendar days remain, but daily heat accumulation decreases.
+    </li>
+
+    <li>
+      <strong>Assuming protection creates heat.</strong>
+      Row cover and tunnels can delay frost exposure,
+      but they do not materially increase seasonal heat supply.
+    </li>
+
+    <li>
+      <strong>Treating frost dates as guarantees.</strong>
+      A 50% frost date means earlier frost occurs in roughly half of years.
+      Borderline planning without buffer increases risk.
+    </li>
+  </ul>
+</section>
+
+<section class="card">
+  <h2>When This Tool Is Most Useful</h2>
+
+  <p>
+    This planner is especially valuable in climates where seasonal margins are narrow.
+  </p>
+
+  <ul class="tight">
+    <li>
+      <strong>Short growing seasons:</strong>
+      When the window between last and first frost is limited,
+      late-season decisions require precision.
+    </li>
+
+    <li>
+      <strong>High elevation areas:</strong>
+      Earlier fall frost and cooler nights compress late-season heat accumulation.
+    </li>
+
+    <li>
+      <strong>Borderline crop decisions:</strong>
+      When evaluating whether a crop will finish before frost,
+      especially warm-season crops near your climatic limits.
+    </li>
+
+    <li>
+      <strong>Fall succession planting:</strong>
+      When planning a second round of crops
+      and determining the latest viable planting date.
+    </li>
+  </ul>
+
+  <p>
+    In longer, warmer climates with wide seasonal margins,
+    cutoff dates are often forgiving.
+    In short or cool climates, precise backward counting
+    from the frost boundary becomes critical.
+  </p>
+</section>
 
     <section class="card">
       <h2>Short-season notes</h2>
@@ -140,6 +301,45 @@
       </ul>
     </section>
 
+<section class="card">
+  <h2>What This Tool Does Not Do</h2>
+
+  <p>
+    This planner is not a real-time weather tool.
+    It does not use live forecasts, and it does not predict exactly when frost will occur this year.
+  </p>
+
+  <p>
+    Instead, it models typical-year conditions using historical climate normals.
+    Your first fall frost date is treated as a boundary condition at the 32°F (0°C) threshold
+    and framed at the 50% probability level.
+  </p>
+
+  <p>
+    Because real seasons vary, microclimates can shift outcomes.
+    Protected yards, urban heat effects, wind exposure, and cold pockets can all cause your local frost timing
+    to differ from the typical boundary.
+    Use this tool to plan with margin, not certainty.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Summary</h2>
+
+  <ul class="tight">
+    <li><strong>What it calculates:</strong> fall planting cutoffs by counting backward from your first fall frost boundary.</li>
+    <li><strong>What it uses:</strong> 32°F threshold, 50% probability framing, days-to-maturity estimates, and optional buffer/protection.</li>
+    <li><strong>What results mean:</strong> how much margin you have before frost typically returns in a typical year.</li>
+    <li><strong>Who it’s for:</strong> short-season climates, borderline crop decisions, and fall succession planning.</li>
+  </ul>
+
+  <p>
+    If you need to confirm your frost boundary first, use the
+    <a href="/tools/frost-date-finder/">Frost Date Finder</a>.
+    If you are close to the threshold and want to evaluate heat accumulation risk,
+    use the <a href="/tools/growing-degree-day-planner/">Growing Degree Day Planner</a>.
+  </p>
+</section>
   </div>
 </section>
 
