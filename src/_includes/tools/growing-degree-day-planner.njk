@@ -96,6 +96,41 @@
   </p>
 </section>
 
+<section class="card" aria-label="How this model works">
+  <h2>How This Model Works</h2>
+
+  <p>
+    This planner models seasonal heat accumulation between your planting date
+    and your area’s average first fall frost boundary (32°F / 0°C, 50% probability).
+  </p>
+
+  <p>
+    It uses historical temperature normals (1991–2020) to estimate how many
+    <strong>Growing Degree Days (GDD)</strong> typically accumulate during that window.
+    Your selected crop’s heat requirement is then compared to that seasonal heat budget.
+  </p>
+
+  <p>
+    The comparison sequence is deterministic:
+  </p>
+
+  <p class="muted">
+    <strong>Planting Date → Typical Daily Heat → Accumulated GDD → Crop Requirement → Frost Boundary → Margin</strong>
+  </p>
+
+  <p>
+    If accumulated GDD meets or exceeds the crop’s requirement
+    before the first frost boundary, maturity is considered likely
+    in a typical year.
+    If heat accumulation falls short, the crop operates in deficit.
+  </p>
+
+  <p>
+    This tool does not assume ideal conditions.
+    It reflects average heat accumulation patterns,
+    which vary significantly by latitude, elevation, and seasonal temperature profile.
+  </p>
+</section>
 
 <section class="card" aria-label="How to interpret your result">
   <h2>How to interpret your result</h2>
@@ -141,15 +176,16 @@
 
 
 <section class="card" aria-label="Why Growing Degree Days matter">
-  <h2>Why Growing Degree Days matter</h2>
+  <h2>Why Growing Degree Days Matter</h2>
 
   <p>
-    Crops develop based on accumulated heat — not simply the number of days on a calendar.
+    Crops develop according to accumulated heat — not simply the number of calendar days that pass.
   </p>
 
   <p>
-    Growing Degree Days (GDD) measure seasonal heat accumulation using a fixed base temperature
-    appropriate for the crop (commonly 50°F / 10°C for warm-season crops).
+    Growing Degree Days (GDD) quantify that heat accumulation using a base temperature
+    appropriate for the crop. For most warm-season crops, that base is
+    <strong>50°F (10°C)</strong>.
   </p>
 
   <p class="muted">
@@ -157,17 +193,30 @@
   </p>
 
   <p>
-    In cooler climates, heat accumulates more slowly.
-    Many short-season crop failures occur because seasonal heat never reaches the crop’s requirement,
-    even if frost arrives “on time.”
+    When daily averages exceed the base temperature,
+    heat units accumulate. When temperatures hover near or below that base,
+    development slows.
   </p>
 
   <p>
-    For a deeper explanation of how frost timing and heat accumulation interact,
-    see <a href="/guides/how-frost-dates-and-growing-degree-days-work-together/">How Frost Dates and Growing Degree Days Work Together</a>.
+    Two locations may share the same frost-free window,
+    yet accumulate very different total GDD before first frost.
+    That difference explains why one garden reliably ripens tomatoes
+    while another struggles, even with identical calendar timing.
+  </p>
+
+  <p>
+    Many short-season crop failures occur not because frost arrives early,
+    but because the seasonal heat budget never reaches the crop’s biological requirement.
+  </p>
+
+  <p>
+    For a deeper structural explanation, see
+    <a href="/guides/how-frost-dates-and-growing-degree-days-work-together/">
+      How Frost Dates and Growing Degree Days Work Together
+    </a>.
   </p>
 </section>
-
 
 <section class="card" aria-label="Common mistakes when using GDD">
   <h2>Common mistakes when using GDD</h2>
@@ -184,7 +233,6 @@
     <a href="/guides/when-is-it-too-late-to-plant-for-fall-harvest/">When Is It Too Late to Plant for Fall Harvest?</a>.
   </p>
 </section>
-
 
 <section class="card" aria-label="Why this is more reliable than planting calendars">
   <h2>Why this is more reliable than planting calendars</h2>
@@ -213,6 +261,44 @@
   </p>
 </section>
 
+<section class="card" aria-label="When this tool is most useful">
+  <h2>When This Tool Is Most Useful</h2>
+
+  <ul class="tight">
+    <li><strong>Short growing seasons</strong> where margin is narrow.</li>
+    <li><strong>High-elevation areas</strong> where heat accumulates slowly.</li>
+    <li><strong>Borderline crop decisions</strong> near your climatic limits.</li>
+    <li><strong>Evaluating new varieties</strong> with different heat requirements.</li>
+    <li><strong>Late-season planting decisions</strong> where heat window compression matters.</li>
+  </ul>
+
+  <p>
+    If you are unsure of your frost boundary,
+    confirm it using the
+    <a href="/tools/first-frost-planner/">First Frost Planner</a>
+    before evaluating heat accumulation.
+  </p>
+</section>
+
+<section class="card" aria-label="What this tool does not do">
+  <h2>What This Tool Does Not Do</h2>
+
+  <p>
+    This planner does not use real-time weather data.
+    It does not predict the exact frost date for this year.
+  </p>
+
+  <p>
+    It models a typical year using 1991–2020 climate normals
+    and a 32°F frost boundary at the 50% probability level.
+  </p>
+
+  <p>
+    Year-to-year variation, unusual cold summers,
+    or microclimate effects can shift outcomes.
+    Use results as a structured baseline — not a guarantee.
+  </p>
+</section>
 
 <section class="card" aria-label="Frequently Asked Questions">
   <h2>Frequently Asked Questions</h2>

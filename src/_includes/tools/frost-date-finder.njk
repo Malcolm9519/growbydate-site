@@ -25,92 +25,147 @@
       </p>
     </section>
 
-    <section class="card" aria-label="What these frost dates mean">
-      <h2>What these dates represent</h2>
+<section class="card" aria-label="What these frost dates mean">
+  <h2>What these dates represent</h2>
 
-      <p>
-        Frost dates are based on historical climate normals. They are best used as a stable planning reference:
-        not a prediction for this year.
-      </p>
+  <p>
+    These frost dates are based on historical climate normals (1991–2020) and are defined at the
+    <strong>32°F (0°C)</strong> threshold.
+    They are best used as a stable planning reference — not a prediction for this year.
+  </p>
 
-      <ul>
-        <li><strong>Last spring frost:</strong> the average date your area stops reaching 32°F / 0°C overnight.</li>
-        <li><strong>First fall frost:</strong> the average date 32°F / 0°C returns in autumn.</li>
-      </ul>
+  <p>
+    The dates shown here follow a <strong>50% probability</strong> framing (midpoint timing).
+    That means earlier frost occurs in roughly half of years, and later frost occurs in roughly half.
+    Treat them as boundary conditions for planning with margin.
+  </p>
 
-      <p>
-        Your yard can run earlier or later than the average due to wind exposure, elevation, nearby water, urban heat, and cold pockets.
-      </p>
-    </section>
+  <ul>
+    <li><strong>Last spring frost:</strong> the typical date your area stops reaching 32°F / 0°C overnight.</li>
+    <li><strong>First fall frost:</strong> the typical date 32°F / 0°C returns in autumn.</li>
+  </ul>
 
-    <section class="card" aria-label="Use frost dates for planning">
-      <h2>What to do with your frost dates</h2>
+  <p>
+    Your yard can run earlier or later than the regional midpoint due to wind exposure, elevation,
+    nearby water, urban heat, and cold-air drainage.
+  </p>
 
-      <p>
-        Once you have your dates, you can turn them into practical schedules:
-      </p>
+  <p class="small muted" style="margin-top:10px;">
+    For why frost boundaries outperform generic calendars, see
+    <a href="/guides/why-frost-dates-matter-more-than-planting-calendars/">Why Frost Dates Matter More Than Planting Calendars</a>.
+  </p>
+</section>
 
-      <ul>
-        <li>Count backward from last frost for indoor seed starts and transplant windows.</li>
-        <li>Count backward from first frost to set fall planting cutoffs and harvest priorities.</li>
-      </ul>
-      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
-      <p class="small muted" style="margin-top:12px;">
-        If you want the “why” behind the numbers, these guides explain how frost dates work and how to use them well:
-        <a href="/guides/how-to-find-your-last-frost-date/">How to Find Your Last Frost Date</a>
-        and
-        <a href="/guides/how-to-find-your-first-frost-date/">How to Find Your First Frost Date</a>.
-      </p>
-    </section>
+<section class="card" aria-label="How this model works">
+  <h2>How This Tool Works</h2>
 
-    <section class="card" aria-label="Accuracy and limitations">
-      <h2>Accuracy notes (what this tool can and can’t do)</h2>
+  <p>
+    This tool maps your ZIP code (U.S.) or postal code prefix (Canada FSA) to the nearest available
+    historical climate normals dataset, then returns typical last spring and first fall frost dates
+    at the 32°F (0°C) threshold.
+  </p>
 
-      <ul>
-        <li><strong>Threshold:</strong> 32°F / 0°C (freeze).</li>
-        <li><strong>It’s a baseline:</strong> useful for planning, not perfect for microclimates.</li>
-        <li><strong>Location mapping:</strong> ZIPs and FSAs map to nearby climate normals data; local variation still applies.</li>
-      </ul>
+  <p>
+    The output is deterministic:
+    it does not use real-time forecasts, and it does not attempt to predict this year’s frost.
+    It returns typical-year boundary dates that can be used to plan schedules and margin.
+  </p>
 
-      <p>
-        Practical rule: use frost dates to set your schedule, then use <strong>nighttime lows</strong> to make final go/no-go decisions.
-      </p>
-    </section>
+  <p class="muted">
+    <strong>Location → Nearest normals dataset → 32°F frost thresholds → 50% probability dates</strong>
+  </p>
 
-    <section class="card" aria-label="FAQ">
-      <h2>Frequently Asked Questions</h2>
+  <p>
+    Mapping is designed to be fast and consistent for a static site.
+    Local terrain and microclimates can shift your true frost experience earlier or later than the regional midpoint,
+    especially in mountainous, coastal, or exposed rural locations.
+  </p>
+</section>
 
-      <details>
-        <summary>What does “32°F / 0°C” mean?</summary>
-        <p class="muted">
-          It’s the freezing point of water. Many seedlings and warm-season crops are damaged at or near this threshold.
-        </p>
-      </details>
+<section class="card" aria-label="Use frost dates for planning">
+  <h2>What to do with your frost dates</h2>
 
-      <details>
-        <summary>Are these the earliest frosts ever?</summary>
-        <p class="muted">
-          No. These are <strong>average</strong> dates. In some years, freezing arrives earlier; in others, later.
-          If you prefer a buffer, plan around the safer part of any planting window.
-        </p>
-      </details>
+  <p>
+    Once you have your frost boundaries, you can convert them into planning windows using simple counting logic:
+  </p>
 
-      <details>
-        <summary>Why use ZIP/postal code instead of city search?</summary>
-        <p class="muted">
-          ZIPs and FSAs are fast to type and work well with a static dataset (no APIs).
-          If you’re in a mountainous or coastal region, expect more microclimate variation.
-        </p>
-      </details>
+  <ul>
+    <li>
+      <strong>Count backward from last frost</strong> to plan indoor seed starts and transplant readiness.
+      Use the <a href="/tools/seed-start-planner/">Seed Start Planner</a> if you want a crop-specific schedule.
+    </li>
+    <li>
+      <strong>Count backward from first frost</strong> to set fall planting cutoffs and harvest priorities.
+      Use the <a href="/tools/first-frost-planner/">First Frost Planner</a> to estimate fall cutoffs by crop.
+    </li>
+  </ul>
 
-      <details>
-        <summary>Does this work in Canada?</summary>
-        <p class="muted">
-          Yes. Enter the first 3 characters of your postal code (FSA).
-          Frost-based timing applies across cold regions in both the U.S. and Canada.
-        </p>
-      </details>
-    </section>
+  <p class="small muted" style="margin-top:12px;">
+    If you want the “why” behind the numbers, these guides explain how frost boundaries work:
+    <a href="/guides/how-to-find-your-last-frost-date/">How to Find Your Last Frost Date</a>
+    and
+    <a href="/guides/how-to-find-your-first-frost-date/">How to Find Your First Frost Date</a>.
+  </p>
+</section>
+
+<section class="card" aria-label="Accuracy and limitations">
+  <h2>Accuracy notes (what this tool can and can’t do)</h2>
+
+  <ul>
+    <li><strong>Threshold:</strong> 32°F / 0°C (freeze).</li>
+    <li><strong>Normals-based:</strong> uses 1991–2020 climate normals (typical-year baseline).</li>
+    <li><strong>Probability framing:</strong> 50% midpoint dates, not guarantees.</li>
+    <li><strong>Location mapping:</strong> ZIPs and FSAs map to nearby climate normals data; local variation still applies.</li>
+  </ul>
+
+  <p>
+    Practical rule: use frost dates to set your baseline schedule, then apply margin.
+    If your yard tends to frost early (low spots, cold-air drainage, exposed rural sites),
+    plan as if frost arrives <strong>7–14 days earlier</strong>.
+  </p>
+
+  <p>
+    Final go/no-go decisions should be made using <strong>nighttime lows</strong>,
+    because microclimates can differ from the regional midpoint even in a typical year.
+  </p>
+</section>
+
+<section class="card" aria-label="FAQ">
+  <h2>Frequently Asked Questions</h2>
+
+  <details>
+    <summary>What does “32°F / 0°C” mean?</summary>
+    <p class="muted">
+      It’s the freezing point of water. Many seedlings and warm-season crops are damaged at or near this threshold,
+      so it’s a practical boundary for season planning.
+    </p>
+  </details>
+
+  <details>
+    <summary>Are these dates guarantees?</summary>
+    <p class="muted">
+      No. These are typical midpoint dates (50% probability) based on 1991–2020 climate normals.
+      In roughly half of years, frost happens earlier; in the other half, later.
+      If you want higher reliability, plan with buffer.
+    </p>
+  </details>
+
+  <details>
+    <summary>Why use ZIP/postal code instead of city search?</summary>
+    <p class="muted">
+      ZIPs and FSAs are fast to enter and work well with a static dataset (no APIs).
+      If you’re in a mountainous or coastal region, expect more microclimate variation than the regional midpoint suggests.
+    </p>
+  </details>
+
+  <details>
+    <summary>Does this work in Canada?</summary>
+    <p class="muted">
+      Yes. Enter the first 3 characters of your postal code (FSA).
+      Frost boundary logic applies across cold regions in both the U.S. and Canada.
+    </p>
+  </details>
+</section>
 
   </div>
 </section>
