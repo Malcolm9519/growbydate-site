@@ -10,75 +10,97 @@ isGuide: true
   <h1>How Frost Dates and Growing Degree Days Work Together</h1>
 
   <p class="tagline">
-    Time defines the window. Heat determines development.
+    Frost defines the boundary. Heat determines whether crops finish inside it.
   </p>
 
   <p class="lede">
-    Frost dates define your growing season boundary at <strong>32°F (0°C)</strong>.
-    Growing Degree Days (GDD) measure how much usable heat accumulates inside that boundary.
+    Frost dates establish the seasonal boundary at <strong>32°F (0°C)</strong>.
+    Growing Degree Days (GDD) measure the usable heat that accumulates before that boundary returns.
   </p>
 
   <p>
-    Together, they determine whether a crop can realistically reach maturity before frost returns.
+    Many gardeners plan using only one of these constraints.
+    They count frost-free days without considering temperature intensity,
+    or they focus on heat requirements without respecting the frost boundary.
   </p>
 
   <p>
-    Looking at either one alone is incomplete.
-    Planning becomes reliable only when you model both constraints together.
+    Reliable crop planning requires both.
+  </p>
+
+  <p>
+    A crop needs sufficient time before frost —
+    but it also needs sufficient accumulated heat during that time.
+  </p>
+
+  <p>
+    If either constraint is misjudged,
+    maturity may not occur before frost ends the season.
   </p>
 </header>
 
 <section class="card">
-  <h2>The Frost Boundary: Defining the Season</h2>
+  <h2>Frost Dates: Defining the Time Constraint</h2>
 
   <p>
     Frost dates are based on <strong>1991–2020 climate normals</strong>
-    and typically expressed at the <strong>50% probability level</strong>.
+    and are commonly expressed at the <strong>50% probability level</strong>.
   </p>
 
   <p>
-    That means:
+    Frost is defined at <strong>32°F (0°C)</strong>,
+    the temperature at which ice formation begins and many warm-season crops experience cellular damage.
   </p>
 
-  <ul>
-    <li>About half of years will experience frost earlier than the listed date.</li>
-    <li>About half will experience frost later.</li>
-  </ul>
-
   <p>
-    Two frost events define your planning window:
+    Two frost events establish the growing season boundary:
   </p>
 
   <ul>
-    <li><strong>Last spring frost (32°F / 0°C)</strong></li>
-    <li><strong>First fall frost (32°F / 0°C)</strong></li>
+    <li><strong>Last spring frost:</strong> When frost risk historically declines.</li>
+    <li><strong>First fall frost:</strong> When frost risk historically returns.</li>
   </ul>
 
   <p>
-    The period between them is your frost-free window.
+    The interval between them is often described as the frost-free window.
   </p>
 
   <p>
-    You can identify your boundaries using the
+    This window defines how long crops can grow without crossing the frost boundary.
+  </p>
+
+  <p>
+    However, frost-free days alone do not guarantee maturity.
+  </p>
+
+  <p>
+    Two locations can report identical frost-free day counts
+    while producing very different crop outcomes.
+  </p>
+
+  <p>
+    Frost defines the available time.
+    It does not define how quickly crops develop within that time.
+  </p>
+
+  <p>
+    If you need to identify your frost boundaries,
+    start with the
     <a href="/tools/frost-date-finder/">Frost Date Finder</a>.
-  </p>
-
-  <p>
-    But frost-free days alone do not guarantee crop maturity.
   </p>
 </section>
 
 <section class="card">
-  <h2>Growing Degree Days: Measuring Seasonal Heat</h2>
+  <h2>Growing Degree Days: Defining the Heat Constraint</h2>
 
   <p>
-    Crops do not mature because a certain number of days pass.
-    They mature because they accumulate enough heat.
+    Crop development is temperature-driven.
+    Calendar days are only a rough proxy.
   </p>
 
   <p>
-    For most warm-season crops, heat accumulation is measured using a base of
-    <strong>50°F (10°C)</strong>.
+    Most warm-season crops use a base temperature of <strong>50°F (10°C)</strong>.
+    Temperatures below this level contribute little or no measurable development.
   </p>
 
   <pre>
@@ -87,147 +109,309 @@ GDD = ((Daily High + Daily Low) ÷ 2) − 50
 
   <p>
     Each day that exceeds the base threshold contributes heat units.
-    Over time, those units accumulate into your <strong>seasonal heat budget</strong>.
+    Over the course of the season, these units accumulate into a measurable
+    <strong>seasonal heat budget</strong>.
   </p>
 
   <p>
-    You can estimate how much heat typically accumulates before first frost using the
+    In warm climates, daily accumulation is strong.
+    Crops advance rapidly toward maturity.
+  </p>
+
+  <p>
+    In cooler climates:
+  </p>
+
+  <ul>
+    <li>Spring temperatures rise slowly.</li>
+    <li>Summer nights remain cool.</li>
+    <li>Early fall heat declines quickly.</li>
+  </ul>
+
+  <p>
+    Even if the frost-free window appears long enough on the calendar,
+    the total accumulated heat may fall short of crop requirements.
+  </p>
+
+  <p>
+    This creates a <strong>heat deficit</strong> —
+    a situation where frost returns before sufficient GDD accumulate for maturity.
+  </p>
+
+  <p>
+    You can estimate expected seasonal heat accumulation before first frost using the
     <a href="/tools/growing-degree-day-planner/">Growing Degree Day Planner</a>.
   </p>
+
+  <p>
+    Growing Degree Days describe development speed.
+    Frost dates describe the boundary that ends development.
+  </p>
+
+  <p>
+    Crop feasibility depends on how those two constraints interact.
+  </p>
 </section>
 
 <section class="card">
-  <h2>Why Frost-Free Days Are Not Enough</h2>
+  <h2>Why Time and Heat Must Be Modeled Together</h2>
 
   <p>
-    Consider two locations:
+    Frost dates answer one question:
+    <em>How long can crops grow before the frost boundary returns?</em>
+  </p>
+
+  <p>
+    Growing Degree Days answer another:
+    <em>How much development occurs during that time?</em>
+  </p>
+
+  <p>
+    A crop reaches maturity only if sufficient heat accumulates
+    before frost ends the season.
+  </p>
+
+  <p>
+    If you measure time without heat,
+    you risk overestimating crop viability.
+  </p>
+
+  <p>
+    If you measure heat without respecting frost timing,
+    you risk assuming development continues beyond the boundary.
+  </p>
+
+  <h3>Case 1: Same Frost-Free Days, Different Heat Budgets</h3>
+
+  <p>
+    Location A and Location B both report 110 frost-free days.
   </p>
 
   <ul>
-    <li>Both have 110 frost-free days.</li>
-    <li>Both plant tomatoes immediately after last frost.</li>
+    <li>Location A accumulates 2,300 GDD.</li>
+    <li>Location B accumulates 1,600 GDD.</li>
   </ul>
 
   <p>
-    Location A accumulates 2,300 GDD before first frost.
-    Location B accumulates 1,600 GDD.
+    A tomato variety requiring 1,800 GDD matures comfortably in Location A.
+    In Location B, it reaches the frost boundary before finishing.
   </p>
 
   <p>
-    In Location A, most tomato varieties mature comfortably.
-    In Location B, only short-season varieties succeed reliably.
+    The calendar window was identical.
+    The seasonal heat budget was not.
   </p>
 
-  <p>
-    The calendar window is identical.
-    The seasonal heat budget is not.
-  </p>
+  <h3>Case 2: Similar Heat, Different Frost Boundaries</h3>
 
   <p>
-    This is why days-to-maturity labels can mislead in cold climates.
-    See
-    <a href="/guides/why-days-to-maturity-isnt-enough-in-cold-climates/">Why Days to Maturity Isn’t Enough in Cold Climates</a>
-    for deeper explanation.
-  </p>
-</section>
-
-<section class="card">
-  <h2>The Interaction: Time × Heat</h2>
-
-  <p>
-    Frost defines how long crops can grow.
-    GDD defines how fast they develop during that time.
-  </p>
-
-  <p>
-    If the frost window is long but temperatures are cool,
-    development is slow.
-  </p>
-
-  <p>
-    If temperatures are warm but frost returns early,
-    crops may not have enough total time to accumulate required heat.
-  </p>
-
-  <p>
-    Crop success requires alignment between:
+    Location C and Location D both accumulate roughly 2,000 GDD during summer.
   </p>
 
   <ul>
-    <li>Available time before frost</li>
-    <li>Available heat accumulation</li>
-    <li>Crop heat requirement</li>
+    <li>Location C has a first fall frost around October 15.</li>
+    <li>Location D has a first fall frost around September 20.</li>
   </ul>
-</section>
-
-<section class="card">
-  <h2>Applied Modeling Example</h2>
-
-  <p><strong>Example Crop:</strong> Tomato requiring 1,700 GDD</p>
-
-  <p><strong>Location A</strong><br>
-  Frost-free window: 120 days<br>
-  Seasonal GDD: 2,200<br>
-  Outcome: Comfortable margin</p>
-
-  <p><strong>Location B</strong><br>
-  Frost-free window: 110 days<br>
-  Seasonal GDD: 1,750<br>
-  Outcome: Borderline margin</p>
-
-  <p><strong>Location C</strong><br>
-  Frost-free window: 105 days<br>
-  Seasonal GDD: 1,400<br>
-  Outcome: Heat deficit before frost</p>
 
   <p>
-    Notice that calendar days alone cannot reveal these differences.
-    Only modeling frost timing and heat accumulation together can.
+    Even with similar daily heat accumulation,
+    Location D’s earlier frost boundary reduces total seasonal GDD.
   </p>
-</section>
 
-<section class="card">
-  <h2>Risk Margin Near the Frost Boundary</h2>
+  <p>
+    Crops that mature in Location C may fail to finish in Location D.
+  </p>
+
+  <p>
+    The interaction between frost timing and heat accumulation determines viability.
+  </p>
+
+  <h3>Introducing Risk Margin</h3>
+
+  <p>
+    Risk margin describes how far a crop’s heat requirement sits
+    from the frost boundary.
+  </p>
 
   <ul>
-    <li><strong>Comfortable:</strong> Seasonal GDD exceeds crop requirement by several hundred units.</li>
+    <li><strong>Comfortable:</strong> Seasonal GDD exceeds crop requirement by a wide margin.</li>
     <li><strong>Borderline:</strong> Seasonal GDD closely matches requirement.</li>
-    <li><strong>Unlikely:</strong> Seasonal GDD typically falls short.</li>
+    <li><strong>Unlikely:</strong> Seasonal GDD typically falls short before frost.</li>
   </ul>
 
   <p>
-    Because frost dates use probability framing,
-    cooler summers or earlier fall frosts reduce effective margin.
+    As margin shrinks, sensitivity to frost variation increases.
   </p>
 
   <p>
-    In short climates, operating with margin is often more important than selecting ambitious crops.
+    Near the frost boundary, even small shifts in timing
+    or modestly cooler temperatures can determine whether crops finish.
+  </p>
+
+  <p>
+    Modeling frost dates and Growing Degree Days together
+    transforms planning from calendar estimation
+    into climate-based feasibility analysis.
+  </p>
+</section>
+
+
+<section class="card">
+  <h2>Applied Modeling Walkthrough</h2>
+
+  <p>
+    Consider a warm-season crop that requires <strong>1,800 GDD</strong> (base 50°F) to reach maturity.
+  </p>
+
+  <p>
+    Now compare three climate scenarios.
+  </p>
+
+  <h3>Scenario A: Comfortable Margin</h3>
+
+  <ul>
+    <li>Last frost: May 15 (50% probability)</li>
+    <li>First fall frost: October 10 (50% probability)</li>
+    <li>Typical seasonal accumulation: 2,300 GDD</li>
+  </ul>
+
+  <p>
+    In this climate, the crop exceeds its heat requirement by roughly 500 GDD.
+    Even if frost arrives slightly early or summer temperatures are modestly cooler,
+    maturity is still likely in a typical year.
+  </p>
+
+  <h3>Scenario B: Borderline Margin</h3>
+
+  <ul>
+    <li>Last frost: May 25</li>
+    <li>First fall frost: September 30</li>
+    <li>Typical seasonal accumulation: 1,850 GDD</li>
+  </ul>
+
+  <p>
+    Here, the crop requirement nearly matches the expected seasonal total.
+  </p>
+
+  <p>
+    A one-week early frost could remove 100–150 GDD.
+    A cool summer could reduce daily accumulation.
+  </p>
+
+  <p>
+    In this case, crop success depends heavily on seasonal variation.
+    The planting decision operates close to the frost boundary.
+  </p>
+
+  <h3>Scenario C: Heat Deficit</h3>
+
+  <ul>
+    <li>Last frost: June 1</li>
+    <li>First fall frost: September 20</li>
+    <li>Typical seasonal accumulation: 1,500 GDD</li>
+  </ul>
+
+  <p>
+    Even in a typical year, the crop falls short of its required heat.
+    Frost arrives before maturity can occur.
+  </p>
+
+  <p>
+    In this environment, calendar days alone might suggest the crop “almost fits.”
+    Heat modeling reveals that it does not.
+  </p>
+
+  <p>
+    This example demonstrates the full equation:
+    frost dates define the outer boundary,
+    while GDD determine whether development completes inside that boundary.
   </p>
 </section>
 
 <section class="card">
-  <h2>Why This Model Replaces Calendar Advice</h2>
+  <h2>Climate Sensitivity and Seasonal Variation</h2>
 
   <p>
-    Traditional planting calendars use fixed dates.
+    Climate normals describe a typical year.
+    Actual seasons vary around that midpoint.
   </p>
 
   <p>
-    Climate-based planning uses constraints:
+    Three forms of variation commonly affect outcomes:
+  </p>
+
+  <ul>
+    <li><strong>Early fall frost:</strong> Shortens the heat accumulation window.</li>
+    <li><strong>Cool summer temperatures:</strong> Reduce daily GDD accumulation.</li>
+    <li><strong>Delayed spring warming:</strong> Slows early development even after last frost.</li>
+  </ul>
+
+  <p>
+    In climates with wide heat margins,
+    these variations may not materially affect maturity.
   </p>
 
   <p>
-    <strong>Frost boundary → season length → GDD → crop requirement → risk margin</strong>
+    In short or cool climates,
+    small deviations can remove the final portion of required heat.
   </p>
 
   <p>
-    When those constraints align, maturity becomes predictable in a typical year.
-    When they do not, crops cross the frost boundary before completing development.
+    This is why operating with margin is critical.
   </p>
 
   <p>
-    For a broader explanation of why frost boundaries outperform fixed dates, see
-    <a href="/guides/why-frost-dates-matter-more-than-planting-calendars/">Why Frost Dates Matter More Than Planting Calendars</a>.
+    A crop that requires 1,800 GDD in a climate that typically accumulates 2,400
+    has structural resilience.
+  </p>
+
+  <p>
+    The same crop in a 1,850 GDD climate has little room for variation.
+  </p>
+
+  <p>
+    Sensitivity increases as the gap between requirement and seasonal total narrows.
+  </p>
+</section>
+
+<section class="card">
+  <h2>The Deterministic Planning Model</h2>
+
+  <p>
+    Reliable crop feasibility follows a repeatable sequence:
+  </p>
+
+  <ol>
+    <li>Identify frost boundaries at 32°F (50% probability).</li>
+    <li>Define the frost-free window.</li>
+    <li>Estimate typical seasonal GDD before first frost.</li>
+    <li>Compare crop heat requirements.</li>
+    <li>Evaluate risk margin relative to the boundary.</li>
+  </ol>
+
+  <p>
+    Each step builds on the previous one.
+  </p>
+
+  <p>
+    Frost defines the outer limit.
+    GDD define the internal pace of development.
+    Crop requirements define the target.
+    Margin determines reliability.
+  </p>
+
+  <p>
+    If you need to determine your frost boundaries,
+    use the <a href="/tools/frost-date-finder/">Frost Date Finder</a>.
+  </p>
+
+  <p>
+    To estimate whether a specific planting date can accumulate enough heat before frost,
+    use the <a href="/tools/growing-degree-day-planner/">Growing Degree Day Planner</a>.
+  </p>
+
+  <p>
+    This replaces calendar guesswork with measurable climate constraints.
   </p>
 </section>
 
@@ -235,15 +419,22 @@ GDD = ((Daily High + Daily Low) ÷ 2) − 50
   <h2>Summary</h2>
 
   <ul>
-    <li>Frost dates define your climate boundary at 32°F (0°C).</li>
+    <li>Frost dates define the growing season boundary at 32°F (0°C).</li>
     <li>They are based on 1991–2020 climate normals at the 50% probability level.</li>
     <li>Growing Degree Days measure accumulated heat above 50°F (10°C).</li>
-    <li>Crop maturity depends on total heat accumulated before frost returns.</li>
-    <li>Reliable planning requires modeling time and heat together.</li>
+    <li>Crop maturity requires sufficient heat accumulation before frost returns.</li>
+    <li>Risk margin determines how sensitive outcomes are to seasonal variation.</li>
   </ul>
 
   <p>
     Frost defines the window.
     Heat determines whether crops finish inside it.
   </p>
+
+  <p>
+    Modeling both constraints together transforms planting from calendar estimation
+    into climate-based feasibility analysis.
+  </p>
 </section>
+
+</div>
