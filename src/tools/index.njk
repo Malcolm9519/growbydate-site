@@ -1,15 +1,33 @@
 ---
 layout: layout-base.njk
 title: Tools
-description: Fast, practical planning tools for short growing seasons.
+description: Climate-based planning tools built for short and unpredictable growing seasons.
 canonical: "https://growbydate.com/tools/"
 ---
 
 <section class="card index-card">
-  <h1>Tools for Short Growing Seasons</h1>
+  <h1>Climate-Based Garden Planning Tools</h1>
+
   <p class="small intro">
-    Fast, practical calculators you can use without accounts or tracking.
+    These tools are built for growers working within real seasonal limits. 
+    Instead of using calendar dates, they model two stable climate constraints: frost timing and seasonal heat accumulation.
   </p>
+
+  <p>
+    Each calculator uses historical climate normals — a typical-year baseline — to produce deterministic planning boundaries. 
+    No accounts. No tracking. No forecasts. Just stable reference data you can use to plan with margin.
+  </p>
+
+  <p>
+    Used together, these tools form a simple 4-step planning system:
+  </p>
+
+  <ol class="small" style="margin:0.75rem 0 1rem 1.25rem;">
+    <li><strong>Define frost boundaries</strong> — Identify your typical last spring and first fall frost dates.</li>
+    <li><strong>Estimate seasonal heat</strong> — Understand how much growing degree accumulation your season provides.</li>
+    <li><strong>Test crop feasibility</strong> — Compare crop maturity requirements against your frost window and heat supply.</li>
+    <li><strong>Convert constraints into dates</strong> — Turn those limits into seed-start and planting timelines.</li>
+  </ol>
 
   <ul class="index-list" style="margin-top:0.75rem;">
     {%- for t in tools | sort(attribute="order") -%}
@@ -21,4 +39,8 @@ canonical: "https://growbydate.com/tools/"
       </li>
     {%- endfor -%}
   </ul>
+
+  <p class="small" style="margin-top:1.25rem;">
+    These tools are designed to be used together. If you're new to climate-based planning, start with the Frost Date Finder to establish your seasonal boundaries.
+  </p>
 </section>

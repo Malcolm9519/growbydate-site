@@ -1,17 +1,34 @@
 ---
 layout: layout-base.njk
 title: Guides
-description: Practical growing guides for short seasons.
+description: Practical growing guides for short and unpredictable seasons.
 canonical: "https://growbydate.com/guides/"
 ---
 
 <section class="card index-card">
-  <h1>Guides for Short Growing Seasons</h1>
+  <h1>Garden Planning Guides for Short Seasons</h1>
+
   <p class="small intro">
-    Short, practical write-ups to help you make good decisions quickly.
+    These guides focus on decision-making in climates where frost timing and limited heat matter. 
+    They’re written to be practical, direct, and grounded in real seasonal constraints.
   </p>
 
-  <ul class="index-list" style="margin-top:0.75rem;">
+  <p>
+    Most garden advice assumes long, forgiving seasons. Short-season growing requires a different approach — 
+    one built around frost boundaries, growing degree accumulation, crop maturity windows, and timing margins.
+  </p>
+
+  <p>
+    The articles below support that framework. Some explain planning concepts (like counting backward from frost 
+    or estimating growing degree days). Others help you evaluate crop feasibility, seed timing, or maturity risk.
+  </p>
+
+  <p>
+    If you're new to climate-based planning, start with a frost boundary and seasonal heat estimate, 
+    then use these guides to refine decisions.
+  </p>
+
+  <ul class="index-list" style="margin-top:1rem;">
     {%- for p in collections.guides | sort(attribute="data.title") -%}
       {%- set rawTitle = p.data.title or p.fileSlug -%}
       {%- set cleanTitle = rawTitle | replace(" | GrowByDate", "") -%}
@@ -25,4 +42,8 @@ canonical: "https://growbydate.com/guides/"
       </li>
     {%- endfor -%}
   </ul>
+
+  <p class="small" style="margin-top:1.25rem;">
+    These guides are designed to complement the planning tools — use them together to move from theory to dates.
+  </p>
 </section>

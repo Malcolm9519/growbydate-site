@@ -1,29 +1,57 @@
 ---
 layout: layout-base.njk
 title: Crops for Short Growing Seasons
-description: Practical crop-by-crop planning references.
+description: Crop-by-crop planning references built for frost-limited and heat-limited climates.
 canonical: "https://growbydate.com/crops/"
 ---
 
 <section class="card index-card">
   <h1>Crops for Short Growing Seasons</h1>
+
   <p class="small intro">
-    Crop-by-crop planning references for short seasons: indoor timing, transplant windows, and fall considerations.
+    Not all crops behave the same in a short or unpredictable season. 
+    These references break planning down crop by crop, focusing on frost boundaries, maturity windows, and heat requirements.
   </p>
-<ul class="index-list" style="margin-top:0.75rem;">
-  {% for crop in crops | sort(attribute="name") %}
-    <li class="index-item">
-      <a class="index-link" href="/crops/{{ crop.slug }}/">
-        <strong>{{ crop.name }}</strong>
-      </a>
 
-      {% if crop.description %}
-        <div class="small index-desc">
-          {{ crop.description }}
-        </div>
-      {% endif %}
-    </li>
-  {% endfor %}
-</ul>
+  <p>
+    In long-season climates, planting dates are often flexible. In short seasons, they are not. 
+    Success depends on whether a crop can accumulate enough growing degree days before fall frost returns — 
+    and whether it tolerates cool soil or requires protected early starts.
+  </p>
 
+  <p>
+    Each crop page summarizes:
+  </p>
+
+  <ul class="small" style="margin:0.75rem 0 1rem 1.25rem;">
+    <li><strong>Typical days to maturity</strong> and how reliable that number is</li>
+    <li><strong>Indoor start considerations</strong> and transplant sensitivity</li>
+    <li><strong>Heat requirements</strong> where relevant</li>
+    <li><strong>Fall frost risk factors</strong> and margin recommendations</li>
+  </ul>
+
+  <p>
+    Use these references to evaluate feasibility first — then convert that feasibility into planting dates using your frost window and seasonal heat supply.
+  </p>
+
+  <ul class="index-list" style="margin-top:1rem;">
+    {% for crop in crops | sort(attribute="name") %}
+      <li class="index-item">
+        <a class="index-link" href="/crops/{{ crop.slug }}/">
+          <strong>{{ crop.name }}</strong>
+        </a>
+
+        {% if crop.description %}
+          <div class="small index-desc">
+            {{ crop.description }}
+          </div>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+
+  <p class="small" style="margin-top:1.25rem;">
+    If you're unsure whether a crop is realistic in your season, evaluate your frost boundaries and total seasonal heat first — 
+    then compare those limits against the crop’s maturity requirements.
+  </p>
 </section>
