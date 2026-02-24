@@ -2,7 +2,15 @@
   <div class="brand">
     <h1>
       <a href="/" class="brandLink">
-        <img src="/assets/img/GrowByDateLogo.png" alt="Grow By Date" class="brandLogo" width="220" height="60" loading="eager" decoding="async"/>
+        <img
+          src="/assets/img/GrowByDateLogo.png"
+          alt="Grow By Date"
+          class="brandLogo"
+          width="220"
+          height="60"
+          loading="eager"
+          decoding="async"
+        />
       </a>
     </h1>
     <p class="tagline sr-only">Practical planning tools for short growing seasons.</p>
@@ -26,27 +34,9 @@
       </div>
     </details>
 
-    <details class="navdrop">
-      <summary>Guides</summary>
-      <div class="navpanel">
-        <a class="navall" href="/guides/">View all guides</a>
-        <div class="navsep" aria-hidden="true"></div>
-        {% for g in collections.guides %}
-          <a href="{{ g.url }}">{{ g.data.title | stripSiteSuffix }}</a>
-        {% endfor %}
-      </div>
-    </details>
-
-    <details class="navdrop">
-      <summary>Crops</summary>
-      <div class="navpanel">
-        <a class="navall" href="/crops/">View all crops</a>
-        <div class="navsep" aria-hidden="true"></div>
-        {% for c in crops | sort(attribute="name") %}
-          <a href="/crops/{{ c.slug }}/">{{ c.name }}</a>
-        {% endfor %}
-      </div>
-    </details>
+    {# No dropdowns for Guides/Crops to avoid nav inflation #}
+    <a href="/guides/">Guides</a>
+    <a href="/crops/">Crops</a>
   </nav>
 
   {# Mobile nav (hamburger) #}
@@ -64,23 +54,10 @@
 
         <div class="navsep" aria-hidden="true"></div>
 
+        {# Optional: keep Tools list on mobile (remove if it grows too long) #}
         <p class="navlabel">Tools</p>
         {% for t in tools | sort(attribute="order") %}
           <a href="/tools/{{ t.slug }}/">{{ t.name }}</a>
-        {% endfor %}
-
-        <div class="navsep" aria-hidden="true"></div>
-
-        <p class="navlabel">Guides</p>
-        {% for g in collections.guides %}
-          <a href="{{ g.url }}">{{ g.data.title | stripSiteSuffix }}</a>
-        {% endfor %}
-
-        <div class="navsep" aria-hidden="true"></div>
-
-        <p class="navlabel">Crops</p>
-        {% for c in crops | sort(attribute="name") %}
-          <a href="/crops/{{ c.slug }}/">{{ c.name }}</a>
         {% endfor %}
       </div>
     </details>
