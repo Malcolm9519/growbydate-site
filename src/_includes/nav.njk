@@ -23,18 +23,8 @@
     <a href="/tools/first-frost-planner/" class="primaryLink">🍂Fall First Frost Planner</a>
     <a href="/tools/frost-date-finder/" class="primaryLink">❄️Frost Date Finder</a>
 
-    <details class="navdrop">
-      <summary>Tools</summary>
-      <div class="navpanel">
-        <a class="navall" href="/tools/">View all tools</a>
-        <div class="navsep" aria-hidden="true"></div>
-        {% for t in tools | sort(attribute="order") %}
-          <a href="/tools/{{ t.slug }}/">{{ t.name }}</a>
-        {% endfor %}
-      </div>
-    </details>
-
-    {# No dropdowns for Guides/Crops to avoid nav inflation #}
+    {# Simple stable links — no dropdowns #}
+    <a href="/tools/">Tools</a>
     <a href="/guides/">Guides</a>
     <a href="/crops/">Crops</a>
   </nav>
@@ -51,14 +41,6 @@
         <a href="/tools/">All tools</a>
         <a href="/guides/">All guides</a>
         <a href="/crops/">All crops</a>
-
-        <div class="navsep" aria-hidden="true"></div>
-
-        {# Optional: keep Tools list on mobile (remove if it grows too long) #}
-        <p class="navlabel">Tools</p>
-        {% for t in tools | sort(attribute="order") %}
-          <a href="/tools/{{ t.slug }}/">{{ t.name }}</a>
-        {% endfor %}
       </div>
     </details>
   </nav>
