@@ -1,181 +1,181 @@
-<!-- carrots-details.njk (UPDATED) -->
-
 <section class="card">
   <h2>About Carrots</h2>
 
   <p class="tagline">
-    Cool-season roots that reward early sowing and disciplined fall cutoffs.
+    Cool-season root crop—lower heat demand but still bounded by frost.
   </p>
 
   <p class="lede">
-    <strong>Carrots are a cool-season, direct-sown crop that tolerate light frost.</strong>
-    For GrowByDate modeling, frost is defined as 32°F (0°C). In a typical year (1991–2020 climate normals at the 50% probability level), carrots are usually limited by time and late-season slowdowns—not immediate frost damage.
+    <strong>Carrots tolerate light frost, but sustained freezing near 32°F (0°C) can halt growth and damage foliage.</strong>
+    In a typical year (1991–2020 climate normals at the 50% probability level), carrot viability depends on planting within the frost-free window and accumulating sufficient seasonal heat for root development before hard freeze conditions arrive.
   </p>
 
   <p>
-    Carrots grow best in steady, cool conditions. In short seasons, success comes from early spring sowing and carefully counting backward from first fall frost so roots size up before cold nights slow development.
+    Compared to long-season warm crops, carrots require fewer frost-free days and less total heat accumulation. This lower seasonal heat demand makes them well suited to shorter growing seasons. However, calendar duration alone does not determine maturity.
   </p>
-</section>
-
-<section class="card">
-  <h2>Quick Planning Reference</h2>
-
-  <ul>
-    <li><strong>Direct sow:</strong> 2 weeks before to 2 weeks after last frost (once soil is workable)</li>
-    <li><strong>Days to maturity:</strong> 60–80 days (variety-dependent)</li>
-    <li><strong>Frost tolerance:</strong> Light to moderate (tops may be damaged by harder freezes)</li>
-  </ul>
-
-  <p class="fine muted">
-    These are practical ranges. Soil temperature, day length, and fall night temperatures all influence how quickly roots size up.
-  </p>
-</section>
-
-<section class="card">
-  <h2>Cold Sensitivity & Temperature Requirements</h2>
-
-  <ul>
-    <li><strong>Optimal growth:</strong> 55–70°F (13–21°C)</li>
-    <li><strong>Slow growth:</strong> Below ~45°F (7°C)</li>
-    <li><strong>Heat stress:</strong> Above ~85°F (29°C) can reduce quality</li>
-    <li><strong>Planning frost boundary:</strong> 32°F (0°C)</li>
-  </ul>
 
   <p>
-    Carrot roots tolerate cool soil well once established. However, as nights consistently drop toward freezing, growth rate slows significantly.
-    In fall plantings, the common failure mode is insufficient sizing time before sustained cold—not immediate crop loss.
+    While light frost can improve sweetness by concentrating sugars in the root, repeated freezing temperatures eventually stop growth. The 32°F frost boundary therefore remains the structural limit for modeling harvest timing.
   </p>
-</section>
-
-<section class="card">
-  <h2>Spring vs Fall Timing</h2>
-
-  <p>
-    Carrots fit both spring and fall windows. The timing model is slightly different for each:
-  </p>
-
-  <ul>
-    <li><strong>Spring crop:</strong> Sow early into workable soil so roots size up during cool, lengthening days.</li>
-    <li><strong>Fall crop:</strong> Count backward from first frost and add buffer for slower late-season growth.</li>
-  </ul>
-
-  <p>
-    Use the <a href="/tools/first-frost-planner/">First Frost Planner</a> to determine your fall cutoff date based on variety maturity length.
-  </p>
-
-  <p class="fine">
-    For the underlying logic behind counting backward from frost, see:
-    <a href="/guides/counting-backward-from-frost-how-seed-timing-works/">Counting backward from frost: how seed timing works</a>.
-  </p>
-</section>
-
-<section class="card">
-  <h2>Typical GDD Requirement</h2>
-
-  <p><strong>Base temperature:</strong> 50°F (10°C)</p>
-  <p><strong>Approximate GDD needed:</strong> ~600–1,000 GDD (base 50) depending on variety and sizing target</p>
-
-  <p>
-    Carrots are not highly heat-demanding, but accumulated seasonal heat still affects development speed.
-    In cooler summers, maturity can extend beyond labeled days-to-maturity, reducing fall buffer.
-  </p>
-
-  <p class="fine muted" style="margin-top:14px;">
-    GDD = ((Daily High + Daily Low) ÷ 2) − 50
-  </p>
-
-  <div class="actions">
-    <a class="button subtle" href="/tools/growing-degree-day-planner/">Use the GDD Planner</a>
-  </div>
-
-  <p class="fine">
-    To understand how frost boundaries and heat accumulation interact, see:
-    <a href="/guides/how-frost-dates-and-growing-degree-days-work-together/">How frost dates and Growing Degree Days work together</a>.
-  </p>
-</section>
-
-<section class="card">
-  <h2>Minimum Frost-Free Days</h2>
-
-  <p>
-    Most carrot varieties require <strong>60–80 frost-free days</strong> to reach full size.
-    For fall carrots, it’s wise to build additional buffer because shortening day length and cool nights slow final root expansion.
-  </p>
-
-  <div class="actions">
-    <a class="button subtle" href="/tools/frost-date-finder/">Check Your Frost-Free Season</a>
-  </div>
-</section>
-
-<section class="card">
-  <h2>Short-Season Viability Flag</h2>
-
-  <ul>
-    <li><strong>Good choice under 100 days?</strong> Yes (carrots are a reliable short-season root)</li>
-    <li><strong>Risky under 90 days?</strong> Usually workable with early varieties and disciplined fall cutoffs</li>
-    <li><strong>Needs season extension?</strong> Sometimes helpful in fall (light mulch or row cover to slow soil cooling)</li>
-  </ul>
-</section>
-
-<section class="card">
-  <h2>First Frost Sensitivity</h2>
-
-  <p>
-    Carrot foliage can tolerate light frost, but repeated hard freezes can damage tops and halt growth.
-    For frost-first modeling, treat 32°F (0°C) as the boundary date and aim to reach harvest size before sustained freezing conditions.
-  </p>
-</section>
-
-<section class="card">
-  <h2>Early-Maturing Strategy</h2>
-
-  <ul>
-    <li>Choose shorter-maturity varieties when your frost window is tight</li>
-    <li>Sow as soon as soil is workable in spring</li>
-    <li>For fall crops, add 7–14 days of buffer beyond label maturity</li>
-    <li>Use full sun sites to preserve effective heat accumulation</li>
-  </ul>
-</section>
-
-<section class="card">
-  <h2>Planning Model</h2>
 
   <p class="muted">
-    Frost → Season Length → GDD → Crop Requirement → Risk Margin
-  </p>
-
-  <p>
-    In a typical year, carrots are viable when your frost-free window provides enough time and your seasonal heat budget supports steady development.
-    Failure usually occurs when fall plantings are scheduled too close to first frost without buffer for slowdown.
+    Frost boundary (32°F) → frost-free window → seasonal heat accumulation → variety requirement → projected maturity → risk margin.
   </p>
 </section>
 
 <section class="card">
-  <h2>Frequently Asked Questions</h2>
+  <h2>Frost-Free Day Requirements</h2>
 
-  <h3>Can carrots survive frost?</h3>
   <p>
-    Yes. Carrots tolerate light frost, and flavor may improve after cool nights. However, repeated hard freezes can damage foliage and halt growth.
+    Carrot maturity is typically described in days from seeding under favorable conditions. These estimates assume steady heat accumulation and adequate soil moisture.
   </p>
 
-  <h3>Why are my fall carrots small?</h3>
-  <p>
-    Most often, planting occurred too close to first frost. Cool nights slow root expansion before full size is reached.
-  </p>
-
-  <h3>Do carrots need high heat to mature?</h3>
-  <p>
-    No. They are cool-season crops, but they still require sufficient accumulated heat (GDD) to reach size within your frost window.
-  </p>
-</section>
-
-<section class="card">
-  <h2>Summary</h2>
-
-  <ul>
-    <li>Use 32°F (0°C) frost timing as the planning boundary (50% probability, 1991–2020 normals).</li>
-    <li>Carrots fit short seasons well but require buffer in fall due to slowdowns.</li>
-    <li>Typical maturity: 60–80 days, ~600–1,000 GDD (base 50).</li>
-    <li>Model viability using frost window + seasonal heat budget + variety requirement + risk margin.</li>
+  <ul class="tight">
+    <li><strong>Baby or short-root types:</strong> approximately 50–60 days</li>
+    <li><strong>Standard varieties:</strong> approximately 60–75 days</li>
+    <li><strong>Long-season or storage types:</strong> 75–90 days</li>
   </ul>
+
+  <p>
+    Frost-free duration defines the available growing window between the last spring frost and the first sustained freeze at 32°F. Because carrots tolerate light frost, minor early or late frost events do not necessarily end the crop.
+  </p>
+
+  <p>
+    As discussed in <a href="/guides/why-days-to-maturity-isnt-enough-in-cold-climates/">Why Days to Maturity Isn’t Enough in Cold Climates</a>, days-to-maturity labels assume favorable heat conditions. In cooler climates, limited seasonal warmth can slow root development even when frost-free days appear sufficient.
+  </p>
+
+  <p class="muted">
+    Frost-free days provide time for root development; seasonal warmth determines growth rate.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Growing Degree Day Requirements</h2>
+
+  <p>
+    Although carrots are considered a cool-season crop, they still rely on cumulative seasonal heat for root development. Seasonal <strong>Growing Degree Day (GDD)</strong> accumulation (base 50°F) provides a clearer measure of growth potential than frost-free days alone.
+  </p>
+
+  <p>
+    Typical seasonal heat requirements vary by variety length:
+  </p>
+
+  <ul class="tight">
+    <li><strong>Baby or short-root types:</strong> approximately 700–850 GDD (base 50°F)</li>
+    <li><strong>Standard varieties:</strong> approximately 850–1,000 GDD</li>
+    <li><strong>Long-season or storage types:</strong> 1,000–1,200 GDD</li>
+  </ul>
+
+  <p>
+    Carrots grow steadily under moderate temperatures. Cool nights slow accumulation but do not prevent development unless temperatures repeatedly fall below freezing. Excessively hot conditions, however, can reduce quality even when GDD totals are high.
+  </p>
+
+  <p>
+    Comparing your location’s typical seasonal GDD accumulation to these variety requirements provides a clearer maturity projection than calendar duration alone. This relationship can be evaluated using the <a href="/tools/growing-degree-day-planner/">Growing Degree Day Planner</a>, which estimates projected harvest timing relative to your frost boundary.
+  </p>
+
+  <p class="muted">
+    Seasonal GDD accumulation → variety heat requirement → projected harvest → comparison to 32°F freeze boundary.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Risk Margin Modeling</h2>
+
+  <p>
+    Carrot viability depends on how much buffer exists between projected maturity and the onset of sustained freezing near <strong>32°F (0°C)</strong>. Using 1991–2020 climate normals at the 50% probability level, outcomes can be grouped into three general margin categories.
+  </p>
+
+  <h3>Comfortable Margin</h3>
+  <p>
+    Projected maturity occurs at least 10–14 days before the average first sustained freeze. Seasonal heat accumulation exceeds variety requirements, allowing roots to reach full size before cold conditions halt growth.
+  </p>
+
+  <h3>Borderline Margin</h3>
+  <p>
+    Projected maturity falls within approximately 7–10 days of the frost boundary. While light frost may not immediately damage roots, repeated freezing can stop growth before full sizing occurs.
+  </p>
+
+  <h3>Unlikely in a Typical Year</h3>
+  <p>
+    Required GDD accumulation extends beyond the historical freeze boundary. In these cases, insufficient seasonal heat prevents roots from reaching intended harvest size before sustained cold ends development.
+  </p>
+
+  <p>
+    Understanding how frost boundaries and seasonal heat interact provides a structured framework for evaluating crop feasibility, as explained in <a href="/guides/how-frost-dates-and-growing-degree-days-work-together/">How Frost Dates and Growing Degree Days Work Together</a>.
+  </p>
+
+  <p>
+    To determine when freezing temperatures typically return in your location, consult the <a href="/tools/first-frost-planner/">First Frost Planner</a>, which reflects historical normals at the 50% probability level.
+  </p>
+
+  <p class="muted">
+    Projected harvest → comparison to sustained freeze → margin classification → climate-aligned variety selection.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Applied Climate Modeling Scenarios</h2>
+
+  <p>
+    The interaction between frost-free duration and seasonal heat accumulation determines whether carrots reach full size before sustained freezing occurs. Two simplified examples illustrate how variety length shifts outcomes under typical climate normals.
+  </p>
+
+  <h3>Scenario A: Moderate Seasonal Heat</h3>
+  <p>
+    In a climate averaging 90 frost-free days and approximately 1,200 GDD (base 50°F) before first sustained freeze, baby and standard carrot varieties are likely to mature with comfortable margin. Even some longer-season storage types may remain viable.
+  </p>
+
+  <h3>Scenario B: Shorter Heat Budget</h3>
+  <p>
+    In a climate with 70 frost-free days and roughly 800 GDD before freezing conditions return, baby carrot varieties may still reach harvest size. Standard and long-season storage types become borderline or unlikely under typical conditions.
+  </p>
+
+  <p>
+    These examples demonstrate that frost-free duration alone does not determine carrot viability. Seasonal heat accumulation and variety requirement must be evaluated together within the frost-boundary framework. For additional examples of crops suited to limited frost-free windows, see <a href="/guides/crops-that-mature-in-under-90-frost-free-days/">Crops That Mature in Under 90 Frost-Free Days</a>.
+  </p>
+
+  <p class="muted">
+    Frost-free window + seasonal GDD → variety heat requirement → projected harvest → margin classification.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Variety Selection Strategy</h2>
+
+  <p>
+    Variety selection directly influences risk margin. Short-root or early-maturing carrot types require fewer frost-free days and lower cumulative GDD, making them well suited to shorter growing seasons.
+  </p>
+
+  <p>
+    Standard and storage varieties demand longer seasonal heat accumulation but may still remain viable in moderate climates due to carrots’ relatively low GDD requirement compared to warm-season crops.
+  </p>
+
+  <p>
+    In shorter climates, choosing early varieties can shift a crop from borderline to comfortable margin without altering planting timing. For comparison with other crops that perform reliably in constrained seasons, see <a href="/guides/what-crops-grow-in-short-growing-seasons/">What Crops Grow in Short Growing Seasons?</a>.
+  </p>
+
+  <p class="muted">
+    Variety heat requirement → alignment with seasonal GDD → earlier projected harvest → improved freeze buffer.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Deterministic Summary</h2>
+
+  <p>
+    Carrots tolerate light frost but remain bounded by sustained freezing near 32°F. In a typical year, based on 1991–2020 climate normals at the 50% probability level, viability depends on whether sufficient seasonal heat accumulates before freeze conditions halt root development.
+  </p>
+
+  <p>
+    Frost-free days define the growing window, but <strong>Growing Degree Day</strong> accumulation determines root sizing speed. Because carrots require fewer total heat units than many crops, they often maintain strong risk margin in shorter climates.
+  </p>
+
+  <p>
+    Evaluating frost boundaries and seasonal GDD together provides a structured method to determine whether carrots are likely to mature with buffer, approach the freeze boundary, or remain unlikely under typical conditions.
+  </p>
+
+  <p class="muted">
+    Frost boundary → seasonal heat budget → variety requirement → projected maturity → risk margin.
+  </p>
 </section>

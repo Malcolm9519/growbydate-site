@@ -1,167 +1,185 @@
-<!-- potato-details.njk (UPDATED) -->
-
 <section class="card">
   <h2>About Potatoes</h2>
 
   <p class="tagline">
-    Cool-season staple—planted early, finished before sustained fall freeze.
+    Cool-season crop—tolerates light frost but still bounded by seasonal freeze.
   </p>
 
   <p class="lede">
-    <strong>Potatoes tolerate cool conditions and can be planted before last frost.</strong>
-    For GrowByDate modeling, frost is defined as 32°F (0°C). In a typical year (1991–2020 climate normals at the 50% probability level), potato viability depends on early planting for maximum runway and enough seasonal heat to mature tubers before first fall frost.
+    <strong>Potato foliage can tolerate light frost, but sustained freezing near 32°F (0°C) can damage plants and end active growth.</strong>
+    In a typical year (1991–2020 climate normals at the 50% probability level), potato viability depends on planting after soil conditions allow emergence, accumulating sufficient seasonal heat for tuber development, and reaching maturity before hard freeze conditions return.
   </p>
 
   <p>
-    Unlike frost-tender crops, potatoes benefit from early soil access. The primary risk in short seasons is not spring frost, but insufficient time for longer-maturity varieties to size up before fall freeze.
-  </p>
-</section>
-
-<section class="card">
-  <h2>Quick Planning Reference</h2>
-
-  <ul>
-    <li><strong>Plant seed potatoes:</strong> 2–4 weeks before last frost (soil workable)</li>
-    <li><strong>Days to maturity:</strong> 70–120 days (variety-dependent)</li>
-    <li><strong>Frost tolerance:</strong> Light (new top growth can be damaged by hard freeze)</li>
-  </ul>
-
-  <p class="fine muted">
-    These are baseline ranges. Variety length (early vs mid vs late season) determines frost-window fit.
-  </p>
-</section>
-
-<section class="card">
-  <h2>Cold Tolerance & Growth Profile</h2>
-
-  <ul>
-    <li><strong>Minimum soil temperature:</strong> ~45°F (7°C) for planting</li>
-    <li><strong>Optimal growth:</strong> 55–70°F (13–21°C)</li>
-    <li><strong>Heat stress:</strong> Above ~85°F (29°C) reduces tuber formation</li>
-    <li><strong>Planning frost boundary:</strong> 32°F (0°C)</li>
-  </ul>
-
-  <p>
-    Potatoes tolerate light frost underground, but emerging shoots can be damaged by hard freezes.
-    Early planting increases total seasonal runway, but exposed foliage may need protection if hard frost occurs.
-  </p>
-
-  <p class="fine">
-    For frost probability context, see:
-    <a href="/guides/average-frost-date-vs-actual-weather/">Average frost date vs actual weather</a>.
-  </p>
-</section>
-
-<section class="card">
-  <h2>Typical GDD Requirement</h2>
-
-  <p><strong>Base temperature:</strong> 50°F (10°C)</p>
-  <p><strong>Approximate GDD needed:</strong> ~1,000–1,800 GDD (base 50), depending on variety length</p>
-
-  <p>
-    Potatoes are moderately heat-dependent. Early varieties require fewer GDD, while late storage varieties require a longer heat runway.
-  </p>
-
-  <p class="fine muted" style="margin-top:14px;">
-    GDD = ((Daily High + Daily Low) ÷ 2) − 50
-  </p>
-
-  <div class="actions">
-    <a class="button subtle" href="/tools/growing-degree-day-planner/">Use the GDD Planner</a>
-  </div>
-
-  <p class="fine">
-    To understand how frost windows and heat budgets interact, see:
-    <a href="/guides/how-frost-dates-and-growing-degree-days-work-together/">How frost dates and Growing Degree Days work together</a>.
-  </p>
-</section>
-
-<section class="card">
-  <h2>Minimum Frost-Free Days</h2>
-
-  <p>
-    Potato maturity ranges widely. Early varieties may mature in <strong>70–90 frost-free days</strong>,
-    while late-season types may require up to <strong>120 days</strong>.
+    Unlike frost-tender warm-season crops, potatoes can survive brief light frost on foliage. However, once repeated freezing occurs, above-ground growth stops and tuber development ceases. Identifying your average last and first frost dates at 32°F provides the structural limits for modeling, which can be confirmed using the <a href="/tools/frost-date-finder/">Frost Date Finder</a>.
   </p>
 
   <p>
-    In short seasons, choosing early or mid-season varieties is critical to preserving margin before first frost.
+    Although potatoes perform well in cooler climates, calendar days alone do not determine harvest readiness. Seasonal heat accumulation influences tuber sizing, skin set, and overall yield.
   </p>
-
-  <div class="actions">
-    <a class="button subtle" href="/tools/frost-date-finder/">Check Your Frost-Free Season</a>
-  </div>
-</section>
-
-<section class="card">
-  <h2>Short-Season Viability Flag</h2>
-
-  <ul>
-    <li><strong>Good choice under 100 days?</strong> Yes (early varieties fit well)</li>
-    <li><strong>Risky under 90 days?</strong> Sometimes, unless selecting short-season types</li>
-    <li><strong>Needs season extension?</strong> Rarely; early planting is usually sufficient</li>
-  </ul>
-</section>
-
-<section class="card">
-  <h2>First Frost Sensitivity</h2>
-
-  <p>
-    Foliage can be damaged at 32°F (0°C), though tubers underground are protected unless soil freezes deeply.
-    For planning consistency, treat 32°F (0°C) as the frost boundary and aim to mature tubers before sustained freeze.
-  </p>
-</section>
-
-<section class="card">
-  <h2>Early-Maturing Strategy</h2>
-
-  <ul>
-    <li>Select early or mid-season varieties in short frost windows</li>
-    <li>Plant as soon as soil is workable in spring</li>
-    <li>Protect emerging foliage from hard late frosts if needed</li>
-    <li>Prioritize full sun to maximize effective heat accumulation</li>
-  </ul>
-</section>
-
-<section class="card">
-  <h2>Planning Model</h2>
 
   <p class="muted">
-    Frost → Season Length → GDD → Crop Requirement → Risk Margin
-  </p>
-
-  <p>
-    In a typical year, potatoes are viable when early planting preserves runway and seasonal heat accumulation supports tuber development before first frost.
-    Variety length is the main determinant of risk in short seasons.
+    Frost boundary (32°F) → frost-free window → seasonal heat accumulation → variety requirement → projected maturity → risk margin.
   </p>
 </section>
 
 <section class="card">
-  <h2>Frequently Asked Questions</h2>
+  <h2>Frost-Free Day Requirements</h2>
 
-  <h3>Can potatoes survive frost?</h3>
   <p>
-    Emerging foliage can be damaged at 32°F (0°C), but tubers underground are usually protected unless soil freezes deeply.
+    Potatoes are typically planted in early spring once soil temperatures are workable. Frost-free day requirements are measured from emergence to harvest and vary by variety length.
   </p>
 
-  <h3>Why were my potatoes small?</h3>
-  <p>
-    Most often, the growing season was too short for the selected variety, or seasonal heat accumulation was limited.
-  </p>
-
-  <h3>Are potatoes reliable in short seasons?</h3>
-  <p>
-    Yes—especially with early varieties planted as soon as soil is workable.
-  </p>
-</section>
-
-<section class="card">
-  <h2>Summary</h2>
-
-  <ul>
-    <li>Use 32°F (0°C) as the frost boundary (50% probability, 1991–2020 normals).</li>
-    <li>Potatoes benefit from early planting and cool conditions.</li>
-    <li>Typical requirement: 70–120 days, ~1,000–1,800 GDD (base 50).</li>
-    <li>Model viability using frost window + seasonal heat budget + variety requirement + risk margin.</li>
+  <ul class="tight">
+    <li><strong>Early varieties:</strong> approximately 70–90 days</li>
+    <li><strong>Mid-season varieties:</strong> approximately 90–110 days</li>
+    <li><strong>Late or storage varieties:</strong> 110–130+ days</li>
   </ul>
+
+  <p>
+    Because potato foliage can tolerate light frost, short early-season frost events do not always end the crop. However, repeated freezing or hard frost conditions typically halt growth and reduce yield potential.
+  </p>
+
+  <p>
+    As explained in <a href="/guides/why-days-to-maturity-isnt-enough-in-cold-climates/">Why Days to Maturity Isn’t Enough in Cold Climates</a>, days-to-maturity labels assume favorable heat accumulation. In cooler climates, limited seasonal warmth can slow tuber development even when frost-free duration appears sufficient.
+  </p>
+
+  <p>
+    For a deeper look at typical duration ranges, see <a href="/guides/how-many-frost-free-days-do-potatoes-need/">How Many Frost-Free Days Do Potatoes Need?</a>, which examines frost-free timing in more detail.
+  </p>
+
+  <p class="muted">
+    Frost-free days provide opportunity for growth; seasonal warmth determines tuber sizing and harvest timing.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Growing Degree Day Requirements</h2>
+
+  <p>
+    Potatoes are generally considered a cool-season crop, but they still rely on cumulative seasonal heat to reach full maturity. Seasonal <strong>Growing Degree Day (GDD)</strong> accumulation (base 50°F) provides a more precise indicator of tuber development than frost-free days alone.
+  </p>
+
+  <p>
+    Typical seasonal heat requirements vary by variety length:
+  </p>
+
+  <ul class="tight">
+    <li><strong>Early varieties:</strong> approximately 900–1,100 GDD (base 50°F)</li>
+    <li><strong>Mid-season varieties:</strong> approximately 1,100–1,400 GDD</li>
+    <li><strong>Late or storage varieties:</strong> 1,400+ GDD</li>
+  </ul>
+
+  <p>
+    Moderate daytime warmth combined with cool nights often supports steady tuber formation. However, if seasonal heat accumulation remains low, growth slows and harvest size may be reduced even when frost-free days appear adequate.
+  </p>
+
+  <p>
+    Comparing your typical seasonal GDD accumulation to variety requirements provides a clearer maturity projection than calendar duration alone. This relationship can be evaluated using the <a href="/tools/growing-degree-day-planner/">Growing Degree Day Planner</a>, which estimates projected maturity relative to your historical frost boundaries.
+  </p>
+
+  <p class="muted">
+    Seasonal GDD accumulation → variety heat requirement → projected tuber maturity → comparison to frost boundary.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Risk Margin Modeling</h2>
+
+  <p>
+    Potato viability depends on how much buffer exists between projected maturity and the onset of sustained freezing near <strong>32°F (0°C)</strong>. Using 1991–2020 climate normals at the 50% probability level, outcomes can be grouped into three general margin categories.
+  </p>
+
+  <h3>Comfortable Margin</h3>
+  <p>
+    Projected harvest occurs at least 10–14 days before the average first hard freeze. Seasonal heat accumulation meets or exceeds variety requirements, allowing tubers to size fully and skins to set before cold weather arrives.
+  </p>
+
+  <h3>Borderline Margin</h3>
+  <p>
+    Projected maturity falls within approximately 7–10 days of the frost boundary. Early-season frost events or cooler-than-average late-summer temperatures may limit tuber sizing or reduce overall yield.
+  </p>
+
+  <h3>Unlikely in a Typical Year</h3>
+  <p>
+    Required GDD accumulation extends beyond the historical frost boundary. Even if brief light frost is tolerated, sustained freezing will halt growth before full maturity.
+  </p>
+
+  <p>
+    Understanding how frost boundaries and seasonal heat interact provides a structured framework for margin evaluation, as explained in <a href="/guides/how-frost-dates-and-growing-degree-days-work-together/">How Frost Dates and Growing Degree Days Work Together</a>.
+  </p>
+
+  <p>
+    To evaluate when freezing temperatures typically return in your location, consult the <a href="/tools/first-frost-planner/">First Frost Planner</a>, which reflects historical normals at the 50% probability level.
+  </p>
+
+  <p class="muted">
+    Projected maturity → comparison to first sustained freeze → margin classification → climate-aligned variety choice.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Applied Climate Modeling Scenarios</h2>
+
+  <p>
+    The interaction between frost-free duration and seasonal heat accumulation determines whether potatoes reach full maturity before sustained freezing occurs. Two simplified examples illustrate how variety length shifts outcomes under typical climate normals.
+  </p>
+
+  <h3>Scenario A: Moderate Seasonal Heat</h3>
+  <p>
+    In a climate averaging 100 frost-free days and approximately 1,200 GDD (base 50°F) before first sustained freeze, early varieties are likely to mature with comfortable margin. Mid-season varieties may approach the frost boundary, while late storage types requiring 1,400+ GDD become more uncertain.
+  </p>
+
+  <h3>Scenario B: Shorter Heat Budget</h3>
+  <p>
+    In a climate with 85 frost-free days and roughly 950 GDD before freezing conditions return, early varieties may reach usable harvest size but with limited buffer. Mid- and late-season varieties are unlikely to achieve full tuber development under typical conditions.
+  </p>
+
+  <p>
+    These examples demonstrate that frost-free duration alone does not determine potato viability. Seasonal heat accumulation and variety requirement must be evaluated together within the frost-boundary framework.
+  </p>
+
+  <p class="muted">
+    Frost-free window + seasonal GDD → variety heat requirement → projected harvest → margin classification.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Variety Selection Strategy</h2>
+
+  <p>
+    Variety selection directly influences risk margin. Early-maturing potatoes require fewer frost-free days and lower cumulative GDD, increasing alignment with shorter growing seasons.
+  </p>
+
+  <p>
+    Mid-season and storage varieties demand longer heat accumulation and extended frost-free windows. In constrained climates, these types may produce foliage and small tubers but fail to reach full storage maturity before sustained freezing occurs.
+  </p>
+
+  <p>
+    In shorter climates, selecting early or mid-season varieties often shifts the crop from borderline to comfortable margin without altering planting timing. For comparison with other crops well-suited to limited seasons, see <a href="/guides/what-crops-grow-in-short-growing-seasons/">What Crops Grow in Short Growing Seasons?</a>.
+  </p>
+
+  <p class="muted">
+    Variety heat requirement → alignment with seasonal GDD → earlier projected maturity → improved freeze buffer.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Deterministic Summary</h2>
+
+  <p>
+    Potatoes tolerate brief light frost but remain bounded by sustained freezing near 32°F. In a typical year, based on 1991–2020 climate normals at the 50% probability level, viability depends on whether sufficient seasonal heat accumulates between planting and the onset of hard freeze.
+  </p>
+
+  <p>
+    Frost-free days define the growth window, but <strong>Growing Degree Day</strong> accumulation determines tuber development and final harvest size. Early varieties require fewer total heat units and increase risk margin in shorter climates, while storage types demand longer seasonal heat budgets.
+  </p>
+
+  <p>
+    Evaluating frost boundaries and seasonal GDD together provides a structured method to determine whether potatoes are likely to mature with buffer, approach the freeze boundary, or remain unlikely under typical conditions.
+  </p>
+
+  <p class="muted">
+    Frost boundary → seasonal heat budget → variety requirement → projected maturity → risk margin.
+  </p>
 </section>

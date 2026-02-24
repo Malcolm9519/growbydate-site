@@ -1,183 +1,181 @@
-<!-- onions-details.njk (UPDATED) -->
-
 <section class="card">
   <h2>About Onions</h2>
 
   <p class="tagline">
-    Long-runway cool-season crop—bulb size depends on early establishment and seasonal heat.
+    Cool-season crop—bulb formation depends on seasonal heat and day length.
   </p>
 
   <p class="lede">
-    <strong>Onions tolerate light frost once established but require a long development window.</strong>
-    For GrowByDate modeling, frost is defined as 32°F (0°C). In a typical year (1991–2020 climate normals at the 50% probability level), onion viability depends on starting early enough to build plant size before bulbing begins, then accumulating enough seasonal heat to mature before fall frost.
+    <strong>Onions tolerate light frost and can withstand temperatures near or slightly below 32°F (0°C),</strong>
+    but sustained hard freezing eventually halts growth. In a typical year (1991–2020 climate normals at the 50% probability level), onion viability depends on accumulating sufficient seasonal heat and reaching bulb maturity before prolonged freeze conditions occur.
   </p>
 
   <p>
-    Onions are time-dependent crops. In short seasons, success hinges less on surviving frost and more on securing enough runway between last frost and first frost for bulb formation and curing.
+    Unlike many crops, onion development is influenced not only by frost boundaries and heat accumulation, but also by day length. Bulbing begins when daylight hours reach a variety-specific threshold. Seasonal heat must then support continued bulb enlargement before freezing temperatures return.
   </p>
-</section>
-
-<section class="card">
-  <h2>Quick Planning Reference</h2>
-
-  <ul>
-    <li><strong>Start indoors:</strong> 10–12 weeks before transplant window</li>
-    <li><strong>Transplant:</strong> 2–4 weeks before last frost (after hardening off)</li>
-    <li><strong>Days to maturity:</strong> 90–120 days (variety-dependent)</li>
-    <li><strong>Frost tolerance:</strong> Light (established plants tolerate brief dips near 32°F / 0°C)</li>
-  </ul>
-
-  <p class="fine muted">
-    These are baseline ranges. Variety type (short-day, intermediate-day, long-day) must match latitude for proper bulbing.
-  </p>
-</section>
-
-<section class="card">
-  <h2>Cold Tolerance & Temperature Profile</h2>
-
-  <ul>
-    <li><strong>Optimal growth:</strong> 55–75°F (13–24°C)</li>
-    <li><strong>Slow growth:</strong> Below ~40°F (4°C)</li>
-    <li><strong>Heat stress:</strong> Above ~85°F (29°C)</li>
-    <li><strong>Planning frost boundary:</strong> 32°F (0°C)</li>
-  </ul>
 
   <p>
-    Onions tolerate light frost once established, making early transplanting feasible in many climates.
-    However, hard or repeated freezes can damage foliage and reduce growth rate.
+    Because of this interaction between temperature and day length, calendar-based maturity estimates can be misleading in climates with limited heat accumulation or mismatched day-length types.
   </p>
-
-  <p class="fine">
-    For frost probability context, see:
-    <a href="/guides/average-frost-date-vs-actual-weather/">Average frost date vs actual weather</a>.
-  </p>
-</section>
-
-<section class="card">
-  <h2>Runway & Bulbing Logic</h2>
-
-  <p>
-    Onions first build leaf mass, then begin bulbing as day length increases.
-    If plants are too small when bulbing begins, final bulb size is limited.
-  </p>
-
-  <ul>
-    <li><strong>Too late to start:</strong> Reduced bulb size due to limited vegetative growth</li>
-    <li><strong>On time:</strong> Adequate leaf growth before bulbing</li>
-    <li><strong>Too early:</strong> Risk of transplant stress in extreme cold</li>
-  </ul>
-
-  <p>
-    Use the <a href="/tools/seed-start-planner/">Seed Starting Planner</a> to determine indoor start timing from your last frost date.
-  </p>
-</section>
-
-<section class="card">
-  <h2>Typical GDD Requirement</h2>
-
-  <p><strong>Base temperature:</strong> 50°F (10°C)</p>
-  <p><strong>Approximate GDD needed:</strong> ~1,200–1,800 GDD (base 50) depending on variety and desired bulb size</p>
-
-  <p>
-    Onions are moderately heat-dependent. Weak heat accumulation during spring and early summer can slow development and delay maturity.
-  </p>
-
-  <p class="fine muted" style="margin-top:14px;">
-    GDD = ((Daily High + Daily Low) ÷ 2) − 50
-  </p>
-
-  <div class="actions">
-    <a class="button subtle" href="/tools/growing-degree-day-planner/">Use the GDD Planner</a>
-  </div>
-
-  <p class="fine">
-    For the combined frost + heat model, see:
-    <a href="/guides/how-frost-dates-and-growing-degree-days-work-together/">How frost dates and Growing Degree Days work together</a>.
-  </p>
-</section>
-
-<section class="card">
-  <h2>Minimum Frost-Free Days</h2>
-
-  <p>
-    Most onion varieties require <strong>90–120 frost-free days</strong> from transplant to maturity.
-    In short seasons, starting indoors early is critical to preserve enough runway.
-  </p>
-
-  <div class="actions">
-    <a class="button subtle" href="/tools/frost-date-finder/">Check Your Frost-Free Season</a>
-  </div>
-</section>
-
-<section class="card">
-  <h2>Short-Season Viability Flag</h2>
-
-  <ul>
-    <li><strong>Good choice under 100 days?</strong> Sometimes (early varieties + early indoor starts required)</li>
-    <li><strong>Risky under 90 days?</strong> Often, unless started very early indoors</li>
-    <li><strong>Needs season extension?</strong> Rarely for frost protection, but early indoor starts are essential</li>
-  </ul>
-</section>
-
-<section class="card">
-  <h2>First Frost Sensitivity</h2>
-
-  <p>
-    Onions tolerate light frost near 32°F (0°C), but sustained hard freezes can damage foliage.
-    For planning, treat 32°F (0°C) as the frost boundary and aim to mature bulbs with buffer ahead of fall freeze.
-  </p>
-</section>
-
-<section class="card">
-  <h2>Early-Maturing Strategy</h2>
-
-  <ul>
-    <li>Start seeds indoors 10–12 weeks before transplant window</li>
-    <li>Select varieties suited to your latitude (long-day vs short-day)</li>
-    <li>Transplant early into cool conditions after hardening off</li>
-    <li>Prioritize full sun to maximize effective heat accumulation</li>
-  </ul>
-</section>
-
-<section class="card">
-  <h2>Planning Model</h2>
 
   <p class="muted">
-    Frost → Season Length → GDD → Crop Requirement → Risk Margin
-  </p>
-
-  <p>
-    In a typical year, onion viability depends on securing enough runway before bulbing begins and accumulating sufficient heat before first frost.
-    Short frost windows require disciplined indoor starts and appropriate variety selection.
+    Frost boundary (32°F) → frost-free window → seasonal heat accumulation + day-length trigger → bulb development → risk margin.
   </p>
 </section>
 
 <section class="card">
-  <h2>Frequently Asked Questions</h2>
+  <h2>Frost-Free Day Requirements</h2>
 
-  <h3>Can onions survive frost?</h3>
   <p>
-    Yes. Established onions tolerate light frost near 32°F (0°C), though repeated hard freezes can damage foliage.
+    Onion maturity is typically described in days from transplant under favorable growing conditions. These values assume proper day-length alignment and adequate seasonal heat accumulation.
   </p>
 
-  <h3>Why are my onion bulbs small?</h3>
-  <p>
-    Most often, plants did not build enough leaf mass before bulbing began, usually due to late starting or insufficient runway.
-  </p>
-
-  <h3>Are onions difficult in short seasons?</h3>
-  <p>
-    They can be. Early indoor starts and proper day-length variety selection are essential for reliable bulb sizing.
-  </p>
-</section>
-
-<section class="card">
-  <h2>Summary</h2>
-
-  <ul>
-    <li>Use 32°F (0°C) as the frost boundary (50% probability, 1991–2020 normals).</li>
-    <li>Onions require long runway: 90–120 days, ~1,200–1,800 GDD (base 50).</li>
-    <li>Indoor starts are critical in short seasons.</li>
-    <li>Model viability using frost window + seasonal heat budget + variety requirement + risk margin.</li>
+  <ul class="tight">
+    <li><strong>Short-day varieties:</strong> approximately 90–110 days</li>
+    <li><strong>Intermediate-day varieties:</strong> approximately 100–120 days</li>
+    <li><strong>Long-day varieties:</strong> 110–130+ days</li>
   </ul>
+
+  <p>
+    Frost-free duration defines the available growing window between the last spring frost and the onset of sustained freezing. While onion foliage tolerates light frost, repeated hard freezes will halt bulb enlargement.
+  </p>
+
+  <p>
+    As discussed in <a href="/guides/why-days-to-maturity-isnt-enough-in-cold-climates/">Why Days to Maturity Isn’t Enough in Cold Climates</a>, days-to-maturity labels assume favorable heat accumulation. In cooler climates, limited seasonal warmth can slow bulb sizing even when frost-free days appear sufficient.
+  </p>
+
+  <p class="muted">
+    Frost-free days provide opportunity for growth; seasonal warmth determines bulb enlargement speed.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Growing Degree Day Requirements</h2>
+
+  <p>
+    Onions require cumulative seasonal heat to enlarge bulbs after the day-length trigger initiates bulbing. Seasonal <strong>Growing Degree Day (GDD)</strong> accumulation (base 50°F) provides a clearer measure of bulb development potential than frost-free days alone.
+  </p>
+
+  <p>
+    Typical seasonal heat requirements vary by variety type:
+  </p>
+
+  <ul class="tight">
+    <li><strong>Short-day varieties:</strong> approximately 1,200–1,400 GDD (base 50°F)</li>
+    <li><strong>Intermediate-day varieties:</strong> approximately 1,300–1,600 GDD</li>
+    <li><strong>Long-day varieties:</strong> 1,500–1,800+ GDD</li>
+  </ul>
+
+  <p>
+    Bulb formation begins when day length reaches a variety-specific threshold, but continued enlargement depends on sufficient heat accumulation. In climates with cool summers, daily GDD totals may remain low even after bulbing begins, slowing final bulb size.
+  </p>
+
+  <p>
+    Comparing your location’s typical seasonal GDD accumulation to these variety requirements provides a more accurate maturity projection than calendar duration alone. This relationship can be evaluated using the <a href="/tools/growing-degree-day-planner/">Growing Degree Day Planner</a>, which estimates projected maturity relative to your seasonal frost boundary.
+  </p>
+
+  <p class="muted">
+    Seasonal GDD accumulation + day-length trigger → bulb enlargement → projected maturity → comparison to freeze boundary.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Risk Margin Modeling</h2>
+
+  <p>
+    Onion viability depends on how much buffer exists between projected maturity and the onset of sustained freezing. Using 1991–2020 climate normals at the 50% probability level, outcomes can be grouped into three general margin categories.
+  </p>
+
+  <h3>Comfortable Margin</h3>
+  <p>
+    Projected maturity occurs at least 10–14 days before the average first sustained freeze. Seasonal heat accumulation meets or exceeds variety requirements, allowing bulbs to reach full size and begin curing before freezing temperatures return.
+  </p>
+
+  <h3>Borderline Margin</h3>
+  <p>
+    Projected maturity falls within approximately 7–10 days of the freeze boundary. Cooler-than-average late-season temperatures may limit final bulb enlargement or curing potential.
+  </p>
+
+  <h3>Unlikely in a Typical Year</h3>
+  <p>
+    Required GDD accumulation extends beyond the historical freeze boundary. In these cases, insufficient seasonal heat prevents full bulb development before sustained cold halts growth.
+  </p>
+
+  <p>
+    Understanding how frost boundaries and seasonal heat interact provides a structured framework for evaluating crop feasibility, as explained in <a href="/guides/how-frost-dates-and-growing-degree-days-work-together/">How Frost Dates and Growing Degree Days Work Together</a>.
+  </p>
+
+  <p>
+    To determine when sustained freezing typically returns in your location, consult the <a href="/tools/first-frost-planner/">First Frost Planner</a>, which reflects historical normals at the 50% probability level.
+  </p>
+
+  <p class="muted">
+    Projected maturity → comparison to sustained freeze → margin classification → climate-aligned variety choice.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Applied Climate Modeling Scenarios</h2>
+
+  <p>
+    The interaction between frost-free duration, seasonal heat accumulation, and day-length alignment determines whether onions reach full bulb maturity before sustained freezing occurs. Two simplified examples illustrate how variety type shifts outcomes under typical climate normals.
+  </p>
+
+  <h3>Scenario A: Adequate Seasonal Heat</h3>
+  <p>
+    In a climate accumulating approximately 1,700 GDD (base 50°F) before first sustained freeze, properly matched long-day or intermediate-day varieties are likely to mature with comfortable margin. Bulb enlargement proceeds steadily once day-length thresholds are met.
+  </p>
+
+  <h3>Scenario B: Constrained Heat Budget</h3>
+  <p>
+    In a climate with roughly 1,100 GDD before freezing conditions return, short-day varieties may reach usable bulb size, while long-day types become borderline or unlikely to fully mature under typical conditions.
+  </p>
+
+  <p>
+    These examples demonstrate that frost-free duration alone does not determine onion viability. Seasonal heat accumulation and correct day-length selection must be evaluated together within the frost-boundary framework. For a broader definition of seasonal constraints, see <a href="/guides/what-is-considered-a-short-growing-season/">What Is Considered a Short Growing Season?</a>.
+  </p>
+
+  <p class="muted">
+    Frost-free window + seasonal GDD + correct day-length type → projected bulb maturity → margin classification.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Variety Selection Strategy</h2>
+
+  <p>
+    Variety selection is critical for onions because day-length alignment determines when bulbing begins. Short-day varieties initiate bulbing under shorter daylight conditions and are suited to southern latitudes, while long-day varieties require extended daylight and perform better in northern regions.
+  </p>
+
+  <p>
+    Selecting the correct day-length type is as important as matching seasonal heat accumulation. Even with adequate GDD, a mismatched day-length variety may fail to form proper bulbs.
+  </p>
+
+  <p>
+    In climates with limited seasonal heat, choosing earlier-maturing or intermediate-day varieties can improve risk margin. Proper timing of indoor starts or transplants also affects total seasonal heat capture, as discussed in <a href="/guides/when-to-start-seeds-indoors/">When to Start Seeds Indoors</a>.
+  </p>
+
+  <p class="muted">
+    Correct day-length type + alignment with seasonal GDD → successful bulbing → improved freeze buffer.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Deterministic Summary</h2>
+
+  <p>
+    Onions tolerate light frost but remain bounded by sustained freezing. In a typical year, based on 1991–2020 climate normals at the 50% probability level, viability depends on accumulating sufficient seasonal heat and selecting the correct day-length type before freeze conditions halt growth.
+  </p>
+
+  <p>
+    Frost-free days define the growth window, but <strong>Growing Degree Day</strong> accumulation and proper day-length alignment determine bulb formation and enlargement. Short- and intermediate-day varieties often maintain stronger risk margin in constrained climates when matched correctly to latitude.
+  </p>
+
+  <p>
+    Evaluating frost boundaries, seasonal GDD, and day-length compatibility together provides a structured method to determine whether onions are likely to mature with buffer, approach the freeze boundary, or remain unlikely under typical conditions.
+  </p>
+
+  <p class="muted">
+    Frost boundary → seasonal heat budget → day-length alignment → projected bulb maturity → risk margin.
+  </p>
 </section>

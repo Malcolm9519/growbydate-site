@@ -1,181 +1,179 @@
-<!-- kale-details.njk (UPDATED) -->
-
 <section class="card">
   <h2>About Kale</h2>
 
   <p class="tagline">
-    Cold-tolerant greens with one of the widest frost buffers in the garden.
+    Cold-tolerant leafy crop—survives frost but still constrained by seasonal heat and sustained freeze.
   </p>
 
   <p class="lede">
-    <strong>Kale is highly frost-tolerant and can handle multiple light freezes.</strong>
-    For GrowByDate modeling, frost is defined as 32°F (0°C). In a typical year (1991–2020 climate normals at the 50% probability level), kale is rarely limited by first frost. Instead, viability is determined by whether your season provides enough time and moderate heat for steady leaf production.
+    <strong>Kale tolerates frost at 32°F (0°C) and can withstand temperatures below freezing,</strong>
+    but sustained hard freezing eventually halts growth and can damage leaves. In a typical year (1991–2020 climate normals at the 50% probability level), kale viability depends on accumulating sufficient seasonal heat to reach harvest size before prolonged freeze conditions occur.
   </p>
 
   <p>
-    Kale is one of the most reliable short-season crops because it tolerates cool soil, light frost, and gradual fall cooling. In most climates, frost extends harvest rather than ending it.
+    Kale is one of the most cold-tolerant crops commonly grown. Light frost does not typically end the crop, and cool conditions often improve eating quality. However, cold tolerance does not remove the need for seasonal heat. Leaf expansion and overall yield still depend on cumulative heat accumulation.
   </p>
-</section>
-
-<section class="card">
-  <h2>Quick Planning Reference</h2>
-
-  <ul>
-    <li><strong>Start indoors:</strong> 4–6 weeks before transplant window (optional)</li>
-    <li><strong>Direct sow:</strong> 2–4 weeks before to 2 weeks after last frost</li>
-    <li><strong>Days to maturity:</strong> 45–75 days (variety-dependent)</li>
-    <li><strong>Frost tolerance:</strong> Hardy (handles multiple frosts)</li>
-  </ul>
-
-  <p class="fine muted">
-    These are baseline ranges. Kale is forgiving, but growth speed still depends on temperature and seasonal heat.
-  </p>
-</section>
-
-<section class="card">
-  <h2>Cold Tolerance & Temperature Profile</h2>
-
-  <ul>
-    <li><strong>Optimal growth:</strong> 55–75°F (13–24°C)</li>
-    <li><strong>Slow growth:</strong> Below ~40°F (4°C)</li>
-    <li><strong>Heat stress:</strong> Above ~85°F (29°C)</li>
-    <li><strong>Planning frost boundary:</strong> 32°F (0°C)</li>
-  </ul>
 
   <p>
-    Kale commonly tolerates light frost and may improve in flavor after cool nights. While 32°F (0°C) marks the frost boundary for planning consistency, kale often continues producing below that threshold until sustained hard freezes occur.
+    Because kale can be harvested at multiple stages (baby leaf or full-size leaves), feasibility is best modeled by matching the harvest target to the available frost-free window and seasonal heat budget.
   </p>
-
-  <p class="fine">
-    For a deeper explanation of light vs hard freezes, see:
-    <a href="/guides/light-freeze-vs-hard-freeze/">Light freeze vs hard freeze</a>.
-  </p>
-</section>
-
-<section class="card">
-  <h2>Spring vs Fall Timing</h2>
-
-  <p>
-    Kale performs well in both spring and fall:
-  </p>
-
-  <ul>
-    <li><strong>Spring crop:</strong> Early sowing into workable soil; steady growth through cool weeks.</li>
-    <li><strong>Fall crop:</strong> Count backward from first frost and allow buffer for slower late-season growth.</li>
-  </ul>
-
-  <p>
-    Use the <a href="/tools/first-frost-planner/">First Frost Planner</a> to anchor fall sowing from your frost boundary.
-  </p>
-</section>
-
-<section class="card">
-  <h2>Typical GDD Requirement</h2>
-
-  <p><strong>Base temperature:</strong> 50°F (10°C)</p>
-  <p><strong>Approximate GDD needed:</strong> ~600–1,000 GDD (base 50) for steady leaf production</p>
-
-  <p>
-    Kale is not highly heat-demanding, but accumulated seasonal heat influences how quickly leaves reach harvest size.
-    In cooler summers, maturity may extend beyond labeled days-to-maturity.
-  </p>
-
-  <p class="fine muted" style="margin-top:14px;">
-    GDD = ((Daily High + Daily Low) ÷ 2) − 50
-  </p>
-
-  <div class="actions">
-    <a class="button subtle" href="/tools/growing-degree-day-planner/">Use the GDD Planner</a>
-  </div>
-
-  <p class="fine">
-    For how frost boundaries and heat budgets work together, see:
-    <a href="/guides/how-frost-dates-and-growing-degree-days-work-together/">How frost dates and Growing Degree Days work together</a>.
-  </p>
-</section>
-
-<section class="card">
-  <h2>Minimum Frost-Free Days</h2>
-
-  <p>
-    Many kale varieties begin harvest in <strong>45–75 frost-free days</strong>.
-    Because kale tolerates frost, the true limitation in short seasons is often growth rate, not survival.
-  </p>
-
-  <div class="actions">
-    <a class="button subtle" href="/tools/frost-date-finder/">Check Your Frost-Free Season</a>
-  </div>
-</section>
-
-<section class="card">
-  <h2>Short-Season Viability Flag</h2>
-
-  <ul>
-    <li><strong>Good choice under 100 days?</strong> Yes (one of the most reliable options)</li>
-    <li><strong>Risky under 90 days?</strong> Rarely; early varieties fit comfortably</li>
-    <li><strong>Needs season extension?</strong> Usually no; frost tolerance provides natural buffer</li>
-  </ul>
-</section>
-
-<section class="card">
-  <h2>First Frost Sensitivity</h2>
-
-  <p>
-    Kale tolerates light frost and often continues growing after first frost at 32°F (0°C).
-    Sustained hard freezes eventually halt growth, but first frost is not an immediate harvest cutoff.
-  </p>
-</section>
-
-<section class="card">
-  <h2>Early-Maturing Strategy</h2>
-
-  <ul>
-    <li>Choose early varieties for tighter frost windows</li>
-    <li>Sow early in spring for maximum runway</li>
-    <li>For fall crops, allow buffer for slower growth as days shorten</li>
-    <li>Use full sun exposure to preserve effective heat accumulation</li>
-  </ul>
-</section>
-
-<section class="card">
-  <h2>Planning Model</h2>
 
   <p class="muted">
-    Frost → Season Length → GDD → Crop Requirement → Risk Margin
-  </p>
-
-  <p>
-    In a typical year, kale is viable in most short seasons because its frost tolerance provides margin.
-    The main constraint becomes growth rate and heat accumulation rather than survival at 32°F (0°C).
+    Frost boundary (32°F) → frost-free window → seasonal heat accumulation → projected harvest stage → risk margin.
   </p>
 </section>
 
 <section class="card">
-  <h2>Frequently Asked Questions</h2>
+  <h2>Frost-Free Day Requirements</h2>
 
-  <h3>Can kale survive frost?</h3>
   <p>
-    Yes. Kale commonly tolerates light frost and can withstand multiple cool nights before sustained hard freezing halts growth.
+    Kale maturity is typically described in days from seeding or transplant under favorable cool conditions. These estimates assume steady growth without prolonged heat stress.
   </p>
 
-  <h3>Is kale good for very short seasons?</h3>
-  <p>
-    Yes. Its modest heat requirement and frost tolerance make it one of the safest crops for short growing windows.
-  </p>
-
-  <h3>Does frost improve kale flavor?</h3>
-  <p>
-    Many growers report improved sweetness after cool nights, though this varies by variety and conditions.
-  </p>
-</section>
-
-<section class="card">
-  <h2>Summary</h2>
-
-  <ul>
-    <li>Use 32°F (0°C) frost timing as the planning boundary (50% probability, 1991–2020 normals).</li>
-    <li>Kale tolerates frost and often extends harvest beyond first frost.</li>
-    <li>Typical requirement: 45–75 days, ~600–1,000 GDD (base 50).</li>
-    <li>Model viability using frost window + seasonal heat budget + variety requirement + risk margin.</li>
+  <ul class="tight">
+    <li><strong>Baby leaf harvest:</strong> approximately 30–45 frost-free days</li>
+    <li><strong>Full-size leaf harvest:</strong> approximately 50–70 days</li>
   </ul>
+
+  <p>
+    Frost-free duration defines the available growing window between the last spring frost and the onset of sustained freezing. Because kale tolerates frost, minor early- or late-season frost events do not necessarily end production. However, repeated hard freezes will slow growth substantially and can reduce harvest quality.
+  </p>
+
+  <p>
+    As explained in <a href="/guides/why-days-to-maturity-isnt-enough-in-cold-climates/">Why Days to Maturity Isn’t Enough in Cold Climates</a>, days-to-maturity labels assume favorable heat accumulation. In cooler climates, limited seasonal warmth can slow leaf expansion even when frost-free days appear sufficient.
+  </p>
+
+  <p class="muted">
+    Frost-free days provide opportunity; seasonal warmth determines leaf expansion speed and total yield.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Growing Degree Day Requirements</h2>
+
+  <p>
+    Kale requires moderate cumulative seasonal heat to reach full leaf size. Seasonal <strong>Growing Degree Day (GDD)</strong> accumulation (base 50°F) provides a clearer measure of harvest timing than frost-free days alone.
+  </p>
+
+  <p>
+    Typical seasonal heat requirements vary by harvest stage:
+  </p>
+
+  <ul class="tight">
+    <li><strong>Baby leaf harvest:</strong> approximately 450–650 GDD (base 50°F)</li>
+    <li><strong>Full-size leaf harvest:</strong> approximately 700–1,000 GDD</li>
+  </ul>
+
+  <p>
+    Kale tolerates cold conditions, but leaf expansion slows as temperatures drop toward the 50°F base threshold. This means that late-season plantings may survive frost yet fail to size up if insufficient GDD accumulate before sustained freezing ends active growth.
+  </p>
+
+  <p>
+    Comparing your location’s typical seasonal GDD accumulation to these requirements provides a more accurate projection than calendar duration alone. This relationship can be evaluated using the <a href="/tools/growing-degree-day-planner/">Growing Degree Day Planner</a>, which estimates projected harvest timing relative to your frost boundary.
+  </p>
+
+  <p class="muted">
+    Seasonal GDD accumulation → harvest-stage requirement → projected maturity → comparison to freeze boundary.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Risk Margin Modeling</h2>
+
+  <p>
+    Kale viability depends on how much buffer exists between projected harvest stage and the onset of sustained freezing near <strong>32°F (0°C)</strong>. Using 1991–2020 climate normals at the 50% probability level, outcomes can be grouped into three general margin categories.
+  </p>
+
+  <h3>Comfortable Margin</h3>
+  <p>
+    Projected harvest stage is reached at least 14 days before the average first sustained freeze. Even if light frost occurs, growth and harvest can continue with meaningful buffer.
+  </p>
+
+  <h3>Borderline Margin</h3>
+  <p>
+    Harvest stage is reached within approximately 7–14 days of sustained freezing. Kale may remain edible after light frost, but limited remaining heat reduces further growth and yield.
+  </p>
+
+  <h3>Unlikely in a Typical Year</h3>
+  <p>
+    Required GDD accumulation for the desired harvest stage extends beyond the historical freeze boundary. In this case, plants may survive but fail to reach target size before sustained cold halts growth.
+  </p>
+
+  <p>
+    Understanding how frost boundaries and seasonal heat interact provides a structured framework for evaluating crop feasibility, as explained in <a href="/guides/how-frost-dates-and-growing-degree-days-work-together/">How Frost Dates and Growing Degree Days Work Together</a>.
+  </p>
+
+  <p>
+    To determine when sustained freezing typically returns in your location, consult the <a href="/tools/first-frost-planner/">First Frost Planner</a>, which reflects historical normals at the 50% probability level.
+  </p>
+
+  <p class="muted">
+    Projected harvest stage → comparison to sustained freeze → margin classification → climate-aligned harvest target.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Applied Climate Modeling Scenarios</h2>
+
+  <p>
+    The interaction between frost-free duration and seasonal heat accumulation determines whether kale reaches the desired harvest stage before sustained freezing occurs. Two simplified examples illustrate how seasonal heat budgets influence outcomes under typical climate normals.
+  </p>
+
+  <h3>Scenario A: Adequate Seasonal Heat</h3>
+  <p>
+    In a climate accumulating approximately 1,000 GDD (base 50°F) before first sustained freeze, baby and full-size kale harvest are likely to occur with comfortable margin. Even if light frost develops late in the season, harvest can continue before prolonged freezing ends growth.
+  </p>
+
+  <h3>Scenario B: Constrained Heat Budget</h3>
+  <p>
+    In a climate with roughly 600–700 GDD before sustained freezing, baby leaf harvest remains viable. Full-size leaf harvest becomes borderline if planting occurs late or cool conditions limit daily heat accumulation.
+  </p>
+
+  <p>
+    These examples demonstrate that frost tolerance alone does not determine kale viability. Seasonal heat accumulation and harvest-stage requirements must be evaluated together within the freeze-boundary framework. For guidance on late-season planting decisions, see <a href="/guides/when-is-it-too-late-to-plant-for-fall-harvest/">When Is It Too Late to Plant for Fall Harvest?</a>.
+  </p>
+
+  <p class="muted">
+    Frost-free window + seasonal GDD → harvest-stage requirement → projected maturity → margin classification.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Variety Selection Strategy</h2>
+
+  <p>
+    Variety selection influences growth rate and cold tolerance. Curly and lacinato (dinosaur) types typically mature at similar rates, while Siberian types often demonstrate stronger cold tolerance and steady late-season performance.
+  </p>
+
+  <p>
+    In constrained climates, selecting faster-growing varieties or targeting baby leaf harvest can improve alignment with available seasonal heat. In longer seasons, full-size harvest remains viable with substantial margin.
+  </p>
+
+  <p>
+    For comparison with other crops well suited to limited growing seasons, see <a href="/guides/what-crops-grow-in-short-growing-seasons/">What Crops Grow in Short Growing Seasons?</a>.
+  </p>
+
+  <p class="muted">
+    Variety growth rate → alignment with seasonal GDD → earlier harvest stage → improved freeze buffer.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Deterministic Summary</h2>
+
+  <p>
+    Kale tolerates frost at and below 32°F but remains bounded by sustained freezing that halts growth. In a typical year, based on 1991–2020 climate normals at the 50% probability level, viability depends on whether sufficient seasonal heat accumulates before prolonged freeze conditions occur.
+  </p>
+
+  <p>
+    Frost-free days define the available growing window, but <strong>Growing Degree Day</strong> accumulation determines leaf expansion speed and harvest stage. Because kale combines moderate heat requirements with strong frost tolerance, it often maintains substantial risk margin in shorter climates.
+  </p>
+
+  <p>
+    Evaluating frost boundaries and seasonal GDD together provides a structured method to determine whether kale is likely to reach baby or full-size harvest with buffer, approach the freeze boundary, or remain unlikely under typical conditions.
+  </p>
+
+  <p class="muted">
+    Frost boundary → seasonal heat budget → harvest-stage requirement → projected maturity → risk margin.
+  </p>
 </section>

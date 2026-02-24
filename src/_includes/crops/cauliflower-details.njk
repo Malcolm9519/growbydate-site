@@ -1,182 +1,179 @@
-<!-- cauliflower-details.njk (UPDATED) -->
-
 <section class="card">
   <h2>About Cauliflower</h2>
 
   <p class="tagline">
-    A precision cool-season crop—timing and steady growth determine success.
+    Cool-season brassica—moderate heat requirement and sensitive to temperature swings.
   </p>
 
   <p class="lede">
-    <strong>Cauliflower is sensitive to both heat stress and growth interruptions.</strong>
-    For GrowByDate modeling, frost is defined as 32°F (0°C). In a typical year (1991–2020 climate normals at the 50% probability level), cauliflower viability depends on fitting head formation inside a stable cool window with enough accumulated seasonal heat to reach maturity before first frost.
+    <strong>Cauliflower tolerates light frost near 32°F (0°C),</strong>
+    but sustained hard freezing eventually halts growth and damages developing curds. In a typical year (1991–2020 climate normals at the 50% probability level), cauliflower viability depends on accumulating sufficient seasonal heat to form a curd before prolonged freeze conditions occur.
   </p>
 
   <p>
-    Unlike more forgiving brassicas, cauliflower reacts strongly to stress. Uneven temperatures, stalled growth, or heat spikes can disrupt head formation. In short seasons, margin for error is smaller than with cabbage or broccoli.
-  </p>
-</section>
-
-<section class="card">
-  <h2>Quick Planning Reference</h2>
-
-  <ul>
-    <li><strong>Start indoors:</strong> 6–8 weeks before transplant window</li>
-    <li><strong>Transplant:</strong> near last frost into cool, stable conditions</li>
-    <li><strong>Days to maturity:</strong> 60–100 days (variety-dependent)</li>
-    <li><strong>Frost tolerance:</strong> Light (protect from hard freezes)</li>
-  </ul>
-
-  <p class="fine muted">
-    These are planning baselines. Cauliflower is less forgiving than many crops when timing drifts.
-  </p>
-</section>
-
-<section class="card">
-  <h2>Temperature Sensitivity & Growth Stability</h2>
-
-  <ul>
-    <li><strong>Optimal growth:</strong> 60–70°F (16–21°C)</li>
-    <li><strong>Heat stress risk:</strong> Above ~80°F (27°C)</li>
-    <li><strong>Cold slowdown:</strong> Below ~45°F (7°C)</li>
-    <li><strong>Planning frost boundary:</strong> 32°F (0°C)</li>
-  </ul>
-
-  <p>
-    Cauliflower tolerates light frost, but repeated freezing can reduce head quality.
-    More commonly, heat spikes or growth stalls disrupt curd formation before frost becomes the limiting factor.
-  </p>
-</section>
-
-<section class="card">
-  <h2>Why Indoor Starts Are Recommended</h2>
-
-  <p>
-    In short seasons, cauliflower is typically started indoors so transplants enter the garden at a controlled stage.
-    This allows you to:
-  </p>
-
-  <ul>
-    <li>Protect early growth from cold soil stalls</li>
-    <li>Align head formation with cool-season weeks</li>
-    <li>Preserve risk margin before first frost</li>
-  </ul>
-
-  <p>
-    Use the <a href="/tools/seed-start-planner/">Seed Starting Planner</a> to calculate indoor start timing from your frost dates.
-  </p>
-</section>
-
-<section class="card">
-  <h2>Typical GDD Requirement</h2>
-
-  <p><strong>Base temperature:</strong> 50°F (10°C)</p>
-  <p><strong>Approximate GDD needed:</strong> ~900–1,300 GDD (base 50) depending on variety</p>
-
-  <p>
-    Although cauliflower prefers cool conditions, it still requires accumulated seasonal heat to build plant mass before heading.
-    Weak heat accumulation can delay maturity and reduce buffer before frost.
-  </p>
-
-  <p class="fine muted" style="margin-top:14px;">
-    GDD = ((Daily High + Daily Low) ÷ 2) − 50
-  </p>
-
-  <div class="actions">
-    <a class="button subtle" href="/tools/growing-degree-day-planner/">Use the GDD Planner</a>
-  </div>
-
-  <p class="fine">
-    For a full explanation of frost boundaries and seasonal heat budgets working together, see:
-    <a href="/guides/how-frost-dates-and-growing-degree-days-work-together/">How frost dates and Growing Degree Days work together</a>.
-  </p>
-</section>
-
-<section class="card">
-  <h2>Minimum Frost-Free Days</h2>
-
-  <p>
-    Many cauliflower varieties require <strong>60–100 frost-free days</strong> to reach harvest, depending on type and growing stability.
+    Cauliflower is a cool-season crop, but it is less forgiving than many other brassicas. Curd formation is sensitive to both heat stress and temperature volatility. Even when frost-free days appear sufficient, inconsistent temperatures can compress the development window and reduce quality.
   </p>
 
   <p>
-    Because cauliflower is stress-sensitive, short frost windows leave less tolerance for planting delays or cool-season slowdowns.
+    Because cauliflower is typically harvested as a single main curd, feasibility is best modeled by whether the crop can reach curd formation with enough buffer before sustained freezing returns.
   </p>
-
-  <div class="actions">
-    <a class="button subtle" href="/tools/frost-date-finder/">Check Your Frost-Free Season</a>
-  </div>
-</section>
-
-<section class="card">
-  <h2>Short-Season Viability Flag</h2>
-
-  <ul>
-    <li><strong>Good choice under 100 days?</strong> Sometimes (early varieties + precise timing required)</li>
-    <li><strong>Risky under 90 days?</strong> Often, unless heat accumulation is strong and transplant timing is exact</li>
-    <li><strong>Needs season extension?</strong> Sometimes helpful for stabilizing early growth (light cover), not for pushing through hard freezes</li>
-  </ul>
-</section>
-
-<section class="card">
-  <h2>First Frost Sensitivity</h2>
-
-  <p>
-    Cauliflower tolerates light frost, but sustained freezing can damage curds and outer leaves.
-    For frost-first modeling, treat 32°F (0°C) as the seasonal boundary and aim to mature heads with buffer ahead of repeated freezing events.
-  </p>
-</section>
-
-<section class="card">
-  <h2>Early-Maturing Strategy</h2>
-
-  <ul>
-    <li>Select early or short-season varieties when frost window is tight</li>
-    <li>Start indoors to protect early-stage growth</li>
-    <li>Maintain steady moisture and avoid growth stalls</li>
-    <li>Use full sun exposure to preserve effective heat accumulation</li>
-  </ul>
-</section>
-
-<section class="card">
-  <h2>Planning Model</h2>
 
   <p class="muted">
-    Frost → Season Length → GDD → Crop Requirement → Risk Margin
-  </p>
-
-  <p>
-    In a typical year, cauliflower viability depends on matching maturity length to your frost-free window and maintaining enough seasonal heat for stable development.
-    When buffer is thin, timing slips and temperature swings become the primary failure mode.
+    Frost boundary (32°F) → frost-free window → seasonal heat accumulation → curd formation requirement → projected maturity → risk margin.
   </p>
 </section>
 
 <section class="card">
-  <h2>Frequently Asked Questions</h2>
+  <h2>Frost-Free Day Requirements</h2>
 
-  <h3>Can cauliflower survive frost?</h3>
   <p>
-    It tolerates light frost, but repeated or hard freezes can reduce head quality. For planning, use 32°F (0°C) as the boundary.
+    Cauliflower maturity is typically described in days from transplant under favorable cool conditions. These estimates assume steady growth with limited heat stress.
   </p>
 
-  <h3>Why didn’t my cauliflower form a proper head?</h3>
-  <p>
-    Stress from temperature swings, stalled growth, or heat spikes often disrupts curd formation before frost is even a factor.
-  </p>
-
-  <h3>Is cauliflower harder than cabbage?</h3>
-  <p>
-    Generally yes. Cauliflower has less tolerance for growth interruptions and requires tighter alignment between frost window and development speed.
-  </p>
-</section>
-
-<section class="card">
-  <h2>Summary</h2>
-
-  <ul>
-    <li>Use 32°F (0°C) frost timing as the boundary (50% probability, 1991–2020 normals).</li>
-    <li>Typical maturity: 60–100 days, ~900–1,300 GDD (base 50).</li>
-    <li>Less forgiving than many brassicas—timing precision matters.</li>
-    <li>Model viability using frost window + seasonal heat budget + variety requirement + risk margin.</li>
+  <ul class="tight">
+    <li><strong>Early varieties:</strong> approximately 55–70 frost-free days</li>
+    <li><strong>Main-season varieties:</strong> approximately 70–85 days</li>
   </ul>
+
+  <p>
+    Frost-free duration defines the available growing window between the last spring frost and the onset of sustained freezing. Cauliflower tolerates light frost, but repeated hard freezes can stop development before curds fully form.
+  </p>
+
+  <p>
+    As explained in <a href="/guides/why-days-to-maturity-isnt-enough-in-cold-climates/">Why Days to Maturity Isn’t Enough in Cold Climates</a>, days-to-maturity labels assume favorable heat accumulation. In cooler climates, limited seasonal warmth can slow curd development even when frost-free days appear sufficient.
+  </p>
+
+  <p class="muted">
+    Frost-free days provide opportunity; seasonal warmth determines curd formation speed and final size.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Growing Degree Day Requirements</h2>
+
+  <p>
+    Cauliflower requires moderate cumulative seasonal heat to initiate and complete curd formation. Seasonal <strong>Growing Degree Day (GDD)</strong> accumulation (base 50°F) provides a clearer measure of maturity potential than frost-free days alone.
+  </p>
+
+  <p>
+    Typical seasonal heat requirements vary by type:
+  </p>
+
+  <ul class="tight">
+    <li><strong>Early varieties:</strong> approximately 1,000–1,300 GDD (base 50°F)</li>
+    <li><strong>Main-season varieties:</strong> approximately 1,300–1,600 GDD</li>
+  </ul>
+
+  <p>
+    Cauliflower performs best under stable, moderate temperatures. While it tolerates light frost, excessive heat can disrupt curd formation, causing loose or uneven heads even if total GDD accumulation appears sufficient.
+  </p>
+
+  <p>
+    Comparing your location’s typical seasonal GDD accumulation to these variety requirements provides a more accurate maturity projection than calendar duration alone. This relationship can be evaluated using the <a href="/tools/growing-degree-day-planner/">Growing Degree Day Planner</a>, which estimates projected harvest timing relative to your frost boundary.
+  </p>
+
+  <p class="muted">
+    Seasonal GDD accumulation → curd formation requirement → projected maturity → comparison to freeze boundary.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Risk Margin Modeling</h2>
+
+  <p>
+    Cauliflower viability depends on how much buffer exists between projected curd formation and the onset of sustained freezing near <strong>32°F (0°C)</strong>. Using 1991–2020 climate normals at the 50% probability level, outcomes can be grouped into three general margin categories.
+  </p>
+
+  <h3>Comfortable Margin</h3>
+  <p>
+    Curd formation occurs at least 14 days before the average first sustained freeze. Seasonal heat accumulation meets or exceeds variety requirements, allowing stable head development before freezing temperatures return.
+  </p>
+
+  <h3>Borderline Margin</h3>
+  <p>
+    Projected maturity falls within approximately 7–14 days of the freeze boundary. Cooler-than-average late-season temperatures may slow final development, increasing the risk that curds remain undersized when freezing begins.
+  </p>
+
+  <h3>Unlikely in a Typical Year</h3>
+  <p>
+    Required GDD accumulation for curd formation extends beyond the historical freeze boundary. In these cases, insufficient seasonal heat prevents full head development before sustained cold halts growth.
+  </p>
+
+  <p>
+    Understanding how frost boundaries and seasonal heat interact provides a structured framework for evaluating crop feasibility, as explained in <a href="/guides/how-frost-dates-and-growing-degree-days-work-together/">How Frost Dates and Growing Degree Days Work Together</a>.
+  </p>
+
+  <p>
+    To determine when sustained freezing typically returns in your location, consult the <a href="/tools/first-frost-planner/">First Frost Planner</a>, which reflects historical normals at the 50% probability level.
+  </p>
+
+  <p class="muted">
+    Projected curd formation → comparison to sustained freeze → margin classification → climate-aligned variety choice.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Applied Climate Modeling Scenarios</h2>
+
+  <p>
+    The interaction between frost-free duration and seasonal heat accumulation determines whether cauliflower completes curd formation before sustained freezing occurs. Two simplified examples illustrate how seasonal heat budgets influence outcomes under typical climate normals.
+  </p>
+
+  <h3>Scenario A: Adequate Seasonal Heat</h3>
+  <p>
+    In a climate accumulating approximately 1,600 GDD (base 50°F) before first sustained freeze, early and main-season cauliflower varieties are likely to form curds with comfortable margin. Stable temperatures allow heads to size fully before freezing temperatures return.
+  </p>
+
+  <h3>Scenario B: Constrained Heat Budget</h3>
+  <p>
+    In a climate with roughly 1,100 GDD before sustained freezing, early varieties may still complete curd formation. Main-season varieties become borderline or unlikely under typical conditions.
+  </p>
+
+  <p>
+    These examples demonstrate that frost-free duration alone does not determine cauliflower viability. Seasonal heat accumulation and curd formation requirements must be evaluated together within the freeze-boundary framework. For a broader modeling overview, see <a href="/guides/will-my-crop-mature-before-first-frost/">Will My Crop Mature Before First Frost?</a>.
+  </p>
+
+  <p class="muted">
+    Frost-free window + seasonal GDD → curd formation requirement → projected maturity → margin classification.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Variety Selection Strategy</h2>
+
+  <p>
+    Variety selection strongly influences risk margin. Early-maturing cauliflower types require fewer cumulative GDD and are better suited to shorter climates.
+  </p>
+
+  <p>
+    Main-season varieties demand greater seasonal heat accumulation and longer frost-free windows. In constrained climates, selecting earlier types increases the likelihood that curd formation completes before sustained freezing returns.
+  </p>
+
+  <p>
+    For comparison with other crops well suited to limited growing seasons, see <a href="/guides/what-crops-grow-in-short-growing-seasons/">What Crops Grow in Short Growing Seasons?</a>.
+  </p>
+
+  <p class="muted">
+    Variety heat requirement → alignment with seasonal GDD → earlier projected maturity → improved freeze buffer.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Deterministic Summary</h2>
+
+  <p>
+    Cauliflower tolerates light frost but remains bounded by sustained freezing near 32°F. In a typical year, based on 1991–2020 climate normals at the 50% probability level, viability depends on whether sufficient seasonal heat accumulates before freeze conditions halt growth.
+  </p>
+
+  <p>
+    Frost-free days define the growing window, but <strong>Growing Degree Day</strong> accumulation determines curd formation speed and final harvest timing. Early varieties require less total heat and maintain stronger risk margin in constrained climates.
+  </p>
+
+  <p>
+    Evaluating frost boundaries and seasonal GDD together provides a structured method to determine whether cauliflower is likely to mature with buffer, approach the freeze boundary, or remain unlikely under typical conditions.
+  </p>
+
+  <p class="muted">
+    Frost boundary → seasonal heat budget → curd formation requirement → projected maturity → risk margin.
+  </p>
 </section>

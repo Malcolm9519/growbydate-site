@@ -1,183 +1,181 @@
-<!-- peas-details.njk (UPDATED) -->
-
 <section class="card">
   <h2>About Peas</h2>
 
   <p class="tagline">
-    Hardy spring crop—thrives in cool soil and finishes before heat.
+    Cool-season legume—tolerates light frost but sensitive to prolonged heat.
   </p>
 
   <p class="lede">
-    <strong>Peas are one of the most cold-tolerant garden crops and can handle light frost.</strong>
-    For GrowByDate modeling, frost is defined as 32°F (0°C). In a typical year (1991–2020 climate normals at the 50% probability level), peas are rarely limited by last frost. Instead, they are limited by rising summer heat.
+    <strong>Peas tolerate light frost and can withstand temperatures near 32°F (0°C),</strong>
+    but sustained hard freezing eventually halts growth. In a typical year (1991–2020 climate normals at the 50% probability level), pea viability depends on accumulating sufficient seasonal heat before prolonged freeze conditions occur.
   </p>
 
   <p>
-    In short seasons, peas are often a reliable early win. The primary planning challenge is sowing early enough to mature before sustained heat reduces flowering and pod set.
+    Peas are typically grown as an early-season crop because they perform best in cool weather. Unlike beans, which require sustained summer warmth, peas initiate flowering under moderate temperatures and often decline when heat accumulates rapidly.
   </p>
-</section>
-
-<section class="card">
-  <h2>Quick Planning Reference</h2>
-
-  <ul>
-    <li><strong>Direct sow:</strong> 6–2 weeks before last frost (as soon as soil is workable)</li>
-    <li><strong>Days to maturity:</strong> 55–75 days (variety-dependent)</li>
-    <li><strong>Frost tolerance:</strong> Hardy (handles multiple light frosts)</li>
-  </ul>
-
-  <p class="fine muted">
-    These are baseline ranges. Soil drainage and exposure strongly affect early success.
-  </p>
-</section>
-
-<section class="card">
-  <h2>Cold Tolerance & Temperature Profile</h2>
-
-  <ul>
-    <li><strong>Minimum soil temperature:</strong> ~40°F (4°C) for germination</li>
-    <li><strong>Optimal growth:</strong> 55–70°F (13–21°C)</li>
-    <li><strong>Heat stress:</strong> Above ~80°F (27°C) reduces flowering</li>
-    <li><strong>Planning frost boundary:</strong> 32°F (0°C)</li>
-  </ul>
 
   <p>
-    Pea seedlings tolerate light frost and often continue growing after brief dips below 32°F (0°C).
-    However, extended hard freezes can damage tender growth.
+    Although frequently described as a 55–75 day crop, calendar duration alone does not determine success. Flowering and pod fill depend on cumulative heat and temperature stability within the frost-free window.
   </p>
-
-  <p class="fine">
-    For frost-type context, see:
-    <a href="/guides/light-freeze-vs-hard-freeze/">Light freeze vs hard freeze</a>.
-  </p>
-</section>
-
-<section class="card">
-  <h2>Spring Timing Logic</h2>
-
-  <p>
-    Peas should be sown as soon as soil is workable in spring.
-    Early planting preserves the cool-season runway before rising temperatures reduce productivity.
-  </p>
-
-  <ul>
-    <li><strong>Too early:</strong> Risk of seed rot in poorly drained cold soil</li>
-    <li><strong>On time:</strong> Strong early growth before heat arrives</li>
-    <li><strong>Too late:</strong> Reduced flowering due to early heat</li>
-  </ul>
-
-  <p>
-    Use the <a href="/tools/frost-date-finder/">Frost Date Finder</a> to anchor your last frost reference.
-  </p>
-</section>
-
-<section class="card">
-  <h2>Typical GDD Requirement</h2>
-
-  <p><strong>Base temperature:</strong> 50°F (10°C)</p>
-  <p><strong>Approximate GDD needed:</strong> ~700–1,000 GDD (base 50) for many varieties</p>
-
-  <p>
-    Peas are moderately heat-dependent. In cool springs, maturity may drift slightly beyond label timing,
-    but overall GDD demand is modest compared to warm-season crops.
-  </p>
-
-  <p class="fine muted" style="margin-top:14px;">
-    GDD = ((Daily High + Daily Low) ÷ 2) − 50
-  </p>
-
-  <div class="actions">
-    <a class="button subtle" href="/tools/growing-degree-day-planner/">Use the GDD Planner</a>
-  </div>
-
-  <p class="fine">
-    To understand how frost boundaries and seasonal heat work together, see:
-    <a href="/guides/how-frost-dates-and-growing-degree-days-work-together/">How frost dates and Growing Degree Days work together</a>.
-  </p>
-</section>
-
-<section class="card">
-  <h2>Minimum Frost-Free Days</h2>
-
-  <p>
-    Most pea varieties require <strong>55–75 frost-free days</strong> to reach harvest.
-    Because peas tolerate frost, the main limitation is whether maturity occurs before sustained summer heat.
-  </p>
-
-  <div class="actions">
-    <a class="button subtle" href="/tools/frost-date-finder/">Check Your Frost-Free Season</a>
-  </div>
-</section>
-
-<section class="card">
-  <h2>Short-Season Viability Flag</h2>
-
-  <ul>
-    <li><strong>Good choice under 100 days?</strong> Yes (excellent short-season crop)</li>
-    <li><strong>Risky under 90 days?</strong> Rarely, unless spring is extremely cool or delayed</li>
-    <li><strong>Needs season extension?</strong> Usually no; frost tolerance provides buffer</li>
-  </ul>
-</section>
-
-<section class="card">
-  <h2>First Frost Sensitivity</h2>
-
-  <p>
-    Peas tolerate light frost near 32°F (0°C). However, repeated hard freezes can damage foliage and flowers.
-    In fall plantings (where viable), treat 32°F (0°C) as the planning boundary.
-  </p>
-</section>
-
-<section class="card">
-  <h2>Early-Maturing Strategy</h2>
-
-  <ul>
-    <li>Sow as soon as soil is workable in spring</li>
-    <li>Select early-maturing varieties in tight frost windows</li>
-    <li>Use well-drained soil to reduce early rot risk</li>
-    <li>Prioritize full sun to preserve effective heat accumulation</li>
-  </ul>
-</section>
-
-<section class="card">
-  <h2>Planning Model</h2>
 
   <p class="muted">
-    Frost → Season Length → GDD → Crop Requirement → Risk Margin
-  </p>
-
-  <p>
-    In a typical year, peas are viable in most short seasons because their frost tolerance and modest heat requirement provide natural margin.
-    The primary risk factor is late planting that shifts maturity into warm weather.
+    Frost boundary (32°F) → frost-free window → seasonal heat accumulation → variety requirement → projected maturity → risk margin.
   </p>
 </section>
 
 <section class="card">
-  <h2>Frequently Asked Questions</h2>
+  <h2>Frost-Free Day Requirements</h2>
 
-  <h3>Can peas survive frost?</h3>
   <p>
-    Yes. Peas tolerate light frost near 32°F (0°C), though prolonged hard freezes may cause damage.
+    Pea maturity is typically described in days from direct seeding under favorable cool conditions. These values assume moderate temperatures and consistent soil moisture.
   </p>
 
-  <h3>Why did my peas stop producing?</h3>
-  <p>
-    Sustained heat above ~80°F (27°C) commonly reduces flowering and pod set.
-  </p>
-
-  <h3>Are peas better than beans in short seasons?</h3>
-  <p>
-    Often yes. Peas tolerate cooler soil and frost, while beans require warm soil and have no frost buffer.
-  </p>
-</section>
-
-<section class="card">
-  <h2>Summary</h2>
-
-  <ul>
-    <li>Use 32°F (0°C) as the frost boundary (50% probability, 1991–2020 normals).</li>
-    <li>Peas tolerate frost and are limited more by heat than cold.</li>
-    <li>Typical requirement: 55–75 days, ~700–1,000 GDD (base 50).</li>
-    <li>Model viability using frost window + seasonal heat budget + variety requirement + risk margin.</li>
+  <ul class="tight">
+    <li><strong>Shelling peas:</strong> approximately 55–70 frost-free days</li>
+    <li><strong>Snow peas:</strong> approximately 60–75 days</li>
+    <li><strong>Snap peas:</strong> approximately 60–75 days</li>
   </ul>
+
+  <p>
+    Frost-free duration defines the available window between the last spring frost and the onset of sustained freezing in fall. Because peas tolerate light frost, minor early-season frost events do not necessarily end the crop.
+  </p>
+
+  <p>
+    As explained in <a href="/guides/why-days-to-maturity-isnt-enough-in-cold-climates/">Why Days to Maturity Isn’t Enough in Cold Climates</a>, days-to-maturity labels assume favorable heat accumulation. In cooler climates, limited seasonal warmth can slow flowering even when frost-free days appear sufficient.
+  </p>
+
+  <p class="muted">
+    Frost-free days provide opportunity; seasonal warmth determines flowering and pod development speed.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Growing Degree Day Requirements</h2>
+
+  <p>
+    Peas require cumulative seasonal heat to initiate flowering and complete pod development, but their total heat requirement is lower than most warm-season crops. Seasonal <strong>Growing Degree Day (GDD)</strong> accumulation (base 50°F) provides a clearer measure of maturity potential than frost-free days alone.
+  </p>
+
+  <p>
+    Typical seasonal heat requirements are:
+  </p>
+
+  <ul class="tight">
+    <li><strong>Shelling peas:</strong> approximately 800–1,000 GDD (base 50°F)</li>
+    <li><strong>Snow peas:</strong> approximately 900–1,100 GDD</li>
+    <li><strong>Snap peas:</strong> approximately 900–1,100 GDD</li>
+  </ul>
+
+  <p>
+    Peas develop best under moderate temperatures. Cool nights slow daily GDD accumulation but generally support strong pod quality. Excessive heat can accelerate maturity and shorten the harvest window, even when GDD totals are technically sufficient.
+  </p>
+
+  <p>
+    Comparing your location’s typical seasonal GDD accumulation to these variety requirements provides a more accurate maturity projection than calendar duration alone. This relationship can be evaluated using the <a href="/tools/growing-degree-day-planner/">Growing Degree Day Planner</a>, which estimates projected harvest timing relative to your frost boundary.
+  </p>
+
+  <p class="muted">
+    Seasonal GDD accumulation → variety heat requirement → projected maturity → comparison to freeze boundary.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Risk Margin Modeling</h2>
+
+  <p>
+    Pea viability depends on how much buffer exists between projected maturity and the onset of sustained freezing near <strong>32°F (0°C)</strong>. Using 1991–2020 climate normals at the 50% probability level, outcomes can be grouped into three general margin categories.
+  </p>
+
+  <h3>Comfortable Margin</h3>
+  <p>
+    Projected maturity occurs at least 10–14 days before the average first sustained freeze. Seasonal heat accumulation meets or exceeds variety requirements, allowing flowering and pod fill to complete before freezing temperatures return.
+  </p>
+
+  <h3>Borderline Margin</h3>
+  <p>
+    Projected maturity falls within approximately 7–10 days of the freeze boundary. Cooler-than-average late-season conditions may slow final pod fill, increasing the risk that freezing temperatures halt development prematurely.
+  </p>
+
+  <h3>Unlikely in a Typical Year</h3>
+  <p>
+    Required GDD accumulation extends beyond the historical freeze boundary. In these cases, insufficient seasonal heat prevents full pod development before sustained cold ends growth.
+  </p>
+
+  <p>
+    Understanding how frost boundaries and seasonal heat interact provides a structured framework for evaluating crop feasibility, as explained in <a href="/guides/how-frost-dates-and-growing-degree-days-work-together/">How Frost Dates and Growing Degree Days Work Together</a>.
+  </p>
+
+  <p>
+    To determine when sustained freezing typically returns in your location, consult the <a href="/tools/first-frost-planner/">First Frost Planner</a>, which reflects historical normals at the 50% probability level.
+  </p>
+
+  <p class="muted">
+    Projected maturity → comparison to sustained freeze → margin classification → climate-aligned variety choice.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Applied Climate Modeling Scenarios</h2>
+
+  <p>
+    The interaction between frost-free duration and seasonal heat accumulation determines whether peas complete flowering and pod development before sustained freezing occurs. Two simplified examples illustrate how seasonal heat budgets shift outcomes under typical climate normals.
+  </p>
+
+  <h3>Scenario A: Moderate Seasonal Heat</h3>
+  <p>
+    In a climate accumulating approximately 1,100 GDD (base 50°F) before first sustained freeze, shelling, snap, and snow peas are likely to mature with comfortable margin. Harvest can typically be completed before freezing temperatures return.
+  </p>
+
+  <h3>Scenario B: Constrained Heat Budget</h3>
+  <p>
+    In a climate with roughly 800 GDD before freezing conditions occur, early shelling peas may still reach maturity. Snap and snow peas become borderline, particularly if late-season temperatures trend cooler than average.
+  </p>
+
+  <p>
+    These examples demonstrate that frost-free duration alone does not determine pea viability. Seasonal heat accumulation and variety requirement must be evaluated together within the freeze-boundary framework. For a broader modeling overview, see <a href="/guides/will-my-crop-mature-before-first-frost/">Will My Crop Mature Before First Frost?</a>.
+  </p>
+
+  <p class="muted">
+    Frost-free window + seasonal GDD → variety heat requirement → projected maturity → margin classification.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Variety Selection Strategy</h2>
+
+  <p>
+    Variety selection directly influences risk margin. Early shelling peas typically require fewer frost-free days and slightly lower cumulative GDD than snap or snow peas, making them more reliable in constrained climates.
+  </p>
+
+  <p>
+    Snap and snow peas extend harvest flexibility but may demand a modestly larger seasonal heat budget. In shorter climates, selecting earlier-maturing varieties can shift the crop from borderline to comfortable margin without altering planting timing.
+  </p>
+
+  <p>
+    For comparison with other crops that perform reliably in limited seasons, see <a href="/guides/what-crops-grow-in-short-growing-seasons/">What Crops Grow in Short Growing Seasons?</a>.
+  </p>
+
+  <p class="muted">
+    Variety heat requirement → alignment with seasonal GDD → earlier projected maturity → improved freeze buffer.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Deterministic Summary</h2>
+
+  <p>
+    Peas tolerate light frost but remain bounded by sustained freezing near 32°F. In a typical year, based on 1991–2020 climate normals at the 50% probability level, viability depends on whether sufficient seasonal heat accumulates before freeze conditions halt growth.
+  </p>
+
+  <p>
+    Frost-free days define the available growing window, but <strong>Growing Degree Day</strong> accumulation determines flowering timing and pod development. Because peas require moderate heat relative to warm-season crops, they often maintain strong risk margin in shorter climates.
+  </p>
+
+  <p>
+    Evaluating frost boundaries and seasonal GDD together provides a structured method to determine whether peas are likely to mature with buffer, approach the freeze boundary, or remain unlikely under typical conditions.
+  </p>
+
+  <p class="muted">
+    Frost boundary → seasonal heat budget → variety requirement → projected maturity → risk margin.
+  </p>
 </section>
