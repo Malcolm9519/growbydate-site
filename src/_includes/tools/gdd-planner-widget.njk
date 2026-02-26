@@ -12,7 +12,7 @@
       hideDate: true|false,
       hideCrops: true|false,
 
-      // Optional copy overrides (recommended for SEO/article embeds)
+      // Optional copy overrides
       widgetTitle: "Check Tomato Timing",
       widgetLede: "Enter your ZIP / Postal and planting date to see whether tomatoes can typically mature before first fall frost."
     } %}
@@ -20,56 +20,59 @@
 
 {% set cfg = gddWidget or {} %}
 
+{# --- Booleans (handles true/false or "true"/"false") --- #}
+{% set hideCrops = (cfg.hideCrops == true) or (cfg.hideCrops == "true") %}
+{% set hideDate = (cfg.hideDate == true) or (cfg.hideDate == "true") %}
+
 {# --- Derive a human-friendly crop label for single-crop embeds --- #}
 {% set cropKey = (cfg.cropDefault or "") | lower %}
-{% set cropLabel =
-  "this crop"
-  if not cropKey
-  else (
-    "Tomato"
-    if "tomato" in cropKey
-    else "Pepper"
-    if "pepper" in cropKey
-    else "Cucumber"
-    if "cucumber" in cropKey
-    else "Zucchini"
-    if "zucchini" in cropKey
-    else "Pumpkin"
-    if "pumpkin" in cropKey
-    else "Winter Squash"
-    if "winter-squash" in cropKey or ("squash" in cropKey and "summer" not in cropKey)
-    else "Sweet Corn"
-    if "corn" in cropKey
-    else "Bean"
-    if "bean" in cropKey
-    else "Pea"
-    if "pea" in cropKey
-    else "Carrot"
-    if "carrot" in cropKey
-    else "Beet"
-    if "beet" in cropKey
-    else "Lettuce"
-    if "lettuce" in cropKey
-    else "Broccoli"
-    if "broccoli" in cropKey
-    else "Cabbage"
-    if "cabbage" in cropKey
-    else "Cauliflower"
-    if "cauliflower" in cropKey
-    else "Spinach"
-    if "spinach" in cropKey
-    else "Kale"
-    if "kale" in cropKey
-    else "your crop"
-  )
-%}
+{% set cropLabel = "your crop" %}
 
-{# --- Default copy (can be overridden by cfg.widgetTitle / cfg.widgetLede) --- #}
-{% set isSingle = (cfg.hideCrops == true) or (cfg.hideCrops == "true") %}
-{% set defaultTitle = ("Check " ~ cropLabel ~ " Timing") if isSingle else "Start Here" %}
+{% if cropKey %}
+  {% if "tomato" in cropKey %}
+    {% set cropLabel = "Tomato" %}
+  {% elif "pepper" in cropKey %}
+    {% set cropLabel = "Pepper" %}
+  {% elif "cucumber" in cropKey %}
+    {% set cropLabel = "Cucumber" %}
+  {% elif "zucchini" in cropKey %}
+    {% set cropLabel = "Zucchini" %}
+  {% elif "pumpkin" in cropKey %}
+    {% set cropLabel = "Pumpkin" %}
+  {% elif "winter-squash" in cropKey or ("squash" in cropKey and "summer" not in cropKey) %}
+    {% set cropLabel = "Winter Squash" %}
+  {% elif "corn" in cropKey %}
+    {% set cropLabel = "Sweet Corn" %}
+  {% elif "bean" in cropKey %}
+    {% set cropLabel = "Bean" %}
+  {% elif "pea" in cropKey %}
+    {% set cropLabel = "Pea" %}
+  {% elif "carrot" in cropKey %}
+    {% set cropLabel = "Carrot" %}
+  {% elif "beet" in cropKey %}
+    {% set cropLabel = "Beet" %}
+  {% elif "lettuce" in cropKey %}
+    {% set cropLabel = "Lettuce" %}
+  {% elif "broccoli" in cropKey %}
+    {% set cropLabel = "Broccoli" %}
+  {% elif "cabbage" in cropKey %}
+    {% set cropLabel = "Cabbage" %}
+  {% elif "cauliflower" in cropKey %}
+    {% set cropLabel = "Cauliflower" %}
+  {% elif "spinach" in cropKey %}
+    {% set cropLabel = "Spinach" %}
+  {% elif "kale" in cropKey %}
+    {% set cropLabel = "Kale" %}
+  {% else %}
+    {% set cropLabel = "your crop" %}
+  {% endif %}
+{% endif %}
+
+{# --- Default copy (can be overridden) --- #}
+{% set defaultTitle = ("Check " ~ cropLabel ~ " Timing") if hideCrops else "Start Here" %}
 {% set defaultLede =
   ("Enter your ZIP / Postal and planting date to see whether " ~ cropLabel ~ " can typically mature before first fall frost.")
-  if isSingle
+  if hideCrops
   else "Enter a <strong>5-digit ZIP</strong> (U.S.) or the <strong>first 3 characters</strong> of your postal code (Canada FSA), select one or more crops, and choose your planting date."
 %}
 
@@ -91,7 +94,7 @@
     <h2 data-role="widgetTitle">{{ cfg.widgetTitle or defaultTitle }}</h2>
 
     <p class="small" data-role="widgetIntro" style="opacity:0.86; margin-top:6px;">
-      {{ cfg.widgetLede or defaultLede | safe }}
+      {{ (cfg.widgetLede or defaultLede) | safe }}
     </p>
 
     <div class="stack" style="margin-top:10px;">
@@ -100,13 +103,13 @@
         <input type="text" data-role="location" placeholder="ZIP or Postal Code" autocomplete="postal-code" aria-label="ZIP or postal code">
       </div>
 
-      <div data-role="cropWrap">
+      <div data-role="cropWrap" {% if hideCrops %}style="display:none;"{% endif %}>
         <label>Crops</label>
         <div class="small" data-role="cropHelp">Select one or more crops.</div>
         <div data-role="cropList" class="cropList"></div>
       </div>
 
-      <div data-role="plantingWrap">
+      <div data-role="plantingWrap" {% if hideDate %}style="display:none;"{% endif %}>
         <label>Planting date</label>
         <input type="date" data-role="planting" aria-label="Planting date">
       </div>
@@ -202,7 +205,6 @@
   }
   .btn:hover { opacity: .85; }
 
-  /* Normalize .button within btn rows to match the frost planner rhythm */
   .btnRow .button {
     display: inline-flex;
     align-items: center;
@@ -215,7 +217,6 @@
     box-sizing: border-box;
   }
 
-  /* Crop checklist */
   .cropList {
     border: 1px solid var(--border, #ddd);
     border-radius: 10px;
@@ -249,18 +250,15 @@
     width: auto;
   }
 
-  /* Multi-crop clarity in results */
   .cropHeaderRow td { padding: 10px 12px; background: rgba(0,0,0,0.04); border-top: 1px solid rgba(0,0,0,0.08); }
   .cropHeaderRow:first-child td { border-top: 0; }
   .cropHeaderIcon { margin-right: 8px; }
   .cropHeaderLink { font-weight: 700; text-decoration: none; }
   .cropHeaderLink:hover { text-decoration: underline; }
 
-  /* Keep planner text “muted” without fading emoji/icons */
   [data-tool="gdd-planner"] [data-role="resultsCard"] .muted,
   [data-tool="gdd-planner"] [data-role="resultsCard"] .small { opacity: 1; }
 
-  /* Print: only print the results card */
   @media print {
     body * { visibility: hidden !important; }
     [data-tool="gdd-planner"] [data-role="resultsCard"],
