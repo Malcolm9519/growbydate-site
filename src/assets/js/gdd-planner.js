@@ -558,9 +558,13 @@ const hasCustomLede  = root.dataset.hasCustomLede === "true";
       const first = chosen[0] || parseCropList(cfg.cropDefault)[0] || "";
       const crop = toolCrops.find(c => c.siteId === first || c.slug === first || c.gddSlug === first);
       const cropName = crop?.name || "this crop";
-      if (widgetTitleEl) widgetTitleEl.textContent = `Check ${cropName} timing`;
-      if (widgetIntroEl) widgetIntroEl.innerHTML = `Enter your <strong>ZIP / Postal</strong> and planting date to see whether <strong>${escapeHtml(cropName)}</strong> can typically mature before first fall frost.`;
-    }
+if (widgetTitleEl && !hasCustomTitle) {
+  widgetTitleEl.textContent = `Check ${cropName} Timing`; // <- capitalize here too
+}
+
+if (widgetIntroEl && !hasCustomLede) {
+  widgetIntroEl.innerHTML = `Enter your ZIP / Postal and planting date to see whether ${cropNameLower} can typically mature before first fall frost.`;
+}
   }
 
   // Widget-scoped last plan for actions
