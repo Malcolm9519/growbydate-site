@@ -72,12 +72,13 @@
 {% endif %}
 
 {# --- Default copy (can be overridden) --- #}
-{% set defaultTitle = ("Check " ~ cropLabel ~ " Timing") if hideCrops else "Start Here" %}
-{% set defaultLede =
-  ("Enter your ZIP / Postal and planting date to see whether " ~ cropLabel ~ " can typically mature before first fall frost.")
-  if hideCrops
-  else "Enter a <strong>5-digit ZIP</strong> (U.S.) or the <strong>first 3 characters</strong> of your postal code (Canada FSA), select one or more crops, and choose your planting date."
-%}
+{% set defaultTitle = "Start Here" %}
+{% set defaultLede = "Enter a <strong>5-digit ZIP</strong> (U.S.) or the <strong>first 3 characters</strong> of your postal code (Canada FSA), select one or more crops, and choose your planting date." %}
+
+{% if hideCrops %}
+  {% set defaultTitle = "Check " ~ cropLabel ~ " Timing" %}
+  {% set defaultLede = "Enter your ZIP / Postal and planting date to see whether " ~ cropLabel ~ " can typically mature before first fall frost." %}
+{% endif %}
 
 <div
   class="toolRoot"
