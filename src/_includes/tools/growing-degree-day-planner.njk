@@ -1,460 +1,274 @@
-<script type="application/json" id="siteCropsJson">{{ crops | dump | safe }}</script>
-<script type="application/json" id="gddCropsJson">{{ gddCrops | dump | safe }}</script>
-
 <section class="section">
-  <div class="toolRoot">
+  <header class="header">
+    <p class="muted">
+      This planner uses <strong>climate normals</strong> (a “typical year”) to estimate when a crop could reach maturity after planting — then compares that date to your area’s <strong>average first fall frost</strong>.
+    </p>
+  </header>
 
-    <header class="header">
-      <p class="muted">
-        This planner uses <strong>climate normals</strong> (a “typical year”) to estimate when a crop could reach maturity after planting — then compares that date to your area’s <strong>average first fall frost</strong>.
-      </p>
-    </header>
+  {% include "tools/gdd-planner-widget.njk" %}
 
-    <section class="card" aria-label="Growing degree day planner">
-      <h2>Start Here</h2>
-      <p class="small" style="opacity:0.86; margin-top:6px;">
-        Enter a <strong>5-digit ZIP</strong> (U.S.) or the <strong>first 3 characters</strong> of your postal code (Canada FSA), select one or more crops, and choose your planting date.
-      </p>
-
-      <div class="stack" style="margin-top:10px;">
-        <div>
-          <label for="gdd-location">ZIP / Postal</label>
-          <input type="text" id="gdd-location" placeholder="ZIP or Postal Code" autocomplete="postal-code" aria-label="ZIP or postal code">
-        </div>
-
-        <div>
-          <label for="gdd-cropList">Crops</label>
-          <div class="small" id="gdd-cropHelp">Select one or more crops.</div>
-          <div id="gdd-cropList" class="cropList" aria-describedby="gdd-cropHelp"></div>
-        </div>
-
-        <div>
-          <label for="gdd-planting">Planting date</label>
-          <input type="date" id="gdd-planting" aria-label="Planting date">
-        </div>
+  <section class="card" aria-label="What this planner answers">
+    <h2>What This Planner Answers</h2>
+  
+    <p class="muted" style="margin-top:0;">
+      This planner evaluates one core question:
+      <strong>In a typical year based on 1991–2020 climate normals,
+      will your crop accumulate enough heat to mature before frost at 32°F (0°C)?</strong>
+    </p>
+  
+    <p>
+      Rather than relying on calendar “days to maturity,”
+      this tool models seasonal heat accumulation using Growing Degree Days (GDD)
+      and compares that to your area’s average first fall frost
+      (calculated at the 50% probability level).
+    </p>
+  
+    <p>
+      If you are unfamiliar with how frost probability works,
+      see <a href="/guides/what-does-50-percent-frost-probability-mean/">What 50% Frost Probability Means</a>.
+    </p>
+  </section>
+  
+  <section class="card" aria-label="How this model works">
+    <h2>How This Model Works</h2>
+  
+    <p>
+      This planner models seasonal heat accumulation between your planting date
+      and your area’s average first fall frost boundary (32°F / 0°C, 50% probability).
+    </p>
+  
+    <p>
+      It uses historical temperature normals (1991–2020) to estimate how many
+      <strong>Growing Degree Days (GDD)</strong> typically accumulate during that window.
+      Your selected crop’s heat requirement is then compared to that seasonal heat budget.
+    </p>
+  
+    <p>
+      The comparison sequence is deterministic:
+    </p>
+  
+    <p class="muted">
+      <strong>Planting Date → Typical Daily Heat → Accumulated GDD → Crop Requirement → Frost Boundary → Margin</strong>
+    </p>
+  
+    <p>
+      If accumulated GDD meets or exceeds the crop’s requirement
+      before the first frost boundary, maturity is considered likely
+      in a typical year.
+      If heat accumulation falls short, the crop operates in deficit.
+    </p>
+  
+    <p>
+      This tool does not assume ideal conditions.
+      It reflects average heat accumulation patterns,
+      which vary significantly by latitude, elevation, and seasonal temperature profile.
+    </p>
+  </section>
+  
+  <section class="card" aria-label="How to Interpret Your Result">
+    <h2>How to Interpret Your Result</h2>
+  
+    <div class="row" style="margin-top:6px;">
+      <div class="muted">
+        <div class="pill">1</div>
+        <p style="margin:6px 0 0;"><strong>Comfortable Margin</strong></p>
+        <p class="small" style="margin:6px 0 0;">
+          The crop reaches required GDD well before your typical first frost.
+          Maturity is likely in a typical year.
+          Extra margin improves reliability.
+        </p>
       </div>
-
-      <div class="btnRow" style="margin-top:12px;">
-        <button class="button primary" id="gdd-run" type="button">Estimate maturity</button>
-        <button class="btn" id="gdd-reset" type="button">Reset</button>
-        <div class="small muted" id="gdd-status" aria-live="polite" style="align-self:center;"></div>
+  
+      <div class="muted">
+        <div class="pill">2</div>
+        <p style="margin:6px 0 0;"><strong>Borderline</strong></p>
+        <p class="small" style="margin:6px 0 0;">
+          Maturity occurs close to your typical first frost date.
+          Cooler summers or earlier-than-average frost can reduce reliability.
+          Consider earlier varieties or minor season extension.
+        </p>
       </div>
-
-      <div class="warn" id="gdd-formWarn" style="display:none; margin-top:12px;" role="alert"></div>
-
-      <p class="small muted" style="margin-top:12px;">
-        Reminder: microclimates matter. Gardens in wind-sheltered low spots often frost earlier than the “average” for a ZIP or FSA.
-      </p>
-    </section>
-
-    <section class="card" id="gdd-resultsCard" style="display:none;" aria-labelledby="gdd-resultsTitle">
-      <h2 id="gdd-resultsTitle">Results</h2>
-
-      <div class="small">
-        <span class="pill">Planning tip</span>
-        This is a “typical year” estimate. For short seasons, aim to mature <strong>before</strong> the risk window — not inside it.
+  
+      <div class="muted">
+        <div class="pill">3</div>
+        <p style="margin:6px 0 0;"><strong>Unlikely</strong></p>
+        <p class="small" style="margin:6px 0 0;">
+          Required GDD extends beyond the frost boundary.
+          The crop may not reliably mature in a typical year.
+          Choosing a lower heat-demand crop improves feasibility.
+        </p>
       </div>
-
-      <table aria-label="GDD maturity estimate" style="margin-top:0.75rem;">
-        <tbody id="gdd-resultsBody"></tbody>
-      </table>
-
-      <div class="warn" id="gdd-riskBox" style="display:none; margin-top:12px;">
-        <div><strong id="gdd-riskLabel"></strong></div>
-        <div class="small" id="gdd-riskNote" style="margin-top:6px;"></div>
-      </div>
-
-      <p class="small muted" id="gdd-footnote" style="margin-top:12px;"></p>
-
-      <div class="btnRow" id="gdd-resultsActions" style="margin-top:12px;">
-        <button class="btn" id="gdd-copyBtn" type="button" style="display:none;">Copy results</button>
-        <button class="btn" id="gdd-printBtn" type="button" style="display:none;">Print</button>
-        <button class="btn" id="gdd-csvBtn" type="button" style="display:none;">Download CSV</button>
-        <button class="btn" id="gdd-txtBtn" type="button" style="display:none;">Download text</button>
-      </div>
-    </section>
-
-<section class="card" aria-label="What this planner answers">
-  <h2>What This Planner Answers</h2>
-
-  <p class="muted" style="margin-top:0;">
-    This planner evaluates one core question:
-    <strong>In a typical year based on 1991–2020 climate normals,
-    will your crop accumulate enough heat to mature before frost at 32°F (0°C)?</strong>
-  </p>
-
-  <p>
-    Rather than relying on calendar “days to maturity,”
-    this tool models seasonal heat accumulation using Growing Degree Days (GDD)
-    and compares that to your area’s average first fall frost
-    (calculated at the 50% probability level).
-  </p>
-
-  <p>
-    If you are unfamiliar with how frost probability works,
-    see <a href="/guides/what-does-50-percent-frost-probability-mean/">What 50% Frost Probability Means</a>.
-  </p>
-</section>
-
-<section class="card" aria-label="How this model works">
-  <h2>How This Model Works</h2>
-
-  <p>
-    This planner models seasonal heat accumulation between your planting date
-    and your area’s average first fall frost boundary (32°F / 0°C, 50% probability).
-  </p>
-
-  <p>
-    It uses historical temperature normals (1991–2020) to estimate how many
-    <strong>Growing Degree Days (GDD)</strong> typically accumulate during that window.
-    Your selected crop’s heat requirement is then compared to that seasonal heat budget.
-  </p>
-
-  <p>
-    The comparison sequence is deterministic:
-  </p>
-
-  <p class="muted">
-    <strong>Planting Date → Typical Daily Heat → Accumulated GDD → Crop Requirement → Frost Boundary → Margin</strong>
-  </p>
-
-  <p>
-    If accumulated GDD meets or exceeds the crop’s requirement
-    before the first frost boundary, maturity is considered likely
-    in a typical year.
-    If heat accumulation falls short, the crop operates in deficit.
-  </p>
-
-  <p>
-    This tool does not assume ideal conditions.
-    It reflects average heat accumulation patterns,
-    which vary significantly by latitude, elevation, and seasonal temperature profile.
-  </p>
-</section>
-
-<section class="card" aria-label="How to Interpret Your Result">
-  <h2>How to Interpret Your Result</h2>
-
-  <div class="row" style="margin-top:6px;">
-    <div class="muted">
-      <div class="pill">1</div>
-      <p style="margin:6px 0 0;"><strong>Comfortable Margin</strong></p>
-      <p class="small" style="margin:6px 0 0;">
-        The crop reaches required GDD well before your typical first frost.
-        Maturity is likely in a typical year.
-        Extra margin improves reliability.
-      </p>
     </div>
-
-    <div class="muted">
-      <div class="pill">2</div>
-      <p style="margin:6px 0 0;"><strong>Borderline</strong></p>
-      <p class="small" style="margin:6px 0 0;">
-        Maturity occurs close to your typical first frost date.
-        Cooler summers or earlier-than-average frost can reduce reliability.
-        Consider earlier varieties or minor season extension.
+  
+    <p class="small muted" style="margin-top:10px;">
+      Tip: If your garden typically frosts earlier than your regional average
+      (low spots, cold-air drainage, rural exposure),
+      plan as if frost arrives 7–14 days earlier to preserve a safety margin.
+    </p>
+  </section>
+  
+  
+  <section class="card" aria-label="Why Growing Degree Days matter">
+    <h2>Why Growing Degree Days Matter</h2>
+  
+    <p>
+      Crops develop according to accumulated heat — not simply the number of calendar days that pass.
+    </p>
+  
+    <p>
+      Growing Degree Days (GDD) quantify that heat accumulation using a base temperature
+      appropriate for the crop. For most warm-season crops, that base is
+      <strong>50°F (10°C)</strong>.
+    </p>
+  
+    <p class="muted">
+      GDD = ((Daily High + Daily Low) ÷ 2) − Base Temperature
+    </p>
+  
+    <p>
+      When daily averages exceed the base temperature,
+      heat units accumulate. When temperatures hover near or below that base,
+      development slows.
+    </p>
+  
+    <p>
+      Two locations may share the same frost-free window,
+      yet accumulate very different total GDD before first frost.
+      That difference explains why one garden reliably ripens tomatoes
+      while another struggles, even with identical calendar timing.
+    </p>
+  
+    <p>
+      Many short-season crop failures occur not because frost arrives early,
+      but because the seasonal heat budget never reaches the crop’s biological requirement.
+    </p>
+  
+    <p>
+      For a deeper structural explanation, see
+      <a href="/guides/how-frost-dates-and-growing-degree-days-work-together/">
+        How Frost Dates and Growing Degree Days Work Together
+      </a>.
+    </p>
+  </section>
+  
+  <section class="card" aria-label="Common Mistakes When Using GDD">
+    <h2>Common Mistakes When Using GDD</h2>
+  
+    <ul>
+      <li><strong>Relying only on days to maturity.</strong> Calendar estimates assume ideal warmth.</li>
+      <li><strong>Ignoring risk margin.</strong> Borderline results are sensitive to variation.</li>
+      <li><strong>Forgetting microclimates.</strong> Local elevation and exposure can shift frost timing.</li>
+      <li><strong>Planting too late.</strong> Later planting compresses the heat window.</li>
+    </ul>
+  
+    <p>
+      If you are evaluating late-season planting, see
+      <a href="/guides/when-is-it-too-late-to-plant-for-fall-harvest/">When Is It Too Late to Plant for Fall Harvest?</a>.
+    </p>
+  </section>
+  
+  <section class="card" aria-label="Why this is more reliable than planting calendars">
+    <h2>Why This is More Reliable Than Planting Calendars</h2>
+  
+    <p>
+      Generic planting calendars group large regions into zones
+      without accounting for seasonal heat accumulation.
+    </p>
+  
+    <p>
+      This planner evaluates:
+    </p>
+  
+    <p class="muted">
+      <strong>Planting Date → Seasonal GDD → Crop Requirement → First Frost Boundary → Risk Margin</strong>
+    </p>
+  
+    <p>
+      That sequence provides climate-specific feasibility modeling
+      rather than broad calendar guidance.
+    </p>
+  
+    <p>
+      For broader planning context, see
+      <a href="/guides/how-to-plan-a-garden-in-a-short-growing-season/">How to Plan a Garden in a Short Growing Season</a>.
+    </p>
+  </section>
+  
+  <section class="card" aria-label="When this tool is most useful">
+    <h2>When This Tool Is Most Useful</h2>
+  
+    <ul class="tight">
+      <li><strong>Short growing seasons</strong> where margin is narrow.</li>
+      <li><strong>High-elevation areas</strong> where heat accumulates slowly.</li>
+      <li><strong>Borderline crop decisions</strong> near your climatic limits.</li>
+      <li><strong>Evaluating new varieties</strong> with different heat requirements.</li>
+      <li><strong>Late-season planting decisions</strong> where heat window compression matters.</li>
+    </ul>
+  
+    <p>
+      If you are unsure of your frost boundary,
+      confirm it using the
+      <a href="/tools/first-frost-planner/">First Frost Planner</a>
+      before evaluating heat accumulation.
+    </p>
+  </section>
+  
+  <section class="card" aria-label="What this tool does not do">
+    <h2>What This Tool Does Not Do</h2>
+  
+    <p>
+      This planner does not use real-time weather data.
+      It does not predict the exact frost date for this year.
+    </p>
+  
+    <p>
+      It models a typical year using 1991–2020 climate normals
+      and a 32°F frost boundary at the 50% probability level.
+    </p>
+  
+    <p>
+      Year-to-year variation, unusual cold summers,
+      or microclimate effects can shift outcomes.
+      Use results as a structured baseline — not a guarantee.
+    </p>
+  </section>
+  
+  <section class="card" aria-label="Frequently Asked Questions">
+    <h2>Frequently Asked Questions</h2>
+  
+    <details>
+      <summary>Is this tool predicting weather this year?</summary>
+      <p>
+        No. This planner uses historical climate normals (1991–2020)
+        to model a typical year.
+        It does not track real-time weather.
       </p>
-    </div>
-
-    <div class="muted">
-      <div class="pill">3</div>
-      <p style="margin:6px 0 0;"><strong>Unlikely</strong></p>
-      <p class="small" style="margin:6px 0 0;">
-        Required GDD extends beyond the frost boundary.
-        The crop may not reliably mature in a typical year.
-        Choosing a lower heat-demand crop improves feasibility.
+    </details>
+  
+    <details>
+      <summary>What if my maturity date is only a few days before frost?</summary>
+      <p>
+        Results that fall within a narrow margin of first frost
+        carry higher sensitivity to seasonal variation.
+        Earlier varieties or minor protection can improve reliability.
       </p>
-    </div>
-  </div>
-
-  <p class="small muted" style="margin-top:10px;">
-    Tip: If your garden typically frosts earlier than your regional average
-    (low spots, cold-air drainage, rural exposure),
-    plan as if frost arrives 7–14 days earlier to preserve a safety margin.
-  </p>
+    </details>
+  
+    <details>
+      <summary>Does elevation affect my result?</summary>
+      <p>
+        Yes. Higher elevations often accumulate heat more slowly.
+        See <a href="/guides/how-elevation-affects-growing-degree-days/">How Elevation Affects Growing Degree Days</a>.
+      </p>
+    </details>
+  
+    <details>
+      <summary>How do I find my first frost date?</summary>
+      <p>
+        Use the <a href="/tools/first-frost-planner/">First Frost Planner</a>
+        to identify your typical frost boundary.
+      </p>
+    </details>
+  </section>
+  
 </section>
-
-
-<section class="card" aria-label="Why Growing Degree Days matter">
-  <h2>Why Growing Degree Days Matter</h2>
-
-  <p>
-    Crops develop according to accumulated heat — not simply the number of calendar days that pass.
-  </p>
-
-  <p>
-    Growing Degree Days (GDD) quantify that heat accumulation using a base temperature
-    appropriate for the crop. For most warm-season crops, that base is
-    <strong>50°F (10°C)</strong>.
-  </p>
-
-  <p class="muted">
-    GDD = ((Daily High + Daily Low) ÷ 2) − Base Temperature
-  </p>
-
-  <p>
-    When daily averages exceed the base temperature,
-    heat units accumulate. When temperatures hover near or below that base,
-    development slows.
-  </p>
-
-  <p>
-    Two locations may share the same frost-free window,
-    yet accumulate very different total GDD before first frost.
-    That difference explains why one garden reliably ripens tomatoes
-    while another struggles, even with identical calendar timing.
-  </p>
-
-  <p>
-    Many short-season crop failures occur not because frost arrives early,
-    but because the seasonal heat budget never reaches the crop’s biological requirement.
-  </p>
-
-  <p>
-    For a deeper structural explanation, see
-    <a href="/guides/how-frost-dates-and-growing-degree-days-work-together/">
-      How Frost Dates and Growing Degree Days Work Together
-    </a>.
-  </p>
-</section>
-
-<section class="card" aria-label="Common Mistakes When Using GDD">
-  <h2>Common Mistakes When Using GDD</h2>
-
-  <ul>
-    <li><strong>Relying only on days to maturity.</strong> Calendar estimates assume ideal warmth.</li>
-    <li><strong>Ignoring risk margin.</strong> Borderline results are sensitive to variation.</li>
-    <li><strong>Forgetting microclimates.</strong> Local elevation and exposure can shift frost timing.</li>
-    <li><strong>Planting too late.</strong> Later planting compresses the heat window.</li>
-  </ul>
-
-  <p>
-    If you are evaluating late-season planting, see
-    <a href="/guides/when-is-it-too-late-to-plant-for-fall-harvest/">When Is It Too Late to Plant for Fall Harvest?</a>.
-  </p>
-</section>
-
-<section class="card" aria-label="Why this is more reliable than planting calendars">
-  <h2>Why This is More Reliable Than Planting Calendars</h2>
-
-  <p>
-    Generic planting calendars group large regions into zones
-    without accounting for seasonal heat accumulation.
-  </p>
-
-  <p>
-    This planner evaluates:
-  </p>
-
-  <p class="muted">
-    <strong>Planting Date → Seasonal GDD → Crop Requirement → First Frost Boundary → Risk Margin</strong>
-  </p>
-
-  <p>
-    That sequence provides climate-specific feasibility modeling
-    rather than broad calendar guidance.
-  </p>
-
-  <p>
-    For broader planning context, see
-    <a href="/guides/how-to-plan-a-garden-in-a-short-growing-season/">How to Plan a Garden in a Short Growing Season</a>.
-  </p>
-</section>
-
-<section class="card" aria-label="When this tool is most useful">
-  <h2>When This Tool Is Most Useful</h2>
-
-  <ul class="tight">
-    <li><strong>Short growing seasons</strong> where margin is narrow.</li>
-    <li><strong>High-elevation areas</strong> where heat accumulates slowly.</li>
-    <li><strong>Borderline crop decisions</strong> near your climatic limits.</li>
-    <li><strong>Evaluating new varieties</strong> with different heat requirements.</li>
-    <li><strong>Late-season planting decisions</strong> where heat window compression matters.</li>
-  </ul>
-
-  <p>
-    If you are unsure of your frost boundary,
-    confirm it using the
-    <a href="/tools/first-frost-planner/">First Frost Planner</a>
-    before evaluating heat accumulation.
-  </p>
-</section>
-
-<section class="card" aria-label="What this tool does not do">
-  <h2>What This Tool Does Not Do</h2>
-
-  <p>
-    This planner does not use real-time weather data.
-    It does not predict the exact frost date for this year.
-  </p>
-
-  <p>
-    It models a typical year using 1991–2020 climate normals
-    and a 32°F frost boundary at the 50% probability level.
-  </p>
-
-  <p>
-    Year-to-year variation, unusual cold summers,
-    or microclimate effects can shift outcomes.
-    Use results as a structured baseline — not a guarantee.
-  </p>
-</section>
-
-<section class="card" aria-label="Frequently Asked Questions">
-  <h2>Frequently Asked Questions</h2>
-
-  <details>
-    <summary>Is this tool predicting weather this year?</summary>
-    <p>
-      No. This planner uses historical climate normals (1991–2020)
-      to model a typical year.
-      It does not track real-time weather.
-    </p>
-  </details>
-
-  <details>
-    <summary>What if my maturity date is only a few days before frost?</summary>
-    <p>
-      Results that fall within a narrow margin of first frost
-      carry higher sensitivity to seasonal variation.
-      Earlier varieties or minor protection can improve reliability.
-    </p>
-  </details>
-
-  <details>
-    <summary>Does elevation affect my result?</summary>
-    <p>
-      Yes. Higher elevations often accumulate heat more slowly.
-      See <a href="/guides/how-elevation-affects-growing-degree-days/">How Elevation Affects Growing Degree Days</a>.
-    </p>
-  </details>
-
-  <details>
-    <summary>How do I find my first frost date?</summary>
-    <p>
-      Use the <a href="/tools/first-frost-planner/">First Frost Planner</a>
-      to identify your typical frost boundary.
-    </p>
-  </details>
-</section>
-
-<style>
-  .row { display: grid; gap: 10px; grid-template-columns: 1fr; }
-  .row > div { min-width: 0; }
-
-  label { font-weight: 600; }
-
-  input[type="date"], input[type="text"], input[type="number"], select {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid #ccc;
-    border-radius: 12px;
-    font: inherit;
-    box-sizing: border-box;
-  }
-
-  .small { font-size: 14px; opacity: .85; }
-  .muted { color: rgba(0, 0, 0, 0.75); }
-  .card + .card { margin-top: 14px; }
-
-  table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-  th, td { padding: 10px 8px; border-bottom: 1px solid #e5e5e5; text-align: left; vertical-align: top; }
-  th { font-weight: 700; }
-
-  .pill { display: inline-block; padding: 2px 8px; border: 1px solid #222; border-radius: 999px; font-size: 12px; opacity: .9; }
-  .warn { border: 1px solid #e3c46b; border-radius: 12px; padding: 10px 12px; background: #fff8e1; }
-
-  .btnRow { display:flex; align-items:end; gap:10px; flex-wrap: wrap; }
-
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px 14px;
-    border: 1px solid #111;
-    border-radius: 12px;
-    background: transparent;
-    cursor: pointer;
-    font: inherit;
-    line-height: 1.2;
-    white-space: nowrap;
-    box-sizing: border-box;
-  }
-  .btn:hover { opacity: .85; }
-
-  /* Normalize .button within btn rows to match the frost planner rhythm */
-  .btnRow .button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px 14px;
-    border-radius: 12px;
-    font: inherit;
-    line-height: 1.2;
-    white-space: nowrap;
-    box-sizing: border-box;
-  }
-
-  /* Crop checklist */
-  .cropList {
-    border: 1px solid var(--border, #ddd);
-    border-radius: 10px;
-    padding: 8px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px 10px;
-    max-height: none;
-    overflow: visible;
-  }
-  .cropPickRow { width: auto; display: inline-flex; }
-  .cropPickIcon { margin-right: 6px; }
-  .cropPickLabel:hover { background: rgba(0,0,0,0.04); }
-  .cropPickLabel input { flex: 0 0 auto; }
-  .cropPickName {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    white-space: nowrap;
-  }
-  .cropPickLabel {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 7px 10px;
-    border-radius: 999px;
-    cursor: pointer;
-    user-select: none;
-    border: 1px solid rgba(0,0,0,0.10);
-    background: rgba(0,0,0,0.02);
-    width: auto;
-  }
-
-  /* Multi-crop clarity in results */
-  .cropHeaderRow td { padding: 10px 12px; background: rgba(0,0,0,0.04); border-top: 1px solid rgba(0,0,0,0.08); }
-  .cropHeaderRow:first-child td { border-top: 0; }
-  .cropHeaderIcon { margin-right: 8px; }
-  .cropHeaderLink { font-weight: 700; text-decoration: none; }
-  .cropHeaderLink:hover { text-decoration: underline; }
-
-  /* Keep planner text “muted” without fading emoji/icons */
-  #gdd-resultsCard .muted,
-  #gdd-resultsCard .small { opacity: 1; }
-
-  /* Print: only print the results card */
-  @media print {
-    body * { visibility: hidden !important; }
-    #gdd-resultsCard, #gdd-resultsCard * { visibility: visible !important; }
-    #gdd-resultsCard {
-      position: absolute !important;
-      left: 0 !important;
-      top: 0 !important;
-      width: 100% !important;
-      display: block !important;
-      box-shadow: none !important;
-      border: none !important;
-    }
-    #gdd-resultsActions { display: none !important; }
-  }
-</style>
-
-<script type="module" src="/assets/js/gdd-planner.js"></script>

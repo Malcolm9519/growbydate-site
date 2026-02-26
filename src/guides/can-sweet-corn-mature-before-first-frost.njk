@@ -31,6 +31,18 @@ isGuide: true
   </p>
 </section>
 
+
+
+{# Embedded tool: GDD Planner widget (defaults to sweet corn) #}
+{% set gddWidget = {
+  mode: "single-crop",
+  cropDefault: "corn-sweet",
+  dateDefault: "today",
+  hideDate: false,
+  hideCrops: true
+} %}
+{% include "tools/gdd-planner-widget.njk" %}
+
 <section class="card" aria-label="What sweet corn requires to mature">
   <h2>What sweet corn requires</h2>
   <p>

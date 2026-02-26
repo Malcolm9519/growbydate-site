@@ -1,0 +1,221 @@
+{#
+  GrowByDate — GDD Planner Widget (embed-safe)
+  - UI only (no H1 / long explanation)
+  - Includes build-time JSON data scripts needed by the widget JS
+  - Option A: loads JS here so embeds work without page-level script management
+
+  Optional per-embed config:
+    {% set gddWidget = {
+      mode: "default" | "late-season" | "single-crop",
+      cropDefault: "corn-sweet" (comma/pipe/space separated; can be siteId, site slug, or gdd slug),
+      dateDefault: "today" | "MM-DD" | "YYYY-MM-DD",
+      hideDate: true|false,
+      hideCrops: true|false
+    } %}
+#}
+
+{% set cfg = gddWidget or {} %}
+
+<div
+  class="toolRoot"
+  data-tool="gdd-planner"
+  {% if cfg.mode %}data-mode="{{ cfg.mode }}"{% endif %}
+  {% if cfg.cropDefault %}data-crop-default="{{ cfg.cropDefault }}"{% endif %}
+  {% if cfg.dateDefault %}data-date-default="{{ cfg.dateDefault }}"{% endif %}
+  {% if cfg.hideDate is defined %}data-hide-date="{{ cfg.hideDate }}"{% endif %}
+  {% if cfg.hideCrops is defined %}data-hide-crops="{{ cfg.hideCrops }}"{% endif %}
+>
+
+  {# Embedded canonical build-time data (scoped to this widget instance) #}
+  <script type="application/json" data-site-crops>{{ crops | dump | safe }}</script>
+  <script type="application/json" data-gdd-crops>{{ gddCrops | dump | safe }}</script>
+
+  <section class="card" aria-label="Growing degree day planner">
+    <h2 data-role="widgetTitle">Start Here</h2>
+    <p class="small" data-role="widgetIntro" style="opacity:0.86; margin-top:6px;">
+      Enter a <strong>5-digit ZIP</strong> (U.S.) or the <strong>first 3 characters</strong> of your postal code (Canada FSA), select one or more crops, and choose your planting date.
+    </p>
+
+    <div class="stack" style="margin-top:10px;">
+      <div data-role="locationWrap">
+        <label>ZIP / Postal</label>
+        <input type="text" data-role="location" placeholder="ZIP or Postal Code" autocomplete="postal-code" aria-label="ZIP or postal code">
+      </div>
+
+      <div data-role="cropWrap">
+        <label>Crops</label>
+        <div class="small" data-role="cropHelp">Select one or more crops.</div>
+        <div data-role="cropList" class="cropList"></div>
+      </div>
+
+      <div data-role="plantingWrap">
+        <label>Planting date</label>
+        <input type="date" data-role="planting" aria-label="Planting date">
+      </div>
+    </div>
+
+    <div class="btnRow" style="margin-top:12px;">
+      <button class="button primary" data-role="run" type="button">Estimate maturity</button>
+      <button class="btn" data-role="reset" type="button">Reset</button>
+      <div class="small muted" data-role="status" aria-live="polite" style="align-self:center;"></div>
+    </div>
+
+    <div class="warn" data-role="formWarn" style="display:none; margin-top:12px;" role="alert"></div>
+
+    <p class="small muted" style="margin-top:12px;">
+      Reminder: microclimates matter. Gardens in wind-sheltered low spots often frost earlier than the “average” for a ZIP or FSA.
+    </p>
+  </section>
+
+  <section class="card" data-role="resultsCard" style="display:none;" aria-label="Results">
+    <h2>Results</h2>
+
+    <div class="small">
+      <span class="pill">Planning tip</span>
+      This is a “typical year” estimate. For short seasons, aim to mature <strong>before</strong> the risk window — not inside it.
+    </div>
+
+    <table aria-label="GDD maturity estimate" style="margin-top:0.75rem;">
+      <tbody data-role="resultsBody"></tbody>
+    </table>
+
+    <div class="warn" data-role="riskBox" style="display:none; margin-top:12px;">
+      <div><strong data-role="riskLabel"></strong></div>
+      <div class="small" data-role="riskNote" style="margin-top:6px;"></div>
+    </div>
+
+    <p class="small muted" data-role="footnote" style="margin-top:12px;"></p>
+
+    <div class="btnRow" data-role="resultsActions" style="margin-top:12px;">
+      <button class="btn" data-role="copyBtn" type="button" style="display:none;">Copy results</button>
+      <button class="btn" data-role="printBtn" type="button" style="display:none;">Print</button>
+      <button class="btn" data-role="csvBtn" type="button" style="display:none;">Download CSV</button>
+      <button class="btn" data-role="txtBtn" type="button" style="display:none;">Download text</button>
+    </div>
+  </section>
+
+</div>
+
+{# Option A — load JS from inside the widget include #}
+<script type="module" src="/assets/js/gdd-planner.js"></script>
+
+{# Tool-scoped styles (moved here so embeds match the canonical tool page) #}
+<style>
+  .row { display: grid; gap: 10px; grid-template-columns: 1fr; }
+  .row > div { min-width: 0; }
+
+  label { font-weight: 600; }
+
+  input[type="date"], input[type="text"], input[type="number"], select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    font: inherit;
+    box-sizing: border-box;
+  }
+
+  .small { font-size: 14px; opacity: .85; }
+  .muted { color: rgba(0, 0, 0, 0.75); }
+  .card + .card { margin-top: 14px; }
+
+  table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+  th, td { padding: 10px 8px; border-bottom: 1px solid #e5e5e5; text-align: left; vertical-align: top; }
+  th { font-weight: 700; }
+
+  .pill { display: inline-block; padding: 2px 8px; border: 1px solid #222; border-radius: 999px; font-size: 12px; opacity: .9; }
+  .warn { border: 1px solid #e3c46b; border-radius: 12px; padding: 10px 12px; background: #fff8e1; }
+
+  .btnRow { display:flex; align-items:end; gap:10px; flex-wrap: wrap; }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 14px;
+    border: 1px solid #111;
+    border-radius: 12px;
+    background: transparent;
+    cursor: pointer;
+    font: inherit;
+    line-height: 1.2;
+    white-space: nowrap;
+    box-sizing: border-box;
+  }
+  .btn:hover { opacity: .85; }
+
+  /* Normalize .button within btn rows to match the frost planner rhythm */
+  .btnRow .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 14px;
+    border-radius: 12px;
+    font: inherit;
+    line-height: 1.2;
+    white-space: nowrap;
+    box-sizing: border-box;
+  }
+
+  /* Crop checklist */
+  .cropList {
+    border: 1px solid var(--border, #ddd);
+    border-radius: 10px;
+    padding: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 10px;
+    max-height: none;
+    overflow: visible;
+  }
+  .cropPickRow { width: auto; display: inline-flex; }
+  .cropPickIcon { margin-right: 6px; }
+  .cropPickLabel:hover { background: rgba(0,0,0,0.04); }
+  .cropPickLabel input { flex: 0 0 auto; }
+  .cropPickName {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+  }
+  .cropPickLabel {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 10px;
+    border-radius: 999px;
+    cursor: pointer;
+    user-select: none;
+    border: 1px solid rgba(0,0,0,0.10);
+    background: rgba(0,0,0,0.02);
+    width: auto;
+  }
+
+  /* Multi-crop clarity in results */
+  .cropHeaderRow td { padding: 10px 12px; background: rgba(0,0,0,0.04); border-top: 1px solid rgba(0,0,0,0.08); }
+  .cropHeaderRow:first-child td { border-top: 0; }
+  .cropHeaderIcon { margin-right: 8px; }
+  .cropHeaderLink { font-weight: 700; text-decoration: none; }
+  .cropHeaderLink:hover { text-decoration: underline; }
+
+  /* Keep planner text “muted” without fading emoji/icons */
+  [data-tool="gdd-planner"] [data-role="resultsCard"] .muted,
+  [data-tool="gdd-planner"] [data-role="resultsCard"] .small { opacity: 1; }
+
+  /* Print: only print the results card */
+  @media print {
+    body * { visibility: hidden !important; }
+    [data-tool="gdd-planner"] [data-role="resultsCard"],
+    [data-tool="gdd-planner"] [data-role="resultsCard"] * { visibility: visible !important; }
+    [data-tool="gdd-planner"] [data-role="resultsCard"] {
+      position: absolute !important;
+      left: 0 !important;
+      top: 0 !important;
+      width: 100% !important;
+      display: block !important;
+      box-shadow: none !important;
+      border: none !important;
+    }
+    [data-tool="gdd-planner"] [data-role="resultsActions"] { display: none !important; }
+  }
+</style>
