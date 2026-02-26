@@ -20,8 +20,8 @@
 
 {% set cfg = gddWidget or {} %}
 
-{% set hasCustomTitle = (cfg.widgetTitle is defined) and (cfg.widgetTitle | trim) %}
-{% set hasCustomLede  = (cfg.widgetLede  is defined) and (cfg.widgetLede  | trim) %}
+data-has-custom-title="{% if hasCustomTitle %}true{% else %}false{% endif %}"
+data-has-custom-lede="{% if hasCustomLede %}true{% else %}false{% endif %}"
 
 {# --- Booleans (handles true/false or "true"/"false") --- #}
 {% set hideCrops = (cfg.hideCrops == true) or (cfg.hideCrops == "true") %}
