@@ -20,9 +20,6 @@
 
 {% set cfg = gddWidget or {} %}
 
-data-has-custom-title="{% if hasCustomTitle %}true{% else %}false{% endif %}"
-data-has-custom-lede="{% if hasCustomLede %}true{% else %}false{% endif %}"
-
 {# --- Booleans (handles true/false or "true"/"false") --- #}
 {% set hideCrops = (cfg.hideCrops == true) or (cfg.hideCrops == "true") %}
 {% set hideDate = (cfg.hideDate == true) or (cfg.hideDate == "true") %}
