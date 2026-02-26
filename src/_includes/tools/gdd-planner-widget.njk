@@ -82,19 +82,17 @@ data-has-custom-lede="{% if hasCustomLede %}true{% else %}false{% endif %}"
 <div
   class="toolRoot"
   data-tool="gdd-planner"
-  ...
-  data-has-custom-title="{% if hasCustomTitle %}true{% else %}false{% endif %}"
-  data-has-custom-lede="{% if hasCustomLede %}true{% else %}false{% endif %}"
+
+  {# tell JS whether copy is custom #}
+  data-has-custom-title="{{ 'true' if (cfg.widgetTitle is defined) and (cfg.widgetTitle | trim) else 'false' }}"
+  data-has-custom-lede="{{ 'true' if (cfg.widgetLede is defined) and (cfg.widgetLede | trim) else 'false' }}"
 
   {% if cfg.mode %}data-mode="{{ cfg.mode }}"{% endif %}
   {% if cfg.cropDefault %}data-crop-default="{{ cfg.cropDefault }}"{% endif %}
   {% if cfg.dateDefault %}data-date-default="{{ cfg.dateDefault }}"{% endif %}
   {% if cfg.hideDate is defined %}data-hide-date="{{ cfg.hideDate }}"{% endif %}
   {% if cfg.hideCrops is defined %}data-hide-crops="{{ cfg.hideCrops }}"{% endif %}
-
-  {# ✅ NEW: tell JS whether copy is custom #}
-data-has-custom-title="{{ 'true' if (cfg.widgetTitle is defined) and (cfg.widgetTitle | trim) else 'false' }}"
-data-has-custom-lede="{{ 'true' if (cfg.widgetLede is defined) and (cfg.widgetLede | trim) else 'false' }}">
+>
 
   {# Embedded canonical build-time data (scoped to this widget instance) #}
   <script type="application/json" data-site-crops>{{ crops | dump | safe }}</script>
