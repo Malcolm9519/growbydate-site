@@ -42,8 +42,7 @@
     {% set cropLabel = "Zucchini" %}
   {% elif "pumpkin" in cropKey %}
     {% set cropLabel = "Pumpkin" %}
-  {% elif "winter-squash" in cropKey or ("squash" in cropKey and "summer" not in cropKey) %}
-    {% set cropLabel = "Winter Squash" %}
+{% elif "winter-squash" in cropKey or ("squash" in cropKey and (not ("summer" in cropKey))) %}    {% set cropLabel = "Winter Squash" %}
   {% elif "corn" in cropKey %}
     {% set cropLabel = "Sweet Corn" %}
   {% elif "bean" in cropKey %}
