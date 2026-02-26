@@ -569,6 +569,7 @@ if (widgetTitleEl && !hasCustomTitle) {
 }
 
 if (widgetIntroEl && !hasCustomLede) {
+  const cropNameLower = (cropName || "this crop").toLowerCase();
   widgetIntroEl.innerHTML = `Enter your ZIP / Postal and planting date to see whether ${cropNameLower} can typically mature before first fall frost.`;
 }
   }
