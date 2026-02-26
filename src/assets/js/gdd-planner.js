@@ -493,6 +493,12 @@ async function initWidget(root) {
   const widgetTitleEl = q('[data-role="widgetTitle"]');
   const widgetIntroEl = q('[data-role="widgetIntro"]');
 
+  // If the embed provided custom copy (via gddWidget.widgetTitle / widgetLede),
+// the template will set data-has-custom-title/lede on the root.
+// In that case, DO NOT overwrite on init.
+const hasCustomTitle = root.dataset.hasCustomTitle === "true";
+const hasCustomLede  = root.dataset.hasCustomLede === "true";
+
   // --- Elements (data-role based)
   const locEl = q('[data-role="location"]');
   const cropHelpEl = q('[data-role="cropHelp"]');
