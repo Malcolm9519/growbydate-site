@@ -80,7 +80,7 @@
   class="toolRoot"
   data-tool="gdd-planner"
 
-  {# tell JS whether copy is custom #}
+  {# Tell JS whether copy is custom (so it won’t overwrite on init) #}
   data-has-custom-title="{{ 'true' if (cfg.widgetTitle is defined) and (cfg.widgetTitle | trim) else 'false' }}"
   data-has-custom-lede="{{ 'true' if (cfg.widgetLede is defined) and (cfg.widgetLede | trim) else 'false' }}"
 
@@ -163,7 +163,9 @@
 </div>
 
 {# Option A — load JS from inside the widget include #}
-<script type="module" src="/assets/js/gdd-planner.js"></script>
+<script defer src="/assets/js/frost-lookup.js"></script>
+<script defer src="/assets/js/gdd-lookup.js"></script>
+<script defer src="/assets/js/gdd-planner.js"></script>
 
 {# Tool-scoped styles (moved here so embeds match the canonical tool page) #}
 <style>

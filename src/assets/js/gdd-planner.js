@@ -18,8 +18,14 @@
        crop supports comma-separated or repeated crop params
 */
 
-import { lookupFrost, formatMmddLong } from "/assets/js/frost-lookup.js";
-import { lookupStationId, loadStationSeries } from "/assets/js/gdd-lookup.js";
+const lookupFrost = window.lookupFrost;
+const formatMmddLong = window.formatMmddLong;
+const lookupStationId = window.lookupStationId;
+const loadStationSeries = window.loadStationSeries;
+
+if (!lookupFrost || !lookupStationId) {
+  console.error("[gdd-planner] Dependencies missing. Check script order.");
+}
 
 const MONTHS = [
   "January","February","March","April","May","June",
@@ -870,3 +876,4 @@ function initAll() {
     initAll();
   }
 })();
+
