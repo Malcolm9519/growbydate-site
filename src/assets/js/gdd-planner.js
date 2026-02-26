@@ -502,8 +502,8 @@ async function initWidget(root) {
   // If the embed provided custom copy (via gddWidget.widgetTitle / widgetLede),
 // the template will set data-has-custom-title/lede on the root.
 // In that case, DO NOT overwrite on init.
-const hasCustomTitle = root.dataset.hasCustomTitle === "true";
-const hasCustomLede  = root.dataset.hasCustomLede === "true";
+  const hasCustomTitle = root.dataset.hasCustomTitle === "true";
+  const hasCustomLede  = root.dataset.hasCustomLede === "true";
 
   // --- Elements (data-role based)
   const locEl = q('[data-role="location"]');
@@ -555,25 +555,29 @@ const hasCustomLede  = root.dataset.hasCustomLede === "true";
     cropWrapEl
   });
 
-  // Optional single-crop copy tweaks
-  {
-    const cfg = root.dataset || {};
-    const hideCrops = normalizeBool(cfg.hideCrops) || String(cfg.mode || "").toLowerCase() === "single-crop";
-    if (hideCrops && (widgetTitleEl || widgetIntroEl)) {
-      const chosen = selectedCropIds(cropListEl);
-      const first = chosen[0] || parseCropList(cfg.cropDefault)[0] || "";
-      const crop = toolCrops.find(c => c.siteId === first || c.slug === first || c.gddSlug === first);
-      const cropName = crop?.name || "this crop";
-if (widgetTitleEl && !hasCustomTitle) {
-  widgetTitleEl.textContent = `Check ${cropName} Timing`; // <- capitalize here too
-}
+// Optional single-crop copy tweaks
+{
+  const cfg = root.dataset || {};
+  const hideCrops =
+    normalizeBool(cfg.hideCrops) || String(cfg.mode || "").toLowerCase() === "single-crop";
 
-if (widgetIntroEl && !hasCustomLede) {
-  const cropNameLower = (cropName || "this crop").toLowerCase();
-  widgetIntroEl.innerHTML = `Enter your ZIP / Postal and planting date to see whether ${cropNameLower} can typically mature before first fall frost.`;
-}
+  if (hideCrops && (widgetTitleEl || widgetIntroEl)) {
+    const chosen = selectedCropIds(cropListEl);
+    const first = chosen[0] || parseCropList(cfg.cropDefault)[0] || "";
+    const crop = toolCrops.find((c) => c.siteId === first || c.slug === first || c.gddSlug === first);
+    const cropName = crop?.name || "this crop";
+
+    if (widgetTitleEl && !hasCustomTitle) {
+      widgetTitleEl.textContent = `Check ${cropName} Timing`;
+    }
+
+    if (widgetIntroEl && !hasCustomLede) {
+      const cropNameLower = (cropName || "this crop").toLowerCase();
+      widgetIntroEl.innerHTML =
+        `Enter your ZIP / Postal and planting date to see whether ${cropNameLower} can typically mature before first fall frost.`;
+    }
   }
-
+}
   // Widget-scoped last plan for actions
   let lastPlan = null; // { meta, rows }
 
@@ -877,4 +881,3 @@ function initAll() {
     initAll();
   }
 })();
-
