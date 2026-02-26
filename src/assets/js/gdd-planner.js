@@ -490,14 +490,8 @@ async function initWidget(root) {
   const q = (sel) => root.querySelector(sel);
 
   // Optional text hooks (for embeds)
-if (widgetTitleEl && !hasCustomTitle) {
-  widgetTitleEl.textContent = `Check ${cropName} Timing`; // ✅ capital T
-}
-
-if (widgetIntroEl && !hasCustomLede) {
-  widgetIntroEl.innerHTML =
-    `Enter your <strong>ZIP / Postal</strong> and planting date to see whether <strong>${escapeHtml(cropName)}</strong> can typically mature before first fall frost.`;
-}
+  const widgetTitleEl = q('[data-role="widgetTitle"]');
+  const widgetIntroEl = q('[data-role="widgetIntro"]');
 
   // If the embed provided custom copy (via gddWidget.widgetTitle / widgetLede),
 // the template will set data-has-custom-title/lede on the root.
