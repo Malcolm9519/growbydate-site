@@ -84,6 +84,10 @@
   {% if cfg.dateDefault %}data-date-default="{{ cfg.dateDefault }}"{% endif %}
   {% if cfg.hideDate is defined %}data-hide-date="{{ cfg.hideDate }}"{% endif %}
   {% if cfg.hideCrops is defined %}data-hide-crops="{{ cfg.hideCrops }}"{% endif %}
+
+  {# ✅ NEW: tell JS whether copy is custom #}
+  data-has-custom-title="{{ (cfg.widgetTitle is defined) and (cfg.widgetTitle | trim) ? 'true' : 'false' }}"
+  data-has-custom-lede="{{ (cfg.widgetLede is defined) and (cfg.widgetLede | trim) ? 'true' : 'false' }}"
 >
 
   {# Embedded canonical build-time data (scoped to this widget instance) #}
