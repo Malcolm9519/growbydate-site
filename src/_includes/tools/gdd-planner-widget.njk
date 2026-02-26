@@ -10,11 +10,68 @@
       cropDefault: "corn-sweet" (comma/pipe/space separated; can be siteId, site slug, or gdd slug),
       dateDefault: "today" | "MM-DD" | "YYYY-MM-DD",
       hideDate: true|false,
-      hideCrops: true|false
+      hideCrops: true|false,
+
+      // Optional copy overrides (recommended for SEO/article embeds)
+      widgetTitle: "Check Tomato Timing",
+      widgetLede: "Enter your ZIP / Postal and planting date to see whether tomatoes can typically mature before first fall frost."
     } %}
 #}
 
 {% set cfg = gddWidget or {} %}
+
+{# --- Derive a human-friendly crop label for single-crop embeds --- #}
+{% set cropKey = (cfg.cropDefault or "") | lower %}
+{% set cropLabel =
+  "this crop"
+  if not cropKey
+  else (
+    "Tomato"
+    if "tomato" in cropKey
+    else "Pepper"
+    if "pepper" in cropKey
+    else "Cucumber"
+    if "cucumber" in cropKey
+    else "Zucchini"
+    if "zucchini" in cropKey
+    else "Pumpkin"
+    if "pumpkin" in cropKey
+    else "Winter Squash"
+    if "winter-squash" in cropKey or ("squash" in cropKey and "summer" not in cropKey)
+    else "Sweet Corn"
+    if "corn" in cropKey
+    else "Bean"
+    if "bean" in cropKey
+    else "Pea"
+    if "pea" in cropKey
+    else "Carrot"
+    if "carrot" in cropKey
+    else "Beet"
+    if "beet" in cropKey
+    else "Lettuce"
+    if "lettuce" in cropKey
+    else "Broccoli"
+    if "broccoli" in cropKey
+    else "Cabbage"
+    if "cabbage" in cropKey
+    else "Cauliflower"
+    if "cauliflower" in cropKey
+    else "Spinach"
+    if "spinach" in cropKey
+    else "Kale"
+    if "kale" in cropKey
+    else "your crop"
+  )
+%}
+
+{# --- Default copy (can be overridden by cfg.widgetTitle / cfg.widgetLede) --- #}
+{% set isSingle = (cfg.hideCrops == true) or (cfg.hideCrops == "true") %}
+{% set defaultTitle = ("Check " ~ cropLabel ~ " Timing") if isSingle else "Start Here" %}
+{% set defaultLede =
+  ("Enter your ZIP / Postal and planting date to see whether " ~ cropLabel ~ " can typically mature before first fall frost.")
+  if isSingle
+  else "Enter a <strong>5-digit ZIP</strong> (U.S.) or the <strong>first 3 characters</strong> of your postal code (Canada FSA), select one or more crops, and choose your planting date."
+%}
 
 <div
   class="toolRoot"
@@ -31,9 +88,10 @@
   <script type="application/json" data-gdd-crops>{{ gddCrops | dump | safe }}</script>
 
   <section class="card" aria-label="Growing degree day planner">
-    <h2 data-role="widgetTitle">Start Here</h2>
+    <h2 data-role="widgetTitle">{{ cfg.widgetTitle or defaultTitle }}</h2>
+
     <p class="small" data-role="widgetIntro" style="opacity:0.86; margin-top:6px;">
-      Enter a <strong>5-digit ZIP</strong> (U.S.) or the <strong>first 3 characters</strong> of your postal code (Canada FSA), select one or more crops, and choose your planting date.
+      {{ cfg.widgetLede or defaultLede | safe }}
     </p>
 
     <div class="stack" style="margin-top:10px;">
