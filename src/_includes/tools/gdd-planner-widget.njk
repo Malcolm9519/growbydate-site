@@ -93,9 +93,8 @@ data-has-custom-lede="{% if hasCustomLede %}true{% else %}false{% endif %}"
   {% if cfg.hideCrops is defined %}data-hide-crops="{{ cfg.hideCrops }}"{% endif %}
 
   {# ✅ NEW: tell JS whether copy is custom #}
-  data-has-custom-title="{{ (cfg.widgetTitle is defined) and (cfg.widgetTitle | trim) ? 'true' : 'false' }}"
-  data-has-custom-lede="{{ (cfg.widgetLede is defined) and (cfg.widgetLede | trim) ? 'true' : 'false' }}"
->
+data-has-custom-title="{{ 'true' if (cfg.widgetTitle is defined) and (cfg.widgetTitle | trim) else 'false' }}"
+data-has-custom-lede="{{ 'true' if (cfg.widgetLede is defined) and (cfg.widgetLede | trim) else 'false' }}">
 
   {# Embedded canonical build-time data (scoped to this widget instance) #}
   <script type="application/json" data-site-crops>{{ crops | dump | safe }}</script>
