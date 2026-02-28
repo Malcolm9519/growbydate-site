@@ -644,7 +644,9 @@
     2
    ],
    "relatedTools": [
-    "growing-degree-day-planner"
+      "gdd-planner",
+      "seed-start-planner",
+      "first-frost-planner"
   ]
   }
 ]
