@@ -238,6 +238,29 @@ th {
   display: none;
 }
 
+/* Pill styling for links + dropdown summaries */
+.siteNav a,
+.siteNav summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+  text-decoration: none;
+  color: inherit;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.siteNav a:hover,
+.siteNav summary:hover {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+/* Subtle emphasis for the primary tool link */
+.siteNav a.primaryLink {
+  border-color: rgba(59, 188, 61, 0.45);
+  background: rgba(59, 188, 61, 0.12);
+}
+
 /* Dropdown panel */
 .navpanel {
   position: absolute;
