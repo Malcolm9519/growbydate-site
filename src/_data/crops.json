@@ -616,4 +616,35 @@
       "first-frost-planner"
     ]
   }
+{
+  "id": "pumpkin",
+  "name": "Pumpkin",
+  "slug": "pumpkin",
+  "order": 22,
+  "indexBlurb": "Warm-season crop with a big heat demand—timing is all about beating first frost.",
+  "description": "Pumpkins need sustained warmth to size up and ripen. In short seasons, success comes from starting early, choosing smaller/earlier varieties, and using first frost + GDD to confirm you have enough seasonal heat.",
+  "tagline": "High heat demand—start early, finish before frost.",
+  "lede": "Pumpkins are a warm-season crop that can run out of season fast in short growing areas. The key is getting established early (often with a short indoor head start) and choosing varieties that can reliably reach maturity before your typical first fall frost.",
+  "seasonType": "warm",
+  "frostTolerance": "tender (damaged by frost; vines and fruit quality drop quickly after a hard freeze)",
+  "daysToMaturity": [
+    85,
+    120
+  ],
+  "indoorStartWeeks": [
+    2,
+    4
+  ],
+  "transplantWeeks": [
+    1,
+    3
+  ],
+  "directSowWeeks": [
+    0,
+    2
+  ],
+  "relatedTools": [
+    "growing-degree-day-planner",
+  ]
+}
 ]
