@@ -238,27 +238,40 @@ th {
   display: none;
 }
 
-/* Pill styling for links + dropdown summaries */
+/* Clean, no-pill nav items */
 .siteNav a,
 .siteNav summary {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 8px 10px;
+  padding: 8px 10px;          /* keeps height consistent */
+  border: 0;                  /* remove button border */
+  border-radius: 0;           /* remove pill shape */
+  background: transparent;    /* remove button fill */
   text-decoration: none;
   color: inherit;
-  background: rgba(255, 255, 255, 0.72);
 }
 
+/* Simple “text-nav” hover/active affordance */
 .siteNav a:hover,
 .siteNav summary:hover {
-  background: rgba(255, 255, 255, 0.9);
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
-/* Subtle emphasis for the primary tool link */
+/* Keyboard focus (important once you remove borders) */
+.siteNav a:focus-visible,
+.siteNav summary:focus-visible {
+  outline: 2px solid rgba(0, 0, 0, 0.45);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* Remove the special pill emphasis */
 .siteNav a.primaryLink {
-  border-color: rgba(59, 188, 61, 0.45);
-  background: rgba(59, 188, 61, 0.12);
+  border: 0;
+  background: transparent;
+  font-weight: 600; /* optional: keep a subtle emphasis */
 }
 
 /* Dropdown panel */
