@@ -299,32 +299,71 @@ isGuide: true
     and planning around the 50% date carries less uncertainty.
   </p>
 
-  <section class="card frost-visual">
-
+<section class="card frost-visual">
   <h3>Percentile Spread Comparison</h3>
 
   <div class="spread-compare">
 
     <div class="city">
       <h4>City A (Narrow Spread)</h4>
-      <div class="bar">
-        <span class="marker p10">10%<br>Sept 25</span>
-        <span class="marker p50">50%<br>Sept 30</span>
-        <span class="marker p90">90%<br>Oct 5</span>
+
+      <div class="spread-bar" role="img" aria-label="City A frost percentile spread: 10% Sept 25, 50% Sept 30, 90% Oct 5">
+        <div class="spread-fill"></div>
+
+        <span class="tick t10" aria-hidden="true"></span>
+        <span class="tick t50" aria-hidden="true"></span>
+        <span class="tick t90" aria-hidden="true"></span>
+
+        <div class="marker p10">
+          <div class="pct">10%</div>
+          <div class="date">Sept 25</div>
+        </div>
+
+        <div class="marker p50">
+          <div class="pct">50%</div>
+          <div class="date"><strong>Sept 30</strong></div>
+        </div>
+
+        <div class="marker p90">
+          <div class="pct">90%</div>
+          <div class="date">Oct 5</div>
+        </div>
       </div>
     </div>
 
     <div class="city">
       <h4>City B (Wide Spread)</h4>
-      <div class="bar wide">
-        <span class="marker p10">10%<br>Sept 15</span>
-        <span class="marker p50">50%<br>Sept 30</span>
-        <span class="marker p90">90%<br>Oct 15</span>
+
+      <div class="spread-bar wide" role="img" aria-label="City B frost percentile spread: 10% Sept 15, 50% Sept 30, 90% Oct 15">
+        <div class="spread-fill"></div>
+
+        <span class="tick t10" aria-hidden="true"></span>
+        <span class="tick t50" aria-hidden="true"></span>
+        <span class="tick t90" aria-hidden="true"></span>
+
+        <div class="marker p10">
+          <div class="pct">10%</div>
+          <div class="date">Sept 15</div>
+        </div>
+
+        <div class="marker p50">
+          <div class="pct">50%</div>
+          <div class="date"><strong>Sept 30</strong></div>
+        </div>
+
+        <div class="marker p90">
+          <div class="pct">90%</div>
+          <div class="date">Oct 15</div>
+        </div>
       </div>
     </div>
 
   </div>
 
+  <p class="muted" style="margin-top:0.75rem;">
+    The spread between 10% and 90% reflects how volatile frost timing is.
+    Two places can share the same 50% date but have very different risk.
+  </p>
 </section>
 
   <h3>Understanding Variability Without Heavy Math</h3>
@@ -442,28 +481,35 @@ isGuide: true
 
   <h2>How 50% Frost Probability Interacts With Growing Degree Days</h2>
 
-  <section class="card frost-gdd-visual">
-
+<section class="card frost-gdd-visual">
   <h3>Frost Date and Growing Degree Days</h3>
 
-  <div class="chart">
+  <div class="gdd-chart" role="img" aria-label="Diagram showing accumulated growing degree days increasing over time, with 10% and 50% frost percentile dates and a crop maturity requirement line">
+    <div class="axis-label y">Accumulated Growing Degree Days (GDD)</div>
+    <div class="axis-label x">Calendar Date</div>
 
-    <div class="gdd-curve"></div>
-
-    <div class="frost-line p10">
-      <span>10% Frost</span>
-    </div>
-
-    <div class="frost-line p50">
-      <span>50% Frost</span>
-    </div>
-
+    <!-- Crop maturity line -->
     <div class="maturity-line">
-      <span>Crop Maturity</span>
+      <span>Crop maturity requirement</span>
     </div>
 
+    <!-- Frost percentile lines -->
+    <div class="frost-line p10"><span>10% Frost</span></div>
+    <div class="frost-line p50"><span>50% Frost</span></div>
+
+    <!-- Rising GDD curve (always increasing) -->
+    <svg class="gdd-curve" viewBox="0 0 1000 350" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M 0 340
+               C 120 220, 260 170, 420 140
+               C 580 115, 720 90, 860 70
+               C 930 60, 970 55, 1000 50"
+            fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+    </svg>
   </div>
 
+  <p class="muted" style="margin-top:0.75rem;">
+    Frost probability defines the boundary. GDD determines whether your crop can reach maturity before that boundary arrives.
+  </p>
 </section>
 
   <p>

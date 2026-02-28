@@ -427,60 +427,133 @@ th {
   background: #f5f5f5;
 }
 
-.chart {
+/* --- Percentile spread visual --- */
+.frost-visual .spread-compare .city { margin-top: 1.25rem; }
+
+.spread-bar {
   position: relative;
-  height: 250px;
-  border-left: 2px solid #444;
-  border-bottom: 2px solid #444;
-  margin: 2rem 0;
+  height: 14px;            /* thicker baseline */
+  background: #d9d9d9;     /* slightly darker */
+  border-radius: 999px;
+  margin: 2.25rem 0 1.5rem;
+  overflow: visible;
 }
 
-.gdd-curve {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 80%;
-  height: 70%;
-  border-top: 3px solid #2c7;
-  border-right: 3px solid transparent;
-  border-radius: 50% 50% 0 0;
-}
-
-.frost-line {
+/* subtle shaded band between 10% and 90% */
+.spread-bar .spread-fill {
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 2px;
-  background: #c33;
+  left: 10%;
+  width: 80%;
+  background: rgba(0,0,0,0.06);
+  border-radius: 999px;
 }
 
-.p10 { left: 40%; }
-.p50 { left: 60%; }
+/* ticks */
+.spread-bar .tick {
+  position: absolute;
+  top: -6px;
+  width: 2px;
+  height: 26px;
+  background: rgba(0,0,0,0.35);
+  transform: translateX(-50%);
+}
+.spread-bar .tick.t10 { left: 10%; }
+.spread-bar .tick.t50 { left: 50%; background: rgba(0,0,0,0.55); height: 30px; top: -8px; }
+.spread-bar .tick.t90 { left: 90%; }
 
-.maturity-line {
+/* markers */
+.spread-bar .marker {
+  position: absolute;
+  top: -2.1rem;
+  transform: translateX(-50%);
+  text-align: center;
+  font-size: 0.9rem;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+.spread-bar .marker .pct { font-weight: 600; }
+.spread-bar .marker .date { opacity: 0.95; }
+
+.spread-bar .marker.p10 { left: 10%; }
+.spread-bar .marker.p50 { left: 50%; }
+.spread-bar .marker.p90 { left: 90%; }
+
+/* emphasize the median label slightly */
+.spread-bar .marker.p50 .pct { font-weight: 800; }
+
+/* --- GDD interaction visual --- */
+.gdd-chart {
+  position: relative;
+  height: 320px;
+  margin: 1.5rem 0 0;
+  border-left: 3px solid rgba(0,0,0,0.7);
+  border-bottom: 3px solid rgba(0,0,0,0.7);
+  padding: 0.5rem 0.5rem 1.75rem 0.75rem;
+  overflow: hidden;
+}
+
+/* axis labels */
+.gdd-chart .axis-label {
+  position: absolute;
+  font-size: 0.9rem;
+  opacity: 0.85;
+}
+.gdd-chart .axis-label.y {
+  left: -0.25rem;
+  top: 0.25rem;
+  transform: translateX(-100%);
+  width: 220px;
+  text-align: right;
+}
+.gdd-chart .axis-label.x {
+  bottom: 0.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* maturity line */
+.gdd-chart .maturity-line {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 65%;
+  top: 42%;
   height: 2px;
-  background: #333;
+  background: rgba(0,0,0,0.7);
 }
-
-.spread-compare .bar {
-  position: relative;
-  height: 10px;
-  background: #ddd;
-  margin: 2rem 0;
-}
-
-.marker {
+.gdd-chart .maturity-line span {
   position: absolute;
-  top: -1.5rem;
-  transform: translateX(-50%);
-  font-size: 0.8rem;
-  text-align: center;
+  left: 0.75rem;
+  top: -1.35rem;
+  font-size: 0.95rem;
+  white-space: nowrap;
 }
 
-.p10 { left: 10%; }
-.p50 { left: 50%; font-weight: bold; }
-.p90 { left: 90%; }
+/* frost lines */
+.gdd-chart .frost-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: rgba(200,0,0,0.85);
+}
+.gdd-chart .frost-line span {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.gdd-chart .frost-line.p10 { left: 18%; }
+.gdd-chart .frost-line.p50 { left: 62%; width: 4px; } /* slightly stronger median */
+
+/* curve */
+.gdd-chart .gdd-curve {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 88%;
+  height: 85%;
+  color: #19c56b; /* keep if you want; otherwise remove for default */
+}
