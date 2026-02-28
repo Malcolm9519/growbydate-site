@@ -427,133 +427,137 @@ th {
   background: #f5f5f5;
 }
 
-/* --- Percentile spread visual --- */
-.frost-visual .spread-compare .city { margin-top: 1.25rem; }
+/* ============================= */
+/* Percentile Spread Comparison  */
+/* ============================= */
 
-.spread-bar {
+.frost-visual .city { margin-top: 1.25rem; }
+
+.spread-bar{
   position: relative;
-  height: 14px;            /* thicker baseline */
-  background: #d9d9d9;     /* slightly darker */
+  height: 14px;
+  background: #e6e6e6;
   border-radius: 999px;
   margin: 2.25rem 0 1.5rem;
-  overflow: visible;
 }
 
-/* subtle shaded band between 10% and 90% */
-.spread-bar .spread-fill {
+.spread-bar .spread-fill{
   position: absolute;
   top: 0;
   bottom: 0;
   left: 10%;
   width: 80%;
-  background: rgba(0,0,0,0.06);
+  background: rgba(0,0,0,0.10);
   border-radius: 999px;
 }
 
-/* ticks */
-.spread-bar .tick {
+.spread-bar .tick{
   position: absolute;
-  top: -6px;
+  top: -8px;
   width: 2px;
-  height: 26px;
-  background: rgba(0,0,0,0.35);
+  height: 30px;
+  background: rgba(0,0,0,0.4);
   transform: translateX(-50%);
 }
+
 .spread-bar .tick.t10 { left: 10%; }
-.spread-bar .tick.t50 { left: 50%; background: rgba(0,0,0,0.55); height: 30px; top: -8px; }
+.spread-bar .tick.t50 { left: 50%; background: rgba(0,0,0,0.6); }
 .spread-bar .tick.t90 { left: 90%; }
 
-/* markers */
-.spread-bar .marker {
+.spread-bar .marker{
   position: absolute;
-  top: -2.1rem;
+  top: -2.25rem;
   transform: translateX(-50%);
   text-align: center;
   font-size: 0.9rem;
-  line-height: 1.15;
+  line-height: 1.1;
   white-space: nowrap;
 }
+
 .spread-bar .marker .pct { font-weight: 600; }
-.spread-bar .marker .date { opacity: 0.95; }
 
 .spread-bar .marker.p10 { left: 10%; }
 .spread-bar .marker.p50 { left: 50%; }
 .spread-bar .marker.p90 { left: 90%; }
 
-/* emphasize the median label slightly */
 .spread-bar .marker.p50 .pct { font-weight: 800; }
 
-/* --- GDD interaction visual --- */
-.gdd-chart {
+
+/* ============================= */
+/* Frost + GDD Interaction Chart */
+/* ============================= */
+
+.gdd-chart{
   position: relative;
   height: 320px;
-  margin: 1.5rem 0 0;
+  margin: 1.75rem 0 0;
   border-left: 3px solid rgba(0,0,0,0.7);
   border-bottom: 3px solid rgba(0,0,0,0.7);
-  padding: 0.5rem 0.5rem 1.75rem 0.75rem;
+  padding: 0.5rem 0.5rem 2rem 0.75rem;
   overflow: hidden;
 }
 
-/* axis labels */
-.gdd-chart .axis-label {
+.gdd-chart .axis-label{
   position: absolute;
   font-size: 0.9rem;
   opacity: 0.85;
 }
-.gdd-chart .axis-label.y {
-  left: -0.25rem;
+
+.gdd-chart .axis-label.y{
+  left: 0;
   top: 0.25rem;
-  transform: translateX(-100%);
-  width: 220px;
+  transform: translateX(-110%);
+  width: 240px;
   text-align: right;
 }
-.gdd-chart .axis-label.x {
-  bottom: 0.25rem;
+
+.gdd-chart .axis-label.x{
+  bottom: 0.5rem;
   left: 50%;
   transform: translateX(-50%);
 }
 
-/* maturity line */
-.gdd-chart .maturity-line {
+.gdd-chart .maturity-line{
   position: absolute;
   left: 0;
   right: 0;
   top: 42%;
   height: 2px;
-  background: rgba(0,0,0,0.7);
+  background: rgba(0,0,0,0.6);
 }
-.gdd-chart .maturity-line span {
+
+.gdd-chart .maturity-line span{
   position: absolute;
   left: 0.75rem;
-  top: -1.35rem;
+  top: -1.4rem;
   font-size: 0.95rem;
   white-space: nowrap;
 }
 
-/* frost lines */
-.gdd-chart .frost-line {
+.gdd-chart .frost-line{
   position: absolute;
   top: 0;
   bottom: 0;
   width: 3px;
   background: rgba(200,0,0,0.85);
 }
-.gdd-chart .frost-line span {
+
+.gdd-chart .frost-line span{
   position: absolute;
-  top: 0.5rem;
+  top: 0.75rem;
   left: 0.5rem;
   font-weight: 600;
   white-space: nowrap;
 }
-.gdd-chart .frost-line.p10 { left: 18%; }
-.gdd-chart .frost-line.p50 { left: 62%; width: 4px; } /* slightly stronger median */
 
-/* curve */
-.gdd-chart .gdd-curve {
+.gdd-chart .frost-line.p10{ left: 18%; }
+.gdd-chart .frost-line.p50{ left: 62%; width: 4px; }
+
+.gdd-chart .gdd-curve{
   position: absolute;
   left: 0;
   bottom: 0;
   width: 88%;
   height: 85%;
-  color: #19c56b; /* keep if you want; otherwise remove for default */
+  color: #1db56f;
 }
