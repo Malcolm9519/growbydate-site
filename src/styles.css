@@ -505,19 +505,23 @@ th {
 
 .gdd-chart .axis-label.y{
   position: absolute;
-  left: 0;
-  top: 0.25rem;
-  transform: translateX(-110%);
-  width: 240px;
-  text-align: right;
+  left: -2.75rem;           /* controls distance from axis */
+  top: 50%;
+  transform: rotate(-90deg) translateY(50%);
+  transform-origin: left center;
   font-size: 0.9rem;
   opacity: 0.85;
+  white-space: nowrap;
 }
 
 .gdd-chart .axis-label.x{
-  bottom: 0.5rem;
+  position: absolute;
+  bottom: -1.75rem;        /* pushes below the axis line */
   left: 50%;
   transform: translateX(-50%);
+  font-size: 0.9rem;
+  opacity: 0.85;
+  white-space: nowrap;
 }
 
 .gdd-chart .maturity-line{
