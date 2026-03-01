@@ -504,11 +504,14 @@ th {
 }
 
 .gdd-chart .axis-label.y{
+  position: absolute;
   left: 0;
   top: 0.25rem;
   transform: translateX(-110%);
   width: 240px;
   text-align: right;
+  font-size: 0.9rem;
+  opacity: 0.85;
 }
 
 .gdd-chart .axis-label.x{
