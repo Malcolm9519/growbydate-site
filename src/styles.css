@@ -505,7 +505,7 @@ th {
 
 .gdd-chart .axis-label.y{
   position: absolute;
-  left: -1rem;                 /* distance from axis */
+  left: 3rem;                 /* distance from axis */
   top: 50%;
   transform: translateY(-50%) rotate(-90deg);
   transform-origin: center;
