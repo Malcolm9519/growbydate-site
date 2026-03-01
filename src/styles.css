@@ -490,7 +490,7 @@ th {
 .gdd-chart{
   position: relative;
   height: 320px;
-  margin: 1.75rem 0 0 3rem; /* add left margin for Y label */
+  margin: 1.75rem 0 2.5rem;
   border-left: 3px solid rgba(0,0,0,0.7);
   border-bottom: 3px solid rgba(0,0,0,0.7);
   padding: 0.5rem 0.5rem 2rem 0.75rem;
