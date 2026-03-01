@@ -505,10 +505,10 @@ th {
 
 .gdd-chart .axis-label.y{
   position: absolute;
-  left: -2.75rem;           /* controls distance from axis */
+  left: -3rem;                 /* distance from axis */
   top: 50%;
-  transform: rotate(-90deg) translateY(50%);
-  transform-origin: left center;
+  transform: translateY(-50%) rotate(-90deg);
+  transform-origin: center;
   font-size: 0.9rem;
   opacity: 0.85;
   white-space: nowrap;
@@ -516,7 +516,7 @@ th {
 
 .gdd-chart .axis-label.x{
   position: absolute;
-  bottom: -1.75rem;        /* pushes below the axis line */
+  bottom: -2.25rem;        /* slightly lower */
   left: 50%;
   transform: translateX(-50%);
   font-size: 0.9rem;
