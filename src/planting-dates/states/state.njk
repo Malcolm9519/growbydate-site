@@ -91,9 +91,14 @@ permalink: "/planting-dates/states/{{ state.key }}/index.html"
 </section>
 
 <section class="card">
-  <h2>Typical First Fall Frost (50% Probability)</h2>
+  <h2>Typical First Fall Frost (50% Probability) in {{ state.name }}</h2>
 
-  {% if state.frost.status == "normal" %}
+    <p class="small" style="margin-top:-0.25rem;">
+    This is a climate-normal reference point, not a forecast. A “50% probability” first fall frost date means that,
+    historically, the first <strong>32°F frost</strong> happens by this date in about half of years — and later in about half.
+  </p>
+
+    {% if state.frost.status == "normal" %}
     <div class="tableWrap">
       <table class="table">
         <thead>
@@ -113,6 +118,12 @@ permalink: "/planting-dates/states/{{ state.key }}/index.html"
       </table>
     </div>
 
+  <ul class="small" style="margin-top:0.5rem;">
+    <li><strong>How to use it:</strong> plan to have frost-sensitive crops protected or harvested by this window, and aim for warm-season crops to be close to maturity.</li>
+    <li><strong>Why the range matters:</strong> the “earliest” and “latest” values reflect how much timing can vary within the region (elevation, terrain, and nearby water can shift frost timing).</li>
+    <li><strong>Frost vs. hard freeze:</strong> 32°F is often a light frost; colder temperatures (often ~28°F) are more likely to cause widespread damage.</li>
+  </ul>
+
     <p class="small muted" style="margin-top:0.75rem;">
       Based on {{ state.frost.stationCount }} locations in {{ state.name }}.
     </p>
@@ -130,13 +141,12 @@ permalink: "/planting-dates/states/{{ state.key }}/index.html"
 <section class="card">
   <h2>Typical Remaining Growing Degree Days (Base 50)</h2>
 
-  {% if state.frost.status != "normal" %}
-    <p class="small muted" style="margin-top:-0.25rem;">
-      Remaining GDD to “first frost” is not applicable when there is no typical frost date.
-    </p>
-  {% endif %}
+    <p class="small" style="margin-top:-0.25rem;">
+    Growing Degree Days (Base 50°F) are a heat-accumulation measure used to estimate plant development.
+    “Remaining GDD” is the typical amount of usable heat still available <em>from each date</em> as the season approaches frost risk.
+  </p>
 
-  <div class="tableWrap">
+    <div class="tableWrap">
     <table class="table">
       <thead>
         <tr>
@@ -155,10 +165,20 @@ permalink: "/planting-dates/states/{{ state.key }}/index.html"
         {% endfor %}
       </tbody>
     </table>
-        <p>
-    <a href="/guides/how-frost-dates-and-growing-degree-days-work-together/">Remaining GDD is the typical heat still available</a> from that date until the end of the season (based on normals).
-    </p>
   </div>
+
+  <ul class="small" style="margin-top:0.5rem;">
+    <li><strong>How to use it:</strong> compare your crop or variety’s heat requirement to the remaining GDD after your planting date.</li>
+    <li><strong>What it helps with:</strong> deciding if a later planting is a reasonable bet, choosing shorter-maturity varieties, and estimating whether a fast crop can still finish.</li>
+    <li><strong>Late-season reality:</strong> heat tends to accumulate more slowly as days shorten, so late-season progress can feel slower even when calendar days remain.</li>
+  </ul>
+
+  {% if state.frost.status != "normal" %}
+    <p class="small muted" style="margin-top:-0.25rem;">
+      Remaining GDD to “first frost” is not applicable when there is no typical frost date.
+    </p>
+  {% endif %}
+
 </section>
 
 {# Optional one-off details: src/_includes/region/{{ state.key }}-details.njk #}
@@ -171,12 +191,3 @@ permalink: "/planting-dates/states/{{ state.key }}/index.html"
     {% include "region/modules/" + mod + ".njk" %}
   {% endfor %}
 {% endif %}
-
-{% set gddWidget = {
-  mode: "default",
-  hideCrops: false,
-  dateDefault: "today",
-  widgetTitle: "Want To Be Sure? Check Crop Timing in " ~ state.name,
-  widgetLede: "Enter a ZIP / Postal Code in " ~ state.name ~ " and your planting date to see whether different crops can typically mature before first fall frost."
-} %}
-{% include "tools/gdd-planner-widget.njk" %}
