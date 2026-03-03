@@ -1,10 +1,10 @@
 const { buildRegionSummaries } = require("./_lib/regionSummaries");
 
-const ALLOW_STATES = new Set([
+const EXCLUDED_STATES = new Set([
   "montana"
 ]);
 
 module.exports = function () {
   const all = buildRegionSummaries({ kind: "US", base: 50 });
-  return all.filter(r => ALLOW_STATES.has(r.key));
+  return all.filter(r => !EXCLUDED_STATES.has(r.key));
 };

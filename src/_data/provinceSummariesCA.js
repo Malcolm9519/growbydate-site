@@ -1,11 +1,12 @@
 const { buildRegionSummaries } = require("./_lib/regionSummaries");
 
-const ALLOW_PROVINCES = new Set([
-  "alberta",
-  // add more later
+const EXCLUDED_PROVINCES = new Set([
+  "yukon",
+  "nunavut",
+  "northwest-territories"
 ]);
 
 module.exports = function () {
   const all = buildRegionSummaries({ kind: "CA", base: 50 });
-  return all.filter((r) => ALLOW_PROVINCES.has(r.key));
+  return all.filter(r => !EXCLUDED_PROVINCES.has(r.key));
 };

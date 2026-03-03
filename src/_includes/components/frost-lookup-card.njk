@@ -41,7 +41,7 @@
   async function runLookup() {
     const frost = await lookupFrost(input.value);
     const links = `
-      <a class="button" href="/tools/first-frost-date/">Open First Frost Tool</a>
+      <a class="button" href="/tools/first-frost-planner/">Open First Frost Tool</a>
       <a class="button" href="/tools/growing-degree-day-planner/">Open GDD Planner</a>
     `;
     renderResultCard(out, frost, { links });

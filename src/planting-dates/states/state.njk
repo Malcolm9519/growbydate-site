@@ -155,6 +155,9 @@ permalink: "/planting-dates/states/{{ state.key }}/index.html"
         {% endfor %}
       </tbody>
     </table>
+        <p>
+    <a href="/guides/how-frost-dates-and-growing-degree-days-work-together/">Remaining GDD is the typical heat still available</a> from that date until the end of the season (based on normals).
+    </p>
   </div>
 </section>
 
@@ -169,4 +172,11 @@ permalink: "/planting-dates/states/{{ state.key }}/index.html"
   {% endfor %}
 {% endif %}
 
-{% include "components/frost-lookup-card.njk" %}
+{% set gddWidget = {
+  mode: "default",
+  hideCrops: false,
+  dateDefault: "today",
+  widgetTitle: "Want To Be Sure? Check Crop Timing in " ~ state.name,
+  widgetLede: "Enter a ZIP / Postal Code in " ~ state.name ~ " and your planting date to see whether different crops can typically mature before first fall frost."
+} %}
+{% include "tools/gdd-planner-widget.njk" %}

@@ -1,4 +1,4 @@
-{# what-can-i-grow.njk — collapsible sections + emojis (no bold section labels) #}
+{# what-can-i-grow.njk — collapsible sections + emojis + gardener-friendly, data-driven context (clean labels) #}
 
 <section class="card wcig">
   <h2>What Can You Usually Grow in {{ state.name }}?</h2>
@@ -62,8 +62,34 @@
       transform: rotate(180deg);
     }
 
-    .wcig .wcigBody {
+    .wcig .wcigBody { margin-top: .75rem; }
+
+    .wcig .wcigInfoCard {
+      margin-top: 1rem;
+      border: 1px solid rgba(0,0,0,0.12);
+      border-radius: 14px;
+      padding: .85rem;
+      background: rgba(0,0,0,0.02);
+    }
+    .wcig .wcigInfoCard h3 {
+      margin: 0 0 .5rem 0;
+      font-size: 1.05rem;
+    }
+    .wcig .wcigInfoCard ul {
+      margin: 0 0 .75rem 1.1rem;
+      line-height: 1.45;
+    }
+
+    .wcig .wcigLateNote {
       margin-top: .75rem;
+      padding: .65rem .75rem;
+      border: 1px solid rgba(0,0,0,0.12);
+      border-radius: 12px;
+      background: rgba(0,0,0,0.015);
+    }
+    .wcig .wcigLateNote ul {
+      margin: .4rem 0 0 1.1rem;
+      line-height: 1.45;
     }
   </style>
 
@@ -84,6 +110,74 @@
       A normals-based guide to what typically has time to finish in {{ state.name }}.
       We apply a <strong>{{ marginLabel }}% safety margin</strong>.
     </p>
+
+    {# -------- Helpers for data-driven copy -------- #}
+    {% macro countRange(items, minBase, maxBase) %}
+      {% set n = 0 %}
+      {% for c in items %}
+        {% if c and c.href and c.base >= minBase and c.base <= maxBase %}
+          {% set n = n + 1 %}
+        {% endif %}
+      {% endfor %}
+      {{ n }}
+    {% endmacro %}
+
+    {% macro warmTotal(data) %}
+      {{ (countRange(data.reliable or [], 50, 50) | int) + (countRange(data.possible or [], 50, 50) | int) }}
+    {% endmacro %}
+
+    {% macro coolTotal(data) %}
+      {{ (countRange(data.reliable or [], 40, 45) | int) + (countRange(data.possible or [], 40, 45) | int) }}
+    {% endmacro %}
+
+    {% set augWarm = warmTotal(aug) | int %}
+    {% set augCool = coolTotal(aug) | int %}
+    {% set julyWarm = warmTotal(july) | int %}
+
+    {% set isShortSeason = (augWarm == 0) and (julyWarm > 0) %}
+    {% set isWarmLeaning = (augWarm > 0) %}
+    {% set isCoolDominantLate = (augCool > augWarm) %}
+
+    {# ---- Adaptive Season Snapshot ---- #}
+      <h3>Typical Season Pattern in {{ state.name }}</h3>
+
+      <ul class="small">
+        {% if isShortSeason %}
+          <li>
+            {{ state.name }} typically has a <strong>compressed warm-season window</strong>. Timing and variety maturity matter more than a perfect calendar date.
+          </li>
+          <li>
+            Warm-season crops are strongest in early-to-mid summer heat, then drop off quickly as nights cool.
+          </li>
+        {% elseif isWarmLeaning %}
+          <li>
+            Warm-season crops can remain viable later in the season compared to many colder regions, but variety choice still matters.
+          </li>
+        {% else %}
+          <li>
+            Warm-season crops rely on a reliable summer heat window; later planting quickly becomes variety-dependent.
+          </li>
+        {% endif %}
+
+        {% if isCoolDominantLate %}
+          <li>
+            Later in summer, <strong>cool-season crops regain advantage</strong> as temperatures moderate.
+          </li>
+        {% else %}
+          <li>
+            Cool-season crops tend to stay flexible across more of the season, especially for succession planting.
+          </li>
+        {% endif %}
+
+        <li>
+          These suggestions are derived from typical remaining heat (GDD) and climate normals—not from a single “best date.”
+        </li>
+      </ul>
+
+      <p class="small muted" style="margin:0;">
+        Based on NOAA 1991–2020 climate normals and typical remaining growing degree days (Base 50), with a {{ marginLabel }}% safety margin.
+        Local elevation, exposure, and frost pockets can shift timing by 1–3 weeks.
+      </p>
 
     {# -------- EMOJI MAP -------- #}
     {% set emojiMap = {
@@ -114,25 +208,37 @@
       {% set key = crop.key or "" %}
       {% set name = crop.name or "" %}
 
-      {# Direct key match first #}
       {% if key and emojiMap[key] %}
         {{ emojiMap[key] }}
-
-      {# Handle any bean variations #}
       {% elseif "bean" in key or "bean" in name | lower %}
         🫘
-
-      {# Handle any pea variations #}
       {% elseif "pea" in key or "pea" in name | lower %}
         🟢
-
-      {# Fallback to name match #}
       {% elseif emojiMap[name | lower] %}
         {{ emojiMap[name | lower] }}
-
       {% else %}
         {{ "" }}
       {% endif %}
+    {% endmacro %}
+
+    {# Tooltip (days to maturity / GDD) only if fields exist on crop objects #}
+    {% macro hoverText(c) %}
+      {% set dtm = c.dtm or c.days or c.days_to_maturity or c.maturity_days %}
+      {% set gdd = c.gdd50 or c.gdd_required50 or c.gdd_required or c.gdd %}
+      {% set out = "" %}
+
+      {% if dtm %}
+        {% set out = out ~ "Typical maturity: " ~ dtm ~ " days" %}
+      {% endif %}
+
+      {% if gdd %}
+        {% if out %}
+          {% set out = out ~ " · " %}
+        {% endif %}
+        {% set out = out ~ "Heat need: " ~ gdd ~ " GDD (Base 50)" %}
+      {% endif %}
+
+      {{ out }}
     {% endmacro %}
 
     {% macro cropLine(items, minBase, maxBase, limit) %}
@@ -146,12 +252,13 @@
       {% endfor %}
 
       {% if total == 0 %}
-        <span class="muted">—</span>
+        {# Hide empty lists to avoid spammy blanks #}
       {% else %}
         <div class="wcigChips small">
           {% for c in items %}
             {% if shown < limit and c and c.href and c.base >= minBase and c.base <= maxBase %}
-              <a class="wcigChip" href="{{ c.href }}">
+              {% set tip = hoverText(c) | trim %}
+              <a class="wcigChip" href="{{ c.href }}" {% if tip %}title="{{ tip }}"{% endif %}>
                 <span>{{ getEmoji(c) }}</span>
                 <span>{{ c.name }}</span>
               </a>
@@ -166,58 +273,90 @@
       {% endif %}
     {% endmacro %}
 
-    {# CHANGES:
-       1) Summary shows Alberta Spring: May 15 (etc.)
-       2) Remove the internal table header row (no duplicate title when expanded)
-       3) Bold Warm-Season and Cool-Season in table body
+    {# Month table:
+       - removes per-row emoji "legends" (too spammy)
+       - hides empty rows and even entire season sections when empty
+       - shows a single gentle message if both seasons are empty
     #}
     {% macro monthTable(data) %}
       {% if data %}
-        <div class="tableWrap">
-          <table class="table">
-            <tbody>
-              <tr>
-                <td colspan="2"><strong>Warm-Season</strong></td>
-              </tr>
-              <tr>
-                <td style="width:28%;">What Works Best:</td>
-                <td>{{ cropLine(data.reliable or [], 50, 50, 10) }}</td>
-              </tr>
-              <tr>
-                <td>Might Be Possible:</td>
-                <td>{{ cropLine(data.possible or [], 50, 50, 10) }}</td>
-              </tr>
 
-              <tr>
-                <td colspan="2" style="padding-top:0.75rem;">
-                  <strong>Cool-Season</strong>
-                </td>
-              </tr>
-              <tr>
-                <td>What Works Best:</td>
-                <td>{{ cropLine(data.reliable or [], 40, 45, 12) }}</td>
-              </tr>
-              <tr>
-                <td>Might Be Possible:</td>
-                <td>{{ cropLine(data.possible or [], 40, 45, 12) }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        {% set warmRelN = countRange(data.reliable or [], 50, 50) | int %}
+        {% set warmPosN = countRange(data.possible or [], 50, 50) | int %}
+        {% set coolRelN = countRange(data.reliable or [], 40, 45) | int %}
+        {% set coolPosN = countRange(data.possible or [], 40, 45) | int %}
+
+        {% set warmAny = (warmRelN + warmPosN) > 0 %}
+        {% set coolAny = (coolRelN + coolPosN) > 0 %}
+
+        {% if not warmAny and not coolAny %}
+          <p class="small muted" style="margin:0;">
+            No typical matches at this checkpoint based on the current dataset.
+          </p>
+        {% else %}
+          <div class="tableWrap">
+            <table class="table">
+              <tbody>
+
+                {% if warmAny %}
+                  <tr>
+                    <td colspan="2"><strong>Heat-Loving Crops</strong></td>
+                  </tr>
+
+                  {% if warmRelN > 0 %}
+                    <tr>
+                      <td style="width:28%;">What Works Best:</td>
+                      <td>{{ cropLine(data.reliable or [], 50, 50, 10) }}</td>
+                    </tr>
+                  {% endif %}
+
+                  {% if warmPosN > 0 %}
+                    <tr>
+                      <td>Might Be Possible:</td>
+                      <td>{{ cropLine(data.possible or [], 50, 50, 10) }}</td>
+                    </tr>
+                  {% endif %}
+                {% endif %}
+
+                {% if coolAny %}
+                  <tr>
+                    <td colspan="2" style="padding-top:0.75rem;">
+                      <strong>Cool-Tolerant Crops</strong>
+                    </td>
+                  </tr>
+
+                  {% if coolRelN > 0 %}
+                    <tr>
+                      <td style="width:28%;">What Works Best:</td>
+                      <td>{{ cropLine(data.reliable or [], 40, 45, 12) }}</td>
+                    </tr>
+                  {% endif %}
+
+                  {% if coolPosN > 0 %}
+                    <tr>
+                      <td>Might Be Possible:</td>
+                      <td>{{ cropLine(data.possible or [], 40, 45, 12) }}</td>
+                    </tr>
+                  {% endif %}
+                {% endif %}
+
+              </tbody>
+            </table>
+          </div>
+        {% endif %}
+
       {% endif %}
     {% endmacro %}
 
+    {# ---- Dropdowns ---- #}
     <details class="wcigDate">
       <summary>
         <strong>{{ state.name }} Spring: May 15</strong>
         <span class="wcigChevron">
           <svg viewBox="0 0 20 20" width="14" height="14">
             <path d="M5.5 7.5 L10 12 L14.5 7.5"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"></path>
+                  fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"></path>
           </svg>
         </span>
       </summary>
@@ -232,11 +371,8 @@
         <span class="wcigChevron">
           <svg viewBox="0 0 20 20" width="14" height="14">
             <path d="M5.5 7.5 L10 12 L14.5 7.5"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"></path>
+                  fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"></path>
           </svg>
         </span>
       </summary>
@@ -251,11 +387,8 @@
         <span class="wcigChevron">
           <svg viewBox="0 0 20 20" width="14" height="14">
             <path d="M5.5 7.5 L10 12 L14.5 7.5"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"></path>
+                  fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"></path>
           </svg>
         </span>
       </summary>
@@ -270,11 +403,8 @@
         <span class="wcigChevron">
           <svg viewBox="0 0 20 20" width="14" height="14">
             <path d="M5.5 7.5 L10 12 L14.5 7.5"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"></path>
+                  fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"></path>
           </svg>
         </span>
       </summary>
@@ -282,6 +412,24 @@
         {{ monthTable(aug) }}
       </div>
     </details>
+
+    {# ---- Late Season Strategy (after dropdowns) + merged If You're Planting Late ---- #}
+    {% set showLateStrategy = ( (warmTotal(july) | int) > 0 ) or ( (coolTotal(july) | int) > 0 ) or ( (warmTotal(aug) | int) > 0 ) or ( (coolTotal(aug) | int) > 0 ) %}
+    {% if showLateStrategy %}
+        <h3>Late-Season Strategy</h3>
+
+        <ul class="small">
+          <li>
+            Prioritize <strong>shortest-maturity</strong> varieties for anything planted after early summer.
+          </li>
+          <li>
+            Warm-season crops late in the year often need a head start (transplants) and/or protection.
+          </li>
+          <li>
+            Succession planting is usually most reliable with <strong>cool-season crops</strong> as the season turns.
+          </li>
+        </ul>
+    {% endif %}
 
   {% endif %}
 </section>
