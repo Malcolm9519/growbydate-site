@@ -293,6 +293,7 @@ module.exports = {
         extraNote:
           "Montana’s elevation swings create significant frost variation between valleys and foothills.",
       },
+  addModules: ["montana-local-patterns"],
     },
     nebraska: {
       hero: {
