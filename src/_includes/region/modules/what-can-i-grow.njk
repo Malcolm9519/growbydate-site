@@ -110,30 +110,30 @@
       "basil":"🌿","herb":"🌿"
     } %}
 
-{% macro getEmoji(crop) %}
-  {% set key = crop.key or "" %}
-  {% set name = crop.name or "" %}
+    {% macro getEmoji(crop) %}
+      {% set key = crop.key or "" %}
+      {% set name = crop.name or "" %}
 
-  {# Direct key match first #}
-  {% if key and emojiMap[key] %}
-    {{ emojiMap[key] }}
+      {# Direct key match first #}
+      {% if key and emojiMap[key] %}
+        {{ emojiMap[key] }}
 
-  {# Handle any bean variations #}
-  {% elseif "bean" in key or "bean" in name | lower %}
-    🫘
+      {# Handle any bean variations #}
+      {% elseif "bean" in key or "bean" in name | lower %}
+        🫘
 
-  {# Handle any pea variations #}
-  {% elseif "pea" in key or "pea" in name | lower %}
-    🟢
+      {# Handle any pea variations #}
+      {% elseif "pea" in key or "pea" in name | lower %}
+        🟢
 
-  {# Fallback to name match #}
-  {% elseif emojiMap[name | lower] %}
-    {{ emojiMap[name | lower] }}
+      {# Fallback to name match #}
+      {% elseif emojiMap[name | lower] %}
+        {{ emojiMap[name | lower] }}
 
-  {% else %}
-    {{ "" }}
-  {% endif %}
-{% endmacro %}
+      {% else %}
+        {{ "" }}
+      {% endif %}
+    {% endmacro %}
 
     {% macro cropLine(items, minBase, maxBase, limit) %}
       {% set shown = 0 %}
@@ -166,20 +166,18 @@
       {% endif %}
     {% endmacro %}
 
-    {% macro monthTable(title, data) %}
+    {# CHANGES:
+       1) Summary shows Alberta Spring: May 15 (etc.)
+       2) Remove the internal table header row (no duplicate title when expanded)
+       3) Bold Warm-Season and Cool-Season in table body
+    #}
+    {% macro monthTable(data) %}
       {% if data %}
         <div class="tableWrap">
           <table class="table">
-            <thead>
-              <tr>
-                <th colspan="2" style="text-align:center;">
-                  {{ title }}
-                </th>
-              </tr>
-            </thead>
             <tbody>
               <tr>
-                <td colspan="2">Warm-Season</td>
+                <td colspan="2"><strong>Warm-Season</strong></td>
               </tr>
               <tr>
                 <td style="width:28%;">What Works Best:</td>
@@ -192,7 +190,7 @@
 
               <tr>
                 <td colspan="2" style="padding-top:0.75rem;">
-                  Cool-Season
+                  <strong>Cool-Season</strong>
                 </td>
               </tr>
               <tr>
@@ -211,7 +209,7 @@
 
     <details class="wcigDate">
       <summary>
-        <strong>May 15</strong>
+        <strong>{{ state.name }} Spring: May 15</strong>
         <span class="wcigChevron">
           <svg viewBox="0 0 20 20" width="14" height="14">
             <path d="M5.5 7.5 L10 12 L14.5 7.5"
@@ -224,13 +222,13 @@
         </span>
       </summary>
       <div class="wcigBody">
-        {{ monthTable(state.name ~ " Spring: May 15", may15) }}
+        {{ monthTable(may15) }}
       </div>
     </details>
 
     <details class="wcigDate">
       <summary>
-        <strong>June 1</strong>
+        <strong>{{ state.name }} Early Summer: June 1</strong>
         <span class="wcigChevron">
           <svg viewBox="0 0 20 20" width="14" height="14">
             <path d="M5.5 7.5 L10 12 L14.5 7.5"
@@ -243,13 +241,13 @@
         </span>
       </summary>
       <div class="wcigBody">
-        {{ monthTable(state.name ~ " Early Summer: June 1", jun1) }}
+        {{ monthTable(jun1) }}
       </div>
     </details>
 
     <details class="wcigDate">
       <summary>
-        <strong>July 1</strong>
+        <strong>{{ state.name }} Summer: July 1</strong>
         <span class="wcigChevron">
           <svg viewBox="0 0 20 20" width="14" height="14">
             <path d="M5.5 7.5 L10 12 L14.5 7.5"
@@ -262,13 +260,13 @@
         </span>
       </summary>
       <div class="wcigBody">
-        {{ monthTable(state.name ~ " Summer: July 1", july) }}
+        {{ monthTable(july) }}
       </div>
     </details>
 
     <details class="wcigDate">
       <summary>
-        <strong>August 1</strong>
+        <strong>{{ state.name }} Late Summer: August 1</strong>
         <span class="wcigChevron">
           <svg viewBox="0 0 20 20" width="14" height="14">
             <path d="M5.5 7.5 L10 12 L14.5 7.5"
@@ -281,7 +279,7 @@
         </span>
       </summary>
       <div class="wcigBody">
-        {{ monthTable(state.name ~ " Late Summer: August 1", aug) }}
+        {{ monthTable(aug) }}
       </div>
     </details>
 
