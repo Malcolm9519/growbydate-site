@@ -275,6 +275,7 @@ module.exports = {
         extraNote:
           "Minnesota’s short summers mean timing is critical for heat-loving crops.",
       },
+  addModules: ["minnesota-local-patterns"],
     },
     mississippi: {
       hero: {
@@ -342,6 +343,7 @@ module.exports = {
         extraNote:
           "North Dakota’s short growing window makes early-season planning essential.",
       },
+        addModules: ["north-dakota-local-patterns"],
     },
     ohio: {
       hero: {
