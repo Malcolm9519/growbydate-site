@@ -1,0 +1,31 @@
+---
+layout: layout-base.njk
+permalink: "/planting-dates/states/"
+title: "Planting Dates by State (Frost & GDD Normals)"
+---
+
+<section class="card index-card">
+  <h1>Planting Dates by State</h1>
+  <p class="small intro">
+    Normals-based first frost timing and remaining seasonal heat for each published U.S. state.
+    Select a state to see typical frost dates and growing degree day capacity.
+  </p>
+</section>
+
+<section class="card">
+  <ul class="index-list">
+    {% for st in stateSummariesUS %}
+      <li class="index-item">
+        <a class="index-link" href="/planting-dates/states/{{ st.key }}/">
+          <strong>{{ st.name }}</strong>
+
+          {# Tagline / lede (prefer st.lede if you added it; otherwise read from content pack) #}
+          {% set lede = st.lede or st.content.indexCard.lede or st.content.index.lede %}
+          {% if lede %}
+            <div class="index-desc">{{ lede }}</div>
+          {% endif %}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+</section>

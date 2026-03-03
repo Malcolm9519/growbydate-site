@@ -1,0 +1,174 @@
+---
+layout: layout-base.njk
+pagination:
+  data: provinceSummariesCA
+  size: 1
+  alias: province
+permalink: "/planting-dates/canada/provinces/{{ province.key }}/index.html"
+---
+
+{# Alias so shared modules can use state.* consistently #}
+{% set state = province %}
+
+<header class="header">
+  <h1>Planting Dates & Crop Timing in {{ state.name }}</h1>
+
+  {% set hero = (state.content and state.content.hero) or {} %}
+
+  {% set tagline =
+    (hero and hero.tagline)
+      or ("Typical frost timing and remaining seasonal heat for gardeners in " + state.name + ".")
+  %}
+  <p class="tagline">{{ tagline }}</p>
+
+  {# Lede: prefer explicit hero.lede; otherwise, if hero.note exists, use it as the lede. #}
+  {% set ledeFromHeroNote = (hero and hero.note and (not hero.lede)) %}
+  {% set lede =
+    (hero and hero.lede)
+      or (ledeFromHeroNote and hero.note)
+      or ("Use this page to get oriented: what a “normal” year usually allows in " + state.name + ", and what tends to be a tight fit. Start with the quick reference, then use the tables for detail.")
+  %}
+  <p class="lede">{{ lede }}</p>
+
+  {# Optional hero notes (avoid duplicating hero.note if it was used as the lede) #}
+  {% if hero %}
+    {% set showHeroNote = (hero.note and (not ledeFromHeroNote)) %}
+    {% if showHeroNote or hero.extraNote %}
+      <div class="callout" style="margin-top:0.75rem;">
+        {% if showHeroNote %}
+          <p>{{ hero.note }}</p>
+        {% endif %}
+        {% if hero.extraNote %}
+          <p>{{ hero.extraNote }}</p>
+        {% endif %}
+      </div>
+    {% endif %}
+  {% endif %}
+</header>
+
+<section class="card">
+  <h2>Quick Planning Reference</h2>
+
+{# --- Pull base-50 remaining GDD values safely by date (loop-based to avoid repeated-value bugs) --- #}
+{% set gddJuly = null %}
+{% set gddAug  = null %}
+{% set gddSept = null %}
+
+{% for row in (state.gdd_remaining or []) %}
+  {% if row.date == "07-01" %}{% set gddJuly = row.gdd %}{% endif %}
+  {% if row.date == "08-01" %}{% set gddAug  = row.gdd %}{% endif %}
+  {% if row.date == "09-01" %}{% set gddSept = row.gdd %}{% endif %}
+{% endfor %}
+
+  <ul>
+    {% if state.frost.status == "normal" %}
+      <li><strong>Typical first fall frost (median):</strong> {{ state.frost.median50 | mmddLong }}</li>
+      <li><strong>Range across the region:</strong> {{ state.frost.earliest50 | mmddLong }} to {{ state.frost.latest50 | mmddLong }}</li>
+      <li><strong>Coverage:</strong> {{ state.frost.stationCount }} locations</li>
+    {% elif state.frost.status == "frost_free" %}
+      <li><strong>Frost:</strong> This region is typically frost-free in the normals dataset.</li>
+    {% else %}
+      <li><strong>Frost:</strong> Frost normals are not available for this region yet.</li>
+    {% endif %}
+
+{% if gddJuly != null %}
+  <li><strong>Median GDD remaining on July 1 (base 50):</strong> {{ gddJuly }}</li>
+{% endif %}
+{% if gddAug != null %}
+  <li><strong>Median GDD remaining on August 1 (base 50):</strong> {{ gddAug }}</li>
+{% endif %}
+{% if gddSept != null %}
+  <li><strong>Median GDD remaining on September 1 (base 50):</strong> {{ gddSept }}</li>
+{% endif %}
+
+    <li>
+      <strong>Best next step:</strong>
+      Use the <a href="/tools/growing-degree-day-planner/">Growing Degree Day Planner</a> to check a specific crop and planting date for your exact location.
+    </li>
+  </ul>
+
+  <p class="fine muted" style="margin-top:14px;">
+    These values are climate normals (typical conditions), not a forecast. Microclimates can shift real frost timing.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Typical First Fall Frost (50% Probability)</h2>
+
+  {% if state.frost.status == "normal" %}
+    <div class="tableWrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Median (50%)</th>
+            <th>Earliest across region</th>
+            <th>Latest across region</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ state.frost.median50 | mmddLong }}</td>
+            <td>{{ state.frost.earliest50 | mmddLong }}</td>
+            <td>{{ state.frost.latest50 | mmddLong }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="small muted" style="margin-top:0.75rem;">
+      Based on {{ state.frost.stationCount }} locations in {{ state.name }}.
+    </p>
+  {% elif state.frost.status == "frost_free" %}
+    <p class="small">
+      This region appears to be <strong>typically frost-free</strong> in the normals dataset (no 50% first fall frost date).
+    </p>
+  {% else %}
+    <p class="small">
+      Frost normals are not available for this region yet.
+    </p>
+  {% endif %}
+</section>
+
+<section class="card">
+  <h2>Typical Remaining Growing Degree Days (Base 50)</h2>
+
+  {% if state.frost.status != "normal" %}
+    <p class="small muted" style="margin-top:-0.25rem;">
+      Remaining GDD to “first frost” is not applicable when there is no typical frost date.
+    </p>
+  {% endif %}
+
+  <div class="tableWrap">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Base</th>
+          <th>Median GDD Remaining</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in state.gdd_remaining %}
+          <tr>
+            <td>{{ row.date | mmddLong }}</td>
+            <td>{{ row.base }}</td>
+            <td>{% if row.gdd != null %}{{ row.gdd }}{% else %}—{% endif %}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+{# Optional one-off details: src/_includes/region/{{ state.key }}-details.njk #}
+{% set detailsPath = "region/" + state.key + "-details.njk" %}
+{% include detailsPath ignore missing %}
+
+{# Modular region system (regionContent.js drives order) #}
+{% if state.content and state.content.modules %}
+  {% for mod in state.content.modules %}
+    {% include "region/modules/" + mod + ".njk" %}
+  {% endfor %}
+{% endif %}
+
+{% include "components/frost-lookup-card.njk" %}

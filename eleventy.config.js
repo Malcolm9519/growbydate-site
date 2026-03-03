@@ -27,6 +27,23 @@ eleventyConfig.addFilter("stripSiteSuffix", function (title) {
     .trim();
 });
 
+eleventyConfig.addFilter("mmddLong", (mmdd) => {
+  const s = String(mmdd || "").trim();
+  const m = s.slice(0, 2);
+  const d = s.slice(3, 5);
+  if (!/^\d{2}$/.test(m) || !/^\d{2}$/.test(d)) return s;
+
+  const months = [
+    "January","February","March","April","May","June",
+    "July","August","September","October","November","December"
+  ];
+  const mi = parseInt(m, 10) - 1;
+  const di = parseInt(d, 10);
+
+  if (mi < 0 || mi > 11 || di < 1 || di > 31) return s;
+  return `${months[mi]} ${di}`;
+});
+
   // ✅ Add this filter (used by crops/crop.njk)
   eleventyConfig.addFilter("fileExists", function (relativeIncludePath) {
     // Your includes dir is: src/_includes/

@@ -1,0 +1,54 @@
+<section class="card">
+  <h2>Check Your Frost Dates by ZIP / Postal Code</h2>
+  <p class="small">
+    Enter a <strong>5-digit ZIP</strong> (US) or the <strong>first 3 characters</strong> of your postal code (Canada).
+    We’ll show typical frost dates from our static dataset (no forecasts).
+  </p>
+
+  <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end; margin-top:0.75rem;">
+    <div style="min-width:220px;">
+      <label class="small" for="frostKeyInput"><strong>ZIP / Postal</strong></label>
+      <input
+        id="frostKeyInput"
+        class="input"
+        type="text"
+        inputmode="text"
+        autocomplete="postal-code"
+        placeholder="e.g., 59715 or T5A"
+        style="width:100%;"
+      />
+    </div>
+
+    <button id="frostLookupBtn" class="button" type="button">
+      Look up frost dates
+    </button>
+  </div>
+
+  <div id="frostResult" style="margin-top:0.75rem;"></div>
+
+  <p class="small muted" style="margin-top:0.75rem;">
+    Tip: Try your ZIP3 (first 3 digits) if your ZIP5 doesn’t match.
+  </p>
+</section>
+
+<script type="module">
+  import { lookupFrost, renderResultCard } from "/assets/js/frost-lookup.js";
+
+  const input = document.getElementById("frostKeyInput");
+  const btn = document.getElementById("frostLookupBtn");
+  const out = document.getElementById("frostResult");
+
+  async function runLookup() {
+    const frost = await lookupFrost(input.value);
+    const links = `
+      <a class="button" href="/tools/first-frost-date/">Open First Frost Tool</a>
+      <a class="button" href="/tools/growing-degree-day-planner/">Open GDD Planner</a>
+    `;
+    renderResultCard(out, frost, { links });
+  }
+
+  btn?.addEventListener("click", runLookup);
+  input?.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") runLookup();
+  });
+</script>

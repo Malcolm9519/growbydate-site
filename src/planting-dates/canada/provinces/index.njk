@@ -1,0 +1,31 @@
+---
+layout: layout-base.njk
+permalink: "/planting-dates/canada/provinces/"
+title: "Planting Dates by Province (Frost & GDD Normals)"
+---
+
+<section class="card index-card">
+  <h1>Planting Dates by Province</h1>
+  <p class="small intro">
+    Normals-based first frost timing and remaining seasonal heat for each published Canadian province.
+    Select a province to see typical frost dates and growing degree day capacity.
+  </p>
+</section>
+
+<section class="card">
+  <ul class="index-list">
+    {% for prov in provinceSummariesCA %}
+      <li class="index-item">
+        <a class="index-link" href="/planting-dates/canada/provinces/{{ prov.key }}/">
+          <strong>{{ prov.name }}</strong>
+
+          {# Tagline / lede (prefer prov.lede if you added it; otherwise read from content pack) #}
+          {% set lede = prov.lede or prov.content.indexCard.lede or prov.content.index.lede %}
+          {% if lede %}
+            <div class="index-desc">{{ lede }}</div>
+          {% endif %}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+</section>

@@ -1,0 +1,41 @@
+<section class="card">
+  <h2>How to Interpret Alberta’s Season</h2>
+
+  <p>
+    A mid-September median frost does not mean every location behaves the same.
+    In Alberta, local elevation and terrain can shift frost timing by weeks.
+    That spread is why planting decisions are less about a single date
+    and more about how much heat remains in the season.
+  </p>
+
+{% set gddJuly = null %}
+{% set gddAug = null %}
+{% set gddSept = null %}
+
+{% for row in state.gdd_remaining %}
+  {% if row.date == "07-01" %}{% set gddJuly = row.gdd %}{% endif %}
+  {% if row.date == "08-01" %}{% set gddAug = row.gdd %}{% endif %}
+  {% if row.date == "09-01" %}{% set gddSept = row.gdd %}{% endif %}
+{% endfor %}
+
+  {% if july and july.gdd %}
+    <p>
+      In early July, there is still meaningful seasonal heat available.
+      Crops planted in early summer can often reach maturity if their heat requirement fits within that window.
+    </p>
+  {% endif %}
+
+  {% if aug and aug.gdd %}
+    <p>
+      By August, the remaining heat typically supports only fast-maturing varieties.
+      At this stage, success depends more on maturity rating than planting date alone.
+    </p>
+  {% endif %}
+
+  {% if sept and sept.gdd %}
+    <p>
+      By September, planting decisions shift almost entirely to harvest timing
+      and frost protection rather than new crop establishment.
+    </p>
+  {% endif %}
+</section>
