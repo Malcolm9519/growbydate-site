@@ -174,6 +174,7 @@ module.exports = {
         extraNote:
           "Colorado’s elevation swings create major frost differences—even nearby towns can have different planting windows.",
       },
+  addModules: ["colorado-local-patterns"],
     },
     connecticut: {
       hero: {
