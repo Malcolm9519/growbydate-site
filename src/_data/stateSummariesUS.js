@@ -4,7 +4,8 @@ const INCLUDED_STATES = new Set([
   "montana",
 "minnesota",
 "north-dakota",
-"colorado"
+"colorado",
+"michigan"
 ]);
 
 module.exports = function () {

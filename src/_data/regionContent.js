@@ -270,6 +270,7 @@ module.exports = {
         extraNote:
           "Michigan’s Great Lakes moderate temperatures, extending the season near the shoreline.",
       },
+        addModules: ["michigan-local-patterns"],
     },
     minnesota: {
       hero: {
