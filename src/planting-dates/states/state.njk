@@ -10,23 +10,7 @@ permalink: "/planting-dates/states/{{ state.key }}/index.html"
 <header class="header">
   <h1>Planting Dates & Crop Timing in {{ state.name }}</h1>
 
-  {# Tagline (crop-page-ish) #}
   {% set hero = (state.content and state.content.hero) or {} %}
-
-  {% set tagline =
-    (hero and hero.tagline)
-      or ("Typical frost timing and remaining seasonal heat for gardeners in " + state.name + ".")
-  %}
-  <p class="tagline">{{ tagline }}</p>
-
-  {# Lede: prefer explicit hero.lede; otherwise, if hero.note exists, use it as the lede. #}
-  {% set ledeFromHeroNote = (hero and hero.note and (not hero.lede)) %}
-  {% set lede =
-    (hero and hero.lede)
-      or (ledeFromHeroNote and hero.note)
-      or ("Use this page to get oriented: what a “normal” year usually allows in " + state.name + ", and what tends to be a tight fit. Start with the quick reference, then use the tables for detail.")
-  %}
-  <p class="lede">{{ lede }}</p>
 
   {# Optional hero notes (avoid duplicating hero.note if it was used as the lede) #}
   {% if hero %}
@@ -42,12 +26,34 @@ permalink: "/planting-dates/states/{{ state.key }}/index.html"
       </div>
     {% endif %}
   {% endif %}
+
+  {% if state.season and state.season.frost and state.season.frost.spring and state.season.frost.fall %}
+  <p>
+    In a typical year, the growing season in {{ state.name }} runs roughly from
+    <strong>{{ state.season.frost.spring.p50 | mmddLong }}</strong>
+    through
+    <strong>{{ state.season.frost.fall.p50 | mmddLong }}</strong>.
+    {% if state.season.derived and state.season.derived.frostFreeDays_p50 %}
+      That’s about <strong>{{ state.season.derived.frostFreeDays_p50 }}</strong> frost-free days for most locations.
+    {% endif %}
+  </p>
+{% endif %}
+
+  {# Lede: prefer explicit hero.lede; otherwise, if hero.note exists, use it as the lede. #}
+  {% set ledeFromHeroNote = (hero and hero.note and (not hero.lede)) %}
+  {% set lede =
+    (hero and hero.lede)
+      or (ledeFromHeroNote and hero.note)
+      or ("Use this page to get oriented: what a “normal” year usually allows in " + state.name + ", and what tends to be a tight fit. Start with the quick reference, then use the tables for detail.")
+  %}
+  <p class="lede">{{ lede }}</p>
+
 </header>
 
 <section class="card">
   <h2>Quick Planning Reference</h2>
 
-{# --- Pull base-50 remaining GDD values safely by date --- #}
+{# --- Pull base-50 remaining GDD values safely by date (loop-based to avoid repeated-value bugs) --- #}
 {% set gddJuly = null %}
 {% set gddAug  = null %}
 {% set gddSept = null %}
@@ -91,42 +97,63 @@ permalink: "/planting-dates/states/{{ state.key }}/index.html"
 </section>
 
 <section class="card">
-  <h2>Typical First Fall Frost (50% Probability) in {{ state.name }}</h2>
+  <h2>Season Boundaries in {{ state.name }} (Typical Frost Dates)</h2>
 
-    <p class="small" style="margin-top:-0.25rem;">
-    This is a climate-normal reference point, not a forecast. A <a href="/guides/what-does-50-percent-frost-probability-mean/">“50% probability”</a> first fall frost date means that,
-    historically, the first <strong>32°F frost</strong> happens by this date in about half of years — and later in about half.
+  <p class="small" style="margin-top:-0.25rem;">
+    This is a climate-normal reference point, not a forecast. A
+    <a href="/guides/what-does-50-percent-frost-probability-mean/">“50% probability”</a>
+    frost date means that, historically, a <strong>32°F frost</strong> happens by this date in about half of years — and later in about half.
   </p>
 
-    {% if state.frost.status == "normal" %}
+  {% if state.frost.status == "normal" %}
+    {% set springObj = state.season and state.season.frost and state.season.frost.spring or null %}
+    {% set hasSpring = springObj and springObj.p50 and springObj.status == "normal" %}
+    {% set hasFFD = state.season and state.season.derived and state.season.derived.frostFreeDays_p50 %}
+
     <div class="tableWrap">
       <table class="table">
         <thead>
           <tr>
-            <th>Median (50%)</th>
-            <th>Earliest across region</th>
-            <th>Latest across region</th>
+            {% if hasSpring %}
+              <th>Typical last spring frost (50%)</th>
+            {% endif %}
+            <th>Typical first fall frost (50%)</th>
+            <th>Fall frost range across region</th>
+            {% if hasFFD %}
+              <th>Typical frost-free days</th>
+            {% endif %}
           </tr>
         </thead>
         <tbody>
           <tr>
+            {% if hasSpring %}
+              <td>{{ springObj.p50 | mmddLong }}</td>
+            {% endif %}
             <td>{{ state.frost.median50 | mmddLong }}</td>
-            <td>{{ state.frost.earliest50 | mmddLong }}</td>
-            <td>{{ state.frost.latest50 | mmddLong }}</td>
+            <td>{{ state.frost.earliest50 | mmddLong }} – {{ state.frost.latest50 | mmddLong }}</td>
+            {% if hasFFD %}
+              <td>{{ state.season.derived.frostFreeDays_p50 }}</td>
+            {% endif %}
           </tr>
         </tbody>
       </table>
     </div>
 
-  <ul class="small" style="margin-top:0.5rem;">
-    <li><strong>How to use it:</strong> plan to have frost-sensitive crops protected or harvested by this window, and aim for warm-season crops to be close to maturity.</li>
-    <li><strong>Why the range matters:</strong> the “earliest” and “latest” values reflect how much timing can vary within the region (elevation, terrain, and nearby water can shift frost timing).</li>
-    <li><strong><a href="/guides/32f-vs-28f-what-temperature-kills-plants/">Frost vs. hard freeze:</a></strong> 32°F is often a light frost; colder temperatures (often ~28°F) are more likely to cause widespread damage.</li>
-  </ul>
-
-    <p class="small muted" style="margin-top:0.75rem;">
+        <p class="small muted" style="margin-top:0.75rem;">
       Based on {{ state.frost.stationCount }} locations in {{ state.name }}.
     </p>
+
+    {% if hasSpring or hasFFD %}
+      <p class="small muted" style="margin-top:0.75rem;">
+        Use these boundaries as your baseline season window — then lean on crop maturity and remaining heat to judge what will reliably finish in a typical year.
+      </p>
+    {% endif %}
+
+    <div class="small muted" style="margin-top:.15rem;">
+      <p><strong>Why the range matters:</strong> elevation, terrain, and nearby water can shift frost timing a lot within the same region.</p>
+      <p><strong><a href="/guides/32f-vs-28f-what-temperature-kills-plants/">Frost vs. hard freeze:</a></strong> 32°F is often a light frost; colder temperatures (often ~28°F) are more likely to cause widespread damage.</p>
+    </div>
+
   {% elif state.frost.status == "frost_free" %}
     <p class="small">
       This region appears to be <strong>typically frost-free</strong> in the normals dataset (no 50% first fall frost date).
@@ -137,6 +164,8 @@ permalink: "/planting-dates/states/{{ state.key }}/index.html"
     </p>
   {% endif %}
 </section>
+
+{% include "region/modules/season-timing-strategy.njk" %}
 
 <section class="card">
   <h2>Typical Remaining Growing Degree Days (Base 50)</h2>
@@ -167,11 +196,11 @@ permalink: "/planting-dates/states/{{ state.key }}/index.html"
     </table>
   </div>
 
-  <ul class="small" style="margin-top:0.5rem;">
-    <li><strong>How to use it:</strong> compare your crop or variety’s heat requirement to the remaining GDD after your planting date.</li>
-    <li><strong>What it helps with:</strong> deciding if a later planting is a reasonable bet, choosing shorter-maturity varieties, and estimating whether a fast crop can still finish.</li>
-    <li><strong>Late-season reality:</strong> heat tends to accumulate more slowly as days shorten, so late-season progress can feel slower even when calendar days remain.</li>
-  </ul>
+                  <div class="small muted" style="margin-top:.15rem;">
+    <p><strong>How to use it:</strong> compare your crop or variety’s heat requirement to the remaining GDD after your planting date.</p>
+    <p><strong>What it helps with:</strong> deciding if a later planting is a reasonable bet, choosing shorter-maturity varieties, and estimating whether a fast crop can still finish.</p>
+    <p><strong>Late-season reality:</strong> heat tends to accumulate more slowly as days shorten, so late-season progress can feel slower even when calendar days remain.</p>
+  </div>
 
   {% if state.frost.status != "normal" %}
     <p class="small muted" style="margin-top:-0.25rem;">
@@ -180,6 +209,10 @@ permalink: "/planting-dates/states/{{ state.key }}/index.html"
   {% endif %}
 
 </section>
+
+{% include "region/modules/planting-windows.njk" %}
+{% include "region/modules/what-can-i-grow.njk" %}
+
 
 {# Optional one-off details: src/_includes/region/{{ state.key }}-details.njk #}
 {% set detailsPath = "region/" + state.key + "-details.njk" %}

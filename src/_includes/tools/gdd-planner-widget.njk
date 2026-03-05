@@ -165,6 +165,181 @@
 {# Option A — load JS from inside the widget include #}
 <script type="module" src="/assets/js/gdd-planner.js"></script>
 
+<script>
+/*
+  GrowByDate GDD Planner — Patch v5
+  Fixes:
+   - Per-crop "Assessment: Unknown" when the crop clearly cannot mature
+   - Overall "Unknown / Not enough data" when at least one crop has an evaluable fail
+
+  Safe: does NOT replace existing widget functions; only post-processes DOM.
+*/
+(() => {
+  const norm = (s) => (s || "").replace(/\s+/g, " ").trim();
+  const lower = (s) => norm(s).toLowerCase();
+
+  function parseGddNumber(s) {
+    const m = (s || "").match(/(-?\d+)\s*gdd/i);
+    return m ? parseInt(m[1], 10) : null;
+  }
+
+  function isCropHeaderRow(tr) {
+    const cells = Array.from(tr.querySelectorAll("th, td"));
+    if (!cells.length) return false;
+    // crop header is commonly 1 cell with colspan=2, but allow 2-cell variants too
+    const text = norm(cells[0].textContent);
+    if (!text) return false;
+    // your headers look like: "🌽 Sweet Corn · Base 50°F"
+    return text.includes("·") && /base\s*\d/i.test(text);
+  }
+
+  function getKV(tr) {
+    const cells = Array.from(tr.querySelectorAll("th, td"));
+    if (cells.length < 2) return null;
+    const k = norm(cells[0].textContent);
+    const v = norm(cells[1].textContent);
+    if (!k) return null;
+    return { k, v, valueCell: cells[1] };
+  }
+
+  function scanCrops(tbody) {
+    const rows = Array.from(tbody.querySelectorAll("tr"));
+    const crops = [];
+    let cur = null;
+
+    const push = () => {
+      if (cur) crops.push(cur);
+      cur = null;
+    };
+
+    for (const tr of rows) {
+      if (isCropHeaderRow(tr)) {
+        push();
+        cur = {
+          maturity: "",
+          latest: "",
+          shortfall: null,
+          assessmentText: "",
+          assessmentCell: null,
+        };
+        continue;
+      }
+      if (!cur) continue;
+
+      const kv = getKV(tr);
+      if (!kv) continue;
+
+      const k = lower(kv.k);
+      const v = kv.v;
+
+      if (k.includes("estimated maturity date")) cur.maturity = v;
+      else if (k.includes("latest typical planting date")) cur.latest = v;
+      else if (k.includes("estimated shortfall")) cur.shortfall = parseGddNumber(v);
+      else if (k === "assessment" || k.includes("assessment")) {
+        cur.assessmentText = v;
+        cur.assessmentCell = kv.valueCell;
+      }
+    }
+    push();
+    return crops;
+  }
+
+  function outcomeForCrop(c) {
+    const maturity = lower(c.maturity);
+    const latest   = lower(c.latest);
+    const assess   = lower(c.assessmentText);
+    const shortfall = c.shortfall;
+
+    const hardFail =
+      maturity.includes("not reached") ||
+      maturity.includes("year-end") ||
+      latest.includes("not possible") ||
+      (typeof shortfall === "number" && shortfall > 0);
+
+    const pass =
+      (typeof shortfall === "number" && shortfall <= 0) ||
+      assess === "pass" ||
+      assess === "good" ||
+      assess.includes("likely to mature");
+
+    if (hardFail) return "fail";
+    if (pass) return "pass";
+    return "unknown";
+  }
+
+  function fixAssessmentRows(crops) {
+    for (const c of crops) {
+      if (!c.assessmentCell) continue;
+      if (lower(c.assessmentCell.textContent) !== "unknown") continue;
+
+      const out = outcomeForCrop(c);
+      if (out === "fail") c.assessmentCell.textContent = "Unlikely to mature before frost";
+      else if (out === "pass") c.assessmentCell.textContent = "Likely to mature in time";
+      // leave truly unknown as-is
+    }
+  }
+
+  function fixRiskBox(root, crops) {
+    const riskBox  = root.querySelector('[data-role="riskBox"]');
+    const riskLabel = root.querySelector('[data-role="riskLabel"]');
+    const riskNote  = root.querySelector('[data-role="riskNote"]');
+    if (!riskBox || !riskLabel || !riskNote) return;
+
+    const labelNow = lower(riskLabel.textContent);
+    const noteNow  = lower(riskNote.textContent);
+
+    // Only override when widget currently says Unknown / Not enough data
+    const isUnknownNow =
+      labelNow.includes("unknown") || noteNow.includes("not enough data");
+
+    if (!isUnknownNow) return;
+
+    const outcomes = crops.map(outcomeForCrop).filter(o => o !== "unknown");
+    if (!outcomes.length) return; // truly unknown: keep it
+
+    const anyPass = outcomes.includes("pass");
+    const anyFail = outcomes.includes("fail");
+
+    riskBox.style.display = "";
+    if (anyPass && anyFail) {
+      riskLabel.textContent = "Mixed results";
+      riskNote.textContent =
+        "Some selected crops can mature before your area’s typical first fall frost in a typical year, while others likely won’t. Review each crop section above for crop-specific details.";
+    } else if (anyFail) {
+      riskLabel.textContent = "Unlikely to mature before frost";
+      riskNote.textContent =
+        "At least one crop has enough data to evaluate, but it does not reach maturity before your area’s typical first fall frost in a typical year. Review each crop section above for crop-specific details.";
+    } else {
+      riskLabel.textContent = "Likely to mature in time";
+      riskNote.textContent =
+        "Based on a typical year estimate, your selected crops appear to reach maturity before your area’s typical first fall frost. Review each crop section above for crop-specific details.";
+    }
+  }
+
+  function apply(root) {
+    const tbody = root.querySelector('[data-role="resultsBody"]');
+    if (!tbody) return;
+
+    const crops = scanCrops(tbody);
+    if (!crops.length) return;
+
+    fixAssessmentRows(crops);
+    fixRiskBox(root, crops);
+  }
+
+  function hook(root) {
+    // Run after initial render and whenever results update
+    setTimeout(() => apply(root), 0);
+    const obs = new MutationObserver(() => apply(root));
+    obs.observe(root, { subtree: true, childList: true, characterData: true });
+  }
+
+  document
+    .querySelectorAll('.toolRoot[data-tool="gdd-planner"]')
+    .forEach(hook);
+})();
+</script>
+
 {# Tool-scoped styles (moved here so embeds match the canonical tool page) #}
 <style>
   .row { display: grid; gap: 10px; grid-template-columns: 1fr; }

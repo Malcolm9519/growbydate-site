@@ -1,0 +1,48 @@
+<section class="card">
+  <h2>{{ state.name }} Spring Planting Windows</h2>
+
+  <p class="small" style="margin-top:-0.25rem;">
+    These windows are derived from climate normals (not a forecast). They’re anchored to the
+    <strong>50% last spring frost</strong> date and the region’s typical remaining heat.
+  </p>
+
+  {% set windows = state.plantingWindows %}
+
+  {% if windows and windows.length %}
+    <div class="tableWrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Crop</th>
+            <th>Typical window</th>
+            <th>Method</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for w in windows %}
+            <tr>
+              <td><strong>{{ w.label }}</strong></td>
+              <td>
+                {% if w.start and w.end %}
+                  {{ w.start | mmddLong }} – {{ w.end | mmddLong }}
+                {% else %}
+                  —
+                {% endif %}
+              </td>
+              <td class="small muted">{{ w.method or "—" }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <p class="small muted" style="margin-top:0.75rem;">
+      Tip: later plantings often depend more on variety maturity, warmer microclimates,
+      and season extension (row cover or low tunnels).
+    </p>
+  {% else %}
+    <p class="small">
+      Planting window guidance isn’t available for this region yet.
+    </p>
+  {% endif %}
+</section>

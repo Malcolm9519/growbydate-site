@@ -1,7 +1,7 @@
 {# what-can-i-grow.njk — Crop viability matrix by typical remaining GDD checkpoints #}
 
 <section class="card wcig">
-  <h2>What Can You Usually Grow in {{ state.name }}?</h2>
+  <h2>What Can You Still Grow in {{ state.name }}?</h2>
 
   <style>
     .wcig .small { font-size: .95rem; }
@@ -344,5 +344,13 @@
   widgetTitle: "Is It Too Late to Plant? Check Crop Timing in " ~ state.name,
   widgetLede: "Enter a ZIP / Postal Code in " ~ state.name ~ " and your planting date to see whether different crops can typically mature before first fall frost."
 } %}
+
+<p class="small" style="margin-top:0.75rem;">
+<strong>How to use this:</strong> Early summer plantings usually succeed most reliably.
+By July, faster-maturing varieties matter more — and August planting windows tend to favor greens,
+roots, and short-season crops.
+</p>
+
 {% include "tools/gdd-planner-widget.njk" %}
+
 </section>
