@@ -168,8 +168,6 @@ permalink: "/planting-dates/canada/provinces/{{ province.key }}/index.html"
   {% endif %}
 </section>
 
-{% include "region/modules/season-timing-strategy.njk" %}
-
 <section class="card">
   <h2>Typical Remaining Growing Degree Days (Base 50)</h2>
 
@@ -213,9 +211,10 @@ permalink: "/planting-dates/canada/provinces/{{ province.key }}/index.html"
 
 </section>
 
+{% include "region/modules/season-timing-strategy.njk" %}
+{% include "region/modules/season-timing.njk" %}
 {% include "region/modules/planting-windows.njk" %}
 {% include "region/modules/what-can-i-grow.njk" %}
-
 
 {# Optional one-off details: src/_includes/region/{{ state.key }}-details.njk #}
 {% set detailsPath = "region/" + state.key + "-details.njk" %}

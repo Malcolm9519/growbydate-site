@@ -1,0 +1,52 @@
+{% macro buildTagline(state) %}
+
+{# --- Phrase banks --- #}
+
+{% set openings = [
+  "Plan your season with confidence in",
+  "Understand what a typical year allows in",
+  "Use this guide to plan planting and harvest in",
+  "Get a realistic snapshot of the growing season in",
+  "See how frost timing and heat shape gardening in"
+] %}
+
+{% set middles_short = [
+  "with median frost timing and seasonal heat benchmarks.",
+  "using typical frost dates and remaining GDD.",
+  "based on long-term climate normals.",
+  "with a clear view of seasonal limits.",
+  "from spring planting through fall frost."
+] %}
+
+{% set middles_cool = [
+  "where shorter seasons reward careful timing.",
+  "where frost often sets the pace.",
+  "where fast-maturing crops shine.",
+  "where heat accumulation can be tight."
+] %}
+
+{% set middles_warm = [
+  "where long seasons allow flexibility.",
+  "where heat builds steadily through summer.",
+  "where succession planting often works well.",
+  "where frost arrives later than most regions."
+] %}
+
+
+{# --- Choose middle set based on region traits --- #}
+
+{% set middlePool =
+  state.medianGddRemaining and state.medianGddRemaining < 700
+    ? middles_cool
+    : middles_warm
+%}
+
+{# --- Stable selection (not random each build) --- #}
+
+{% set seed = state.name | length %}
+{% set open = openings[seed % openings.length] %}
+{% set mid  = middlePool[seed % middlePool.length] %}
+
+{{ open }} {{ state.name }}, {{ mid }}
+
+{% endmacro %}

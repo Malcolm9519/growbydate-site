@@ -1,0 +1,136 @@
+{# src/_includes/region/modules/what-finishes-reliably.njk #}
+<section class="card">
+  <h2>What Finishes Reliably (Typical Year)</h2>
+
+  {% set cf = state.cropFit or null %}
+  {% set byDate = cf and cf.byDate or null %}
+  {% set meta = cf and cf.meta or null %}
+  {% set dates = (meta and meta.dates) or ["05-15","06-01","07-01","08-01"] %}
+  {% set marginPct = (meta and meta.marginPct) or 0.15 %}
+  {% set marginLabel = (marginPct * 100) | round %}
+
+{% set focus = "07-01" %}
+
+{% if byDate %}
+  {% if not byDate[focus] %}
+    {% if byDate["06-01"] %}
+      {% set focus = "06-01" %}
+    {% elseif byDate["05-15"] %}
+      {% set focus = "05-15" %}
+    {% elseif byDate["08-01"] %}
+      {% set focus = "08-01" %}
+    {% endif %}
+  {% endif %}
+{% endif %}
+
+  {# Season cues for region-specific copy #}
+  {% set season = state.season or null %}
+  {% set derived = season and season.derived or null %}
+  {% set frostFreeDays = derived and derived.frostFreeDays_p50 or null %}
+  {% set remaining = season and season.gdd and season.gdd.remaining or null %}
+  {% set gddJul1 = remaining and remaining["07-01"] or null %}
+  {% set gddAug1 = remaining and remaining["08-01"] or null %}
+
+  {% set band = "mid" %}
+  {% if frostFreeDays %}
+    {% if frostFreeDays <= 110 %}
+      {% set band = "short" %}
+    {% elseif frostFreeDays >= 190 %}
+      {% set band = "long" %}
+    {% else %}
+      {% set band = "mid" %}
+    {% endif %}
+  {% endif %}
+
+  {% set runwayBand = "unknown" %}
+  {% if gddJul1 is not null and gddAug1 is not null %}
+    {% if gddJul1 >= 1700 and gddAug1 >= 900 %}
+      {% set runwayBand = "high" %}
+    {% elseif gddJul1 <= 900 or gddAug1 <= 300 %}
+      {% set runwayBand = "low" %}
+    {% else %}
+      {% set runwayBand = "mid" %}
+    {% endif %}
+  {% endif %}
+
+  {% if not byDate %}
+    <p class="small">
+      Reliable-finish suggestions aren’t available for this region yet.
+    </p>
+  {% else %}
+    <p class="small" style="margin-top:-0.25rem;">
+      These are crops that typically have enough time to mature in {{ state.name }} using normals-based heat + frost timing.
+      We apply a <strong>{{ marginLabel }}% safety margin</strong> to separate “reliable” from “borderline.”
+    </p>
+
+    {# Region-specific “why this matters” line #}
+    <p class="small muted" style="margin-top:0.5rem;">
+      {% if band == "short" %}
+        Strategy cue: this is a <strong>short-season</strong> pattern — variety maturity and getting warm-season crops established on time matter a lot.
+      {% elseif band == "long" %}
+        Strategy cue: this is a <strong>long-season</strong> pattern — you usually have flexibility to trial longer varieties and stagger plantings.
+      {% else %}
+        Strategy cue: this is a <strong>mid-length</strong> season — results improve most when maturity matches your frost window.
+      {% endif %}
+
+      {% if runwayBand != "unknown" %}
+        Late-summer runway:
+        {% if gddAug1 is not null %}<strong>{{ gddAug1 }}</strong> GDD remaining on Aug 1 (base 50){% endif %}.
+        {% if runwayBand == "high" %}
+          Long-season crops often finish if planted on time.
+        {% elseif runwayBand == "low" %}
+          Late plantings are usually tight — fast crops and microclimates help.
+        {% else %}
+          Mid-range runway — variety choice makes the difference.
+        {% endif %}
+      {% endif %}
+    </p>
+
+    {% set block = byDate[focus] %}
+    {% set reliable = block and block.reliable or [] %}
+    {% set possible = block and block.possible or [] %}
+
+    <h3 class="small" style="margin-top:0.75rem;">
+      Reliable by {{ focus | mmddLong }} planting checkpoint
+    </h3>
+
+    {% if reliable and (reliable | length) %}
+      <ul class="small" style="margin-top:0.35rem;">
+        {% set shown = 0 %}
+        {% for c in reliable %}
+          {% if c and c.href and c.name and shown < 10 %}
+            <li>
+              <a href="{{ c.href }}">{{ c.name }}</a>
+              {% if c.gddRequired %}<span class="muted">({{ c.gddRequired | int }} GDD base {{ c.base }})</span>{% endif %}
+            </li>
+            {% set shown = shown + 1 %}
+          {% endif %}
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="small muted" style="margin-top:0.35rem;">
+        No “reliable” crops were found at the <strong>{{ focus | mmddLong }}</strong> checkpoint.
+        That usually means the crop-fit builder isn’t outputting <code>byDate[{{ focus }}].reliable</code> yet,
+        or it’s filtering everything out upstream.
+      </p>
+    {% endif %}
+
+    {% if possible and (possible | length) %}
+      <details style="margin-top:0.5rem;">
+        <summary class="small">Show borderline crops (often possible, but not “reliable”)</summary>
+        <ul class="small" style="margin-top:0.35rem;">
+          {% set shown2 = 0 %}
+          {% for c in possible %}
+            {% if c and c.href and c.name and shown2 < 12 %}
+              <li>
+                <a href="{{ c.href }}">{{ c.name }}</a>
+                {% if c.gddRequired %}<span class="muted">({{ c.gddRequired | int }} GDD base {{ c.base }})</span>{% endif %}
+              </li>
+              {% set shown2 = shown2 + 1 %}
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </details>
+    {% endif %}
+  {% endif %}
+</section>

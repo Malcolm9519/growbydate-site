@@ -1,0 +1,99 @@
+{# src/_includes/region/modules/season-timeline.njk #}
+<section class="card">
+  <h2>Typical Season Timeline in {{ state.name }}</h2>
+
+  {% set season = state.season or null %}
+  {% set spring = season and season.frost and season.frost.spring or null %}
+  {% set fall = season and season.frost and season.frost.fall or null %}
+  {% set derived = season and season.derived or null %}
+  {% set gdd = season and season.gdd and season.gdd.remaining or null %}
+
+  {% set springP50 = spring and spring.p50 or null %}
+  {% set fallP50 = fall and fall.p50 or null %}
+  {% set frostFreeDays = derived and derived.frostFreeDays_p50 or null %}
+  {% set gddAug1 = gdd and gdd["08-01"] or null %}
+
+  {% if not season %}
+    <p class="small">Season timeline guidance isn’t available for this region yet.</p>
+
+  {% elif spring and spring.status == "frost_free" or fall and fall.status == "frost_free" %}
+    <p class="small" style="margin-top:-0.25rem;">
+      This region is typically frost-free in the normals dataset, so the “season timeline” is less about a hard frost cutoff
+      and more about heat, rainfall patterns, and crop maturity.
+    </p>
+
+  {% else %}
+    <p class="small" style="margin-top:-0.25rem;">
+      A practical “typical year” rhythm for planning. Use it as a baseline — then adjust for microclimates and variety maturity.
+    </p>
+
+    <div class="tableWrap" style="margin-top:0.75rem;">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Stage</th>
+            <th>What to do</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Early season</strong></td>
+            <td class="small">
+              Start cold-tolerant crops and prep beds. Watch soil warmth and night temperatures more than the calendar.
+            </td>
+          </tr>
+
+          <tr>
+            <td><strong>Main planting</strong></td>
+            <td class="small">
+              {% if springP50 %}
+                Around <strong>{{ springP50 | mmddLong }}</strong>, shift into the main planting push as frost risk fades.
+              {% else %}
+                Make your main planting push as frost risk fades.
+              {% endif %}
+              Warm-season crops do best when established promptly.
+            </td>
+          </tr>
+
+          <tr>
+            <td><strong>Peak growth</strong></td>
+            <td class="small">
+              Focus on water, fertility, and pest control. This is when small management wins compound into yield.
+            </td>
+          </tr>
+
+          <tr>
+            <td><strong>Late-summer decisions</strong></td>
+            <td class="small">
+              {% if gddAug1 is not null and gddAug1 >= 800 %}
+                With meaningful heat still typical around early August, fast second plantings (greens/roots/beans) are often worthwhile.
+              {% elif gddAug1 is not null and gddAug1 <= 300 %}
+                Late plantings are usually tight — prioritize fast crops, cold-tolerant crops, or protected sites.
+              {% else %}
+                Second plantings can work, but success depends on crop maturity and microclimate.
+              {% endif %}
+            </td>
+          </tr>
+
+          <tr>
+            <td><strong>Finish window</strong></td>
+            <td class="small">
+              {% if fallP50 %}
+                Plan to be mostly “done” by <strong>{{ fallP50 | mmddLong }}</strong> with frost-sensitive crops protected or harvested.
+              {% else %}
+                Plan to protect or harvest frost-sensitive crops as fall frost risk increases.
+              {% endif %}
+              Cooling nights often slow ripening before the first frost arrives.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    {% if frostFreeDays %}
+      <p class="small muted" style="margin-top:0.75rem;">
+        Typical season length: <strong>{{ frostFreeDays }}</strong> frost-free days (median spring to median fall frost).
+      </p>
+    {% endif %}
+  {% endif %}
+</section>

@@ -139,7 +139,7 @@ permalink: "/planting-dates/states/{{ state.key }}/index.html"
       </table>
     </div>
 
-        <p class="small muted" style="margin-top:0.75rem;">
+    <p class="small muted" style="margin-top:0.75rem;">
       Based on {{ state.frost.stationCount }} locations in {{ state.name }}.
     </p>
 
@@ -164,8 +164,6 @@ permalink: "/planting-dates/states/{{ state.key }}/index.html"
     </p>
   {% endif %}
 </section>
-
-{% include "region/modules/season-timing-strategy.njk" %}
 
 <section class="card">
   <h2>Typical Remaining Growing Degree Days (Base 50)</h2>
@@ -210,9 +208,10 @@ permalink: "/planting-dates/states/{{ state.key }}/index.html"
 
 </section>
 
+{% include "region/modules/season-timing-strategy.njk" %}
+{% include "region/modules/season-timing.njk" %}
 {% include "region/modules/planting-windows.njk" %}
 {% include "region/modules/what-can-i-grow.njk" %}
-
 
 {# Optional one-off details: src/_includes/region/{{ state.key }}-details.njk #}
 {% set detailsPath = "region/" + state.key + "-details.njk" %}
