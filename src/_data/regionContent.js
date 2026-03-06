@@ -111,10 +111,9 @@ function defaultIndexCardLede(summary) {
   }
 
   if (med && win) {
-    return n
-      ? `Typical first frost is ${med} (${win}); remaining heat is based on ${n} locations.`
-      : `Typical first frost is ${med} (${win}); see remaining heat through the season.`;
-  }
+return n
+  ? `Typical first frost is ${med} (${win}). Seasonal heat and crop timing are summarized from ${n} locations.`
+  : `Typical first frost is ${med} (${win}). See remaining seasonal heat through the season.`;  }
 
   return n
     ? `First-frost timing plus remaining heat, summarized from ${n} locations.`
@@ -122,8 +121,8 @@ function defaultIndexCardLede(summary) {
 }
 
 
-module.exports = {
-  // Global defaults for all regions
+const regionContent = {
+    // Global defaults for all regions
   defaults: {
     hero: {
       note: defaultHeroNote,
@@ -536,4 +535,58 @@ manitoba: {
       },
     },
   },
+};
+
+function isPlainObject(value) {
+  return value && typeof value === "object" && !Array.isArray(value);
+}
+
+function deepMerge(base, override) {
+  const out = { ...(base || {}) };
+
+  for (const [key, value] of Object.entries(override || {})) {
+    if (Array.isArray(value)) {
+      out[key] = value.slice();
+    } else if (isPlainObject(value) && isPlainObject(out[key])) {
+      out[key] = deepMerge(out[key], value);
+    } else {
+      out[key] = value;
+    }
+  }
+
+  return out;
+}
+
+function resolveValue(value, summary) {
+  if (typeof value === "function") {
+    return value(summary);
+  }
+
+  if (Array.isArray(value)) {
+    return value.map((item) => resolveValue(item, summary));
+  }
+
+  if (isPlainObject(value)) {
+    const out = {};
+    for (const [key, inner] of Object.entries(value)) {
+      out[key] = resolveValue(inner, summary);
+    }
+    return out;
+  }
+
+  return value;
+}
+
+function buildRegionPack({ kind, key, summary }) {
+  const defaults = regionContent.defaults || {};
+  const kindMap = regionContent[kind] || {};
+  const region = kindMap[key] || {};
+
+  const merged = deepMerge(defaults, region);
+  return resolveValue(merged, summary);
+}
+
+module.exports = {
+  ...regionContent,
+  buildRegionPack,
 };

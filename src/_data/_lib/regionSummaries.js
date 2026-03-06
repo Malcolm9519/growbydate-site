@@ -887,8 +887,11 @@ const summary = {
       dates: checkDates,
     });
 
-    const lede = pack?.indexCard?.lede || pack?.index?.lede || null;
-
+    const lede =
+      pack?.indexCard?.lede ||
+      pack?.index?.lede ||
+      `Typical frost timing, season length, and planting constraints for gardeners in ${summary.name}.`;
+      
     out.push({ ...summary, content: pack, cropFit, lede, plantingWindows });
   }
 

@@ -11,6 +11,7 @@ permalink: "/planting-dates/states/{{ state.key }}/index.html"
   <h1>Planting Dates & Crop Timing in {{ state.name }}</h1>
 
   {% set hero = (state.content and state.content.hero) or {} %}
+  {% set ledeFromHeroNote = (hero and hero.note and (not hero.lede)) %}
 
   {# Optional hero notes (avoid duplicating hero.note if it was used as the lede) #}
   {% if hero %}
@@ -28,25 +29,14 @@ permalink: "/planting-dates/states/{{ state.key }}/index.html"
   {% endif %}
 
   {% if state.season and state.season.frost and state.season.frost.spring and state.season.frost.fall %}
-  <p>
-    In a typical year, the growing season in {{ state.name }} runs roughly from
-    <strong>{{ state.season.frost.spring.p50 | mmddLong }}</strong>
-    through
-    <strong>{{ state.season.frost.fall.p50 | mmddLong }}</strong>.
-    {% if state.season.derived and state.season.derived.frostFreeDays_p50 %}
-      That’s about <strong>{{ state.season.derived.frostFreeDays_p50 }}</strong> frost-free days for most locations.
-    {% endif %}
-  </p>
-{% endif %}
-
-  {# Lede: prefer explicit hero.lede; otherwise, if hero.note exists, use it as the lede. #}
-  {% set ledeFromHeroNote = (hero and hero.note and (not hero.lede)) %}
-  {% set lede =
-    (hero and hero.lede)
-      or (ledeFromHeroNote and hero.note)
-      or ("Use this page to get oriented: what a “normal” year usually allows in " + state.name + ", and what tends to be a tight fit. Start with the quick reference, then use the tables for detail.")
-  %}
-  <p class="lede">{{ lede }}</p>
+    <p class="lede">
+      In a typical year, the growing season in {{ state.name }} runs roughly from
+      <strong>{{ state.season.frost.spring.p50 | mmddLong }}</strong>
+      through
+      <strong>{{ state.season.frost.fall.p50 | mmddLong }}</strong>{% if state.season.derived and state.season.derived.frostFreeDays_p50 %} — about <strong>{{ state.season.derived.frostFreeDays_p50 }}</strong> frost-free days for most locations{% endif %}.
+      Knowing that window helps clarify what typically succeeds, what can be a stretch, and how to time planting across the season.
+    </p>
+  {% endif %}
 
 </header>
 

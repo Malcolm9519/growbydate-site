@@ -140,26 +140,6 @@
 
 {% set spreadDays = season and season.derived and season.derived.fallSpreadDays50 or null %}
 
-{% if spreadDays %}
-  {% if spreadDays >= 35 %}
-    <p class="small muted" style="margin-top:0.75rem;">
-      <strong>Microclimate note:</strong> frost timing varies widely across {{ state.name }}. Elevation, exposure,
-      and nearby water can shift planting timing by weeks — local observation matters as much as
-      regional averages.
-    </p>
-  {% elif spreadDays <= 15 %}
-    <p class="small muted" style="margin-top:0.75rem;">
-      <strong>Microclimate note:</strong> frost timing is fairly consistent across {{ state.name }}, so regional
-      averages are usually a reliable planning guide.
-    </p>
-  {% else %}
-    <p class="small muted" style="margin-top:0.75rem;">
-      <strong>Microclimate note:</strong> frost timing varies within {{ state.name }}. If you’re in a colder pocket
-      (low spots, exposed areas, higher elevation), plan a little earlier than the regional median.
-    </p>
-  {% endif %}
-{% endif %}
-
     {# One small data-driven “late season” cue #}
     {% if gddAug1 is not null %}
       {% if gddAug1 >= 800 %}
@@ -222,6 +202,26 @@
       {% endif %}
 
     </ul>
+
+{% if spreadDays %}
+  {% if spreadDays >= 35 %}
+    <p class="small muted" style="margin-top:0.75rem;">
+      <strong>Microclimate note:</strong> frost timing varies widely across {{ state.name }}. Elevation, exposure,
+      and nearby water can shift planting timing by weeks — local observation matters as much as
+      regional averages.
+    </p>
+  {% elif spreadDays <= 15 %}
+    <p class="small muted" style="margin-top:0.75rem;">
+      <strong>Microclimate note:</strong> frost timing is fairly consistent across {{ state.name }}, so regional
+      averages are usually a reliable planning guide.
+    </p>
+  {% else %}
+    <p class="small muted" style="margin-top:0.75rem;">
+      <strong>Microclimate note:</strong> frost timing varies within {{ state.name }}. If you’re in a colder pocket
+      (low spots, exposed areas, higher elevation), plan a little earlier than the regional median.
+    </p>
+  {% endif %}
+{% endif %}
 
     <p class="small muted" style="margin-top:0.75rem;">
       Tip: observe when nearby lawns frost over — your garden may behave differently than nearby weather stations.
