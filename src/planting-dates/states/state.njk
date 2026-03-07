@@ -38,6 +38,14 @@ permalink: "/planting-dates/states/{{ state.key }}/index.html"
     </p>
   {% endif %}
 
+  {% set lede =
+  (hero and hero.lede)
+    or (ledeFromHeroNote and hero.note)
+    or ("Use this page to get oriented: what a “normal” year usually allows in " + state.name + ", and what tends to be a tight fit. Start with the quick reference, then use the tables for detail.")
+%}
+
+<p class="lede">{{ lede }}</p>
+
 </header>
 
 <section class="card">
@@ -201,14 +209,8 @@ permalink: "/planting-dates/states/{{ state.key }}/index.html"
 {% include "region/modules/season-timing-strategy.njk" %}
 {% include "region/modules/season-timing.njk" %}
 {% include "region/modules/planting-windows.njk" %}
+{% include "region/modules/what-can-i-grow.njk" %}
 
 {# Optional one-off details: src/_includes/region/{{ state.key }}-details.njk #}
 {% set detailsPath = "region/" + state.key + "-details.njk" %}
 {% include detailsPath ignore missing %}
-
-{# Modular region system (regionContent.js drives order) #}
-{% if state.content and state.content.modules %}
-  {% for mod in state.content.modules %}
-    {% include "region/modules/" + mod + ".njk" %}
-  {% endfor %}
-{% endif %}
