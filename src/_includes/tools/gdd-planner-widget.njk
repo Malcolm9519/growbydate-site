@@ -95,7 +95,7 @@
   <script type="application/json" data-site-crops>{{ crops | dump | safe }}</script>
   <script type="application/json" data-gdd-crops>{{ gddCrops | dump | safe }}</script>
 
-  <section class="card" aria-label="Growing degree day planner">
+<section aria-label="Growing degree day planner">
     <h2 data-role="widgetTitle">{{ cfg.widgetTitle or defaultTitle }}</h2>
 
     <p class="small" data-role="widgetIntro" style="opacity:0.86; margin-top:6px;">
@@ -133,7 +133,7 @@
     </p>
   </section>
 
-  <section class="card" data-role="resultsCard" style="display:none;" aria-label="Results">
+<section data-role="resultsCard" style="display:none;" aria-label="Results">
     <h2>Results</h2>
 
     <div class="small">
@@ -358,7 +358,6 @@
 
   .small { font-size: 14px; opacity: .85; }
   .muted { color: rgba(0, 0, 0, 0.75); }
-  .card + .card { margin-top: 14px; }
 
   table { width: 100%; border-collapse: collapse; margin-top: 10px; }
   th, td { padding: 10px 8px; border-bottom: 1px solid #e5e5e5; text-align: left; vertical-align: top; }

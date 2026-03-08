@@ -1,11 +1,28 @@
 const { buildRegionSummaries } = require("./_lib/regionSummaries");
 
 const INCLUDED_STATES = new Set([
+  "minnesota",
+  "wisconsin",
+  "michigan",
   "montana",
-"minnesota",
-"north-dakota",
-"colorado",
-"michigan"
+  "north-dakota",
+  "south-dakota",
+  "wyoming",
+  "idaho",
+
+  "colorado",
+  "pennsylvania",
+  "new-york",
+  "ohio",
+  "massachusetts",
+  "illinois",
+
+  "washington",
+  "oregon",
+  "maine",
+  "vermont",
+  "new-hampshire",
+  "alaska",
 ]);
 
 module.exports = function () {

@@ -1,49 +1,54 @@
 {# src/_includes/region/modules/common-timing-mistakes.njk #}
-  <h3>Common Timing Mistakes</h3>
 
-  {% set season = state.season or null %}
-  {% set frost = season and season.frost or null %}
-  {% set derived = season and season.derived or null %}
-  {% set gdd = season and season.gdd and season.gdd.remaining or null %}
+<h3>Common Timing Mistakes</h3>
 
-  {% set frostFreeDays = derived and derived.frostFreeDays_p50 or null %}
-  {% set fallSpread = derived and derived.fallSpreadDays50 or null %}
-  {% set gddAug1 = gdd and gdd["08-01"] or null %}
+<p class="small" style="margin-top:-0.2rem;">
+These patterns show up again and again in {{ state.name }} — especially in typical years.
+</p>
 
-  {% if not season %}
-    <p class="small">Timing guidance isn’t available for this region yet.</p>
+{% set season = state.season or null %}
+{% set frost = season and season.frost or null %}
+{% set derived = season and season.derived or null %}
+{% set gdd = season and season.gdd and season.gdd.remaining or null %}
 
-  {% else %}
-    <ul class="small" style="margin-top:0.5rem;">
+{% set frostFreeDays = derived and derived.frostFreeDays_p50 or null %}
+{% set fallSpread = derived and derived.fallSpreadDays50 or null %}
+{% set gddAug1 = gdd and gdd["08-01"] or null %}
 
-      {# SHORT-SEASON LOGIC #}
-      {% if frostFreeDays and frostFreeDays <= 115 %}
-        <li>Planting warm-season crops too late after last frost — small delays often mean they never finish.</li>
-        <li>Choosing long-season varieties that need more heat than a typical year provides.</li>
-      {% endif %}
+{% if not season %}
+  <p class="small">Timing guidance isn’t available for this region yet.</p>
 
-      {# MID-SEASON LOGIC #}
-      {% if frostFreeDays and frostFreeDays > 115 and frostFreeDays < 185 %}
-        <li>Delaying warm-season planting past the main window, which compresses harvest timing.</li>
-      {% endif %}
+{% else %}
+  <ul class="small" style="margin-top:0.5rem;">
 
-      {# LONG-SEASON LOGIC #}
-      {% if frostFreeDays and frostFreeDays >= 185 %}
-        <li>Planting everything at once instead of staggering crops across the season.</li>
-      {% endif %}
+    {# SHORT-SEASON LOGIC #}
+    {% if frostFreeDays and frostFreeDays <= 115 %}
+      <li>Starting warm-season crops too late — even small delays can mean they never finish.</li>
+      <li>Choosing long-season varieties that need more heat than a typical year provides.</li>
+    {% endif %}
 
-      {# LOW HEAT RUNWAY SIGNAL #}
-      {% if gddAug1 is not null and gddAug1 <= 350 %}
-        <li>Expecting late plantings to finish — cooling nights often slow crops earlier than expected.</li>
-      {% endif %}
+    {# MID-SEASON LOGIC #}
+    {% if frostFreeDays and frostFreeDays > 115 and frostFreeDays < 185 %}
+      <li>Waiting too long after last frost to plant warm-season crops, which compresses harvest timing.</li>
+    {% endif %}
 
-      {# MICROCLIMATE SIGNAL #}
-      {% if fallSpread and fallSpread >= 25 %}
-        <li>Assuming conditions are uniform across the region — frost timing often varies widely by elevation and exposure.</li>
-      {% endif %}
+    {# LONG-SEASON LOGIC #}
+    {% if frostFreeDays and frostFreeDays >= 185 %}
+      <li>Planting everything at once instead of staggering crops across the season.</li>
+    {% endif %}
 
-      {# UNIVERSAL CLOSE #}
-      <li>Using calendar dates instead of crop maturity and typical frost timing to guide decisions.</li>
+    {# LOW HEAT RUNWAY SIGNAL #}
+    {% if gddAug1 is not null and gddAug1 <= 350 %}
+      <li>Expecting late plantings to finish — cooling nights often slow crops earlier than expected.</li>
+    {% endif %}
 
-    </ul>
-  {% endif %}
+    {# MICROCLIMATE SIGNAL #}
+    {% if fallSpread and fallSpread >= 25 %}
+      <li>Assuming conditions are uniform across the region — frost timing often varies widely by elevation, exposure, and shelter.</li>
+    {% endif %}
+
+    {# UNIVERSAL CLOSE #}
+    <li>Relying on calendar dates instead of crop maturity and typical frost timing.</li>
+
+  </ul>
+{% endif %}

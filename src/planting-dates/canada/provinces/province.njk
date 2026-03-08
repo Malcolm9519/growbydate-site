@@ -33,10 +33,10 @@ permalink: "/planting-dates/canada/provinces/{{ province.key }}/index.html"
 
   {% if state.season and state.season.frost and state.season.frost.spring and state.season.frost.fall %}
     <p class="lede">
-      In a typical year, the growing season in {{ state.name }} runs roughly from
-      <strong>{{ state.season.frost.spring.p50 | mmddLong }}</strong>
+      In a typical year, <strong>the growing season in {{ state.name }} runs roughly from
+      {{ state.season.frost.spring.p50 | mmddLong }}
       through
-      <strong>{{ state.season.frost.fall.p50 | mmddLong }}</strong>{% if state.season.derived and state.season.derived.frostFreeDays_p50 %} — about <strong>{{ state.season.derived.frostFreeDays_p50 }}</strong> frost-free days for most locations{% endif %}.
+      {{ state.season.frost.fall.p50 | mmddLong }}</strong>{% if state.season.derived and state.season.derived.frostFreeDays_p50 %} <strong>— about {{ state.season.derived.frostFreeDays_p50 }} frost-free days</strong> for most locations{% endif %}.
       Knowing that window helps clarify what typically succeeds, what can be a stretch, and how to time planting across the season.
     </p>
   {% endif %}
@@ -44,175 +44,16 @@ permalink: "/planting-dates/canada/provinces/{{ province.key }}/index.html"
   {% set lede =
   (hero and hero.lede)
     or (ledeFromHeroNote and hero.note)
-    or ("Use this page to get oriented: what a “normal” year usually allows in " + state.name + ", and what tends to be a tight fit. Start with the quick reference, then use the tables for detail.")
-%}
+or ("This page shows what typically works in " + state.name + " in a normal year — what reliably finishes, what can be tight, and how timing decisions shape results across the season.")%}
 
 <p class="lede">{{ lede }}</p>
 
 </header>
+{% include "region/modules/quick-planning-reference.njk" %}
 
-<section class="card">
-  <h2>Quick Planning Reference</h2>
+{% include "region/modules/season-boundaries.njk" %}
 
-{# --- Pull base-50 remaining GDD values safely by date (loop-based to avoid repeated-value bugs) --- #}
-{% set gddJuly = null %}
-{% set gddAug  = null %}
-{% set gddSept = null %}
-
-{% for row in (state.gdd_remaining or []) %}
-  {% if row.date == "07-01" %}{% set gddJuly = row.gdd %}{% endif %}
-  {% if row.date == "08-01" %}{% set gddAug  = row.gdd %}{% endif %}
-  {% if row.date == "09-01" %}{% set gddSept = row.gdd %}{% endif %}
-{% endfor %}
-
-  <ul>
-    {% if state.frost.status == "normal" %}
-      <li><strong>Typical first fall frost (median):</strong> {{ state.frost.median50 | mmddLong }}</li>
-      <li><strong>Range across the region:</strong> {{ state.frost.earliest50 | mmddLong }} to {{ state.frost.latest50 | mmddLong }}</li>
-      <li><strong>Coverage:</strong> {{ state.frost.stationCount }} locations</li>
-    {% elif state.frost.status == "frost_free" %}
-      <li><strong>Frost:</strong> This region is typically frost-free in the normals dataset.</li>
-    {% else %}
-      <li><strong>Frost:</strong> Frost normals are not available for this region yet.</li>
-    {% endif %}
-
-{% if gddJuly != null %}
-  <li><strong>Median GDD remaining on July 1 (base 50):</strong> {{ gddJuly }}</li>
-{% endif %}
-{% if gddAug != null %}
-  <li><strong>Median GDD remaining on August 1 (base 50):</strong> {{ gddAug }}</li>
-{% endif %}
-{% if gddSept != null %}
-  <li><strong>Median GDD remaining on September 1 (base 50):</strong> {{ gddSept }}</li>
-{% endif %}
-
-    <li>
-      <strong>Best next step:</strong>
-      Use the <a href="/tools/growing-degree-day-planner/">Growing Degree Day Planner</a> to check a specific crop and planting date for your exact location.
-    </li>
-  </ul>
-
-  <p class="fine muted" style="margin-top:14px;">
-    These values are climate normals (typical conditions), not a forecast. Microclimates can shift real frost timing.
-  </p>
-</section>
-
-<section class="card">
-  <h2>Season Boundaries in {{ state.name }} (Typical Frost Dates)</h2>
-
-  <p class="small" style="margin-top:-0.25rem;">
-    This is a climate-normal reference point, not a forecast. A
-    <a href="/guides/what-does-50-percent-frost-probability-mean/">“50% probability”</a>
-    frost date means that, historically, a <strong>32°F frost</strong> happens by this date in about half of years — and later in about half.
-  </p>
-
-  {% if state.frost.status == "normal" %}
-    {% set springObj = state.season and state.season.frost and state.season.frost.spring or null %}
-    {% set hasSpring = springObj and springObj.p50 and springObj.status == "normal" %}
-    {% set hasFFD = state.season and state.season.derived and state.season.derived.frostFreeDays_p50 %}
-
-    <div class="tableWrap">
-      <table class="table">
-        <thead>
-          <tr>
-            {% if hasSpring %}
-              <th>Typical last spring frost (50%)</th>
-            {% endif %}
-            <th>Typical first fall frost (50%)</th>
-            <th>Fall frost range across region</th>
-            {% if hasFFD %}
-              <th>Typical frost-free days</th>
-            {% endif %}
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            {% if hasSpring %}
-              <td>{{ springObj.p50 | mmddLong }}</td>
-            {% endif %}
-            <td>{{ state.frost.median50 | mmddLong }}</td>
-            <td>{{ state.frost.earliest50 | mmddLong }} – {{ state.frost.latest50 | mmddLong }}</td>
-            {% if hasFFD %}
-              <td>{{ state.season.derived.frostFreeDays_p50 }}</td>
-            {% endif %}
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <p class="small muted" style="margin-top:0.75rem;">
-      Based on {{ state.frost.stationCount }} locations in {{ state.name }}.
-    </p>
-
-    {% if hasSpring or hasFFD %}
-      <p class="small muted" style="margin-top:0.75rem;">
-        Use these boundaries as your baseline season window — then lean on crop maturity and remaining heat to judge what will reliably finish in a typical year.
-      </p>
-    {% endif %}
-
-    <div class="small muted" style="margin-top:.15rem;">
-      <p><strong>Why the range matters:</strong> elevation, terrain, and nearby water can shift frost timing a lot within the same region.</p>
-      <p><strong><a href="/guides/32f-vs-28f-what-temperature-kills-plants/">Frost vs. hard freeze:</a></strong> 32°F is often a light frost; colder temperatures (often ~28°F) are more likely to cause widespread damage.</p>
-    </div>
-
-  {% elif state.frost.status == "frost_free" %}
-    <p class="small">
-      This region appears to be <strong>typically frost-free</strong> in the normals dataset (no 50% first fall frost date).
-    </p>
-  {% else %}
-    <p class="small">
-      Frost normals are not available for this region yet.
-    </p>
-  {% endif %}
-</section>
-
-<section class="card">
-  <h2>Typical Remaining Growing Degree Days (Base 50)</h2>
-
-    <p class="small" style="margin-top:-0.25rem;">
-    <a href="/guides/how-frost-dates-and-growing-degree-days-work-together/">Growing Degree Days</a> (Base 50°F) are a heat-accumulation measure used to estimate plant development.
-    “Remaining GDD” is the typical amount of usable heat still available <em>from each date</em> as the season approaches frost risk.
-  </p>
-
-    <div class="tableWrap">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Base</th>
-          <th>Median GDD Remaining</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for row in state.gdd_remaining %}
-          <tr>
-            <td>{{ row.date | mmddLong }}</td>
-            <td>{{ row.base }}</td>
-            <td>{% if row.gdd != null %}{{ row.gdd }}{% else %}—{% endif %}</td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-
-                  <div class="small muted" style="margin-top:.15rem;">
-    <p><strong>How to use it:</strong> compare your crop or variety’s heat requirement to the remaining GDD after your planting date.</p>
-    <p><strong>What it helps with:</strong> deciding if a later planting is a reasonable bet, choosing shorter-maturity varieties, and estimating whether a fast crop can still finish.</p>
-    <p><strong>Late-season reality:</strong> heat tends to accumulate more slowly as days shorten, so late-season progress can feel slower even when calendar days remain.</p>
-  </div>
-
-  {% if state.frost.status != "normal" %}
-    <p class="small muted" style="margin-top:-0.25rem;">
-      Remaining GDD to “first frost” is not applicable when there is no typical frost date.
-    </p>
-  {% endif %}
-
-</section>
-
-{% include "region/modules/season-timing-strategy.njk" %}
-{% include "region/modules/season-timing.njk" %}
-{% include "region/modules/planting-windows.njk" %}
-{% include "region/modules/what-can-i-grow.njk" %}
+{% include "region/modules/remaining-gdd.njk" %}
 
 {# Optional one-off details: src/_includes/region/{{ state.key }}-details.njk #}
 {% set detailsPath = "region/" + state.key + "-details.njk" %}

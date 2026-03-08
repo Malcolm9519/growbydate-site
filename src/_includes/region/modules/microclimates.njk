@@ -1,47 +1,48 @@
 {# src/_includes/region/modules/microclimates.njk #}
-  <h3>Microclimates That Matter</h3>
 
-  {% set season = state.season or null %}
-  {% set derived = season and season.derived or null %}
-  {% set fallSpread = derived and derived.fallSpreadDays50 or null %}
-  {% set frostFreeDays = derived and derived.frostFreeDays_p50 or null %}
+<h3>Why Microclimates Matter</h3>
 
-  {% if not season %}
-    <p class="small">Microclimate guidance isn’t available for this region yet.</p>
+{% set season = state.season or null %}
+{% set derived = season and season.derived or null %}
+{% set fallSpread = derived and derived.fallSpreadDays50 or null %}
+{% set frostFreeDays = derived and derived.frostFreeDays_p50 or null %}
 
-  {% else %}
+{% if not season %}
+  <p class="small">Microclimate guidance isn’t available for this region yet.</p>
 
-    <p class="small" style="margin-top:-0.25rem;">
-      Conditions often vary more within {{ state.name }} than most gardeners expect.
-      Small differences in elevation, exposure, and surroundings can shift frost timing
-      by days or even weeks.
-    </p>
+{% else %}
 
-    <ul class="small" style="margin-top:0.5rem;">
+  <p class="small" style="margin-top:-0.25rem;">
+    Conditions often vary more within {{ state.name }} than most gardeners expect.
+    Small differences in elevation, exposure, and surroundings can shift frost timing
+    by days — sometimes even weeks.
+  </p>
 
-      {# BIG VARIABILITY SIGNAL #}
-      {% if fallSpread and fallSpread >= 28 %}
-        <li>Frost timing varies widely across the region — colder pockets often form in low or exposed areas.</li>
-      {% elif fallSpread and fallSpread >= 18 %}
-        <li>Local conditions noticeably affect frost timing, especially between open and sheltered sites.</li>
-      {% else %}
-        <li>Most areas behave similarly, though small site differences still influence first frost timing.</li>
-      {% endif %}
+  <ul class="small" style="margin-top:0.5rem;">
 
-      {# UNIVERSAL MICROCLIMATE FACTORS #}
-      <li>Urban and sheltered gardens usually stay warmer than rural or exposed locations.</li>
-      <li>Cold air settles in low spots — slightly elevated beds often avoid the earliest frosts.</li>
-      <li>South- and west-facing areas warm faster in spring and stay productive later into fall.</li>
+    {# BIG VARIABILITY SIGNAL #}
+    {% if fallSpread and fallSpread >= 28 %}
+      <li>Frost timing varies widely across the region — colder pockets often form in low or exposed areas.</li>
+    {% elif fallSpread and fallSpread >= 18 %}
+      <li>Local conditions noticeably affect frost timing, especially between open and sheltered sites.</li>
+    {% else %}
+      <li>Most areas behave similarly, though small site differences still influence first frost timing.</li>
+    {% endif %}
 
-      {# SHORT-SEASON EMPHASIS #}
-      {% if frostFreeDays and frostFreeDays <= 115 %}
-        <li>Choosing protected planting sites can significantly extend your usable growing window.</li>
-      {% endif %}
+    {# UNIVERSAL MICROCLIMATE FACTORS #}
+    <li>Urban and sheltered gardens usually stay warmer than rural or exposed locations.</li>
+    <li>Cold air settles in low spots — slightly elevated beds often avoid the earliest frosts.</li>
+    <li>South- and west-facing areas warm faster in spring and often stay productive later into fall.</li>
 
-    </ul>
+    {# SHORT-SEASON EMPHASIS #}
+    {% if frostFreeDays and frostFreeDays <= 115 %}
+      <li>Choosing protected planting sites can noticeably extend your usable growing window.</li>
+    {% endif %}
 
-    <p class="small muted" style="margin-top:0.75rem;">
-      Tip: observe when nearby lawns frost over — your garden may behave differently than nearby weather stations.
-    </p>
+  </ul>
 
-  {% endif %}
+  <p class="small muted" style="margin-top:0.75rem;">
+    Tip: watch when nearby lawns frost over — your garden may behave differently than nearby weather stations.
+  </p>
+
+{% endif %}

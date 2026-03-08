@@ -1,0 +1,49 @@
+<section class="card">
+  <h2>Quick Planning Reference</h2>
+
+  {# --- Pull base-50 remaining GDD values safely by date --- #}
+  {% set gddJuly = null %}
+  {% set gddAug  = null %}
+  {% set gddSept = null %}
+
+  {% for row in (state.gdd_remaining or []) %}
+    {% if row.date == "07-01" %}{% set gddJuly = row.gdd %}{% endif %}
+    {% if row.date == "08-01" %}{% set gddAug  = row.gdd %}{% endif %}
+    {% if row.date == "09-01" %}{% set gddSept = row.gdd %}{% endif %}
+  {% endfor %}
+
+  <p class="small" style="margin-top:-0.25rem;">
+    A fast snapshot of the season in {{ state.name }}: when fall frost usually arrives, how much heat is typically left by mid- and late season, and where to go next for crop-specific timing.
+  </p>
+
+  <ul>
+    {% if state.frost.status == "normal" %}
+      <li><strong>Typical first fall frost (median):</strong> {{ state.frost.median50 | mmddLong }}</li>
+      <li><strong>Range across the region:</strong> {{ state.frost.earliest50 | mmddLong }} to {{ state.frost.latest50 | mmddLong }}</li>
+      <li><strong>Coverage:</strong> {{ state.frost.stationCount }} locations</li>
+    {% elif state.frost.status == "frost_free" %}
+      <li><strong>Frost:</strong> This region is typically frost-free in the normals dataset.</li>
+    {% else %}
+      <li><strong>Frost:</strong> Frost normals are not available for this region yet.</li>
+    {% endif %}
+
+    {% if gddJuly != null %}
+      <li><strong>Median GDD remaining on July 1 (base 50):</strong> {{ gddJuly }}</li>
+    {% endif %}
+    {% if gddAug != null %}
+      <li><strong>Median GDD remaining on August 1 (base 50):</strong> {{ gddAug }}</li>
+    {% endif %}
+    {% if gddSept != null %}
+      <li><strong>Median GDD remaining on September 1 (base 50):</strong> {{ gddSept }}</li>
+    {% endif %}
+
+    <li>
+      <strong>Best next step:</strong>
+      Use the <a href="#gdd-planner">Growing Degree Day Planner</a> to test a specific crop and planting date for your exact location.
+    </li>
+  </ul>
+
+  <p class="fine muted" style="margin-top:14px;">
+    These are climate normals, not a forecast. Real gardens can run earlier or later depending on elevation, exposure, and nearby shelter.
+  </p>
+</section>

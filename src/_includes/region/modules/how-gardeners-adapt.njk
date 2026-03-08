@@ -1,0 +1,46 @@
+{# src/_includes/region/modules/how-gardeners-adapt.njk #}
+
+<h3>How Gardeners Adapt</h3>
+
+{% set season = state.season or null %}
+{% set derived = season and season.derived or null %}
+{% set frostFreeDays = derived and derived.frostFreeDays_p50 or null %}
+{% set gdd = season and season.gdd and season.gdd.remaining or null %}
+{% set gddAug1 = gdd and gdd["08-01"] or null %}
+
+{% if not season %}
+  <p class="small">Regional growing patterns aren’t available yet.</p>
+
+{% else %}
+
+  <p class="small" style="margin-top:-0.25rem;">
+    Experienced gardeners in {{ state.name }} usually adjust their timing and crop choices to match how the season actually behaves, not just the calendar.
+  </p>
+
+  <ul class="small" style="margin-top:0.5rem;">
+
+    {# SHORT-SEASON EMPHASIS #}
+    {% if frostFreeDays and frostFreeDays <= 115 %}
+      <li>Starting warm-season crops indoors to gain extra time early in the season.</li>
+      <li>Choosing short-season or faster-maturing varieties whenever possible.</li>
+    {% endif %}
+
+    {# MID-SEASON BASELINE #}
+    {% if frostFreeDays and frostFreeDays > 115 and frostFreeDays < 185 %}
+      <li>Planting warm-season crops promptly once frost risk fades.</li>
+    {% endif %}
+
+    {# UNIVERSAL STRATEGIES #}
+    <li>Using row cover or low tunnels to smooth out temperature swings early and late in the season.</li>
+    <li>Succession planting fast crops to keep beds productive through summer.</li>
+
+    {# LATE-SEASON PRESSURE SIGNAL #}
+    {% if gddAug1 is not null and gddAug1 <= 350 %}
+      <li>Shifting late plantings toward greens, roots, and other reliable short-season crops.</li>
+    {% endif %}
+
+    <li>Watching local conditions closely and adjusting timing year by year.</li>
+
+  </ul>
+
+{% endif %}

@@ -1,6 +1,5 @@
 {# what-can-i-grow.njk — Crop viability matrix by typical remaining GDD checkpoints #}
 
-<section class="card wcig">
   <h2>What Can You Still Grow?</h2>
 
   <style>
@@ -13,31 +12,35 @@
       border-radius: 12px;
       border: 1px solid rgba(0,0,0,0.12);
     }
+
     .wcig table {
       width: 100%;
       border-collapse: collapse;
       min-width: 760px;
       background: transparent;
     }
-.wcig th, .wcig td {
-  padding: .35rem .45rem;
+
+    .wcig th,
+    .wcig td {
+      padding: .35rem .45rem;
       border-bottom: 1px solid rgba(0,0,0,0.08);
       vertical-align: middle;
     }
+
     .wcig th { text-align: left; font-weight: 700; }
     .wcig td { font-variant-numeric: tabular-nums; }
 
-.wcig .wcigStatus{
-  display: inline-block;
-  border: none;
-  border-radius: 0;
-  width: auto;
-  height: auto;
-  padding: 0;
-  background: transparent;
-  line-height: 1;
-  font-size: 1rem;
-}
+    .wcig .wcigStatus {
+      display: inline-block;
+      border: none;
+      border-radius: 0;
+      width: auto;
+      height: auto;
+      padding: 0;
+      background: transparent;
+      line-height: 1;
+      font-size: 1rem;
+    }
 
     .wcig .wcigLegend {
       display: flex;
@@ -45,7 +48,12 @@
       gap: .6rem 1rem;
       margin: .5rem 0 0;
     }
-    .wcig .wcigLegend span { display: inline-flex; align-items: center; gap: .4rem; }
+
+    .wcig .wcigLegend span {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+    }
 
     .wcig .wcigMore { margin-top: .75rem; }
 
@@ -55,21 +63,22 @@
     .wcig .wcigMeta {
       margin-top: -.25rem;
       line-height: 1.45;
+    }
 
-      .wcig td:first-child, .wcig th:first-child{
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 1px; /* enables ellipsis in table layouts */
-}
+    .wcig td:first-child,
+    .wcig th:first-child {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 1px;
     }
 
     .wcig td:not(:first-child):not(:nth-child(2)),
-.wcig th:not(:first-child):not(:nth-child(2)){
-  text-align: center;
-}
+    .wcig th:not(:first-child):not(:nth-child(2)) {
+      text-align: center;
+    }
 
-.wcig .wcigCropEmoji { margin-right: .35rem; }
+    .wcig .wcigCropEmoji { margin-right: .35rem; }
   </style>
 
   {% if not state.cropFit or not state.cropFit.byDate %}
@@ -83,33 +92,32 @@
     {% set marginLabel = (marginPct * 100) | round %}
 
     <p class="small wcigMeta">
-      A normals-based guide to what typically has time to mature in {{ state.name }} by a few common planting checkpoints.
-      We apply a <strong>{{ marginLabel }}% safety margin</strong> to separate “usually fits” from “borderline.”
+      A normals-based guide to what typically still has time to mature in {{ state.name }} at a few common planting checkpoints.
+      We apply a <strong>{{ marginLabel }}% safety margin</strong> to separate crops that usually fit from ones that are more borderline.
     </p>
 
-{% macro prettyMmdd(mmdd) %}
-  {# mmdd is "MM-DD" #}
-  {% set m = (mmdd[0] ~ mmdd[1]) %}
-  {% set d = (mmdd[3] ~ mmdd[4]) | int %}
+    {% macro prettyMmdd(mmdd) %}
+      {% set m = (mmdd[0] ~ mmdd[1]) %}
+      {% set d = (mmdd[3] ~ mmdd[4]) | int %}
 
-  {% if m == "01" %}Jan
-  {% elseif m == "02" %}Feb
-  {% elseif m == "03" %}Mar
-  {% elseif m == "04" %}Apr
-  {% elseif m == "05" %}May
-  {% elseif m == "06" %}Jun
-  {% elseif m == "07" %}Jul
-  {% elseif m == "08" %}Aug
-  {% elseif m == "09" %}Sep
-  {% elseif m == "10" %}Oct
-  {% elseif m == "11" %}Nov
-  {% else %}Dec
-  {% endif %}
+      {% if m == "01" %}Jan
+      {% elseif m == "02" %}Feb
+      {% elseif m == "03" %}Mar
+      {% elseif m == "04" %}Apr
+      {% elseif m == "05" %}May
+      {% elseif m == "06" %}Jun
+      {% elseif m == "07" %}Jul
+      {% elseif m == "08" %}Aug
+      {% elseif m == "09" %}Sep
+      {% elseif m == "10" %}Oct
+      {% elseif m == "11" %}Nov
+      {% else %}Dec
+      {% endif %}
 
-  {{ " " ~ d }}
-{% endmacro %}
+      {{ " " ~ d }}
+    {% endmacro %}
 
-    {# -------- EMOJI MAP (from original module) -------- #}
+    {# -------- EMOJI MAP -------- #}
     {% set emojiMap = {
       "tomato":"🍅","tomatoes":"🍅",
       "pepper":"🫑","peppers":"🫑",
@@ -134,7 +142,6 @@
       "basil":"🌿","herb":"🌿"
     } %}
 
-    {# Derive a stable key for table crops: prefer c.slug, else last href segment #}
     {% macro cropKey(c) %}
       {% if c.slug %}
         {{ c.slug }}
@@ -228,8 +235,8 @@
       <table>
         <thead>
           <tr>
-<th style="min-width: 170px;">Crop</th>
-            <th style="min-width: 120px;">Heat units</th>
+            <th style="min-width: 170px;">Crop</th>
+            <th style="min-width: 120px;">Heat Units</th>
 
             {% for mmdd in dates %}
               {% set block = state.cropFit.byDate[mmdd] %}
@@ -257,21 +264,19 @@
             </tr>
           {% else %}
 
-            {# Keep the initial table compact; show the rest behind a details block #}
             {% set headLimit = 24 %}
             {% set headCrops = allCrops.slice(0, headLimit) %}
             {% set tailCrops = allCrops.slice(headLimit) %}
 
             {% for c in headCrops %}
-              {# NOTE: your JS uses gddRequired; keep fallbacks for safety #}
               {% set gdd = c.gddRequired or c.gdd50 or c.gdd_required50 or c.gdd_required or c.gdd %}
               <tr>
                 <td>
-{% set e = getEmojiForCrop(c) | trim %}
-<a class="wcigCropLink" href="{{ c.href }}" title="{{ c.name }}">
-  {% if e %}<span class="wcigCropEmoji" aria-hidden="true">{{ e }}</span>{% endif %}
-  {{ c.name }}
-</a>
+                  {% set e = getEmojiForCrop(c) | trim %}
+                  <a class="wcigCropLink" href="{{ c.href }}" title="{{ c.name }}">
+                    {% if e %}<span class="wcigCropEmoji" aria-hidden="true">{{ e }}</span>{% endif %}
+                    {{ c.name }}
+                  </a>
                 </td>
                 <td class="small">
                   {{ gdd | int }} <span class="muted">(base {{ c.base }})</span>
@@ -282,7 +287,6 @@
                 {% endfor %}
               </tr>
             {% endfor %}
-
           {% endif %}
         </tbody>
       </table>
@@ -308,11 +312,11 @@
                 {% set gdd = c.gddRequired or c.gdd50 or c.gdd_required50 or c.gdd_required or c.gdd %}
                 <tr>
                   <td>
-{% set e = getEmojiForCrop(c) | trim %}
-<a class="wcigCropLink" href="{{ c.href }}" title="{{ c.name }}">
-  {% if e %}<span class="wcigCropEmoji" aria-hidden="true">{{ e }}</span>{% endif %}
-  {{ c.name }}
-</a>
+                    {% set e = getEmojiForCrop(c) | trim %}
+                    <a class="wcigCropLink" href="{{ c.href }}" title="{{ c.name }}">
+                      {% if e %}<span class="wcigCropEmoji" aria-hidden="true">{{ e }}</span>{% endif %}
+                      {{ c.name }}
+                    </a>
                   </td>
                   <td class="small">
                     {{ gdd | int }} <span class="muted">(base {{ c.base }})</span>
@@ -330,27 +334,24 @@
 
     <p class="small muted" style="margin-top:.75rem;">
       Notes: “Usually fits” is based on typical remaining GDD and a {{ marginLabel }}% buffer.
-      Microclimates, variety choice, and planting method can move results.
-      For a specific location and planting date, use the crop timing calculator below.
+      Variety maturity, planting method, and microclimates can still move results either way.
+    </p>
+
+    <p class="small" style="margin-top:0.75rem;">
+      <strong>How to use this:</strong> earlier summer plantings are usually the safest bets. By July, faster-maturing varieties matter more, and by August the strongest options tend to be greens, roots, and other short-season crops.
     </p>
 
   {% endif %}
 
-  
-{% set gddWidget = {
-  mode: "default",
-  hideCrops: false,
-  dateDefault: "today",
-  widgetTitle: "Is It Too Late to Plant? Check Crop Timing in " ~ state.name,
-  widgetLede: "Enter a ZIP / Postal Code in " ~ state.name ~ " and your planting date to see whether different crops can typically mature before first fall frost."
-} %}
 
-<p class="small" style="margin-top:0.75rem;">
-<strong>How to use this:</strong> Early summer plantings usually succeed most reliably.
-By July, faster-maturing varieties matter more — and August planting windows tend to favor greens,
-roots, and short-season crops.
-</p>
+  {% set gddWidget = {
+    mode: "default",
+    hideCrops: false,
+    dateDefault: "today",
+    widgetTitle: "Is It Too Late to Plant? Check Crop Timing in " ~ state.name,
+    widgetLede: "Enter a ZIP / Postal Code in " ~ state.name ~ " and your planting date to see whether different crops can typically mature before first fall frost."
+  } %}
 
-{% include "tools/gdd-planner-widget.njk" %}
-
+<section id="gdd-planner" class="card">
+  {% include "tools/gdd-planner-widget.njk" %}
 </section>

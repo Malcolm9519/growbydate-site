@@ -1,44 +1,43 @@
-<section class="card">
   <h2>{{ state.name }} Spring Planting Windows</h2>
 
   <p class="small" style="margin-top:-0.25rem;">
-    These windows are derived from climate normals (not a forecast). They’re anchored to the
-    <strong>50% last spring frost</strong> date and the region’s typical remaining heat.
+    A practical guide to when planting usually works in {{ state.name }}. These windows are based on climate normals (not a forecast) and line up with the
+    <strong>50% last spring frost</strong> and typical early-season heat.
   </p>
 
   {% set windows = state.plantingWindows %}
 
   {# Hardwired crop page links for this module only #}
-{% set cropLinks = {
-  "Tomatoes": "/crops/tomato/",
-  "Peppers": "/crops/pepper/",
-  "Eggplant": "/crops/eggplant/",
-  "Cucumbers": "/crops/cucumber/",
-  "Zucchini": "/crops/zucchini/",
-  "Squash": "/crops/winter-squash/",
-  "Pumpkins": "/crops/pumpkin/",
-  "Sweet corn": "/crops/corn-sweet/",
-  "Beans": "/crops/beans/",
-  "Peas": "/crops/pea/",
-  "Carrots": "/crops/carrot/",
-  "Beets": "/crops/beet/",
-  "Potatoes": "/crops/potato/",
-  "Onions": "/crops/onion/",
-  "Garlic": "/crops/garlic/",
-  "Broccoli": "/crops/broccoli/",
-  "Cauliflower": "/crops/cauliflower/",
-  "Cabbage": "/crops/cabbage/",
-  "Lettuce": "/crops/lettuce/",
-  "Kale": "/crops/kale/",
-  "Spinach": "/crops/spinach/",
-  "Radishes": "/crops/radish/",
-  "Turnips": "/crops/turnip/",
-  "Melons": "/crops/melon/",
-  "Watermelons": "/crops/watermelon/",
-  "Strawberries": "/crops/strawberry/",
-  "Sunflowers": "/crops/sunflower/",
-  "Basil": "/crops/basil/"
-} %}
+  {% set cropLinks = {
+    "Tomatoes": "/crops/tomato/",
+    "Peppers": "/crops/pepper/",
+    "Eggplant": "/crops/eggplant/",
+    "Cucumbers": "/crops/cucumber/",
+    "Zucchini": "/crops/zucchini/",
+    "Squash": "/crops/winter-squash/",
+    "Pumpkins": "/crops/pumpkin/",
+    "Sweet corn": "/crops/corn-sweet/",
+    "Beans": "/crops/beans/",
+    "Peas": "/crops/pea/",
+    "Carrots": "/crops/carrot/",
+    "Beets": "/crops/beet/",
+    "Potatoes": "/crops/potato/",
+    "Onions": "/crops/onion/",
+    "Garlic": "/crops/garlic/",
+    "Broccoli": "/crops/broccoli/",
+    "Cauliflower": "/crops/cauliflower/",
+    "Cabbage": "/crops/cabbage/",
+    "Lettuce": "/crops/lettuce/",
+    "Kale": "/crops/kale/",
+    "Spinach": "/crops/spinach/",
+    "Radishes": "/crops/radish/",
+    "Turnips": "/crops/turnip/",
+    "Melons": "/crops/melon/",
+    "Watermelons": "/crops/watermelon/",
+    "Strawberries": "/crops/strawberry/",
+    "Sunflowers": "/crops/sunflower/",
+    "Basil": "/crops/basil/"
+  } %}
 
   {% if windows and windows.length %}
     <div class="tableWrap">
@@ -77,12 +76,10 @@
     </div>
 
     <p class="small muted" style="margin-top:0.75rem;">
-      Tip: later plantings often depend more on variety maturity, warmer microclimates,
-      and season extension (row cover or low tunnels).
+      <strong>How to use this:</strong> aim to plant near the start of each window for the most reliable results. Later plantings usually depend more on variety maturity, warmer microclimates, and protection (row cover or low tunnels).
     </p>
   {% else %}
     <p class="small">
       Planting window guidance isn’t available for this region yet.
     </p>
   {% endif %}
-</section>

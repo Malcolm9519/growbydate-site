@@ -1,44 +1,32 @@
-{# src/_includes/region/modules/season-timing-strategy.njk #}
-<section class="card">
-  <h2>How the Season Actually Works in {{ state.name }}</h2>
+  <h2>How the Season Actually Works</h2>
 
   {% set season = state.season or null %}
   {% set spring = season and season.frost and season.frost.spring or null %}
   {% set fall = season and season.frost and season.frost.fall or null %}
   {% set derived = season and season.derived or null %}
-  {% set gdd = season and season.gdd or null %}
-  {% set remaining = gdd and gdd.remaining or null %}
+  {% set gdd = season and season.gdd and season.gdd.remaining or null %}
 
-  {# Key signals #}
-  {% set springP50 = spring and spring.p50 or null %}
-  {% set fallP50 = fall and fall.p50 or null %}
   {% set springStatus = spring and spring.status or null %}
   {% set fallStatus = fall and fall.status or null %}
   {% set frostFreeDays = derived and derived.frostFreeDays_p50 or null %}
-  {% set gddJul1 = remaining and remaining["07-01"] or null %}
-  {% set gddAug1 = remaining and remaining["08-01"] or null %}
+  {% set fallSpread = derived and derived.fallSpreadDays50 or null %}
+  {% set gddJul1 = gdd and gdd["07-01"] or null %}
+  {% set gddAug1 = gdd and gdd["08-01"] or null %}
 
-  {# Basic availability #}
-  {% if not season or ((not springP50 or not fallP50) and springStatus != "frost_free" and fallStatus != "frost_free") %}
-    <p class="small">
-      Season timing guidance isn’t available for this region yet.
-    </p>
+  {% if not season %}
+    <p class="small">Season timing guidance isn’t available for this region yet.</p>
 
-  {% elif (springStatus == "frost_free") or (fallStatus == "frost_free") %}
+  {% elif springStatus == "frost_free" or fallStatus == "frost_free" %}
     <p class="small" style="margin-top:-0.25rem;">
-      This region is <strong>typically frost-free</strong> in the normals dataset. Instead of planning around a hard frost cutoff,
-      plan around heat accumulation, humidity/pests, and variety maturity. Use the remaining GDD tables to judge whether long-season
-      crops can finish on time.
+      This region is typically frost-free in the normals dataset, so the season is less about beating a hard frost cutoff and more about managing heat, moisture, and crop maturity.
     </p>
 
   {% else %}
-
-    {# Derive a simple archetype from season length + late-summer heat #}
     {% set seasonBand = "mid" %}
     {% if frostFreeDays %}
       {% if frostFreeDays <= 115 %}
         {% set seasonBand = "short" %}
-      {% elif frostFreeDays >= 200 %}
+      {% elif frostFreeDays >= 190 %}
         {% set seasonBand = "long" %}
       {% else %}
         {% set seasonBand = "mid" %}
@@ -47,7 +35,7 @@
 
     {% set runwayBand = "unknown" %}
     {% if gddJul1 is not null and gddAug1 is not null %}
-      {% if gddJul1 >= 1800 and gddAug1 >= 900 %}
+      {% if gddJul1 >= 1700 and gddAug1 >= 900 %}
         {% set runwayBand = "high" %}
       {% elif gddJul1 <= 1000 or gddAug1 <= 300 %}
         {% set runwayBand = "low" %}
@@ -56,227 +44,70 @@
       {% endif %}
     {% endif %}
 
-    {# Combine into an archetype label #}
-    {% set archetype = "balanced" %}
     {% if seasonBand == "short" and runwayBand == "high" %}
-      {% set archetype = "short_intense" %}
-    {% elif seasonBand == "short" and runwayBand != "high" %}
-      {% set archetype = "short_tight" %}
+      <p class="small" style="margin-top:-0.25rem;">
+        {{ state.name }} tends to run as a short but productive season. The main challenge usually isn’t peak-summer heat — it’s getting warm-season crops established promptly enough to use it.
+      </p>
+    {% elif seasonBand == "short" %}
+      <p class="small" style="margin-top:-0.25rem;">
+        {{ state.name }} rewards speed. The season window is short, and the back half often cools quickly, so variety maturity and staying on schedule matter more than almost anything else.
+      </p>
     {% elif seasonBand == "long" and runwayBand == "high" %}
-      {% set archetype = "long_runway" %}
-    {% elif seasonBand == "long" and runwayBand != "low" %}
-      {% set archetype = "long_fall_garden" %}
-    {% elif runwayBand == "low" %}
-      {% set archetype = "cool_finish" %}
-    {% else %}
-      {% set archetype = "balanced" %}
-    {% endif %}
-
-    {# Lead sentence: make pages feel different #}
-    {% if archetype == "short_intense" %}
       <p class="small" style="margin-top:-0.25rem;">
-        <strong>{{ state.name }} is a “short but intense” season.</strong> You can grow a lot here, but only if warm-season crops get
-        established promptly — most failures come from starting too late, not from a lack of peak-summer heat.
+        {{ state.name }} usually gives gardeners more flexibility. A longer season and stronger late-summer heat make staggered planting and second rounds more realistic than in colder interior regions.
       </p>
-    {% elif archetype == "short_tight" %}
+    {% elif seasonBand == "long" %}
       <p class="small" style="margin-top:-0.25rem;">
-        <strong>{{ state.name }} rewards fast finishes.</strong> The season window is short and the back half cools quickly, so variety
-        maturity and small timing buffers matter more than almost anything else.
-      </p>
-    {% elif archetype == "long_runway" %}
-      <p class="small" style="margin-top:-0.25rem;">
-        <strong>{{ state.name }} has a long, forgiving runway.</strong> You can stagger plantings, trial longer varieties, and still
-        have time for a strong late-summer / fall push — planning is more about pacing than racing.
-      </p>
-    {% elif archetype == "long_fall_garden" %}
-      <p class="small" style="margin-top:-0.25rem;">
-        <strong>{{ state.name }} shines in the back half of the season.</strong> Early planting helps, but the bigger advantage is a
-        reliable fall garden window — succession greens and roots often do extremely well.
-      </p>
-    {% elif archetype == "cool_finish" %}
-      <p class="small" style="margin-top:-0.25rem;">
-        <strong>{{ state.name }} tends to cool early.</strong> Even when frost comes later, late-summer heat can taper — plan warm-season
-        crops to be “well on the way” by early summer, and shift late plantings toward fast crops.
+        {{ state.name }} usually has a forgiving season, but outcomes still depend on how well crops are matched to your local conditions and how quickly gardens warm in spring.
       </p>
     {% else %}
       <p class="small" style="margin-top:-0.25rem;">
-        <strong>{{ state.name }} is a timing-and-variety season.</strong> The biggest wins come from matching maturity to your typical
-        frost window, then using late-summer heat to finish fruiting crops cleanly.
+        {{ state.name }} is mostly a timing-and-variety season. The biggest wins come from planting on time, matching maturity to the frost window, and using late-summer heat well.
       </p>
     {% endif %}
 
-    {% if frostFreeDays and gddAug1 %}
-  {% if frostFreeDays <= 115 %}
-    <p class="small">
-      In {{ state.name }}, fast maturity matters more than crop choice — early starts and short-season varieties consistently outperform late plantings.
-    </p>
-  {% elif gddAug1 >= 800 %}
-    <p class="small">
-      In {{ state.name }}, late-summer heat usually holds well, so second plantings and succession crops are often worthwhile.
-    </p>
-  {% else %}
-    <p class="small">
-      In {{ state.name }}, most success comes from matching crop maturity closely to the typical frost window and avoiding late starts.
-    </p>
-  {% endif %}
-{% endif %}
-
-    {# Tactical bullets: still dynamic but not repetitive #}
     <ul class="small" style="margin-top:0.5rem;">
       {% if seasonBand == "short" %}
-        <li><strong>Warm-season crops:</strong> treat the first good stretch after last frost as your main launch window.</li>
-        <li><strong>Choose maturity intentionally:</strong> prioritize early or short-season cultivars for tomatoes, peppers, squash, and corn.</li>
-        <li><strong>Protection pays:</strong> row cover / low tunnels are often the easiest “insurance policy” on shoulder nights.</li>
+        <li><strong>Warm-season crops:</strong> do best when they’re established promptly after last frost.</li>
+        <li><strong>Variety choice matters:</strong> short-season cultivars usually outperform longer-season bets.</li>
+        <li><strong>Season extension helps:</strong> row cover and sheltered spots often make a noticeable difference.</li>
       {% elif seasonBand == "long" %}
-        <li><strong>Stagger planting:</strong> multiple waves often outperform one big planting (especially for beans, cucumbers, basil).</li>
-        <li><strong>Fall gardening:</strong> plan a second round of greens/roots — it’s usually one of the highest-success windows.</li>
-        <li><strong>Mid-summer management:</strong> heat/water/pests often limit outcomes more than the calendar does.</li>
+        <li><strong>Stagger planting:</strong> it’s often more effective than putting everything in at once.</li>
+        <li><strong>Fall gardening can be strong:</strong> many regions have enough runway for a real second wave.</li>
+        <li><strong>Mid-summer management matters:</strong> water, fertility, and pest pressure often become the main limiters.</li>
       {% else %}
         <li><strong>Start on time:</strong> early establishment is the biggest controllable factor for warm-season success.</li>
-        <li><strong>Variety maturity matters:</strong> pick cultivars that reliably finish before your typical fall frost window.</li>
-        <li><strong>Plan a second round:</strong> if late-summer heat holds, greens and roots can be strong finishers.</li>
+        <li><strong>Match maturity to the window:</strong> reliable harvests usually come from realistic crop timing, not optimism.</li>
+        <li><strong>Use late summer carefully:</strong> fast greens, roots, and compact crops usually make the best second round.</li>
       {% endif %}
     </ul>
 
-{% set spreadDays = season and season.derived and season.derived.fallSpreadDays50 or null %}
-
-    {# One small data-driven “late season” cue #}
-    {% if gddAug1 is not null %}
-      {% if gddAug1 >= 800 %}
+    {% if fallSpread %}
+      {% if fallSpread >= 35 %}
         <p class="small muted" style="margin-top:0.75rem;">
-          <strong>Late-summer note:</strong> there’s usually still meaningful heat left around <strong>Aug 1</strong> here, so a second planting of fast crops
-          (greens, radish, turnips, beets, bush beans) is often worthwhile.
+          Microclimate note: frost timing varies widely across {{ state.name }}, so sheltered gardens, urban sites, and warmer exposures can behave quite differently from colder open areas.
         </p>
-      {% elif gddAug1 <= 300 %}
+      {% elif fallSpread <= 15 %}
         <p class="small muted" style="margin-top:0.75rem;">
-          <strong>Late-summer note:</strong> by <strong>Aug 1</strong> the heat runway often tightens. Late plantings do best when they’re fast-maturing,
-          cold-tolerant, or protected.
+          Microclimate note: frost timing is fairly consistent across much of {{ state.name }}, so regional averages are usually a solid starting point.
         </p>
       {% else %}
         <p class="small muted" style="margin-top:0.75rem;">
-          <strong>Late-summer note:</strong> outcomes vary most after <strong>Aug 1</strong> — success usually comes down to crop maturity and microclimate.
+          Microclimate note: local conditions still matter here — low spots, exposed sites, and higher elevations often cool faster than the regional median suggests.
+        </p>
+      {% endif %}
+    {% endif %}
+
+    {% if gddAug1 is not null %}
+      {% if gddAug1 >= 800 %}
+        <p class="small muted" style="margin-top:0.5rem;">
+          Late-summer note: there’s often still meaningful heat left around early August, so second plantings of fast crops can be worthwhile.
+        </p>
+      {% elif gddAug1 <= 300 %}
+        <p class="small muted" style="margin-top:0.5rem;">
+          Late-summer note: by early August, the heat runway often tightens. Late plantings tend to do best when they’re fast, cold-tolerant, or protected.
         </p>
       {% endif %}
     {% endif %}
 
   {% endif %}
-
-{# src/_includes/region/modules/microclimates.njk #}
-  <h3>Microclimates That Matter</h3>
-
-  {% set season = state.season or null %}
-  {% set derived = season and season.derived or null %}
-  {% set fallSpread = derived and derived.fallSpreadDays50 or null %}
-  {% set frostFreeDays = derived and derived.frostFreeDays_p50 or null %}
-
-  {% if not season %}
-    <p class="small">Microclimate guidance isn’t available for this region yet.</p>
-
-  {% else %}
-
-    <p class="small" style="margin-top:-0.25rem;">
-      Conditions often vary more within {{ state.name }} than most gardeners expect.
-      Small differences in elevation, exposure, and surroundings can shift frost timing
-      by days or even weeks.
-    </p>
-
-    <ul class="small" style="margin-top:0.5rem;">
-
-      {# BIG VARIABILITY SIGNAL #}
-      {% if fallSpread and fallSpread >= 28 %}
-        <li>Frost timing varies widely across the region — colder pockets often form in low or exposed areas.</li>
-      {% elif fallSpread and fallSpread >= 18 %}
-        <li>Local conditions noticeably affect frost timing, especially between open and sheltered sites.</li>
-      {% else %}
-        <li>Most areas behave similarly, though small site differences still influence first frost timing.</li>
-      {% endif %}
-
-      {# UNIVERSAL MICROCLIMATE FACTORS #}
-      <li>Urban and sheltered gardens usually stay warmer than rural or exposed locations.</li>
-      <li>Cold air settles in low spots — slightly elevated beds often avoid the earliest frosts.</li>
-      <li>South- and west-facing areas warm faster in spring and stay productive later into fall.</li>
-
-      {# SHORT-SEASON EMPHASIS #}
-      {% if frostFreeDays and frostFreeDays <= 115 %}
-        <li>Choosing protected planting sites can significantly extend your usable growing window.</li>
-      {% endif %}
-
-    </ul>
-
-{% if spreadDays %}
-  {% if spreadDays >= 35 %}
-    <p class="small muted" style="margin-top:0.75rem;">
-      <strong>Microclimate note:</strong> frost timing varies widely across {{ state.name }}. Elevation, exposure,
-      and nearby water can shift planting timing by weeks — local observation matters as much as
-      regional averages.
-    </p>
-  {% elif spreadDays <= 15 %}
-    <p class="small muted" style="margin-top:0.75rem;">
-      <strong>Microclimate note:</strong> frost timing is fairly consistent across {{ state.name }}, so regional
-      averages are usually a reliable planning guide.
-    </p>
-  {% else %}
-    <p class="small muted" style="margin-top:0.75rem;">
-      <strong>Microclimate note:</strong> frost timing varies within {{ state.name }}. If you’re in a colder pocket
-      (low spots, exposed areas, higher elevation), plan a little earlier than the regional median.
-    </p>
-  {% endif %}
-{% endif %}
-
-    <p class="small muted" style="margin-top:0.75rem;">
-      Tip: observe when nearby lawns frost over — your garden may behave differently than nearby weather stations.
-    </p>
-
-  {% endif %}
-
-  {# src/_includes/region/modules/common-timing-mistakes.njk #}
-  <h3>Common Timing Mistakes</h3>
-
-  {% set season = state.season or null %}
-  {% set frost = season and season.frost or null %}
-  {% set derived = season and season.derived or null %}
-  {% set gdd = season and season.gdd and season.gdd.remaining or null %}
-
-  {% set frostFreeDays = derived and derived.frostFreeDays_p50 or null %}
-  {% set fallSpread = derived and derived.fallSpreadDays50 or null %}
-  {% set gddAug1 = gdd and gdd["08-01"] or null %}
-
-  {% if not season %}
-    <p class="small">Timing guidance isn’t available for this region yet.</p>
-
-  {% else %}
-    <ul class="small" style="margin-top:0.5rem;">
-
-      {# SHORT-SEASON LOGIC #}
-      {% if frostFreeDays and frostFreeDays <= 115 %}
-        <li>Planting warm-season crops too late after last frost — small delays often mean they never finish.</li>
-        <li>Choosing long-season varieties that need more heat than a typical year provides.</li>
-      {% endif %}
-
-      {# MID-SEASON LOGIC #}
-      {% if frostFreeDays and frostFreeDays > 115 and frostFreeDays < 185 %}
-        <li>Delaying warm-season planting past the main window, which compresses harvest timing.</li>
-      {% endif %}
-
-      {# LONG-SEASON LOGIC #}
-      {% if frostFreeDays and frostFreeDays >= 185 %}
-        <li>Planting everything at once instead of staggering crops across the season.</li>
-      {% endif %}
-
-      {# LOW HEAT RUNWAY SIGNAL #}
-      {% if gddAug1 is not null and gddAug1 <= 350 %}
-        <li>Expecting late plantings to finish — cooling nights often slow crops earlier than expected.</li>
-      {% endif %}
-
-      {# MICROCLIMATE SIGNAL #}
-      {% if fallSpread and fallSpread >= 25 %}
-        <li>Assuming conditions are uniform across the region — frost timing often varies widely by elevation and exposure.</li>
-      {% endif %}
-
-      {# UNIVERSAL CLOSE #}
-      <li>Using calendar dates instead of crop maturity and typical frost timing to guide decisions.</li>
-
-    </ul>
-  {% endif %}
-
-</section>
