@@ -259,28 +259,18 @@ function buildCitySummaries(cities) {
   const checkDates = ["05-15", "06-01", "07-01", "08-01"];
 
   return cities.map((city) => {
-    const stationRows = frostDates.filter((r) => String(r.region).toUpperCase() === String(city.regionAbbr).toUpperCase());
+    const frostKey = String(city.lookupKey || "").trim().toUpperCase();
 
-    const springVals = [];
-    const fallVals = [];
-    const earliestFallVals = [];
-    const latestFallVals = [];
+    const frostRow = frostDates.find(
+      (r) => String(r.key || "").trim().toUpperCase() === frostKey
+    );
 
-    for (const row of stationRows) {
-      const spring = mmddToDayOfYear(row.lastFrost);
-      const fall = mmddToDayOfYear(row.firstFrost);
-      if (Number.isFinite(spring)) springVals.push(spring);
-      if (Number.isFinite(fall)) {
-        fallVals.push(fall);
-        earliestFallVals.push(fall);
-        latestFallVals.push(fall);
-      }
-    }
+    const springMedian = mmddToDayOfYear(frostRow && frostRow.lastFrost);
+    const fallMedian = mmddToDayOfYear(frostRow && frostRow.firstFrost);
 
-    const springMedian = medianNumber(springVals);
-    const fallMedian = medianNumber(fallVals);
-    const earliestFall = earliestFallVals.length ? Math.min(...earliestFallVals) : null;
-    const latestFall = latestFallVals.length ? Math.max(...latestFallVals) : null;
+    // Single local frost record per city key
+    const earliestFall = Number.isFinite(fallMedian) ? fallMedian : null;
+    const latestFall = Number.isFinite(fallMedian) ? fallMedian : null;
 
     const stationId = lookupStationId(city.lookupKey);
     const curve = stationId ? getStationSeries(stationId) : null;
@@ -318,7 +308,7 @@ function buildCitySummaries(cities) {
         median50: dayOfYearToMmdd(fallMedian),
         earliest50: dayOfYearToMmdd(earliestFall),
         latest50: dayOfYearToMmdd(latestFall),
-        stationCount: stationRows.length
+        stationCount: frostRow ? 1 : 0
       },
 
       frost_spring: {
@@ -326,7 +316,7 @@ function buildCitySummaries(cities) {
         median50: dayOfYearToMmdd(springMedian),
         earliest50: null,
         latest50: null,
-        stationCount: stationRows.length
+        stationCount: frostRow ? 1 : 0
       },
 
       gdd_remaining: gdd50,

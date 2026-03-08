@@ -12,6 +12,8 @@
     {% if row.date == "09-01" %}{% set gddSept = row.gdd %}{% endif %}
   {% endfor %}
 
+  {% set hasRange = state.frost and state.frost.earliest50 and state.frost.latest50 and state.frost.earliest50 != state.frost.latest50 %}
+
   <p class="small" style="margin-top:-0.25rem;">
     A fast snapshot of the season in {{ state.name }}: when fall frost usually arrives, how much heat is typically left by mid- and late season, and where to go next for crop-specific timing.
   </p>
@@ -19,8 +21,12 @@
   <ul>
     {% if state.frost.status == "normal" %}
       <li><strong>Typical first fall frost (median):</strong> {{ state.frost.median50 | mmddLong }}</li>
-      <li><strong>Range across the region:</strong> {{ state.frost.earliest50 | mmddLong }} to {{ state.frost.latest50 | mmddLong }}</li>
-      <li><strong>Coverage:</strong> {{ state.frost.stationCount }} locations</li>
+      {% if hasRange %}
+        <li><strong>Range across the region:</strong> {{ state.frost.earliest50 | mmddLong }} to {{ state.frost.latest50 | mmddLong }}</li>
+      {% endif %}
+{% if state.frost.stationCount and state.frost.stationCount > 1 %}
+  <li><strong>Coverage:</strong> {{ state.frost.stationCount }} locations</li>
+{% endif %}
     {% elif state.frost.status == "frost_free" %}
       <li><strong>Frost:</strong> This region is typically frost-free in the normals dataset.</li>
     {% else %}

@@ -12,6 +12,7 @@
     {% set springObj = state.season and state.season.frost and state.season.frost.spring or null %}
     {% set hasSpring = springObj and springObj.p50 and springObj.status == "normal" %}
     {% set hasFFD = state.season and state.season.derived and state.season.derived.frostFreeDays_p50 %}
+    {% set hasRange = state.frost.earliest50 and state.frost.latest50 and state.frost.earliest50 != state.frost.latest50 %}
 
     <div class="tableWrap">
       <table class="table">
@@ -21,7 +22,9 @@
               <th>Typical last spring frost (50%)</th>
             {% endif %}
             <th>Typical first fall frost (50%)</th>
-            <th>Fall frost range across region</th>
+            {% if hasRange %}
+              <th>Fall frost range across region</th>
+            {% endif %}
             {% if hasFFD %}
               <th>Typical frost-free days</th>
             {% endif %}
@@ -33,7 +36,9 @@
               <td>{{ springObj.p50 | mmddLong }}</td>
             {% endif %}
             <td>{{ state.frost.median50 | mmddLong }}</td>
-            <td>{{ state.frost.earliest50 | mmddLong }} – {{ state.frost.latest50 | mmddLong }}</td>
+            {% if hasRange %}
+              <td>{{ state.frost.earliest50 | mmddLong }} – {{ state.frost.latest50 | mmddLong }}</td>
+            {% endif %}
             {% if hasFFD %}
               <td>{{ state.season.derived.frostFreeDays_p50 }}</td>
             {% endif %}
@@ -43,7 +48,7 @@
     </div>
 
     <p class="small muted" style="margin-top:0.75rem;">
-      Based on {{ state.frost.stationCount }} locations across {{ state.name }}.
+      Based on {{ state.frost.stationCount }} location{% if state.frost.stationCount != 1 %}s{% endif %}{% if hasRange %} across {{ state.name }}{% else %} for {{ state.name }}{% endif %}.
     </p>
 
     {% if hasSpring or hasFFD %}
@@ -53,7 +58,9 @@
     {% endif %}
 
     <div class="small muted" style="margin-top:.15rem;">
-      <p><strong>Why the range matters:</strong> elevation, terrain, and nearby water can shift frost timing significantly within the same region.</p>
+      {% if hasRange %}
+        <p><strong>Why the range matters:</strong> elevation, terrain, and nearby water can shift frost timing significantly within the same region.</p>
+      {% endif %}
       <p><strong><a href="/guides/32f-vs-28f-what-temperature-kills-plants/">Frost vs. hard freeze:</a></strong> 32°F is often a light frost; colder temperatures (around 28°F) are more likely to cause widespread damage.</p>
     </div>
 
@@ -68,9 +75,9 @@
   {% endif %}
 
   {% include "region/modules/season-timing-strategy.njk" %}
-{% include "region/modules/season-timing.njk" %}
-{% include "region/modules/microclimates.njk" %}
-{% include "region/modules/how-gardeners-adapt.njk" %}
-{% include "region/modules/common-timing-mistakes.njk" %}
+  {% include "region/modules/season-timing.njk" %}
+  {% include "region/modules/microclimates.njk" %}
+  {% include "region/modules/how-gardeners-adapt.njk" %}
+  {% include "region/modules/common-timing-mistakes.njk" %}
 
 </section>

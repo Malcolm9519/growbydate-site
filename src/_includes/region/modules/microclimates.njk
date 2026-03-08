@@ -1,11 +1,97 @@
 {# src/_includes/region/modules/microclimates.njk #}
 
-<h3>Why Microclimates Matter</h3>
+{% macro formatMmdd(mmdd) %}
+  {% if not mmdd %}
+    —
+  {% else %}
+    {{ mmdd
+      | replace("01-", "Jan ")
+      | replace("02-", "Feb ")
+      | replace("03-", "Mar ")
+      | replace("04-", "Apr ")
+      | replace("05-", "May ")
+      | replace("06-", "Jun ")
+      | replace("07-", "Jul ")
+      | replace("08-", "Aug ")
+      | replace("09-", "Sep ")
+      | replace("10-", "Oct ")
+      | replace("11-", "Nov ")
+      | replace("12-", "Dec ")
+      | replace("-0", " ")
+      | replace("-", " ")
+    }}
+  {% endif %}
+{% endmacro %}
 
 {% set season = state.season or null %}
 {% set derived = season and season.derived or null %}
 {% set fallSpread = derived and derived.fallSpreadDays50 or null %}
 {% set frostFreeDays = derived and derived.frostFreeDays_p50 or null %}
+
+{# Match city pages for this region #}
+{% set regionCities = [] %}
+{% for city in (citySummaries or []) %}
+  {% if city.regionKey == state.key %}
+    {% set regionCities = regionCities.concat([city]) %}
+  {% endif %}
+{% endfor %}
+
+{# Pull comparable metrics from city summaries #}
+{% set compareCities = [] %}
+{% for city in regionCities %}
+  {% set spring50 = city.season and city.season.frost and city.season.frost.spring and city.season.frost.spring.p50 or null %}
+  {% set fall50 = city.season and city.season.frost and city.season.frost.fall and city.season.frost.fall.p50 or null %}
+  {% set ffd50 = city.season and city.season.derived and city.season.derived.frostFreeDays_p50 or null %}
+
+  {% set gddMay15 = null %}
+  {% set gddAug1 = null %}
+  {% for row in (city.gdd_remaining or []) %}
+    {% if row.date == "05-15" %}
+      {% set gddMay15 = row.gdd %}
+    {% endif %}
+    {% if row.date == "08-01" %}
+      {% set gddAug1 = row.gdd %}
+    {% endif %}
+  {% endfor %}
+
+  {% if spring50 or fall50 or ffd50 or gddMay15 or gddAug1 or gddMay15 == 0 or gddAug1 == 0 %}
+    {% set compareCities = compareCities.concat([{
+      name: city.name,
+      key: city.key,
+      country: city.country,
+      regionKey: city.regionKey,
+      spring50: spring50,
+      fall50: fall50,
+      ffd50: ffd50,
+      gddMay15: gddMay15,
+      gddAug1: gddAug1
+    }]) %}
+  {% endif %}
+{% endfor %}
+
+{# Range collectors for interpretation bullets #}
+{% set springVals = [] %}
+{% set fallVals = [] %}
+{% set ffdVals = [] %}
+{% set gddMayVals = [] %}
+{% set gddAugVals = [] %}
+
+{% for city in compareCities %}
+  {% if city.spring50 %}{% set springVals = springVals.concat([city.spring50]) %}{% endif %}
+  {% if city.fall50 %}{% set fallVals = fallVals.concat([city.fall50]) %}{% endif %}
+  {% if city.ffd50 %}{% set ffdVals = ffdVals.concat([city.ffd50]) %}{% endif %}
+  {% if city.gddMay15 or city.gddMay15 == 0 %}{% set gddMayVals = gddMayVals.concat([city.gddMay15]) %}{% endif %}
+  {% if city.gddAug1 or city.gddAug1 == 0 %}{% set gddAugVals = gddAugVals.concat([city.gddAug1]) %}{% endif %}
+{% endfor %}
+
+{% set ffdMin = ffdVals | sort | first %}
+{% set ffdMax = ffdVals | sort | last %}
+{% set gddMayMin = gddMayVals | sort | first %}
+{% set gddMayMax = gddMayVals | sort | last %}
+{% set gddAugMin = gddAugVals | sort | first %}
+{% set gddAugMax = gddAugVals | sort | last %}
+
+<h3>How Growing Conditions Vary Across {{ state.name }}</h3>
 
 {% if not season %}
   <p class="small">Microclimate guidance isn’t available for this region yet.</p>
@@ -13,36 +99,74 @@
 {% else %}
 
   <p class="small" style="margin-top:-0.25rem;">
-    Conditions often vary more within {{ state.name }} than most gardeners expect.
-    Small differences in elevation, exposure, and surroundings can shift frost timing
-    by days — sometimes even weeks.
+    Growing conditions often vary more within {{ state.name }} than most gardeners expect.
+    Differences in elevation, exposure, cold-air drainage, and nearby pavement or buildings
+    can shift frost timing and change how much usable season you really have.
   </p>
 
-  <ul class="small" style="margin-top:0.5rem;">
+  {% if compareCities.length >= 2 %}
+    <div class="table-scroll" style="margin-top:0.75rem;">
+      <table>
+        <thead>
+          <tr>
+            <th>City</th>
+            <th>Last spring frost</th>
+            <th>First fall frost</th>
+            <th>Frost-free days</th>
+            <th>Remaining GDD (May 15 → Aug 1, base 50)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for city in compareCities %}
+            <tr>
+              <td>
+                <a href="/planting-dates/{% if city.country == 'canada' %}canada/{% endif %}{{ city.regionKey }}/{{ city.key }}/">
+                  {{ city.name }}
+                </a>
+              </td>
+              <td>{{ formatMmdd(city.spring50) }}</td>
+              <td>{{ formatMmdd(city.fall50) }}</td>
+              <td>{{ city.ffd50 or "—" }}</td>
+              <td>
+                {% if (city.gddMay15 or city.gddMay15 == 0) and (city.gddAug1 or city.gddAug1 == 0) %}
+                  {{ city.gddMay15 }} → {{ city.gddAug1 }}
+                {% elif city.gddMay15 or city.gddMay15 == 0 %}
+                  {{ city.gddMay15 }}
+                {% elif city.gddAug1 or city.gddAug1 == 0 %}
+                  {{ city.gddAug1 }}
+                {% else %}
+                  —
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% endif %}
 
-    {# BIG VARIABILITY SIGNAL #}
+  <ul class="small" style="margin-top:0.75rem;">
     {% if fallSpread and fallSpread >= 28 %}
-      <li>Frost timing varies widely across the region — colder pockets often form in low or exposed areas.</li>
+      <li>Frost timing varies widely across the region, especially between colder pockets and more sheltered sites.</li>
     {% elif fallSpread and fallSpread >= 18 %}
-      <li>Local conditions noticeably affect frost timing, especially between open and sheltered sites.</li>
+      <li>Local conditions noticeably affect frost timing, especially between exposed and sheltered gardens.</li>
     {% else %}
-      <li>Most areas behave similarly, though small site differences still influence first frost timing.</li>
+      <li>Most areas behave somewhat similarly, though small site differences still affect frost timing and spring warmup.</li>
     {% endif %}
 
-    {# UNIVERSAL MICROCLIMATE FACTORS #}
-    <li>Urban and sheltered gardens usually stay warmer than rural or exposed locations.</li>
-    <li>Cold air settles in low spots — slightly elevated beds often avoid the earliest frosts.</li>
-    <li>South- and west-facing areas warm faster in spring and often stay productive later into fall.</li>
-
-    {# SHORT-SEASON EMPHASIS #}
-    {% if frostFreeDays and frostFreeDays <= 115 %}
-      <li>Choosing protected planting sites can noticeably extend your usable growing window.</li>
+    {% if compareCities.length >= 2 and ffdMin and ffdMax and ffdMin != ffdMax %}
+      <li>Earlier-frost and shorter-season locations usually need faster-maturing crops and tighter planting timing.</li>
+    {% elif frostFreeDays and frostFreeDays <= 115 %}
+      <li>In a shorter season, even modest microclimate advantages can make a meaningful difference for tender crops and late plantings.</li>
     {% endif %}
 
+    {% if compareCities.length >= 2 and ((gddMayMin and gddMayMax and gddMayMin != gddMayMax) or (gddAugMin and gddAugMax and gddAugMin != gddAugMax)) %}
+      <li>Warmer locations usually retain more remaining heat through the season, giving longer-season crops and later plantings better odds of finishing.</li>
+    {% endif %}
+
+    <li>Urban areas, walls, and sheltered gardens usually stay warmer than open rural or wind-exposed sites.</li>
+    <li>Cold air settles in low spots, so slightly elevated beds often avoid the earliest frosts.</li>
+    <li>South- and west-facing areas usually warm sooner in spring and can stay productive later into fall.</li>
   </ul>
-
-  <p class="small muted" style="margin-top:0.75rem;">
-    Tip: watch when nearby lawns frost over — your garden may behave differently than nearby weather stations.
-  </p>
 
 {% endif %}
