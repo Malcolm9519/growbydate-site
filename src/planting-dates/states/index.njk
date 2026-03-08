@@ -4,11 +4,25 @@ permalink: "/planting-dates/states/"
 title: "Planting Dates by State (Frost & GDD Normals)"
 ---
 
+<style>
+  .index-city-link {
+    display: inline-block;
+    margin-top: 0.35rem;
+    margin-right: 0.65rem;
+    text-decoration: none;
+    color: var(--color-link, #2f7d32);
+  }
+
+  .index-city-link:hover {
+    text-decoration: underline;
+  }
+</style>
+
 <section class="card index-card">
   <h1>Planting Dates by State</h1>
   <p class="small intro">
     Normals-based first frost timing and remaining seasonal heat for each published U.S. state.
-    Select a state to see typical frost dates and growing degree day capacity.
+    Select a state to see typical frost dates and growing degree day capacity, or jump to a published city page.
   </p>
 </section>
 
@@ -18,13 +32,18 @@ title: "Planting Dates by State (Frost & GDD Normals)"
       <li class="index-item">
         <a class="index-link" href="/planting-dates/states/{{ st.key }}/">
           <strong>{{ st.name }}</strong>
-
-          {# Tagline / lede (prefer st.lede if you added it; otherwise read from content pack) #}
-          {% set lede = st.lede or st.content.indexCard.lede or st.content.index.lede %}
-          {% if lede %}
-            <div class="index-desc">{{ lede }}</div>
+          {% if st.lede %}
+            <div class="index-desc">{{ st.lede }}</div>
           {% endif %}
         </a>
+
+        <div class="index-desc">
+          {% for city in citySummaries %}
+            {% if city.regionKey == st.key and (city.country == "united-states" or city.country == "usa" or city.country == "us") %}
+              <a class="index-city-link" href="/planting-dates/{{ city.regionKey }}/{{ city.key }}/">{{ city.name }}</a>
+            {% endif %}
+          {% endfor %}
+        </div>
       </li>
     {% endfor %}
   </ul>

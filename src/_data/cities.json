@@ -1,0 +1,352 @@
+[
+  {
+    "key": "calgary",
+    "name": "Calgary",
+    "country": "canada",
+    "regionKind": "CA",
+    "regionAbbr": "AB",
+    "regionKey": "alberta",
+    "regionName": "Alberta",
+    "regionPath": "provinces",
+    "lookupKey": "T2P"
+  },
+  {
+    "key": "edmonton",
+    "name": "Edmonton",
+    "country": "canada",
+    "regionKind": "CA",
+    "regionAbbr": "AB",
+    "regionKey": "alberta",
+    "regionName": "Alberta",
+    "regionPath": "provinces",
+    "lookupKey": "T5J"
+  },
+  {
+    "key": "red-deer",
+    "name": "Red Deer",
+    "country": "canada",
+    "regionKind": "CA",
+    "regionAbbr": "AB",
+    "regionKey": "alberta",
+    "regionName": "Alberta",
+    "regionPath": "provinces",
+    "lookupKey": "T4N"
+  },
+  {
+    "key": "lethbridge",
+    "name": "Lethbridge",
+    "country": "canada",
+    "regionKind": "CA",
+    "regionAbbr": "AB",
+    "regionKey": "alberta",
+    "regionName": "Alberta",
+    "regionPath": "provinces",
+    "lookupKey": "T1J"
+  },
+  {
+    "key": "medicine-hat",
+    "name": "Medicine Hat",
+    "country": "canada",
+    "regionKind": "CA",
+    "regionAbbr": "AB",
+    "regionKey": "alberta",
+    "regionName": "Alberta",
+    "regionPath": "provinces",
+    "lookupKey": "T1A"
+  },
+
+  {
+    "key": "vancouver",
+    "name": "Vancouver",
+    "country": "canada",
+    "regionKind": "CA",
+    "regionAbbr": "BC",
+    "regionKey": "british-columbia",
+    "regionName": "British Columbia",
+    "regionPath": "provinces",
+    "lookupKey": "V6B"
+  },
+  {
+    "key": "victoria",
+    "name": "Victoria",
+    "country": "canada",
+    "regionKind": "CA",
+    "regionAbbr": "BC",
+    "regionKey": "british-columbia",
+    "regionName": "British Columbia",
+    "regionPath": "provinces",
+    "lookupKey": "V8W"
+  },
+  {
+    "key": "kelowna",
+    "name": "Kelowna",
+    "country": "canada",
+    "regionKind": "CA",
+    "regionAbbr": "BC",
+    "regionKey": "british-columbia",
+    "regionName": "British Columbia",
+    "regionPath": "provinces",
+    "lookupKey": "V1Y"
+  },
+  {
+    "key": "kamloops",
+    "name": "Kamloops",
+    "country": "canada",
+    "regionKind": "CA",
+    "regionAbbr": "BC",
+    "regionKey": "british-columbia",
+    "regionName": "British Columbia",
+    "regionPath": "provinces",
+    "lookupKey": "V2C"
+  },
+  {
+    "key": "prince-george",
+    "name": "Prince George",
+    "country": "canada",
+    "regionKind": "CA",
+    "regionAbbr": "BC",
+    "regionKey": "british-columbia",
+    "regionName": "British Columbia",
+    "regionPath": "provinces",
+    "lookupKey": "V2L"
+  },
+
+  {
+    "key": "saskatoon",
+    "name": "Saskatoon",
+    "country": "canada",
+    "regionKind": "CA",
+    "regionAbbr": "SK",
+    "regionKey": "saskatchewan",
+    "regionName": "Saskatchewan",
+    "regionPath": "provinces",
+    "lookupKey": "S7K"
+  },
+  {
+    "key": "regina",
+    "name": "Regina",
+    "country": "canada",
+    "regionKind": "CA",
+    "regionAbbr": "SK",
+    "regionKey": "saskatchewan",
+    "regionName": "Saskatchewan",
+    "regionPath": "provinces",
+    "lookupKey": "S4P"
+  },
+  {
+    "key": "prince-albert",
+    "name": "Prince Albert",
+    "country": "canada",
+    "regionKind": "CA",
+    "regionAbbr": "SK",
+    "regionKey": "saskatchewan",
+    "regionName": "Saskatchewan",
+    "regionPath": "provinces",
+    "lookupKey": "S6V"
+  },
+
+  {
+    "key": "winnipeg",
+    "name": "Winnipeg",
+    "country": "canada",
+    "regionKind": "CA",
+    "regionAbbr": "MB",
+    "regionKey": "manitoba",
+    "regionName": "Manitoba",
+    "regionPath": "provinces",
+    "lookupKey": "R3C"
+  },
+  {
+    "key": "brandon",
+    "name": "Brandon",
+    "country": "canada",
+    "regionKind": "CA",
+    "regionAbbr": "MB",
+    "regionKey": "manitoba",
+    "regionName": "Manitoba",
+    "regionPath": "provinces",
+    "lookupKey": "R7A"
+  },
+
+  {
+    "key": "minneapolis",
+    "name": "Minneapolis",
+    "country": "usa",
+    "regionKind": "US",
+    "regionAbbr": "MN",
+    "regionKey": "minnesota",
+    "regionName": "Minnesota",
+    "regionPath": "states",
+    "lookupKey": "55401"
+  },
+  {
+    "key": "saint-paul",
+    "name": "Saint Paul",
+    "country": "usa",
+    "regionKind": "US",
+    "regionAbbr": "MN",
+    "regionKey": "minnesota",
+    "regionName": "Minnesota",
+    "regionPath": "states",
+    "lookupKey": "55101"
+  },
+  {
+    "key": "duluth",
+    "name": "Duluth",
+    "country": "usa",
+    "regionKind": "US",
+    "regionAbbr": "MN",
+    "regionKey": "minnesota",
+    "regionName": "Minnesota",
+    "regionPath": "states",
+    "lookupKey": "55802"
+  },
+
+  {
+    "key": "milwaukee",
+    "name": "Milwaukee",
+    "country": "usa",
+    "regionKind": "US",
+    "regionAbbr": "WI",
+    "regionKey": "wisconsin",
+    "regionName": "Wisconsin",
+    "regionPath": "states",
+    "lookupKey": "53202"
+  },
+  {
+    "key": "madison",
+    "name": "Madison",
+    "country": "usa",
+    "regionKind": "US",
+    "regionAbbr": "WI",
+    "regionKey": "wisconsin",
+    "regionName": "Wisconsin",
+    "regionPath": "states",
+    "lookupKey": "53703"
+  },
+  {
+    "key": "green-bay",
+    "name": "Green Bay",
+    "country": "usa",
+    "regionKind": "US",
+    "regionAbbr": "WI",
+    "regionKey": "wisconsin",
+    "regionName": "Wisconsin",
+    "regionPath": "states",
+    "lookupKey": "54301"
+  },
+
+  {
+    "key": "detroit",
+    "name": "Detroit",
+    "country": "usa",
+    "regionKind": "US",
+    "regionAbbr": "MI",
+    "regionKey": "michigan",
+    "regionName": "Michigan",
+    "regionPath": "states",
+    "lookupKey": "48226"
+  },
+  {
+    "key": "grand-rapids",
+    "name": "Grand Rapids",
+    "country": "usa",
+    "regionKind": "US",
+    "regionAbbr": "MI",
+    "regionKey": "michigan",
+    "regionName": "Michigan",
+    "regionPath": "states",
+    "lookupKey": "49503"
+  },
+  {
+    "key": "lansing",
+    "name": "Lansing",
+    "country": "usa",
+    "regionKind": "US",
+    "regionAbbr": "MI",
+    "regionKey": "michigan",
+    "regionName": "Michigan",
+    "regionPath": "states",
+    "lookupKey": "48933"
+  },
+
+  {
+    "key": "billings",
+    "name": "Billings",
+    "country": "usa",
+    "regionKind": "US",
+    "regionAbbr": "MT",
+    "regionKey": "montana",
+    "regionName": "Montana",
+    "regionPath": "states",
+    "lookupKey": "59101"
+  },
+  {
+    "key": "missoula",
+    "name": "Missoula",
+    "country": "usa",
+    "regionKind": "US",
+    "regionAbbr": "MT",
+    "regionKey": "montana",
+    "regionName": "Montana",
+    "regionPath": "states",
+    "lookupKey": "59801"
+  },
+  {
+    "key": "bozeman",
+    "name": "Bozeman",
+    "country": "usa",
+    "regionKind": "US",
+    "regionAbbr": "MT",
+    "regionKey": "montana",
+    "regionName": "Montana",
+    "regionPath": "states",
+    "lookupKey": "59715"
+  },
+
+  {
+    "key": "fargo",
+    "name": "Fargo",
+    "country": "usa",
+    "regionKind": "US",
+    "regionAbbr": "ND",
+    "regionKey": "north-dakota",
+    "regionName": "North Dakota",
+    "regionPath": "states",
+    "lookupKey": "58102"
+  },
+  {
+    "key": "bismarck",
+    "name": "Bismarck",
+    "country": "usa",
+    "regionKind": "US",
+    "regionAbbr": "ND",
+    "regionKey": "north-dakota",
+    "regionName": "North Dakota",
+    "regionPath": "states",
+    "lookupKey": "58501"
+  },
+
+  {
+    "key": "sioux-falls",
+    "name": "Sioux Falls",
+    "country": "usa",
+    "regionKind": "US",
+    "regionAbbr": "SD",
+    "regionKey": "south-dakota",
+    "regionName": "South Dakota",
+    "regionPath": "states",
+    "lookupKey": "57104"
+  },
+  {
+    "key": "rapid-city",
+    "name": "Rapid City",
+    "country": "usa",
+    "regionKind": "US",
+    "regionAbbr": "SD",
+    "regionKey": "south-dakota",
+    "regionName": "South Dakota",
+    "regionPath": "states",
+    "lookupKey": "57701"
+  }
+]

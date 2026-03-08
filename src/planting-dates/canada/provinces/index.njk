@@ -4,11 +4,25 @@ permalink: "/planting-dates/canada/provinces/"
 title: "Planting Dates by Province (Frost & GDD Normals)"
 ---
 
+<style>
+  .index-city-link {
+    display: inline-block;
+    margin-top: 0.35rem;
+    margin-right: 0.65rem;
+    text-decoration: none;
+    color: var(--color-link, #2f7d32);
+  }
+
+  .index-city-link:hover {
+    text-decoration: underline;
+  }
+</style>
+
 <section class="card index-card">
   <h1>Planting Dates by Province</h1>
   <p class="small intro">
     Normals-based first frost timing and remaining seasonal heat for each published Canadian province.
-    Select a province to see typical frost dates and growing degree day capacity.
+    Select a province to see typical frost dates and growing degree day capacity, or jump to a published city page.
   </p>
 </section>
 
@@ -22,6 +36,14 @@ title: "Planting Dates by Province (Frost & GDD Normals)"
             <div class="index-desc">{{ prov.lede }}</div>
           {% endif %}
         </a>
+
+        <div class="index-desc">
+          {% for city in citySummaries %}
+            {% if city.country == "canada" and city.regionKey == prov.key %}
+              <a class="index-city-link" href="/planting-dates/canada/{{ city.regionKey }}/{{ city.key }}/">{{ city.name }}</a>
+            {% endif %}
+          {% endfor %}
+        </div>
       </li>
     {% endfor %}
   </ul>
