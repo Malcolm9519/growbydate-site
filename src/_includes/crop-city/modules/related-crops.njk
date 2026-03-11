@@ -1,0 +1,34 @@
+{% set relatedLinks = [] %}
+{% set relatedKeys = pageData.crop and pageData.crop.relatedCrops or [] %}
+
+{% for item in (cropCitySummaries or []) %}
+  {% if item.cityKey == pageData.cityKey and item.cropKey != pageData.cropKey %}
+    {% if relatedKeys and (item.cropKey in relatedKeys) %}
+      {% set relatedLinks = relatedLinks.concat([item]) %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+
+{% if relatedLinks.length %}
+<section class="card">
+  <h2>Related Crop Guides for {{ pageData.cityName }}</h2>
+
+  <p class="small" style="margin-top:-0.25rem;">
+    Compare other crops that share similar timing, heat needs, or short-season tradeoffs in {{ pageData.cityName }}.
+  </p>
+
+  <div style="margin-top:0.9rem;">
+    {% for item in relatedLinks %}
+      <div {% if not loop.last %}style="margin-bottom:0.9rem; padding-bottom:0.9rem; border-bottom:1px solid rgba(0,0,0,.08);"{% endif %}>
+        <p class="small" style="margin:0 0 0.2rem 0;">
+          <a href="{{ item.url }}"><strong>{{ item.cropName }}</strong></a>
+        </p>
+
+        <p class="small muted" style="margin:0;">
+          {{ item.fit.summary }}
+        </p>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}

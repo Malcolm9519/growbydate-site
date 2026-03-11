@@ -1,0 +1,31 @@
+{% set cropLinks = [] %}
+
+{% for item in (cropCitySummaries or []) %}
+  {% if item.cityKey == state.key %}
+    {% set cropLinks = cropLinks.concat([item]) %}
+  {% endif %}
+{% endfor %}
+
+{% if cropLinks.length %}
+<section class="card">
+  <h2>Crop Guides for {{ state.name }}</h2>
+
+  <p class="small" style="margin-top:-0.25rem;">
+    Explore crop-specific planting timing, maturity risk, and local season fit for {{ state.name }}.
+  </p>
+
+  <div style="margin-top:0.9rem;">
+    {% for item in cropLinks %}
+      <div {% if not loop.last %}style="margin-bottom:0.9rem; padding-bottom:0.9rem; border-bottom:1px solid rgba(0,0,0,.08);"{% endif %}>
+        <p class="small" style="margin:0 0 0.2rem 0;">
+          <a href="{{ item.url }}"><strong>{{ item.cropName }}</strong></a>
+        </p>
+
+        <p class="small muted" style="margin:0;">
+          {{ item.fit.summary }}
+        </p>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}

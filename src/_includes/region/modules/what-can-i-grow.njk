@@ -87,7 +87,20 @@
     </p>
   {% else %}
 
-    {% set dates = state.cropFit.meta.dates or ["05-15", "06-01", "07-01", "08-01"] %}
+{% set preferredDates = ["05-15", "06-01", "07-01", "08-01"] %}
+{% set allDates = state.cropFit.meta.dates or [] %}
+{% set dates = [] %}
+
+{% for d in preferredDates %}
+  {% if d in allDates %}
+    {% set dates = dates.concat([d]) %}
+  {% endif %}
+{% endfor %}
+
+{% if not dates.length %}
+  {% set dates = ["05-15", "06-01", "07-01", "08-01"] %}
+{% endif %}
+
     {% set marginPct = state.cropFit.meta.marginPct or 0.15 %}
     {% set marginLabel = (marginPct * 100) | round %}
 
@@ -231,7 +244,7 @@
       <span><span class="wcigStatus" aria-hidden="true">❌</span> Too tight</span>
     </div>
 
-    <div class="wcigTableWrap" role="region" aria-label="Crop maturity fit table">
+      <div class="tableWrap">
       <table>
         <thead>
           <tr>
@@ -247,7 +260,7 @@
                   {% set runway = block.runwayByBase["50"] | int %}
                   {% set safe = (runway * (1 - marginPct)) | round %}
                   <div class="small muted" style="margin-top:.15rem;">
-                    Base 50: {{ runway }} (safe {{ safe }})
+                    {{ runway }} (safe {{ safe }})
                   </div>
                 {% endif %}
               </th>
@@ -296,11 +309,11 @@
       <details class="wcigMore">
         <summary class="small">Show {{ tailCrops | length }} more crops</summary>
 
-        <div class="wcigTableWrap" style="margin-top:.6rem;">
-          <table>
+<div class="tableWrap">
+<table>
             <thead>
               <tr>
-                <th style="min-width: 240px;">Crop</th>
+<th scope="col">Crop</th>
                 <th style="min-width: 120px;">Heat units</th>
                 {% for mmdd in dates %}
                   <th style="min-width: 140px;">{{ prettyMmdd(mmdd) }}</th>

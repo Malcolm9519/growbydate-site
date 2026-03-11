@@ -1,0 +1,75 @@
+{# -------------------------------------------------------
+   Simple Planting Window (Single Crop)
+   For crop-city pages only
+-------------------------------------------------------- #}
+
+{% set windows = pageData.plantingWindows or [] %}
+{% set cropKey = pageData.cropKey %}
+
+{# Map crop keys to planting window labels #}
+{% set cropLabelMap = {
+  "tomato": "Tomatoes",
+  "pepper": "Peppers",
+  "eggplant": "Eggplant",
+  "cucumber": "Cucumbers",
+  "zucchini": "Zucchini",
+  "winter-squash": "Squash",
+  "pumpkin": "Pumpkins",
+  "corn-sweet": "Sweet corn",
+  "beans": "Beans",
+  "pea": "Peas",
+  "carrot": "Carrots",
+  "beet": "Beets",
+  "potato": "Potatoes",
+  "onion": "Onions",
+  "garlic": "Garlic",
+  "broccoli": "Broccoli",
+  "cauliflower": "Cauliflower",
+  "cabbage": "Cabbage",
+  "lettuce": "Lettuce",
+  "kale": "Kale",
+  "spinach": "Spinach",
+  "radish": "Radishes",
+  "turnip": "Turnips",
+  "melon": "Melons",
+  "watermelon": "Watermelons",
+  "strawberry": "Strawberries",
+  "sunflower": "Sunflowers",
+  "basil": "Basil"
+} %}
+
+{% set cropLabel = cropLabelMap[cropKey] or pageData.cropName %}
+
+{% if windows and windows.length %}
+  {% set matched = false %}
+
+  <div class="tableWrap">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Crop</th>
+          <th>Typical window</th>
+          <th>Method</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for w in windows %}
+          {% if w.label == cropLabel %}
+            {% set matched = true %}
+            <tr>
+              <td>{{ w.label }}</td>
+              <td>
+                {% if w.start and w.end %}
+                  {{ w.start | mmddLong }} – {{ w.end | mmddLong }}
+                {% else %}
+                  —
+                {% endif %}
+              </td>
+              <td class="small muted">{{ w.method or "—" }}</td>
+            </tr>
+          {% endif %}
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endif %}

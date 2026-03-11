@@ -16,13 +16,22 @@ title: "Planting Dates by Province (Frost & GDD Normals)"
   .index-city-link:hover {
     text-decoration: underline;
   }
+
+  .index-subhead {
+    margin: 0 0 0.75rem;
+  }
+
+  .index-city-region {
+    color: rgba(0, 0, 0, 0.68);
+    font-weight: 400;
+  }
 </style>
 
 <section class="card index-card">
   <h1>Planting Dates by Province</h1>
   <p class="small intro">
     Normals-based first frost timing and remaining seasonal heat for each published Canadian province.
-    Select a province to see typical frost dates and growing degree day capacity, or jump to a published city page.
+    Select a province to see typical frost dates and growing degree day capacity.
   </p>
 </section>
 
@@ -36,15 +45,40 @@ title: "Planting Dates by Province (Frost & GDD Normals)"
             <div class="index-desc">{{ prov.lede }}</div>
           {% endif %}
         </a>
-
-        <div class="index-desc">
-          {% for city in citySummaries %}
-            {% if city.country == "canada" and city.regionKey == prov.key %}
-              <a class="index-city-link" href="/planting-dates/canada/{{ city.regionKey }}/{{ city.key }}/">{{ city.name }}</a>
-            {% endif %}
-          {% endfor %}
-        </div>
       </li>
+    {% endfor %}
+  </ul>
+</section>
+
+<section class="card index-card">
+  <h2 class="index-subhead">Planting Dates by City</h2>
+  <p class="small intro">
+    Browse published Canadian city pages for more local planting dates, frost timing, and crop-specific guidance.
+  </p>
+</section>
+
+<section class="card">
+  <ul class="index-list">
+    {% for city in citySummaries %}
+      {% if city.country == "canada" %}
+        <li class="index-item">
+          <a class="index-link" href="/planting-dates/canada/{{ city.regionKey }}/{{ city.key }}/">
+            <strong>{{ city.name }}</strong>
+            <span class="index-city-region">, {{ city.regionName }}</span>
+            <div class="index-desc">
+              Local planting dates, frost timing, and crop guidance for {{ city.name }}.
+            </div>
+          </a>
+
+          <div class="index-desc">
+            {% for crop in cropCitySummaries %}
+              {% if crop.regionKey == city.regionKey and crop.cityKey == city.key %}
+                <a class="index-city-link" href="{{ crop.url }}">{{ crop.cropName }}</a>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </li>
+      {% endif %}
     {% endfor %}
   </ul>
 </section>

@@ -1,352 +1,38 @@
 [
-  {
-    "key": "calgary",
-    "name": "Calgary",
-    "country": "canada",
-    "regionKind": "CA",
-    "regionAbbr": "AB",
-    "regionKey": "alberta",
-    "regionName": "Alberta",
-    "regionPath": "provinces",
-    "lookupKey": "T2P"
-  },
-  {
-    "key": "edmonton",
-    "name": "Edmonton",
-    "country": "canada",
-    "regionKind": "CA",
-    "regionAbbr": "AB",
-    "regionKey": "alberta",
-    "regionName": "Alberta",
-    "regionPath": "provinces",
-    "lookupKey": "T5J"
-  },
-  {
-    "key": "red-deer",
-    "name": "Red Deer",
-    "country": "canada",
-    "regionKind": "CA",
-    "regionAbbr": "AB",
-    "regionKey": "alberta",
-    "regionName": "Alberta",
-    "regionPath": "provinces",
-    "lookupKey": "T4N"
-  },
-  {
-    "key": "lethbridge",
-    "name": "Lethbridge",
-    "country": "canada",
-    "regionKind": "CA",
-    "regionAbbr": "AB",
-    "regionKey": "alberta",
-    "regionName": "Alberta",
-    "regionPath": "provinces",
-    "lookupKey": "T1J"
-  },
-  {
-    "key": "medicine-hat",
-    "name": "Medicine Hat",
-    "country": "canada",
-    "regionKind": "CA",
-    "regionAbbr": "AB",
-    "regionKey": "alberta",
-    "regionName": "Alberta",
-    "regionPath": "provinces",
-    "lookupKey": "T1A"
-  },
+  { "key":"calgary","name":"Calgary","country":"canada","regionKind":"CA","regionAbbr":"AB","regionKey":"alberta","regionName":"Alberta","regionPath":"provinces","lookupKey":"T2P","lat":51.0447,"lon":-114.0719 },
+  { "key":"edmonton","name":"Edmonton","country":"canada","regionKind":"CA","regionAbbr":"AB","regionKey":"alberta","regionName":"Alberta","regionPath":"provinces","lookupKey":"T5J","lat":53.5461,"lon":-113.4938 },
+  { "key":"red-deer","name":"Red Deer","country":"canada","regionKind":"CA","regionAbbr":"AB","regionKey":"alberta","regionName":"Alberta","regionPath":"provinces","lookupKey":"T4N","lat":52.2681,"lon":-113.8112 },
+  { "key":"lethbridge","name":"Lethbridge","country":"canada","regionKind":"CA","regionAbbr":"AB","regionKey":"alberta","regionName":"Alberta","regionPath":"provinces","lookupKey":"T1J","lat":49.6956,"lon":-112.8451 },
+  { "key":"medicine-hat","name":"Medicine Hat","country":"canada","regionKind":"CA","regionAbbr":"AB","regionKey":"alberta","regionName":"Alberta","regionPath":"provinces","lookupKey":"T1A","lat":50.0405,"lon":-110.6766 },
 
-  {
-    "key": "vancouver",
-    "name": "Vancouver",
-    "country": "canada",
-    "regionKind": "CA",
-    "regionAbbr": "BC",
-    "regionKey": "british-columbia",
-    "regionName": "British Columbia",
-    "regionPath": "provinces",
-    "lookupKey": "V6B"
-  },
-  {
-    "key": "victoria",
-    "name": "Victoria",
-    "country": "canada",
-    "regionKind": "CA",
-    "regionAbbr": "BC",
-    "regionKey": "british-columbia",
-    "regionName": "British Columbia",
-    "regionPath": "provinces",
-    "lookupKey": "V8W"
-  },
-  {
-    "key": "kelowna",
-    "name": "Kelowna",
-    "country": "canada",
-    "regionKind": "CA",
-    "regionAbbr": "BC",
-    "regionKey": "british-columbia",
-    "regionName": "British Columbia",
-    "regionPath": "provinces",
-    "lookupKey": "V1Y"
-  },
-  {
-    "key": "kamloops",
-    "name": "Kamloops",
-    "country": "canada",
-    "regionKind": "CA",
-    "regionAbbr": "BC",
-    "regionKey": "british-columbia",
-    "regionName": "British Columbia",
-    "regionPath": "provinces",
-    "lookupKey": "V2C"
-  },
-  {
-    "key": "prince-george",
-    "name": "Prince George",
-    "country": "canada",
-    "regionKind": "CA",
-    "regionAbbr": "BC",
-    "regionKey": "british-columbia",
-    "regionName": "British Columbia",
-    "regionPath": "provinces",
-    "lookupKey": "V2L"
-  },
+  { "key":"vancouver","name":"Vancouver","country":"canada","regionKind":"CA","regionAbbr":"BC","regionKey":"british-columbia","regionName":"British Columbia","regionPath":"provinces","lookupKey":"V6B","lat":49.2827,"lon":-123.1207 },
+  { "key":"victoria","name":"Victoria","country":"canada","regionKind":"CA","regionAbbr":"BC","regionKey":"british-columbia","regionName":"British Columbia","regionPath":"provinces","lookupKey":"V8W","lat":48.4284,"lon":-123.3656 },
+  { "key":"kelowna","name":"Kelowna","country":"canada","regionKind":"CA","regionAbbr":"BC","regionKey":"british-columbia","regionName":"British Columbia","regionPath":"provinces","lookupKey":"V1Y","lat":49.8880,"lon":-119.4960 },
+  { "key":"kamloops","name":"Kamloops","country":"canada","regionKind":"CA","regionAbbr":"BC","regionKey":"british-columbia","regionName":"British Columbia","regionPath":"provinces","lookupKey":"V2C","lat":50.6745,"lon":-120.3273 },
+  { "key":"prince-george","name":"Prince George","country":"canada","regionKind":"CA","regionAbbr":"BC","regionKey":"british-columbia","regionName":"British Columbia","regionPath":"provinces","lookupKey":"V2L","lat":53.9171,"lon":-122.7497 },
 
-  {
-    "key": "saskatoon",
-    "name": "Saskatoon",
-    "country": "canada",
-    "regionKind": "CA",
-    "regionAbbr": "SK",
-    "regionKey": "saskatchewan",
-    "regionName": "Saskatchewan",
-    "regionPath": "provinces",
-    "lookupKey": "S7K"
-  },
-  {
-    "key": "regina",
-    "name": "Regina",
-    "country": "canada",
-    "regionKind": "CA",
-    "regionAbbr": "SK",
-    "regionKey": "saskatchewan",
-    "regionName": "Saskatchewan",
-    "regionPath": "provinces",
-    "lookupKey": "S4P"
-  },
-  {
-    "key": "prince-albert",
-    "name": "Prince Albert",
-    "country": "canada",
-    "regionKind": "CA",
-    "regionAbbr": "SK",
-    "regionKey": "saskatchewan",
-    "regionName": "Saskatchewan",
-    "regionPath": "provinces",
-    "lookupKey": "S6V"
-  },
+  { "key":"saskatoon","name":"Saskatoon","country":"canada","regionKind":"CA","regionAbbr":"SK","regionKey":"saskatchewan","regionName":"Saskatchewan","regionPath":"provinces","lookupKey":"S7K","lat":52.1579,"lon":-106.6702 },
+  { "key":"regina","name":"Regina","country":"canada","regionKind":"CA","regionAbbr":"SK","regionKey":"saskatchewan","regionName":"Saskatchewan","regionPath":"provinces","lookupKey":"S4P","lat":50.4452,"lon":-104.6189 },
+  { "key":"prince-albert","name":"Prince Albert","country":"canada","regionKind":"CA","regionAbbr":"SK","regionKey":"saskatchewan","regionName":"Saskatchewan","regionPath":"provinces","lookupKey":"S6V","lat":53.2033,"lon":-105.7531 },
 
-  {
-    "key": "winnipeg",
-    "name": "Winnipeg",
-    "country": "canada",
-    "regionKind": "CA",
-    "regionAbbr": "MB",
-    "regionKey": "manitoba",
-    "regionName": "Manitoba",
-    "regionPath": "provinces",
-    "lookupKey": "R3C"
-  },
-  {
-    "key": "brandon",
-    "name": "Brandon",
-    "country": "canada",
-    "regionKind": "CA",
-    "regionAbbr": "MB",
-    "regionKey": "manitoba",
-    "regionName": "Manitoba",
-    "regionPath": "provinces",
-    "lookupKey": "R7A"
-  },
+  { "key":"winnipeg","name":"Winnipeg","country":"canada","regionKind":"CA","regionAbbr":"MB","regionKey":"manitoba","regionName":"Manitoba","regionPath":"provinces","lookupKey":"R3C","lat":49.8951,"lon":-97.1384 },
+  { "key":"brandon","name":"Brandon","country":"canada","regionKind":"CA","regionAbbr":"MB","regionKey":"manitoba","regionName":"Manitoba","regionPath":"provinces","lookupKey":"R7A","lat":49.8485,"lon":-99.9501 },
 
-  {
-    "key": "minneapolis",
-    "name": "Minneapolis",
-    "country": "usa",
-    "regionKind": "US",
-    "regionAbbr": "MN",
-    "regionKey": "minnesota",
-    "regionName": "Minnesota",
-    "regionPath": "states",
-    "lookupKey": "55401"
-  },
-  {
-    "key": "saint-paul",
-    "name": "Saint Paul",
-    "country": "usa",
-    "regionKind": "US",
-    "regionAbbr": "MN",
-    "regionKey": "minnesota",
-    "regionName": "Minnesota",
-    "regionPath": "states",
-    "lookupKey": "55101"
-  },
-  {
-    "key": "duluth",
-    "name": "Duluth",
-    "country": "usa",
-    "regionKind": "US",
-    "regionAbbr": "MN",
-    "regionKey": "minnesota",
-    "regionName": "Minnesota",
-    "regionPath": "states",
-    "lookupKey": "55802"
-  },
+  { "key":"minneapolis","name":"Minneapolis","country":"usa","regionKind":"US","regionAbbr":"MN","regionKey":"minnesota","regionName":"Minnesota","regionPath":"states","lookupKey":"55401","lat":44.9778,"lon":-93.2650 },
+  { "key":"saint-paul","name":"Saint Paul","country":"usa","regionKind":"US","regionAbbr":"MN","regionKey":"minnesota","regionName":"Minnesota","regionPath":"states","lookupKey":"55101","lat":44.9537,"lon":-93.0900 },
+  { "key":"duluth","name":"Duluth","country":"usa","regionKind":"US","regionAbbr":"MN","regionKey":"minnesota","regionName":"Minnesota","regionPath":"states","lookupKey":"55802","lat":46.7867,"lon":-92.1005 },
 
-  {
-    "key": "milwaukee",
-    "name": "Milwaukee",
-    "country": "usa",
-    "regionKind": "US",
-    "regionAbbr": "WI",
-    "regionKey": "wisconsin",
-    "regionName": "Wisconsin",
-    "regionPath": "states",
-    "lookupKey": "53202"
-  },
-  {
-    "key": "madison",
-    "name": "Madison",
-    "country": "usa",
-    "regionKind": "US",
-    "regionAbbr": "WI",
-    "regionKey": "wisconsin",
-    "regionName": "Wisconsin",
-    "regionPath": "states",
-    "lookupKey": "53703"
-  },
-  {
-    "key": "green-bay",
-    "name": "Green Bay",
-    "country": "usa",
-    "regionKind": "US",
-    "regionAbbr": "WI",
-    "regionKey": "wisconsin",
-    "regionName": "Wisconsin",
-    "regionPath": "states",
-    "lookupKey": "54301"
-  },
+  { "key":"milwaukee","name":"Milwaukee","country":"usa","regionKind":"US","regionAbbr":"WI","regionKey":"wisconsin","regionName":"Wisconsin","regionPath":"states","lookupKey":"53202","lat":43.0389,"lon":-87.9065 },
+  { "key":"madison","name":"Madison","country":"usa","regionKind":"US","regionAbbr":"WI","regionKey":"wisconsin","regionName":"Wisconsin","regionPath":"states","lookupKey":"53703","lat":43.0731,"lon":-89.4012 },
+  { "key":"green-bay","name":"Green Bay","country":"usa","regionKind":"US","regionAbbr":"WI","regionKey":"wisconsin","regionName":"Wisconsin","regionPath":"states","lookupKey":"54301","lat":44.5133,"lon":-88.0133 },
 
-  {
-    "key": "detroit",
-    "name": "Detroit",
-    "country": "usa",
-    "regionKind": "US",
-    "regionAbbr": "MI",
-    "regionKey": "michigan",
-    "regionName": "Michigan",
-    "regionPath": "states",
-    "lookupKey": "48226"
-  },
-  {
-    "key": "grand-rapids",
-    "name": "Grand Rapids",
-    "country": "usa",
-    "regionKind": "US",
-    "regionAbbr": "MI",
-    "regionKey": "michigan",
-    "regionName": "Michigan",
-    "regionPath": "states",
-    "lookupKey": "49503"
-  },
-  {
-    "key": "lansing",
-    "name": "Lansing",
-    "country": "usa",
-    "regionKind": "US",
-    "regionAbbr": "MI",
-    "regionKey": "michigan",
-    "regionName": "Michigan",
-    "regionPath": "states",
-    "lookupKey": "48933"
-  },
+  { "key":"detroit","name":"Detroit","country":"usa","regionKind":"US","regionAbbr":"MI","regionKey":"michigan","regionName":"Michigan","regionPath":"states","lookupKey":"48226","lat":42.3314,"lon":-83.0458 },
+  { "key":"grand-rapids","name":"Grand Rapids","country":"usa","regionKind":"US","regionAbbr":"MI","regionKey":"michigan","regionName":"Michigan","regionPath":"states","lookupKey":"49503","lat":42.9634,"lon":-85.6681 },
+  { "key":"lansing","name":"Lansing","country":"usa","regionKind":"US","regionAbbr":"MI","regionKey":"michigan","regionName":"Michigan","regionPath":"states","lookupKey":"48933","lat":42.7325,"lon":-84.5555 },
 
-  {
-    "key": "billings",
-    "name": "Billings",
-    "country": "usa",
-    "regionKind": "US",
-    "regionAbbr": "MT",
-    "regionKey": "montana",
-    "regionName": "Montana",
-    "regionPath": "states",
-    "lookupKey": "59101"
-  },
-  {
-    "key": "missoula",
-    "name": "Missoula",
-    "country": "usa",
-    "regionKind": "US",
-    "regionAbbr": "MT",
-    "regionKey": "montana",
-    "regionName": "Montana",
-    "regionPath": "states",
-    "lookupKey": "59801"
-  },
-  {
-    "key": "bozeman",
-    "name": "Bozeman",
-    "country": "usa",
-    "regionKind": "US",
-    "regionAbbr": "MT",
-    "regionKey": "montana",
-    "regionName": "Montana",
-    "regionPath": "states",
-    "lookupKey": "59715"
-  },
+  { "key":"fargo","name":"Fargo","country":"usa","regionKind":"US","regionAbbr":"ND","regionKey":"north-dakota","regionName":"North Dakota","regionPath":"states","lookupKey":"58102","lat":46.8772,"lon":-96.7898 },
+  { "key":"bismarck","name":"Bismarck","country":"usa","regionKind":"US","regionAbbr":"ND","regionKey":"north-dakota","regionName":"North Dakota","regionPath":"states","lookupKey":"58501","lat":46.8083,"lon":-100.7837 },
 
-  {
-    "key": "fargo",
-    "name": "Fargo",
-    "country": "usa",
-    "regionKind": "US",
-    "regionAbbr": "ND",
-    "regionKey": "north-dakota",
-    "regionName": "North Dakota",
-    "regionPath": "states",
-    "lookupKey": "58102"
-  },
-  {
-    "key": "bismarck",
-    "name": "Bismarck",
-    "country": "usa",
-    "regionKind": "US",
-    "regionAbbr": "ND",
-    "regionKey": "north-dakota",
-    "regionName": "North Dakota",
-    "regionPath": "states",
-    "lookupKey": "58501"
-  },
-
-  {
-    "key": "sioux-falls",
-    "name": "Sioux Falls",
-    "country": "usa",
-    "regionKind": "US",
-    "regionAbbr": "SD",
-    "regionKey": "south-dakota",
-    "regionName": "South Dakota",
-    "regionPath": "states",
-    "lookupKey": "57104"
-  },
-  {
-    "key": "rapid-city",
-    "name": "Rapid City",
-    "country": "usa",
-    "regionKind": "US",
-    "regionAbbr": "SD",
-    "regionKey": "south-dakota",
-    "regionName": "South Dakota",
-    "regionPath": "states",
-    "lookupKey": "57701"
-  }
+  { "key":"sioux-falls","name":"Sioux Falls","country":"usa","regionKind":"US","regionAbbr":"SD","regionKey":"south-dakota","regionName":"South Dakota","regionPath":"states","lookupKey":"57104","lat":43.5446,"lon":-96.7311 },
+  { "key":"rapid-city","name":"Rapid City","country":"usa","regionKind":"US","regionAbbr":"SD","regionKey":"south-dakota","regionName":"South Dakota","regionPath":"states","lookupKey":"57701","lat":44.0805,"lon":-103.2310 }
 ]

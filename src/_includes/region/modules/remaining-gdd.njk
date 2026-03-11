@@ -1,12 +1,23 @@
 <section class="card">
   <h2>Typical Remaining Growing Degree Days in {{ state.name }} (Base 50)</h2>
 
-    <p class="small" style="margin-top:-0.25rem;">
+  <p class="small" style="margin-top:-0.25rem;">
     <a href="/guides/how-frost-dates-and-growing-degree-days-work-together/">Growing Degree Days</a> (Base 50°F) are a heat-accumulation measure used to estimate plant development.
     “Remaining GDD” is the typical amount of usable heat still available <em>from each date</em> as the season approaches frost risk.
   </p>
 
-    <div class="tableWrap">
+  {% set preferredDates = ["05-15", "06-01", "07-01", "08-01"] %}
+  {% set filteredRows = [] %}
+
+  {% for row in state.gdd_remaining %}
+    {% if row.date in preferredDates %}
+      {% set filteredRows = filteredRows.concat([row]) %}
+    {% endif %}
+  {% endfor %}
+
+  {% set rows = filteredRows if filteredRows.length else state.gdd_remaining %}
+
+  <div class="tableWrap">
     <table class="table">
       <thead>
         <tr>
@@ -16,7 +27,7 @@
         </tr>
       </thead>
       <tbody>
-        {% for row in state.gdd_remaining %}
+        {% for row in rows %}
           <tr>
             <td>{{ row.date | mmddLong }}</td>
             <td>{{ row.base }}</td>
@@ -27,7 +38,7 @@
     </table>
   </div>
 
-                  <div class="small muted" style="margin-top:.15rem;">
+  <div class="small muted" style="margin-top:.15rem;">
     <p><strong>How to use it:</strong> compare your crop or variety’s heat requirement to the remaining GDD after your planting date.</p>
     <p><strong>What it helps with:</strong> deciding if a later planting is a reasonable bet, choosing shorter-maturity varieties, and estimating whether a fast crop can still finish.</p>
     <p><strong>Late-season reality:</strong> heat tends to accumulate more slowly as days shorten, so late-season progress can feel slower even when calendar days remain.</p>
@@ -39,7 +50,6 @@
     </p>
   {% endif %}
 
-{% include "region/modules/planting-windows.njk" %}
-{% include "region/modules/what-can-i-grow.njk" %}
-
+  {% include "region/modules/planting-windows.njk" %}
+  {% include "region/modules/what-can-i-grow.njk" %}
 </section>
