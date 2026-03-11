@@ -23,7 +23,6 @@ const ENABLED_CITIES = new Set([
   "lethbridge",
   "vancouver",
   "kelowna",
-  "prince-george",
   "saskatoon",
   "regina",
   "prince-albert",
