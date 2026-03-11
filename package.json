@@ -2,8 +2,9 @@
   "name": "growbydate",
   "private": true,
   "scripts": {
-    "dev": "npx @11ty/eleventy --serve",
-    "build": "npx @11ty/eleventy"
+    "clean": "node -e \"require('fs').rmSync('_site', { recursive: true, force: true })\"",
+    "dev": "npm run clean && npx @11ty/eleventy --serve",
+    "build": "npm run clean && npx @11ty/eleventy"
   },
   "devDependencies": {
     "@11ty/eleventy": "^3.0.0"

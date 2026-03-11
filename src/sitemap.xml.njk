@@ -1,26 +1,65 @@
 ---
 permalink: /sitemap.xml
+eleventyExcludeFromCollections: true
 ---
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 {%- set base = "https://growbydate.com" -%}
-{# Core pages #}
-  <url><loc>{{- base -}}/</loc></url>
-  <url><loc>{{- base -}}/tools/</loc></url>
-  <url><loc>{{- base -}}/guides/</loc></url>
-  <url><loc>{{- base -}}/crops/</loc></url>
-{# Tools from tools.json (deterministic) #}
-{%- for t in tools | sort(attribute="order") -%}
-  <url><loc>{{- base -}}/tools/{{- t.slug -}}/</loc></url>
-{%- endfor -%}
-{# Guides from your guides collection #}
-{%- for g in collections.guides | sort(attribute="url") -%}
-  {%- if g.url -%}
-  <url><loc>{{- base -}}{{- g.url -}}</loc></url>
+
+{# Static / collection-backed pages #}
+{%- for item in collections.all | sort(attribute="url") -%}
+  {%- if item.url
+      and item.url != "/sitemap.xml"
+      and item.url != "/404.html"
+      and item.url != "/feed.xml"
+      and not item.data.draft
+      and not item.data.excludeFromSitemap -%}
+  <url>
+    <loc>{{ base }}{{ item.url }}</loc>
+  </url>
   {%- endif -%}
 {%- endfor -%}
-{# Crops from crops.json (deterministic) #}
-{%- for c in crops | sort(attribute="slug") -%}
-  <url><loc>{{- base -}}/crops/{{- c.slug -}}/</loc></url>
+
+{# State pages #}
+{%- for state in stateSummariesUS | sort(attribute="key") -%}
+  <url>
+    <loc>{{ base }}/planting-dates/states/{{ state.key }}/</loc>
+  </url>
 {%- endfor -%}
+
+{# Province pages #}
+{%- for province in provinceSummariesCA | sort(attribute="key") -%}
+  <url>
+    <loc>{{ base }}/planting-dates/canada/provinces/{{ province.key }}/</loc>
+  </url>
+{%- endfor -%}
+
+{# City pages #}
+{%- for city in citySummaries | sort(attribute="key") -%}
+  <url>
+    <loc>{{ base }}/planting-dates/{% if city.country == "canada" %}canada/{% endif %}{{ city.regionKey }}/{{ city.key }}/</loc>
+  </url>
+{%- endfor -%}
+
+{# Crop-city pages #}
+{%- for row in cropCitySummaries | sort(attribute="url") -%}
+  <url>
+    <loc>{{ base }}{{ row.url }}</loc>
+  </url>
+{%- endfor -%}
+
+{# Crop pages #}
+{%- for crop in crops | sort(attribute="slug") -%}
+  <url>
+    <loc>{{ base }}/crops/{{ crop.slug }}/</loc>
+  </url>
+{%- endfor -%}
+
+{# Tool pages #}
+{%- for tool in tools | sort(attribute="slug") -%}
+  <url>
+    <loc>{{ base }}/tools/{{ tool.slug }}/</loc>
+  </url>
+{%- endfor -%}
+
 </urlset>

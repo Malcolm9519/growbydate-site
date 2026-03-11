@@ -5,6 +5,10 @@ pagination:
   size: 1
   alias: state
 permalink: "/planting-dates/states/{{ state.key }}/index.html"
+eleventyComputed:
+  title: "Planting Dates & Crop Timing in {{ state.name }} | GrowByDate"
+  description: "Typical frost dates, growing season length, and crop timing guidance for gardeners in {{ state.name }}."
+  canonical: "https://growbydate.com/planting-dates/states/{{ state.key }}/"
 ---
 
 <header class="header">
@@ -13,7 +17,6 @@ permalink: "/planting-dates/states/{{ state.key }}/index.html"
   {% set hero = (state.content and state.content.hero) or {} %}
   {% set ledeFromHeroNote = (hero and hero.note and (not hero.lede)) %}
 
-  {# Optional hero notes (avoid duplicating hero.note if it was used as the lede) #}
   {% if hero %}
     {% set showHeroNote = (hero.note and (not ledeFromHeroNote)) %}
     {% if showHeroNote or hero.extraNote %}
@@ -39,19 +42,17 @@ permalink: "/planting-dates/states/{{ state.key }}/index.html"
   {% endif %}
 
   {% set lede =
-  (hero and hero.lede)
-    or (ledeFromHeroNote and hero.note)
-or ("This page shows what typically works in " + state.name + " in a normal year — what reliably finishes, what can be tight, and how timing decisions shape results across the season.")%}
+    (hero and hero.lede)
+      or (ledeFromHeroNote and hero.note)
+      or ("This page shows what typically works in " + state.name + " in a normal year — what reliably finishes, what can be tight, and how timing decisions shape results across the season.")
+  %}
 
-<p class="lede">{{ lede }}</p>
-
+  <p class="lede">{{ lede }}</p>
 </header>
+
 {% include "region/modules/quick-planning-reference.njk" %}
-
 {% include "region/modules/season-boundaries.njk" %}
-
 {% include "region/modules/remaining-gdd.njk" %}
 
-{# Optional one-off details: src/_includes/region/{{ state.key }}-details.njk #}
 {% set detailsPath = "region/" + state.key + "-details.njk" %}
 {% include detailsPath ignore missing %}

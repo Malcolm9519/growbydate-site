@@ -5,6 +5,10 @@ pagination:
   size: 1
   alias: city
 permalink: "/planting-dates/{% if city.country == 'canada' %}canada/{% endif %}{{ city.regionKey }}/{{ city.key }}/index.html"
+eleventyComputed:
+  title: "Planting Dates & Crop Timing in {{ city.name }}, {{ city.regionName }} | GrowByDate"
+  description: "Typical frost dates, growing season length, and crop timing guidance for {{ city.name }}, {{ city.regionName }}."
+  canonical: "https://growbydate.com/planting-dates/{% if city.country == 'canada' %}canada/{% endif %}{{ city.regionKey }}/{{ city.key }}/"
 ---
 
 {# Alias so shared modules can use state.* consistently #}
@@ -64,5 +68,6 @@ permalink: "/planting-dates/{% if city.country == 'canada' %}canada/{% endif %}{
 <section class="small muted" style="margin-top:1rem;">
   <p>
     Looking for broader guidance? See planting timing across
-<a href="/planting-dates/{% if city.country == 'canada' %}canada/provinces{% else %}states{% endif %}/{{ city.regionKey }}/">{{ city.regionName }}</a>  </p>
+    <a href="/planting-dates/{% if city.country == 'canada' %}canada/provinces{% else %}states{% endif %}/{{ city.regionKey }}/">{{ city.regionName }}</a>
+  </p>
 </section>

@@ -7,54 +7,6 @@ const stationSeriesAliases = require("./stationSeriesAliases");
 const CITY_STATION_OVERRIDES = {
 };
 
-function pickBestSeriesStationForCity(city, preferredStationMeta) {
-  const originLat =
-    preferredStationMeta && preferredStationMeta.lat != null
-      ? preferredStationMeta.lat
-      : city.lat;
-
-  const originLon =
-    preferredStationMeta && preferredStationMeta.lon != null
-      ? preferredStationMeta.lon
-      : city.lon;
-
-  if (originLat == null || originLon == null) {
-    return lookupStationId(city.lookupKey);
-  }
-
-  let bestStation = null;
-  let bestScore = Infinity;
-
-  const cityName = normalizeName(city.name || "");
-  const firstWord = cityName.split(" ")[0] || "";
-
-  for (const [stationId, meta] of Object.entries(stationsMeta)) {
-    if (!meta || meta.lat == null || meta.lon == null) continue;
-
-    const series = getStationSeries(stationId);
-    if (!series) continue;
-
-    const dist = haversineKm(originLat, originLon, meta.lat, meta.lon);
-    if (dist > 60) continue;
-
-    const stationName = normalizeName(meta.name || "");
-    const exactNameMatch = cityName && stationName.includes(cityName);
-    const firstWordMatch = firstWord && stationName.includes(firstWord);
-
-    let score = dist;
-
-    if (exactNameMatch) score -= 25;
-    else if (firstWordMatch) score -= 10;
-
-    if (score < bestScore) {
-      bestScore = score;
-      bestStation = stationId;
-    }
-  }
-
-  return bestStation || lookupStationId(city.lookupKey);
-}
-
 function haversineKm(lat1, lon1, lat2, lon2) {
   const R = 6371;
   const dLat = (lat2 - lat1) * Math.PI / 180;
@@ -76,106 +28,11 @@ function normalizeName(value) {
     .trim();
 }
 
-function pickBestMetadataStationForCity(city) {
-  if (!city.lat || !city.lon) {
-    return lookupStationId(city.lookupKey);
-  }
-
-  const cityName = normalizeName(city.name);
-
-  let bestStation = null;
-  let bestDistance = Infinity;
-
-  for (const [stationId, meta] of Object.entries(stationsMeta)) {
-    if (!meta || meta.lat == null || meta.lon == null) continue;
-
-    const dist = haversineKm(city.lat, city.lon, meta.lat, meta.lon);
-    if (dist > 80) continue;
-
-    const stationName = normalizeName(meta.name || "");
-    const exactNameMatch = stationName.includes(cityName);
-
-    let score = dist;
-    if (exactNameMatch) score -= 15;
-
-    if (score < bestDistance) {
-      bestDistance = score;
-      bestStation = stationId;
-    }
-  }
-
-  return bestStation || null;
-}
-
-function resolveSeriesStation(preferredStationId, city) {
-  if (!preferredStationId) return null;
-  if (stationSeriesAliases[preferredStationId]) {
-  return stationSeriesAliases[preferredStationId];
-}
-
-  if (getStationSeries(preferredStationId)) {
-    return preferredStationId;
-  }
-
-  const preferredMeta = stationsMeta[preferredStationId];
-  if (!preferredMeta || preferredMeta.lat == null || preferredMeta.lon == null) {
-    return lookupStationId(city.lookupKey);
-  }
-
-  const cityName = normalizeName(city.name);
-  const firstWord = cityName.split(" ")[0];
-
-  let strictBestStation = null;
-  let strictBestDistance = Infinity;
-
-  let looseBestStation = null;
-  let looseBestDistance = Infinity;
-
-  for (const [stationId, meta] of Object.entries(stationsMeta)) {
-    if (!meta || meta.lat == null || meta.lon == null) continue;
-
-    const series = getStationSeries(stationId);
-    if (!series) continue;
-
-    const stationName = normalizeName(meta.name);
-    const dist = haversineKm(
-      preferredMeta.lat,
-      preferredMeta.lon,
-      meta.lat,
-      meta.lon
-    );
-
-    const sameCityName =
-      stationName.includes(cityName) ||
-      (firstWord && stationName.includes(firstWord));
-
-    // Strict pass: same-city-ish name and nearby
-    if (sameCityName && dist <= 80) {
-      if (dist < strictBestDistance) {
-        strictBestDistance = dist;
-        strictBestStation = stationId;
-      }
-    }
-
-    // Loose pass: nearby only
-    if (dist <= 35) {
-      if (dist < looseBestDistance) {
-        looseBestDistance = dist;
-        looseBestStation = stationId;
-      }
-    }
-  }
-
-  if (strictBestStation) return strictBestStation;
-  if (looseBestStation) return looseBestStation;
-
-  return lookupStationId(city.lookupKey);
-}
-
 function mmddToDayOfYear(mmdd) {
   if (!mmdd || typeof mmdd !== "string") return null;
   const m = /^(\d{2})-(\d{2})$/.exec(mmdd.trim());
   if (!m) return null;
+
   const month = Number(m[1]);
   const day = Number(m[2]);
   if (!Number.isFinite(month) || !Number.isFinite(day)) return null;
@@ -192,6 +49,7 @@ function mmddToDayOfYear(mmdd) {
 
 function dayOfYearToMmdd(doy) {
   if (!Number.isFinite(doy)) return null;
+
   const mdays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
   let d = Math.max(1, Math.min(365, Math.round(doy)));
 
@@ -244,6 +102,8 @@ function lookupStationId(rawKey) {
 const stationSeriesCache = new Map();
 
 function getStationSeries(stationId) {
+  if (!stationId) return null;
+
   if (stationSeriesCache.has(stationId)) {
     return stationSeriesCache.get(stationId);
   }
@@ -258,6 +118,145 @@ function getStationSeries(stationId) {
 
   stationSeriesCache.set(stationId, data);
   return data;
+}
+
+function getAliasedSeriesStationId(stationId) {
+  if (!stationId) return null;
+
+  if (stationSeriesAliases[stationId]) {
+    return stationSeriesAliases[stationId];
+  }
+
+  if (getStationSeries(stationId)) {
+    return stationId;
+  }
+
+  return null;
+}
+
+function hasUsableSeries(stationId) {
+  return Boolean(getAliasedSeriesStationId(stationId));
+}
+
+function pickBestMetadataStationForCity(city) {
+  if (city.lat == null || city.lon == null) {
+    return lookupStationId(city.lookupKey);
+  }
+
+  const cityName = normalizeName(city.name || "");
+  const firstWord = cityName.split(" ")[0] || "";
+
+  let bestStation = null;
+  let bestScore = Infinity;
+
+  for (const [stationId, meta] of Object.entries(stationsMeta)) {
+    if (!meta || meta.lat == null || meta.lon == null) continue;
+
+    const dist = haversineKm(city.lat, city.lon, meta.lat, meta.lon);
+    if (dist > 120) continue;
+
+    const stationName = normalizeName(meta.name || "");
+    const exactNameMatch = cityName && stationName.includes(cityName);
+    const firstWordMatch = firstWord && stationName.includes(firstWord);
+
+    let score = dist;
+
+    if (exactNameMatch) score -= 25;
+    else if (firstWordMatch) score -= 10;
+
+    if (score < bestScore) {
+      bestScore = score;
+      bestStation = stationId;
+    }
+  }
+
+  return bestStation || lookupStationId(city.lookupKey);
+}
+
+function pickBestSeriesStationForCity(city, preferredStationMeta) {
+  const originLat =
+    preferredStationMeta && preferredStationMeta.lat != null
+      ? preferredStationMeta.lat
+      : city.lat;
+
+  const originLon =
+    preferredStationMeta && preferredStationMeta.lon != null
+      ? preferredStationMeta.lon
+      : city.lon;
+
+  if (originLat == null || originLon == null) {
+    const lookupId = lookupStationId(city.lookupKey);
+    return getAliasedSeriesStationId(lookupId);
+  }
+
+  let bestStation = null;
+  let bestScore = Infinity;
+
+  const cityName = normalizeName(city.name || "");
+  const firstWord = cityName.split(" ")[0] || "";
+
+  for (const [stationId, meta] of Object.entries(stationsMeta)) {
+    if (!meta || meta.lat == null || meta.lon == null) continue;
+
+    const usableSeriesStationId = getAliasedSeriesStationId(stationId);
+    if (!usableSeriesStationId) continue;
+
+    const dist = haversineKm(originLat, originLon, meta.lat, meta.lon);
+    if (dist > 120) continue;
+
+    const stationName = normalizeName(meta.name || "");
+    const exactNameMatch = cityName && stationName.includes(cityName);
+    const firstWordMatch = firstWord && stationName.includes(firstWord);
+
+    let score = dist;
+
+    if (exactNameMatch) score -= 25;
+    else if (firstWordMatch) score -= 10;
+
+    if (score < bestScore) {
+      bestScore = score;
+      bestStation = usableSeriesStationId;
+    }
+  }
+
+  return bestStation || null;
+}
+
+function resolveSeriesStation(preferredStationId, city) {
+  const directSeries = getAliasedSeriesStationId(preferredStationId);
+  if (directSeries) return directSeries;
+
+  const preferredMeta = preferredStationId ? stationsMeta[preferredStationId] : null;
+
+  const nearbySeries = pickBestSeriesStationForCity(city, preferredMeta);
+  if (nearbySeries) return nearbySeries;
+
+  const lookupId = lookupStationId(city.lookupKey);
+  const lookupSeries = getAliasedSeriesStationId(lookupId);
+
+  if (lookupSeries) {
+    const lookupMeta = stationsMeta[lookupId];
+    const originLat =
+      preferredMeta && preferredMeta.lat != null ? preferredMeta.lat : city.lat;
+    const originLon =
+      preferredMeta && preferredMeta.lon != null ? preferredMeta.lon : city.lon;
+
+    if (
+      lookupMeta &&
+      lookupMeta.lat != null &&
+      lookupMeta.lon != null &&
+      originLat != null &&
+      originLon != null
+    ) {
+      const dist = haversineKm(originLat, originLon, lookupMeta.lat, lookupMeta.lon);
+      if (dist <= 120) return lookupSeries;
+      return null;
+    }
+
+    return lookupSeries;
+  }
+
+  return null;
 }
 
 function getRemainingFromCurve(curve, base, mmdd) {
@@ -291,6 +290,7 @@ function buildCropGddIndex(data) {
         .trim()
         .toLowerCase();
       if (!key) continue;
+
       const gdd =
         row.gdd50 ??
         row.gdd_base50 ??
@@ -298,6 +298,7 @@ function buildCropGddIndex(data) {
         row.gddRequired ??
         row.gdd_required ??
         null;
+
       if (Number.isFinite(gdd)) idx[key] = gdd;
     }
   }
@@ -478,158 +479,174 @@ function buildCitySummaries(cities) {
     const springMedian = mmddToDayOfYear(frostRow && frostRow.lastFrost);
     const fallMedian = mmddToDayOfYear(frostRow && frostRow.firstFrost);
 
-const earliestFall = null;
-const latestFall = null;
+    const earliestFall = null;
+    const latestFall = null;
 
-const preferredStationId =
-  CITY_STATION_OVERRIDES[city.key] || pickBestMetadataStationForCity(city);
+    const preferredStationId =
+      CITY_STATION_OVERRIDES[city.key] || pickBestMetadataStationForCity(city);
 
-const preferredStationMeta = preferredStationId
-  ? stationsMeta[preferredStationId] || null
-  : null;
+    const preferredStationMeta = preferredStationId
+      ? stationsMeta[preferredStationId] || null
+      : null;
 
-// ✅ THIS is the key change
-const stationId = resolveSeriesStation(preferredStationId, city);
+    const stationId = resolveSeriesStation(preferredStationId, city);
 
-const curve = stationId ? getStationSeries(stationId) : null;
+    const curve = stationId ? getStationSeries(stationId) : null;
 
-const stationMeta = stationId
-  ? stationsMeta[stationId] || null
-  : null;
-  
-  const gdd50 = checkDates.map((d) => ({ date: d, base: 50, gdd: getRemainingFromCurve(curve, 50, d) }));
-    const gdd45 = checkDates.map((d) => ({ date: d, base: 45, gdd: getRemainingFromCurve(curve, 45, d) }));
-    const gdd40 = checkDates.map((d) => ({ date: d, base: 40, gdd: getRemainingFromCurve(curve, 40, d) }));
+    const stationMeta = stationId
+      ? stationsMeta[stationId] || null
+      : null;
+
+    const gdd50 = checkDates.map((d) => ({
+      date: d,
+      base: 50,
+      gdd: getRemainingFromCurve(curve, 50, d)
+    }));
+
+    const gdd45 = checkDates.map((d) => ({
+      date: d,
+      base: 45,
+      gdd: getRemainingFromCurve(curve, 45, d)
+    }));
+
+    const gdd40 = checkDates.map((d) => ({
+      date: d,
+      base: 40,
+      gdd: getRemainingFromCurve(curve, 40, d)
+    }));
 
     const remainingMap50 = Object.fromEntries(
       gdd50.map((r) => [r.date, Number.isFinite(r.gdd) ? r.gdd : null])
     );
 
     const frostFreeDays_p50 =
-      Number.isFinite(springMedian) && Number.isFinite(fallMedian) && fallMedian > springMedian
+      Number.isFinite(springMedian) &&
+      Number.isFinite(fallMedian) &&
+      fallMedian > springMedian
         ? Math.round(fallMedian - springMedian)
         : null;
 
     const fallSpreadDays50 =
-      Number.isFinite(earliestFall) && Number.isFinite(latestFall) && latestFall >= earliestFall
+      Number.isFinite(earliestFall) &&
+      Number.isFinite(latestFall) &&
+      latestFall >= earliestFall
         ? Math.round(latestFall - earliestFall)
         : null;
 
-const summary = {
-  key: city.key,
-  name: city.name,
-  country: city.country,
-  regionKind: city.regionKind,
-  regionAbbr: city.regionAbbr,
-  regionKey: city.regionKey,
-  regionName: city.regionName,
-  abbr: city.regionAbbr,
+    const stationDistanceKm =
+      preferredStationMeta &&
+      stationMeta &&
+      preferredStationMeta.lat != null &&
+      preferredStationMeta.lon != null &&
+      stationMeta.lat != null &&
+      stationMeta.lon != null
+        ? Math.round(
+            haversineKm(
+              preferredStationMeta.lat,
+              preferredStationMeta.lon,
+              stationMeta.lat,
+              stationMeta.lon
+            ) * 10
+          ) / 10
+        : null;
 
-  lookupKey: city.lookupKey || null,
+    const summary = {
+      key: city.key,
+      name: city.name,
+      country: city.country,
+      regionKind: city.regionKind,
+      regionAbbr: city.regionAbbr,
+      regionKey: city.regionKey,
+      regionName: city.regionName,
+      abbr: city.regionAbbr,
 
-  preferredStationId: preferredStationId || null,
-  preferredStationName:
-    preferredStationMeta && preferredStationMeta.name
-      ? preferredStationMeta.name
-      : null,
-  preferredStationLat:
-    preferredStationMeta && preferredStationMeta.lat != null
-      ? preferredStationMeta.lat
-      : null,
-  preferredStationLon:
-    preferredStationMeta && preferredStationMeta.lon != null
-      ? preferredStationMeta.lon
-      : null,
+      lookupKey: city.lookupKey || null,
 
-  gddStationId: stationId || null,
-  stationName:
-    stationMeta && stationMeta.name
-      ? stationMeta.name
-      : null,
-  stationLat:
-    stationMeta && stationMeta.lat != null
-      ? stationMeta.lat
-      : null,
-  stationLon:
-    stationMeta && stationMeta.lon != null
-      ? stationMeta.lon
-      : null,
+      preferredStationId: preferredStationId || null,
+      preferredStationName:
+        preferredStationMeta && preferredStationMeta.name
+          ? preferredStationMeta.name
+          : null,
+      preferredStationLat:
+        preferredStationMeta && preferredStationMeta.lat != null
+          ? preferredStationMeta.lat
+          : null,
+      preferredStationLon:
+        preferredStationMeta && preferredStationMeta.lon != null
+          ? preferredStationMeta.lon
+          : null,
 
-  stationDistanceKm:
-    preferredStationMeta &&
-    stationMeta &&
-    preferredStationMeta.lat != null &&
-    preferredStationMeta.lon != null &&
-    stationMeta.lat != null &&
-    stationMeta.lon != null
-      ? Math.round(
-          haversineKm(
-            preferredStationMeta.lat,
-            preferredStationMeta.lon,
-            stationMeta.lat,
-            stationMeta.lon
-          ) * 10
-        ) / 10
-      : null,
+      gddStationId: stationId || null,
+      stationName:
+        stationMeta && stationMeta.name
+          ? stationMeta.name
+          : null,
+      stationLat:
+        stationMeta && stationMeta.lat != null
+          ? stationMeta.lat
+          : null,
+      stationLon:
+        stationMeta && stationMeta.lon != null
+          ? stationMeta.lon
+          : null,
 
-  stationMismatchFlag:
-    preferredStationMeta &&
-    stationMeta &&
-    preferredStationMeta.name &&
-    stationMeta.name &&
-    normalizeName(preferredStationMeta.name) !== normalizeName(stationMeta.name)
-      ? "review"
-      : "",
+      stationDistanceKm,
 
-  frost: {
-    status: Number.isFinite(fallMedian) ? "normal" : "insufficient_data",
-    median50: dayOfYearToMmdd(fallMedian),
-    earliest50: dayOfYearToMmdd(earliestFall),
-    latest50: dayOfYearToMmdd(latestFall),
-    stationCount: frostRow ? 1 : 0
-  },
+      stationMismatchFlag:
+        stationDistanceKm != null && stationDistanceKm > 25 ? "review" : "",
 
-  frost_spring: {
-    status: Number.isFinite(springMedian) ? "normal" : "insufficient_data",
-    median50: dayOfYearToMmdd(springMedian),
-    earliest50: null,
-    latest50: null,
-    stationCount: frostRow ? 1 : 0
-  },
-
-  gdd_remaining: gdd50,
-  gdd_remaining_by_base: {
-    "50": gdd50,
-    "45": gdd45,
-    "40": gdd40
-  },
-
-  season: {
-    base: 50,
-    frost: {
-      spring: {
-        p50: dayOfYearToMmdd(springMedian),
-        earliest50: null,
-        latest50: null,
-        status: Number.isFinite(springMedian) ? "normal" : "insufficient_data"
-      },
-      fall: {
-        p50: dayOfYearToMmdd(fallMedian),
+      frost: {
+        status: Number.isFinite(fallMedian) ? "normal" : "insufficient_data",
+        median50: dayOfYearToMmdd(fallMedian),
         earliest50: dayOfYearToMmdd(earliestFall),
         latest50: dayOfYearToMmdd(latestFall),
-        spreadDays50: fallSpreadDays50,
-        status: Number.isFinite(fallMedian) ? "normal" : "insufficient_data"
-      }
-    },
-    derived: {
-      frostFreeDays: frostFreeDays_p50,
-      frostFreeDays_p50,
-      firstFallSpreadDays50: fallSpreadDays50
-    }
-  },
+        stationCount: frostRow ? 1 : 0
+      },
 
-  cropFit: null
-};
+      frost_spring: {
+        status: Number.isFinite(springMedian) ? "normal" : "insufficient_data",
+        median50: dayOfYearToMmdd(springMedian),
+        earliest50: null,
+        latest50: null,
+        stationCount: frostRow ? 1 : 0
+      },
+
+      gdd_remaining: gdd50,
+      gdd_remaining_by_base: {
+        "50": gdd50,
+        "45": gdd45,
+        "40": gdd40
+      },
+
+      season: {
+        base: 50,
+        frost: {
+          spring: {
+            p50: dayOfYearToMmdd(springMedian),
+            earliest50: null,
+            latest50: null,
+            status: Number.isFinite(springMedian) ? "normal" : "insufficient_data"
+          },
+          fall: {
+            p50: dayOfYearToMmdd(fallMedian),
+            earliest50: dayOfYearToMmdd(earliestFall),
+            latest50: dayOfYearToMmdd(latestFall),
+            spreadDays50: fallSpreadDays50,
+            status: Number.isFinite(fallMedian) ? "normal" : "insufficient_data"
+          }
+        },
+        gdd: {
+          remaining: remainingMap50
+        },
+        derived: {
+          frostFreeDays: frostFreeDays_p50,
+          frostFreeDays_p50,
+          firstFallSpreadDays50: fallSpreadDays50
+        }
+      },
+
+      cropFit: null
+    };
 
     summary.plantingWindows = computePlantingWindows(summary, checkDates);
     summary.cropFit = buildCityCropFit(summary, checkDates);

@@ -1,3 +1,5 @@
+// cropCitySummaries.js
+
 const citySummariesSource = require("./citySummaries");
 const cropCityCrops = require("./cropCityCrops");
 const cropCityRollout = require("./cropCityRollout");
@@ -51,7 +53,9 @@ function mmddToDayOfYear(mmdd) {
   if (!mmdd) return null;
   const [m, d] = String(mmdd).split("-").map(Number);
   if (!Number.isFinite(m) || !Number.isFinite(d)) return null;
-  return Math.floor((Date.UTC(2021, m - 1, d) - Date.UTC(2021, 0, 1)) / 86400000);
+  return Math.floor(
+    (Date.UTC(2021, m - 1, d) - Date.UTC(2021, 0, 1)) / 86400000
+  );
 }
 
 function dayOfYearToMmdd(day) {
@@ -68,9 +72,15 @@ function addDays(mmdd, days) {
   return dayOfYearToMmdd(doy + days);
 }
 
-function getRemainingGdd(city, date) {
-  if (!city || !city.gdd_remaining_by_base || !city.gdd_remaining_by_base["50"]) return null;
-  const row = city.gdd_remaining_by_base["50"].find((r) => r.date === date);
+function getRemainingGdd(city, date, base = "50") {
+  const rows =
+    city &&
+    city.gdd_remaining_by_base &&
+    city.gdd_remaining_by_base[String(base)];
+
+  if (!Array.isArray(rows)) return null;
+
+  const row = rows.find((r) => r.date === date);
   return row && Number.isFinite(row.gdd) ? row.gdd : null;
 }
 
@@ -104,7 +114,9 @@ function getConfidence(gddMargin) {
 }
 
 function getFittingVarietyClasses(crop, availableGddFromPlanting) {
-  if (!crop || !Array.isArray(crop.varietyClasses) || !crop.varietyClasses.length) return [];
+  if (!crop || !Array.isArray(crop.varietyClasses) || !crop.varietyClasses.length) {
+    return [];
+  }
 
   if (!Number.isFinite(availableGddFromPlanting)) {
     return [crop.varietyClasses[0]];
@@ -112,16 +124,16 @@ function getFittingVarietyClasses(crop, availableGddFromPlanting) {
 
   const fitting = crop.varietyClasses.filter(
     (variety) =>
-      Number.isFinite(variety.gddTarget) && availableGddFromPlanting >= variety.gddTarget
+      Number.isFinite(variety.gddTarget) &&
+      availableGddFromPlanting >= variety.gddTarget
   );
 
-  if (fitting.length) return fitting;
-  return [crop.varietyClasses[0]];
+  return fitting.length ? fitting : [crop.varietyClasses[0]];
 }
 
 function getFittingVarietyLabels(fittingVarietyClasses) {
   if (!Array.isArray(fittingVarietyClasses)) return [];
-  return fittingVarietyClasses.map((variety) => variety.label);
+  return fittingVarietyClasses.map((variety) => variety.label).filter(Boolean);
 }
 
 function getFittingVarietyExamplesDetailed(fittingVarietyClasses) {
@@ -355,9 +367,20 @@ function buildUrl(city, crop) {
 }
 
 function buildCropCitySummary(city, crop) {
-  const spring50 = city?.season?.frost?.spring?.p50 || null;
-  const fall50 = city?.season?.frost?.fall?.p50 || null;
-  const frostFreeDays = city?.season?.derived?.frostFreeDays || city?.season?.derived?.frostFreeDays_p50 || null;
+  const spring50 =
+    city?.season?.frost?.spring?.p50 ||
+    city?.frost_spring?.median50 ||
+    null;
+
+  const fall50 =
+    city?.season?.frost?.fall?.p50 ||
+    city?.frost?.median50 ||
+    null;
+
+  const frostFreeDays =
+    city?.season?.derived?.frostFreeDays ||
+    city?.season?.derived?.frostFreeDays_p50 ||
+    null;
 
   let startIndoorsDate = null;
   let plantOutDate = null;
@@ -385,10 +408,15 @@ function buildCropCitySummary(city, crop) {
 
   if (primaryPlantingDate) {
     gddCheckpointUsed = chooseClosestCheckpoint(primaryPlantingDate);
-    availableGddFromPlanting = gddCheckpointUsed ? getRemainingGdd(city, gddCheckpointUsed) : null;
+    availableGddFromPlanting = gddCheckpointUsed
+      ? getRemainingGdd(city, gddCheckpointUsed, "50")
+      : null;
   }
 
-  const gddTargetTypical = Number.isFinite(crop.gddTargetTypical) ? crop.gddTargetTypical : null;
+  const gddTargetTypical = Number.isFinite(crop.gddTargetTypical)
+    ? crop.gddTargetTypical
+    : null;
+
   const gddMargin =
     gddTargetTypical != null && Number.isFinite(availableGddFromPlanting)
       ? availableGddFromPlanting - gddTargetTypical
@@ -397,7 +425,10 @@ function buildCropCitySummary(city, crop) {
   const confidence = getConfidence(gddMargin);
   const fittingVarietyClasses = getFittingVarietyClasses(crop, availableGddFromPlanting);
   const fittingVarietyLabels = getFittingVarietyLabels(fittingVarietyClasses);
-  const fittingVarietyExamplesDetailed = getFittingVarietyExamplesDetailed(fittingVarietyClasses);
+  const fittingVarietyExamplesDetailed = getFittingVarietyExamplesDetailed(
+    fittingVarietyClasses
+  );
+
   const advisory = buildAdvisoryCopy({
     city,
     crop,
@@ -405,51 +436,61 @@ function buildCropCitySummary(city, crop) {
     fittingVarietyLabels
   });
 
-return {
-  cityKey: city.key,
-  cityName: city.name,
-  country: city.country,
-  regionKey: city.regionKey,
-  regionName: city.regionName,
+  return {
+    cityKey: city.key,
+    cityName: city.name,
+    country: city.country,
+    regionKey: city.regionKey,
+    regionName: city.regionName,
 
-lookupKey: city.lookupKey || null,
+    lookupKey: city.lookupKey || null,
 
-preferredStationId: city.preferredStationId || null,
-preferredStationName: city.preferredStationName || null,
-preferredStationLat:
-  city.preferredStationLat != null ? city.preferredStationLat : null,
-preferredStationLon:
-  city.preferredStationLon != null ? city.preferredStationLon : null,
+    preferredStationId: city.preferredStationId || null,
+    preferredStationName: city.preferredStationName || null,
+    preferredStationLat:
+      city.preferredStationLat != null ? city.preferredStationLat : null,
+    preferredStationLon:
+      city.preferredStationLon != null ? city.preferredStationLon : null,
 
-gddStationId: city.gddStationId || null,
-stationName: city.stationName || null,
-stationLat: city.stationLat != null ? city.stationLat : null,
-stationLon: city.stationLon != null ? city.stationLon : null,
-
-stationDistanceKm:
-  city.stationDistanceKm != null ? city.stationDistanceKm : null,
-stationMismatchFlag: city.stationMismatchFlag || "",
-  
-    frostFreeDays,
-
-    gddAtApr15: getRemainingGdd(city, "04-15"),
-    gddAtMay01: getRemainingGdd(city, "05-01"),
-    gddAtJun01: getRemainingGdd(city, "06-01"),
+    stationId: city.gddStationId || null,
+    gddStationId: city.gddStationId || null,
+    stationName: city.stationName || null,
+    stationLat: city.stationLat != null ? city.stationLat : null,
+    stationLon: city.stationLon != null ? city.stationLon : null,
+    stationDistanceKm:
+      city.stationDistanceKm != null ? city.stationDistanceKm : null,
+    stationMismatchFlag: city.stationMismatchFlag || "",
 
     cropKey: crop.key,
     cropName: crop.name,
     crop,
 
-    plantingWindows: city.plantingWindows || [],
-
     url: buildUrl(city, crop),
-    
     lede: buildLede({
       crop,
       city,
       confidence,
       fittingVarietyLabels
     }),
+
+    springFrost: spring50,
+    fallFrost: fall50,
+    frostFreeDays,
+
+    primaryPlantingDate,
+    gddCheckpointUsed,
+
+    gddAtApr15: getRemainingGdd(city, "04-15", "50"),
+    gddAtMay01: getRemainingGdd(city, "05-01", "50"),
+    gddAtJun01: getRemainingGdd(city, "06-01", "50"),
+
+    availableGddFromPlanting,
+    targetGdd: gddTargetTypical,
+    gddMargin,
+    confidence,
+    fittingVarietyLabels,
+
+    plantingWindows: city.plantingWindows || [],
 
     frost: {
       spring50,
@@ -467,17 +508,17 @@ stationMismatchFlag: city.stationMismatchFlag || "",
 
     gdd: {
       base: 50,
-      remainingMar15: getRemainingGdd(city, "03-15"),
-      remainingApr1: getRemainingGdd(city, "04-01"),
-      remainingApr15: getRemainingGdd(city, "04-15"),
-      remainingMay1: getRemainingGdd(city, "05-01"),
-      remainingMay15: getRemainingGdd(city, "05-15"),
-      remainingJun1: getRemainingGdd(city, "06-01"),
-      remainingJun15: getRemainingGdd(city, "06-15"),
-      remainingJul1: getRemainingGdd(city, "07-01"),
-      remainingJul15: getRemainingGdd(city, "07-15"),
-      remainingAug1: getRemainingGdd(city, "08-01"),
-      remainingAug15: getRemainingGdd(city, "08-15")
+      remainingMar15: getRemainingGdd(city, "03-15", "50"),
+      remainingApr1: getRemainingGdd(city, "04-01", "50"),
+      remainingApr15: getRemainingGdd(city, "04-15", "50"),
+      remainingMay1: getRemainingGdd(city, "05-01", "50"),
+      remainingMay15: getRemainingGdd(city, "05-15", "50"),
+      remainingJun1: getRemainingGdd(city, "06-01", "50"),
+      remainingJun15: getRemainingGdd(city, "06-15", "50"),
+      remainingJul1: getRemainingGdd(city, "07-01", "50"),
+      remainingJul15: getRemainingGdd(city, "07-15", "50"),
+      remainingAug1: getRemainingGdd(city, "08-01", "50"),
+      remainingAug15: getRemainingGdd(city, "08-15", "50")
     },
 
     fit: {
@@ -489,7 +530,11 @@ stationMismatchFlag: city.stationMismatchFlag || "",
       bestVarietyLabel: fittingVarietyLabels.length
         ? fittingVarietyLabels[fittingVarietyLabels.length - 1]
         : null,
-      varietyFitSentence: buildVarietyFitSentence(crop, fittingVarietyLabels, confidence),
+      varietyFitSentence: buildVarietyFitSentence(
+        crop,
+        fittingVarietyLabels,
+        confidence
+      ),
       linkBlurbOptions: buildLinkBlurbOptions({
         crop,
         city,
@@ -518,7 +563,6 @@ module.exports = function () {
 
   for (const city of allCitySummaries) {
     const allowedCropsForCity = ENABLED_CITY_CROPS[city.key] || [];
-
     if (!allowedCropsForCity.length) continue;
 
     for (const crop of allCrops) {

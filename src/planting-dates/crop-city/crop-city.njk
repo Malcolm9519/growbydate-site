@@ -8,6 +8,7 @@ permalink: "{{ pageData.url }}index.html"
 eleventyComputed:
   title: "{{ pageData.cropName }} in {{ pageData.cityName }} | Planting Dates & Maturity Guide"
   description: "{{ pageData.cropName }} planting timing, frost dates, and maturity outlook for {{ pageData.cityName }}, {{ pageData.regionName }}."
+  canonical: "https://growbydate.com{{ pageData.url }}"
 ---
 
 {% macro formatMmdd(mmdd) %}
@@ -63,8 +64,8 @@ In a typical year, {{ pageData.cropName | lower }} are difficult to finish relia
 {% endif %}
 
 
-<div class="tableWrap" style="margin-top:0.9rem;">
-<table class="table">
+  <div class="tableWrap">
+    <table class="table">
 <tbody>
 <tr>
 <td><strong>Typical Outlook</strong></td>
@@ -176,5 +177,5 @@ For a broader local overview, see the
 <a href="/planting-dates/{% if pageData.country == 'canada' %}canada/{% endif %}{{ pageData.regionKey }}/{{ pageData.cityKey }}/">
 {{ pageData.cityName }} planting guide
 </a>.
-You can also use the <a href="/gdd-planner/">Growing Degree Day Planner</a> to test planting dates and crop timing.
+You can also use the <a href="/growing-degree-day-planner/">Growing Degree Day Planner</a> to test planting dates and crop timing.
 </p>
