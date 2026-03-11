@@ -5,8 +5,14 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
 
   <title>{{ title }}</title>
-  <meta name="description" content="{{ description }}" />
-  <link rel="canonical" href="{{ canonical }}" />
+  {% if description %}<meta name="description" content="{{ description }}" />{% endif %}
+  {% if canonical %}<link rel="canonical" href="{{ canonical }}" />{% endif %}
+
+  {% if robots %}
+    <meta name="robots" content="{{ robots }}" />
+  {% else %}
+    <meta name="robots" content="index, follow" />
+  {% endif %}
 
   <link rel="stylesheet" href="/styles.css" />
 
@@ -30,8 +36,8 @@
       gtag("config", "G-1B458R6ZB7");
     })();
   </script>
-
 </head>
+
 <body>
   <header class="siteHeader">
     <div class="container siteHeaderInner">

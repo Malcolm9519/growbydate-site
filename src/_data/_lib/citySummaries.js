@@ -4,6 +4,30 @@ const gddCrops = require("../gddCrops.json");
 const stationsMeta = require("../stationsMeta.json");
 const stationSeriesAliases = require("./stationSeriesAliases");
 
+const CROP_SLUG_ALIASES = {
+  tomato: "tomatoes",
+  pepper: "peppers",
+  cucumber: "cucumbers",
+  pea: "peas",
+  carrot: "carrots",
+  beet: "beets",
+  onion: "onions",
+  potato: "potatoes",
+  pumpkin: "pumpkins",
+  radish: "radishes",
+  "bean-bush": "beans",
+  bean: "beans",
+};
+
+function canonicalSiteSlug(slug) {
+  const s = String(slug || "").trim();
+  return CROP_SLUG_ALIASES[s] || s;
+}
+
+function cropHrefFromSlug(siteSlug) {
+  return `/crops/${String(siteSlug || "").trim()}/`;
+}
+
 const CITY_STATION_OVERRIDES = {
 };
 
@@ -430,19 +454,21 @@ function buildCityCropFit(
 
       const safeRunway = Math.max(0, Math.floor(runway * (1 - marginPct)));
 
-      const slug = String(c?.slug || c?.key || c?.name || "")
-        .trim()
-        .toLowerCase()
-        .replace(/\s+/g, "-");
+const rawSlug = String(c?.slug || c?.key || c?.name || "")
+  .trim()
+  .toLowerCase()
+  .replace(/\s+/g, "-");
 
-      const item = {
-        slug,
-        name: String(c?.name || slug),
-        href: `/crops/${slug}/`,
-        base,
-        gddRequired: req,
-        category: String(c?.category || "")
-      };
+const siteSlug = canonicalSiteSlug(rawSlug);
+
+const item = {
+  slug: siteSlug,
+  name: String(c?.name || siteSlug),
+  href: cropHrefFromSlug(siteSlug),
+  base,
+  gddRequired: req,
+  category: String(c?.category || "")
+};
 
       if (req <= safeRunway) reliable.push(item);
       else if (req <= runway) possible.push(item);
