@@ -15,7 +15,7 @@
   "zucchini": "Zucchini",
   "winter-squash": "Squash",
   "pumpkin": "Pumpkins",
-  "corn-sweet": "Sweet corn",
+  "sweet-corn": "Sweet corn",
   "beans": "Beans",
   "pea": "Peas",
   "carrot": "Carrots",
@@ -57,7 +57,7 @@
           {% if w.label == cropLabel %}
             {% set matched = true %}
             <tr>
-              <td>{{ w.label }}</td>
+              <td><strong>{{ w.label }}</strong></td>
               <td>
                 {% if w.start and w.end %}
                   {{ w.start | mmddLong }} – {{ w.end | mmddLong }}

@@ -99,6 +99,9 @@ In practical terms, {{ pageData.cityName }} usually sees a last spring frost aro
 Gardeners usually start indoors around {{ formatMmdd(pageData.planting.startIndoorsDate) }}
 {% if pageData.planting.plantOutDate %}and plant outdoors around {{ formatMmdd(pageData.planting.plantOutDate) }}{% endif %}.
 {% elif pageData.planting.directSowDate %}
+<p>
+{% include "region/modules/simple-city-crop-planting-window.njk" %}
+</p>
 Planting usually begins around {{ formatMmdd(pageData.planting.directSowDate) }}.
 {% endif %}
 </p>
