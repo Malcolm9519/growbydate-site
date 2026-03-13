@@ -23,6 +23,12 @@ const INCLUDED_STATES = new Set([
   "vermont",
   "new-hampshire",
   "alaska",
+
+  "indiana",
+  "iowa",
+  "kansas",
+  "missouri",
+  "nebraska",
 ]);
 
 module.exports = function () {

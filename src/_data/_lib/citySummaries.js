@@ -1,8 +1,9 @@
 const frostDates = require("../frostDates.json");
-const gddStations = require("../gddStations.json");
 const gddCrops = require("../gddCrops.json");
-const stationsMeta = require("../stationsMeta.json");
-const stationSeriesAliases = require("./stationSeriesAliases");
+const {
+  getStationSeries,
+  resolveCityStation
+} = require("./resolveCityStation");
 
 const CROP_SLUG_ALIASES = {
   tomato: "tomatoes",
@@ -16,7 +17,7 @@ const CROP_SLUG_ALIASES = {
   pumpkin: "pumpkins",
   radish: "radishes",
   "bean-bush": "beans",
-  bean: "beans",
+  bean: "beans"
 };
 
 function canonicalSiteSlug(slug) {
@@ -26,30 +27,6 @@ function canonicalSiteSlug(slug) {
 
 function cropHrefFromSlug(siteSlug) {
   return `/crops/${String(siteSlug || "").trim()}/`;
-}
-
-const CITY_STATION_OVERRIDES = {
-};
-
-function haversineKm(lat1, lon1, lat2, lon2) {
-  const R = 6371;
-  const dLat = (lat2 - lat1) * Math.PI / 180;
-  const dLon = (lon2 - lon1) * Math.PI / 180;
-
-  const a =
-    Math.sin(dLat / 2) ** 2 +
-    Math.cos(lat1 * Math.PI / 180) *
-    Math.cos(lat2 * Math.PI / 180) *
-    Math.sin(dLon / 2) ** 2;
-
-  return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)));
-}
-
-function normalizeName(value) {
-  return String(value || "")
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, " ")
-    .trim();
 }
 
 function mmddToDayOfYear(mmdd) {
@@ -86,201 +63,6 @@ function dayOfYearToMmdd(doy) {
   }
 
   return `${String(month).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
-}
-
-function medianNumber(nums) {
-  if (!Array.isArray(nums) || nums.length === 0) return null;
-  const a = nums.slice().sort((x, y) => x - y);
-  const mid = Math.floor(a.length / 2);
-  return a.length % 2 ? a[mid] : (a[mid - 1] + a[mid]) / 2;
-}
-
-function normalizeCandidates(rawKey) {
-  const s = String(rawKey || "").trim().toUpperCase();
-  if (!s) return [];
-
-  const out = [s];
-
-  // Canadian FSA fallback: T2P1J9 -> T2P
-  if (/^[A-Z]\d[A-Z]\d[A-Z]\d$/.test(s.replace(/\s+/g, ""))) {
-    out.push(s.replace(/\s+/g, "").slice(0, 3));
-  } else if (/^[A-Z]\d[A-Z]/.test(s)) {
-    out.push(s.slice(0, 3));
-  }
-
-  // US ZIP fallback: 55401 -> 554
-  if (/^\d{5}$/.test(s)) out.push(s.slice(0, 3));
-
-  return [...new Set(out)];
-}
-
-function lookupStationId(rawKey) {
-  const candidates = normalizeCandidates(rawKey);
-  for (const c of candidates) {
-    if (gddStations[c]) return String(gddStations[c]);
-  }
-  return null;
-}
-
-// Cache so we don’t repeatedly require the same files
-const stationSeriesCache = new Map();
-
-function getStationSeries(stationId) {
-  if (!stationId) return null;
-
-  if (stationSeriesCache.has(stationId)) {
-    return stationSeriesCache.get(stationId);
-  }
-
-  let data = null;
-
-  try {
-    data = require(`../../assets/data/gdd-stations/${stationId}.json`);
-  } catch {
-    data = null;
-  }
-
-  stationSeriesCache.set(stationId, data);
-  return data;
-}
-
-function getAliasedSeriesStationId(stationId) {
-  if (!stationId) return null;
-
-  if (stationSeriesAliases[stationId]) {
-    return stationSeriesAliases[stationId];
-  }
-
-  if (getStationSeries(stationId)) {
-    return stationId;
-  }
-
-  return null;
-}
-
-function hasUsableSeries(stationId) {
-  return Boolean(getAliasedSeriesStationId(stationId));
-}
-
-function pickBestMetadataStationForCity(city) {
-  if (city.lat == null || city.lon == null) {
-    return lookupStationId(city.lookupKey);
-  }
-
-  const cityName = normalizeName(city.name || "");
-  const firstWord = cityName.split(" ")[0] || "";
-
-  let bestStation = null;
-  let bestScore = Infinity;
-
-  for (const [stationId, meta] of Object.entries(stationsMeta)) {
-    if (!meta || meta.lat == null || meta.lon == null) continue;
-
-    const dist = haversineKm(city.lat, city.lon, meta.lat, meta.lon);
-    if (dist > 120) continue;
-
-    const stationName = normalizeName(meta.name || "");
-    const exactNameMatch = cityName && stationName.includes(cityName);
-    const firstWordMatch = firstWord && stationName.includes(firstWord);
-
-    let score = dist;
-
-    if (exactNameMatch) score -= 25;
-    else if (firstWordMatch) score -= 10;
-
-    if (score < bestScore) {
-      bestScore = score;
-      bestStation = stationId;
-    }
-  }
-
-  return bestStation || lookupStationId(city.lookupKey);
-}
-
-function pickBestSeriesStationForCity(city, preferredStationMeta) {
-  const originLat =
-    preferredStationMeta && preferredStationMeta.lat != null
-      ? preferredStationMeta.lat
-      : city.lat;
-
-  const originLon =
-    preferredStationMeta && preferredStationMeta.lon != null
-      ? preferredStationMeta.lon
-      : city.lon;
-
-  if (originLat == null || originLon == null) {
-    const lookupId = lookupStationId(city.lookupKey);
-    return getAliasedSeriesStationId(lookupId);
-  }
-
-  let bestStation = null;
-  let bestScore = Infinity;
-
-  const cityName = normalizeName(city.name || "");
-  const firstWord = cityName.split(" ")[0] || "";
-
-  for (const [stationId, meta] of Object.entries(stationsMeta)) {
-    if (!meta || meta.lat == null || meta.lon == null) continue;
-
-    const usableSeriesStationId = getAliasedSeriesStationId(stationId);
-    if (!usableSeriesStationId) continue;
-
-    const dist = haversineKm(originLat, originLon, meta.lat, meta.lon);
-    if (dist > 120) continue;
-
-    const stationName = normalizeName(meta.name || "");
-    const exactNameMatch = cityName && stationName.includes(cityName);
-    const firstWordMatch = firstWord && stationName.includes(firstWord);
-
-    let score = dist;
-
-    if (exactNameMatch) score -= 25;
-    else if (firstWordMatch) score -= 10;
-
-    if (score < bestScore) {
-      bestScore = score;
-      bestStation = usableSeriesStationId;
-    }
-  }
-
-  return bestStation || null;
-}
-
-function resolveSeriesStation(preferredStationId, city) {
-  const directSeries = getAliasedSeriesStationId(preferredStationId);
-  if (directSeries) return directSeries;
-
-  const preferredMeta = preferredStationId ? stationsMeta[preferredStationId] : null;
-
-  const nearbySeries = pickBestSeriesStationForCity(city, preferredMeta);
-  if (nearbySeries) return nearbySeries;
-
-  const lookupId = lookupStationId(city.lookupKey);
-  const lookupSeries = getAliasedSeriesStationId(lookupId);
-
-  if (lookupSeries) {
-    const lookupMeta = stationsMeta[lookupId];
-    const originLat =
-      preferredMeta && preferredMeta.lat != null ? preferredMeta.lat : city.lat;
-    const originLon =
-      preferredMeta && preferredMeta.lon != null ? preferredMeta.lon : city.lon;
-
-    if (
-      lookupMeta &&
-      lookupMeta.lat != null &&
-      lookupMeta.lon != null &&
-      originLat != null &&
-      originLon != null
-    ) {
-      const dist = haversineKm(originLat, originLon, lookupMeta.lat, lookupMeta.lon);
-      if (dist <= 120) return lookupSeries;
-      return null;
-    }
-
-    return lookupSeries;
-  }
-
-  return null;
 }
 
 function getRemainingFromCurve(curve, base, mmdd) {
@@ -454,21 +236,21 @@ function buildCityCropFit(
 
       const safeRunway = Math.max(0, Math.floor(runway * (1 - marginPct)));
 
-const rawSlug = String(c?.slug || c?.key || c?.name || "")
-  .trim()
-  .toLowerCase()
-  .replace(/\s+/g, "-");
+      const rawSlug = String(c?.slug || c?.key || c?.name || "")
+        .trim()
+        .toLowerCase()
+        .replace(/\s+/g, "-");
 
-const siteSlug = canonicalSiteSlug(rawSlug);
+      const siteSlug = canonicalSiteSlug(rawSlug);
 
-const item = {
-  slug: siteSlug,
-  name: String(c?.name || siteSlug),
-  href: cropHrefFromSlug(siteSlug),
-  base,
-  gddRequired: req,
-  category: String(c?.category || "")
-};
+      const item = {
+        slug: siteSlug,
+        name: String(c?.name || siteSlug),
+        href: cropHrefFromSlug(siteSlug),
+        base,
+        gddRequired: req,
+        category: String(c?.category || "")
+      };
 
       if (req <= safeRunway) reliable.push(item);
       else if (req <= runway) possible.push(item);
@@ -508,20 +290,13 @@ function buildCitySummaries(cities) {
     const earliestFall = null;
     const latestFall = null;
 
-    const preferredStationId =
-      CITY_STATION_OVERRIDES[city.key] || pickBestMetadataStationForCity(city);
+    const stationResolution = resolveCityStation(city);
 
-    const preferredStationMeta = preferredStationId
-      ? stationsMeta[preferredStationId] || null
-      : null;
-
-    const stationId = resolveSeriesStation(preferredStationId, city);
+    const preferredStationMeta = stationResolution.preferredStationMeta;
+    const stationMeta = stationResolution.runtimeStationMeta;
+    const stationId = stationResolution.runtimeStationId;
 
     const curve = stationId ? getStationSeries(stationId) : null;
-
-    const stationMeta = stationId
-      ? stationsMeta[stationId] || null
-      : null;
 
     const gdd50 = checkDates.map((d) => ({
       date: d,
@@ -559,23 +334,6 @@ function buildCitySummaries(cities) {
         ? Math.round(latestFall - earliestFall)
         : null;
 
-    const stationDistanceKm =
-      preferredStationMeta &&
-      stationMeta &&
-      preferredStationMeta.lat != null &&
-      preferredStationMeta.lon != null &&
-      stationMeta.lat != null &&
-      stationMeta.lon != null
-        ? Math.round(
-            haversineKm(
-              preferredStationMeta.lat,
-              preferredStationMeta.lon,
-              stationMeta.lat,
-              stationMeta.lon
-            ) * 10
-          ) / 10
-        : null;
-
     const summary = {
       key: city.key,
       name: city.name,
@@ -588,7 +346,7 @@ function buildCitySummaries(cities) {
 
       lookupKey: city.lookupKey || null,
 
-      preferredStationId: preferredStationId || null,
+      preferredStationId: stationResolution.preferredStationId || null,
       preferredStationName:
         preferredStationMeta && preferredStationMeta.name
           ? preferredStationMeta.name
@@ -603,6 +361,7 @@ function buildCitySummaries(cities) {
           : null,
 
       gddStationId: stationId || null,
+      stationId: stationId || null,
       stationName:
         stationMeta && stationMeta.name
           ? stationMeta.name
@@ -616,10 +375,12 @@ function buildCitySummaries(cities) {
           ? stationMeta.lon
           : null,
 
-      stationDistanceKm,
-
-      stationMismatchFlag:
-        stationDistanceKm != null && stationDistanceKm > 25 ? "review" : "",
+      stationDistanceKm: stationResolution.stationDistanceKm,
+      stationMismatchFlag: stationResolution.stationMismatchFlag || "",
+      stationRuntimeSource: stationResolution.runtimeSource || null,
+      stationSeriesType: stationResolution.runtimeSeriesType || null,
+      stationAliasFromId: stationResolution.aliasFromStationId || null,
+      stationAliasToId: stationResolution.aliasToStationId || null,
 
       frost: {
         status: Number.isFinite(fallMedian) ? "normal" : "insufficient_data",

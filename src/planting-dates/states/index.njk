@@ -6,24 +6,31 @@ canonical: "https://growbydate.com/planting-dates/states/"
 ---
 
 <style>
-  .index-city-link {
-    display: inline-block;
-    margin-top: 0.35rem;
-    margin-right: 0.65rem;
+  .index-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .index-city-list {
+    margin: 0.85rem 0 0;
+    padding-left: 1rem;
+    list-style: none;
+  }
+
+  .index-city-item {
+    margin: 0 0 0.9rem;
+  }
+
+  .index-city-link-main {
     text-decoration: none;
     color: var(--color-link, #2f7d32);
   }
 
-  .index-city-link:hover {
+  .index-city-link-main:hover {
     text-decoration: underline;
   }
 
-  .index-subhead {
-    margin: 0 0 0.75rem;
-  }
-
   .index-city-region {
-    color: rgba(0, 0, 0, 0.68);
+    color: inherit;
     font-weight: 400;
   }
 </style>
@@ -46,40 +53,33 @@ canonical: "https://growbydate.com/planting-dates/states/"
             <div class="index-desc">{{ st.lede }}</div>
           {% endif %}
         </a>
-      </li>
-    {% endfor %}
-  </ul>
-</section>
 
-<section class="card index-card">
-  <h2 class="index-subhead">Planting Dates by City</h2>
-  <p class="small intro">
-    Browse published U.S. city pages for more local planting dates, frost timing, and crop-specific guidance.
-  </p>
-</section>
+        {% set hasCities = false %}
+        {% for city in citySummaries %}
+          {% if (city.country == "united-states" or city.country == "usa" or city.country == "us") and city.regionKey == st.key %}
+            {% set hasCities = true %}
+          {% endif %}
+        {% endfor %}
 
-<section class="card">
-  <ul class="index-list">
-    {% for city in citySummaries %}
-      {% if city.country == "united-states" or city.country == "usa" or city.country == "us" %}
-        <li class="index-item">
-          <a class="index-link" href="/planting-dates/{{ city.regionKey }}/{{ city.key }}/">
-            <strong>{{ city.name }}</strong>
-            <span class="index-city-region">, {{ city.regionName }}</span>
-            <div class="index-desc">
-              Local planting dates, frost timing, and crop guidance for {{ city.name }}.
-            </div>
-          </a>
+        {% if hasCities %}
+          <ul class="index-city-list">
+            {% for city in citySummaries %}
+              {% if (city.country == "united-states" or city.country == "usa" or city.country == "us") and city.regionKey == st.key %}
+                <li class="index-city-item">
+                  <a class="index-city-link-main" href="/planting-dates/{{ city.regionKey }}/{{ city.key }}/">
+                    <strong>{{ city.name }}</strong>
+                    <span class="index-city-region">, {{ city.regionName }}</span>
+                  </a>
 
-          <div class="index-desc">
-            {% for crop in cropCitySummaries %}
-              {% if crop.regionKey == city.regionKey and crop.cityKey == city.key %}
-                <a class="index-city-link" href="{{ crop.url }}">{{ crop.cropName }}</a>
+                  <div class="index-desc">
+                    Local planting dates, frost timing, and crop guidance for {{ city.name }}.
+                  </div>
+                </li>
               {% endif %}
             {% endfor %}
-          </div>
-        </li>
-      {% endif %}
+          </ul>
+        {% endif %}
+      </li>
     {% endfor %}
   </ul>
 </section>

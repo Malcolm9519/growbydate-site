@@ -1,0 +1,32 @@
+{% set cityCropLinks = [] %}
+
+{% for item in (cropCitySummaries or []) %}
+  {% if item.cityKey == city.key %}
+    {% set cityCropLinks = cityCropLinks.concat([item]) %}
+  {% endif %}
+{% endfor %}
+
+{% if cityCropLinks.length %}
+<section class="card">
+  <h2>Crop Guides for {{ city.name }}</h2>
+
+  <p class="small" style="margin-top:-0.25rem;">
+    Explore published crop-specific planting guides for {{ city.name }}.
+  </p>
+
+  <div style="margin-top:0.85rem;">
+    {% for item in cityCropLinks %}
+      {% set blurbOptions = item.fit.linkBlurbOptions or [] %}
+      {% set rotatedBlurb = item.fit.summary %}
+      {% if blurbOptions.length %}
+        {% set rotatedBlurb = blurbOptions[loop.index0 % blurbOptions.length] %}
+      {% endif %}
+
+      <p class="small" style="margin:0 0 0.7rem 0;">
+        <a href="{{ item.url }}"><strong>{{ item.cropName }}</strong></a>
+        — {{ rotatedBlurb }}
+      </p>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}

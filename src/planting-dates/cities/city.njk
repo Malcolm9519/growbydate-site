@@ -65,6 +65,8 @@ eleventyComputed:
 {% set detailsPath = "region/cities/" + state.key + "-details.njk" %}
 {% include detailsPath ignore missing %}
 
+{% include "region/modules/city-crop-guides.njk" %}
+
 <section class="small muted" style="margin-top:1rem;">
   <p>
     Looking for broader guidance? See planting timing across

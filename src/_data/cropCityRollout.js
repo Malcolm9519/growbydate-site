@@ -1,6 +1,4 @@
-// src/_data/cropCityRollout.js
-// Controlled rollout for crop-city pages.
-// DENY BY DEFAULT — only listed cities + crops will build.
+const cityRollout = require("./cityRollout");
 
 const DEFAULT_CROPS = [
   "tomatoes",
@@ -9,55 +7,57 @@ const DEFAULT_CROPS = [
   "beans"
 ];
 
-/**
- * Helper: assign default crops to a list of city keys
- */
 function withDefaultCrops(cityKeys) {
   return Object.fromEntries(
     cityKeys.map((cityKey) => [cityKey, [...DEFAULT_CROPS]])
   );
 }
 
-/**
- * MAIN ALLOWLIST
- * Only cities listed here will publish.
- */
+const MANUAL_CITY_CROP_ALLOWLIST = {
+  ...withDefaultCrops([
+    "minneapolis",
+    "saint-paul",
+    "duluth",
+    "milwaukee",
+    "madison",
+    "green-bay",
+    "detroit",
+    "grand-rapids",
+    "lansing",
+    "billings",
+    "missoula",
+    "bozeman",
+    "fargo",
+    "bismarck",
+    "sioux-falls",
+    "rapid-city",
+
+    "calgary",
+    "edmonton",
+    "red-deer",
+    "lethbridge",
+    "medicine-hat",
+    "vancouver",
+    "victoria",
+    "kelowna",
+    "saskatoon",
+    "regina",
+    "prince-albert",
+    "winnipeg",
+    "brandon"
+  ])
+
+  // Example manual overrides:
+  // winnipeg: ["beans"],
+  // regina: ["tomatoes", "beans"]
+};
+
+const liveCitySet = new Set(cityRollout);
+
 module.exports = {
-  enabledCityCrops: {
-    ...withDefaultCrops([
-  "minneapolis",
-  "saint-paul",
-  "duluth",
-  "milwaukee",
-  "madison",
-  "green-bay",
-  "detroit",
-  "grand-rapids",
-  "lansing",
-  "billings",
-  "missoula",
-  "bozeman",
-  "fargo",
-  "bismarck",
-  "sioux-falls",
-  "rapid-city",
-
-  "calgary",
-  "red-deer",
-  "lethbridge",
-  "medicine-hat",
-  "vancouver",
-  "victoria",
-  "kelowna",
-  "saskatoon",
-  "regina",
-  "prince-albert",
-  "winnipeg",
-  "brandon"
-    ])
-
-    // Example custom overrides later:
-    // winnipeg: ["beans"],          // test rollout
-    // regina: ["tomatoes","beans"]  // partial rollout
-  }
+  enabledCityCrops: Object.fromEntries(
+    Object.entries(MANUAL_CITY_CROP_ALLOWLIST).filter(([cityKey]) =>
+      liveCitySet.has(cityKey)
+    )
+  )
 };

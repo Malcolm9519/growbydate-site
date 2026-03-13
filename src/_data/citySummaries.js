@@ -1,33 +1,8 @@
 const cities = require("./cities.json");
+const cityRollout = require("./cityRollout");
 const { buildCitySummaries } = require("./_lib/citySummaries");
 
-const ENABLED_CITIES = new Set([
-  "minneapolis",
-  "saint-paul",
-  "duluth",
-  "milwaukee",
-  "madison",
-  "green-bay",
-  "grand-rapids",
-  "lansing",
-  "billings",
-  "missoula",
-  "bozeman",
-  "fargo",
-  "bismarck",
-  "sioux-falls",
-  "rapid-city",
-
-  "calgary",
-  "red-deer",
-  "lethbridge",
-  "vancouver",
-  "kelowna",
-  "saskatoon",
-  "regina",
-  "prince-albert",
-  "winnipeg"
-]);
+const ENABLED_CITIES = new Set(cityRollout);
 
 module.exports = function () {
   const allowedCities = cities.filter((city) => ENABLED_CITIES.has(city.key));
