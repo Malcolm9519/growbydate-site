@@ -45924,6 +45924,13 @@
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
+  "USC00193890": {
+    "lat": 42.3031,
+    "lon": -71.1242,
+    "name": "JAMAICA PLAIN, MA US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
   "USC00196435": {
     "lat": 42.5167,
     "lon": -72.9167,
@@ -46764,6 +46771,20 @@
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
+  "USC00277833": {
+    "lat": 43.3544,
+    "lon": -71.7364,
+    "name": "SALISBURY, NH US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USC00278972": {
+    "lat": 43.0847,
+    "lon": -71.7383,
+    "name": "WEARE, NH US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
   "USC00280847": {
     "lat": 40.4592,
     "lon": -74.5836,
@@ -47037,6 +47058,13 @@
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
+  "USC00306538": {
+    "lat": 44.5656,
+    "lon": -73.5706,
+    "name": "PERU 2 WSW, NY US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
   "USC00306570": {
     "lat": 42.0675,
     "lon": -74.3356,
@@ -47135,10 +47163,24 @@
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
+  "USC00309049": {
+    "lat": 43.2419,
+    "lon": -77.3883,
+    "name": "WEBSTER 2 NE, NY US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
   "USC00309089": {
     "lat": 42.8847,
     "lon": -77.5339,
     "name": "W BLOOMFIELD 1 S, NY US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USC00309189": {
+    "lat": 42.2956,
+    "lon": -79.5856,
+    "name": "WESTFIELD 2 SSE, NY US",
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
@@ -47314,6 +47356,13 @@
     "lat": 39.8469,
     "lon": -82.9872,
     "name": "COLUMBUS-PARSONS AVE, OH US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USC00331785": {
+    "lat": 40.025,
+    "lon": -83.0269,
+    "name": "COLUMBUS WCMH, OH US",
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
@@ -48234,6 +48283,13 @@
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
+  "USC00439988": {
+    "lat": 44.3747,
+    "lon": -72.5822,
+    "name": "WORCESTER 2 W, VT US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
   "USC00440166": {
     "lat": 37.1122,
     "lon": -79.275,
@@ -48612,6 +48668,13 @@
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
+  "USC00500275": {
+    "lat": 61.1561,
+    "lon": -149.9847,
+    "name": "ANCHORAGE FORECAST OFFICE, AK US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
   "USC00504112": {
     "lat": 58.2864,
     "lon": -134.385,
@@ -48623,6 +48686,13 @@
     "lat": 57.0467,
     "lon": -135.3497,
     "name": "SITKA WTP, AK US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USC00509869": {
+    "lat": 67.4083,
+    "lon": -150.1095,
+    "name": "WISEMAN, AK US",
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
@@ -52469,6 +52539,41 @@
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
+  "USW00014606": {
+    "lat": 44.7978,
+    "lon": -68.8186,
+    "name": "BANGOR INTL AP, ME US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USW00014733": {
+    "lat": 42.9486,
+    "lon": -78.7369,
+    "name": "BUFFALO, NY US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USW00014762": {
+    "lat": 40.3547,
+    "lon": -79.9217,
+    "name": "PITTSBURGH ALLEGHENY CO AP, PA US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USW00014764": {
+    "lat": 43.6497,
+    "lon": -70.3003,
+    "name": "PORTLAND INTL JETPORT, ME US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USW00014820": {
+    "lat": 41.4131,
+    "lon": -81.86,
+    "name": "CLEVELAND, OH US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
   "USW00014827": {
     "lat": 40.9706,
     "lon": -85.2064,
@@ -52480,6 +52585,13 @@
     "lat": 40.4122,
     "lon": -86.9369,
     "name": "LAFAYETTE PURDUE UNIV AP, IN US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USW00014836": {
+    "lat": 42.7803,
+    "lon": -84.5789,
+    "name": "LANSING CAPITAL CITY AP, MI US",
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
@@ -52711,6 +52823,13 @@
     "lat": 47.2675,
     "lon": -122.5761,
     "name": "TACOMA NARROWS AP, WA US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USW00094746": {
+    "lat": 42.2706,
+    "lon": -71.8731,
+    "name": "WORCESTER RGNL AP, MA US",
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },

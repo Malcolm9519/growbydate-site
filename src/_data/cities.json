@@ -138,7 +138,6 @@
   { "key":"sydney-ns","name":"Sydney","country":"canada","regionKind":"CA","regionAbbr":"NS","regionKey":"nova-scotia","regionName":"Nova Scotia","regionPath":"provinces","lookupKey":"B1P","lat":46.1368,"lon":-60.1942 },
   { "key":"yarmouth","name":"Yarmouth","country":"canada","regionKind":"CA","regionAbbr":"NS","regionKey":"nova-scotia","regionName":"Nova Scotia","regionPath":"provinces","lookupKey":"B5A","lat":43.8371,"lon":-66.1174 },
   { "key":"st-johns","name":"St. John's","country":"canada","regionKind":"CA","regionAbbr":"NL","regionKey":"newfoundland-and-labrador","regionName":"Newfoundland and Labrador","regionPath":"provinces","lookupKey":"A1C","lat":47.5615,"lon":-52.7126 },
-  { "key":"corner-brook","name":"Corner Brook","country":"canada","regionKind":"CA","regionAbbr":"NL","regionKey":"newfoundland-and-labrador","regionName":"Newfoundland and Labrador","regionPath":"provinces","lookupKey":"A2H","lat":48.9567,"lon":-57.9500 },
   { "key":"gander","name":"Gander","country":"canada","regionKind":"CA","regionAbbr":"NL","regionKey":"newfoundland-and-labrador","regionName":"Newfoundland and Labrador","regionPath":"provinces","lookupKey":"A1V","lat":48.9560,"lon":-54.6089 },
   { "key":"whitehorse","name":"Whitehorse","country":"canada","regionKind":"CA","regionAbbr":"YT","regionKey":"yukon","regionName":"Yukon","regionPath":"provinces","lookupKey":"Y1A","lat":60.7212,"lon":-135.0568 },
   { "key":"yellowknife","name":"Yellowknife","country":"canada","regionKind":"CA","regionAbbr":"NT","regionKey":"northwest-territories","regionName":"Northwest Territories","regionPath":"provinces","lookupKey":"X1A","lat":62.4540,"lon":-114.3718 },
@@ -253,6 +252,32 @@
 
   { "key":"south-bend","name":"South Bend","country":"usa","regionKind":"US","regionAbbr":"IN","regionKey":"indiana","regionName":"Indiana","regionPath":"states","lookupKey":"46601","lat":41.6764,"lon":-86.2520 },
   { "key":"fort-wayne","name":"Fort Wayne","country":"usa","regionKind":"US","regionAbbr":"IN","regionKey":"indiana","regionName":"Indiana","regionPath":"states","lookupKey":"46802","lat":41.0793,"lon":-85.1394 },
-  { "key":"lafayette-in","name":"Lafayette","country":"usa","regionKind":"US","regionAbbr":"IN","regionKey":"indiana","regionName":"Indiana","regionPath":"states","lookupKey":"47901","lat":40.4167,"lon":-86.8753 }
+  { "key":"lafayette-in","name":"Lafayette","country":"usa","regionKind":"US","regionAbbr":"IN","regionKey":"indiana","regionName":"Indiana","regionPath":"states","lookupKey":"47901","lat":40.4167,"lon":-86.8753 },
+
+  { "key":"anchorage","name":"Anchorage","country":"usa","regionKind":"US","regionAbbr":"AK","regionKey":"alaska","regionName":"Alaska","regionPath":"states","lookupKey":"99501","lat":61.2181,"lon":-149.9003 },
+  { "key":"fairbanks","name":"Fairbanks","country":"usa","regionKind":"US","regionAbbr":"AK","regionKey":"alaska","regionName":"Alaska","regionPath":"states","lookupKey":"99701","lat":64.8378,"lon":-147.7164 },
+
+  { "key":"portland-me","name":"Portland","country":"usa","regionKind":"US","regionAbbr":"ME","regionKey":"maine","regionName":"Maine","regionPath":"states","lookupKey":"04101","lat":43.6591,"lon":-70.2568 },
+  { "key":"bangor","name":"Bangor","country":"usa","regionKind":"US","regionAbbr":"ME","regionKey":"maine","regionName":"Maine","regionPath":"states","lookupKey":"04401","lat":44.8012,"lon":-68.7778 },
+
+  { "key":"boston","name":"Boston","country":"usa","regionKind":"US","regionAbbr":"MA","regionKey":"massachusetts","regionName":"Massachusetts","regionPath":"states","lookupKey":"02108","lat":42.3601,"lon":-71.0589 },
+  { "key":"worcester","name":"Worcester","country":"usa","regionKind":"US","regionAbbr":"MA","regionKey":"massachusetts","regionName":"Massachusetts","regionPath":"states","lookupKey":"01608","lat":42.2626,"lon":-71.8023 },
+
+  { "key":"buffalo","name":"Buffalo","country":"usa","regionKind":"US","regionAbbr":"NY","regionKey":"new-york","regionName":"New York","regionPath":"states","lookupKey":"14202","lat":42.8864,"lon":-78.8784 },
+  { "key":"rochester-ny","name":"Rochester","country":"usa","regionKind":"US","regionAbbr":"NY","regionKey":"new-york","regionName":"New York","regionPath":"states","lookupKey":"14604","lat":43.1566,"lon":-77.6088 },
+
+  { "key":"cleveland","name":"Cleveland","country":"usa","regionKind":"US","regionAbbr":"OH","regionKey":"ohio","regionName":"Ohio","regionPath":"states","lookupKey":"44114","lat":41.4993,"lon":-81.6944 },
+  { "key":"columbus-oh","name":"Columbus","country":"usa","regionKind":"US","regionAbbr":"OH","regionKey":"ohio","regionName":"Ohio","regionPath":"states","lookupKey":"43215","lat":39.9612,"lon":-82.9988 },
+
+  { "key":"manchester-nh","name":"Manchester","country":"usa","regionKind":"US","regionAbbr":"NH","regionKey":"new-hampshire","regionName":"New Hampshire","regionPath":"states","lookupKey":"03101","lat":42.9956,"lon":-71.4548 },
+  { "key":"concord-nh","name":"Concord","country":"usa","regionKind":"US","regionAbbr":"NH","regionKey":"new-hampshire","regionName":"New Hampshire","regionPath":"states","lookupKey":"03301","lat":43.2081,"lon":-71.5376 },
+
+  { "key":"pittsburgh","name":"Pittsburgh","country":"usa","regionKind":"US","regionAbbr":"PA","regionKey":"pennsylvania","regionName":"Pennsylvania","regionPath":"states","lookupKey":"15222","lat":40.4406,"lon":-79.9959 },
+  { "key":"erie-pa","name":"Erie","country":"usa","regionKind":"US","regionAbbr":"PA","regionKey":"pennsylvania","regionName":"Pennsylvania","regionPath":"states","lookupKey":"16501","lat":42.1292,"lon":-80.0851 },
+
+  { "key":"burlington-vt","name":"Burlington","country":"usa","regionKind":"US","regionAbbr":"VT","regionKey":"vermont","regionName":"Vermont","regionPath":"states","lookupKey":"05401","lat":44.4759,"lon":-73.2121 },
+  { "key":"montpelier","name":"Montpelier","country":"usa","regionKind":"US","regionAbbr":"VT","regionKey":"vermont","regionName":"Vermont","regionPath":"states","lookupKey":"05602","lat":44.2601,"lon":-72.5754 },
+
+  { "key":"corner-brook","name":"Corner Brook","country":"canada","regionKind":"CA","regionAbbr":"NL","regionKey":"newfoundland-and-labrador","regionName":"Newfoundland and Labrador","regionPath":"provinces","lookupKey":"A2H","lat":48.9567,"lon":-57.9500 }
 
 ]
