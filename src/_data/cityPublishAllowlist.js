@@ -195,7 +195,7 @@ module.exports = new Set([
   "bangor",
   "boston",
   "buffalo",
-  "burlinton",
+  "burlington",
   "cleveland",
   "columbus",
   "concord",
@@ -203,8 +203,6 @@ module.exports = new Set([
   "manchester",
   "montpelier",
 "pittsburgh",
-"portland",
-"rochester",
-"worchester",
+"worcester",
 
 ]);

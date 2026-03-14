@@ -15,36 +15,31 @@ function withDefaultCrops(cityKeys) {
 
 const MANUAL_CITY_CROP_ALLOWLIST = {
   ...withDefaultCrops([
-    "minneapolis",
-    "saint-paul",
-    "duluth",
-    "milwaukee",
-    "madison",
-    "green-bay",
-    "detroit",
-    "grand-rapids",
-    "lansing",
-    "billings",
-    "missoula",
-    "bozeman",
-    "fargo",
-    "bismarck",
-    "sioux-falls",
-    "rapid-city",
-
+    // Wave 1
+    "seattle",
+    "columbus",
+    "montreal",
+    "vancouver",
+    "boston",
     "calgary",
     "edmonton",
-    "red-deer",
-    "lethbridge",
-    "medicine-hat",
-    "vancouver",
-    "victoria",
-    "kelowna",
-    "saskatoon",
-    "regina",
-    "prince-albert",
+    "ottawa",
+    "minneapolis",
+    "saint-paul",
+    "portland",
+    "detroit",
+
+    // Wave 2
+    "milwaukee",
     "winnipeg",
-    "brandon"
+    "cleveland",
+    "pittsburgh",
+    "colorado-springs",
+    "omaha",
+    "madison",
+    "buffalo",
+    "quebec-city",
+    "saskatoon"
   ])
 
   // Example manual overrides:

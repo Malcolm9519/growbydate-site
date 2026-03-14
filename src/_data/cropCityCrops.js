@@ -25,10 +25,10 @@ module.exports = [
 
     varietyClasses: [
       {
-        key: "early",
-        label: "Early",
-        daysToMaturity: "65–75",
-        gddTarget: 1000,
+        key: "very-early",
+        label: "Very early",
+        daysToMaturity: "55–70",
+        gddTarget: 850,
         examples: [
           {
             name: "Stupice",
@@ -37,10 +37,22 @@ module.exports = [
           {
             name: "Glacier",
             note: "one of the faster ripening slicers, often chosen where summer heat is limited"
-          },
+          }
+        ]
+      },
+      {
+        key: "early",
+        label: "Early",
+        daysToMaturity: "65–75",
+        gddTarget: 1000,
+        examples: [
           {
             name: "Early Girl",
             note: "popular for combining relatively quick maturity with solid production"
+          },
+          {
+            name: "Fourth of July",
+            note: "often treated like an early-to-mid bridge variety with faster ripening than larger slicers"
           }
         ]
       },
@@ -57,10 +69,6 @@ module.exports = [
           {
             name: "Juliet",
             note: "a productive saladette type that can perform well when the season is reasonably supportive"
-          },
-          {
-            name: "Fourth of July",
-            note: "often treated like an early-to-mid bridge variety with faster ripening than larger slicers"
           }
         ]
       },
@@ -87,7 +95,7 @@ module.exports = [
     ],
 
     oneSentenceSummary: "Tomatoes need a warm season and enough heat to ripen fruit reliably.",
-    shortSeasonStrategy: "Use transplants and favor early or mid-season varieties.",
+    shortSeasonStrategy: "Use transplants and favor very early or early varieties in shorter seasons.",
     commonFailureMode: "Late varieties often run out of heat before fall frost.",
     protectedCultureBenefit: "high"
   },
@@ -118,10 +126,10 @@ module.exports = [
 
     varietyClasses: [
       {
-        key: "early",
-        label: "Early",
-        daysToMaturity: "65–75",
-        gddTarget: 1100,
+        key: "very-early",
+        label: "Very early",
+        daysToMaturity: "60–70",
+        gddTarget: 950,
         examples: [
           {
             name: "King of the North",
@@ -130,10 +138,22 @@ module.exports = [
           {
             name: "Ace",
             note: "often grown where gardeners want dependable bell peppers without pushing late-season risk"
-          },
+          }
+        ]
+      },
+      {
+        key: "early",
+        label: "Early",
+        daysToMaturity: "65–75",
+        gddTarget: 1100,
+        examples: [
           {
             name: "Gypsy",
             note: "an earlier hybrid sweet pepper that matures more quickly than many full-size bells"
+          },
+          {
+            name: "Lipstick",
+            note: "sometimes treated as relatively early, though fuller ripening still improves with more heat"
           }
         ]
       },
@@ -170,17 +190,13 @@ module.exports = [
           {
             name: "Chocolate Beauty",
             note: "slower to color fully, making it more exposed to short-season pressure"
-          },
-          {
-            name: "Lipstick",
-            note: "sometimes treated as relatively early, but fuller ripening still improves with more heat"
           }
         ]
       }
     ],
 
     oneSentenceSummary: "Peppers need steady warmth and a reasonably long season to size up and ripen well.",
-    shortSeasonStrategy: "Use transplants, choose earlier varieties, and prioritize the warmest spots in the garden.",
+    shortSeasonStrategy: "Use transplants, choose very early or early varieties, and prioritize the warmest spots in the garden.",
     commonFailureMode: "Cool conditions slow growth and delay ripening.",
     protectedCultureBenefit: "high"
   },
@@ -211,10 +227,10 @@ module.exports = [
 
     varietyClasses: [
       {
-        key: "early",
-        label: "Early",
-        daysToMaturity: "65–75",
-        gddTarget: 950,
+        key: "very-early",
+        label: "Very early",
+        daysToMaturity: "60–70",
+        gddTarget: 850,
         examples: [
           {
             name: "Yukon Chief",
@@ -223,7 +239,15 @@ module.exports = [
           {
             name: "Early Sunglow",
             note: "a dependable early yellow sweet corn that reaches harvest relatively quickly"
-          },
+          }
+        ]
+      },
+      {
+        key: "early",
+        label: "Early",
+        daysToMaturity: "65–75",
+        gddTarget: 950,
+        examples: [
           {
             name: "Peaches and Cream",
             note: "widely grown and approachable, though still best when planted promptly into warming soil"
@@ -273,7 +297,7 @@ module.exports = [
     ],
 
     oneSentenceSummary: "Sweet corn needs decent summer heat and enough season length to fill ears before fall frost.",
-    shortSeasonStrategy: "Favor earlier varieties and plant promptly once soil has warmed.",
+    shortSeasonStrategy: "Favor very early or early varieties and plant promptly once soil has warmed.",
     commonFailureMode: "Late planting can leave ears short on time and heat.",
     protectedCultureBenefit: "low"
   },
@@ -304,10 +328,10 @@ module.exports = [
 
     varietyClasses: [
       {
-        key: "early",
-        label: "Early",
-        daysToMaturity: "50–55",
-        gddTarget: 800,
+        key: "very-early",
+        label: "Very early",
+        daysToMaturity: "45–52",
+        gddTarget: 725,
         examples: [
           {
             name: "Provider",
@@ -316,7 +340,15 @@ module.exports = [
           {
             name: "Mascotte",
             note: "compact and relatively quick, making it useful where gardeners want a fast return"
-          },
+          }
+        ]
+      },
+      {
+        key: "early",
+        label: "Early",
+        daysToMaturity: "50–55",
+        gddTarget: 800,
+        examples: [
           {
             name: "Contender",
             note: "valued for earliness and steadiness, especially in variable conditions"
@@ -366,7 +398,7 @@ module.exports = [
     ],
 
     oneSentenceSummary: "Beans are one of the more manageable warm-season crops where summer heat is decent.",
-    shortSeasonStrategy: "Plant once frost risk has passed and favor earlier bush types in shorter seasons.",
+    shortSeasonStrategy: "Plant once frost risk has passed and favor very early or early bush types in shorter seasons.",
     commonFailureMode: "Cold soil and late frosts can stall or damage young plants.",
     protectedCultureBenefit: "low"
   }

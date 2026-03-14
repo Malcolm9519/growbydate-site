@@ -790,3 +790,293 @@ p + .tableWrap {
     padding-top: 22px;
   }
 }
+
+/* =======================================
+   GDD Planner — Phase 1 full-width system
+   CSS only, no logic/layout changes
+   ======================================= */
+
+.toolRoot[data-tool="gdd-planner"] {
+  margin: 36px 0 44px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+}
+
+.toolRoot[data-tool="gdd-planner"] > section {
+  padding: 24px 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.toolRoot[data-tool="gdd-planner"] > section + section {
+  margin-top: 8px;
+  padding-top: 24px;
+  border-top: 1px solid #e2e8e0;
+}
+
+/* headings and intro copy */
+.toolRoot[data-tool="gdd-planner"] h2 {
+  margin: 0 0 8px;
+  font-size: 1.3rem;
+  line-height: 1.22;
+  letter-spacing: -0.01em;
+}
+
+.toolRoot[data-tool="gdd-planner"] p {
+  margin-top: 0;
+}
+
+/* calmer internal rhythm */
+.toolRoot[data-tool="gdd-planner"] .stack {
+  gap: 18px;
+}
+
+.toolRoot[data-tool="gdd-planner"] label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+/* fields */
+.toolRoot[data-tool="gdd-planner"] input[type="text"],
+.toolRoot[data-tool="gdd-planner"] input[type="date"] {
+  width: 100%;
+  min-height: 48px;
+  padding: 11px 14px;
+  border: 1px solid #cfd8ce;
+  border-radius: 12px;
+  background: #fff;
+  color: inherit;
+  font: inherit;
+  box-sizing: border-box;
+}
+
+.toolRoot[data-tool="gdd-planner"] input[type="text"]::placeholder {
+  color: rgba(0, 0, 0, 0.48);
+}
+
+.toolRoot[data-tool="gdd-planner"] input[type="text"]:focus,
+.toolRoot[data-tool="gdd-planner"] input[type="date"]:focus {
+  outline: none;
+  border-color: #9aae99;
+  box-shadow: 0 0 0 3px rgba(115, 140, 112, 0.10);
+}
+
+/* crop selection area gets light structure without becoming a card */
+.toolRoot[data-tool="gdd-planner"] [data-role="cropList"] {
+  padding: 14px;
+  border: 1px solid #e3e8e1;
+  border-radius: 14px;
+  background: #fbfcfa;
+}
+
+/* actions */
+.toolRoot[data-tool="gdd-planner"] .btnRow {
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.toolRoot[data-tool="gdd-planner"] .btnRow .button,
+.toolRoot[data-tool="gdd-planner"] .btnRow .btn {
+  min-height: 44px;
+  padding: 10px 15px;
+  border-radius: 12px;
+}
+
+/* warning / info */
+.toolRoot[data-tool="gdd-planner"] .warn {
+  border-radius: 14px;
+  padding: 12px 14px;
+}
+
+/* results become the main structured surface */
+.toolRoot[data-tool="gdd-planner"] [data-role="resultsCard"] {
+  padding: 22px;
+  border: 1px solid #e3e8e1;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #fcfcfb 0%, #f8faf8 100%);
+}
+
+/* table polish */
+.toolRoot[data-tool="gdd-planner"] table {
+  border: 1px solid #e3e8e1;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.toolRoot[data-tool="gdd-planner"] td,
+.toolRoot[data-tool="gdd-planner"] th {
+  padding: 0.8rem 0.95rem;
+}
+
+@media (max-width: 720px) {
+  .toolRoot[data-tool="gdd-planner"] {
+    margin: 28px 0 36px;
+  }
+
+  .toolRoot[data-tool="gdd-planner"] > section {
+    padding: 18px 0;
+  }
+
+  .toolRoot[data-tool="gdd-planner"] [data-role="resultsCard"] {
+    padding: 16px;
+    border-radius: 16px;
+  }
+}
+
+/* =======================================
+   GDD Planner — Phase 2 typography + rhythm
+   CSS only, no logic/layout changes
+   ======================================= */
+
+/* overall copy rhythm */
+.toolRoot[data-tool="gdd-planner"] {
+  color: var(--text, #1f2a1f);
+}
+
+.toolRoot[data-tool="gdd-planner"] > section {
+  max-width: none;
+}
+
+/* titles feel calmer and more editorial */
+.toolRoot[data-tool="gdd-planner"] h2 {
+  margin: 0 0 10px;
+  font-size: clamp(1.25rem, 1.1rem + 0.45vw, 1.55rem);
+  line-height: 1.18;
+  letter-spacing: -0.015em;
+  font-weight: 700;
+}
+
+/* intro copy and supporting text */
+.toolRoot[data-tool="gdd-planner"] p,
+.toolRoot[data-tool="gdd-planner"] .small,
+.toolRoot[data-tool="gdd-planner"] .muted {
+  line-height: 1.55;
+}
+
+.toolRoot[data-tool="gdd-planner"] [data-role="widgetIntro"] {
+  max-width: 62ch;
+  font-size: 0.98rem;
+  opacity: 0.82 !important;
+  margin-top: 0 !important;
+}
+
+.toolRoot[data-tool="gdd-planner"] .small {
+  font-size: 0.94rem;
+}
+
+.toolRoot[data-tool="gdd-planner"] .muted {
+  color: rgba(24, 33, 24, 0.72);
+}
+
+/* stronger field rhythm */
+.toolRoot[data-tool="gdd-planner"] .stack {
+  gap: 22px;
+  margin-top: 18px !important;
+}
+
+.toolRoot[data-tool="gdd-planner"] [data-role="locationWrap"],
+.toolRoot[data-tool="gdd-planner"] [data-role="cropWrap"],
+.toolRoot[data-tool="gdd-planner"] [data-role="plantingWrap"] {
+  display: block;
+}
+
+.toolRoot[data-tool="gdd-planner"] label {
+  margin-bottom: 8px;
+  font-size: 0.94rem;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+  color: #1f2a1f;
+}
+
+/* helper text should breathe, not crowd the control */
+.toolRoot[data-tool="gdd-planner"] [data-role="cropHelp"] {
+  margin: 0 0 10px;
+  max-width: 62ch;
+  color: rgba(24, 33, 24, 0.7);
+}
+
+/* field feel */
+.toolRoot[data-tool="gdd-planner"] input[type="text"],
+.toolRoot[data-tool="gdd-planner"] input[type="date"] {
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
+/* buttons become quieter and more intentional */
+.toolRoot[data-tool="gdd-planner"] .btnRow {
+  gap: 12px;
+  margin-top: 18px !important;
+  align-items: center;
+}
+
+.toolRoot[data-tool="gdd-planner"] .btnRow .button,
+.toolRoot[data-tool="gdd-planner"] .btnRow .btn {
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.toolRoot[data-tool="gdd-planner"] .btnRow [data-role="status"] {
+  min-height: 1.3em;
+  font-size: 0.92rem;
+}
+
+/* reminder copy should read like a footnote, not body clutter */
+.toolRoot[data-tool="gdd-planner"] > section:first-of-type > p.small.muted:last-of-type {
+  margin-top: 16px !important;
+  max-width: 70ch;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* results section gets a more resolved heading and spacing */
+.toolRoot[data-tool="gdd-planner"] [data-role="resultsCard"] h2 {
+  margin-bottom: 12px;
+}
+
+.toolRoot[data-tool="gdd-planner"] [data-role="resultsCard"] > .small:first-of-type {
+  margin-bottom: 14px;
+  max-width: 66ch;
+}
+
+/* planning pill becomes quieter and more refined */
+.toolRoot[data-tool="gdd-planner"] .pill {
+  padding: 3px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(31, 42, 31, 0.2);
+  background: rgba(31, 42, 31, 0.03);
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: none;
+}
+
+/* results footnote tone */
+.toolRoot[data-tool="gdd-planner"] [data-role="footnote"] {
+  max-width: 70ch;
+  line-height: 1.55;
+}
+
+/* mobile restraint */
+@media (max-width: 720px) {
+  .toolRoot[data-tool="gdd-planner"] h2 {
+    line-height: 1.22;
+  }
+
+  .toolRoot[data-tool="gdd-planner"] .stack {
+    gap: 18px;
+  }
+
+  .toolRoot[data-tool="gdd-planner"] [data-role="widgetIntro"],
+  .toolRoot[data-tool="gdd-planner"] [data-role="cropHelp"],
+  .toolRoot[data-tool="gdd-planner"] [data-role="footnote"] {
+    max-width: none;
+  }
+}

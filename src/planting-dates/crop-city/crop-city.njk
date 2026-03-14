@@ -34,6 +34,32 @@ eleventyComputed:
   {% endif %}
 {% endmacro %}
 
+{% macro mmddToDayOfYear(mmdd) %}
+  {% if not mmdd %}
+    {{ "" }}
+  {% else %}
+    {% set parts = mmdd.split("-") %}
+    {% set month = parts[0] | int %}
+    {% set day = parts[1] | int %}
+    {% set monthStarts = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334] %}
+    {{ monthStarts[month - 1] + day }}
+  {% endif %}
+{% endmacro %}
+
+{% set plantingLabel = "Typical planting date" %}
+{% if pageData.planting.plantOutDate %}
+  {% set plantingLabel = "Typical transplant date" %}
+{% elif pageData.planting.directSowDate %}
+  {% set plantingLabel = "Typical sowing date" %}
+{% endif %}
+
+{% set plantingDoy = (mmddToDayOfYear(pageData.planting.primaryPlantingDate) | trim) %}
+{% set fallDoy = (mmddToDayOfYear(pageData.frost.fall50) | trim) %}
+{% set outdoorRunway = null %}
+{% if plantingDoy and fallDoy %}
+  {% set outdoorRunway = (fallDoy | int) - (plantingDoy | int) %}
+{% endif %}
+
 <header class="header">
   <h1>When to Plant {{ pageData.cropName }} in {{ pageData.cityName }}</h1>
   <p class="lede">{{ pageData.lede }}</p>
@@ -75,6 +101,20 @@ eleventyComputed:
           <td>Available GDD from Planting</td>
           <td>{{ pageData.fit.availableGddFromPlanting }}</td>
         </tr>
+        {% if pageData.fit.gddMargin != null %}
+        <tr>
+          <td>Heat Margin</td>
+          <td>
+            {% if pageData.fit.gddMargin > 0 %}+{% endif %}{{ pageData.fit.gddMargin }}
+          </td>
+        </tr>
+        {% endif %}
+        {% if pageData.planting.primaryPlantingDate %}
+        <tr>
+          <td>{{ plantingLabel }}</td>
+          <td>{{ formatMmdd(pageData.planting.primaryPlantingDate) }}</td>
+        </tr>
+        {% endif %}
         <tr>
           <td>Typical First Fall Frost</td>
           <td>{{ formatMmdd(pageData.frost.fall50) }}</td>
@@ -83,6 +123,25 @@ eleventyComputed:
           <td>Typical Frost-Free Days</td>
           <td>{{ pageData.frost.frostFreeDays }}</td>
         </tr>
+        {% if outdoorRunway != null %}
+        <tr>
+          <td>Outdoor Growing Runway</td>
+          <td>
+            {{ outdoorRunway }} days
+            {% if outdoorRunway >= 130 %}
+              (long)
+            {% elif outdoorRunway >= 110 %}
+              (comfortable)
+            {% elif outdoorRunway >= 95 %}
+              (moderate)
+            {% elif outdoorRunway >= 80 %}
+              (tight)
+            {% else %}
+              (very tight)
+            {% endif %}
+          </td>
+        </tr>
+        {% endif %}
       </tbody>
     </table>
   </div>
@@ -125,21 +184,50 @@ eleventyComputed:
 
   <h3>Best {{ pageData.cropName }} to Grow Based on Climate Data</h3>
 
-  {% if pageData.fit.confidence == "strong" %}
+  {% if pageData.fit.bestVarietyParagraph %}
   <p>
-    Most {{ pageData.cropName | lower }} varieties can succeed in {{ pageData.cityName }} in a typical year. Gardeners usually have enough seasonal heat to grow both faster and midseason types without pushing the limits of the season.
+    {{ pageData.fit.bestVarietyParagraph }}
   </p>
-  {% elif pageData.fit.confidence == "good" %}
-  <p>
-    In {{ pageData.cityName }}, many {{ pageData.cropName | lower }} varieties work well when planted on time. Faster and midseason types are usually the most dependable choices.
-  </p>
-  {% elif pageData.fit.confidence == "borderline" %}
-  <p>
-    In {{ pageData.cityName }}, earlier {{ pageData.cropName | lower }} varieties are usually the safest choice because they need less time and heat to finish before fall frost.
-  </p>
-  {% elif pageData.fit.confidence == "risky" %}
-  <p>
-    In {{ pageData.cityName }}, earlier {{ pageData.cropName | lower }} varieties are usually the only reliable choice. Larger and later types often run out of season before finishing well.
+  {% endif %}
+
+  {% if pageData.fit.varietyClassFits and pageData.fit.varietyClassFits.length %}
+  <div class="tableWrap" style="margin-top:1rem;">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Variety Class</th>
+          <th>Typical GDD Need</th>
+          <th>Local Fit</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for v in pageData.fit.varietyClassFits %}
+          <tr>
+            <td>{{ v.label }}</td>
+            <td>{{ v.gddTarget }}</td>
+            <td>
+              {% if v.fitLabel == "good" %}
+                Good fit
+              {% elif v.fitLabel == "workable" %}
+                Workable
+              {% elif v.fitLabel == "tight" %}
+                Tight
+              {% elif v.fitLabel == "poor" %}
+                Poor fit
+              {% else %}
+                —
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endif %}
+
+  {% if pageData.fit.protectionSentence %}
+  <p class="small">
+    {{ pageData.fit.protectionSentence }}
   </p>
   {% endif %}
 
@@ -155,9 +243,9 @@ eleventyComputed:
   </ul>
   {% endif %}
 
-  {% if pageData.copy.commonFailureMode %}
+  {% if pageData.fit.mainRiskSentence %}
   <p class="small muted">
-    Main risk: {{ pageData.copy.commonFailureMode }}
+    Main risk: {{ pageData.fit.mainRiskSentence }}
   </p>
   {% endif %}
 
