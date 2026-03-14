@@ -35,147 +35,151 @@ eleventyComputed:
 {% endmacro %}
 
 <header class="header">
-
   <h1>When to Plant {{ pageData.cropName }} in {{ pageData.cityName }}</h1>
-
   <p class="lede">{{ pageData.lede }}</p>
 </header>
 
-
 <section class="card">
-<h2>Can {{ pageData.cropName }} Mature in {{ pageData.cityName }}?</h2>
+  <h2>Can {{ pageData.cropName }} Mature in {{ pageData.cityName }}?</h2>
 
-{% if pageData.fit.confidence == "strong" %}
-<p>
-In a typical year, {{ pageData.cropName | lower }} usually mature reliably in {{ pageData.cityName }}. Most gardeners have enough seasonal heat to work with and good flexibility in both timing and variety choice.
-</p>
-{% elif pageData.fit.confidence == "good" %}
-<p>
-In a typical year, {{ pageData.cropName | lower }} usually mature well in {{ pageData.cityName }}, though results still depend on planting at the right time and choosing varieties suited to the local season.
-</p>
-{% elif pageData.fit.confidence == "borderline" %}
-<p>
-In a typical year, {{ pageData.cropName | lower }} can mature in {{ pageData.cityName }}, but the season does not leave much margin for delay or slower varieties. Earlier choices and warmer sites make a noticeable difference.
-</p>
-{% elif pageData.fit.confidence == "risky" %}
-<p>
-In a typical year, {{ pageData.cropName | lower }} are difficult to finish reliably in {{ pageData.cityName }}. The season usually favors only the fastest varieties, especially when planted in warm, protected sites.
-</p>
-{% endif %}
-
+  {% if pageData.fit.confidence == "strong" %}
+  <p>
+    In a typical year, {{ pageData.cropName | lower }} usually mature reliably in {{ pageData.cityName }}. Most gardeners have enough seasonal heat to work with and good flexibility in both timing and variety choice.
+  </p>
+  {% elif pageData.fit.confidence == "good" %}
+  <p>
+    In a typical year, {{ pageData.cropName | lower }} usually mature well in {{ pageData.cityName }}, though results still depend on planting at the right time and choosing varieties suited to the local season.
+  </p>
+  {% elif pageData.fit.confidence == "borderline" %}
+  <p>
+    In a typical year, {{ pageData.cropName | lower }} can mature in {{ pageData.cityName }}, but the season does not leave much margin for delay or slower varieties. Earlier choices and warmer sites make a noticeable difference.
+  </p>
+  {% elif pageData.fit.confidence == "risky" %}
+  <p>
+    In a typical year, {{ pageData.cropName | lower }} are difficult to finish reliably in {{ pageData.cityName }}. The season usually favors only the fastest varieties, especially when planted in warm, protected sites.
+  </p>
+  {% endif %}
 
   <div class="tableWrap">
     <table class="table">
-<tbody>
-<tr>
-<td><strong>Typical Outlook</strong></td>
-<td><strong>{{ pageData.fit.confidence | capitalize }}</strong></td>
-</tr>
-<td>Crop GDD Target</td>
-<td>{{ pageData.crop.gddTargetTypical }}</td>
-</tr>
-<tr>
-<td>Available GDD from Planting</td>
-<td>{{ pageData.fit.availableGddFromPlanting }}</td>
-</tr>
-<tr>
-<td>Typical First Fall Frost</td>
-<td>{{ formatMmdd(pageData.frost.fall50) }}</td>
-</tr>
-<tr>
-<td>Typical Frost-Free Days</td>
-<td>{{ pageData.frost.frostFreeDays }}</td>
-<tr>
-</tbody>
-</table>
-</div>
+      <tbody>
+        <tr>
+          <td><strong>Typical Outlook</strong></td>
+          <td><strong>{{ pageData.fit.confidence | capitalize }}</strong></td>
+        </tr>
+        <tr>
+          <td>Crop GDD Target</td>
+          <td>{{ pageData.crop.gddTargetTypical }}</td>
+        </tr>
+        <tr>
+          <td>Available GDD from Planting</td>
+          <td>{{ pageData.fit.availableGddFromPlanting }}</td>
+        </tr>
+        <tr>
+          <td>Typical First Fall Frost</td>
+          <td>{{ formatMmdd(pageData.frost.fall50) }}</td>
+        </tr>
+        <tr>
+          <td>Typical Frost-Free Days</td>
+          <td>{{ pageData.frost.frostFreeDays }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
+  <p style="margin-top:0.9rem;">
+    In practical terms, {{ pageData.cityName }} usually sees a last spring frost around {{ formatMmdd(pageData.frost.spring50) }} and a first fall frost around {{ formatMmdd(pageData.frost.fall50) }}, creating a typical frost-free window of about {{ pageData.frost.frostFreeDays }} days.
+  </p>
 
-<p style="margin-top:0.9rem;">
-In practical terms, {{ pageData.cityName }} usually sees a last spring frost around {{ formatMmdd(pageData.frost.spring50) }} and a first fall frost around {{ formatMmdd(pageData.frost.fall50) }}, creating a typical frost-free window of about {{ pageData.frost.frostFreeDays }} days.
-{% if pageData.planting.startIndoorsDate %}
+  {% if pageData.fit.heatMarginSentence %}
+  <p class="small">
+    {{ pageData.fit.heatMarginSentence }}
+  </p>
+  {% endif %}
 
-{% include "region/modules/simple-city-crop-planting-window.njk" %}
+  {% if pageData.fit.regionalComparisonSentence %}
+  <p class="small">
+    {{ pageData.fit.regionalComparisonSentence }}
+  </p>
+  {% endif %}
 
-Gardeners usually start indoors around {{ formatMmdd(pageData.planting.startIndoorsDate) }}
-{% if pageData.planting.plantOutDate %}and plant outdoors around {{ formatMmdd(pageData.planting.plantOutDate) }}{% endif %}.
-{% elif pageData.planting.directSowDate %}
-<p>
-{% include "region/modules/simple-city-crop-planting-window.njk" %}
-</p>
-Planting usually begins around {{ formatMmdd(pageData.planting.directSowDate) }}.
-{% endif %}
-</p>
+  {% include "region/modules/simple-city-crop-planting-window.njk" %}
 
+  {% if pageData.planting.startIndoorsDate %}
+  <p>
+    Gardeners usually start indoors around {{ formatMmdd(pageData.planting.startIndoorsDate) }}
+    {% if pageData.planting.plantOutDate %}and plant outdoors around {{ formatMmdd(pageData.planting.plantOutDate) }}{% endif %}.
+  </p>
+  {% elif pageData.planting.directSowDate %}
+  <p>
+    Planting usually begins around {{ formatMmdd(pageData.planting.directSowDate) }}.
+  </p>
+  {% endif %}
 
-<h2>Growing {{ pageData.cropName }} Successfully in {{ pageData.cityName }}</h2>
+  <h2>Growing {{ pageData.cropName }} Successfully in {{ pageData.cityName }}</h2>
 
-{% if pageData.advisory %}
-<p>{{ pageData.advisory.succeed }}</p>
-<p>{{ pageData.advisory.fail }}</p>
-{% endif %}
+  {% if pageData.advisory %}
+  <p>{{ pageData.advisory.succeed }}</p>
+  <p>{{ pageData.advisory.fail }}</p>
+  {% endif %}
 
+  <h3>Best {{ pageData.cropName }} to Grow Based on Climate Data</h3>
 
-<h3>Best {{ pageData.cropName }} to Grow Based on Climate Data</h3>
+  {% if pageData.fit.confidence == "strong" %}
+  <p>
+    Most {{ pageData.cropName | lower }} varieties can succeed in {{ pageData.cityName }} in a typical year. Gardeners usually have enough seasonal heat to grow both faster and midseason types without pushing the limits of the season.
+  </p>
+  {% elif pageData.fit.confidence == "good" %}
+  <p>
+    In {{ pageData.cityName }}, many {{ pageData.cropName | lower }} varieties work well when planted on time. Faster and midseason types are usually the most dependable choices.
+  </p>
+  {% elif pageData.fit.confidence == "borderline" %}
+  <p>
+    In {{ pageData.cityName }}, earlier {{ pageData.cropName | lower }} varieties are usually the safest choice because they need less time and heat to finish before fall frost.
+  </p>
+  {% elif pageData.fit.confidence == "risky" %}
+  <p>
+    In {{ pageData.cityName }}, earlier {{ pageData.cropName | lower }} varieties are usually the only reliable choice. Larger and later types often run out of season before finishing well.
+  </p>
+  {% endif %}
 
-{% if pageData.fit.confidence == "strong" %}
-<p>
-Most {{ pageData.cropName | lower }} varieties can succeed in {{ pageData.cityName }} in a typical year. Gardeners usually have enough seasonal heat to grow both faster and midseason types without pushing the limits of the season.
-</p>
-{% elif pageData.fit.confidence == "good" %}
-<p>
-In {{ pageData.cityName }}, many {{ pageData.cropName | lower }} varieties work well when planted on time. Faster and midseason types are usually the most dependable choices.
-</p>
-{% elif pageData.fit.confidence == "borderline" %}
-<p>
-In {{ pageData.cityName }}, earlier {{ pageData.cropName | lower }} varieties are usually the safest choice because they need less time and heat to finish before fall frost.
-</p>
-{% elif pageData.fit.confidence == "risky" %}
-<p>
-In {{ pageData.cityName }}, earlier {{ pageData.cropName | lower }} varieties are usually the only reliable choice. Larger and later types often run out of season before finishing well.
-</p>
-{% endif %}
+  {% if pageData.fit.fittingVarietyExamplesDetailed and pageData.fit.fittingVarietyExamplesDetailed.length %}
+  <p style="margin-top:0.6rem;">
+    Gardeners often look to varieties such as:
+  </p>
 
-{% if pageData.fit.fittingVarietyExamplesDetailed and pageData.fit.fittingVarietyExamplesDetailed.length %}
-<p style="margin-top:0.6rem;">
-Gardeners often look to varieties such as:
-</p>
+  <ul style="margin-top:0.45rem;">
+    {% for v in pageData.fit.fittingVarietyExamplesDetailed %}
+      <li><strong>{{ v.name }}</strong> — {{ v.note }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
 
-<ul style="margin-top:0.45rem;">
-  {% for v in pageData.fit.fittingVarietyExamplesDetailed %}
-    <li><strong>{{ v.name }}</strong> — {{ v.note }}</li>
-  {% endfor %}
-</ul>
-{% endif %}
+  {% if pageData.copy.commonFailureMode %}
+  <p class="small muted">
+    Main risk: {{ pageData.copy.commonFailureMode }}
+  </p>
+  {% endif %}
 
-{% if pageData.copy.commonFailureMode %}
-<p class="small muted">
-Main risk: {{ pageData.copy.commonFailureMode }}
-</p>
-{% endif %}
+  <h4>How Microclimates Affect {{ pageData.cropName }}</h4>
 
-<h4>How Microclimates Affect {{ pageData.cropName }}</h4>
+  {% if pageData.advisory %}
+  <p>{{ pageData.advisory.micro }}</p>
+  {% endif %}
 
-{% if pageData.advisory %}
-<p>{{ pageData.advisory.micro }}</p>
-{% endif %}
-
-{% if pageData.advisory and pageData.advisory.localInterpretation %}
-<p class="small">
-{{ pageData.advisory.localInterpretation }}
-</p>
-{% endif %}
-
+  {% if pageData.advisory and pageData.advisory.localInterpretation %}
+  <p class="small">
+    {{ pageData.advisory.localInterpretation }}
+  </p>
+  {% endif %}
 </section>
-
 
 {% include "crop-city/modules/city-crop-links.njk" %}
 
-
 <p class="small muted" style="margin-top:1rem;">
-For a broader local overview, see the
-<a href="/planting-dates/{% if pageData.country == 'canada' %}canada/{% endif %}{{ pageData.regionKey }}/{{ pageData.cityKey }}/">
-{{ pageData.cityName }} planting guide
-</a>.
-You can also use the <a href="/growing-degree-day-planner/">Growing Degree Day Planner</a> to test planting dates and crop timing.
+  For a broader local overview, see the
+  <a href="/planting-dates/{% if pageData.country == 'canada' %}canada/{% endif %}{{ pageData.regionKey }}/{{ pageData.cityKey }}/">
+    {{ pageData.cityName }} planting guide
+  </a>.
+  You can also use the <a href="/tools/growing-degree-day-planner/">Growing Degree Day Planner</a> to test planting dates and crop timing.
 </p>

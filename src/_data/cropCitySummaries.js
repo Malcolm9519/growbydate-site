@@ -166,6 +166,83 @@ function formatList(labels) {
   return `${labels.slice(0, -1).join(", ")}, and ${labels[labels.length - 1]}`;
 }
 
+function median(values) {
+  const nums = values.filter((v) => Number.isFinite(v)).slice().sort((a, b) => a - b);
+  if (!nums.length) return null;
+  const mid = Math.floor(nums.length / 2);
+  return nums.length % 2 ? nums[mid] : (nums[mid - 1] + nums[mid]) / 2;
+}
+
+function getHeatMarginSentence({ crop, city, gddMargin }) {
+  if (!crop || !city || !Number.isFinite(gddMargin)) return null;
+
+  const cropNameLower = crop.name.toLowerCase();
+  const absMargin = Math.abs(gddMargin);
+
+  if (gddMargin >= 250) {
+    return `From the usual planting window, ${city.name} typically has plenty of seasonal heat for ${cropNameLower}, with roughly ${gddMargin} GDD to spare beyond this typical target.`;
+  }
+
+  if (gddMargin >= 75) {
+    return `From the usual planting window, ${city.name} typically has a modest heat cushion for ${cropNameLower}, with about ${gddMargin} GDD beyond this typical target.`;
+  }
+
+  if (gddMargin >= 0) {
+    return `From the usual planting window, ${city.name} usually clears this typical ${cropNameLower} target by only about ${gddMargin} GDD, so delays and slower varieties can still narrow the margin.`;
+  }
+
+  return `From the usual planting window, ${cropNameLower} in ${city.name} usually come up about ${absMargin} GDD short of this typical target.`;
+}
+
+function buildRegionalComparison(summary, peerSummaries) {
+  if (!summary || !Array.isArray(peerSummaries) || peerSummaries.length < 3) return null;
+
+  const regionName = summary.regionName || "this region";
+  const cropNameLower = summary.cropName ? summary.cropName.toLowerCase() : "this crop";
+
+  const plantingMedian = median(
+    peerSummaries.map((item) => mmddToDayOfYear(item.primaryPlantingDate))
+  );
+  const frostMedian = median(peerSummaries.map((item) => item.frostFreeDays));
+  const gddMedian = median(peerSummaries.map((item) => item.availableGddFromPlanting));
+
+  const plantingDoy = mmddToDayOfYear(summary.primaryPlantingDate);
+  const frostDays = summary.frostFreeDays;
+  const availableGdd = summary.availableGddFromPlanting;
+
+  if (plantingDoy != null && plantingMedian != null) {
+    const diff = Math.round(plantingDoy - plantingMedian);
+    if (diff >= 5) {
+      return `Compared with many ${regionName} locations, ${summary.cityName} usually reaches ${cropNameLower} planting season a bit later.`;
+    }
+    if (diff <= -5) {
+      return `Compared with many ${regionName} locations, ${summary.cityName} usually reaches ${cropNameLower} planting season a bit earlier.`;
+    }
+  }
+
+  if (Number.isFinite(frostDays) && Number.isFinite(frostMedian)) {
+    const diff = Math.round(frostDays - frostMedian);
+    if (diff >= 8) {
+      return `Compared with many ${regionName} locations, ${summary.cityName} usually gives ${cropNameLower} a somewhat longer frost-free stretch.`;
+    }
+    if (diff <= -8) {
+      return `Compared with many ${regionName} locations, ${summary.cityName} usually gives ${cropNameLower} a somewhat shorter frost-free stretch.`;
+    }
+  }
+
+  if (Number.isFinite(availableGdd) && Number.isFinite(gddMedian)) {
+    const diff = Math.round(availableGdd - gddMedian);
+    if (diff >= 120) {
+      return `Compared with many ${regionName} locations, ${summary.cityName} usually has a warmer seasonal runway for ${cropNameLower}.`;
+    }
+    if (diff <= -120) {
+      return `Compared with many ${regionName} locations, ${summary.cityName} usually has a cooler seasonal runway for ${cropNameLower}.`;
+    }
+  }
+
+  return null;
+}
+
 function buildVarietyFitSentence(crop, fittingVarietyLabels, confidence) {
   const labelsText = formatList(fittingVarietyLabels);
   if (!labelsText) return null;
@@ -535,6 +612,12 @@ function buildCropCitySummary(city, crop) {
         fittingVarietyLabels,
         confidence
       ),
+      heatMarginSentence: getHeatMarginSentence({
+        crop,
+        city,
+        gddMargin
+      }),
+      regionalComparisonSentence: null,
       linkBlurbOptions: buildLinkBlurbOptions({
         crop,
         city,
@@ -569,6 +652,23 @@ module.exports = function () {
       if (!allowedCropsForCity.includes(crop.key)) continue;
       output.push(buildCropCitySummary(city, crop));
     }
+  }
+
+  const peerGroups = new Map();
+
+  for (const summary of output) {
+    const groupKey = [summary.country, summary.regionKey, summary.cropKey].join("|");
+    if (!peerGroups.has(groupKey)) peerGroups.set(groupKey, []);
+    peerGroups.get(groupKey).push(summary);
+  }
+
+  for (const summary of output) {
+    const groupKey = [summary.country, summary.regionKey, summary.cropKey].join("|");
+    const peers = (peerGroups.get(groupKey) || []).filter(
+      (item) => item.cityKey !== summary.cityKey
+    );
+
+    summary.fit.regionalComparisonSentence = buildRegionalComparison(summary, peers);
   }
 
   return output;
