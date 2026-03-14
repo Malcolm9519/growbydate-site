@@ -737,14 +737,28 @@ p + .tableWrap {
   text-underline-offset: 3px;
 }
 
+.homeSystem {
+  margin-top: 56px;
+  padding: 28px 0 0;
+  border-top: 1px solid #e8e8e8;
+}
+
+.homeSystem .homeSectionHead {
+  margin-bottom: 18px;
+}
+
 .homeSystemBody {
   max-width: 760px;
   margin: 0 auto;
 }
 
+.homeSystemBody p + p {
+  margin-top: 16px;
+}
+
 .homeGuideActions {
   justify-content: center;
-  margin-top: 18px;
+  margin-top: 22px;
 }
 
 @media (min-width: 760px) {
@@ -769,5 +783,10 @@ p + .tableWrap {
 
   .homeTools {
     padding: 22px;
+  }
+
+  .homeSystem {
+    margin-top: 42px;
+    padding-top: 22px;
   }
 }
