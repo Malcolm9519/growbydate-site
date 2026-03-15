@@ -236,94 +236,95 @@ p + .tableWrap {
   min-width: 0;
 }
 
+.wcig .small { font-size: .95rem; }
+.wcig .muted { opacity: .75; }
+
 .wcig .wcigTableWrap {
+  width: 100%;
+  max-width: 100%;
   overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  margin-top: .75rem;
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,0.12);
+  box-sizing: border-box;
 }
 
-.wcig table {
-  width: max-content;
+/* Scope table styling ONLY to the WCIG tables */
+.wcig .wcigTableWrap > table {
+  width: 100%;
   min-width: 760px;
+  border-collapse: collapse;
+  background: transparent;
 }
 
-    .wcig .small { font-size: .95rem; }
-    .wcig .muted { opacity: .75; }
+.wcig .wcigTableWrap th,
+.wcig .wcigTableWrap td {
+  padding: .35rem .45rem;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  vertical-align: middle;
+}
 
-    .wcig .wcigTableWrap {
-      width: 100%;
-      max-width: 100%;
-      overflow-x: auto;
-      overflow-y: hidden;
-      -webkit-overflow-scrolling: touch;
-      margin-top: .75rem;
-      border-radius: 12px;
-      border: 1px solid rgba(0,0,0,0.12);
-      box-sizing: border-box;
-    }
+.wcig .wcigTableWrap th {
+  text-align: left;
+  font-weight: 700;
+}
 
-    .wcig table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 760px;
-      background: transparent;
-    }
+.wcig .wcigTableWrap td {
+  font-variant-numeric: tabular-nums;
+}
 
-    .wcig th,
-    .wcig td {
-      padding: .35rem .45rem;
-      border-bottom: 1px solid rgba(0,0,0,0.08);
-      vertical-align: middle;
-    }
+.wcig .wcigStatus {
+  display: inline-block;
+  border: none;
+  border-radius: 0;
+  width: auto;
+  height: auto;
+  padding: 0;
+  background: transparent;
+  line-height: 1;
+  font-size: 1rem;
+}
 
-    .wcig th { text-align: left; font-weight: 700; }
-    .wcig td { font-variant-numeric: tabular-nums; }
+.wcig .wcigLegend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .6rem 1rem;
+  margin: .5rem 0 0;
+}
 
-    .wcig .wcigStatus {
-      display: inline-block;
-      border: none;
-      border-radius: 0;
-      width: auto;
-      height: auto;
-      padding: 0;
-      background: transparent;
-      line-height: 1;
-      font-size: 1rem;
-    }
+.wcig .wcigLegend span {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+}
 
-    .wcig .wcigLegend {
-      display: flex;
-      flex-wrap: wrap;
-      gap: .6rem 1rem;
-      margin: .5rem 0 0;
-    }
+.wcig .wcigMore {
+  margin-top: .75rem;
+}
 
-    .wcig .wcigLegend span {
-      display: inline-flex;
-      align-items: center;
-      gap: .4rem;
-    }
+.wcig .wcigMeta {
+  margin-top: -.25rem;
+  line-height: 1.45;
+}
 
-    .wcig .wcigMore { margin-top: .75rem; }
+.wcig .wcigTableWrap td:first-child,
+.wcig .wcigTableWrap th:first-child {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 1px;
+}
 
-    .wcig .wcigMeta {
-      margin-top: -.25rem;
-      line-height: 1.45;
-    }
+.wcig .wcigTableWrap td:not(:first-child):not(:nth-child(2)),
+.wcig .wcigTableWrap th:not(:first-child):not(:nth-child(2)) {
+  text-align: center;
+}
 
-    .wcig td:first-child,
-    .wcig th:first-child {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 1px;
-    }
-
-    .wcig td:not(:first-child):not(:nth-child(2)),
-    .wcig th:not(:first-child):not(:nth-child(2)) {
-      text-align: center;
-    }
-
-    .wcig .wcigCropEmoji { margin-right: .35rem; }
-
+.wcig .wcigCropEmoji {
+  margin-right: .35rem;
+}
 
 /* ---------- Nav / Header ---------- */
 
@@ -911,7 +912,7 @@ p + .tableWrap {
    CSS only, no logic/layout changes
    ======================================= */
 
-.tool-breakout {
+.gddPlannerPage .tool-breakout {
   position: relative;
   width: min(1280px, calc(100vw - 32px));
   margin: 52px 50% 58px;
@@ -925,7 +926,7 @@ p + .tableWrap {
   box-sizing: border-box;
 }
 
-.tool-breakout .toolRoot[data-tool="gdd-planner"] {
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] {
   width: 100%;
   max-width: none;
   margin: 0 auto;
@@ -937,7 +938,7 @@ p + .tableWrap {
   box-sizing: border-box;
 }
 
-.toolRoot[data-tool="gdd-planner"] > section {
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] > section {
   padding: 0;
   border: 0;
   border-radius: 0;
@@ -945,13 +946,13 @@ p + .tableWrap {
   max-width: none;
 }
 
-.toolRoot[data-tool="gdd-planner"] > section + section {
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] > section + section {
   margin-top: 26px;
   padding-top: 26px;
   border-top: 1px solid #d2ddd0;
 }
 
-.toolRoot[data-tool="gdd-planner"] h2 {
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] h2 {
   margin: 0 0 10px;
   font-size: clamp(1.25rem, 1.1rem + 0.45vw, 1.55rem);
   line-height: 1.18;
@@ -959,19 +960,19 @@ p + .tableWrap {
   font-weight: 700;
 }
 
-.toolRoot[data-tool="gdd-planner"] > section:first-of-type h2 {
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] > section:first-of-type h2 {
   font-size: clamp(1.5rem, 1.28rem + 0.6vw, 1.95rem);
   line-height: 1.14;
   letter-spacing: -0.02em;
 }
 
-.toolRoot[data-tool="gdd-planner"] p,
-.toolRoot[data-tool="gdd-planner"] .small,
-.toolRoot[data-tool="gdd-planner"] .muted {
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] p,
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] .small,
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] .muted {
   line-height: 1.58;
 }
 
-.toolRoot[data-tool="gdd-planner"] [data-role="widgetIntro"] {
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] [data-role="widgetIntro"] {
   width: 100%;
   max-width: none;
   margin-top: 0 !important;
@@ -981,19 +982,19 @@ p + .tableWrap {
   opacity: 0.86 !important;
 }
 
-.toolRoot[data-tool="gdd-planner"] p {
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] p {
   margin-top: 0;
 }
 
-.toolRoot[data-tool="gdd-planner"] .small {
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] .small {
   font-size: 0.94rem;
 }
 
-.toolRoot[data-tool="gdd-planner"] .muted {
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] .muted {
   color: rgba(24, 33, 24, 0.72);
 }
 
-.toolRoot[data-tool="gdd-planner"] > section:first-of-type {
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] > section:first-of-type {
   padding: 34px 40px;
   border: 1px solid #d6e0d3;
   border-radius: 18px;
@@ -1003,7 +1004,7 @@ p + .tableWrap {
     0 10px 24px rgba(31, 42, 31, 0.05);
 }
 
-.toolRoot[data-tool="gdd-planner"] [data-role="resultsCard"] {
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] [data-role="resultsCard"] {
   padding: 34px 40px;
   border: 1px solid #d0dbce;
   border-radius: 18px;
@@ -1013,19 +1014,19 @@ p + .tableWrap {
     0 12px 28px rgba(31, 42, 31, 0.055);
 }
 
-.toolRoot[data-tool="gdd-planner"] .stack {
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] .stack {
   gap: 22px;
   margin-top: 18px !important;
 }
 
-.toolRoot[data-tool="gdd-planner"] [data-role="locationWrap"],
-.toolRoot[data-tool="gdd-planner"] [data-role="cropWrap"],
-.toolRoot[data-tool="gdd-planner"] [data-role="plantingWrap"] {
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] [data-role="locationWrap"],
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] [data-role="cropWrap"],
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] [data-role="plantingWrap"] {
   display: block;
   margin-bottom: 2px;
 }
 
-.toolRoot[data-tool="gdd-planner"] label {
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] label {
   display: block;
   margin-bottom: 8px;
   font-size: 0.94rem;
@@ -1035,14 +1036,14 @@ p + .tableWrap {
   color: #1f2a1f;
 }
 
-.toolRoot[data-tool="gdd-planner"] [data-role="cropHelp"] {
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] [data-role="cropHelp"] {
   margin: 0 0 12px;
   max-width: none;
   color: rgba(24, 33, 24, 0.68);
 }
 
-.toolRoot[data-tool="gdd-planner"] input[type="text"],
-.toolRoot[data-tool="gdd-planner"] input[type="date"] {
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] input[type="text"],
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] input[type="date"] {
   width: 100%;
   min-height: 50px;
   padding: 12px 15px;
@@ -1059,12 +1060,12 @@ p + .tableWrap {
     0 3px 10px rgba(31, 42, 31, 0.045);
 }
 
-.toolRoot[data-tool="gdd-planner"] input[type="text"]::placeholder {
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] input[type="text"]::placeholder {
   color: rgba(0, 0, 0, 0.48);
 }
 
-.toolRoot[data-tool="gdd-planner"] input[type="text"]:focus,
-.toolRoot[data-tool="gdd-planner"] input[type="date"]:focus {
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] input[type="text"]:focus,
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] input[type="date"]:focus {
   outline: none;
   border-color: #96aa95;
   box-shadow:
@@ -1073,8 +1074,7 @@ p + .tableWrap {
     0 6px 16px rgba(31, 42, 31, 0.05);
 }
 
-/* Crop area */
-.toolRoot[data-tool="gdd-planner"] [data-role="cropList"] {
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] [data-role="cropList"] {
   padding: 20px;
   border: 1px solid #dbe4d8;
   border-radius: 18px;
@@ -1082,7 +1082,7 @@ p + .tableWrap {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.78);
 }
 
-.toolRoot[data-tool="gdd-planner"] .cropPickLabel {
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] .cropPickLabel {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -1094,35 +1094,34 @@ p + .tableWrap {
   box-shadow: 0 1px 2px rgba(31, 42, 31, 0.03);
 }
 
-.toolRoot[data-tool="gdd-planner"] .cropPickLabel:hover {
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] .cropPickLabel:hover {
   background: #ffffff;
   border-color: #c4cfc2;
 }
 
-.toolRoot[data-tool="gdd-planner"] .cropPickLabel input[type="checkbox"] {
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] .cropPickLabel input[type="checkbox"] {
   width: auto;
   margin: 0;
   flex: 0 0 auto;
 }
 
-.toolRoot[data-tool="gdd-planner"] .cropPickName,
-.toolRoot[data-tool="gdd-planner"] .cropPickLabel span,
-.toolRoot[data-tool="gdd-planner"] .cropPickName span {
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] .cropPickName,
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] .cropPickLabel span,
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] .cropPickName span {
   font-size: 0.95rem;
   font-weight: 500;
   line-height: 1.2;
   color: #243124;
 }
 
-/* Buttons */
-.toolRoot[data-tool="gdd-planner"] .btnRow {
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] .btnRow {
   gap: 12px;
   margin-top: 18px !important;
   align-items: center;
 }
 
-.toolRoot[data-tool="gdd-planner"] .btnRow .button,
-.toolRoot[data-tool="gdd-planner"] .btnRow .btn {
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] .btnRow .button,
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] .btnRow .btn {
   min-height: 46px;
   padding: 10px 16px;
   border-radius: 12px;
@@ -1131,34 +1130,34 @@ p + .tableWrap {
   letter-spacing: 0.01em;
 }
 
-.toolRoot[data-tool="gdd-planner"] .button.primary {
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] .button.primary {
   background: #2f7d32;
   border-color: #2f7d32;
   color: #fff;
   box-shadow: 0 2px 8px rgba(47, 125, 50, 0.18);
 }
 
-.toolRoot[data-tool="gdd-planner"] .button.primary:hover {
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] .button.primary:hover {
   opacity: 0.96;
 }
 
-.toolRoot[data-tool="gdd-planner"] .btn {
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] .btn {
   background: #fff;
   border-color: #b7c3b5;
   box-shadow: 0 1px 3px rgba(31, 42, 31, 0.03);
 }
 
-.toolRoot[data-tool="gdd-planner"] .btnRow [data-role="status"] {
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] .btnRow [data-role="status"] {
   min-height: 1.3em;
   font-size: 0.92rem;
 }
 
-.toolRoot[data-tool="gdd-planner"] .warn {
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] .warn {
   border-radius: 14px;
   padding: 12px 14px;
 }
 
-.toolRoot[data-tool="gdd-planner"] > section:first-of-type > p.small.muted:last-of-type {
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] > section:first-of-type > p.small.muted:last-of-type {
   margin-top: 18px !important;
   max-width: 62ch;
   font-size: 0.9rem;
@@ -1166,22 +1165,21 @@ p + .tableWrap {
   color: rgba(24, 33, 24, 0.66);
 }
 
-.toolRoot[data-tool="gdd-planner"] [data-role="resultsCard"] h2 {
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] [data-role="resultsCard"] h2 {
   margin-bottom: 12px;
 }
 
-.toolRoot[data-tool="gdd-planner"] [data-role="resultsCard"] > .small:first-of-type {
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] [data-role="resultsCard"] > .small:first-of-type {
   margin-bottom: 14px;
   max-width: none;
 }
 
-/* Planning tip row */
-.toolRoot[data-tool="gdd-planner"] [data-role="resultsCard"] > .small:first-of-type .pill {
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] [data-role="resultsCard"] > .small:first-of-type .pill {
   margin-right: 8px;
   vertical-align: middle;
 }
 
-.toolRoot[data-tool="gdd-planner"] .pill {
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] .pill {
   display: inline-flex;
   align-items: center;
   padding: 4px 10px;
@@ -1197,74 +1195,87 @@ p + .tableWrap {
   vertical-align: baseline;
 }
 
-/* Results table */
-.toolRoot[data-tool="gdd-planner"] [data-role="resultsCard"] .tableWrap,
-.toolRoot[data-tool="gdd-planner"] [data-role="resultsCard"] .resultsTableWrap {
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] [data-role="resultsCard"] .tableWrap,
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] [data-role="resultsCard"] .resultsTableWrap {
   width: 100%;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
+  max-width: 100%;
 }
 
-.toolRoot[data-tool="gdd-planner"] [data-role="resultsCard"] table {
-  min-width: 720px;
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] [data-role="resultsCard"] .tableWrap table,
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] [data-role="resultsCard"] .resultsTableWrap table {
+  width: 100%;
+  min-width: 0;
   border: 1px solid #e3e8e1;
   border-radius: 14px;
   overflow: hidden;
   background: #fff;
 }
 
-.toolRoot[data-tool="gdd-planner"] [data-role="resultsCard"] td,
-.toolRoot[data-tool="gdd-planner"] [data-role="resultsCard"] th {
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] [data-role="resultsCard"] .tableWrap td,
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] [data-role="resultsCard"] .tableWrap th,
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] [data-role="resultsCard"] .resultsTableWrap td,
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] [data-role="resultsCard"] .resultsTableWrap th {
   padding: 0.8rem 0.95rem;
-  white-space: nowrap;
 }
 
-.toolRoot[data-tool="gdd-planner"] [data-role="resultsCard"] td:last-child,
-.toolRoot[data-tool="gdd-planner"] [data-role="resultsCard"] th:last-child {
-  white-space: normal;
-  min-width: 220px;
-}
-
-.toolRoot[data-tool="gdd-planner"] [data-role="footnote"] {
+.gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] [data-role="footnote"] {
   max-width: 70ch;
   line-height: 1.55;
 }
 
 @media (max-width: 720px) {
-  .tool-breakout {
+  .gddPlannerPage .tool-breakout {
     width: calc(100vw - 20px);
     margin: 28px 50% 34px;
     transform: translateX(-50%);
     padding: 20px 10px;
   }
 
-  .toolRoot[data-tool="gdd-planner"] > section:first-of-type,
-  .toolRoot[data-tool="gdd-planner"] [data-role="resultsCard"] {
+  .gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] > section:first-of-type,
+  .gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] [data-role="resultsCard"] {
     padding: 22px 18px;
     border-radius: 18px;
   }
 
-  .toolRoot[data-tool="gdd-planner"] h2 {
+  .gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] h2 {
     line-height: 1.22;
   }
 
-  .toolRoot[data-tool="gdd-planner"] > section:first-of-type h2 {
+  .gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] > section:first-of-type h2 {
     font-size: clamp(1.35rem, 1.18rem + 0.5vw, 1.7rem);
     line-height: 1.16;
   }
 
-  .toolRoot[data-tool="gdd-planner"] .stack {
+  .gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] .stack {
     gap: 18px;
   }
 
-  .toolRoot[data-tool="gdd-planner"] [data-role="widgetIntro"],
-  .toolRoot[data-tool="gdd-planner"] [data-role="cropHelp"],
-  .toolRoot[data-tool="gdd-planner"] [data-role="footnote"],
-  .toolRoot[data-tool="gdd-planner"] [data-role="resultsCard"] > .small:first-of-type {
+  .gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] [data-role="widgetIntro"],
+  .gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] [data-role="cropHelp"],
+  .gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] [data-role="footnote"],
+  .gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] [data-role="resultsCard"] > .small:first-of-type {
     max-width: none;
   }
 
-  .toolRoot[data-tool="gdd-planner"] [data-role="resultsCard"] table {
+  .gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] [data-role="resultsCard"] .tableWrap {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] [data-role="resultsCard"] .tableWrap table {
     min-width: 680px;
+    width: max-content;
+  }
+
+  .gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] [data-role="resultsCard"] .tableWrap th,
+  .gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] [data-role="resultsCard"] .tableWrap td {
+    white-space: nowrap;
+  }
+
+  .gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] [data-role="resultsCard"] .tableWrap td:last-child,
+  .gddPlannerPage .tool-breakout .toolRoot[data-tool="gdd-planner"] [data-role="resultsCard"] .tableWrap th:last-child {
+    white-space: normal;
+    min-width: 220px;
   }
 }
