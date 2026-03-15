@@ -279,42 +279,45 @@
     }
   }
 
-  function fixRiskBox(root, crops) {
-    const riskBox  = root.querySelector('[data-role="riskBox"]');
-    const riskLabel = root.querySelector('[data-role="riskLabel"]');
-    const riskNote  = root.querySelector('[data-role="riskNote"]');
-    if (!riskBox || !riskLabel || !riskNote) return;
+function fixRiskBox(root, crops) {
+  const riskBox  = root.querySelector('[data-role="riskBox"]');
+  const riskLabel = root.querySelector('[data-role="riskLabel"]');
+  const riskNote  = root.querySelector('[data-role="riskNote"]');
+  if (!riskBox || !riskLabel || !riskNote) return;
 
-    const labelNow = lower(riskLabel.textContent);
-    const noteNow  = lower(riskNote.textContent);
+  const labelNow = lower(riskLabel.textContent);
+  const noteNow  = lower(riskNote.textContent);
 
-    // Only override when widget currently says Unknown / Not enough data
-    const isUnknownNow =
-      labelNow.includes("unknown") || noteNow.includes("not enough data");
+  // Only override when widget currently says Unknown / Not enough data
+  const isUnknownNow =
+    labelNow.includes("unknown") || noteNow.includes("not enough data");
 
-    if (!isUnknownNow) return;
+  if (!isUnknownNow) return;
 
-    const outcomes = crops.map(outcomeForCrop).filter(o => o !== "unknown");
-    if (!outcomes.length) return; // truly unknown: keep it
+  const outcomes = crops.map(outcomeForCrop).filter(o => o !== "unknown");
+  if (!outcomes.length) return; // truly unknown: keep it
 
-    const anyPass = outcomes.includes("pass");
-    const anyFail = outcomes.includes("fail");
+  const anyPass = outcomes.includes("pass");
+  const anyFail = outcomes.includes("fail");
+  const multiple = crops.length > 1;
 
-    riskBox.style.display = "";
-    if (anyPass && anyFail) {
-      riskLabel.textContent = "Mixed results";
-      riskNote.textContent =
-        "Some selected crops can mature before your area’s typical first fall frost in a typical year, while others likely won’t. Review each crop section above for crop-specific details.";
-    } else if (anyFail) {
-      riskLabel.textContent = "Unlikely to mature before frost";
-      riskNote.textContent =
-        "At least one crop has enough data to evaluate, but it does not reach maturity before your area’s typical first fall frost in a typical year. Review each crop section above for crop-specific details.";
-    } else {
-      riskLabel.textContent = "Likely to mature in time";
-      riskNote.textContent =
-        "Based on a typical year estimate, your selected crops appear to reach maturity before your area’s typical first fall frost. Review each crop section above for crop-specific details.";
-    }
+  riskBox.style.display = "";
+  if (anyPass && anyFail) {
+    riskLabel.textContent = "Mixed results";
+    riskNote.textContent =
+      "Some selected crops can mature before your area’s typical first fall frost in a typical year, while others likely won’t. Review each crop section above for crop-specific details.";
+  } else if (anyFail) {
+    riskLabel.textContent = "Unlikely to mature before frost";
+    riskNote.textContent = multiple
+      ? "At least one crop has enough data to evaluate, but it does not reach maturity before your area’s typical first fall frost in a typical year. Review each crop section above for crop-specific details."
+      : "Based on a typical year estimate, your selected crop does not appear to reach maturity before your area’s typical first fall frost.";
+  } else {
+    riskLabel.textContent = "Likely to mature in time";
+    riskNote.textContent = multiple
+      ? "Based on a typical year estimate, your selected crops appear to reach maturity before your area’s typical first fall frost. Review each crop section above for crop-specific details."
+      : "Based on a typical year estimate, your selected crop appears to reach maturity before your area’s typical first fall frost.";
   }
+}
 
   function apply(root) {
     const tbody = root.querySelector('[data-role="resultsBody"]');
