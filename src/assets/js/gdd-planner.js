@@ -381,15 +381,14 @@ function initCropList(instanceId, crops, listEl) {
     const id = `${instanceId}-crop-${siteId}`;
     const row = document.createElement("div");
     row.className = "cropPickRow";
-    row.innerHTML = `
-      <label class="cropPickLabel" for="${escapeHtml(id)}">
-        <input id="${escapeHtml(id)}" type="checkbox" value="${escapeHtml(siteId)}" />
-        <span class="cropPickName">
-          <span class="cropPickIcon" aria-hidden="true">${escapeHtml(cropIcon(c.siteId || c.gddSlug || siteId))}</span>
-          <span>${escapeHtml(c.name || siteId)}</span>
-        </span>
-      </label>
-    `;
+row.innerHTML = `
+  <label class="cropPickLabel" for="${escapeHtml(id)}">
+    <input id="${escapeHtml(id)}" type="checkbox" value="${escapeHtml(siteId)}" />
+    <span class="cropPickName">
+      <span>${escapeHtml(c.name || siteId)}</span>
+    </span>
+  </label>
+`;
     listEl.appendChild(row);
   }
 }

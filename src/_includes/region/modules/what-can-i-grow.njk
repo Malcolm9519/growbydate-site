@@ -1,324 +1,207 @@
 {# what-can-i-grow.njk — Crop viability matrix by typical remaining GDD checkpoints #}
 
-<h2>What Can You Still Grow?</h2>
+<div class="wcig">
+  <h2>What Can You Still Grow?</h2>
 
-<style>
-  .wcig .small { font-size: .95rem; }
-  .wcig .muted { opacity: .75; }
+  {% if not state.cropFit or not state.cropFit.byDate %}
+    <p class="small">
+      Crop-fit suggestions aren’t available for this region yet.
+    </p>
+  {% else %}
 
-  .wcig .wcigTableWrap {
-    overflow-x: auto;
-    margin-top: .75rem;
-    border-radius: 12px;
-    border: 1px solid rgba(0,0,0,0.12);
-  }
+    {% set preferredDates = ["05-15", "06-01", "07-01", "08-01"] %}
+    {% set allDates = state.cropFit.meta.dates or [] %}
+    {% set dates = [] %}
 
-  .wcig table {
-    width: 100%;
-    border-collapse: collapse;
-    min-width: 760px;
-    background: transparent;
-  }
+    {% for d in preferredDates %}
+      {% if d in allDates %}
+        {% set dates = dates.concat([d]) %}
+      {% endif %}
+    {% endfor %}
 
-  .wcig th,
-  .wcig td {
-    padding: .35rem .45rem;
-    border-bottom: 1px solid rgba(0,0,0,0.08);
-    vertical-align: middle;
-  }
-
-  .wcig th { text-align: left; font-weight: 700; }
-  .wcig td { font-variant-numeric: tabular-nums; }
-
-  .wcig .wcigStatus {
-    display: inline-block;
-    border: none;
-    border-radius: 0;
-    width: auto;
-    height: auto;
-    padding: 0;
-    background: transparent;
-    line-height: 1;
-    font-size: 1rem;
-  }
-
-  .wcig .wcigLegend {
-    display: flex;
-    flex-wrap: wrap;
-    gap: .6rem 1rem;
-    margin: .5rem 0 0;
-  }
-
-  .wcig .wcigLegend span {
-    display: inline-flex;
-    align-items: center;
-    gap: .4rem;
-  }
-
-  .wcig .wcigMore { margin-top: .75rem; }
-
-  .wcig .wcigMeta {
-    margin-top: -.25rem;
-    line-height: 1.45;
-  }
-
-  .wcig td:first-child,
-  .wcig th:first-child {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 1px;
-  }
-
-  .wcig td:not(:first-child):not(:nth-child(2)),
-  .wcig th:not(:first-child):not(:nth-child(2)) {
-    text-align: center;
-  }
-
-  .wcig .wcigCropEmoji { margin-right: .35rem; }
-</style>
-
-{% if not state.cropFit or not state.cropFit.byDate %}
-  <p class="small">
-    Crop-fit suggestions aren’t available for this region yet.
-  </p>
-{% else %}
-
-  {% set preferredDates = ["05-15", "06-01", "07-01", "08-01"] %}
-  {% set allDates = state.cropFit.meta.dates or [] %}
-  {% set dates = [] %}
-
-  {% for d in preferredDates %}
-    {% if d in allDates %}
-      {% set dates = dates.concat([d]) %}
-    {% endif %}
-  {% endfor %}
-
-  {% if not dates.length %}
-    {% set dates = ["05-15", "06-01", "07-01", "08-01"] %}
-  {% endif %}
-
-  {% set marginPct = state.cropFit.meta.marginPct or 0.15 %}
-  {% set marginLabel = (marginPct * 100) | round %}
-
-  <p class="small wcigMeta">
-    A normals-based guide to what typically still has time to mature in {{ state.name }} at a few common planting checkpoints.
-    We apply a <strong>{{ marginLabel }}% safety margin</strong> to separate crops that usually fit from ones that are more borderline.
-  </p>
-
-  {% macro prettyMmdd(mmdd) %}
-    {% set m = (mmdd[0] ~ mmdd[1]) %}
-    {% set d = (mmdd[3] ~ mmdd[4]) | int %}
-
-    {% if m == "01" %}Jan
-    {% elseif m == "02" %}Feb
-    {% elseif m == "03" %}Mar
-    {% elseif m == "04" %}Apr
-    {% elseif m == "05" %}May
-    {% elseif m == "06" %}Jun
-    {% elseif m == "07" %}Jul
-    {% elseif m == "08" %}Aug
-    {% elseif m == "09" %}Sep
-    {% elseif m == "10" %}Oct
-    {% elseif m == "11" %}Nov
-    {% else %}Dec
+    {% if not dates.length %}
+      {% set dates = ["05-15", "06-01", "07-01", "08-01"] %}
     {% endif %}
 
-    {{ " " ~ d }}
-  {% endmacro %}
+    {% set marginPct = state.cropFit.meta.marginPct or 0.15 %}
+    {% set marginLabel = (marginPct * 100) | round %}
 
-  {# -------- EMOJI MAP -------- #}
-  {% set emojiMap = {
-    "tomato":"🍅","tomatoes":"🍅",
-    "pepper":"🫑","peppers":"🫑",
-    "eggplant":"🍆",
-    "cucumber":"🥒","zucchini":"🥒",
-    "winter-squash":"🎃","squash":"🎃","pumpkin":"🎃",
-    "corn-sweet":"🌽","corn":"🌽",
-    "bean-bush":"🫘","beans":"🫘","bean":"🫘",
-    "pea":"🟢","peas":"🟢",
-    "carrot":"🥕","carrots":"🥕",
-    "beet":"🟣","beets":"🟣",
-    "potato":"🥔",
-    "onion":"🧅","onions":"🧅",
-    "garlic":"🧄",
-    "broccoli":"🥦","cauliflower":"🥦",
-    "cabbage":"🥬","lettuce":"🥬","kale":"🥬",
-    "spinach":"🍃",
-    "radish":"🌱","turnip":"🌱",
-    "melon":"🍈","watermelon":"🍉",
-    "strawberry":"🍓",
-    "sunflower":"🌻",
-    "basil":"🌿","herb":"🌿"
-  } %}
+    <p class="small wcigMeta">
+      A normals-based guide to what typically still has time to mature in {{ state.name }} at a few common planting checkpoints.
+      We apply a <strong>{{ marginLabel }}% safety margin</strong> to separate crops that usually fit from ones that are more borderline.
+    </p>
 
-  {% macro cropKey(c) %}
-    {% if c.slug %}
-      {{ c.slug }}
-    {% elseif c.href %}
-      {% set parts = c.href.split("/") %}
-      {% set last = "" %}
-      {% for p in parts %}
-        {% if p %}{% set last = p %}{% endif %}
-      {% endfor %}
-      {{ last }}
-    {% else %}
-      {{ "" }}
-    {% endif %}
-  {% endmacro %}
+    {% macro prettyMmdd(mmdd) %}
+      {% set m = (mmdd[0] ~ mmdd[1]) %}
+      {% set d = (mmdd[3] ~ mmdd[4]) | int %}
 
-  {% macro getEmojiForCrop(c) %}
-    {% set key = (cropKey(c) | trim) %}
-    {% set name = (c.name or "") %}
-    {% set lname = name | lower %}
+      {% if m == "01" %}Jan
+      {% elseif m == "02" %}Feb
+      {% elseif m == "03" %}Mar
+      {% elseif m == "04" %}Apr
+      {% elseif m == "05" %}May
+      {% elseif m == "06" %}Jun
+      {% elseif m == "07" %}Jul
+      {% elseif m == "08" %}Aug
+      {% elseif m == "09" %}Sep
+      {% elseif m == "10" %}Oct
+      {% elseif m == "11" %}Nov
+      {% else %}Dec
+      {% endif %}
 
-    {% if key and emojiMap[key] %}
-      {{ emojiMap[key] }}
-    {% elseif ("bean" in key) or ("bean" in lname) %}
-      🫘
-    {% elseif ("pea" in key) or ("pea" in lname) %}
-      🟢
-    {% elseif emojiMap[lname] %}
-      {{ emojiMap[lname] }}
-    {% else %}
-      {{ "" }}
-    {% endif %}
-  {% endmacro %}
+      {{ " " ~ d }}
+    {% endmacro %}
 
-  {# Build a unique crop list across all checkpoint dates #}
-  {% set allCrops = [] %}
-  {% set seen = "," %}
-  {% for mmdd in dates %}
-    {% set block = state.cropFit.byDate[mmdd] %}
-    {% if block %}
-      {% for c in (block.reliable or []) %}
-        {% if c and c.href and (seen.indexOf("," ~ c.href ~ ",") == -1) %}
-          {% set allCrops = allCrops.concat([c]) %}
-          {% set seen = seen ~ c.href ~ "," %}
-        {% endif %}
-      {% endfor %}
-      {% for c in (block.possible or []) %}
-        {% if c and c.href and (seen.indexOf("," ~ c.href ~ ",") == -1) %}
-          {% set allCrops = allCrops.concat([c]) %}
-          {% set seen = seen ~ c.href ~ "," %}
-        {% endif %}
-      {% endfor %}
-    {% endif %}
-  {% endfor %}
+    {% set emojiMap = {
+      "tomato":"🍅","tomatoes":"🍅",
+      "pepper":"🫑","peppers":"🫑",
+      "eggplant":"🍆",
+      "cucumber":"🥒","zucchini":"🥒",
+      "winter-squash":"🎃","squash":"🎃","pumpkin":"🎃",
+      "corn-sweet":"🌽","corn":"🌽",
+      "bean-bush":"🫘","beans":"🫘","bean":"🫘",
+      "pea":"🟢","peas":"🟢",
+      "carrot":"🥕","carrots":"🥕",
+      "beet":"🟣","beets":"🟣",
+      "potato":"🥔",
+      "onion":"🧅","onions":"🧅",
+      "garlic":"🧄",
+      "broccoli":"🥦","cauliflower":"🥦",
+      "cabbage":"🥬","lettuce":"🥬","kale":"🥬",
+      "spinach":"🍃",
+      "radish":"🌱","turnip":"🌱",
+      "melon":"🍈","watermelon":"🍉",
+      "strawberry":"🍓",
+      "sunflower":"🌻",
+      "basil":"🌿","herb":"🌿"
+    } %}
 
-  {% set allCrops = allCrops | sort(attribute="gddRequired") %}
+    {% macro cropKey(c) %}
+      {% if c.slug %}
+        {{ c.slug }}
+      {% elseif c.href %}
+        {% set parts = c.href.split("/") %}
+        {% set last = "" %}
+        {% for p in parts %}
+          {% if p %}{% set last = p %}{% endif %}
+        {% endfor %}
+        {{ last }}
+      {% else %}
+        {{ "" }}
+      {% endif %}
+    {% endmacro %}
 
-  {% macro statusFor(mmdd, href) %}
-    {% set block = state.cropFit.byDate[mmdd] %}
-    {% set s = "none" %}
-    {% if block %}
-      {% for x in (block.reliable or []) %}
-        {% if x and x.href == href %}{% set s = "reliable" %}{% endif %}
-      {% endfor %}
-      {% if s == "none" %}
-        {% for x in (block.possible or []) %}
-          {% if x and x.href == href %}{% set s = "possible" %}{% endif %}
+    {% macro getEmojiForCrop(c) %}
+      {% set key = (cropKey(c) | trim) %}
+      {% set name = (c.name or "") %}
+      {% set lname = name | lower %}
+
+      {% if key and emojiMap[key] %}
+        {{ emojiMap[key] }}
+      {% elseif ("bean" in key) or ("bean" in lname) %}
+        🫘
+      {% elseif ("pea" in key) or ("pea" in lname) %}
+        🟢
+      {% elseif emojiMap[lname] %}
+        {{ emojiMap[lname] }}
+      {% else %}
+        {{ "" }}
+      {% endif %}
+    {% endmacro %}
+
+    {% set allCrops = [] %}
+    {% set seen = "," %}
+    {% for mmdd in dates %}
+      {% set block = state.cropFit.byDate[mmdd] %}
+      {% if block %}
+        {% for c in (block.reliable or []) %}
+          {% if c and c.href and (seen.indexOf("," ~ c.href ~ ",") == -1) %}
+            {% set allCrops = allCrops.concat([c]) %}
+            {% set seen = seen ~ c.href ~ "," %}
+          {% endif %}
+        {% endfor %}
+        {% for c in (block.possible or []) %}
+          {% if c and c.href and (seen.indexOf("," ~ c.href ~ ",") == -1) %}
+            {% set allCrops = allCrops.concat([c]) %}
+            {% set seen = seen ~ c.href ~ "," %}
+          {% endif %}
         {% endfor %}
       {% endif %}
-    {% endif %}
-    {{ s }}
-  {% endmacro %}
+    {% endfor %}
 
-  {% macro renderStatus(mmdd, href) %}
-    {% set s = (statusFor(mmdd, href) | trim) %}
-    {% if s == "reliable" %}
-      <span class="wcigStatus" title="Usually fits (with {{ marginLabel }}% safety margin).">✅</span>
-    {% elseif s == "possible" %}
-      <span class="wcigStatus" title="Borderline: can fit in normals, but doesn’t clear the {{ marginLabel }}% safety margin.">⚠️</span>
-    {% else %}
-      <span class="wcigStatus" title="Usually too tight by this checkpoint.">❌</span>
-    {% endif %}
-  {% endmacro %}
+    {% set allCrops = allCrops | sort(attribute="gddRequired") %}
 
-  <div class="wcigLegend small">
-    <span><span class="wcigStatus" aria-hidden="true">✅</span> Usually fits</span>
-    <span><span class="wcigStatus" aria-hidden="true">⚠️</span> Borderline</span>
-    <span><span class="wcigStatus" aria-hidden="true">❌</span> Too tight</span>
-  </div>
-
-  <div class="wcigTableWrap">
-    <table>
-      <thead>
-        <tr>
-          <th style="min-width: 170px;">Crop</th>
-          <th style="min-width: 120px;">Heat Units</th>
-
-          {% for mmdd in dates %}
-            {% set block = state.cropFit.byDate[mmdd] %}
-            <th style="min-width: 110px;">
-              {{ prettyMmdd(mmdd) }}
-
-              {% if block and block.runwayByBase and (block.runwayByBase["50"] is not none) %}
-                {% set runway = block.runwayByBase["50"] | int %}
-                {% set safe = (runway * (1 - marginPct)) | round %}
-                <div class="small muted" style="margin-top:.15rem;">
-                  {{ runway }} (safe {{ safe }})
-                </div>
-              {% endif %}
-            </th>
-          {% endfor %}
-        </tr>
-      </thead>
-
-      <tbody>
-        {% if (allCrops | length) == 0 %}
-          <tr>
-            <td colspan="{{ 2 + (dates | length) }}" class="small muted">
-              No crop-fit data found for this region.
-            </td>
-          </tr>
-        {% else %}
-
-          {% set headLimit = 24 %}
-          {% set headCrops = allCrops.slice(0, headLimit) %}
-          {% set tailCrops = allCrops.slice(headLimit) %}
-
-          {% for c in headCrops %}
-            {% set gdd = c.gddRequired or c.gdd50 or c.gdd_required50 or c.gdd_required or c.gdd %}
-            <tr>
-              <td>
-                {% set e = getEmojiForCrop(c) | trim %}
-                <span title="{{ c.name }}">
-                  {% if e %}<span class="wcigCropEmoji" aria-hidden="true">{{ e }}</span>{% endif %}
-                  {{ c.name }}
-                </span>
-              </td>
-              <td class="small">
-                {{ gdd | int }} <span class="muted">(base {{ c.base }})</span>
-              </td>
-
-              {% for mmdd in dates %}
-                <td>{{ renderStatus(mmdd, c.href) }}</td>
-              {% endfor %}
-            </tr>
+    {% macro statusFor(mmdd, href) %}
+      {% set block = state.cropFit.byDate[mmdd] %}
+      {% set s = "none" %}
+      {% if block %}
+        {% for x in (block.reliable or []) %}
+          {% if x and x.href == href %}{% set s = "reliable" %}{% endif %}
+        {% endfor %}
+        {% if s == "none" %}
+          {% for x in (block.possible or []) %}
+            {% if x and x.href == href %}{% set s = "possible" %}{% endif %}
           {% endfor %}
         {% endif %}
-      </tbody>
-    </table>
-  </div>
+      {% endif %}
+      {{ s }}
+    {% endmacro %}
 
-  {% if tailCrops and (tailCrops | length) > 0 %}
-    <details class="wcigMore">
-      <summary class="small">Show {{ tailCrops | length }} more crops</summary>
+    {% macro renderStatus(mmdd, href) %}
+      {% set s = (statusFor(mmdd, href) | trim) %}
+      {% if s == "reliable" %}
+        <span class="wcigStatus" title="Usually fits (with {{ marginLabel }}% safety margin).">✅</span>
+      {% elseif s == "possible" %}
+        <span class="wcigStatus" title="Borderline: can fit in normals, but doesn’t clear the {{ marginLabel }}% safety margin.">⚠️</span>
+      {% else %}
+        <span class="wcigStatus" title="Usually too tight by this checkpoint.">❌</span>
+      {% endif %}
+    {% endmacro %}
 
-      <div class="wcigTableWrap">
-        <table>
-          <thead>
+    <div class="wcigLegend small">
+      <span><span class="wcigStatus" aria-hidden="true">✅</span> Usually fits</span>
+      <span><span class="wcigStatus" aria-hidden="true">⚠️</span> Borderline</span>
+      <span><span class="wcigStatus" aria-hidden="true">❌</span> Too tight</span>
+    </div>
+
+    <div class="wcigTableWrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="min-width: 170px;">Crop</th>
+            <th style="min-width: 120px;">Heat Units</th>
+
+            {% for mmdd in dates %}
+              {% set block = state.cropFit.byDate[mmdd] %}
+              <th style="min-width: 110px;">
+                {{ prettyMmdd(mmdd) }}
+
+                {% if block and block.runwayByBase and (block.runwayByBase["50"] is not none) %}
+                  {% set runway = block.runwayByBase["50"] | int %}
+                  {% set safe = (runway * (1 - marginPct)) | round %}
+                  <div class="small muted" style="margin-top:.15rem;">
+                    {{ runway }} (safe {{ safe }})
+                  </div>
+                {% endif %}
+              </th>
+            {% endfor %}
+          </tr>
+        </thead>
+
+        <tbody>
+          {% if (allCrops | length) == 0 %}
             <tr>
-              <th scope="col">Crop</th>
-              <th style="min-width: 120px;">Heat units</th>
-              {% for mmdd in dates %}
-                <th style="min-width: 140px;">{{ prettyMmdd(mmdd) }}</th>
-              {% endfor %}
+              <td colspan="{{ 2 + (dates | length) }}" class="small muted">
+                No crop-fit data found for this region.
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {% for c in tailCrops %}
+          {% else %}
+
+            {% set headLimit = 24 %}
+            {% set headCrops = allCrops.slice(0, headLimit) %}
+            {% set tailCrops = allCrops.slice(headLimit) %}
+
+            {% for c in headCrops %}
               {% set gdd = c.gddRequired or c.gdd50 or c.gdd_required50 or c.gdd_required or c.gdd %}
               <tr>
                 <td>
@@ -331,35 +214,75 @@
                 <td class="small">
                   {{ gdd | int }} <span class="muted">(base {{ c.base }})</span>
                 </td>
+
                 {% for mmdd in dates %}
                   <td>{{ renderStatus(mmdd, c.href) }}</td>
                 {% endfor %}
               </tr>
             {% endfor %}
-          </tbody>
-        </table>
-      </div>
-    </details>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+
+    {% if tailCrops and (tailCrops | length) > 0 %}
+      <details class="wcigMore">
+        <summary class="small">Show {{ tailCrops | length }} more crops</summary>
+
+        <div class="wcigTableWrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Crop</th>
+                <th style="min-width: 120px;">Heat units</th>
+                {% for mmdd in dates %}
+                  <th style="min-width: 140px;">{{ prettyMmdd(mmdd) }}</th>
+                {% endfor %}
+              </tr>
+            </thead>
+            <tbody>
+              {% for c in tailCrops %}
+                {% set gdd = c.gddRequired or c.gdd50 or c.gdd_required50 or c.gdd_required or c.gdd %}
+                <tr>
+                  <td>
+                    {% set e = getEmojiForCrop(c) | trim %}
+                    <span title="{{ c.name }}">
+                      {% if e %}<span class="wcigCropEmoji" aria-hidden="true">{{ e }}</span>{% endif %}
+                      {{ c.name }}
+                    </span>
+                  </td>
+                  <td class="small">
+                    {{ gdd | int }} <span class="muted">(base {{ c.base }})</span>
+                  </td>
+                  {% for mmdd in dates %}
+                    <td>{{ renderStatus(mmdd, c.href) }}</td>
+                  {% endfor %}
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </details>
+    {% endif %}
+
+    <p class="small muted" style="margin-top:.75rem;">
+      Notes: “Usually fits” is based on typical remaining GDD and a {{ marginLabel }}% buffer.
+      Variety maturity, planting method, and microclimates can still move results either way.
+    </p>
+
+    <p class="small" style="margin-top:0.75rem;">
+      <strong>How to use this:</strong> earlier summer plantings are usually the safest bets. By July, faster-maturing varieties matter more, and by August the strongest options tend to be greens, roots, and other short-season crops.
+    </p>
+
   {% endif %}
 
-  <p class="small muted" style="margin-top:.75rem;">
-    Notes: “Usually fits” is based on typical remaining GDD and a {{ marginLabel }}% buffer.
-    Variety maturity, planting method, and microclimates can still move results either way.
-  </p>
+  {% set gddWidget = {
+    mode: "default",
+    hideCrops: false,
+    dateDefault: "today",
+    widgetTitle: "Is It Too Late to Plant? Check Crop Timing in " ~ state.name,
+    widgetLede: "Enter a ZIP / Postal Code in " ~ state.name ~ " and your planting date to see whether different crops can typically mature before first fall frost."
+  } %}
 
-  <p class="small" style="margin-top:0.75rem;">
-    <strong>How to use this:</strong> earlier summer plantings are usually the safest bets. By July, faster-maturing varieties matter more, and by August the strongest options tend to be greens, roots, and other short-season crops.
-  </p>
-
-{% endif %}
-
-{% set gddWidget = {
-  mode: "default",
-  hideCrops: false,
-  dateDefault: "today",
-  widgetTitle: "Is It Too Late to Plant? Check Crop Timing in " ~ state.name,
-  widgetLede: "Enter a ZIP / Postal Code in " ~ state.name ~ " and your planting date to see whether different crops can typically mature before first fall frost."
-} %}
-
-
-  {% include "tools/gdd-planner-widget.njk" %}
+    {% include "tools/gdd-planner-widget.njk" %}
+</div>
