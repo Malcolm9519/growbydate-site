@@ -925,11 +925,6 @@ p + .tableWrap {
   box-sizing: border-box;
 }
 
-.toolRoot[data-tool="gdd-planner"] .cropPickLabel:hover {
-  background: #ffffff;
-  border-color: #c4cfc2;
-}
-
 .tool-breakout .toolRoot[data-tool="gdd-planner"] {
   width: 100%;
   max-width: none;
@@ -962,6 +957,12 @@ p + .tableWrap {
   line-height: 1.18;
   letter-spacing: -0.015em;
   font-weight: 700;
+}
+
+.toolRoot[data-tool="gdd-planner"] > section:first-of-type h2 {
+  font-size: clamp(1.5rem, 1.28rem + 0.6vw, 1.95rem);
+  line-height: 1.14;
+  letter-spacing: -0.02em;
 }
 
 .toolRoot[data-tool="gdd-planner"] p,
@@ -1072,8 +1073,7 @@ p + .tableWrap {
     0 6px 16px rgba(31, 42, 31, 0.05);
 }
 
-
-/* Softer crop chips */
+/* Crop area */
 .toolRoot[data-tool="gdd-planner"] [data-role="cropList"] {
   padding: 20px;
   border: 1px solid #dbe4d8;
@@ -1094,6 +1094,17 @@ p + .tableWrap {
   box-shadow: 0 1px 2px rgba(31, 42, 31, 0.03);
 }
 
+.toolRoot[data-tool="gdd-planner"] .cropPickLabel:hover {
+  background: #ffffff;
+  border-color: #c4cfc2;
+}
+
+.toolRoot[data-tool="gdd-planner"] .cropPickLabel input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+  flex: 0 0 auto;
+}
+
 .toolRoot[data-tool="gdd-planner"] .cropPickName,
 .toolRoot[data-tool="gdd-planner"] .cropPickLabel span,
 .toolRoot[data-tool="gdd-planner"] .cropPickName span {
@@ -1103,6 +1114,7 @@ p + .tableWrap {
   color: #243124;
 }
 
+/* Buttons */
 .toolRoot[data-tool="gdd-planner"] .btnRow {
   gap: 12px;
   margin-top: 18px !important;
@@ -1119,7 +1131,6 @@ p + .tableWrap {
   letter-spacing: 0.01em;
 }
 
-/* Stronger separation from tip pill + band */
 .toolRoot[data-tool="gdd-planner"] .button.primary {
   background: #2f7d32;
   border-color: #2f7d32;
@@ -1134,6 +1145,7 @@ p + .tableWrap {
 .toolRoot[data-tool="gdd-planner"] .btn {
   background: #fff;
   border-color: #b7c3b5;
+  box-shadow: 0 1px 3px rgba(31, 42, 31, 0.03);
 }
 
 .toolRoot[data-tool="gdd-planner"] .btnRow [data-role="status"] {
@@ -1158,18 +1170,12 @@ p + .tableWrap {
   margin-bottom: 12px;
 }
 
-.toolRoot[data-tool="gdd-planner"] > section:first-of-type h2 {
-  font-size: clamp(1.5rem, 1.28rem + 0.6vw, 1.95rem);
-  line-height: 1.14;
-  letter-spacing: -0.02em;
-}
-
 .toolRoot[data-tool="gdd-planner"] [data-role="resultsCard"] > .small:first-of-type {
   margin-bottom: 14px;
   max-width: none;
 }
 
-/* Fix odd left alignment in planning tip row */
+/* Planning tip row */
 .toolRoot[data-tool="gdd-planner"] [data-role="resultsCard"] > .small:first-of-type .pill {
   margin-right: 8px;
   vertical-align: middle;
@@ -1191,16 +1197,32 @@ p + .tableWrap {
   vertical-align: baseline;
 }
 
-.toolRoot[data-tool="gdd-planner"] table {
+/* Results table */
+.toolRoot[data-tool="gdd-planner"] [data-role="resultsCard"] .tableWrap,
+.toolRoot[data-tool="gdd-planner"] [data-role="resultsCard"] .resultsTableWrap {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.toolRoot[data-tool="gdd-planner"] [data-role="resultsCard"] table {
+  min-width: 720px;
   border: 1px solid #e3e8e1;
   border-radius: 14px;
   overflow: hidden;
   background: #fff;
 }
 
-.toolRoot[data-tool="gdd-planner"] td,
-.toolRoot[data-tool="gdd-planner"] th {
+.toolRoot[data-tool="gdd-planner"] [data-role="resultsCard"] td,
+.toolRoot[data-tool="gdd-planner"] [data-role="resultsCard"] th {
   padding: 0.8rem 0.95rem;
+  white-space: nowrap;
+}
+
+.toolRoot[data-tool="gdd-planner"] [data-role="resultsCard"] td:last-child,
+.toolRoot[data-tool="gdd-planner"] [data-role="resultsCard"] th:last-child {
+  white-space: normal;
+  min-width: 220px;
 }
 
 .toolRoot[data-tool="gdd-planner"] [data-role="footnote"] {
@@ -1226,6 +1248,11 @@ p + .tableWrap {
     line-height: 1.22;
   }
 
+  .toolRoot[data-tool="gdd-planner"] > section:first-of-type h2 {
+    font-size: clamp(1.35rem, 1.18rem + 0.5vw, 1.7rem);
+    line-height: 1.16;
+  }
+
   .toolRoot[data-tool="gdd-planner"] .stack {
     gap: 18px;
   }
@@ -1235,5 +1262,9 @@ p + .tableWrap {
   .toolRoot[data-tool="gdd-planner"] [data-role="footnote"],
   .toolRoot[data-tool="gdd-planner"] [data-role="resultsCard"] > .small:first-of-type {
     max-width: none;
+  }
+
+  .toolRoot[data-tool="gdd-planner"] [data-role="resultsCard"] table {
+    min-width: 680px;
   }
 }

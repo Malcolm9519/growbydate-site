@@ -460,11 +460,11 @@ function buildAdvisoryCopy({ city, crop, confidence, fittingVarietyLabels }) {
   let succeed = "";
   if (confidence === "strong") {
     const idx = stableVariantIndex(city.key || city.name, crop.key, "strong-succeed") % 3;
-    const strongVariants = [
-      `${crop.name} usually ${getPerformVerb(crop)} reliably in ${city.name} when planted on time. In a typical year, gardeners have flexibility and can usually grow ${varietyText ? varietyText.toLowerCase() : "a wide range of"} varieties with plenty of margin for variety choice and timing.`,
-      `${crop.name} usually ${getPerformVerb(crop)} reliably in ${city.name} when planted on time. In a typical year, gardeners have flexibility and can usually grow ${varietyText ? varietyText.toLowerCase() : "a wide range of"} varieties without running into serious season limits.`,
-      `${crop.name} usually ${getPerformVerb(crop)} reliably in ${city.name} when planted on time. In a typical year, gardeners have flexibility and can usually grow ${varietyText ? varietyText.toLowerCase() : "a wide range of"} varieties without much seasonal pressure.`
-    ];
+const strongVariants = [
+  `${crop.name} usually ${getPerformVerb(crop)} reliably in ${city.name} when planted on time. In a typical year, gardeners have flexibility and can usually grow across the full maturity range with plenty of margin for variety choice and timing.`,
+  `${crop.name} usually ${getPerformVerb(crop)} reliably in ${city.name} when planted on time. In a typical year, gardeners have flexibility and can usually grow from very early through late varieties without running into serious season limits.`,
+  `${crop.name} usually ${getPerformVerb(crop)} reliably in ${city.name} when planted on time. In a typical year, gardeners have flexibility and can usually grow across the full maturity range without much seasonal pressure.`
+];
     succeed = strongVariants[idx];
   } else if (confidence === "good") {
     succeed = `${crop.name} ${getVerb(crop)} usually workable in ${city.name} with normal timing and reasonable variety choice. Gardeners tend to do best when they plant on schedule and match the crop to the local season rather than stretching into the slowest types.`;
