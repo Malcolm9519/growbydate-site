@@ -449,25 +449,315 @@ function buildVarietyFitSentence(crop, fittingVarietyLabels, confidence) {
   return `Only the earliest varieties are realistic candidates here in a typical year.`;
 }
 
-function buildAdvisoryCopy({ city, crop, confidence, fittingVarietyLabels }) {
-  if (!city || !crop) return null;
+function formatMmddForCopy(mmdd) {
+  if (!mmdd) return null;
+  const [m, d] = String(mmdd).split("-").map(Number);
+  if (!Number.isFinite(m) || !Number.isFinite(d)) return null;
 
+  const date = new Date(Date.UTC(2021, m - 1, d));
+  return date.toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    timeZone: "UTC"
+  });
+}
+
+function getSeasonTightness({ confidence, gddMargin, frostFreeDays }) {
+  if (confidence === "strong" || (Number.isFinite(gddMargin) && gddMargin >= 250)) {
+    return "comfortable";
+  }
+
+  if (
+    confidence === "good" ||
+    (Number.isFinite(gddMargin) && gddMargin >= 75) ||
+    (Number.isFinite(frostFreeDays) && frostFreeDays >= 140)
+  ) {
+    return "moderate";
+  }
+
+  if (
+    confidence === "borderline" ||
+    (Number.isFinite(gddMargin) && gddMargin >= -200) ||
+    (Number.isFinite(frostFreeDays) && frostFreeDays >= 110)
+  ) {
+    return "tight";
+  }
+
+  return "very-tight";
+}
+
+function getClimateProfile(city) {
+  const cityKey = String(city?.key || "").toLowerCase();
+  const regionKey = String(city?.regionKey || "").toLowerCase();
+  const cityName = String(city?.name || "").toLowerCase();
+
+  const coastalCities = new Set(["vancouver", "victoria"]);
+  const prairieCities = new Set([
+    "calgary",
+    "edmonton",
+    "red-deer",
+    "lethbridge",
+    "medicine-hat",
+    "regina",
+    "saskatoon",
+    "winnipeg",
+    "brandon",
+    "fargo",
+    "bismarck",
+    "sioux-falls",
+    "rapid-city",
+    "billings",
+    "bozeman",
+    "missoula"
+  ]);
+  const interiorWarmCities = new Set(["kelowna", "kamloops", "penticton"]);
+  const lakesCities = new Set([
+    "duluth",
+    "green-bay",
+    "milwaukee",
+    "madison",
+    "detroit",
+    "grand-rapids",
+    "cleveland",
+    "buffalo",
+    "erie"
+  ]);
+  const mountainCities = new Set(["calgary", "bozeman", "missoula", "billings"]);
+
+  if (coastalCities.has(cityKey) || regionKey === "british-columbia-coast") {
+    return {
+      key: "coastal",
+      baseline: "the season is usually long enough, but spring heat tends to build more slowly than it does in hotter inland climates",
+      warmestSites: "south-facing walls, protected patios, and sunnier urban lots that hold a bit more overnight warmth",
+      coolestSites: "shaded gardens, exposed sites, and cooler marine-influenced pockets"
+    };
+  }
+
+  if (interiorWarmCities.has(cityKey)) {
+    return {
+      key: "interior-warm",
+      baseline: "summer warmth usually builds well, so the main local differences come from exposure, slope, and how quickly spring sites wake up",
+      warmestSites: "south-facing slopes, reflected-heat walls, and sunny sheltered lots",
+      coolestSites: "shaded yards, low pockets, and breezier exposed properties"
+    };
+  }
+
+  if (
+    prairieCities.has(cityKey) ||
+    ["alberta", "saskatchewan", "manitoba", "north-dakota", "south-dakota"].includes(regionKey)
+  ) {
+    return {
+      key: "prairie",
+      baseline: "season length is often limited by late spring and an early-closing fall window, especially for warm-season crops",
+      warmestSites: "south-facing walls, raised beds, sheltered backyards, and urban heat pockets",
+      coolestSites: "open windy yards, low frost pockets, and exposed sites that lose heat quickly"
+    };
+  }
+
+  if (lakesCities.has(cityKey)) {
+    return {
+      key: "lakes",
+      baseline: "nearby water can soften some temperature swings, but local exposure still changes how quickly soil warms and how early frost settles in",
+      warmestSites: "sunny protected urban lots, south-facing beds, and sites with reflected heat",
+      coolestSites: "open windy properties, low cold-air pockets, and heavily shaded yards"
+    };
+  }
+
+  if (mountainCities.has(cityKey) || cityName.includes("mountain")) {
+    return {
+      key: "mountain",
+      baseline: "elevation and exposure can make nearby gardens behave quite differently, even within the same city",
+      warmestSites: "sheltered south-facing beds, masonry walls, and spots above cold-air drainage",
+      coolestSites: "low pockets, exposed benches, and sites that catch more wind"
+    };
+  }
+
+  return {
+    key: "general",
+    baseline: "local gardens do not all warm and cool at the same pace",
+    warmestSites: "south-facing walls, sheltered gardens, raised beds, and sunnier urban lots",
+    coolestSites: "low spots, exposed sites, and shadier yards"
+  };
+}
+
+function buildMicroBaseline({
+  city,
+  crop,
+  confidence,
+  gddMargin,
+  frostFreeDays,
+  primaryPlantingDate,
+  fallFrost
+}) {
+  const cropNameLower = crop.name.toLowerCase();
+  const plantingText = formatMmddForCopy(primaryPlantingDate);
+  const fallText = formatMmddForCopy(fallFrost);
+  const seasonTightness = getSeasonTightness({ confidence, gddMargin, frostFreeDays });
+  const alreadyHaveHas = getVerb(crop) === "is" ? "already has" : "already have";
+  const usuallyHaveHas = getVerb(crop) === "is" ? "usually has" : "usually have";
+  const finishText = getVerb(crop) === "is" ? "it finishes" : "they finish";
+  const sitText = getVerb(crop) === "is" ? "sits" : "sit";
+
+  if (seasonTightness === "comfortable") {
+    return `In ${city.name}, ${cropNameLower} ${alreadyHaveHas} a comfortable seasonal margin in a typical year${plantingText ? ` when planted around ${plantingText}` : ""}.`;
+  }
+
+  if (seasonTightness === "moderate") {
+    return `In ${city.name}, ${cropNameLower} ${usuallyHaveHas} enough season to work well, but site warmth still affects how comfortably ${finishText}${fallText ? ` before the usual fall frost around ${fallText}` : ""}.`;
+  }
+
+  if (seasonTightness === "tight") {
+    return `In ${city.name}, ${cropNameLower} ${sitText} closer to the edge of the local season${fallText ? ` before the usual fall frost around ${fallText}` : ""}, so microclimate matters more than it does for easier crops.`;
+  }
+
+  return `In ${city.name}, ${cropNameLower} ${sitText} near the edge of what the local season can usually support, so microclimate is often part of the strategy rather than a bonus.`;
+}
+
+function buildMicroCropEffect({ crop, confidence, gddMargin }) {
+  const comfortable =
+    confidence === "strong" || (Number.isFinite(gddMargin) && gddMargin >= 250);
+  const marginal =
+    confidence === "borderline" ||
+    confidence === "risky" ||
+    (Number.isFinite(gddMargin) && gddMargin < 75);
+
+  if (crop.key === "tomatoes") {
+    if (comfortable) {
+      return `For tomatoes, that usually changes earliness and ripening speed more than basic feasibility.`;
+    }
+    if (marginal) {
+      return `For tomatoes, that can decide whether fruit ripens fully before fall or stalls late in the season.`;
+    }
+    return `For tomatoes, warmer sites usually mean earlier flowering, steadier ripening, and less pressure on variety choice.`;
+  }
+
+  if (crop.key === "peppers") {
+    if (comfortable) {
+      return `For peppers, the payoff is usually earlier sizing, better color, and more reliable finishing rather than simple yes-or-no success.`;
+    }
+    if (marginal) {
+      return `For peppers, the warmest sites can make the difference between a partial crop and fruit that colors up well before fall.`;
+    }
+    return `For peppers, extra warmth mostly shows up as earlier maturity and better finishing on the plant.`;
+  }
+
+  if (crop.key === "sweet-corn") {
+    if (comfortable) {
+      return `For sweet corn, warmer sheltered sites mainly speed establishment and make later classes more comfortable.`;
+    }
+    if (marginal) {
+      return `For sweet corn, warmer sites help the stand establish faster and improve the odds that ears finish on time.`;
+    }
+    return `For sweet corn, site warmth mostly affects how quickly the crop gets established and how much margin later plantings retain.`;
+  }
+
+  if (crop.key === "beans") {
+    if (marginal) {
+      return `For beans, the biggest payoff is quicker early growth and a little more time to keep pods coming before fall conditions turn.`;
+    }
+    return `For beans, the biggest payoff is usually faster early growth and steadier production from warmer soil.`;
+  }
+
+  return `For ${crop.name.toLowerCase()}, the warmest sites usually buy earlier growth and a little more seasonal margin.`;
+}
+
+function buildDecisionSentence({ crop, city, confidence, fittingVarietyLabels, gddMargin }) {
   const cropNameLower = crop.name.toLowerCase();
   const varietyText = formatList(fittingVarietyLabels);
-  const warmCrop = ["tomatoes", "peppers", "sweet-corn"].includes(crop.key);
-  const protectedCultureHigh = crop.protectedCultureBenefit === "high";
+
+  if (confidence === "strong") {
+    return `Most gardeners in ${city.name} can approach ${cropNameLower} as a dependable crop; the main decision is usually how much variety range they want rather than whether it can work at all.`;
+  }
+
+  if (confidence === "good") {
+    return `${crop.name} ${getVerb(crop)} a practical choice in ${city.name}, especially when gardeners stay close to timely planting${varietyText ? ` and lean toward ${varietyText.toLowerCase()} varieties` : ""}.`;
+  }
+
+  if (confidence === "borderline") {
+    return `${crop.name} ${getVerb(crop)} possible in ${city.name}, but it makes more sense to treat early maturity and warm placement as part of the plan rather than pushing the longest-season types.`;
+  }
+
+  if (Number.isFinite(gddMargin) && gddMargin <= -350) {
+    return `In ${city.name}, ${cropNameLower} is usually a higher-risk crop unless gardeners combine the fastest varieties with very warm, protected placement.`;
+  }
+
+  return `Grow ${cropNameLower} in ${city.name} only if you are comfortable managing risk with the fastest varieties and the warmest sites you have.`;
+}
+
+function buildLocalInterpretation({
+  crop,
+  city,
+  confidence,
+  gddMargin,
+  regionalComparisonSentence,
+  frostFreeDays
+}) {
+  if (regionalComparisonSentence && confidence !== "strong") {
+    return `${regionalComparisonSentence} That makes local site warmth more important for ${crop.name.toLowerCase()} here than it would be in a roomier season.`;
+  }
+
+  if (confidence === "strong") {
+    if (crop.key === "tomatoes") {
+      return `In practice, gardeners in ${city.name} usually use warm sites to bring harvest earlier or make mid-to-late varieties more comfortable, not to make tomatoes possible in the first place.`;
+    }
+
+    if (crop.key === "peppers") {
+      return `In practice, the warmest sites in ${city.name} usually improve earliness, color, and finishing quality rather than determine whether peppers can be grown at all.`;
+    }
+
+    if (crop.key === "sweet-corn") {
+      return `In practice, warmer protected sites in ${city.name} mostly help sweet corn establish faster and give later plantings a little more breathing room.`;
+    }
+
+    if (crop.key === "beans") {
+      return `In practice, warmer sites in ${city.name} mostly help beans get moving faster and produce a little more steadily.`;
+    }
+
+    return `In practice, the warmest sites in ${city.name} mostly improve earliness and consistency rather than basic feasibility.`;
+  }
+
+  if (crop.protectedCultureBenefit === "high" && (confidence === "borderline" || confidence === "risky")) {
+    return `${crop.name} ${getBecomeVerb(crop)} more realistic here when gardeners can add a little protection or reflected heat early in the season.`;
+  }
+
+  if (Number.isFinite(frostFreeDays) && frostFreeDays <= 115) {
+    return `Because the local frost-free stretch is fairly short, ${crop.name.toLowerCase()} ${getRespondVerb(crop)} most to early momentum, site warmth, and realistic variety choice.`;
+  }
+
+  if (Number.isFinite(gddMargin) && gddMargin < 75) {
+    return `Here, warm placement is less about optimization and more about protecting a crop that already has a fairly tight margin.`;
+  }
+
+  return `${crop.name} ${getRespondVerb(crop)} most here to the basics: timely planting, a site that warms well, and a variety class that matches the local season.`;
+}
+
+function buildAdvisoryCopy({
+  city,
+  crop,
+  confidence,
+  fittingVarietyLabels,
+  gddMargin,
+  frostFreeDays,
+  primaryPlantingDate,
+  fallFrost,
+  regionalComparisonSentence
+}) {
+  if (!city || !crop) return null;
+
+  const varietyText = formatList(fittingVarietyLabels);
+  const profile = getClimateProfile(city);
 
   let succeed = "";
   if (confidence === "strong") {
     const idx = stableVariantIndex(city.key || city.name, crop.key, "strong-succeed") % 3;
-const strongVariants = [
-  `${crop.name} usually ${getPerformVerb(crop)} reliably in ${city.name} when planted on time. In a typical year, gardeners have flexibility and can usually grow across the full maturity range with plenty of margin for variety choice and timing.`,
-  `${crop.name} usually ${getPerformVerb(crop)} reliably in ${city.name} when planted on time. In a typical year, gardeners have flexibility and can usually grow from very early through late varieties without running into serious season limits.`,
-  `${crop.name} usually ${getPerformVerb(crop)} reliably in ${city.name} when planted on time. In a typical year, gardeners have flexibility and can usually grow across the full maturity range without much seasonal pressure.`
-];
+    const strongVariants = [
+      `${crop.name} usually ${getPerformVerb(crop)} reliably in ${city.name} when planted on time. In a typical year, gardeners have flexibility and can usually grow across the full maturity range with plenty of margin for variety choice and timing.`,
+      `${crop.name} usually ${getPerformVerb(crop)} reliably in ${city.name} when planted on time. In a typical year, gardeners have flexibility and can usually grow from very early through late varieties without running into serious season limits.`,
+      `${crop.name} usually ${getPerformVerb(crop)} reliably in ${city.name} when planted on time. In a typical year, gardeners have flexibility and can usually grow across the full maturity range without much seasonal pressure.`
+    ];
     succeed = strongVariants[idx];
   } else if (confidence === "good") {
-    succeed = `${crop.name} ${getVerb(crop)} usually workable in ${city.name} with normal timing and reasonable variety choice. Gardeners tend to do best when they plant on schedule and match the crop to the local season rather than stretching into the slowest types.`;
+    succeed = `${crop.name} ${getVerb(crop)} usually workable in ${city.name} with normal timing and reasonable variety choice. Gardeners tend to do best when they plant on schedule${varietyText ? ` and stay close to ${varietyText.toLowerCase()} varieties` : ""} rather than stretching into the slowest types.`;
   } else if (confidence === "borderline") {
     if (crop.key === "beans") {
       succeed = `Beans can succeed in ${city.name}, but results depend heavily on variety choice and site warmth. Gardeners usually do best with faster-maturing types, warm planting locations, and timely planting.`;
@@ -489,32 +779,45 @@ const strongVariants = [
     fail = `The crop usually falls short here because the season runs out before it finishes well. Late planting, cool nights, and slower varieties all make that risk much worse.`;
   }
 
-  let micro = `Growing conditions within ${city.name} are not perfectly uniform. South-facing yards, sheltered gardens, and urban spots often warm earlier and hold more heat, while low areas and exposed sites tend to stay cooler and frost earlier.`;
-  if (warmCrop) {
-    micro += ` Those differences matter even more for heat-loving crops like ${cropNameLower}, where a modest gain in warmth can noticeably improve maturity odds.`;
+  const microParts = [
+    buildMicroBaseline({
+      city,
+      crop,
+      confidence,
+      gddMargin,
+      frostFreeDays,
+      primaryPlantingDate,
+      fallFrost
+    }),
+    `The warmest sites are usually ${profile.warmestSites}, while ${profile.coolestSites} tend to be less forgiving.`,
+    buildMicroCropEffect({ crop, confidence, gddMargin })
+  ];
+
+  if (confidence !== "strong") {
+    microParts.splice(1, 0, `Here, ${profile.baseline}.`);
   }
 
-  let decision = "";
-  if (confidence === "strong") {
-    decision = `Most gardeners can approach ${cropNameLower} confidently in a typical year. The main decision is less about whether it can work and more about how much variety flexibility you want.`;
-  } else if (confidence === "good") {
-    decision = `${crop.name} ${getVerb(crop)} a reasonable crop choice here, especially if you plant on time and choose varieties that match the season.`;
-  } else if (confidence === "borderline") {
-    decision = `${crop.name} ${getVerb(crop)} possible here, but the safer choice is to lean toward earlier varieties and warm planting locations rather than pushing for the longest-season types.`;
-  } else {
-    decision = `Grow ${cropNameLower} only if you are comfortable managing some risk. The safest path is to stick with the fastest varieties and treat protected, warm sites as part of the plan rather than a bonus.`;
-  }
+  const micro = microParts.filter(Boolean).join(" ");
 
-  let localInterpretation = "";
-  if (protectedCultureHigh && confidence !== "strong") {
-    localInterpretation = `${crop.name} ${getBecomeVerb(crop)} more realistic when gardeners can add heat or protection early in the season. Row cover, reflective walls, and sheltered planting spots can all improve outcomes.`;
-  } else if (!protectedCultureHigh && confidence === "strong") {
-    localInterpretation = `${crop.name} generally ${getDoVerb(crop)} not require much special treatment here beyond good timing and normal site selection in a typical year.`;
-  } else {
-    localInterpretation = `${crop.name} ${getRespondVerb(crop)} most to the basics here: good timing, a site that warms reasonably well, and a variety class that matches the local season.`;
-  }
+  const decision = buildDecisionSentence({
+    crop,
+    city,
+    confidence,
+    fittingVarietyLabels,
+    gddMargin
+  });
+
+  const localInterpretation = buildLocalInterpretation({
+    crop,
+    city,
+    confidence,
+    gddMargin,
+    regionalComparisonSentence,
+    frostFreeDays
+  });
 
   return {
+    heading: `What Local Garden Sites Change for ${crop.name}`,
     succeed,
     fail,
     micro,
@@ -702,14 +1005,7 @@ function buildCropCitySummary(city, crop) {
   const varietyClassFits = buildVarietyClassFits(crop, availableGddFromPlanting);
   const cropNounSingular = getCropNounSingular(crop);
 
-  const advisory = buildAdvisoryCopy({
-    city,
-    crop,
-    confidence,
-    fittingVarietyLabels
-  });
-
-  return {
+  const summary = {
     cityKey: city.key,
     cityName: city.name,
     country: city.country,
@@ -841,7 +1137,7 @@ function buildCropCitySummary(city, crop) {
       summary: getSummary({ crop, city, confidence, fittingVarietyLabels })
     },
 
-    advisory,
+    advisory: null,
 
     copy: {
       oneSentenceSummary: crop.oneSentenceSummary || null,
@@ -849,6 +1145,20 @@ function buildCropCitySummary(city, crop) {
       commonFailureMode: crop.commonFailureMode || null
     }
   };
+
+  summary.advisory = buildAdvisoryCopy({
+    city,
+    crop,
+    confidence,
+    fittingVarietyLabels,
+    gddMargin,
+    frostFreeDays,
+    primaryPlantingDate,
+    fallFrost: fall50,
+    regionalComparisonSentence: summary.fit.regionalComparisonSentence
+  });
+
+  return summary;
 }
 
 module.exports = function () {
@@ -883,6 +1193,21 @@ module.exports = function () {
     );
 
     summary.fit.regionalComparisonSentence = buildRegionalComparison(summary, peers);
+    summary.advisory = buildAdvisoryCopy({
+      city: {
+        key: summary.cityKey,
+        name: summary.cityName,
+        regionKey: summary.regionKey
+      },
+      crop: summary.crop,
+      confidence: summary.confidence,
+      fittingVarietyLabels: summary.fittingVarietyLabels,
+      gddMargin: summary.gddMargin,
+      frostFreeDays: summary.frostFreeDays,
+      primaryPlantingDate: summary.primaryPlantingDate,
+      fallFrost: summary.fallFrost,
+      regionalComparisonSentence: summary.fit.regionalComparisonSentence
+    });
   }
 
   return output;
