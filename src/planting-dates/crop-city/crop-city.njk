@@ -6,7 +6,7 @@ pagination:
   alias: pageData
 permalink: "{{ pageData.url }}index.html"
 eleventyComputed:
-  title: "{{ pageData.cropName }} in {{ pageData.cityName }} | Planting Dates & Maturity Guide"
+  title: "When to Plant {{ pageData.cropName }} in {{ pageData.cityName }}, {{ pageData.regionName }} | GrowByDate"
   description: "{{ pageData.cropName }} planting timing, frost dates, and maturity outlook for {{ pageData.cityName }}, {{ pageData.regionName }}."
   canonical: "https://growbydate.com{{ pageData.url }}"
 ---
