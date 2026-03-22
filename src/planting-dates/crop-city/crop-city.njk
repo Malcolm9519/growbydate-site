@@ -163,13 +163,13 @@ eleventyComputed:
     {% endif %}
 
     <p>
-      In practical terms, {{ pageData.cityName }} usually sees a last spring frost around {{ formatMmdd(pageData.frost.spring50) }} and a first fall frost around {{ formatMmdd(pageData.frost.fall50) }}, creating a typical frost-free window of about {{ pageData.frost.frostFreeDays }} days.
+      {{ pageData.cityName }} usually sees a last spring frost around {{ formatMmdd(pageData.frost.spring50) }} and a first fall frost around {{ formatMmdd(pageData.frost.fall50) }}, creating a typical frost-free window of about {{ pageData.frost.frostFreeDays }} days.
     </p>
 
     {% if pageData.fit.gddMargin != null %}
       {% if pageData.fit.gddMargin >= 150 %}
         <p>
-          From the usual planting window, {{ pageData.cityName }} typically provides about {{ pageData.fit.availableGddFromPlanting }} growing degree days for {{ cropLower }}. With a typical crop target of {{ pageData.crop.gddTargetTypical }}, that leaves a heat margin of +{{ pageData.fit.gddMargin }}. In practical terms, that means the season usually provides enough accumulated warmth for {{ cropLower }} to mature reliably, not just to fit the calendar on paper, but to actually mature in typical local conditions.
+          From the usual planting window, {{ pageData.cityName }} typically provides about {{ pageData.fit.availableGddFromPlanting }} growing degree days for {{ cropLower }}. With a typical crop target of {{ pageData.crop.gddTargetTypical }}, that leaves a heat margin of +{{ pageData.fit.gddMargin }}. That means the season usually provides enough accumulated warmth for {{ cropLower }} to mature reliably, not just to fit the calendar on paper, but to actually mature in typical local conditions.
         </p>
       {% elif pageData.fit.gddMargin >= 40 %}
         <p>
