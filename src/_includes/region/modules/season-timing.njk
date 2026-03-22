@@ -89,4 +89,16 @@
       </p>
     {% endif %}
   {% endif %}
+    {% set gddWidget = {
+    mode: "default",
+    hideCrops: false,
+    dateDefault: "today",
+    widgetTitle: "Is It Too Late to Plant? Check Crop Timing in " ~ state.name,
+    widgetLede: "Enter a ZIP / Postal Code in " ~ state.name ~ " and your planting date to see whether different crops can typically mature before first fall frost."
+  } %}
+
+    <div id="gdd-planner" style="scroll-margin-top: 96px;">
+      {% include "tools/gdd-planner-widget.njk" %}
+    </div>
+
 </section>
