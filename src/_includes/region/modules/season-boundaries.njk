@@ -1,6 +1,8 @@
 <section class="card">
     {% include "region/modules/planting-windows.njk" %}
+{% if city is defined and city and city.key %}
   {% include "region/modules/what-can-i-grow.njk" %}
+{% endif %}
   {% include "region/modules/season-timing-strategy.njk" %}
   {% include "region/modules/season-timing.njk" %}
         {% include "region/modules/microclimates.njk" %}
