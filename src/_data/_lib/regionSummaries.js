@@ -14,7 +14,9 @@ const path = require("path");
 
 const frostDates = require("../frostDates.json");
 const gddStations = require("../gddStations.json");
-const gddCrops = require("../gddCrops.json");
+const gddCrops = require("../gddCrops");
+
+const locationContent = require("../locationContent");
 
 const US_REGION_META = {
   AL: { name: "Alabama", slug: "alabama" },
@@ -95,11 +97,32 @@ const buildRegionPack =
   (regionContentMod && typeof regionContentMod.buildRegionPack === "function"
     ? regionContentMod.buildRegionPack
     : (typeof regionContentMod === "function" ? regionContentMod : null));
-const crops = require("../crops.json");
+const crops = require("../crops");
 
 // -------------------------
 // Helpers
 // -------------------------
+
+function normalizeCuratedContent(entry) {
+  if (!entry) return null;
+
+  if (typeof entry === "string") {
+    const text = entry.trim();
+    return text ? { afterQuickRef: text } : null;
+  }
+
+  if (typeof entry !== "object") return null;
+
+  const out = {};
+
+  for (const [key, value] of Object.entries(entry)) {
+    if (typeof value !== "string") continue;
+    const text = value.trim();
+    if (text) out[key] = text;
+  }
+
+  return Object.keys(out).length ? out : null;
+}
 
 function slugify(s) {
   return String(s || "")
@@ -553,11 +576,38 @@ function computeCropFitForRegion(summary, opts = {}) {
   // If it doesn’t exist, we still compute cropFit (so your module renders).
 const shouldFilterToSite = false; // no crops.json filtering
 
+  const catalog = gddCrops
+    .map((c) => {
+      const base = Number(c?.base_f);
+      const req = Number(c?.gdd_required);
+      if (!Number.isFinite(base) || !Number.isFinite(req)) return null;
+
+      const siteSlug = canonicalSiteSlug(c?.slug);
+
+      return {
+        slug: siteSlug,
+        key: siteSlug,
+        name: String(c?.name || siteSlug),
+        href: cropHrefFromSlug(siteSlug),
+        base,
+        gddRequired: req,
+        category: String(c?.category || ""),
+      };
+    })
+    .filter(Boolean)
+    .sort((a, b) => a.gddRequired - b.gddRequired);
+
   const out = {
-    meta: { marginPct, dates, bases: [40, 45, 50], sitemapOnly: shouldFilterToSite },
+    meta: {
+      marginPct,
+      dates,
+      bases: [40, 45, 50],
+      sitemapOnly: shouldFilterToSite,
+      catalog,
+    },
     byDate: {},
   };
-
+  
   for (const mmdd of dates) {
     const runwayByBase = {
       "50": getRemainingGdd(summary, 50, mmdd),
@@ -881,7 +931,18 @@ const summary = {
     });
 
     // Attach content pack + crop fit + lede for index cards
-    const pack = buildRegionPack ? buildRegionPack({ kind, key, summary }) : null;
+
+const rawCuratedContent =
+  kind === "US"
+    ? locationContent?.states?.[key]
+    : locationContent?.provinces?.[key];
+const curatedContent = normalizeCuratedContent(rawCuratedContent);
+
+const packBase = buildRegionPack ? buildRegionPack({ kind, key, summary }) : null;
+const pack = curatedContent
+  ? { ...(packBase || {}), ...curatedContent }
+  : packBase;
+
     const cropFit = computeCropFitForRegion(summary, {
       marginPct: 0.15,
       dates: checkDates,

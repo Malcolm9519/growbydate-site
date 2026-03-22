@@ -1,9 +1,8 @@
-<section class="card">
-  <h2>Typical Remaining Growing Degree Days in {{ state.name }} (Base 50)</h2>
+  <h3>Remaining Season Heat in {{ state.name }} (Base 50 GDD)</h2>
 
   <p class="small" style="margin-top:-0.25rem;">
-    <a href="/guides/how-frost-dates-and-growing-degree-days-work-together/">Growing Degree Days</a> (Base 50°F) are a heat-accumulation measure used to estimate plant development.
-    “Remaining GDD” is the typical amount of usable heat still available <em>from each date</em> as the season approaches frost risk.
+    <a href="/guides/how-frost-dates-and-growing-degree-days-work-together/">Growing Degree Days</a> (Base 50°F) measure heat accumulation.
+    “Remaining GDD” shows how much usable heat is typically still available from a given date onward in a normal season.
   </p>
 
   {% set preferredDates = ["05-15", "06-01", "07-01", "08-01"] %}
@@ -21,9 +20,9 @@
     <table class="table">
       <thead>
         <tr>
-          <th>Date</th>
+          <th>Planting date</th>
           <th>Base</th>
-          <th>Median GDD Remaining</th>
+          <th>Typical GDD still available</th>
         </tr>
       </thead>
       <tbody>
@@ -38,18 +37,12 @@
     </table>
   </div>
 
-  <div class="small muted" style="margin-top:.15rem;">
-    <p><strong>How to use it:</strong> compare your crop or variety’s heat requirement to the remaining GDD after your planting date.</p>
-    <p><strong>What it helps with:</strong> deciding if a later planting is a reasonable bet, choosing shorter-maturity varieties, and estimating whether a fast crop can still finish.</p>
-    <p><strong>Late-season reality:</strong> heat tends to accumulate more slowly as days shorten, so late-season progress can feel slower even when calendar days remain.</p>
-  </div>
+  <p class="small muted" style="margin-top:0.75rem;">
+    Use these values to judge whether a crop or variety still has enough heat left after planting. This is especially helpful for later sowings, shorter-maturity choices, and deciding whether a second round is realistic.
+  </p>
 
   {% if state.frost.status != "normal" %}
-    <p class="small muted" style="margin-top:-0.25rem;">
-      Remaining GDD to “first frost” is not applicable when there is no typical frost date.
+    <p class="small muted" style="margin-top:0.5rem;">
+      Remaining GDD to first frost is less meaningful where there is no typical frost boundary in the normals dataset.
     </p>
   {% endif %}
-
-  {% include "region/modules/planting-windows.njk" %}
-  {% include "region/modules/what-can-i-grow.njk" %}
-</section>

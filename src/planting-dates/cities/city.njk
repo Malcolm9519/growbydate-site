@@ -6,62 +6,56 @@ pagination:
   alias: city
 permalink: "/planting-dates/{% if city.country == 'canada' %}canada/{% endif %}{{ city.regionKey }}/{{ city.key }}/index.html"
 eleventyComputed:
-  title: "Planting Dates & Crop Timing in {{ city.name }}, {{ city.regionName }} | GrowByDate"
+  title: "Planting Dates in {{ city.name }}, {{ city.regionName }} | GrowByDate"
   description: "Typical frost dates, growing season length, and crop timing guidance for {{ city.name }}, {{ city.regionName }}."
   canonical: "https://growbydate.com/planting-dates/{% if city.country == 'canada' %}canada/{% endif %}{{ city.regionKey }}/{{ city.key }}/"
 ---
 
-{# Alias so shared modules can use state.* consistently #}
 {% set state = city %}
 
-<header class="header">
-  <h1>Planting Dates & Crop Timing in {{ state.name }}</h1>
+<header class="header cityHeader">
+  <div class="cityHeaderText">
+    <h1>Planting Dates in {{ state.name }}, {{ state.regionName }}</h1>
 
-  {# Cities probably won't use regionContent hero packs yet, but keep this structure compatible #}
-  {% set hero = (state.content and state.content.hero) or {} %}
-  {% set ledeFromHeroNote = (hero and hero.note and (not hero.lede)) %}
+    {% set hero = (state.content and state.content.hero) or {} %}
 
-  {# Optional hero notes (avoid duplicating hero.note if it was used as the lede) #}
-  {% if hero %}
-    {% set showHeroNote = (hero.note and (not ledeFromHeroNote)) %}
-    {% if showHeroNote or hero.extraNote %}
+    {% if hero and hero.note %}
       <div class="callout" style="margin-top:0.75rem;">
-        {% if showHeroNote %}
-          <p>{{ hero.note }}</p>
-        {% endif %}
+        <p>{{ hero.note }}</p>
         {% if hero.extraNote %}
           <p>{{ hero.extraNote }}</p>
         {% endif %}
       </div>
+    {% elseif hero and hero.extraNote %}
+      <div class="callout" style="margin-top:0.75rem;">
+        <p>{{ hero.extraNote }}</p>
+      </div>
     {% endif %}
-  {% endif %}
 
-  {% if state.season and state.season.frost and state.season.frost.spring and state.season.frost.fall %}
-    <p class="lede">
-      In a typical year, <strong>the growing season in {{ state.name }} runs roughly from
-      {{ state.season.frost.spring.p50 | mmddLong }}
-      through
-      {{ state.season.frost.fall.p50 | mmddLong }}</strong>{% if state.season.derived and state.season.derived.frostFreeDays_p50 %} <strong>— about {{ state.season.derived.frostFreeDays_p50 }} frost-free days</strong> for most locations{% endif %}.
-      Knowing that window helps clarify what typically succeeds, what can be a stretch, and how to time planting across the season.
-    </p>
-  {% endif %}
-
-  {% set lede =
-    (hero and hero.lede)
-      or (ledeFromHeroNote and hero.note)
-      or ("This page shows what typically works in " + state.name + " in a normal year — what reliably finishes, what can be tight, and how timing decisions shape results across the season.")
-  %}
-
-  <p class="lede">{{ lede }}</p>
+    {% if state.season and state.season.frost and state.season.frost.spring and state.season.frost.fall %}
+      {% set frostDays = state.season.derived and state.season.derived.frostFreeDays_p50 %}
+      <p class="lede">
+        In {{ state.name }}, gardeners usually see the last spring frost around
+        <strong>{{ state.season.frost.spring.p50 | mmddLong }}</strong>
+        and the first fall frost around
+        <strong>{{ state.season.frost.fall.p50 | mmddLong }}</strong>{% if frostDays %}, leaving about <strong>{{ frostDays }} frost-free days</strong>{% endif %} in a typical year.
+        {% if frostDays and frostDays < 115 %}
+          That makes planting timing, direct-sowing windows, and fast-maturing varieties especially important.
+        {% elif frostDays and frostDays < 155 %}
+          That gives gardeners a workable season for many common crops, with timing still mattering for slower varieties.
+        {% else %}
+          That gives gardeners more room for long-season crops, succession planting, and later sowings.
+        {% endif %}
+      </p>
+    {% elif hero and hero.lede %}
+      <p class="lede">{{ hero.lede }}</p>
+    {% endif %}
+  </div>
 </header>
 
 {% include "region/modules/quick-planning-reference.njk" %}
-
 {% include "region/modules/season-boundaries.njk" %}
 
-{% include "region/modules/remaining-gdd.njk" %}
-
-{# Optional one-off details: src/_includes/region/cities/{{ state.key }}-details.njk #}
 {% set detailsPath = "region/cities/" + state.key + "-details.njk" %}
 {% include detailsPath ignore missing %}
 

@@ -11,51 +11,41 @@ eleventyComputed:
   canonical: "https://growbydate.com/planting-dates/canada/provinces/{{ province.key }}/"
 ---
 
-{# Alias so shared modules can use state.* consistently #}
 {% set state = province %}
 
 <header class="header">
   <h1>Planting Dates & Crop Timing in {{ state.name }}</h1>
 
   {% set hero = (state.content and state.content.hero) or {} %}
-  {% set ledeFromHeroNote = (hero and hero.note and (not hero.lede)) %}
 
-  {% if hero %}
-    {% set showHeroNote = (hero.note and (not ledeFromHeroNote)) %}
-    {% if showHeroNote or hero.extraNote %}
-      <div class="callout" style="margin-top:0.75rem;">
-        {% if showHeroNote %}
-          <p>{{ hero.note }}</p>
-        {% endif %}
-        {% if hero.extraNote %}
-          <p>{{ hero.extraNote }}</p>
-        {% endif %}
-      </div>
-    {% endif %}
+  {% if hero and hero.note %}
+    <div class="callout" style="margin-top:0.75rem;">
+      <p>{{ hero.note }}</p>
+      {% if hero.extraNote %}
+        <p>{{ hero.extraNote }}</p>
+      {% endif %}
+    </div>
+  {% elseif hero and hero.extraNote %}
+    <div class="callout" style="margin-top:0.75rem;">
+      <p>{{ hero.extraNote }}</p>
+    </div>
   {% endif %}
 
   {% if state.season and state.season.frost and state.season.frost.spring and state.season.frost.fall %}
     <p class="lede">
-      In a typical year, <strong>the growing season in {{ state.name }} runs roughly from
-      {{ state.season.frost.spring.p50 | mmddLong }}
+      In a typical year, the growing season in {{ state.name }} runs roughly from
+      <strong>{{ state.season.frost.spring.p50 | mmddLong }}</strong>
       through
-      {{ state.season.frost.fall.p50 | mmddLong }}</strong>{% if state.season.derived and state.season.derived.frostFreeDays_p50 %} <strong>— about {{ state.season.derived.frostFreeDays_p50 }} frost-free days</strong> for most locations{% endif %}.
-      Knowing that window helps clarify what typically succeeds, what can be a stretch, and how to time planting across the season.
+      <strong>{{ state.season.frost.fall.p50 | mmddLong }}</strong>{% if state.season.derived and state.season.derived.frostFreeDays_p50 %}, leaving about <strong>{{ state.season.derived.frostFreeDays_p50 }} frost-free days</strong> in many parts of the province{% endif %}.
+      Use this page as a provincial baseline, then compare city pages for more local planting timing.
     </p>
+  {% elif hero and hero.lede %}
+    <p class="lede">{{ hero.lede }}</p>
   {% endif %}
-
-  {% set lede =
-    (hero and hero.lede)
-      or (ledeFromHeroNote and hero.note)
-      or ("This page shows what typically works in " + state.name + " in a normal year — what reliably finishes, what can be tight, and how timing decisions shape results across the season.")
-  %}
-
-  <p class="lede">{{ lede }}</p>
 </header>
 
 {% include "region/modules/quick-planning-reference.njk" %}
 {% include "region/modules/season-boundaries.njk" %}
-{% include "region/modules/remaining-gdd.njk" %}
 
 {% set detailsPath = "region/" + state.key + "-details.njk" %}
 {% include detailsPath ignore missing %}

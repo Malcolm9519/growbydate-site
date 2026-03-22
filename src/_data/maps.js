@@ -1,4 +1,4 @@
-const crops = require("./crops.json");
+const crops = require("./crops");
 const tools = require("./tools.json");
 
 module.exports = () => {

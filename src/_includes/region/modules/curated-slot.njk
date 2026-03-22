@@ -1,0 +1,7 @@
+{% set slotText = state.content and state.content[slotName] %}
+
+{% if slotText %}
+  {% for paragraph in slotText.split("\n\n") %}
+<p>{{ paragraph | trim }}</p>
+  {% endfor %}
+{% endif %}

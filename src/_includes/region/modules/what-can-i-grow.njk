@@ -1,7 +1,8 @@
 {# what-can-i-grow.njk — Crop viability matrix by typical remaining GDD checkpoints #}
+<section class="card">
 
 <div class="wcig">
-  <h2>What Can You Still Grow?</h2>
+  <h2>Missed Your Planting Window? What Can You Still Grow?</h2>
 
   {% if not state.cropFit or not state.cropFit.byDate %}
     <p class="small">
@@ -27,7 +28,7 @@
     {% set marginLabel = (marginPct * 100) | round %}
 
     <p class="small wcigMeta">
-      A normals-based guide to what typically still has time to mature in {{ state.name }} at a few common planting checkpoints.
+      If you're starting later in the season, use this normals-based guide to what typically still has time to mature in {{ state.name }} at a few common planting checkpoints.
       We apply a <strong>{{ marginLabel }}% safety margin</strong> to separate crops that usually fit from ones that are more borderline.
     </p>
 
@@ -56,45 +57,30 @@
       "tomato":"🍅","tomatoes":"🍅",
       "pepper":"🫑","peppers":"🫑",
       "eggplant":"🍆",
-      "cucumber":"🥒","zucchini":"🥒",
+      "cucumber":"🥒","zucchini":"🥒","cucumbers":"🥒",
       "winter-squash":"🎃","squash":"🎃","pumpkin":"🎃",
-      "corn-sweet":"🌽","corn":"🌽",
+      "sweet-corn":"🌽","corn":"🌽","sweet corn":"🌽",
       "bean-bush":"🫘","beans":"🫘","bean":"🫘",
       "pea":"🟢","peas":"🟢",
       "carrot":"🥕","carrots":"🥕",
       "beet":"🟣","beets":"🟣",
       "potatoes":"🥔",
+      "potato":"🥔",
       "onion":"🧅","onions":"🧅",
       "garlic":"🧄",
-      "broccoli":"🥦","cauliflower":"🥦",
-      "cabbage":"🥬","lettuce":"🥬","kale":"🥬",
-      "spinach":"🍃",
-      "radish":"🌱","turnip":"🌱",
-      "melon":"🍈","watermelon":"🍉",
-      "strawberry":"🍓",
-      "sunflower":"🌻",
-      "basil":"🌿","herb":"🌿"
+      "broccoli":"🥦",
+      "cauliflower":"🥦",
+      "cabbage":"🥬",
+      "lettuce":"🥬",
+      "kale":"🥬",
+      "spinach":"🥬",
+      "swiss-chard":"🥬",
+      "radish":"⭕","radishes":"⭕"
     } %}
 
-    {% macro cropKey(c) %}
-      {% if c.slug %}
-        {{ c.slug }}
-      {% elseif c.href %}
-        {% set parts = c.href.split("/") %}
-        {% set last = "" %}
-        {% for p in parts %}
-          {% if p %}{% set last = p %}{% endif %}
-        {% endfor %}
-        {{ last }}
-      {% else %}
-        {{ "" }}
-      {% endif %}
-    {% endmacro %}
-
     {% macro getEmojiForCrop(c) %}
-      {% set key = (cropKey(c) | trim) %}
-      {% set name = (c.name or "") %}
-      {% set lname = name | lower %}
+      {% set key = (c.slug or c.key or "") | lower %}
+      {% set lname = (c.name or "") | lower %}
 
       {% if key and emojiMap[key] %}
         {{ emojiMap[key] }}
@@ -109,46 +95,117 @@
       {% endif %}
     {% endmacro %}
 
+    {% set activeCity = city or null %}
+    {% set isCityPage = activeCity and activeCity.key %}
     {% set allCrops = [] %}
     {% set seen = "," %}
-    {% for mmdd in dates %}
-      {% set block = state.cropFit.byDate[mmdd] %}
-      {% if block %}
-        {% for c in (block.reliable or []) %}
-          {% if c and c.href and (seen.indexOf("," ~ c.href ~ ",") == -1) %}
-            {% set allCrops = allCrops.concat([c]) %}
-            {% set seen = seen ~ c.href ~ "," %}
+
+{# City pages: use crop-city rows for coverage/links, but borrow canonical keys from cropFit catalog #}
+{% if isCityPage %}
+  {% for item in (cropCitySummaries or []) %}
+    {% if item.cityKey == activeCity.key %}
+      {% set rowHref = item.url %}
+      {% if rowHref and (seen.indexOf("," ~ rowHref ~ ",") == -1) %}
+
+        {% set cropBase = 50 %}
+        {% if item.gdd and item.gdd.base %}
+          {% set cropBase = item.gdd.base %}
+        {% endif %}
+
+        {% set cropReq = item.targetGdd or 0 %}
+        {% if not cropReq and item.gdd and item.gdd.required %}
+          {% set cropReq = item.gdd.required %}
+        {% endif %}
+
+        {# default to raw city key, then replace with canonical catalog key if we find a match #}
+        {% set canonicalSlug = item.cropKey %}
+        {% set canonicalKey = item.cropKey %}
+
+        {% for c in (state.cropFit.meta.catalog or []) %}
+          {% if c %}
+            {% set catalogName = (c.name or "") | lower | trim %}
+            {% set itemName = (item.cropName or "") | lower | trim %}
+            {% set catalogSlug = (c.slug or c.key or "") | lower | trim %}
+            {% set itemKey = (item.cropKey or "") | lower | trim %}
+
+            {% if catalogName == itemName or catalogSlug == itemKey %}
+              {% set canonicalSlug = c.slug or c.key or canonicalSlug %}
+              {% set canonicalKey = c.key or c.slug or canonicalKey %}
+            {% endif %}
           {% endif %}
         {% endfor %}
-        {% for c in (block.possible or []) %}
-          {% if c and c.href and (seen.indexOf("," ~ c.href ~ ",") == -1) %}
-            {% set allCrops = allCrops.concat([c]) %}
-            {% set seen = seen ~ c.href ~ "," %}
-          {% endif %}
-        {% endfor %}
+
+        {% set allCrops = allCrops.concat([{
+          "slug": canonicalSlug,
+          "key": canonicalKey,
+          "name": item.cropName,
+          "href": rowHref,
+          "base": cropBase,
+          "gddRequired": cropReq
+        }]) %}
+        {% set seen = seen ~ rowHref ~ "," %}
       {% endif %}
-    {% endfor %}
+    {% endif %}
+  {% endfor %}
+{% elseif state.cropFit.meta and state.cropFit.meta.catalog %}
+  {% for c in (state.cropFit.meta.catalog or []) %}
+    {% if c and c.href and (seen.indexOf("," ~ c.href ~ ",") == -1) %}
+      {% set allCrops = allCrops.concat([c]) %}
+      {% set seen = seen ~ c.href ~ "," %}
+    {% endif %}
+  {% endfor %}
+{% else %}
+  {# Fallback: original behavior #}
+  {% for mmdd in dates %}
+    {% set block = state.cropFit.byDate[mmdd] %}
+    {% if block %}
+      {% for c in (block.reliable or []) %}
+        {% if c and c.href and (seen.indexOf("," ~ c.href ~ ",") == -1) %}
+          {% set allCrops = allCrops.concat([c]) %}
+          {% set seen = seen ~ c.href ~ "," %}
+        {% endif %}
+      {% endfor %}
+      {% for c in (block.possible or []) %}
+        {% if c and c.href and (seen.indexOf("," ~ c.href ~ ",") == -1) %}
+          {% set allCrops = allCrops.concat([c]) %}
+          {% set seen = seen ~ c.href ~ "," %}
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
 
     {% set allCrops = allCrops | sort(attribute="gddRequired") %}
 
-    {% macro statusFor(mmdd, href) %}
+    {% macro statusFor(mmdd, cropItem) %}
       {% set block = state.cropFit.byDate[mmdd] %}
+      {% set targetHref = cropItem.href or "" %}
+      {% set targetSlug = cropItem.slug or cropItem.key or "" %}
       {% set s = "none" %}
+
       {% if block %}
         {% for x in (block.reliable or []) %}
-          {% if x and x.href == href %}{% set s = "reliable" %}{% endif %}
+          {% set xSlug = x.slug or x.key or "" %}
+          {% if x and ((targetHref and x.href == targetHref) or (targetSlug and xSlug == targetSlug)) %}
+            {% set s = "reliable" %}
+          {% endif %}
         {% endfor %}
+
         {% if s == "none" %}
           {% for x in (block.possible or []) %}
-            {% if x and x.href == href %}{% set s = "possible" %}{% endif %}
+            {% set xSlug = x.slug or x.key or "" %}
+            {% if x and ((targetHref and x.href == targetHref) or (targetSlug and xSlug == targetSlug)) %}
+              {% set s = "possible" %}
+            {% endif %}
           {% endfor %}
         {% endif %}
       {% endif %}
+
       {{ s }}
     {% endmacro %}
 
-    {% macro renderStatus(mmdd, href) %}
-      {% set s = (statusFor(mmdd, href) | trim) %}
+    {% macro renderStatus(mmdd, cropItem) %}
+      {% set s = (statusFor(mmdd, cropItem) | trim) %}
       {% if s == "reliable" %}
         <span class="wcigStatus" title="Usually fits (with {{ marginLabel }}% safety margin).">✅</span>
       {% elseif s == "possible" %}
@@ -172,17 +229,8 @@
             <th style="min-width: 120px;">Heat Units</th>
 
             {% for mmdd in dates %}
-              {% set block = state.cropFit.byDate[mmdd] %}
               <th style="min-width: 110px;">
                 {{ prettyMmdd(mmdd) }}
-
-                {% if block and block.runwayByBase and (block.runwayByBase["50"] is not none) %}
-                  {% set runway = block.runwayByBase["50"] | int %}
-                  {% set safe = (runway * (1 - marginPct)) | round %}
-                  <div class="small muted" style="margin-top:.15rem;">
-                    {{ runway }} (safe {{ safe }})
-                  </div>
-                {% endif %}
               </th>
             {% endfor %}
           </tr>
@@ -216,7 +264,7 @@
                 </td>
 
                 {% for mmdd in dates %}
-                  <td>{{ renderStatus(mmdd, c.href) }}</td>
+                  <td>{{ renderStatus(mmdd, c) }}</td>
                 {% endfor %}
               </tr>
             {% endfor %}
@@ -233,13 +281,15 @@
           <table>
             <thead>
               <tr>
-                <th scope="col">Crop</th>
-                <th style="min-width: 120px;">Heat units</th>
+                <th style="min-width: 170px;">Crop</th>
+                <th style="min-width: 120px;">Heat Units</th>
+
                 {% for mmdd in dates %}
-                  <th style="min-width: 140px;">{{ prettyMmdd(mmdd) }}</th>
+                  <th style="min-width: 110px;">{{ prettyMmdd(mmdd) }}</th>
                 {% endfor %}
               </tr>
             </thead>
+
             <tbody>
               {% for c in tailCrops %}
                 {% set gdd = c.gddRequired or c.gdd50 or c.gdd_required50 or c.gdd_required or c.gdd %}
@@ -254,8 +304,9 @@
                   <td class="small">
                     {{ gdd | int }} <span class="muted">(base {{ c.base }})</span>
                   </td>
+
                   {% for mmdd in dates %}
-                    <td>{{ renderStatus(mmdd, c.href) }}</td>
+                    <td>{{ renderStatus(mmdd, c) }}</td>
                   {% endfor %}
                 </tr>
               {% endfor %}
@@ -265,24 +316,6 @@
       </details>
     {% endif %}
 
-    <p class="small muted" style="margin-top:.75rem;">
-      Notes: “Usually fits” is based on typical remaining GDD and a {{ marginLabel }}% buffer.
-      Variety maturity, planting method, and microclimates can still move results either way.
-    </p>
-
-    <p class="small" style="margin-top:0.75rem;">
-      <strong>How to use this:</strong> earlier summer plantings are usually the safest bets. By July, faster-maturing varieties matter more, and by August the strongest options tend to be greens, roots, and other short-season crops.
-    </p>
-
   {% endif %}
-
-  {% set gddWidget = {
-    mode: "default",
-    hideCrops: false,
-    dateDefault: "today",
-    widgetTitle: "Is It Too Late to Plant? Check Crop Timing in " ~ state.name,
-    widgetLede: "Enter a ZIP / Postal Code in " ~ state.name ~ " and your planting date to see whether different crops can typically mature before first fall frost."
-  } %}
-
-    {% include "tools/gdd-planner-widget.njk" %}
 </div>
+</section>

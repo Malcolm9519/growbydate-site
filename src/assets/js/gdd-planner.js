@@ -33,17 +33,16 @@ const CROP_ICONS = {
   tomatoes: "🍅",
   pepper: "🫑",
   peppers: "🫑",
-  eggplant: "🍆",
   cucumber: "🥒",
+  cucumbers: "🥒",
   zucchini: "🥒",
   "winter-squash": "🎃",
-  squash: "🎃",
   pumpkin: "🎃",
   "corn-sweet": "🌽",
-  corn: "🌽",
+  "sweet-corn": "🌽",
   "bean-bush": "🫘",
-  beans: "🫘",
   bean: "🫘",
+  beans: "🫘",
   pea: "🟢",
   peas: "🟢",
   carrot: "🥕",
@@ -51,6 +50,7 @@ const CROP_ICONS = {
   beet: "🟣",
   beets: "🟣",
   potato: "🥔",
+  potatoes: "🥔",
   onion: "🧅",
   onions: "🧅",
   garlic: "🧄",
@@ -60,25 +60,21 @@ const CROP_ICONS = {
   lettuce: "🥬",
   spinach: "🍃",
   kale: "🥬",
-  radish: "🌱",
-  turnip: "🌱",
-  melon: "🍈",
-  watermelon: "🍉",
-  strawberry: "🍓",
-  sunflower: "🌻",
-  basil: "🌿",
-  herb: "🌿"
+  radish: "🌱"
 };
 
 // Tool crop IDs don't always match site crop IDs (tomato → tomatoes, etc.)
 const SITE_ID_TO_GDD_SLUG = {
   tomatoes: "tomato",
   peppers: "pepper",
+  cucumbers: "cucumber",
   carrots: "carrot",
   beets: "beet",
   onions: "onion",
   peas: "pea",
-  beans: "bean-bush"
+  potatoes: "potato",
+  beans: "bean-bush",
+  "sweet-corn": "corn-sweet"
 };
 
 function safeNum(v, fallback = 0) {
@@ -188,8 +184,11 @@ function latestPlantingDoyToMatureBeforeFrost(cum, frostDoy, requiredGdd) {
 }
 
 function riskLabel(maturityDoy, frostDoy) {
-  if (maturityDoy < 0 || frostDoy < 0) {
+  if (frostDoy < 0) {
     return { score: 1, label: "Unknown", note: "Not enough data to compare." };
+  }
+  if (maturityDoy < 0) {
+    return { score: 2, label: "Unlikely to mature before typical frost", note: "In a typical year, the crop does not reach maturity before the season ends." };
   }
   if (maturityDoy < frostDoy - 14) {
     return { score: 0, label: "Likely to mature before typical frost", note: "In a typical year, maturity lands comfortably before first frost." };

@@ -1,83 +1,8 @@
 <section class="card">
-  <h2>Season Boundaries in {{ state.name }} (Typical Frost Dates)</h2>
-
-  <p class="small" style="margin-top:-0.25rem;">
-    A quick reference for how the growing season usually begins and ends in {{ state.name }}.
-    These are climate normals (not a forecast). A
-    <a href="/guides/what-does-50-percent-frost-probability-mean/">“50% probability”</a>
-    frost date means a <strong>32°F frost</strong> arrives by this date in about half of years — and later in about half.
-  </p>
-
-  {% if state.frost.status == "normal" %}
-    {% set springObj = state.season and state.season.frost and state.season.frost.spring or null %}
-    {% set hasSpring = springObj and springObj.p50 and springObj.status == "normal" %}
-    {% set hasFFD = state.season and state.season.derived and state.season.derived.frostFreeDays_p50 %}
-    {% set hasRange = state.frost.earliest50 and state.frost.latest50 and state.frost.earliest50 != state.frost.latest50 %}
-
-    <div class="tableWrap">
-      <table class="table">
-        <thead>
-          <tr>
-            {% if hasSpring %}
-              <th>Typical last spring frost (50%)</th>
-            {% endif %}
-            <th>Typical first fall frost (50%)</th>
-            {% if hasRange %}
-              <th>Fall frost range across region</th>
-            {% endif %}
-            {% if hasFFD %}
-              <th>Typical frost-free days</th>
-            {% endif %}
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            {% if hasSpring %}
-              <td>{{ springObj.p50 | mmddLong }}</td>
-            {% endif %}
-            <td>{{ state.frost.median50 | mmddLong }}</td>
-            {% if hasRange %}
-              <td>{{ state.frost.earliest50 | mmddLong }} – {{ state.frost.latest50 | mmddLong }}</td>
-            {% endif %}
-            {% if hasFFD %}
-              <td>{{ state.season.derived.frostFreeDays_p50 }}</td>
-            {% endif %}
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <p class="small muted" style="margin-top:0.75rem;">
-      Based on {{ state.frost.stationCount }} location{% if state.frost.stationCount != 1 %}s{% endif %}{% if hasRange %} across {{ state.name }}{% else %} for {{ state.name }}{% endif %}.
-    </p>
-
-    {% if hasSpring or hasFFD %}
-      <p class="small muted" style="margin-top:0.75rem;">
-        Use these as your baseline season window — then rely on crop maturity and remaining heat to judge what will reliably finish in a typical year.
-      </p>
-    {% endif %}
-
-    <div class="small muted" style="margin-top:.15rem;">
-      {% if hasRange %}
-        <p><strong>Why the range matters:</strong> elevation, terrain, and nearby water can shift frost timing significantly within the same region.</p>
-      {% endif %}
-      <p><strong><a href="/guides/32f-vs-28f-what-temperature-kills-plants/">Frost vs. hard freeze:</a></strong> 32°F is often a light frost; colder temperatures (around 28°F) are more likely to cause widespread damage.</p>
-    </div>
-
-  {% elif state.frost.status == "frost_free" %}
-    <p class="small">
-      This region appears to be <strong>typically frost-free</strong> in the normals dataset (no 50% first fall frost date).
-    </p>
-  {% else %}
-    <p class="small">
-      Frost normals are not available for this region yet.
-    </p>
-  {% endif %}
-
+    {% include "region/modules/planting-windows.njk" %}
+  {% include "region/modules/what-can-i-grow.njk" %}
   {% include "region/modules/season-timing-strategy.njk" %}
   {% include "region/modules/season-timing.njk" %}
-  {% include "region/modules/microclimates.njk" %}
-  {% include "region/modules/how-gardeners-adapt.njk" %}
-  {% include "region/modules/common-timing-mistakes.njk" %}
+        {% include "region/modules/microclimates.njk" %}
 
 </section>

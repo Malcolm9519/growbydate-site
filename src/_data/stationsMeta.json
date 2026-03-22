@@ -98,6 +98,14 @@
     "country": "CA",
     "source": "ECCC Station Inventory"
   },
+  "CA-1018615": {
+    "lat": 48.42,
+    "lon": -123.39,
+    "name": "VICTORIA HARBOUR A",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "BRITISH COLUMBIA"
+  },
   "CA-1018617": {
     "lat": 48.48,
     "lon": -123.41,
@@ -178,6 +186,14 @@
     "climate_id": "1021260",
     "country": "CA",
     "source": "ECCC Station Inventory"
+  },
+  "CA-1021988": {
+    "lat": 49.76,
+    "lon": -125.0,
+    "name": "COURTENAY GRANTHAM",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "BRITISH COLUMBIA"
   },
   "CA-1021994": {
     "lat": 49.7,
@@ -287,6 +303,14 @@
     "country": "CA",
     "source": "ECCC Station Inventory"
   },
+  "CA-1036206": {
+    "lat": 49.25,
+    "lon": -124.83,
+    "name": "PORT ALBERNI A",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "BRITISH COLUMBIA"
+  },
   "CA-1041100": {
     "lat": 49.48,
     "lon": -123.97,
@@ -322,6 +346,22 @@
     "climate_id": "1044710",
     "country": "CA",
     "source": "ECCC Station Inventory"
+  },
+  "CA-1046391": {
+    "lat": 49.83,
+    "lon": -124.5,
+    "name": "POWELL RIVER A",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "BRITISH COLUMBIA"
+  },
+  "CA-1048899": {
+    "lat": 50.13,
+    "lon": -122.95,
+    "name": "WHISTLER A",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "BRITISH COLUMBIA"
   },
   "CA-1060902": {
     "lat": 53.49,
@@ -384,6 +424,14 @@
     "country": "CA",
     "source": "ECCC Station Inventory"
   },
+  "CA-1077499": {
+    "lat": 54.83,
+    "lon": -127.18,
+    "name": "SMITHERS",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "BRITISH COLUMBIA"
+  },
   "CA-1083344": {
     "lat": 53.28,
     "lon": -127.02,
@@ -445,6 +493,14 @@
     "source": "ECCC Station Inventory EN",
     "province": "BRITISH COLUMBIA"
   },
+  "CA-1096450": {
+    "lat": 53.89,
+    "lon": -122.68,
+    "name": "PRINCE GEORGE A",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "BRITISH COLUMBIA"
+  },
   "CA-1096455": {
     "lat": 53.78,
     "lon": -122.85,
@@ -453,6 +509,14 @@
     "climate_id": "1096455",
     "country": "CA",
     "source": "ECCC Station Inventory"
+  },
+  "CA-1096460": {
+    "lat": 53.93,
+    "lon": -122.68,
+    "name": "PR GEORGE FOREMAN FLAT",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "BRITISH COLUMBIA"
   },
   "CA-1096465": {
     "lat": 53.97,
@@ -578,6 +642,14 @@
     "climate_id": "1101155",
     "country": "CA",
     "source": "ECCC Station Inventory"
+  },
+  "CA-1101530": {
+    "lat": 49.17,
+    "lon": -121.92,
+    "name": "CHILLIWACK",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "BRITISH COLUMBIA"
   },
   "CA-1101565": {
     "lat": 49.1,
@@ -848,6 +920,14 @@
     "climate_id": "1106174",
     "country": "CA",
     "source": "ECCC Station Inventory"
+  },
+  "CA-110617P": {
+    "lat": 49.22,
+    "lon": -122.71,
+    "name": "PITT MEADOWS",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "BRITISH COLUMBIA"
   },
   "CA-1106300": {
     "lat": 49.15,
@@ -1413,6 +1493,14 @@
     "country": "CA",
     "source": "ECCC Station Inventory"
   },
+  "CA-1145430": {
+    "lat": 49.48,
+    "lon": -117.35,
+    "name": "NELSON",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "BRITISH COLUMBIA"
+  },
   "CA-1145460": {
     "lat": 50.0,
     "lon": -117.37,
@@ -1439,6 +1527,14 @@
     "climate_id": "114EMDM",
     "country": "CA",
     "source": "ECCC Station Inventory"
+  },
+  "CA-1152100": {
+    "lat": 49.53,
+    "lon": -115.77,
+    "name": "CRANBROOK A",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "BRITISH COLUMBIA"
   },
   "CA-1154195": {
     "lat": 49.68,
@@ -1512,6 +1608,14 @@
     "country": "CA",
     "source": "ECCC Station Inventory"
   },
+  "CA-1166945": {
+    "lat": 50.7,
+    "lon": -119.25,
+    "name": "SALMON ARM",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "BRITISH COLUMBIA"
+  },
   "CA-1166R45": {
     "lat": 50.69,
     "lon": -119.23,
@@ -1547,6 +1651,14 @@
     "climate_id": "1173220",
     "country": "CA",
     "source": "ECCC Station Inventory"
+  },
+  "CA-1176745": {
+    "lat": 50.97,
+    "lon": -118.18,
+    "name": "REVELSTOKE A",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "BRITISH COLUMBIA"
   },
   "CA-1176750": {
     "lat": 51.0,
@@ -1643,6 +1755,14 @@
     "country": "CA",
     "source": "ECCC Station Inventory"
   },
+  "CA-2101300": {
+    "lat": 60.71,
+    "lon": -135.07,
+    "name": "WHITEHORSE A",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "YUKON TERRITORY"
+  },
   "CA-2201581": {
     "lat": 60.24,
     "lon": -123.47,
@@ -1677,6 +1797,14 @@
     "climate_id": "2204005",
     "country": "CA",
     "source": "ECCC Station Inventory"
+  },
+  "CA-2204100": {
+    "lat": 62.46,
+    "lon": -114.44,
+    "name": "YELLOWKNIFE A",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "NORTHWEST TERRITORIES"
   },
   "CA-2300503": {
     "lat": 64.3,
@@ -2501,6 +2629,14 @@
     "country": "CA",
     "source": "ECCC Station Inventory"
   },
+  "CA-3050520": {
+    "lat": 51.18,
+    "lon": -115.57,
+    "name": "BANFF",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "ALBERTA"
+  },
   "CA-3050521": {
     "lat": 51.18,
     "lon": -115.57,
@@ -2509,6 +2645,14 @@
     "climate_id": "3050521",
     "country": "CA",
     "source": "ECCC Station Inventory"
+  },
+  "CA-3051260": {
+    "lat": 51.08,
+    "lon": -115.35,
+    "name": "CANMORE",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "ALBERTA"
   },
   "CA-3052069": {
     "lat": 53.17,
@@ -2536,6 +2680,14 @@
     "climate_id": "3054592",
     "country": "CA",
     "source": "ECCC Station Inventory"
+  },
+  "CA-3054840": {
+    "lat": 52.47,
+    "lon": -116.08,
+    "name": "NORDEGG",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "ALBERTA"
   },
   "CA-3055379": {
     "lat": 52.08,
@@ -2572,6 +2724,14 @@
     "climate_id": "3062300",
     "country": "CA",
     "source": "ECCC Station Inventory"
+  },
+  "CA-3062693": {
+    "lat": 56.65,
+    "lon": -111.22,
+    "name": "FORT MCMURRAY A",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "ALBERTA"
   },
   "CA-3062695": {
     "lat": 56.73,
@@ -2903,6 +3063,14 @@
     "country": "CA",
     "source": "ECCC Station Inventory"
   },
+  "CA-4028040": {
+    "lat": 50.3,
+    "lon": -107.68,
+    "name": "SWIFT CURRENT A",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "SASKATCHEWAN"
+  },
   "CA-4028101": {
     "lat": 50.05,
     "lon": -108.8,
@@ -3063,6 +3231,14 @@
     "country": "CA",
     "source": "ECCC Station Inventory"
   },
+  "CA-4057165": {
+    "lat": 52.17,
+    "lon": -106.72,
+    "name": "SASKATOON RCS",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "SASKATCHEWAN"
+  },
   "CA-4057170": {
     "lat": 52.17,
     "lon": -106.68,
@@ -3108,6 +3284,14 @@
     "country": "CA",
     "source": "ECCC Station Inventory"
   },
+  "CA-4064150": {
+    "lat": 55.15,
+    "lon": -105.27,
+    "name": "LA RONGE A",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "SASKATCHEWAN"
+  },
   "CA-4065057": {
     "lat": 54.13,
     "lon": -108.05,
@@ -3141,6 +3325,14 @@
     "climate_id": "4085241",
     "country": "CA",
     "source": "ECCC Station Inventory"
+  },
+  "CA-5010480": {
+    "lat": 49.91,
+    "lon": -99.95,
+    "name": "BRANDON A",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "MANITOBA"
   },
   "CA-5010485": {
     "lat": 49.87,
@@ -3299,6 +3491,14 @@
     "climate_id": "5021692",
     "country": "CA",
     "source": "ECCC Station Inventory"
+  },
+  "CA-5021848": {
+    "lat": 49.18,
+    "lon": -98.08,
+    "name": "MORDEN CDA",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "MANITOBA"
   },
   "CA-5021992": {
     "lat": 50.05,
@@ -3668,6 +3868,14 @@
     "country": "CA",
     "source": "ECCC Station Inventory"
   },
+  "CA-5040680": {
+    "lat": 51.1,
+    "lon": -100.05,
+    "name": "DAUPHIN A",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "MANITOBA"
+  },
   "CA-5040684": {
     "lat": 51.17,
     "lon": -100.03,
@@ -3744,6 +3952,14 @@
     "climate_id": "5062751",
     "country": "CA",
     "source": "ECCC Station Inventory"
+  },
+  "CA-5062921": {
+    "lat": 55.8,
+    "lon": -97.86,
+    "name": "THOMPSON A",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "MANITOBA"
   },
   "CA-5062926": {
     "lat": 55.75,
@@ -3887,6 +4103,14 @@
     "country": "CA",
     "source": "ECCC Station Inventory"
   },
+  "CA-6048261": {
+    "lat": 48.37,
+    "lon": -89.33,
+    "name": "THUNDER BAY A",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "ONTARIO"
+  },
   "CA-6048266": {
     "lat": 48.41,
     "lon": -89.28,
@@ -3967,6 +4191,14 @@
     "country": "CA",
     "source": "ECCC Station Inventory"
   },
+  "CA-6057591": {
+    "lat": 46.49,
+    "lon": -84.51,
+    "name": "SAULT STE MARIE A",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "ONTARIO"
+  },
   "CA-6061358": {
     "lat": 47.83,
     "lon": -83.43,
@@ -4019,6 +4251,14 @@
     "climate_id": "6068148",
     "country": "CA",
     "source": "ECCC Station Inventory"
+  },
+  "CA-6068150": {
+    "lat": 46.63,
+    "lon": -80.8,
+    "name": "SUDBURY A",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "ONTARIO"
   },
   "CA-6068153": {
     "lat": 46.63,
@@ -4188,6 +4428,14 @@
     "climate_id": "6088144",
     "country": "CA",
     "source": "ECCC Station Inventory"
+  },
+  "CA-6092915": {
+    "lat": 45.92,
+    "lon": -82.47,
+    "name": "GORE BAY",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "ONTARIO"
   },
   "CA-6096755": {
     "lat": 45.67,
@@ -4387,6 +4635,14 @@
     "lat": 44.25,
     "lon": -76.5,
     "name": "KINGSTON",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "ONTARIO"
+  },
+  "CA-6104146": {
+    "lat": 44.22,
+    "lon": -76.6,
+    "name": "KINGSTON A",
     "country": "CA",
     "source": "ECCC Station Inventory EN",
     "province": "ONTARIO"
@@ -4760,6 +5016,14 @@
     "country": "CA",
     "source": "ECCC Station Inventory"
   },
+  "CA-6110549": {
+    "lat": 44.4,
+    "lon": -79.68,
+    "name": "BARRIE",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "ONTARIO"
+  },
   "CA-6110555": {
     "lat": 44.35,
     "lon": -79.7,
@@ -4886,6 +5150,14 @@
     "country": "CA",
     "source": "ECCC Station Inventory"
   },
+  "CA-6115820": {
+    "lat": 44.62,
+    "lon": -79.42,
+    "name": "ORILLIA TS",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "ONTARIO"
+  },
   "CA-6116128": {
     "lat": 44.57,
     "lon": -80.92,
@@ -5011,6 +5283,14 @@
     "source": "ECCC Station Inventory EN",
     "province": "ONTARIO"
   },
+  "CA-6122847": {
+    "lat": 43.77,
+    "lon": -81.72,
+    "name": "GODERICH",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "ONTARIO"
+  },
   "CA-6122849": {
     "lat": 43.77,
     "lon": -81.7,
@@ -5028,6 +5308,14 @@
     "climate_id": "6124128",
     "country": "CA",
     "source": "ECCC Station Inventory"
+  },
+  "CA-6127510": {
+    "lat": 43.0,
+    "lon": -82.31,
+    "name": "SARNIA",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "ONTARIO"
   },
   "CA-6127513": {
     "lat": 42.97,
@@ -5109,6 +5397,14 @@
     "climate_id": "6131165",
     "country": "CA",
     "source": "ECCC Station Inventory"
+  },
+  "CA-6131414": {
+    "lat": 42.31,
+    "lon": -82.08,
+    "name": "CHATHAM KENT",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "ONTARIO"
   },
   "CA-6131416": {
     "lat": 42.42,
@@ -5297,6 +5593,14 @@
     "country": "CA",
     "source": "ECCC Station Inventory"
   },
+  "CA-6137286": {
+    "lat": 43.19,
+    "lon": -79.17,
+    "name": "ST. CATHARINES / NIAGARA DISTRICT A",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "ONTARIO"
+  },
   "CA-6137301": {
     "lat": 43.18,
     "lon": -79.23,
@@ -5414,6 +5718,14 @@
     "country": "CA",
     "source": "ECCC Station Inventory"
   },
+  "CA-6139525": {
+    "lat": 42.28,
+    "lon": -82.96,
+    "name": "WINDSOR A",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "ONTARIO"
+  },
   "CA-6139530": {
     "lat": 42.28,
     "lon": -82.96,
@@ -5449,6 +5761,14 @@
     "climate_id": "6139538",
     "country": "CA",
     "source": "ECCC Station Inventory"
+  },
+  "CA-6140942": {
+    "lat": 43.14,
+    "lon": -80.33,
+    "name": "BRANTFORD AIRPORT",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "ONTARIO"
   },
   "CA-6140948": {
     "lat": 43.15,
@@ -5602,6 +5922,14 @@
     "climate_id": "6144232",
     "country": "CA",
     "source": "ECCC Station Inventory"
+  },
+  "CA-6144239": {
+    "lat": 43.46,
+    "lon": -80.38,
+    "name": "KITCHENER/WATERLOO",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "ONTARIO"
   },
   "CA-6144240": {
     "lat": 43.45,
@@ -5800,6 +6128,14 @@
     "climate_id": "6149387",
     "country": "CA",
     "source": "ECCC Station Inventory"
+  },
+  "CA-6149388": {
+    "lat": 43.46,
+    "lon": -80.38,
+    "name": "REGION OF WATERLOO INT'L AIRPORT",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "ONTARIO"
   },
   "CA-6149454": {
     "lat": 42.93,
@@ -7348,6 +7684,22 @@
     "country": "CA",
     "source": "ECCC Station Inventory"
   },
+  "CA-6166415": {
+    "lat": 44.23,
+    "lon": -78.36,
+    "name": "PETERBOROUGH A",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "ONTARIO"
+  },
+  "CA-6166416": {
+    "lat": 44.28,
+    "lon": -78.32,
+    "name": "PETERBOROUGH",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "ONTARIO"
+  },
   "CA-6166428": {
     "lat": 44.32,
     "lon": -78.4,
@@ -8203,6 +8555,14 @@
     "country": "CA",
     "source": "ECCC Station Inventory"
   },
+  "CA-7025250": {
+    "lat": 45.47,
+    "lon": -73.75,
+    "name": "MONTREAL/PIERRE ELLIOTT TRUDEAU INTL A",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "QUEBEC"
+  },
   "CA-7025251": {
     "lat": 45.47,
     "lon": -73.74,
@@ -8904,6 +9264,14 @@
     "country": "CA",
     "source": "ECCC Station Inventory"
   },
+  "CA-7042388": {
+    "lat": 47.32,
+    "lon": -71.15,
+    "name": "FORET MONTMORENCY",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "QUEBEC"
+  },
   "CA-7042845": {
     "lat": 48.26,
     "lon": -69.52,
@@ -9164,6 +9532,14 @@
     "climate_id": "7060320",
     "country": "CA",
     "source": "ECCC Station Inventory"
+  },
+  "CA-7060400": {
+    "lat": 48.33,
+    "lon": -71.0,
+    "name": "BAGOTVILLE A",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "QUEBEC"
   },
   "CA-7060825": {
     "lat": 50.73,
@@ -9444,6 +9820,14 @@
     "country": "CA",
     "source": "ECCC Station Inventory"
   },
+  "CA-7103285": {
+    "lat": 58.45,
+    "lon": -78.17,
+    "name": "INUKJUAK",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "QUEBEC"
+  },
   "CA-7110831": {
     "lat": 55.33,
     "lon": -63.22,
@@ -9596,6 +9980,14 @@
     "climate_id": "8101201",
     "country": "CA",
     "source": "ECCC Station Inventory"
+  },
+  "CA-8101300": {
+    "lat": 47.37,
+    "lon": -68.33,
+    "name": "EDMUNDSTON",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "NEW BRUNSWICK"
   },
   "CA-8101301": {
     "lat": 47.37,
@@ -10117,6 +10509,14 @@
     "country": "CA",
     "source": "ECCC Station Inventory"
   },
+  "CA-8104936": {
+    "lat": 45.18,
+    "lon": -67.27,
+    "name": "ST STEPHEN",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "NEW BRUNSWICK"
+  },
   "CA-8104937": {
     "lat": 45.22,
     "lon": -67.25,
@@ -10557,6 +10957,14 @@
     "country": "CA",
     "source": "ECCC Station Inventory"
   },
+  "CA-8202800": {
+    "lat": 45.07,
+    "lon": -64.48,
+    "name": "KENTVILLE CDA",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "NOVA SCOTIA"
+  },
   "CA-8202896": {
     "lat": 44.72,
     "lon": -63.48,
@@ -10656,6 +11064,14 @@
     "country": "CA",
     "source": "ECCC Station Inventory"
   },
+  "CA-8203905": {
+    "lat": 45.62,
+    "lon": -62.62,
+    "name": "NEW GLASGOW TRENTON",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "NOVA SCOTIA"
+  },
   "CA-8204165": {
     "lat": 46.2,
     "lon": -60.27,
@@ -10682,6 +11098,14 @@
     "climate_id": "8204300",
     "country": "CA",
     "source": "ECCC Station Inventory"
+  },
+  "CA-8204400": {
+    "lat": 45.4,
+    "lon": -64.33,
+    "name": "PARRSBORO",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "NOVA SCOTIA"
   },
   "CA-8204453": {
     "lat": 44.77,
@@ -10868,6 +11292,14 @@
     "source": "ECCC Station Inventory EN",
     "province": "NOVA SCOTIA"
   },
+  "CA-8205988": {
+    "lat": 45.35,
+    "lon": -63.3,
+    "name": "TRURO",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "NOVA SCOTIA"
+  },
   "CA-8205992": {
     "lat": 45.37,
     "lon": -63.27,
@@ -10908,6 +11340,14 @@
     "lat": 43.83,
     "lon": -66.03,
     "name": "YARMOUTH",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "NOVA SCOTIA"
+  },
+  "CA-8206495": {
+    "lat": 43.83,
+    "lon": -66.09,
+    "name": "YARMOUTH A",
     "country": "CA",
     "source": "ECCC Station Inventory EN",
     "province": "NOVA SCOTIA"
@@ -11197,6 +11637,14 @@
     "climate_id": "8403500",
     "country": "CA",
     "source": "ECCC Station Inventory"
+  },
+  "CA-8403505": {
+    "lat": 47.62,
+    "lon": -52.75,
+    "name": "ST. JOHN'S INTL A",
+    "country": "CA",
+    "source": "ECCC Station Inventory EN",
+    "province": "NEWFOUNDLAND"
   },
   "CA-8403506": {
     "lat": 47.62,
@@ -44454,6 +44902,13 @@
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
+  "USC00050128": {
+    "lat": 37.4703,
+    "lon": -105.8569,
+    "name": "ALAMOSA 1E, CO US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
   "USC00050424": {
     "lat": 38.2558,
     "lon": -104.3511,
@@ -44461,10 +44916,24 @@
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
+  "USC00050848": {
+    "lat": 39.9919,
+    "lon": -105.2667,
+    "name": "BOULDER, CO US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
   "USC00052213": {
     "lat": 39.7264,
     "lon": -104.985,
     "name": "DENVER 1 SW 7NEWS, CO US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USC00052223": {
+    "lat": 39.7294,
+    "lon": -105.0083,
+    "name": "DENVER WATER DEPT, CO US",
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
@@ -44507,6 +44976,13 @@
     "lat": 40.3722,
     "lon": -107.6117,
     "name": "HAMILTON, CO US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USC00055116": {
+    "lat": 40.1694,
+    "lon": -105.0775,
+    "name": "LONGMONT 2 ESE, CO US",
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
@@ -44692,6 +45168,13 @@
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
+  "USC00106305": {
+    "lat": 43.6039,
+    "lon": -116.5753,
+    "name": "NAMPA SUGAR FACTORY, ID US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
   "USC00107208": {
     "lat": 42.8917,
     "lon": -112.4086,
@@ -44832,6 +45315,13 @@
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
+  "USC00116579": {
+    "lat": 39.3686,
+    "lon": -89.0867,
+    "name": "PANA, IL US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
   "USC00116642": {
     "lat": 38.7653,
     "lon": -89.0561,
@@ -44846,6 +45336,20 @@
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
+  "USC00117077": {
+    "lat": 39.9036,
+    "lon": -91.4283,
+    "name": "QUINCY DAM 21, IL US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USC00117391": {
+    "lat": 41.5181,
+    "lon": -90.5647,
+    "name": "ROCK ISLAND L&D 15, IL US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
   "USC00117859": {
     "lat": 37.6978,
     "lon": -88.1336,
@@ -44857,6 +45361,13 @@
     "lat": 42.4436,
     "lon": -89.1975,
     "name": "SHIRLAND, IL US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USC00118186": {
+    "lat": 39.7967,
+    "lon": -89.6769,
+    "name": "SPRINGFIELD #2, IL US",
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
@@ -44944,6 +45455,13 @@
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
+  "USC00122731": {
+    "lat": 37.965,
+    "lon": -87.5731,
+    "name": "EVANSVILLE MUSEUM, IN US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
   "USC00123093": {
     "lat": 39.4889,
     "lon": -86.0731,
@@ -45011,6 +45529,13 @@
     "lat": 39.2347,
     "lon": -85.0756,
     "name": "SUNMAN 1 E, IN US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USC00128723": {
+    "lat": 39.4708,
+    "lon": -87.4081,
+    "name": "TERRE HAUTE INDIANA STATE, IN US",
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
@@ -45123,6 +45648,13 @@
     "lat": 42.0656,
     "lon": -92.9081,
     "name": "MARSHALLTWN POL CN PL, IA US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USC00135230": {
+    "lat": 43.1631,
+    "lon": -93.1953,
+    "name": "MASON CITY, IA US",
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
@@ -45294,6 +45826,13 @@
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
+  "USC00142548": {
+    "lat": 38.4294,
+    "lon": -96.2189,
+    "name": "EMPORIA 3 NW, KS US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
   "USC00142620": {
     "lat": 38.9336,
     "lon": -95.0931,
@@ -45312,6 +45851,13 @@
     "lat": 39.3644,
     "lon": -97.835,
     "name": "GLASCO, KS US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USC00143523": {
+    "lat": 38.8669,
+    "lon": -99.3169,
+    "name": "HAYS, KS US",
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
@@ -45417,6 +45963,13 @@
     "lat": 38.2583,
     "lon": -95.4978,
     "name": "WESTPHALIA 5N, KS US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USC00148847": {
+    "lat": 37.6553,
+    "lon": -97.4431,
+    "name": "WICHITA WX, KS US",
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
@@ -45854,6 +46407,13 @@
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
+  "USC00173295": {
+    "lat": 43.8925,
+    "lon": -70.2544,
+    "name": "GRAY, ME US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
   "USC00173588": {
     "lat": 45.4586,
     "lon": -69.8653,
@@ -45935,6 +46495,13 @@
     "lat": 42.5167,
     "lon": -72.9167,
     "name": "PLAINFIELD 2, MA US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USC00196783": {
+    "lat": 42.5239,
+    "lon": -71.125,
+    "name": "READING, MA US",
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
@@ -46141,6 +46708,13 @@
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
+  "USC00214418": {
+    "lat": 43.8658,
+    "lon": -91.31,
+    "name": "LA CRESCENT DAM 7, MN US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
   "USC00214563": {
     "lat": 43.7203,
     "lon": -91.9717,
@@ -46183,10 +46757,24 @@
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
+  "USC00216152": {
+    "lat": 44.7628,
+    "lon": -94.9297,
+    "name": "OLIVIA 3E, MN US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
   "USC00216228": {
     "lat": 46.2153,
     "lon": -96.1781,
     "name": "ORWELL DAM, MN US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USC00216287": {
+    "lat": 44.0975,
+    "lon": -93.2317,
+    "name": "OWATONNA, MN US",
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
@@ -46470,6 +47058,13 @@
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
+  "USC00237452": {
+    "lat": 38.6308,
+    "lon": -90.2708,
+    "name": "ST LOUIS SCI CTR, MO US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
   "USC00238252": {
     "lat": 36.5939,
     "lon": -93.3117,
@@ -46589,6 +47184,13 @@
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
+  "USC00244978": {
+    "lat": 46.9058,
+    "lon": -109.4114,
+    "name": "LEWISTOWN 11 SSE, MT US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
   "USC00245088": {
     "lat": 45.6969,
     "lon": -110.4539,
@@ -46617,10 +47219,24 @@
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
+  "USC00246218": {
+    "lat": 48.5497,
+    "lon": -114.5739,
+    "name": "OLNEY, MT US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
   "USC00247128": {
     "lat": 45.3572,
     "lon": -109.1883,
     "name": "ROBERTS 1 W, MT US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USC00247136": {
+    "lat": 46.8203,
+    "lon": -106.2453,
+    "name": "ROCK SPRINGS, MT US",
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
@@ -46680,6 +47296,13 @@
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
+  "USC00254335": {
+    "lat": 40.7258,
+    "lon": -99.0133,
+    "name": "KEARNEY 4 NE, NE US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
   "USC00254986": {
     "lat": 41.3611,
     "lon": -98.9222,
@@ -46698,6 +47321,13 @@
     "lat": 41.5669,
     "lon": -96.4422,
     "name": "NICKERSON 3NE, NE US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USC00255997": {
+    "lat": 42.0289,
+    "lon": -97.4855,
+    "name": "NORFOLK 4W, NE US",
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
@@ -46754,6 +47384,27 @@
     "lat": 44.7889,
     "lon": -71.1231,
     "name": "ERROL, NH US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USC00273626": {
+    "lat": 43.0211,
+    "lon": -70.8258,
+    "name": "GREENLAND, NH US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USC00273658": {
+    "lat": 42.7828,
+    "lon": -71.7986,
+    "name": "GREENVILLE 1 NNE, NH US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USC00274399": {
+    "lat": 42.9389,
+    "lon": -72.3247,
+    "name": "KEENE, NH US",
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
@@ -46950,6 +47601,13 @@
     "lat": 41.3458,
     "lon": -74.4872,
     "name": "GARDNERVILLE, NY US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USC00304174": {
+    "lat": 42.4492,
+    "lon": -76.4492,
+    "name": "ITHACA CORNELL UNIV, NY US",
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
@@ -47296,6 +47954,13 @@
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
+  "USC00322188": {
+    "lat": 46.8914,
+    "lon": -102.7792,
+    "name": "DICKINSON, ND US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
   "USC00323206": {
     "lat": 46.0897,
     "lon": -100.6619,
@@ -47310,10 +47975,24 @@
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
+  "USC00323621": {
+    "lat": 47.9217,
+    "lon": -97.0975,
+    "name": "GRAND FORKS UNIV (NWS), ND US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
   "USC00325002": {
     "lat": 48.6272,
     "lon": -101.3764,
     "name": "LANSFORD, ND US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USC00326025": {
+    "lat": 48.7603,
+    "lon": -101.5089,
+    "name": "MOHALL, ND US",
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
@@ -47440,6 +48119,13 @@
     "lat": 39.9164,
     "lon": -83.8467,
     "name": "SPRINGFIELD 2 WSW, OH US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USC00338062": {
+    "lat": 41.1314,
+    "lon": -81.4492,
+    "name": "STOW 4 SE, OH US",
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
@@ -47611,6 +48297,13 @@
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
+  "USC00350304": {
+    "lat": 42.2131,
+    "lon": -122.7147,
+    "name": "ASHLAND, OR US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
   "USC00350694": {
     "lat": 44.0569,
     "lon": -121.285,
@@ -47622,6 +48315,13 @@
     "lat": 42.9419,
     "lon": -123.28,
     "name": "CANYONVILLE 2S, OR US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USC00351862": {
+    "lat": 44.6342,
+    "lon": -123.19,
+    "name": "CORVALLIS STATE UNIV, OR US",
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
@@ -47695,6 +48395,13 @@
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
+  "USC00357331": {
+    "lat": 43.2131,
+    "lon": -123.3658,
+    "name": "ROSEBURG KQEN, OR US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
   "USC00357940": {
     "lat": 43.1708,
     "lon": -123.2247,
@@ -47730,10 +48437,24 @@
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
+  "USC00363698": {
+    "lat": 40.2817,
+    "lon": -76.8706,
+    "name": "HARRISBURG 1 NE, PA US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
   "USC00364571": {
     "lat": 41.8422,
     "lon": -79.0169,
     "name": "KINZUA DAM, PA US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USC00364778": {
+    "lat": 40.1192,
+    "lon": -76.4264,
+    "name": "LANDISVILLE 2 NW, PA US",
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
@@ -47748,6 +48469,13 @@
     "lat": 40.2033,
     "lon": -79.6275,
     "name": "NEW STANTON 1 SW, PA US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USC00367578": {
+    "lat": 40.5514,
+    "lon": -75.7222,
+    "name": "RODALE RSCH CTR, PA US",
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
@@ -47800,6 +48528,13 @@
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
+  "USC00390022": {
+    "lat": 45.4553,
+    "lon": -98.4142,
+    "name": "ABERDEEN 3 E, SD US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
   "USC00390350": {
     "lat": 44.9633,
     "lon": -98.5114,
@@ -47818,6 +48553,13 @@
     "lat": 45.9217,
     "lon": -97.9331,
     "name": "BRITTON 13NW, SD US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USC00391076": {
+    "lat": 44.325,
+    "lon": -96.7686,
+    "name": "BROOKINGS 2 NE, SD US",
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
@@ -48283,6 +49025,13 @@
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
+  "USC00436995": {
+    "lat": 43.6253,
+    "lon": -72.9781,
+    "name": "RUTLAND, VT US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
   "USC00439988": {
     "lat": 44.3747,
     "lon": -72.5822,
@@ -48353,6 +49102,20 @@
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
+  "USC00450872": {
+    "lat": 47.5689,
+    "lon": -122.6828,
+    "name": "BREMERTON, WA US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USC00451690": {
+    "lat": 46.6644,
+    "lon": -118.8828,
+    "name": "CONNELL 1 W, WA US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
   "USC00451691": {
     "lat": 46.5086,
     "lon": -118.7878,
@@ -48388,10 +49151,24 @@
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
+  "USC00456624": {
+    "lat": 48.1139,
+    "lon": -123.4317,
+    "name": "PORT ANGELES, WA US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
   "USC00456706": {
     "lat": 47.8061,
     "lon": -122.6517,
     "name": "POULSBO 1NW, WA US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USC00458773": {
+    "lat": 45.6778,
+    "lon": -122.6511,
+    "name": "VANCOUVER 4 NNE, WA US",
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
@@ -48535,6 +49312,13 @@
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
+  "USC00474174": {
+    "lat": 42.5608,
+    "lon": -87.8156,
+    "name": "KENOSHA, WI US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
   "USC00474373": {
     "lat": 43.8225,
     "lon": -91.1914,
@@ -48598,10 +49382,24 @@
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
+  "USC00476922": {
+    "lat": 42.7022,
+    "lon": -87.7861,
+    "name": "RACINE, WI US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
   "USC00477121": {
     "lat": 44.9672,
     "lon": -89.8961,
     "name": "RIB FALLS, WI US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USC00477725": {
+    "lat": 43.75,
+    "lon": -87.7167,
+    "name": "SHEBOYGAN, WI US",
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
@@ -48668,10 +49466,31 @@
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
+  "USC00487031": {
+    "lat": 44.5028,
+    "lon": -109.9642,
+    "name": "PAHASKA, WY US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USC00487847": {
+    "lat": 41.5778,
+    "lon": -109.2394,
+    "name": "ROCK SPRINGS FIRE DEPT, WY US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
   "USC00500275": {
     "lat": 61.1561,
     "lon": -149.9847,
     "name": "ANCHORAGE FORECAST OFFICE, AK US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USC00504094": {
+    "lat": 58.2989,
+    "lon": -134.4111,
+    "name": "JUNEAU DWTN, AK US",
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
@@ -52525,6 +53344,27 @@
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
+  "USW00003919": {
+    "lat": 38.8,
+    "lon": -97.65,
+    "name": "SALINA MUNI AP, KS US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USW00003963": {
+    "lat": 38.5911,
+    "lon": -92.1558,
+    "name": "JEFFERSON CITY MEM AP, MO US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USW00004725": {
+    "lat": 42.1997,
+    "lon": -75.985,
+    "name": "BINGHAMTON, NY US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
   "USW00004839": {
     "lat": 42.7461,
     "lon": -86.0967,
@@ -52532,10 +53372,31 @@
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
+  "USW00004848": {
+    "lat": 41.5631,
+    "lon": -83.4764,
+    "name": "TOLEDO METCALF FLD, OH US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USW00013988": {
+    "lat": 39.1208,
+    "lon": -94.5969,
+    "name": "KANSAS CITY DOWNTOWN AP, MO US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
   "USW00013993": {
     "lat": 39.7736,
     "lon": -94.9233,
     "name": "ST JOSEPH ROSECRANS AP, MO US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USW00014605": {
+    "lat": 44.3206,
+    "lon": -69.7972,
+    "name": "AUGUSTA STATE AP, ME US",
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
@@ -52553,6 +53414,13 @@
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
+  "USW00014735": {
+    "lat": 42.7431,
+    "lon": -73.8092,
+    "name": "ALBANY AP, NY US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
   "USW00014762": {
     "lat": 40.3547,
     "lon": -79.9217,
@@ -52567,6 +53435,27 @@
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
+  "USW00014771": {
+    "lat": 43.1111,
+    "lon": -76.1039,
+    "name": "SYRACUSE HANCOCK INTL AP, NY US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USW00014775": {
+    "lat": 42.1578,
+    "lon": -72.7161,
+    "name": "WESTFIELD BARNES MUNI AP, MA US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USW00014777": {
+    "lat": 41.3336,
+    "lon": -75.7269,
+    "name": "WILKES-BARRE INTL AP, PA US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
   "USW00014820": {
     "lat": 41.4131,
     "lon": -81.86,
@@ -52578,6 +53467,13 @@
     "lat": 40.9706,
     "lon": -85.2064,
     "name": "FT WAYNE INTL AP, IN US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USW00014833": {
+    "lat": 42.2667,
+    "lon": -84.4667,
+    "name": "JACKSON REYNOLDS FLD, MI US",
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
@@ -52665,6 +53561,13 @@
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
+  "USW00014935": {
+    "lat": 40.9611,
+    "lon": -98.3136,
+    "name": "GRAND ISLAND AP, NE US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
   "USW00014939": {
     "lat": 40.8508,
     "lon": -96.7475,
@@ -52711,6 +53614,13 @@
     "lat": 41.1519,
     "lon": -104.8061,
     "name": "CHEYENNE, WY US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USW00024021": {
+    "lat": 42.8153,
+    "lon": -108.7261,
+    "name": "LANDER HUNT FLD AP, WY US",
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
@@ -52798,10 +53708,52 @@
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
+  "USW00063898": {
+    "lat": 38.8883,
+    "lon": -86.5708,
+    "name": "BEDFORD 5 WNW, IN US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
   "USW00093037": {
     "lat": 38.81,
     "lon": -104.6883,
     "name": "COLORADO SPRINGS MUNI AP, CO US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USW00093810": {
+    "lat": 37.7797,
+    "lon": -89.2497,
+    "name": "CARBONDALE SOUTHERN IL AP, IL US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USW00093812": {
+    "lat": 39.1033,
+    "lon": -84.4189,
+    "name": "CINCINNATI LUNKEN AP, OH US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USW00093815": {
+    "lat": 39.9061,
+    "lon": -84.2186,
+    "name": "DAYTON INTL AP, OH US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USW00093819": {
+    "lat": 39.7075,
+    "lon": -86.2803,
+    "name": "INDIANAPOLIS, IN US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USW00093981": {
+    "lat": 37.2,
+    "lon": -93.3,
+    "name": "SPRINGFIELD WBO, MO US",
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
@@ -52816,6 +53768,13 @@
     "lat": 47.6831,
     "lon": -117.3214,
     "name": "SPOKANE FELTS FLD, WA US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USW00094178": {
+    "lat": 42.4819,
+    "lon": -114.4869,
+    "name": "TWIN FALLS SUN VLY RGNL AP, ID US",
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },
@@ -52858,6 +53817,13 @@
     "lat": 46.4047,
     "lon": -94.1308,
     "name": "BRAINERD CROW WING CO AP, MN US",
+    "country": "US",
+    "source": "NOAA 1991-2020 normals"
+  },
+  "USW00094949": {
+    "lat": 40.6044,
+    "lon": -98.4272,
+    "name": "HASTINGS MUNI AP, NE US",
     "country": "US",
     "source": "NOAA 1991-2020 normals"
   },

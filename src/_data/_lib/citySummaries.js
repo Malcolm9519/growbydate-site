@@ -1,5 +1,6 @@
 const frostDates = require("../frostDates.json");
-const gddCrops = require("../gddCrops.json");
+const gddCrops = require("../gddCrops");
+const locationContent = require("../locationContent");
 const {
   getStationSeries,
   resolveCityStation
@@ -19,6 +20,27 @@ const CROP_SLUG_ALIASES = {
   "bean-bush": "beans",
   bean: "beans"
 };
+
+function normalizeCuratedContent(entry) {
+  if (!entry) return null;
+
+  if (typeof entry === "string") {
+    const text = entry.trim();
+    return text ? { afterQuickRef: text } : null;
+  }
+
+  if (typeof entry !== "object") return null;
+
+  const out = {};
+
+  for (const [key, value] of Object.entries(entry)) {
+    if (typeof value !== "string") continue;
+    const text = value.trim();
+    if (text) out[key] = text;
+  }
+
+  return Object.keys(out).length ? out : null;
+}
 
 function canonicalSiteSlug(slug) {
   const s = String(slug || "").trim();
@@ -86,6 +108,23 @@ function getRemainingFromCurve(curve, base, mmdd) {
   return null;
 }
 
+function getCityMascotKey({ springMedian, frostFreeDays }) {
+  if (Number.isFinite(frostFreeDays)) {
+    if (frostFreeDays < 125) return "shortSeason";
+    if (frostFreeDays >= 180) return "warmSeason";
+  }
+
+  if (Number.isFinite(springMedian) && springMedian >= 140) {
+    return "coolSpring";
+  }
+
+  return "comfortableSeason";
+}
+
+function getCityMascotSeed(city) {
+  return `${city.regionKey || ""}/${city.key || ""}`;
+}
+
 function buildCropGddIndex(data) {
   const idx = {};
   if (!data) return idx;
@@ -118,11 +157,22 @@ const DEFAULT_PLANTING_RULES = [
   { key: "lettuce", label: "Lettuce", offsetDays: -14, windowDays: 14, method: "direct sow / transplant" },
   { key: "carrots", label: "Carrots", offsetDays: -14, windowDays: 14, method: "direct sow" },
   { key: "beets", label: "Beets", offsetDays: -14, windowDays: 14, method: "direct sow" },
+  { key: "radishes", label: "Radishes", offsetDays: -21, windowDays: 14, method: "direct sow" },
   { key: "potatoes", label: "Potatoes", offsetDays: -7, windowDays: 14, method: "plant seed potatoes" },
+  { key: "onions", label: "Onions", offsetDays: -14, windowDays: 14, method: "sets / transplants" },
+  { key: "garlic", label: "Garlic", offsetDays: -14, windowDays: 10, method: "plant cloves" },
+  { key: "broccoli", label: "Broccoli", offsetDays: -7, windowDays: 14, method: "transplant" },
+  { key: "cauliflower", label: "Cauliflower", offsetDays: -7, windowDays: 14, method: "transplant" },
+  { key: "cabbage", label: "Cabbage", offsetDays: -7, windowDays: 14, method: "transplant" },
+  { key: "kale", label: "Kale", offsetDays: -14, windowDays: 21, method: "direct sow / transplant" },
+  { key: "swiss-chard", label: "Swiss chard", offsetDays: -10, windowDays: 21, method: "direct sow / transplant" },
+
   { key: "beans", label: "Beans", offsetDays: 7, windowDays: 14, method: "direct sow" },
-  { key: "corn", label: "Sweet corn", offsetDays: 10, windowDays: 10, method: "direct sow" },
+  { key: "corn-sweet", label: "Sweet corn", offsetDays: 10, windowDays: 10, method: "direct sow" },
   { key: "cucumbers", label: "Cucumbers", offsetDays: 14, windowDays: 10, method: "direct sow / transplant" },
-  { key: "squash", label: "Squash", offsetDays: 14, windowDays: 10, method: "direct sow / transplant" },
+  { key: "zucchini", label: "Zucchini", offsetDays: 14, windowDays: 10, method: "direct sow / transplant" },
+  { key: "winter-squash", label: "Winter squash", offsetDays: 14, windowDays: 10, method: "direct sow / transplant" },
+  { key: "pumpkin", label: "Pumpkin", offsetDays: 14, windowDays: 10, method: "direct sow / transplant" },
   { key: "tomatoes", label: "Tomatoes", offsetDays: 14, windowDays: 10, method: "transplant" },
   { key: "peppers", label: "Peppers", offsetDays: 21, windowDays: 10, method: "transplant" }
 ];
@@ -211,11 +261,44 @@ function buildCityCropFit(
 ) {
   if (!Array.isArray(gddCrops) || !gddCrops.length) return null;
 
+  const catalog = gddCrops
+    .map((c) => {
+      const base = Number(c?.base_f ?? c?.base ?? 50);
+      const req = Number(c?.gdd_required ?? c?.gddRequired ?? c?.gdd50 ?? c?.gdd);
+
+      if (!Number.isFinite(base) || !Number.isFinite(req)) return null;
+
+      const rawSlug = String(c?.slug || c?.key || c?.name || "")
+        .trim()
+        .toLowerCase()
+        .replace(/\s+/g, "-");
+
+      const siteSlug = canonicalSiteSlug(rawSlug);
+
+      return {
+        slug: siteSlug,
+        key: siteSlug,
+        name: String(c?.name || siteSlug),
+        href: cropHrefFromSlug(siteSlug),
+        base,
+        gddRequired: req,
+        category: String(c?.category || "")
+      };
+    })
+    .filter(Boolean)
+    .sort((a, b) => a.gddRequired - b.gddRequired);
+
   const out = {
-    meta: { marginPct, dates, bases: [40, 45, 50], sitemapOnly: false },
+    meta: {
+      marginPct,
+      dates,
+      bases: [40, 45, 50],
+      sitemapOnly: false,
+      catalog
+    },
     byDate: {}
   };
-
+  
   for (const mmdd of dates) {
     const runwayByBase = {
       "50": getRowValue(summary.gdd_remaining_by_base?.["50"], mmdd),
@@ -326,6 +409,12 @@ function buildCitySummaries(cities) {
       fallMedian > springMedian
         ? Math.round(fallMedian - springMedian)
         : null;
+        const mascotKey = getCityMascotKey({
+  springMedian,
+  frostFreeDays: frostFreeDays_p50
+});
+
+const mascotSeed = getCityMascotSeed(city);
 
     const fallSpreadDays50 =
       Number.isFinite(earliestFall) &&
@@ -333,6 +422,12 @@ function buildCitySummaries(cities) {
       latestFall >= earliestFall
         ? Math.round(latestFall - earliestFall)
         : null;
+
+
+const locationKey = `${city.regionKey}/${city.key}`;
+const curatedContent = normalizeCuratedContent(
+  locationContent?.cities?.[locationKey]
+);
 
     const summary = {
       key: city.key,
@@ -343,6 +438,9 @@ function buildCitySummaries(cities) {
       regionKey: city.regionKey,
       regionName: city.regionName,
       abbr: city.regionAbbr,
+      content: curatedContent || null,
+      mascotKey,
+      mascotSeed,
 
       lookupKey: city.lookupKey || null,
 
@@ -436,6 +534,9 @@ function buildCitySummaries(cities) {
     };
 
     summary.plantingWindows = computePlantingWindows(summary, checkDates);
+    summary.plantingWindowsByKey = Object.fromEntries(
+  (summary.plantingWindows || []).map((row) => [row.key, row])
+);
     summary.cropFit = buildCityCropFit(summary, checkDates);
 
     return summary;

@@ -3,6 +3,7 @@
 const citySummariesSource = require("./citySummaries");
 const cropCityCrops = require("./cropCityCrops");
 const cropCityRollout = require("./cropCityRollout");
+const { getStationSeries } = require("./_lib/resolveCityStation");
 
 const CHECKPOINTS = [
   "03-15",
@@ -84,6 +85,41 @@ function getRemainingGdd(city, date, base = "50") {
   return row && Number.isFinite(row.gdd) ? row.gdd : null;
 }
 
+function getAvailableGddBeforeFrost(city, startDate, fallFrostDate, base = "50") {
+  if (!startDate || !fallFrostDate) return null;
+
+  const stationId = city?.gddStationId || city?.stationId || null;
+  const curve = stationId ? getStationSeries(stationId) : null;
+  const series = curve?.bases?.[String(base)];
+  const startDoy = mmddToDayOfYear(startDate);
+  const frostDoy = mmddToDayOfYear(fallFrostDate);
+
+  if (
+    Array.isArray(series) &&
+    Number.isFinite(startDoy) &&
+    Number.isFinite(frostDoy) &&
+    startDoy >= 0 &&
+    frostDoy >= 0 &&
+    frostDoy < series.length
+  ) {
+    const startValue = startDoy > 0 ? series[startDoy - 1] : 0;
+    const frostValue = series[frostDoy - 1];
+
+    if (Number.isFinite(startValue) && Number.isFinite(frostValue)) {
+      return Math.max(0, Math.round(frostValue - startValue));
+    }
+  }
+
+  const remainingAtStart = getRemainingGdd(city, startDate, base);
+  const remainingAtFallFrost = getRemainingGdd(city, fallFrostDate, base);
+
+  if (!Number.isFinite(remainingAtStart) || !Number.isFinite(remainingAtFallFrost)) {
+    return null;
+  }
+
+  return Math.max(0, remainingAtStart - remainingAtFallFrost);
+}
+
 function chooseClosestCheckpoint(plantingDate) {
   const plantingDoy = mmddToDayOfYear(plantingDate);
   if (plantingDoy == null) return null;
@@ -155,8 +191,9 @@ function getFittingVarietyExamplesDetailed(fittingVarietyClasses) {
 }
 
 function getVerb(crop) {
-  const singularCrops = new Set(["sweet-corn"]);
-  return singularCrops.has(crop.key) ? "is" : "are";
+  const singular = String(crop?.singularName || "").toLowerCase();
+  const plural = String(crop?.name || "").toLowerCase();
+  return singular && singular === plural ? "is" : "are";
 }
 
 function getPerformVerb(crop) {
@@ -176,17 +213,7 @@ function getDoVerb(crop) {
 }
 
 function getCropNounSingular(crop) {
-  const byKey = {
-    tomatoes: "tomato",
-    peppers: "pepper",
-    beans: "bean",
-    "sweet-corn": "sweet corn"
-  };
-
-  if (crop && byKey[crop.key]) return byKey[crop.key];
-
-  const fallback = String(crop?.name || "").toLowerCase().trim();
-  return fallback.endsWith("s") ? fallback.slice(0, -1) : fallback;
+  return String(crop?.singularName || crop?.name || "").toLowerCase().trim();
 }
 
 function formatList(labels) {
@@ -975,17 +1002,19 @@ function buildCropCitySummary(city, crop) {
     }
   }
 
-  primaryPlantingDate = plantOutDate || directSowDate || startIndoorsDate || null;
+primaryPlantingDate = plantOutDate || directSowDate || startIndoorsDate || null;
 
-  let gddCheckpointUsed = null;
-  let availableGddFromPlanting = null;
+let availableGddFromPlanting = null;
+const cropGddBase = crop?.gddBase != null ? String(crop.gddBase) : "50";
 
-  if (primaryPlantingDate) {
-    gddCheckpointUsed = chooseClosestCheckpoint(primaryPlantingDate);
-    availableGddFromPlanting = gddCheckpointUsed
-      ? getRemainingGdd(city, gddCheckpointUsed, "50")
-      : null;
-  }
+if (primaryPlantingDate && fall50) {
+  availableGddFromPlanting = getAvailableGddBeforeFrost(
+    city,
+    primaryPlantingDate,
+    fall50,
+    cropGddBase
+  );
+}
 
   const gddTargetTypical = Number.isFinite(crop.gddTargetTypical)
     ? crop.gddTargetTypical
@@ -1047,14 +1076,13 @@ function buildCropCitySummary(city, crop) {
     fallFrost: fall50,
     frostFreeDays,
 
-    primaryPlantingDate,
-    gddCheckpointUsed,
+primaryPlantingDate,
 
-    gddAtApr15: getRemainingGdd(city, "04-15", "50"),
-    gddAtMay01: getRemainingGdd(city, "05-01", "50"),
-    gddAtJun01: getRemainingGdd(city, "06-01", "50"),
+gddAtApr15: getRemainingGdd(city, "04-15", cropGddBase),
+gddAtMay01: getRemainingGdd(city, "05-01", cropGddBase),
+gddAtJun01: getRemainingGdd(city, "06-01", cropGddBase),
 
-    availableGddFromPlanting,
+availableGddFromPlanting,
     targetGdd: gddTargetTypical,
     gddMargin,
     confidence,
@@ -1068,28 +1096,27 @@ function buildCropCitySummary(city, crop) {
       frostFreeDays
     },
 
-    planting: {
-      startIndoorsDate,
-      plantOutDate,
-      directSowDate,
-      primaryPlantingDate,
-      gddCheckpointUsed
-    },
+planting: {
+  startIndoorsDate,
+  plantOutDate,
+  directSowDate,
+  primaryPlantingDate
+},
 
-    gdd: {
-      base: 50,
-      remainingMar15: getRemainingGdd(city, "03-15", "50"),
-      remainingApr1: getRemainingGdd(city, "04-01", "50"),
-      remainingApr15: getRemainingGdd(city, "04-15", "50"),
-      remainingMay1: getRemainingGdd(city, "05-01", "50"),
-      remainingMay15: getRemainingGdd(city, "05-15", "50"),
-      remainingJun1: getRemainingGdd(city, "06-01", "50"),
-      remainingJun15: getRemainingGdd(city, "06-15", "50"),
-      remainingJul1: getRemainingGdd(city, "07-01", "50"),
-      remainingJul15: getRemainingGdd(city, "07-15", "50"),
-      remainingAug1: getRemainingGdd(city, "08-01", "50"),
-      remainingAug15: getRemainingGdd(city, "08-15", "50")
-    },
+gdd: {
+  base: Number(cropGddBase),
+  remainingMar15: getRemainingGdd(city, "03-15", cropGddBase),
+  remainingApr1: getRemainingGdd(city, "04-01", cropGddBase),
+  remainingApr15: getRemainingGdd(city, "04-15", cropGddBase),
+  remainingMay1: getRemainingGdd(city, "05-01", cropGddBase),
+  remainingMay15: getRemainingGdd(city, "05-15", cropGddBase),
+  remainingJun1: getRemainingGdd(city, "06-01", cropGddBase),
+  remainingJun15: getRemainingGdd(city, "06-15", cropGddBase),
+  remainingJul1: getRemainingGdd(city, "07-01", cropGddBase),
+  remainingJul15: getRemainingGdd(city, "07-15", cropGddBase),
+  remainingAug1: getRemainingGdd(city, "08-01", cropGddBase),
+  remainingAug15: getRemainingGdd(city, "08-15", cropGddBase)
+},
 
     fit: {
       availableGddFromPlanting,

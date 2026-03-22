@@ -1,34 +1,97 @@
-{% set relatedLinks = [] %}
-{% set relatedKeys = pageData.crop and pageData.crop.relatedCrops or [] %}
+{% set cityCropLinks = [] %}
 
 {% for item in (cropCitySummaries or []) %}
-  {% if item.cityKey == pageData.cityKey and item.cropKey != pageData.cropKey %}
-    {% if relatedKeys and (item.cropKey in relatedKeys) %}
-      {% set relatedLinks = relatedLinks.concat([item]) %}
-    {% endif %}
+  {% if item.cityKey == city.key %}
+    {% set cityCropLinks = cityCropLinks.concat([item]) %}
   {% endif %}
 {% endfor %}
 
-{% if relatedLinks.length %}
+{% if cityCropLinks.length %}
 <section class="card">
-  <h2>Related Crop Guides for {{ pageData.cityName }}</h2>
+  <h2>Crop Guides for {{ city.name }}</h2>
 
-  <p class="small" style="margin-top:-0.25rem;">
-    Compare other crops that share similar timing, heat needs, or short-season tradeoffs in {{ pageData.cityName }}.
+  <p class="small" style="margin-top:-0.25rem; margin-bottom:0.75rem;">
+    Published crop-specific planting guides for {{ city.name }}, ordered from best fit to highest risk.
   </p>
 
-  <div style="margin-top:0.9rem;">
-    {% for item in relatedLinks %}
-      <div {% if not loop.last %}style="margin-bottom:0.9rem; padding-bottom:0.9rem; border-bottom:1px solid rgba(0,0,0,.08);"{% endif %}>
-        <p class="small" style="margin:0 0 0.2rem 0;">
-          <a href="{{ item.url }}"><strong>{{ item.cropName }}</strong></a>
-        </p>
+  {% for confidence in ["strong", "good", "borderline", "risky"] %}
+    {% set group = [] %}
+    {% for item in cityCropLinks %}
+      {% if item.confidence == confidence %}
+        {% set group = group.concat([item]) %}
+      {% endif %}
+    {% endfor %}
 
-        <p class="small muted" style="margin:0;">
-          {{ item.fit.summary }}
+    {% if group.length %}
+      <div
+        style="
+          margin:{% if loop.first %}0.35rem{% else %}0.9rem{% endif %} 0 0.45rem 0;
+          padding:{% if loop.first %}0.35rem 0.55rem{% else %}0.45rem 0.55rem{% endif %};
+          border:1px solid rgba(0,0,0,.08);
+          border-radius:10px;
+          background:rgba(0,0,0,.03);
+        "
+      >
+        <p
+          style="
+            margin:0;
+            font-size:0.76rem;
+            font-weight:700;
+            letter-spacing:0.06em;
+            text-transform:uppercase;
+            color:rgba(0,0,0,.72);
+            line-height:1.1;
+          "
+        >
+          {% if confidence == "strong" %}
+            Strong fit
+          {% elif confidence == "good" %}
+            Good fit
+          {% elif confidence == "borderline" %}
+            Borderline
+          {% elif confidence == "risky" %}
+            Risky fit
+          {% endif %}
         </p>
       </div>
-    {% endfor %}
-  </div>
+
+      <div class="city-crop-guides-grid">
+        {% for item in group | sort(false, false, "cropName") %}
+          {% set blurbOptions = item.fit.linkBlurbOptions or [] %}
+          {% set rotatedBlurb = item.fit.summary %}
+          {% if blurbOptions.length %}
+            {% set rotatedBlurb = blurbOptions[loop.index0 % blurbOptions.length] %}
+          {% endif %}
+
+          <div style="border:1px solid rgba(0,0,0,.08); border-radius:12px; padding:0.55rem 0.7rem; background:rgba(255,255,255,.45);">
+            <p class="small" style="margin:0 0 0.08rem 0; line-height:1.2;">
+              <a href="{{ item.url }}" style="text-decoration:none;">
+                <strong>{{ item.cropName }}</strong>
+              </a>
+            </p>
+
+            <p class="small muted" style="margin:0; line-height:1.22;">
+              {{ rotatedBlurb }}
+            </p>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endfor %}
 </section>
+
+<style>
+  .city-crop-guides-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.55rem;
+    margin-bottom: 0.75rem;
+  }
+
+  @media (max-width: 700px) {
+    .city-crop-guides-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
 {% endif %}

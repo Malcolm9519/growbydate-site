@@ -1,55 +1,196 @@
-<section class="card">
-  <h2>Quick Planning Reference</h2>
+<section class="quickAnswer card" aria-label="Growing season snapshot">
+  <div class="quickAnswerTop">
+    <h2>Growing Season Snapshot</h2>
+  </div>
 
-  {# --- Pull base-50 remaining GDD values safely by date --- #}
-  {% set gddJuly = null %}
-  {% set gddAug  = null %}
-  {% set gddSept = null %}
+  {% set slotName = "afterQuickRef" %}
+  {% include "region/modules/curated-slot.njk" %}
 
-  {% for row in (state.gdd_remaining or []) %}
-    {% if row.date == "07-01" %}{% set gddJuly = row.gdd %}{% endif %}
-    {% if row.date == "08-01" %}{% set gddAug  = row.gdd %}{% endif %}
-    {% if row.date == "09-01" %}{% set gddSept = row.gdd %}{% endif %}
-  {% endfor %}
+  {# --- Detect city page vs region page --- #}
+  {% set isCityPage = state.regionName and state.name and state.regionName != state.name %}
+
+  {# --- Pull frost + season values safely --- #}
+  {% set springFrost = state.season and state.season.frost and state.season.frost.spring and state.season.frost.spring.p50 %}
+  {% set seasonFallFrost = state.season and state.season.frost and state.season.frost.fall and state.season.frost.fall.p50 %}
+  {% set frostDays = state.season and state.season.derived and state.season.derived.frostFreeDays_p50 %}
+
+  {# Prefer region frost block when available for fall frost / range / coverage #}
+  {% set fallFrost = null %}
+  {% if state.frost and state.frost.status == "normal" and state.frost.median50 %}
+    {% set fallFrost = state.frost.median50 %}
+  {% elif seasonFallFrost %}
+    {% set fallFrost = seasonFallFrost %}
+  {% endif %}
 
   {% set hasRange = state.frost and state.frost.earliest50 and state.frost.latest50 and state.frost.earliest50 != state.frost.latest50 %}
 
-  <p class="small" style="margin-top:-0.25rem;">
-    A fast snapshot of the season in {{ state.name }}: when fall frost usually arrives, how much heat is typically left by mid- and late season, and where to go next for crop-specific timing.
+  {# --- Pull base-50 remaining GDD values safely by date --- #}
+  {% set gddMay15 = null %}
+  {% set gddJune1 = null %}
+  {% set gddAug1 = null %}
+
+  {% for row in (state.gdd_remaining or []) %}
+    {% if row.date == "05-15" %}{% set gddMay15 = row.gdd %}{% endif %}
+    {% if row.date == "06-01" %}{% set gddJune1 = row.gdd %}{% endif %}
+    {% if row.date == "08-01" %}{% set gddAug1 = row.gdd %}{% endif %}
+  {% endfor %}
+
+  <div class="quickStats">
+    {% if isCityPage %}
+      {# ---------- CITY: 4 facts ---------- #}
+
+      <div class="statCard">
+        <span class="statLabel">Typical last spring frost</span>
+        <strong>
+          {% if springFrost %}
+            {{ springFrost | mmddLong }}
+          {% else %}
+            —
+          {% endif %}
+        </strong>
+      </div>
+
+      <div class="statCard">
+        <span class="statLabel">Typical first fall frost</span>
+        <strong>
+          {% if fallFrost %}
+            {{ fallFrost | mmddLong }}
+          {% elif state.frost and state.frost.status == "frost_free" %}
+            Typically frost-free
+          {% else %}
+            —
+          {% endif %}
+        </strong>
+      </div>
+
+      <div class="statCard">
+        <span class="statLabel">Typical frost-free days</span>
+        <strong>
+          {% if frostDays %}
+            {{ frostDays }}
+          {% else %}
+            —
+          {% endif %}
+        </strong>
+      </div>
+
+      <div class="statCard">
+        <span class="statLabel">GDD left on May 15 (base 50)</span>
+        <strong>
+          {% if gddMay15 != null %}
+            {{ gddMay15 }}
+          {% else %}
+            —
+          {% endif %}
+        </strong>
+      </div>
+
+    {% else %}
+      {# ---------- STATE / PROVINCE: 8 facts ---------- #}
+
+      <div class="statCard">
+        <span class="statLabel">Typical last spring frost</span>
+        <strong>
+          {% if springFrost %}
+            {{ springFrost | mmddLong }}
+          {% else %}
+            —
+          {% endif %}
+        </strong>
+      </div>
+
+      <div class="statCard">
+        <span class="statLabel">Typical first fall frost</span>
+        <strong>
+          {% if fallFrost %}
+            {{ fallFrost | mmddLong }}
+          {% elif state.frost and state.frost.status == "frost_free" %}
+            Typically frost-free
+          {% else %}
+            —
+          {% endif %}
+        </strong>
+      </div>
+
+      <div class="statCard">
+        <span class="statLabel">Typical frost-free days</span>
+        <strong>
+          {% if frostDays %}
+            {{ frostDays }}
+          {% else %}
+            —
+          {% endif %}
+        </strong>
+      </div>
+
+      <div class="statCard">
+        <span class="statLabel">Regional fall frost range</span>
+        <strong>
+          {% if hasRange %}
+            {{ state.frost.earliest50 | mmddLong }} to {{ state.frost.latest50 | mmddLong }}
+          {% else %}
+            —
+          {% endif %}
+        </strong>
+      </div>
+
+      <div class="statCard">
+        <span class="statLabel">GDD left on May 15</span>
+        <strong>
+          {% if gddMay15 != null %}
+            {{ gddMay15 }}
+          {% else %}
+            —
+          {% endif %}
+        </strong>
+      </div>
+
+      <div class="statCard">
+        <span class="statLabel">GDD left on June 1</span>
+        <strong>
+          {% if gddJune1 != null %}
+            {{ gddJune1 }}
+          {% else %}
+            —
+          {% endif %}
+        </strong>
+      </div>
+
+      <div class="statCard">
+        <span class="statLabel">GDD left on August 1</span>
+        <strong>
+          {% if gddAug1 != null %}
+            {{ gddAug1 }}
+          {% else %}
+            —
+          {% endif %}
+        </strong>
+      </div>
+
+      <div class="statCard">
+        <span class="statLabel">Coverage</span>
+        <strong>
+          {% if state.frost and state.frost.stationCount and state.frost.stationCount > 0 %}
+            {{ state.frost.stationCount }} locations
+          {% else %}
+            —
+          {% endif %}
+        </strong>
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="quickSummary">
+    <p class="small" style="margin-top:-0.25rem;">
+    These season boundaries are climate normals, not a forecast. A
+    <a href="/guides/what-does-50-percent-frost-probability-mean/">50% frost date</a>
+    means a <strong>32°F frost</strong> arrives by that date in about half of years — and later in about half. Treat these dates as planning anchors, not guarantees.
   </p>
 
-  <ul>
-    {% if state.frost.status == "normal" %}
-      <li><strong>Typical first fall frost (median):</strong> {{ state.frost.median50 | mmddLong }}</li>
-      {% if hasRange %}
-        <li><strong>Range across the region:</strong> {{ state.frost.earliest50 | mmddLong }} to {{ state.frost.latest50 | mmddLong }}</li>
-      {% endif %}
-{% if state.frost.stationCount and state.frost.stationCount > 1 %}
-  <li><strong>Coverage:</strong> {{ state.frost.stationCount }} locations</li>
-{% endif %}
-    {% elif state.frost.status == "frost_free" %}
-      <li><strong>Frost:</strong> This region is typically frost-free in the normals dataset.</li>
-    {% else %}
-      <li><strong>Frost:</strong> Frost normals are not available for this region yet.</li>
-    {% endif %}
-
-    {% if gddJuly != null %}
-      <li><strong>Median GDD remaining on July 1 (base 50):</strong> {{ gddJuly }}</li>
-    {% endif %}
-    {% if gddAug != null %}
-      <li><strong>Median GDD remaining on August 1 (base 50):</strong> {{ gddAug }}</li>
-    {% endif %}
-    {% if gddSept != null %}
-      <li><strong>Median GDD remaining on September 1 (base 50):</strong> {{ gddSept }}</li>
-    {% endif %}
-
-    <li>
+    <p>
       <strong>Best next step:</strong>
       Use the <a href="#gdd-planner">Growing Degree Day Planner</a> to test a specific crop and planting date for your exact location.
-    </li>
-  </ul>
+    </p>
 
-  <p class="fine muted" style="margin-top:14px;">
-    These are climate normals, not a forecast. Real gardens can run earlier or later depending on elevation, exposure, and nearby shelter.
-  </p>
+  </div>
 </section>

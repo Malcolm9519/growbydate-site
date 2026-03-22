@@ -65,9 +65,11 @@ eleventyComputed:
   </p>
 </section>
 
-{# Optional crop-specific details: src/_includes/crops/{{ crop.slug }}-details.njk #}
-{% set detailsPathA = "crops/" + crop.slug + "-details.njk" %}
-{% set detailsPathB = crop.slug + "-details.njk" %}
-{% include detailsPathA ignore missing %}
-{% include detailsPathB ignore missing %}
-
+{% if crop.editorial and crop.editorial.detailPartial %}
+  {% include crop.editorial.detailPartial ignore missing %}
+{% else %}
+  {% set detailsPathA = "crops/" + crop.slug + "-details.njk" %}
+  {% set detailsPathB = crop.slug + "-details.njk" %}
+  {% include detailsPathA ignore missing %}
+  {% include detailsPathB ignore missing %}
+{% endif %}

@@ -1280,3 +1280,240 @@ p + .tableWrap {
     min-width: 220px;
   }
 }
+
+
+
+
+
+
+.quickAnswer {
+  margin-top: 1rem;
+}
+
+.quickAnswerTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+
+.quickAnswerTop h2 {
+  margin: 0;
+  font-size: 1.4rem;
+  line-height: 1.2;
+}
+
+.fitBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 160px;
+  padding: 0.42rem 0.75rem;
+border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  border: 1px solid rgba(0,0,0,0.08);
+}
+
+.fitBadge-strong {
+  background: #e6f4ea;
+  color: #1e7e34;
+  border-color: rgba(30,126,52,0.16);
+}
+
+.fitBadge-good {
+  background: #eef6ff;
+  color: #1c6ed5;
+  border-color: rgba(28,110,213,0.16);
+}
+
+.fitBadge-borderline {
+  background: #fff4e5;
+  color: #b26a00;
+  border-color: rgba(178,106,0,0.18);
+}
+
+.fitBadge-risky {
+  background: #fdecea;
+  color: #b42318;
+  border-color: rgba(180,35,24,0.18);
+}
+
+.quickStats {
+  display: grid;
+  gap: 0.9rem;
+  margin: 1rem 0 1rem;
+}
+
+.statCard {
+  padding: 0.95rem 1rem;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 14px;
+  background: #fff;
+}
+
+.statLabel {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.statCard strong {
+  font-size: 1.05rem;
+  color: #111;
+}
+
+.quickSummary .small.muted,
+.quickSummary .methodNote {
+  margin-top: 0.75rem;
+  font-size: 0.92rem;
+  color: var(--muted);
+}
+
+@media (max-width: 640px) {
+  .quickAnswerTop {
+    align-items: flex-start;
+  }
+
+  .quickAnswerTop h2 {
+    font-size: 1.25rem;
+  }
+
+  .fitBadge {
+    min-width: 140px;
+  }
+}
+
+@media (min-width: 700px) {
+  .quickStats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 980px) {
+  .quickStats {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+
+
+
+
+
+
+.city-crop-guides-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.55rem;
+  margin-bottom: 0.75rem;
+}
+
+@media (max-width: 700px) {
+  .city-crop-guides-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+
+
+
+
+/* ---------- PLANTING WINDOWS TABLE UPGRADE ---------- */
+
+.plantingWindowsWrap {
+  margin-top: 0.85rem;
+}
+
+.plantingWindowsTable th {
+  vertical-align: bottom;
+}
+
+.plantWindowSectionRow td {
+  padding: 0.7rem 0.85rem;
+  background: rgba(0, 0, 0, 0.035);
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  font-size: 0.95rem;
+}
+
+.plantWindowSectionHint {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: 0.85rem;
+  color: #6b7280;
+  font-weight: 400;
+}
+
+.plantWindowCropCell strong {
+  font-size: 1rem;
+}
+
+.plantWindowCropRowCool td {
+  background: rgba(82, 139, 90, 0.03);
+}
+
+.plantWindowCropRowWarm td {
+  background: rgba(186, 112, 42, 0.03);
+}
+
+.plantMethodTag {
+  display: inline-block;
+  padding: 0.22rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.05);
+  font-size: 0.84rem;
+  line-height: 1.2;
+  color: #374151;
+  white-space: nowrap;
+}
+
+.plantingWindowsNote {
+  margin-top: 0.8rem;
+}
+
+@media (max-width: 720px) {
+  .plantWindowSectionHint {
+    font-size: 0.82rem;
+  }
+
+  .plantMethodTag {
+    white-space: normal;
+  }
+}
+
+.plantingWindowsTable td:nth-child(1) {
+  width: 34%;
+}
+
+.plantingWindowsTable td:nth-child(2) {
+  width: 33%;
+}
+
+.plantingWindowsTable td:nth-child(3) {
+  width: 33%;
+}
+
+.plantingWindowsTableCity td:nth-child(1) {
+  width: 30%;
+}
+
+.plantingWindowsTableCity td:nth-child(2) {
+  width: 26%;
+}
+
+.plantingWindowsTableCity td:nth-child(3) {
+  width: 20%;
+}
+
+.plantingWindowsTableCity td:nth-child(4) {
+  width: 24%;
+}

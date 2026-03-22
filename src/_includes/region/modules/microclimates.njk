@@ -91,7 +91,9 @@
 {% set gddAugMin = gddAugVals | sort | first %}
 {% set gddAugMax = gddAugVals | sort | last %}
 
-<h3>How Growing Conditions Vary Across {{ state.name }}</h3>
+<section class="card">
+
+<h2>How Growing Conditions Vary Across {{ state.name }}</h2>
 
 {% if not season %}
   <p class="small">Microclimate guidance isn’t available for this region yet.</p>
@@ -170,3 +172,6 @@
   </ul>
 
 {% endif %}
+  {% include "region/modules/how-gardeners-adapt.njk" %}
+  {% include "region/modules/common-timing-mistakes.njk" %}
+</section>
