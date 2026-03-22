@@ -6,13 +6,13 @@ pagination:
   alias: state
 permalink: "/planting-dates/states/{{ state.key }}/index.html"
 eleventyComputed:
-  title: "Planting Dates & Crop Timing in {{ state.name }} | GrowByDate"
+  title: "{{ state.name }} Planting Dates, Frost Dates & Growing Season | GrowByDate"
   description: "Typical frost dates, growing season length, and crop timing guidance for gardeners in {{ state.name }}."
   canonical: "https://growbydate.com/planting-dates/states/{{ state.key }}/"
 ---
 
 <header class="header">
-  <h1>Planting Dates & Crop Timing in {{ state.name }}</h1>
+<h1>{{ state.name }} Planting Dates, Frost Dates & Growing Season</h1>
 
   {% set hero = (state.content and state.content.hero) or {} %}
 

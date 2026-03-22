@@ -6,7 +6,7 @@ pagination:
   alias: city
 permalink: "/planting-dates/{% if city.country == 'canada' %}canada/{% endif %}{{ city.regionKey }}/{{ city.key }}/index.html"
 eleventyComputed:
-  title: "Planting Dates in {{ city.name }}, {{ city.regionName }} | GrowByDate"
+  title: "{{ city.name }}, {{ city.regionName }} Planting Dates, Frost Dates & Growing Season | GrowByDate"
   description: "Typical frost dates, growing season length, and crop timing guidance for {{ city.name }}, {{ city.regionName }}."
   canonical: "https://growbydate.com/planting-dates/{% if city.country == 'canada' %}canada/{% endif %}{{ city.regionKey }}/{{ city.key }}/"
 ---
@@ -15,7 +15,7 @@ eleventyComputed:
 
 <header class="header cityHeader">
   <div class="cityHeaderText">
-    <h1>Planting Dates in {{ state.name }}, {{ state.regionName }}</h1>
+<h1>{{ city.name }}, {{ city.regionName }} Planting Dates, Frost Dates & Growing Season</h1>
 
     {% set hero = (state.content and state.content.hero) or {} %}
 
