@@ -6,8 +6,8 @@ pagination:
   alias: pageData
 permalink: "{{ pageData.url }}index.html"
 eleventyComputed:
-  title: "When to Plant {{ pageData.cropName }} in {{ pageData.cityName }}, {{ pageData.regionName }} | GrowByDate"
-  description: "{{ pageData.cropName }} planting timing, frost dates, and maturity outlook for {{ pageData.cityName }}, {{ pageData.regionName }}."
+  title: "When to Plant {{ pageData.cropName }} in {{ pageData.cityName }}: Timing and Maturity Guide | GrowByDate"
+  description: "Find the best time to plant {{ pageData.cropName | lower }} in {{ pageData.cityName }}, {{ pageData.regionName }}, with local planting windows, frost dates, indoor and outdoor timing, and whether the crop will typically mature in time."
   canonical: "https://growbydate.com{{ pageData.url }}"
 ---
 
@@ -68,7 +68,7 @@ eleventyComputed:
 
 <header class="header cropHero">
   <p class="eyebrow">Climate-based {{ cropSingularLower }} planting guide for {{ pageData.cityName }}, {{ pageData.regionName }}</p>
-  <h1>When to Plant {{ cropPlural }} in {{ pageData.cityName }}</h1>
+<h1>When to Plant {{ cropPlural }} in {{ pageData.cityName }}: Timing and Maturity Guide</h1>
   <p class="lede">{{ pageData.lede }}</p>
 </header>
 
@@ -169,7 +169,7 @@ eleventyComputed:
     {% if pageData.fit.gddMargin != null %}
       {% if pageData.fit.gddMargin >= 150 %}
         <p>
-          From the usual planting window, {{ pageData.cityName }} typically provides about {{ pageData.fit.availableGddFromPlanting }} growing degree days for {{ cropLower }}. With a typical crop target of {{ pageData.crop.gddTargetTypical }}, that leaves a heat margin of +{{ pageData.fit.gddMargin }}. That means the season usually provides enough accumulated warmth for {{ cropLower }} to mature reliably, not just to fit the calendar on paper, but to actually mature in typical local conditions.
+          From the usual planting window, {{ pageData.cityName }} typically provides about {{ pageData.fit.availableGddFromPlanting }} growing degree days for {{ cropLower }}. With a typical crop target of {{ pageData.crop.gddTargetTypical }}, that leaves a heat margin of +{{ pageData.fit.gddMargin }}. That means the season usually provides enough accumulated warmth for {{ cropLower }} to mature reliably in typical local conditions.
         </p>
       {% elif pageData.fit.gddMargin >= 40 %}
         <p>
