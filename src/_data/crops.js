@@ -890,7 +890,7 @@ const CROP_CITY_BY_KEY = {
   commonFailureMode: "Late sowing limits root sizing before cooler fall conditions slow growth."
 },
 lettuce: {
-  relatedCrops: ["spinach", "radishes"],
+  relatedCrops: ["spinach", "beans"],
 
   plantingMethod: "direct-sow",
   startingMethod: "outdoors",

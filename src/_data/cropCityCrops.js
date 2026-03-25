@@ -23,8 +23,9 @@ module.exports = crops
     maturityFrom: crop.planning.maturityFrom,
     daysToMaturityTypical: crop.planning.daysToMaturityTypical,
 
-    frostTolerance: crop.climate.frostTolerance,
-    minSafeTempF: crop.climate.minSafeTempF,
+frostTolerance: crop.climate.frostTolerance,
+frostToleranceLabel: crop.climate.frostToleranceLabel || null,
+minSafeTempF: crop.climate.minSafeTempF,
 
     varietyClasses: crop.cropCity.varietyClasses,
 

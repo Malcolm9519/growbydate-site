@@ -19,6 +19,204 @@ const CHECKPOINTS = [
   "08-15"
 ];
 
+const PLANTING_WINDOW_LABELS = {
+  tomatoes: "Tomatoes",
+  peppers: "Peppers",
+  eggplant: "Eggplant",
+  cucumbers: "Cucumbers",
+  zucchini: "Zucchini",
+  "winter-squash": "Squash",
+  pumpkin: "Pumpkins",
+  "sweet-corn": "Sweet corn",
+  beans: "Beans",
+  peas: "Peas",
+  carrots: "Carrots",
+  beets: "Beets",
+  potatoes: "Potatoes",
+  onions: "Onions",
+  garlic: "Garlic",
+  broccoli: "Broccoli",
+  cauliflower: "Cauliflower",
+  cabbage: "Cabbage",
+  lettuce: "Lettuce",
+  kale: "Kale",
+  spinach: "Spinach",
+  radishes: "Radishes",
+  turnips: "Turnips",
+  melons: "Melons",
+  watermelons: "Watermelons",
+  strawberries: "Strawberries",
+  sunflowers: "Sunflowers",
+  basil: "Basil"
+};
+
+function formatVarietyLabelsForProse(fittingVarietyClasses, { capitalize = false } = {}) {
+  if (!Array.isArray(fittingVarietyClasses) || !fittingVarietyClasses.length) return null;
+
+  const keys = fittingVarietyClasses
+    .map((v) => v?.key)
+    .filter(Boolean);
+
+  if (!keys.length) return null;
+
+  const normalized = [];
+  for (const key of keys) {
+    if (!normalized.includes(key)) normalized.push(key);
+  }
+
+  const allOrdered = ["very-early", "early", "mid", "late"];
+  const matched = allOrdered.filter((key) => normalized.includes(key));
+
+  let phrase = null;
+
+  if (matched.length === 4) {
+    phrase = "very early to late";
+  } else if (matched.join("|") === "very-early|early") {
+    phrase = "very early and early";
+  } else if (matched.join("|") === "early|mid") {
+    phrase = "early and mid-season";
+  } else if (matched.join("|") === "mid|late") {
+    phrase = "mid-season and late";
+  } else if (matched.join("|") === "very-early|early|mid") {
+    phrase = "very early to mid-season";
+  } else if (matched.join("|") === "early|mid|late") {
+    phrase = "early through late";
+  } else {
+    const map = {
+      "very-early": "very early",
+      "early": "early",
+      "mid": "mid-season",
+      "late": "late"
+    };
+
+    const parts = matched.map((key) => map[key]).filter(Boolean);
+
+    if (parts.length === 1) {
+      phrase = parts[0];
+    } else if (parts.length === 2) {
+      phrase = `${parts[0]} and ${parts[1]}`;
+    } else {
+      phrase = `${parts.slice(0, -1).join(", ")}, and ${parts[parts.length - 1]}`;
+    }
+  }
+
+  if (!phrase) return null;
+
+  if (capitalize) {
+    return phrase.charAt(0).toUpperCase() + phrase.slice(1);
+  }
+
+  return phrase;
+}
+
+function resolvePlantingWindow(city, crop) {
+  const windows = Array.isArray(city?.plantingWindows) ? city.plantingWindows : [];
+  const expectedLabel = PLANTING_WINDOW_LABELS[crop?.key] || crop?.name || null;
+  const matched = windows.find((w) => w?.label === expectedLabel) || null;
+
+  return {
+    label: matched?.label || expectedLabel,
+    start: matched?.start || null,
+    end: matched?.end || null,
+    method: matched?.method || null
+  };
+}
+
+function buildMethodSummary({ crop, startIndoorsDate, plantOutDate, directSowDate, plantingWindow }) {
+  let primaryLabel = "Typical planting date";
+  let primaryDate = plantOutDate || directSowDate || startIndoorsDate || null;
+
+  if (plantOutDate) primaryLabel = "Typical transplant date";
+  else if (directSowDate) primaryLabel = "Typical sowing date";
+  else if (startIndoorsDate) primaryLabel = "Typical indoor start date";
+
+  let summarySentence = null;
+
+  if (startIndoorsDate && plantOutDate) {
+    summarySentence = `${crop.name} are usually started indoors around ${formatMmddForCopy(startIndoorsDate)} and transplanted outdoors around ${formatMmddForCopy(plantOutDate)} in ${plantingWindow?.start && plantingWindow?.end ? `the normal local planting window of ${formatMmddForCopy(plantingWindow.start)} to ${formatMmddForCopy(plantingWindow.end)}.` : "the usual local planting period."}`;
+  } else if (directSowDate) {
+    summarySentence = `${crop.name} are usually direct sown outdoors around ${formatMmddForCopy(directSowDate)}${plantingWindow?.start && plantingWindow?.end ? `, with a typical local planting window of ${formatMmddForCopy(plantingWindow.start)} to ${formatMmddForCopy(plantingWindow.end)}.` : "."}`;
+  } else if (startIndoorsDate) {
+    summarySentence = `${crop.name} are usually started around ${formatMmddForCopy(startIndoorsDate)} in ${crop.name.toLowerCase()} plans for ${formatMmddForCopy(plantingWindow?.start || startIndoorsDate)} onward.`;
+  }
+
+  return {
+    primaryLabel,
+    primaryDate,
+    startIndoorsDate,
+    plantOutDate,
+    directSowDate,
+    summarySentence
+  };
+}
+
+function buildDelayAnalysis({ city, crop, primaryPlantingDate, fall50, gddTargetTypical }) {
+  const cropGddBase = crop?.gddBase != null ? String(crop.gddBase) : "50";
+  if (!primaryPlantingDate || !fall50 || !Number.isFinite(gddTargetTypical)) {
+    return { rows: [], summary: null };
+  }
+
+  const scenarios = [
+    { label: "On time", offsetDays: 0 },
+    { label: "1 week late", offsetDays: 7 },
+    { label: "2 weeks late", offsetDays: 14 }
+  ];
+
+  const rows = scenarios.map((scenario) => {
+    const date = addDays(primaryPlantingDate, scenario.offsetDays);
+    const availableGdd = date
+      ? getAvailableGddBeforeFrost(city, date, fall50, cropGddBase)
+      : null;
+    const gddMargin =
+      Number.isFinite(availableGdd) && Number.isFinite(gddTargetTypical)
+        ? availableGdd - gddTargetTypical
+        : null;
+
+    return {
+      label: scenario.label,
+      date,
+      availableGdd,
+      gddMargin
+    };
+  });
+
+  const onTime = rows[0];
+  const twoWeeksLate = rows[2];
+  let summary = null;
+
+  if (
+    Number.isFinite(onTime?.gddMargin) &&
+    Number.isFinite(twoWeeksLate?.gddMargin)
+  ) {
+    const drop = onTime.gddMargin - twoWeeksLate.gddMargin;
+    summary = `Waiting two extra weeks typically costs about ${drop} GDD of seasonal margin for ${crop.name.toLowerCase()} in ${city.name}.`;
+  }
+
+  return { rows, summary };
+}
+
+function buildLatestPlantingDates({ city, crop, fall50 }) {
+  const cropGddBase = crop?.gddBase != null ? String(crop.gddBase) : "50";
+  if (!fall50 || !Number.isFinite(crop?.gddTargetTypical)) {
+    return { safe: null, borderline: null };
+  }
+
+  let safe = null;
+  let borderline = null;
+
+  for (const checkpoint of CHECKPOINTS) {
+    const available = getAvailableGddBeforeFrost(city, checkpoint, fall50, cropGddBase);
+    if (!Number.isFinite(available)) continue;
+
+    const margin = available - crop.gddTargetTypical;
+
+    if (margin >= 75) safe = checkpoint;
+    if (margin >= 0) borderline = checkpoint;
+  }
+
+  return { safe, borderline };
+}
+
 function normalizeArrayLike(value) {
   if (!value) return [];
   if (Array.isArray(value)) return value;
@@ -318,6 +516,10 @@ function buildBestVarietyParagraph({ crop, city, confidence, varietyClassFits })
   const tightLabels = getClassLabelSet(varietyClassFits, ["tight"]);
   const bestRank = getBestFitRank(varietyClassFits);
 
+  if (crop.key === "spinach") {
+    return `Most spinach varieties are already fairly quick to mature, so variety speed is usually less important here than it is for longer-season crops. In ${city.name}, planting timing, bolting pressure, and whether you want baby leaves or full-size plants usually matter more than choosing between very similar maturity classes.`;
+  }
+
   const workableText = formatClassLabelList(workableLabels);
   const tightText = formatClassLabelList(tightLabels);
 
@@ -454,23 +656,30 @@ function buildMainRiskSentence({ crop, confidence, gddMargin }) {
   return `The season often runs out before the crop finishes well.`;
 }
 
-function buildVarietyFitSentence(crop, fittingVarietyLabels, confidence) {
-  const labelsText = formatList(fittingVarietyLabels);
+function buildVarietyFitSentence(crop, fittingVarietyLabels, fittingVarietyClasses, confidence) {
+  const labelsText =
+    formatVarietyLabelsForProse(fittingVarietyClasses) ||
+    formatList(fittingVarietyLabels)?.toLowerCase();
+
+  const labelsTextCapitalized =
+    formatVarietyLabelsForProse(fittingVarietyClasses, { capitalize: true }) ||
+    (labelsText ? labelsText.charAt(0).toUpperCase() + labelsText.slice(1) : null);
+
   if (!labelsText) return null;
 
   if (confidence === "strong") {
-    return `${labelsText} varieties can usually mature here in a typical year.`;
+    return `${labelsTextCapitalized} varieties can usually mature here in a typical year.`;
   }
 
   if (confidence === "good") {
-    return `${labelsText} varieties are usually a practical fit here in a typical year.`;
+    return `${labelsTextCapitalized} varieties are usually a practical fit here in a typical year.`;
   }
 
   if (confidence === "borderline") {
     if (fittingVarietyLabels.length === 1) {
-      return `Only ${labelsText.toLowerCase()} varieties are a realistic fit in a typical year.`;
+      return `Only ${labelsText} varieties are a realistic fit in a typical year.`;
     }
-    return `${labelsText} varieties are the most realistic fit here, while slower types are more exposed to season risk.`;
+    return `${labelsTextCapitalized} varieties are usually the best fit here, while slower types face more season risk.`;
   }
 
   return `Only the earliest varieties are realistic candidates here in a typical year.`;
@@ -688,7 +897,7 @@ function buildMicroCropEffect({ crop, confidence, gddMargin }) {
   return `For ${crop.name.toLowerCase()}, the warmest sites usually buy earlier growth and a little more seasonal margin.`;
 }
 
-function buildDecisionSentence({ crop, city, confidence, fittingVarietyLabels, gddMargin }) {
+function buildDecisionSentence({ crop, city, confidence, fittingVarietyLabels, fittingVarietyClasses, gddMargin }) {
   const cropNameLower = crop.name.toLowerCase();
   const varietyText = formatList(fittingVarietyLabels);
 
@@ -697,7 +906,7 @@ function buildDecisionSentence({ crop, city, confidence, fittingVarietyLabels, g
   }
 
   if (confidence === "good") {
-    return `${crop.name} ${getVerb(crop)} a practical choice in ${city.name}, especially when gardeners stay close to timely planting${varietyText ? ` and lean toward ${varietyText.toLowerCase()} varieties` : ""}.`;
+    return `${crop.name} ${getVerb(crop)} a practical choice in ${city.name}, especially when gardeners stay close to planting windows${varietyText ? ` and lean toward ${varietyText.toLowerCase()} varieties` : ""}.`;
   }
 
   if (confidence === "borderline") {
@@ -755,7 +964,7 @@ function buildLocalInterpretation({
     return `Here, warm placement is less about optimization and more about protecting a crop that already has a fairly tight margin.`;
   }
 
-  return `${crop.name} ${getRespondVerb(crop)} most here to the basics: timely planting, a site that warms well, and a variety class that matches the local season.`;
+  return `${crop.name} ${getRespondVerb(crop)} most here to the basics: planting on time, a site that warms well, and a variety class that matches the local season.`;
 }
 
 function buildAdvisoryCopy({
@@ -853,33 +1062,40 @@ function buildAdvisoryCopy({
   };
 }
 
-function buildLede({ crop, city, confidence, fittingVarietyLabels }) {
-  const labelsText = formatList(fittingVarietyLabels);
+function buildLede({ crop, city, confidence, fittingVarietyLabels, fittingVarietyClasses }) {
+  const labelsText =
+    formatVarietyLabelsForProse(fittingVarietyClasses) ||
+    formatList(fittingVarietyLabels)?.toLowerCase();
+
+  const labelsTextCapitalized =
+    formatVarietyLabelsForProse(fittingVarietyClasses, { capitalize: true }) ||
+    (labelsText ? labelsText.charAt(0).toUpperCase() + labelsText.slice(1) : null);
+
   const cropNameLower = crop.name.toLowerCase();
   const verb = getVerb(crop);
 
-  const ledeOptions = {
-    strong: [
-      `${crop.name} ${verb} usually a strong fit in ${city.name} because the local season is long enough to support reliable maturity. Gardeners generally have room to grow ${labelsText ? labelsText.toLowerCase() : cropNameLower} varieties without pushing the season too hard.`,
-      `In ${city.name}, {{crop}} usually ${getPerformVerb(crop)} well because the season provides enough time and heat for reliable maturity. Gardeners typically have flexibility in both variety choice and timing.`,
-      `${city.name} usually gives ${cropNameLower} enough runway for dependable maturity in a typical year. That makes this one of the more comfortable local crop fits when planting is reasonably timed.`
-    ],
-    good: [
-      `${crop.name} ${verb} usually a good fit in ${city.name}, though results still depend on timely planting and sensible variety choice. ${labelsText ? `${labelsText} varieties are typically the most practical match for a normal season.` : ""}`,
-      `In ${city.name}, ${cropNameLower} usually ${getVerb(crop) === "is" ? "has" : "have"} enough season to perform well, though the local window still rewards timely planting and realistic variety choice.`,
-      `${crop.name} ${verb} generally workable in ${city.name} because the season is supportive, even if it is not completely forgiving. Gardeners usually do best when they stay close to timely planting and locally appropriate varieties.`
-    ],
-    borderline: [
-      `${crop.name} ${verb} more marginal in ${city.name} because the season is workable but does not leave much room for delay or slower varieties. ${labelsText ? `${labelsText} varieties are usually the most realistic fit.` : ""}`,
-      `In ${city.name}, ${cropNameLower} can work, but the local season leaves only a modest margin for slower varieties or delayed planting.`,
-      `${crop.name} ${verb} possible in ${city.name}, though the season is tight enough that variety choice and planting timing matter much more than they do for easier crops.`
-    ],
-    risky: [
-      `${crop.name} ${verb} often difficult in ${city.name} because the season is short and heat accumulation is limited. Only the earliest varieties typically mature well, especially in warm and protected sites.`,
-      `In ${city.name}, ${cropNameLower} usually ${getVerb(crop) === "is" ? "sits" : "sit"} close to the edge of what the local season can support. Faster varieties and warmer sites make the biggest difference.`,
-      `${crop.name} ${verb} a more demanding choice in ${city.name} because the local season usually favors only the quickest-maturing types.`
-    ]
-  };
+const ledeOptions = {
+  strong: [
+    `${crop.name} ${verb} usually a strong fit in ${city.name} because the local season is long enough to support reliable maturity. Gardeners generally have room to grow ${labelsText ? labelsText : cropNameLower} varieties without needing to stretch the season.`,
+    `In ${city.name}, ${cropNameLower} usually ${getPerformVerb(crop)} well because the season provides enough time and heat for reliable maturity. Gardeners typically have flexibility in both variety choice and timing.`,
+    `${city.name} usually gives ${cropNameLower} enough runway for dependable maturity in a typical year. That makes this one of the more comfortable local crop fits when planting is reasonably timed.`
+  ],
+  good: [
+    `${crop.name} ${verb} usually a good fit in ${city.name}, though results still depend on timing and sensible variety choice. ${labelsTextCapitalized ? `${labelsTextCapitalized} varieties are typically the most practical match for a normal season.` : ""}`,
+    `In ${city.name}, ${cropNameLower} usually ${getVerb(crop) === "is" ? "has" : "have"} enough season to perform well, though the local window still rewards good timing and realistic variety choice.`,
+    `${crop.name} ${verb} generally workable in ${city.name} because the season is supportive, even if it is not completely forgiving. Gardeners usually do best when they stay close to typical timing windows and locally appropriate varieties.`
+  ],
+  borderline: [
+    `${crop.name} ${verb} more marginal in ${city.name} because the season is workable but leaves little room for delay or slower varieties. ${labelsTextCapitalized ? `${labelsTextCapitalized} varieties are usually the best fit.` : ""}`,
+    `In ${city.name}, ${cropNameLower} can work, but the local season leaves only a modest margin for slower varieties or delayed planting.`,
+    `${crop.name} ${verb} possible in ${city.name}, though the season is tight enough that variety choice and planting timing matter much more than they do for easier crops.`
+  ],
+  risky: [
+    `${crop.name} ${verb} often difficult in ${city.name} because the season is short and heat accumulation is limited. Only the earliest varieties typically mature well, especially in warm and protected sites.`,
+    `In ${city.name}, ${cropNameLower} usually ${getVerb(crop) === "is" ? "sits" : "sit"} close to the edge of what the local season can support. Faster varieties and warmer sites make the biggest difference.`,
+    `${crop.name} ${verb} a more demanding choice in ${city.name} because the local season usually favors only the quickest-maturing types.`
+  ]
+};
 
   const options = ledeOptions[confidence] || ledeOptions.risky;
   const cityHash = String(city.key || city.name || "")
@@ -893,18 +1109,20 @@ function buildLede({ crop, city, confidence, fittingVarietyLabels }) {
   return options[idx].replace("{{crop}}", cropNameLower);
 }
 
-function getSummary({ crop, city, confidence, fittingVarietyLabels }) {
+function getSummary({ crop, city, confidence, fittingVarietyLabels, fittingVarietyClasses }) {
   if (!crop || !city) return "";
 
   const verb = getVerb(crop);
-  const varietyText = formatList(fittingVarietyLabels);
+  const varietyText =
+    formatVarietyLabelsForProse(fittingVarietyClasses) ||
+    formatList(fittingVarietyLabels)?.toLowerCase();
 
   if (confidence === "strong") {
-    return `${crop.name} ${verb} typically a strong fit in ${city.name}. There is usually enough seasonal heat for reliable maturity with timely planting${varietyText ? `, including ${varietyText.toLowerCase()} varieties` : ""}.`;
+    return `${crop.name} ${verb} typically a strong fit in ${city.name}. There is usually enough seasonal heat for reliable maturity with good timing${varietyText ? `, including ${varietyText.toLowerCase()} varieties` : ""}.`;
   }
 
   if (confidence === "good") {
-    return `${crop.name} ${verb} generally a good fit in ${city.name}. Timely planting and variety choice help ensure good results${varietyText ? `, including ${varietyText.toLowerCase()} varieties` : ""}.`;
+    return `${crop.name} ${verb} generally a good fit in ${city.name}. Planting on time and variety choice help ensure good results${varietyText ? `, including ${varietyText.toLowerCase()} varieties` : ""}.`;
   }
 
   if (confidence === "borderline") {
@@ -918,9 +1136,9 @@ function getSummary({ crop, city, confidence, fittingVarietyLabels }) {
   return `${crop.name} can be evaluated in ${city.name} using local frost and heat data.`;
 }
 
-function buildLinkBlurbOptions({ crop, city, confidence, fittingVarietyLabels }) {
+function buildLinkBlurbOptions({ crop, city, confidence, fittingVarietyLabels, fittingVarietyClasses, }) {
   const cropNameLower = crop.name.toLowerCase();
-  const labelsText = formatList(fittingVarietyLabels);
+const labelsText = formatVarietyLabelsForProse(fittingVarietyClasses);
   const cityName = city.name;
 
   if (confidence === "strong") {
@@ -936,7 +1154,7 @@ function buildLinkBlurbOptions({ crop, city, confidence, fittingVarietyLabels })
   if (confidence === "good") {
     return [
       `${crop.name} ${getVerb(crop)} usually a workable local choice when planted on time.`,
-      `${crop.name} generally fit this season well, especially with sensible variety choice.`,
+      `${crop.name} generally work well here, especially with sensible variety choice.`,
       `${cityName} usually gives ${cropNameLower} enough season to perform well with normal timing.`,
       `${crop.name} ${getVerb(crop)} a practical fit here, though slower varieties carry more risk.`,
       `${labelsText ? `${labelsText} varieties` : `${crop.name}`} are typically the best local match.`
@@ -954,7 +1172,7 @@ function buildLinkBlurbOptions({ crop, city, confidence, fittingVarietyLabels })
   }
 
   return [
-    `${crop.name} ${getVerb(crop)} harder to finish well here and usually favor the fastest varieties.`,
+    `${crop.name} ${getVerb(crop)} harder to finish well here and usually does best with the fastest varieties.`,
     `${crop.name} ${getVerb(crop)} a more demanding local choice, especially in cooler or exposed sites.`,
     `${cityName} usually gives ${cropNameLower} a narrow margin for maturity in a typical year.`,
     `${crop.name} ${getVerb(crop)} more realistic here when gardeners prioritize speed, warmth, and protection.`,
@@ -965,6 +1183,23 @@ function buildLinkBlurbOptions({ crop, city, confidence, fittingVarietyLabels })
 function buildUrl(city, crop) {
   const countryPrefix = city.country === "canada" ? "canada/" : "";
   return `/planting-dates/${countryPrefix}${city.regionKey}/${city.key}/${crop.key}/`;
+}
+
+function getMatchedPlantingWindow(city, crop) {
+  const plantingWindows = city?.plantingWindows || [];
+  if (!plantingWindows.length || !crop?.key) return null;
+
+  const plantingWindowKeyMap = {
+    "sweet-corn": "corn",
+    "corn-sweet": "corn",
+    "winter-squash": "squash",
+    "pumpkin": "squash",
+    "zucchini": "cucumbers"
+  };
+
+  const lookupKey = plantingWindowKeyMap[crop.key] || crop.key;
+
+  return plantingWindows.find((pw) => pw.key === lookupKey) || null;
 }
 
 function buildCropCitySummary(city, crop) {
@@ -990,7 +1225,10 @@ function buildCropCitySummary(city, crop) {
 
   if (spring50) {
     if (crop.daysBeforeLastFrostStartIndoors != null) {
-      startIndoorsDate = addDays(spring50, -crop.daysBeforeLastFrostStartIndoors);
+      startIndoorsDate = addDays(
+        spring50,
+        -crop.daysBeforeLastFrostStartIndoors
+      );
     }
 
     if (crop.daysAfterLastFrostPlantOut != null) {
@@ -1002,19 +1240,20 @@ function buildCropCitySummary(city, crop) {
     }
   }
 
-primaryPlantingDate = plantOutDate || directSowDate || startIndoorsDate || null;
+  primaryPlantingDate =
+    plantOutDate || directSowDate || startIndoorsDate || null;
 
-let availableGddFromPlanting = null;
-const cropGddBase = crop?.gddBase != null ? String(crop.gddBase) : "50";
+  let availableGddFromPlanting = null;
+  const cropGddBase = crop?.gddBase != null ? String(crop.gddBase) : "50";
 
-if (primaryPlantingDate && fall50) {
-  availableGddFromPlanting = getAvailableGddBeforeFrost(
-    city,
-    primaryPlantingDate,
-    fall50,
-    cropGddBase
-  );
-}
+  if (primaryPlantingDate && fall50) {
+    availableGddFromPlanting = getAvailableGddBeforeFrost(
+      city,
+      primaryPlantingDate,
+      fall50,
+      cropGddBase
+    );
+  }
 
   const gddTargetTypical = Number.isFinite(crop.gddTargetTypical)
     ? crop.gddTargetTypical
@@ -1026,13 +1265,43 @@ if (primaryPlantingDate && fall50) {
       : null;
 
   const confidence = getConfidence(gddMargin);
-  const fittingVarietyClasses = getFittingVarietyClasses(crop, availableGddFromPlanting);
+  const fittingVarietyClasses = getFittingVarietyClasses(
+    crop,
+    availableGddFromPlanting
+  );
   const fittingVarietyLabels = getFittingVarietyLabels(fittingVarietyClasses);
   const fittingVarietyExamplesDetailed = getFittingVarietyExamplesDetailed(
     fittingVarietyClasses
   );
-  const varietyClassFits = buildVarietyClassFits(crop, availableGddFromPlanting);
+  const varietyClassFits = buildVarietyClassFits(
+    crop,
+    availableGddFromPlanting
+  );
+
   const cropNounSingular = getCropNounSingular(crop);
+  const plantingWindow = resolvePlantingWindow(city, crop);
+
+  const methodSummary = buildMethodSummary({
+    crop,
+    startIndoorsDate,
+    plantOutDate,
+    directSowDate,
+    plantingWindow
+  });
+
+  const delayAnalysis = buildDelayAnalysis({
+    city,
+    crop,
+    primaryPlantingDate,
+    fall50,
+    gddTargetTypical
+  });
+
+  const latestPlantingDates = buildLatestPlantingDates({
+    city,
+    crop,
+    fall50
+  });
 
   const summary = {
     cityKey: city.key,
@@ -1069,26 +1338,31 @@ if (primaryPlantingDate && fall50) {
       crop,
       city,
       confidence,
-      fittingVarietyLabels
+      fittingVarietyLabels,
+      fittingVarietyClasses
     }),
 
     springFrost: spring50,
     fallFrost: fall50,
     frostFreeDays,
 
-primaryPlantingDate,
+    primaryPlantingDate,
 
-gddAtApr15: getRemainingGdd(city, "04-15", cropGddBase),
-gddAtMay01: getRemainingGdd(city, "05-01", cropGddBase),
-gddAtJun01: getRemainingGdd(city, "06-01", cropGddBase),
+    gddAtApr15: getRemainingGdd(city, "04-15", cropGddBase),
+    gddAtMay01: getRemainingGdd(city, "05-01", cropGddBase),
+    gddAtJun01: getRemainingGdd(city, "06-01", cropGddBase),
 
-availableGddFromPlanting,
+    availableGddFromPlanting,
     targetGdd: gddTargetTypical,
     gddMargin,
     confidence,
     fittingVarietyLabels,
 
     plantingWindows: city.plantingWindows || [],
+    plantingWindow,
+    methodSummary,
+    delayAnalysis,
+    latestPlantingDates,
 
     frost: {
       spring50,
@@ -1096,27 +1370,30 @@ availableGddFromPlanting,
       frostFreeDays
     },
 
-planting: {
-  startIndoorsDate,
-  plantOutDate,
-  directSowDate,
-  primaryPlantingDate
-},
+    planting: {
+      startIndoorsDate,
+      plantOutDate,
+      directSowDate,
+      primaryPlantingDate,
+      windowStart: plantingWindow?.start || null,
+      windowEnd: plantingWindow?.end || null,
+      windowMethod: plantingWindow?.method || null
+    },
 
-gdd: {
-  base: Number(cropGddBase),
-  remainingMar15: getRemainingGdd(city, "03-15", cropGddBase),
-  remainingApr1: getRemainingGdd(city, "04-01", cropGddBase),
-  remainingApr15: getRemainingGdd(city, "04-15", cropGddBase),
-  remainingMay1: getRemainingGdd(city, "05-01", cropGddBase),
-  remainingMay15: getRemainingGdd(city, "05-15", cropGddBase),
-  remainingJun1: getRemainingGdd(city, "06-01", cropGddBase),
-  remainingJun15: getRemainingGdd(city, "06-15", cropGddBase),
-  remainingJul1: getRemainingGdd(city, "07-01", cropGddBase),
-  remainingJul15: getRemainingGdd(city, "07-15", cropGddBase),
-  remainingAug1: getRemainingGdd(city, "08-01", cropGddBase),
-  remainingAug15: getRemainingGdd(city, "08-15", cropGddBase)
-},
+    gdd: {
+      base: Number(cropGddBase),
+      remainingMar15: getRemainingGdd(city, "03-15", cropGddBase),
+      remainingApr1: getRemainingGdd(city, "04-01", cropGddBase),
+      remainingApr15: getRemainingGdd(city, "04-15", cropGddBase),
+      remainingMay1: getRemainingGdd(city, "05-01", cropGddBase),
+      remainingMay15: getRemainingGdd(city, "05-15", cropGddBase),
+      remainingJun1: getRemainingGdd(city, "06-01", cropGddBase),
+      remainingJun15: getRemainingGdd(city, "06-15", cropGddBase),
+      remainingJul1: getRemainingGdd(city, "07-01", cropGddBase),
+      remainingJul15: getRemainingGdd(city, "07-15", cropGddBase),
+      remainingAug1: getRemainingGdd(city, "08-01", cropGddBase),
+      remainingAug15: getRemainingGdd(city, "08-15", cropGddBase)
+    },
 
     fit: {
       availableGddFromPlanting,
@@ -1159,9 +1436,16 @@ gdd: {
         crop,
         city,
         confidence,
-        fittingVarietyLabels
+        fittingVarietyLabels,
+          fittingVarietyClasses,
       }),
-      summary: getSummary({ crop, city, confidence, fittingVarietyLabels })
+      summary: getSummary({
+        crop,
+        city,
+        confidence,
+        fittingVarietyLabels,
+        fittingVarietyClasses
+      })
     },
 
     advisory: null,

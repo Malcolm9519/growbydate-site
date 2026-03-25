@@ -11,106 +11,253 @@ eleventyComputed:
   canonical: "https://growbydate.com{{ pageData.url }}"
 ---
 
-{% macro formatMmdd(mmdd) %}
-  {% if not mmdd %}
+{% macro formatMmdd(mmdd) -%}
+{%- if not mmdd -%}
+—
+{%- else -%}
+{{- mmdd
+  | replace("01-", "January ")
+  | replace("02-", "February ")
+  | replace("03-", "March ")
+  | replace("04-", "April ")
+  | replace("05-", "May ")
+  | replace("06-", "June ")
+  | replace("07-", "July ")
+  | replace("08-", "August ")
+  | replace("09-", "September ")
+  | replace("10-", "October ")
+  | replace("11-", "November ")
+  | replace("12-", "December ")
+  | replace(" 01", " 1")
+  | replace(" 02", " 2")
+  | replace(" 03", " 3")
+  | replace(" 04", " 4")
+  | replace(" 05", " 5")
+  | replace(" 06", " 6")
+  | replace(" 07", " 7")
+  | replace(" 08", " 8")
+  | replace(" 09", " 9")
+-}}
+{%- endif -%}
+{%- endmacro %}
+
+{% macro fToC(tempF) %}
+  {% if tempF == null %}
     —
   {% else %}
-    {{ mmdd
-      | replace("01-", "Jan ")
-      | replace("02-", "Feb ")
-      | replace("03-", "Mar ")
-      | replace("04-", "Apr ")
-      | replace("05-", "May ")
-      | replace("06-", "Jun ")
-      | replace("07-", "Jul ")
-      | replace("08-", "Aug ")
-      | replace("09-", "Sep ")
-      | replace("10-", "Oct ")
-      | replace("11-", "Nov ")
-      | replace("12-", "Dec ")
-      | replace("-0", " ")
-      | replace("-", " ")
-    }}
+    {{ ((tempF - 32) * 5 / 9) | round }}
   {% endif %}
 {% endmacro %}
 
-{% macro mmddToDayOfYear(mmdd) %}
-  {% if not mmdd %}
-    {{ "" }}
+{% macro frostToleranceText(value) %}
+  {% set v = (value or "") | lower %}
+  {% if "tender" in v or "none" in v %}
+    frost-tender
+  {% elif "hardy" in v %}
+    frost tolerant
+  {% elif "moderate" in v or "half-hardy" in v %}
+    somewhat frost tolerant
+  {% elif "light" in v %}
+    lightly frost tolerant
   {% else %}
-    {% set parts = mmdd.split("-") %}
-    {% set month = parts[0] | int %}
-    {% set day = parts[1] | int %}
-    {% set monthStarts = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334] %}
-    {{ monthStarts[month - 1] + day }}
+    sensitive to frost
   {% endif %}
 {% endmacro %}
 
-{% set cropPlural = pageData.cropName %}
-{% set cropLower = pageData.cropName | lower %}
-{% set cropSingular = pageData.cropSingularName or pageData.cropName %}
+{% set crop = pageData.crop %}
+{% set cropName = pageData.cropName %}
+{% set cropLower = cropName | lower %}
+{% set cropSingular = pageData.cropNounSingular or pageData.cropSingularName or crop.singularName or cropName %}
 {% set cropSingularLower = cropSingular | lower %}
+
+{% set isPluralCrop = cropLower != cropSingularLower %}
+{% set cropSubject = cropName %}
+{% set cropSubjectLower = cropLower %}
+{% set cropVerb = "are" if isPluralCrop else "is" %}
+{% set cropBecomeVerb = "become" if isPluralCrop else "becomes" %}
+
 {% set outlookClass = pageData.fit.confidence %}
 
-{% set plantingLabel = "Typical planting date" %}
-{% if pageData.planting.plantOutDate %}
-  {% set plantingLabel = "Typical transplant date" %}
-{% elif pageData.planting.directSowDate %}
-  {% set plantingLabel = "Typical sowing date" %}
+{% set plantingWindowValue = "" %}
+{% if pageData.planting.windowStart and pageData.planting.windowEnd and pageData.planting.windowStart != pageData.planting.windowEnd %}
+  {% set plantingWindowValue = formatMmdd(pageData.planting.windowStart) + " – " + formatMmdd(pageData.planting.windowEnd) %}
 {% endif %}
 
-{% set plantingDoy = (mmddToDayOfYear(pageData.planting.primaryPlantingDate) | trim) %}
-{% set fallDoy = (mmddToDayOfYear(pageData.frost.fall50) | trim) %}
-{% set outdoorRunway = null %}
-{% if plantingDoy and fallDoy %}
-  {% set outdoorRunway = (fallDoy | int) - (plantingDoy | int) %}
+{% set frostLabel = frostToleranceText(crop.frostToleranceLabel or crop.frostTolerance) %}
+
+{% set methodLabel = "" %}
+{% if crop.plantingMethod == "transplant" and crop.startingMethod == "indoors" %}
+  {% set methodLabel = "Transplant" %}
+{% elif crop.plantingMethod == "direct-sow" %}
+  {% set methodLabel = "Direct sow" %}
+{% elif crop.plantingMethod and crop.startingMethod %}
+  {% set methodLabel = (crop.plantingMethod | replace("-", " ") | title) + " using " + (crop.startingMethod | replace("-", " ")) %}
+{% elif crop.plantingMethod %}
+  {% set methodLabel = crop.plantingMethod | replace("-", " ") | title %}
 {% endif %}
 
 <header class="header cropHero">
   <p class="eyebrow">Climate-based {{ cropSingularLower }} planting guide for {{ pageData.cityName }}, {{ pageData.regionName }}</p>
-<h1>When to Plant {{ cropPlural }} in {{ pageData.cityName }}: Timing and Maturity Guide</h1>
+  <h1>When to Plant {{ cropName }} in {{ pageData.cityName }}: Timing and Maturity Guide</h1>
   <p class="lede">{{ pageData.lede }}</p>
 </header>
 
-<section class="quickAnswer card" aria-label="Quick answer">
+<section class="quickAnswer card" aria-label="Planting window timing">
   <div class="quickAnswerTop">
-    <h2>Quick answer</h2>
+    <h2>Typical Planting Window</h2>
 
     <div class="fitBadge fitBadge-{{ outlookClass }}">
-      {% if pageData.fit.confidence == "strong" %}
-        Strong fit
-      {% elif pageData.fit.confidence == "good" %}
-        Good fit
-      {% elif pageData.fit.confidence == "borderline" %}
-        Borderline
-      {% elif pageData.fit.confidence == "risky" %}
-        Risky fit
+      {% if outlookClass == "strong" %}
+        Strong fit in this climate
+      {% elif outlookClass == "good" %}
+        Good fit in this climate
+      {% elif outlookClass == "borderline" %}
+        Borderline in this climate
+      {% elif outlookClass == "risky" %}
+        Risky in this climate
       {% else %}
-        {{ pageData.fit.confidence | capitalize }}
+        {{ outlookClass | capitalize }}
       {% endif %}
     </div>
   </div>
 
   <p class="muted">
-    Here is the typical planting and maturity outlook for {{ cropLower }} in {{ pageData.cityName }}.
+    Use the planting dates below for {{ cropLower }} in {{ pageData.cityName }}.
   </p>
 
   <div class="quickStats">
-    {% if pageData.planting.primaryPlantingDate %}
+    {% if pageData.planting.startIndoorsDate %}
       <div class="statCard">
-        <span class="statLabel">{{ plantingLabel }}</span>
-        <strong>{{ formatMmdd(pageData.planting.primaryPlantingDate) }}</strong>
+        <span class="statLabel">Start indoors</span>
+        <strong>{{ formatMmdd(pageData.planting.startIndoorsDate) }}</strong>
       </div>
     {% endif %}
 
+    {% if plantingWindowValue %}
+      <div class="statCard">
+        <span class="statLabel">Typical planting window</span>
+        <strong>{{ plantingWindowValue }}</strong>
+      </div>
+    {% endif %}
+
+    {% if methodLabel %}
+      <div class="statCard">
+        <span class="statLabel">Method</span>
+        <strong>{{ methodLabel }}</strong>
+      </div>
+    {% endif %}
+
+    {% if crop.daysToMaturityTypical %}
+      <div class="statCard">
+        <span class="statLabel">Typical days to maturity</span>
+        <strong>{{ crop.daysToMaturityTypical }}</strong>
+      </div>
+    {% endif %}
+  </div>
+
+{% if pageData.planting.startIndoorsDate or pageData.planting.windowStart or pageData.planting.directSowDate or pageData.planting.plantOutDate or crop.daysToMaturityTypical %}
+  <p>
+    {% if pageData.planting.startIndoorsDate and (pageData.planting.windowStart or pageData.planting.plantOutDate) %}
+      Gardeners usually start indoors around {{ formatMmdd(pageData.planting.startIndoorsDate) }} and plant outdoors from about {{ formatMmdd(pageData.planting.windowStart or pageData.planting.plantOutDate) }}.
+    {% elif pageData.planting.windowStart %}
+      Gardeners usually sow outdoors around {{ formatMmdd(pageData.planting.windowStart) }}.
+    {% elif pageData.planting.directSowDate %}
+      Gardeners usually sow outdoors around {{ formatMmdd(pageData.planting.directSowDate) }}.
+    {% elif pageData.planting.plantOutDate %}
+      Gardeners usually plant outdoors around {{ formatMmdd(pageData.planting.plantOutDate) }}.
+    {% elif pageData.planting.startIndoorsDate %}
+      Gardeners usually start indoors around {{ formatMmdd(pageData.planting.startIndoorsDate) }}.
+    {% endif %}
+
+    {% if crop.daysToMaturityTypical %}
+      {% if crop.plantingMethod == "transplant" %}
+        Most varieties need about {{ crop.daysToMaturityTypical }} days to reach maturity once they are in the garden.
+      {% else %}
+        Most varieties need about {{ crop.daysToMaturityTypical }} days to reach maturity.
+      {% endif %}
+    {% endif %}
+  </p>
+{% endif %}
+
+  {% if pageData.advisory %}
+    <p>{{ pageData.advisory.succeed }}</p>
+    <p>{{ pageData.advisory.localInterpretation or pageData.advisory.fail }}</p>
+  {% endif %}
+
+  {% set method = crop.plantingMethod or "" %}
+
+{% if pageData.fit.confidence == "strong" %}
+  <p>
+    <strong>Best local strategy:</strong>
+    {% if method == "transplant" %}
+      Prioritize steady growth over exact timing, choose the varieties you actually want, and focus on spacing, watering, and harvest timing.
+    {% elif method == "direct-sow" %}
+      Focus more on steady growth than when to plant, grow the varieties you actually want, and focus on spacing, watering, and harvest timing.
+    {% else %}
+      Follow the normal planting window, grow the varieties you actually want, and focus on spacing, watering, and harvest timing.
+    {% endif %}
+  </p>
+
+{% elif pageData.fit.confidence == "good" %}
+  <p>
+    <strong>Best local strategy:</strong>
+    {% if method == "transplant" %}
+      Plant on time, choose reliable varieties that match your goals, and focus on steady growth through good watering and soil care.
+    {% elif method == "direct-sow" %}
+      Sow on time, choose reliable varieties that match your goals, and focus on steady growth through good watering and soil care.
+    {% else %}
+      Plant on time, choose reliable varieties that match your goals, and focus on steady growth through good watering and soil care.
+    {% endif %}
+  </p>
+
+{% elif pageData.fit.confidence == "borderline" %}
+  <p>
+    <strong>Best local strategy:</strong>
+    {% if method == "transplant" %}
+      Plant on time, choose earlier varieties, and favor warmer, more protected spots.
+    {% elif method == "direct-sow" %}
+      Sow on time, choose faster-maturing varieties, and favor warmer, more protected spots.
+    {% else %}
+      Plant on time, choose earlier varieties, and favor warmer, more protected spots.
+    {% endif %}
+  </p>
+
+{% elif pageData.fit.confidence == "risky" %}
+  <p>
+    <strong>Best local strategy:</strong>
+    {% if method == "transplant" %}
+      Use transplants, choose very early or early varieties, and prioritize the warmest spots in the garden.
+    {% elif method == "direct-sow" %}
+      Sow as early as conditions safely allow, choose the fastest-maturing varieties, and prioritize the warmest spots in the garden.
+    {% else %}
+      Plant on time, choose the fastest realistic varieties, and prioritize the warmest spots in the garden.
+    {% endif %}
+  </p>
+{% endif %}
+  
+</section>
+
+<section class="card">
+  <h2>Can {{ cropName }} Mature in {{ pageData.cityName }}?</h2>
+
+  <p>
+    {% if crop.key == "tomatoes" %}
+      Growing degree days measure how much useful warmth the season provides. For tomatoes, that warmth is what drives steady growth, fruit sizing, and ripening, so low GDD seasons often leave later varieties green or unfinished before frost.
+    {% elif crop.frostTolerance == "tender" %}
+      Growing degree days measure how much useful warmth the season provides. For warm-season crops like {{ cropLower }}, GDD helps show whether local heat accumulation is usually strong enough for the crop to grow steadily and finish before fall.
+    {% else %}
+Growing degree days measure how much useful warmth typically accumulates during the season. For {{ cropLower }}, this helps estimate whether local heat accumulation is usually enough for the crop to reach maturity on time.    {% endif %}
+  </p>
+
+  <div class="quickStats">
     <div class="statCard">
-<span class="statLabel">Available GDD (base {{ pageData.crop.gddBase or 50 }})</span>
+      <span class="statLabel">Available GDD (base {{ crop.gddBase or 50 }})</span>
       <strong>{{ pageData.fit.availableGddFromPlanting }}</strong>
     </div>
 
     <div class="statCard">
       <span class="statLabel">Typical crop GDD target</span>
-      <strong>{{ pageData.crop.gddTargetTypical }}</strong>
+      <strong>{{ crop.gddTargetTypical }}</strong>
     </div>
 
     {% if pageData.fit.gddMargin != null %}
@@ -119,7 +266,178 @@ eleventyComputed:
         <strong>{% if pageData.fit.gddMargin > 0 %}+{% endif %}{{ pageData.fit.gddMargin }}</strong>
       </div>
     {% endif %}
+  </div>
 
+  {% if pageData.fit.gddMargin != null %}
+    {% if pageData.fit.gddMargin >= 150 %}
+      <p>
+        From the usual planting window, {{ pageData.cityName }} typically provides about {{ pageData.fit.availableGddFromPlanting }} growing degree days for {{ cropLower }}. With a typical crop target of {{ crop.gddTargetTypical }}, that leaves a heat margin of +{{ pageData.fit.gddMargin }}. That means the season usually provides enough accumulated warmth for {{ cropLower }} to mature reliably in typical local conditions.
+      </p>
+    {% elif pageData.fit.gddMargin >= 40 %}
+      <p>
+        From the usual planting window, {{ pageData.cityName }} typically provides about {{ pageData.fit.availableGddFromPlanting }} growing degree days for {{ cropLower }}. With a typical crop target of {{ crop.gddTargetTypical }}, that leaves a heat margin of +{{ pageData.fit.gddMargin }}. That usually gives {{ cropLower }} enough heat to finish, but not with much room for delay, slower varieties, or cooler-than-average conditions.
+      </p>
+    {% elif pageData.fit.gddMargin >= 0 %}
+      <p>
+        From the usual planting window, {{ pageData.cityName }} typically provides about {{ pageData.fit.availableGddFromPlanting }} growing degree days for {{ cropLower }}. With a typical crop target of {{ crop.gddTargetTypical }}, the heat margin is only +{{ pageData.fit.gddMargin }}. That is a very slim buffer, so variety speed, planting timing, and site warmth matter a great deal.
+      </p>
+    {% else %}
+      <p>
+        From the usual planting window, {{ pageData.cityName }} typically provides about {{ pageData.fit.availableGddFromPlanting }} growing degree days for {{ cropLower }}, against a typical crop target of {{ crop.gddTargetTypical }}. That leaves a heat margin of {{ pageData.fit.gddMargin }}, which means the season usually falls short of the warmth this crop prefers. Success depends on very fast varieties, warm sites, and consistently favorable conditions.
+      </p>
+    {% endif %}
+  {% endif %}
+
+  <h3>GDD Checkpoints for {{ pageData.cityName }}</h3>
+
+  {% if pageData.fit.confidence == "strong" or pageData.fit.confidence == "good" %}
+    <p>
+      If planting later than usual, this table shows how much growing degree day heat is typically still available from each point in the season. In {{ pageData.cityName }}, {{ cropLower }} {{ "keep" if isPluralCrop else "keeps" }} a comfortable margin through much of the season, so the table is most useful for judging how much flexibility you still have rather than whether the crop fits at all.
+    </p>
+  {% else %}
+    <p>
+      When planting later than usual, this table shows how much growing degree day heat is typically still available from each point in the season. As planting gets pushed back, the remaining heat drops and {{ cropLower }} {{ cropBecomeVerb }} less likely to mature on time. Use the heat margin column to judge whether the crop still fits, is becoming tight, or is likely running short of warmth.
+    </p>
+  {% endif %}
+
+  {% set checkpointRows = [
+    { label: "Apr 15", value: pageData.gdd.remainingApr15 },
+    { label: "May 1", value: pageData.gdd.remainingMay1 },
+    { label: "May 15", value: pageData.gdd.remainingMay15 },
+    { label: "Jun 1", value: pageData.gdd.remainingJun1 },
+    { label: "Jun 15", value: pageData.gdd.remainingJun15 },
+    { label: "Jul 1", value: pageData.gdd.remainingJul1 }
+  ] %}
+
+  <div class="tableWrap" style="margin-top:1rem;">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Checkpoint</th>
+          <th>Remaining GDD</th>
+          <th>Heat margin</th>
+          <th>Fit vs typical target</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in checkpointRows %}
+          {% set prev = checkpointRows[loop.index0 - 1] if loop.index0 > 0 else null %}
+          {% set isFlatRepeat = prev and row.value != null and prev.value != null and row.value == prev.value %}
+
+          {% if not isFlatRepeat %}
+            <tr>
+              <td>{{ row.label }}</td>
+              <td>{% if row.value != null %}{{ row.value }}{% else %}—{% endif %}</td>
+              <td>
+                {% if row.value != null and crop.gddTargetTypical != null %}
+                  {% set cpMargin = row.value - crop.gddTargetTypical %}
+                  {% if cpMargin > 0 %}+{% endif %}{{ cpMargin }}
+                {% else %}
+                  —
+                {% endif %}
+              </td>
+              <td>
+                {% if row.value != null and crop.gddTargetTypical != null %}
+                  {% set cpMargin = row.value - crop.gddTargetTypical %}
+                  {% if cpMargin >= 150 %}
+                    Comfortable
+                  {% elif cpMargin >= 40 %}
+                    Usually fits
+                  {% elif cpMargin >= 0 %}
+                    Tight fit
+                  {% else %}
+                    Usually short
+                  {% endif %}
+                {% else %}
+                  —
+                {% endif %}
+              </td>
+            </tr>
+          {% endif %}
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="card">
+
+<h2>Best {{ crop.singularName | capitalize }} Varieties for {{ pageData.cityName }}</h2>
+
+{% if pageData.fit.bestVarietyParagraphOverride %}
+  <p>{{ pageData.fit.bestVarietyParagraphOverride }}</p>
+{% elif pageData.fit.bestVarietyParagraph %}
+  <p>{{ pageData.fit.bestVarietyParagraph }}</p>
+{% endif %}
+
+{% if pageData.fit.fittingVarietyExamplesDetailed and pageData.fit.fittingVarietyExamplesDetailed.length %}
+  <p style="margin-top:0.6rem;">
+    Varieties that often fit well here include:
+  </p>
+
+  <ul style="margin-top:0.45rem;">
+    {% for v in pageData.fit.fittingVarietyExamplesDetailed %}
+      <li><strong>{{ v.name }}</strong> — {{ v.note }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+{% if pageData.fit.varietyClassFits and pageData.fit.varietyClassFits.length %}
+  <div class="tableWrap" style="margin-top:1rem;">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Variety class</th>
+          <th>Typical days to maturity</th>
+          <th>Typical GDD need</th>
+          <th>Local fit</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for v in pageData.fit.varietyClassFits %}
+          <tr>
+            <td>{{ v.label }}</td>
+            <td>{{ v.daysToMaturity or crop.daysToMaturityTypical or "—" }}</td>
+            <td>{{ v.gddTarget }}</td>
+            <td>
+              {% if v.fitLabel == "good" %}
+                Good fit
+              {% elif v.fitLabel == "workable" %}
+                Workable
+              {% elif v.fitLabel == "tight" %}
+                Tight
+              {% elif v.fitLabel == "poor" %}
+                Poor fit
+              {% else %}
+                —
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endif %}
+
+{% if pageData.fit.mainRiskSentence %}
+  <p class="small muted">
+    Main risk: {{ pageData.fit.mainRiskSentence }}
+  </p>
+{% endif %}
+</section>
+
+<section class="card">
+  <h2>How Frost Affects {{ cropName }} in {{ pageData.cityName }}</h2>
+
+  <p>
+  {{ pageData.cityName }} usually has about {{ pageData.frost.frostFreeDays }} frost-free days for growing {{ cropLower }}, with a typical last spring frost around {{ formatMmdd(pageData.frost.spring50) }} and a typical first fall frost around {{ formatMmdd(pageData.frost.fall50) }}.
+  </p>
+
+  {% if pageData.fit.protectionSentence %}
+    <p>{{ pageData.fit.protectionSentence }}</p>
+  {% endif %}
+
+  <div class="quickStats">
     <div class="statCard">
       <span class="statLabel">Typical last spring frost</span>
       <strong>{{ formatMmdd(pageData.frost.spring50) }}</strong>
@@ -135,169 +453,50 @@ eleventyComputed:
       <strong>{{ pageData.frost.frostFreeDays }}</strong>
     </div>
 
-{% if outdoorRunway != null %}
-  <div class="statCard">
-    <span class="statLabel">Outdoor growing runway</span>
-    <strong>{{ outdoorRunway }} days</strong>
-  </div>
-{% endif %}
-</div>
-
-  <div class="quickSummary">
-    {% if pageData.fit.confidence == "strong" %}
-      <p>
-        {{ cropPlural }} are usually a strong fit for {{ pageData.cityName }}. In a typical year, most gardeners have enough seasonal heat and enough runway for reliable results.
-      </p>
-    {% elif pageData.fit.confidence == "good" %}
-      <p>
-        {{ cropPlural }} generally perform well in {{ pageData.cityName }}. Planting on time and choosing climate-appropriate varieties still matter, but the overall fit is favorable.
-      </p>
-    {% elif pageData.fit.confidence == "borderline" %}
-      <p>
-        {{ cropPlural }} can work in {{ pageData.cityName }}, but the margin is tighter. Earlier varieties, warm sites, and timely planting make a noticeable difference.
-      </p>
-    {% elif pageData.fit.confidence == "risky" %}
-      <p>
-        {{ cropPlural }} are a risky crop in {{ pageData.cityName }}. Success usually depends on the fastest varieties and the warmest, most protected planting conditions.
-      </p>
+    {% if crop.minSafeTempF != null %}
+      <div class="statCard">
+        <span class="statLabel">Minimum safe temperature</span>
+        <strong>{{ crop.minSafeTempF }}°F / {{ fToC(crop.minSafeTempF) }}°C</strong>
+      </div>
     {% endif %}
+  </div>
 
+  {% if frostLabel or crop.minSafeTempF != null %}
     <p>
-      {{ pageData.cityName }} usually sees a last spring frost around {{ formatMmdd(pageData.frost.spring50) }} and a first fall frost around {{ formatMmdd(pageData.frost.fall50) }}, creating a typical frost-free window of about {{ pageData.frost.frostFreeDays }} days.
-    </p>
-
-    {% if pageData.fit.gddMargin != null %}
-      {% if pageData.fit.gddMargin >= 150 %}
-        <p>
-          From the usual planting window, {{ pageData.cityName }} typically provides about {{ pageData.fit.availableGddFromPlanting }} growing degree days for {{ cropLower }}. With a typical crop target of {{ pageData.crop.gddTargetTypical }}, that leaves a heat margin of +{{ pageData.fit.gddMargin }}. That means the season usually provides enough accumulated warmth for {{ cropLower }} to mature reliably in typical local conditions.
-        </p>
-      {% elif pageData.fit.gddMargin >= 40 %}
-        <p>
-          From the usual planting window, {{ pageData.cityName }} typically provides about {{ pageData.fit.availableGddFromPlanting }} growing degree days for {{ cropLower }}. With a typical crop target of {{ pageData.crop.gddTargetTypical }}, that leaves a heat margin of +{{ pageData.fit.gddMargin }}. That usually gives {{ cropLower }} enough heat to finish, but not with much room for delay, slower varieties, or cooler-than-average conditions.
-        </p>
-      {% elif pageData.fit.gddMargin >= 0 %}
-        <p>
-          From the usual planting window, {{ pageData.cityName }} typically provides about {{ pageData.fit.availableGddFromPlanting }} growing degree days for {{ cropLower }}. With a typical crop target of {{ pageData.crop.gddTargetTypical }}, the heat margin is only +{{ pageData.fit.gddMargin }}. In practice, that is a very slim buffer, so variety speed, planting timing, and site warmth matter a great deal.
-        </p>
-      {% else %}
-        <p>
-          From the usual planting window, {{ pageData.cityName }} typically provides about {{ pageData.fit.availableGddFromPlanting }} growing degree days for {{ cropLower }}, against a typical crop target of {{ pageData.crop.gddTargetTypical }}. That leaves a heat margin of {{ pageData.fit.gddMargin }}, which means the season usually falls short of the warmth this crop prefers. In practice, success depends on very fast varieties, warm sites, and consistently favorable conditions.
-        </p>
+      {% if frostLabel and crop.minSafeTempF != null %}
+        {{ cropSubject }} {{ cropVerb }} generally {{ frostLabel }} and temperatures below about {{ crop.minSafeTempF }}°F ({{ fToC(crop.minSafeTempF) }}°C) can slow growth or damage plants.
+      {% elif frostLabel %}
+        {{ cropSubject }} {{ cropVerb }} generally {{ frostLabel }}.
+      {% elif crop.minSafeTempF != null %}
+        Temperatures below about {{ crop.minSafeTempF }}°F ({{ fToC(crop.minSafeTempF) }}°C) can slow growth or damage plants.
       {% endif %}
-    {% endif %}
+    </p>
+  {% endif %}
 
-  </div>
+  {% if pageData.advisory %}
+    <p>{{ pageData.advisory.fail }}</p>
+    <p>{{ pageData.advisory.micro }}</p>
+  {% endif %}
 </section>
 
 <section class="card">
-  <h2>Growing {{ cropPlural }} Successfully in {{ pageData.cityName }}</h2>
+  <h2>Related crops</h2>
 
-  {% if pageData.advisory %}
-    <p>{{ pageData.advisory.succeed }}</p>
-    <p>{{ pageData.advisory.fail }}</p>
-  {% endif %}
-
-  {% include "region/modules/simple-city-crop-planting-window.njk" %}
-
-  {% if pageData.planting.startIndoorsDate and pageData.planting.plantOutDate %}
-    <p>
-      Gardeners usually start indoors around {{ formatMmdd(pageData.planting.startIndoorsDate) }} and plant outdoors around {{ formatMmdd(pageData.planting.plantOutDate) }}.
-    </p>
-  {% elif pageData.planting.startIndoorsDate and pageData.planting.directSowDate %}
-    <p>
-      Gardeners usually start indoors around {{ formatMmdd(pageData.planting.startIndoorsDate) }} and sow outdoors around {{ formatMmdd(pageData.planting.directSowDate) }}.
-    </p>
-  {% elif pageData.planting.plantOutDate %}
-    <p>
-      Gardeners usually plant outdoors around {{ formatMmdd(pageData.planting.plantOutDate) }}.
-    </p>
-  {% elif pageData.planting.directSowDate %}
-    <p>
-      Gardeners usually sow outdoors around {{ formatMmdd(pageData.planting.directSowDate) }}.
-    </p>
-  {% elif pageData.planting.startIndoorsDate %}
-    <p>
-      Gardeners usually start indoors around {{ formatMmdd(pageData.planting.startIndoorsDate) }}.
-    </p>
-  {% endif %}
-
-  <h3>Best {{ cropPlural }} for {{ pageData.cityName }} conditions</h3>
-
-  {% if pageData.fit.bestVarietyParagraph %}
-    <p>{{ pageData.fit.bestVarietyParagraph }}</p>
-  {% endif %}
-
-  {% if pageData.fit.varietyClassFits and pageData.fit.varietyClassFits.length %}
-    <div class="tableWrap" style="margin-top:1rem;">
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Variety class</th>
-            <th>Typical GDD need</th>
-            <th>Local fit</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for v in pageData.fit.varietyClassFits %}
-            <tr>
-              <td>{{ v.label }}</td>
-              <td>{{ v.gddTarget }}</td>
-              <td>
-                {% if v.fitLabel == "good" %}
-                  Good fit
-                {% elif v.fitLabel == "workable" %}
-                  Workable
-                {% elif v.fitLabel == "tight" %}
-                  Tight
-                {% elif v.fitLabel == "poor" %}
-                  Poor fit
-                {% else %}
-                  —
-                {% endif %}
-              </td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-  {% endif %}
-
-  {% if pageData.fit.protectionSentence %}
-    <p class="small">{{ pageData.fit.protectionSentence }}</p>
-  {% endif %}
-
-  {% if pageData.fit.fittingVarietyExamplesDetailed and pageData.fit.fittingVarietyExamplesDetailed.length %}
-    <p style="margin-top:0.6rem;">
-      Well-adapted varieties often include:
-    </p>
-
-    <ul style="margin-top:0.45rem;">
-      {% for v in pageData.fit.fittingVarietyExamplesDetailed %}
-        <li><strong>{{ v.name }}</strong> — {{ v.note }}</li>
+  {% if crop.relatedCrops and crop.relatedCrops.length %}
+    <p>Related crops worth comparing for the same city:</p>
+    <ul>
+      {% for key in crop.relatedCrops %}
+        <li>
+          <a href="/planting-dates/{% if pageData.country == 'canada' %}canada/{% endif %}{{ pageData.regionKey }}/{{ pageData.cityKey }}/{{ key }}/">
+            {{ key | replace("-", " ") | title }} in {{ pageData.cityName }}
+          </a>
+        </li>
       {% endfor %}
     </ul>
   {% endif %}
 
-  {% if pageData.fit.mainRiskSentence %}
-    <p class="small muted">
-      Main risk: {{ pageData.fit.mainRiskSentence }}
-    </p>
-  {% endif %}
-
-  <h4>What local garden sites change for {{ cropPlural }}</h4>
-
-  {% if pageData.advisory %}
-    <p>{{ pageData.advisory.micro }}</p>
-  {% endif %}
-
-  {% if pageData.advisory and pageData.advisory.localInterpretation %}
-    <p class="small">
-      {{ pageData.advisory.localInterpretation }}
-    </p>
-  {% endif %}
+  {% include "crop-city/modules/related-crops.njk" %}
 </section>
-
-{% include "crop-city/modules/related-crops.njk" %}
 
 <p class="small muted" style="margin-top:1rem;">
   For a broader local overview, see the

@@ -92,8 +92,8 @@
 {# City pages: use crop-city summaries for links/confidence, but pull real ranges from city planting windows when available #}
 {% if isCityPage %}
   {% set plantingWindowKeyMap = {
-    "sweet-corn": "corn",
-    "corn-sweet": "corn",
+    "sweet-corn": "corn-sweet",
+    "corn-sweet": "corn-sweet",
     "winter-squash": "squash",
     "pumpkin": "squash",
     "zucchini": "cucumbers"
@@ -154,9 +154,9 @@
 
   {% set windows = windows | sort(false, false, "start") %}
 {% else %}
-    {# State/province pages stay on the existing generic list #}
-    {% set windows = state.plantingWindows or [] %}
-  {% endif %}
+  {# State/province pages stay on the existing generic list #}
+  {% set windows = state.plantingWindows or [] %}
+{% endif %}
 
   {% if windows.length %}
     {% set coolWindows = [] %}
