@@ -105,38 +105,40 @@ export function formatMmddLong(mmdd) {
   return `${months[mi]} ${di}`;
 }
 
-export function renderResultCard(targetEl, frost, options = {}) {
+export function renderResultCard(targetEl, frost) {
   if (!targetEl) return;
 
   if (!frost) {
     targetEl.innerHTML = `
-      <div class="small" role="status">
-        No match found. Enter a 5-digit ZIP (US) or the first 3 characters of your postal code (e.g., T5A).
+      <div class="frostResultCard" role="status">
+        <div class="frostResultCard__location">No match found</div>
+        <div class="small muted">
+          Enter a valid 5-digit ZIP (U.S.) or the first 3 characters of your postal code (for example, T5A).
+        </div>
       </div>
     `;
     return;
   }
 
   const where = [frost.name, frost.region].filter(Boolean).join(", ");
-  const source = frost.sourceLabel ? `<div class="small" style="opacity:0.86;">${frost.sourceLabel}</div>` : "";
 
   targetEl.innerHTML = `
-    <div class="card" style="margin-top:10px;">
-      <div><strong>${where}</strong></div>
-      <div class="small" style="margin-top:6px;">
-        <div>Average last spring frost: <strong>${formatMmddLong(frost.lastFrost)}</strong></div>
-        <div>Average first fall frost: <strong>${formatMmddLong(frost.firstFrost)}</strong></div>
-      <div class="small" style="margin-top:8px; opacity:0.86;">
-        Frost dates are averages. Freezing (32°F / 0°C) may occur earlier or later.
+    <div class="frostResultCard" role="status">
+      <div class="frostResultCard__location">${where}</div>
+
+      <div class="frostResultCard__dates">
+        <div class="frostResultCard__row">
+          <div class="frostResultCard__label">Average last spring frost</div>
+          <div class="frostResultCard__value">${formatMmddLong(frost.lastFrost)}</div>
+        </div>
+
+        <div class="frostResultCard__row">
+          <div class="frostResultCard__label">Average first fall frost</div>
+          <div class="frostResultCard__value">${formatMmddLong(frost.firstFrost)}</div>
+        </div>
       </div>
-      ${source}
-      ${
-        options.links
-          ? `<div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
-               ${options.links}
-             </div>`
-          : ""
-      }
+
+      <div class="frostResultCard__threshold">32°F / 0°C threshold</div>
     </div>
   `;
 }
@@ -154,3 +156,5 @@ export function applyQueryPrefill(paramName, dateInputEl, onAfterSet) {
     return false;
   }
 }
+
+
