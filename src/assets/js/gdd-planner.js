@@ -505,10 +505,12 @@ async function initWidget(root) {
   const plantEl = q('[data-role="planting"]');
   const plantingWrapEl = q('[data-role="plantingWrap"]');
 
-  const runEl = q('[data-role="run"]');
-  const resetEl = q('[data-role="reset"]');
-  const statusEl = q('[data-role="status"]');
-  const formWarnEl = q('[data-role="formWarn"]');
+const runEl = q('[data-role="run"]');
+const resetEl = q('[data-role="reset"]');
+const useLocationEl = q('[data-role="useLocation"]');
+const statusEl = q('[data-role="status"]');
+const locationStatusEl = q('[data-role="locationStatus"]');
+const formWarnEl = q('[data-role="formWarn"]');
 
   const resultsCardEl = q('[data-role="resultsCard"]');
   const resultsBodyEl = q('[data-role="resultsBody"]');
@@ -573,6 +575,70 @@ async function initWidget(root) {
   // Widget-scoped last plan for actions
   let lastPlan = null; // { meta, rows }
 
+  async function validateLocationOnly() {
+  const rawLoc = locEl ? locEl.value : "";
+
+  // Clear old warning
+  if (formWarnEl) {
+    formWarnEl.textContent = "";
+    show(formWarnEl, false);
+  }
+
+  setStatus(locationStatusEl || statusEl, "");
+
+  if (!String(rawLoc || "").trim()) {
+    if (formWarnEl) {
+      formWarnEl.textContent = "Enter a 5-digit ZIP (U.S.) or the first 3 characters of your postal code (e.g., T5A).";
+      show(formWarnEl, true);
+    }
+    if (locEl) locEl.focus();
+    return;
+  }
+
+  setStatus(locationStatusEl || statusEl, "Checking location…");
+
+  try {
+    const frost = await lookupFrost(rawLoc);
+    if (!frost) {
+      setStatus(locationStatusEl || statusEl, "");
+      if (formWarnEl) {
+        formWarnEl.textContent = "No match found for that ZIP / postal code. Try a nearby ZIP (U.S.) or FSA (Canada).";
+        show(formWarnEl, true);
+      }
+      return;
+    }
+
+    const stationId = await lookupStationId(rawLoc);
+    const where = [frost.name, frost.region].filter(Boolean).join(", ");
+
+    if (!stationId) {
+      setStatus(locationStatusEl || statusEl, "");
+      if (formWarnEl) {
+        formWarnEl.textContent = "This location matched frost data, but GDD station coverage isn’t available yet. Try a nearby ZIP / postal code.";
+        show(formWarnEl, true);
+      }
+      return;
+    }
+
+    show(formWarnEl, false);
+    setStatus(locationStatusEl || statusEl, `Loaded ${where}. Continue below.`);
+
+const cropAnchor = q('[data-scroll-anchor="cropStart"]') || q('[data-role="cropWrap"]');
+if (cropAnchor) {
+  setTimeout(() => {
+    cropAnchor.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, 80);
+}
+  } catch (err) {
+    setStatus(locationStatusEl || statusEl, "");
+    if (formWarnEl) {
+      formWarnEl.textContent = "Something didn’t load correctly. Please try again.";
+      show(formWarnEl, true);
+    }
+    console.error("GDD location validation error", err);
+  }
+}
+
   async function run() {
     setStatus(statusEl, "Working…");
 
@@ -595,26 +661,49 @@ async function initWidget(root) {
     if (txtBtn) txtBtn.style.display = "none";
 
     const chosen = selectedCropIds(cropListEl);
-    if (!chosen.length) {
-      setStatus(statusEl, "");
-      if (resultsBodyEl) {
-        resultsBodyEl.innerHTML = `
-          <tr><th scope="row">Status</th><td><span class="small">Select at least one crop to estimate.</span></td></tr>
-        `;
-      }
-      show(resultsCardEl, true);
-      return;
-    }
+if (!chosen.length) {
+  setStatus(statusEl, "");
+
+  // Clear results UI completely
+  if (resultsBodyEl) resultsBodyEl.innerHTML = "";
+  if (footnoteEl) footnoteEl.textContent = "";
+  if (riskLabelEl) riskLabelEl.textContent = "";
+  if (riskNoteEl) riskNoteEl.textContent = "";
+  show(riskBoxEl, false);
+  show(resultsCardEl, false);
+
+  // Show form warning instead
+  if (formWarnEl) {
+    formWarnEl.textContent = "Select at least one crop to estimate.";
+    show(formWarnEl, true);
+  }
+
+  // Scroll to crops section
+const cropAnchor = q('[data-scroll-anchor="cropStart"]') || q('[data-role="cropWrap"]');
+if (cropAnchor) cropAnchor.scrollIntoView({ behavior: "smooth", block: "start" });
+
+  return;
+}
 
     const plantingDoy = dateValueToDoy(plantEl ? plantEl.value : "");
-    if (plantingDoy < 0) {
-      setStatus(statusEl, "");
-      if (resultsBodyEl) {
-        resultsBodyEl.innerHTML = `<tr><th scope="row">Status</th><td><span class="small">Choose a valid planting date.</span></td></tr>`;
-      }
-      show(resultsCardEl, true);
-      return;
-    }
+if (plantingDoy < 0) {
+  setStatus(statusEl, "");
+
+  if (resultsBodyEl) resultsBodyEl.innerHTML = "";
+  if (footnoteEl) footnoteEl.textContent = "";
+  if (riskLabelEl) riskLabelEl.textContent = "";
+  if (riskNoteEl) riskNoteEl.textContent = "";
+  show(riskBoxEl, false);
+  show(resultsCardEl, false);
+
+  if (formWarnEl) {
+    formWarnEl.textContent = "Choose a valid planting date.";
+    show(formWarnEl, true);
+  }
+
+  if (plantEl) plantEl.focus();
+  return;
+}
 
     const rawLoc = locEl ? locEl.value : "";
     if (!String(rawLoc || "").trim()) {
@@ -670,82 +759,101 @@ async function initWidget(root) {
         return;
       }
 
-      const frostDoy = mmddToDoy(frost.firstFrost);
-      const plantingLabel = doyToLabel(plantingDoy);
+const frostDoy = mmddToDoy(frost.firstFrost);
+const plantingLabel = doyToLabel(plantingDoy);
 
-      const rowsHtml = [];
-      const planRows = [];
+const rowsHtml = [];
+const planRows = [];
 
-      // Summary rows first
-      rowsHtml.push(`<tr><th scope="row">Location</th><td><strong>${escapeHtml(where)}</strong></td></tr>`);
-      rowsHtml.push(`<tr><th scope="row">Average first fall frost</th><td><strong>${escapeHtml(frostLabel)}</strong></td></tr>`);
-      rowsHtml.push(`<tr><th scope="row">Planting date</th><td><strong>${escapeHtml(plantingLabel)}</strong></td></tr>`);
+let worstRisk = { score: -1, label: "", note: "" };
+const cropAssessments = [];
+let anyLatePlant = false;
 
-      let worstRisk = { score: -1, label: "", note: "" };
-      let anyLatePlant = false;
+for (const siteId of chosen) {
+  const crop = toolCrops.find((c) => (c.siteId || c.id) === siteId);
+  if (!crop) continue;
 
-      for (const siteId of chosen) {
-        const crop = toolCrops.find((c) => (c.siteId || c.id) === siteId);
-        if (!crop) continue;
+  const baseKey = pickBaseKey(crop?.base_f);
+  const cum = station.bases?.[baseKey];
 
-        const baseKey = pickBaseKey(crop?.base_f);
-        const cum = station.bases?.[baseKey];
+  const required = Math.round(safeNum(crop?.gdd_required, 0));
+  const maturityDoy = findMaturityDoy(cum, plantingDoy, required);
+  const maturityLabel = maturityDoy >= 0 ? doyToLabel(maturityDoy) : "Usually not reached before season end";
+  const daysToMaturity = maturityDoy >= 0 ? (maturityDoy - plantingDoy + 1) : null;
 
-        const required = Math.round(safeNum(crop?.gdd_required, 0));
-        const maturityDoy = findMaturityDoy(cum, plantingDoy, required);
-        const maturityLabel = maturityDoy >= 0 ? doyToLabel(maturityDoy) : "Not reached before year-end in a typical year";
-        const daysToMaturity = maturityDoy >= 0 ? (maturityDoy - plantingDoy + 1) : null;
+  const avail = availableGddBeforeFrost(cum, plantingDoy, frostDoy);
+  const deficit = Math.max(0, Math.round(required - avail));
 
-        const avail = availableGddBeforeFrost(cum, plantingDoy, frostDoy);
-        const deficit = Math.max(0, Math.round(required - avail));
+  const latestSafePlantDoy = latestPlantingDoyToMatureBeforeFrost(cum, frostDoy, required);
+  const latestSafeLabel = latestSafePlantDoy >= 0 ? doyToLabel(latestSafePlantDoy) : "Not possible in a typical year";
 
-        const latestSafePlantDoy = latestPlantingDoyToMatureBeforeFrost(cum, frostDoy, required);
-        const latestSafeLabel = latestSafePlantDoy >= 0 ? doyToLabel(latestSafePlantDoy) : "Not possible in a typical year";
+  const risk = riskLabel(maturityDoy, frostDoy);
+  if (risk.score > worstRisk.score) worstRisk = risk;
 
-        const risk = riskLabel(maturityDoy, frostDoy);
-        if (risk.score > worstRisk.score) worstRisk = risk;
+  if (latestSafePlantDoy >= 0 && plantingDoy > latestSafePlantDoy) anyLatePlant = true;
 
-        if (latestSafePlantDoy >= 0 && plantingDoy > latestSafePlantDoy) anyLatePlant = true;
+  const icon = cropIcon(crop.siteId || crop.gddSlug || siteId);
+  const cropName = crop?.name || siteId;
+  cropAssessments.push({ cropName, risk });
+  const link = cropUrlFromSiteId(siteCropsById, crop.siteId || siteId, crop.slug || siteId);
+    const exportSlug = crop.gddSlug || crop.siteId || crop.slug || siteId;
 
-        const icon = cropIcon(crop.siteId || crop.gddSlug || siteId);
-        const cropName = crop?.name || siteId;
-        const link = cropUrlFromSiteId(siteCropsById, crop.siteId || siteId, crop.slug || siteId);
-        const exportSlug = crop.gddSlug || crop.siteId || crop.slug || siteId;
+  rowsHtml.push(`
+    <tr class="cropHeaderRow">
+      <td>
+        <span class="cropHeaderIcon" aria-hidden="true">${escapeHtml(icon)}</span>
+        <a class="cropHeaderLink" href="${escapeHtml(link)}">${escapeHtml(cropName)}</a>
+        <span class="small muted">· Base ${escapeHtml(baseKey)}°F</span>
+      </td>
+      <td class="cropHeaderMeta">
+        <span class="small muted">Planting date</span>
+        <strong>${escapeHtml(plantingLabel)}</strong>
+      </td>
+    </tr>
+  `);
 
-        rowsHtml.push(`
-          <tr class="cropHeaderRow"><td colspan="2">
-            <span class="cropHeaderIcon" aria-hidden="true">${escapeHtml(icon)}</span>
-            <a class="cropHeaderLink" href="${escapeHtml(link)}">${escapeHtml(cropName)}</a>
-            <span class="small muted">· Base ${escapeHtml(baseKey)}°F</span>
-          </td></tr>
-        `);
+  const add = (key, valueHtml, valuePlain, notes = "") => {
+    rowsHtml.push(`<tr><th scope="row">${escapeHtml(key)}</th><td>${valueHtml}</td></tr>`);
+    planRows.push({ type: "row", key, valuePlain, notes });
+  };
 
-        const add = (key, valueHtml, valuePlain, notes = "") => {
-          rowsHtml.push(`<tr><th scope="row">${escapeHtml(key)}</th><td>${valueHtml}</td></tr>`);
-          planRows.push({ type: "row", key, valuePlain, notes });
-        };
+  planRows.push({ type: "cropHeader", slug: exportSlug, cropName });
 
-        planRows.push({ type: "cropHeader", slug: exportSlug, cropName });
-
-        add("Estimated maturity date", `${escapeHtml(maturityLabel)}`, maturityLabel);
-        if (daysToMaturity !== null) add("Days from planting", `${daysToMaturity}`, String(daysToMaturity));
-        add("GDD target", `${required}`, String(required));
-        add("Available GDD before typical first frost", `${avail}`, String(avail));
-        if (maturityDoy < 0 || maturityDoy >= frostDoy) add("Estimated shortfall by frost", `${deficit} GDD`, `${deficit} GDD`);
-        add("Latest typical planting date to mature before frost", `${escapeHtml(latestSafeLabel)}`, latestSafeLabel);
-        add("Assessment", `${escapeHtml(risk.label)}`, risk.label, risk.note);
-      }
+  add("Estimated maturity date", `${escapeHtml(maturityLabel)}`, maturityLabel);
+  if (daysToMaturity !== null) add("Days from planting", `${daysToMaturity}`, String(daysToMaturity));
+  add("GDD target", `${required}`, String(required));
+  add("Available GDD before typical first frost", `${avail}`, String(avail));
+  if (maturityDoy < 0 || maturityDoy >= frostDoy) {
+    add("Estimated shortfall by frost", `${deficit} GDD`, `${deficit} GDD`);
+  }
+  add("Average first fall frost", `${escapeHtml(frostLabel)}`, frostLabel);
+  add("Latest typical planting date to mature before frost", `${escapeHtml(latestSafeLabel)}`, latestSafeLabel);
+  add("Location", `${escapeHtml(where)}`, where);
+  add("Assessment", `${escapeHtml(risk.label)}`, risk.label, risk.note);
+}
 
       if (resultsBodyEl) resultsBodyEl.innerHTML = rowsHtml.join("");
 
-      // Risk block: summarize worst-case across selected crops
+      // Risk block: avoid a misleading worst-case summary when multiple crops have mixed outcomes
       const hasRisk = !!(worstRisk && worstRisk.label);
       if (hasRisk) {
-        if (riskLabelEl) riskLabelEl.textContent = chosen.length > 1 ? `Overall: ${worstRisk.label}` : worstRisk.label;
+        if (chosen.length > 1) {
+          const uniqueLabels = Array.from(new Set(cropAssessments.map((entry) => entry.risk?.label).filter(Boolean)));
+const perCropSummary = cropAssessments
+  .map((entry) => `<div><strong>${entry.cropName}</strong>: ${((entry.risk && entry.risk.label) || "Unknown")}</div>`)
+  .join("");
 
-        const extra = chosen.length > 1 ? " Review each crop section above for crop-specific details." : "";
-        const note = (worstRisk.note || "").trim();
-        if (riskNoteEl) riskNoteEl.textContent = note ? (note + extra) : (chosen.length > 1 ? "Review each crop section above for details." : "");
+          if (uniqueLabels.length === 1) {
+            if (riskLabelEl) riskLabelEl.textContent = `All selected crops: ${uniqueLabels[0]}`;
+if (riskNoteEl) riskNoteEl.innerHTML = perCropSummary;
+          } else {
+            if (riskLabelEl) riskLabelEl.textContent = "See below for each crop assessment";
+if (riskNoteEl) riskNoteEl.innerHTML = perCropSummary;
+          }
+        } else {
+          if (riskLabelEl) riskLabelEl.textContent = worstRisk.label;
+          if (riskNoteEl) riskNoteEl.textContent = (worstRisk.note || "").trim();
+        }
         show(riskBoxEl, true);
       } else {
         if (riskLabelEl) riskLabelEl.textContent = "";
@@ -753,10 +861,13 @@ async function initWidget(root) {
         show(riskBoxEl, false);
       }
 
-      if (footnoteEl) {
-        const latePlantNote = anyLatePlant ? "You’re planting after the typical “latest safe” date for at least one selected crop. " : "";
-        footnoteEl.textContent = `${latePlantNote}This is based on climate normals. A warm year can mature faster; a cool year can slip later.`;
-      }
+if (footnoteEl) {
+  const latePlantNote = anyLatePlant ? "You’re planting after the typical “latest safe” date for at least one selected crop. " : "";
+  footnoteEl.innerHTML = `
+    <span class="gddPlanningTipLine"><span class="pill">Planning tip</span> For short seasons, aim to mature <strong>before</strong> the risk window, not inside it.</span>
+    ${latePlantNote ? `<span class="gddLatePlantNote">${latePlantNote}</span>` : ""}
+  `;
+}
 
       setStatus(statusEl, "");
       show(resultsCardEl, true);
@@ -777,9 +888,12 @@ async function initWidget(root) {
       lastPlan = { meta, rows: planRows };
 
       // Scroll to results
-      setTimeout(() => {
-        if (resultsCardEl) resultsCardEl.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 50);
+setTimeout(() => {
+  if (resultsCardEl) {
+    const y = resultsCardEl.getBoundingClientRect().top + window.scrollY - 16;
+    window.scrollTo({ top: y, behavior: "smooth" });
+  }
+}, 50);
     } catch (err) {
       setStatus(statusEl, "");
       if (formWarnEl) {
@@ -811,13 +925,22 @@ async function initWidget(root) {
 
   function printResults() { window.print(); }
 
-  runEl.addEventListener("click", run);
-  if (locEl) locEl.addEventListener("keydown", (e) => { if (e.key === "Enter") run(); });
+runEl.addEventListener("click", run);
+if (useLocationEl) useLocationEl.addEventListener("click", validateLocationOnly);
+if (locEl) {
+  locEl.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      validateLocationOnly();
+    }
+  });
+}
 
   const defaultDateValue = plantEl?.value || todayYyyyMmDd();
 
-  if (resetEl) {
-    resetEl.addEventListener("click", () => resetForm({
+if (resetEl) {
+  resetEl.addEventListener("click", () => {
+    resetForm({
       locEl,
       plantEl,
       cropListEl,
@@ -828,8 +951,15 @@ async function initWidget(root) {
       footnoteEl,
       actionEls: [copyBtn, printBtn, csvBtn, txtBtn],
       defaultDateValue
-    }));
-  }
+    });
+
+    if (locationStatusEl) locationStatusEl.textContent = "";
+    if (formWarnEl) {
+      formWarnEl.textContent = "";
+      show(formWarnEl, false);
+    }
+  });
+}
 
   if (copyBtn) copyBtn.addEventListener("click", copyResults);
   if (csvBtn) csvBtn.addEventListener("click", downloadCsv);
