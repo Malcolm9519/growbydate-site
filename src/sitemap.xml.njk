@@ -5,6 +5,7 @@ eleventyExcludeFromCollections: true
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 {%- set base = "https://growbydate.com" -%}
+{%- set buildLastmod = build.timestamp | toSitemapDate -%}
 
 {# Static / collection-backed pages #}
 {%- for item in collections.all | sort(attribute="url") -%}
@@ -14,8 +15,10 @@ eleventyExcludeFromCollections: true
       and item.url != "/feed.xml"
       and not item.data.draft
       and not item.data.excludeFromSitemap -%}
+{%- set itemLastmod = (item.data.updated or build.timestamp) | toSitemapDate -%}
   <url>
     <loc>{{ base }}{{ item.url }}</loc>
+    {%- if itemLastmod %}<lastmod>{{ itemLastmod }}</lastmod>{%- endif %}
   </url>
   {%- endif -%}
 {%- endfor -%}
@@ -24,6 +27,7 @@ eleventyExcludeFromCollections: true
 {%- for state in stateSummariesUS | sort(attribute="key") -%}
   <url>
     <loc>{{ base }}/planting-dates/states/{{ state.key }}/</loc>
+    {%- if buildLastmod %}<lastmod>{{ buildLastmod }}</lastmod>{%- endif %}
   </url>
 {%- endfor -%}
 
@@ -31,6 +35,7 @@ eleventyExcludeFromCollections: true
 {%- for province in provinceSummariesCA | sort(attribute="key") -%}
   <url>
     <loc>{{ base }}/planting-dates/canada/provinces/{{ province.key }}/</loc>
+    {%- if buildLastmod %}<lastmod>{{ buildLastmod }}</lastmod>{%- endif %}
   </url>
 {%- endfor -%}
 
@@ -38,6 +43,7 @@ eleventyExcludeFromCollections: true
 {%- for city in citySummaries | sort(attribute="key") -%}
   <url>
     <loc>{{ base }}/planting-dates/{% if city.country == "canada" %}canada/{% endif %}{{ city.regionKey }}/{{ city.key }}/</loc>
+    {%- if buildLastmod %}<lastmod>{{ buildLastmod }}</lastmod>{%- endif %}
   </url>
 {%- endfor -%}
 
@@ -45,6 +51,7 @@ eleventyExcludeFromCollections: true
 {%- for row in cropCitySummaries | sort(attribute="url") -%}
   <url>
     <loc>{{ base }}{{ row.url }}</loc>
+    {%- if buildLastmod %}<lastmod>{{ buildLastmod }}</lastmod>{%- endif %}
   </url>
 {%- endfor -%}
 
@@ -52,6 +59,7 @@ eleventyExcludeFromCollections: true
 {%- for crop in crops | sort(attribute="slug") -%}
   <url>
     <loc>{{ base }}/crops/{{ crop.slug }}/</loc>
+    {%- if buildLastmod %}<lastmod>{{ buildLastmod }}</lastmod>{%- endif %}
   </url>
 {%- endfor -%}
 
@@ -59,6 +67,7 @@ eleventyExcludeFromCollections: true
 {%- for tool in tools | sort(attribute="slug") -%}
   <url>
     <loc>{{ base }}/tools/{{ tool.slug }}/</loc>
+    {%- if buildLastmod %}<lastmod>{{ buildLastmod }}</lastmod>{%- endif %}
   </url>
 {%- endfor -%}
 

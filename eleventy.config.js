@@ -4,6 +4,14 @@ const path = require("path");
 module.exports = function (eleventyConfig) {
   eleventyConfig.addShortcode("year", () => `${new Date().getFullYear()}`);
 
+  eleventyConfig.addFilter("toSitemapDate", (value) => {
+    if (!value) return "";
+    const d = new Date(value);
+    if (Number.isNaN(d.getTime())) return "";
+    return d.toISOString();
+  });
+
+  // your other filters / collections stay as they are below
   // Collections for navigation + index pages
   // Uses URL prefixes so you don't have to maintain front matter flags.
  eleventyConfig.addCollection("tools", (collectionApi) => {
