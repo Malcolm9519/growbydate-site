@@ -726,8 +726,45 @@ function cropIcon(id) {
     if (s.includes("hardy")) return "Tolerates light frosts; hard freezes can still damage.";
     return "Use row cover if frost is in the forecast.";
   }
+
+  function classifySpringFit(crop, protectionDays) {
+    const seasonType = String(crop?.seasonType || "").toLowerCase();
+    const maturityFrom = String(crop?.maturityFrom || "").toLowerCase();
+    const frostTolerance = String(crop?.frostTolerance || "").toLowerCase();
+
+    if (seasonType === "warm") {
+      if (protectionDays >= 14) {
+        return {
+          label: "Borderline without warm conditions",
+          note: maturityFrom === "transplant"
+            ? "Protection can move timing earlier on paper, but warm-season transplants still need warm soil and decent night temperatures."
+            : "Protection can move timing earlier on paper, but warm-season direct sowing still depends heavily on soil warmth."
+        };
+      }
+
+      return {
+        label: "Timing window only",
+        note: maturityFrom === "transplant"
+          ? "This is a frost-based transplant window. Warm-season crops may still stall if planted into cold soil or cold nights."
+          : "This is a frost-based sowing window. Warm-season crops may still stall if soil has not warmed properly."
+      };
+    }
+
+    if (frostTolerance.includes("hardy")) {
+      return {
+        label: "Usually forgiving",
+        note: "This crop is generally more forgiving in spring and often tolerates light frost better than warm-season crops."
+      };
+    }
+
+    return {
+      label: "Usually workable",
+      note: "This crop usually fits spring timing well, but weather, soil condition, and exposure still matter."
+    };
+  }
+
 function addDays(date, days) {
-    const out = new Date(date);
+      const out = new Date(date);
     out.setDate(out.getDate() + days);
     return out;
   }
@@ -823,9 +860,6 @@ initCropSelect();
     byId("copyBtn").style.display = "none";
     byId("csvBtn").style.display = "none";
     byId("txtBtn").style.display = "none";
-    byId("copyBtn").style.display = "none";
-    byId("csvBtn").style.display = "none";
-    byId("txtBtn").style.display = "none";
 
     const frost = toDate(byId("lastFrost").value);
     const protectionDays = parseInt(byId("protection").value, 10) || 0;
@@ -868,8 +902,16 @@ initCropSelect();
         const [start, end] = windowFromWeeksRelative(frost, earlier, later, protectionDays);
         const hardenStart = addDays(start, -10);
         const hardenEnd = addDays(start, -7);
-        addRow("Begin hardening off", `${fmtRange(hardenStart, hardenEnd)}`, "Start gradual outdoor exposure ~7–10 days before transplanting.");
-        addRow("Transplant outdoors", `${fmtRange(start, end)}`, protectionDays ? "Shifted earlier due to season protection." : "Open-garden timing.");
+        addRow("Begin hardening off", `${fmtRange(hardenStart, hardenEnd)}`, crop.seasonType === "warm" ? "Start gradual outdoor exposure about 7–14 days before transplanting; warm-season crops usually need the longer end." : "Start gradual outdoor exposure about 7–10 days before transplanting.");
+        addRow(
+          "Transplant outdoors",
+          `${fmtRange(start, end)}`,
+          protectionDays
+            ? (crop.seasonType === "warm"
+                ? "Shifted earlier due to season protection. For warm-season crops, frost protection does not guarantee warm enough soil or night temperatures."
+                : "Shifted earlier due to season protection.")
+            : "Open-garden timing."
+        );
 
         firstOutdoorDate = start;
         firstOutdoorLabel = "transplanting";
@@ -881,7 +923,17 @@ initCropSelect();
       if (crop.directSowWeeks) {
         const [earlier, later] = crop.directSowWeeks;
         const [start, end] = windowFromWeeksRelative(frost, earlier, later, protectionDays);
-        addRow("Direct sow outdoors", `${fmtRange(start, end)}`, protectionDays ? "Shifted earlier due to season protection." : "");
+        addRow(
+          "Direct sow outdoors",
+          `${fmtRange(start, end)}`,
+          protectionDays
+            ? (crop.seasonType === "warm"
+                ? "Shifted earlier due to season protection, but warm-season direct sowing still depends heavily on soil temperature."
+                : "Shifted earlier due to season protection.")
+            : (crop.seasonType === "warm"
+                ? "Best once soil has warmed, not just when frost risk has passed."
+                : "Use local soil and weather conditions to fine-tune timing.")
+        );
 
         // Use direct sow as the anchor if we didn't already anchor on transplant
         if (!firstOutdoorDate) {
@@ -893,24 +945,27 @@ initCropSelect();
       }
 
       // Estimated first harvest window (from first outdoor step)
-      if (firstOutdoorDate && Array.isArray(crop.daysToMaturity) && crop.daysToMaturity.length === 2) {
-        const [minDays, maxDays] = crop.daysToMaturity;
-        if (Number.isFinite(minDays) && Number.isFinite(maxDays)) {
+      if (crop.daysToMaturity) {
+        const d = Array.isArray(crop.daysToMaturity) ? crop.daysToMaturity : [crop.daysToMaturity, crop.daysToMaturity];
+        const minDays = Number(d[0]), maxDays = Number(d[1] ?? d[0]);
+        if (firstOutdoorDate) {
           const estMin = addDays(firstOutdoorDate, minDays);
           const estMax = addDays(firstOutdoorDate, maxDays);
           addRow(
             "Estimated first harvest",
             `${fmtRange(estMin, estMax)}`,
-            `Based on ${minDays}–${maxDays} days to maturity from ${firstOutdoorLabel}.`
+            `Rough estimate based on ${minDays}–${maxDays} days to maturity from ${firstOutdoorLabel}; cool weather can delay harvest.`
           );
         }
       }
 
-      // Frost tolerance (placed near bottom so action steps stay at the top)
+      const springFit = classifySpringFit(crop, protectionDays);
+      addRow("Spring fit", `<strong>${springFit.label}</strong>`, springFit.note);
+
       if (crop.frostTolerance) {
         addRow("Frost tolerance", crop.frostTolerance, frostToleranceNote(crop.frostTolerance));
       }
-
+      
       if (i < selectedCrops.length - 1) addSeparator();
     }
 // Confidence note

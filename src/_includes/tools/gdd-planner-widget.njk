@@ -62,6 +62,8 @@
     {% set cropLabel = "Spinach" %}
   {% elif "kale" in cropKey %}
     {% set cropLabel = "Kale" %}
+  {% elif "swiss-chard" in cropKey or "chard" in cropKey %}
+    {% set cropLabel = "Swiss Chard" %}
   {% else %}
     {% set cropLabel = "your crop" %}
   {% endif %}
@@ -140,20 +142,19 @@
 <div class="gddHybridMain">
   <div class="gddHybridMainPanel">
     <div class="stack gddHybridStack">
-      <div class="gddHybridFieldCard" data-role="cropWrap" data-scroll-anchor="cropStart" {% if hideCrops %}style="display:none;"{% endif %}>
-        <label>Crops</label>
+<div data-role="cropWrap" data-scroll-anchor="cropStart" {% if hideCrops %}style="display:none;"{% endif %}>        <label>Crops</label>
         <div class="small" data-role="cropHelp">Select one or more crops.</div>
         <div data-role="cropList" class="cropList"></div>
       </div>
 
-      <div class="gddHybridFieldCard" data-role="plantingWrap" {% if hideDate %}style="display:none;"{% endif %}>
-        <label>Planting date</label>
-        <input type="date" data-role="planting" aria-label="Planting date">
+      <div data-role="plantingWrap" {% if hideDate %}style="display:none;"{% endif %}>
+<label>Select Outdoor sow / Transplant date</label>
+<input type="date" data-role="planting" aria-label="Outdoor sow or transplant date">
       </div>
     </div>
 
     <div class="btnRow gddHybridActions" style="margin-top:12px;">
-          <button class="button primary" data-role="run" type="button">Estimate Maturity</button>
+      <button class="button primary" data-role="run" type="button">Estimate Maturity</button>
   <button class="btn" data-role="reset" type="button">Reset</button>
   <div class="small muted" data-role="status" aria-live="polite" style="align-self:center;"></div>
 </div>

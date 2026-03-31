@@ -1,12 +1,13 @@
 ---
 layout: layout-base.njk
+layoutClass: "cropCityPage"
 pagination:
   data: cropCitySummaries
   size: 1
   alias: pageData
 permalink: "{{ pageData.url }}index.html"
 eleventyComputed:
-  title: "When to Plant {{ pageData.cropName }} in {{ pageData.cityName }}: Timing and Maturity Guide | GrowByDate"
+  title: "When to Plant {{ pageData.cropName }} in {{ pageData.cityName }}: Timing and Maturity Guide"
   description: "Find the best time to plant {{ pageData.cropName | lower }} in {{ pageData.cityName }}, {{ pageData.regionName }}, with local planting windows, frost dates, indoor and outdoor timing, and whether the crop will typically mature in time."
   canonical: "https://growbydate.com{{ pageData.url }}"
 ---
@@ -79,14 +80,22 @@ eleventyComputed:
 {% set outlookClass = pageData.fit.confidence %}
 
 {% set plantingWindowValue = "" %}
-{% if pageData.planting.windowStart and pageData.planting.windowEnd and pageData.planting.windowStart != pageData.planting.windowEnd %}
-  {% set plantingWindowValue = formatMmdd(pageData.planting.windowStart) + " – " + formatMmdd(pageData.planting.windowEnd) %}
+{% if pageData.planting.windowStart and pageData.planting.windowEnd %}
+  {% if pageData.planting.windowStart == pageData.planting.windowEnd %}
+    {% set plantingWindowValue = formatMmdd(pageData.planting.windowStart) %}
+  {% else %}
+    {% set plantingWindowValue = formatMmdd(pageData.planting.windowStart) + " – " + formatMmdd(pageData.planting.windowEnd) %}
+  {% endif %}
+{% elif pageData.planting.windowStart %}
+  {% set plantingWindowValue = formatMmdd(pageData.planting.windowStart) %}
 {% endif %}
 
 {% set frostLabel = frostToleranceText(crop.frostToleranceLabel or crop.frostTolerance) %}
 
 {% set methodLabel = "" %}
-{% if crop.plantingMethod == "transplant" and crop.startingMethod == "indoors" %}
+{% if crop.transplantRecommended and crop.directSowRecommended %}
+  {% set methodLabel = "Direct sow or transplant" %}
+{% elif crop.plantingMethod == "transplant" and crop.startingMethod == "indoors" %}
   {% set methodLabel = "Transplant" %}
 {% elif crop.plantingMethod == "direct-sow" %}
   {% set methodLabel = "Direct sow" %}
@@ -107,7 +116,9 @@ eleventyComputed:
     <h2>Typical Planting Window</h2>
 
     <div class="fitBadge fitBadge-{{ outlookClass }}">
-      {% if outlookClass == "strong" %}
+      {% if outlookClass == "surplus" %}
+        Excellent fit in this climate
+      {% elif outlookClass == "strong" %}
         Strong fit in this climate
       {% elif outlookClass == "good" %}
         Good fit in this climate
@@ -121,17 +132,23 @@ eleventyComputed:
     </div>
   </div>
 
-  <p class="muted">
+  <p>
     Use the planting dates below for {{ cropLower }} in {{ pageData.cityName }}.
   </p>
 
   <div class="quickStats">
-    {% if pageData.planting.startIndoorsDate %}
-      <div class="statCard">
-        <span class="statLabel">Start indoors</span>
-        <strong>{{ formatMmdd(pageData.planting.startIndoorsDate) }}</strong>
-      </div>
-    {% endif %}
+{% if pageData.planting.startIndoorsDate %}
+  <div class="statCard">
+    <span class="statLabel">
+      {% if crop.transplantRecommended and crop.directSowRecommended %}
+        Optional indoor start
+      {% else %}
+        Start indoors
+      {% endif %}
+    </span>
+    <strong>{{ formatMmdd(pageData.planting.startIndoorsDate) }}</strong>
+  </div>
+{% endif %}
 
     {% if plantingWindowValue %}
       <div class="statCard">
@@ -157,10 +174,20 @@ eleventyComputed:
 
 {% if pageData.planting.startIndoorsDate or pageData.planting.windowStart or pageData.planting.directSowDate or pageData.planting.plantOutDate or crop.daysToMaturityTypical %}
   <p>
-    {% if pageData.planting.startIndoorsDate and (pageData.planting.windowStart or pageData.planting.plantOutDate) %}
+    {% if crop.transplantRecommended and crop.directSowRecommended and pageData.planting.directSowDate and pageData.planting.startIndoorsDate and pageData.planting.plantOutDate %}
+      Gardeners usually either sow outdoors around {{ formatMmdd(pageData.planting.directSowDate) }} or start indoors around {{ formatMmdd(pageData.planting.startIndoorsDate) }} and transplant outdoors around {{ formatMmdd(pageData.planting.plantOutDate) }}.
+    {% elif crop.transplantRecommended and crop.directSowRecommended and pageData.planting.directSowDate %}
+      Gardeners usually either sow outdoors around {{ formatMmdd(pageData.planting.directSowDate) }} or use transplants within the normal planting window.
+    {% elif crop.plantingMethod == "transplant" and pageData.planting.startIndoorsDate and (pageData.planting.windowStart or pageData.planting.plantOutDate) %}
       Gardeners usually start indoors around {{ formatMmdd(pageData.planting.startIndoorsDate) }} and plant outdoors from about {{ formatMmdd(pageData.planting.windowStart or pageData.planting.plantOutDate) }}.
-    {% elif pageData.planting.windowStart %}
+    {% elif crop.plantingMethod == "transplant" and pageData.planting.plantOutDate %}
+      Gardeners usually plant outdoors around {{ formatMmdd(pageData.planting.plantOutDate) }}.
+    {% elif crop.plantingMethod == "direct-sow" and pageData.planting.windowStart %}
       Gardeners usually sow outdoors around {{ formatMmdd(pageData.planting.windowStart) }}.
+    {% elif crop.plantingMethod == "direct-sow" and pageData.planting.directSowDate %}
+      Gardeners usually sow outdoors around {{ formatMmdd(pageData.planting.directSowDate) }}.
+    {% elif pageData.planting.windowStart %}
+      Gardeners usually sow or plant outdoors around {{ formatMmdd(pageData.planting.windowStart) }}.
     {% elif pageData.planting.directSowDate %}
       Gardeners usually sow outdoors around {{ formatMmdd(pageData.planting.directSowDate) }}.
     {% elif pageData.planting.plantOutDate %}
@@ -184,57 +211,13 @@ eleventyComputed:
     <p>{{ pageData.advisory.localInterpretation or pageData.advisory.fail }}</p>
   {% endif %}
 
-  {% set method = crop.plantingMethod or "" %}
-
-{% if pageData.fit.confidence == "strong" %}
+{% if pageData.advisory and pageData.advisory.bestStrategy %}
   <p>
     <strong>Best local strategy:</strong>
-    {% if method == "transplant" %}
-      Prioritize steady growth over exact timing, choose the varieties you actually want, and focus on spacing, watering, and harvest timing.
-    {% elif method == "direct-sow" %}
-      Focus more on steady growth than when to plant, grow the varieties you actually want, and focus on spacing, watering, and harvest timing.
-    {% else %}
-      Follow the normal planting window, grow the varieties you actually want, and focus on spacing, watering, and harvest timing.
-    {% endif %}
-  </p>
-
-{% elif pageData.fit.confidence == "good" %}
-  <p>
-    <strong>Best local strategy:</strong>
-    {% if method == "transplant" %}
-      Plant on time, choose reliable varieties that match your goals, and focus on steady growth through good watering and soil care.
-    {% elif method == "direct-sow" %}
-      Sow on time, choose reliable varieties that match your goals, and focus on steady growth through good watering and soil care.
-    {% else %}
-      Plant on time, choose reliable varieties that match your goals, and focus on steady growth through good watering and soil care.
-    {% endif %}
-  </p>
-
-{% elif pageData.fit.confidence == "borderline" %}
-  <p>
-    <strong>Best local strategy:</strong>
-    {% if method == "transplant" %}
-      Plant on time, choose earlier varieties, and favor warmer, more protected spots.
-    {% elif method == "direct-sow" %}
-      Sow on time, choose faster-maturing varieties, and favor warmer, more protected spots.
-    {% else %}
-      Plant on time, choose earlier varieties, and favor warmer, more protected spots.
-    {% endif %}
-  </p>
-
-{% elif pageData.fit.confidence == "risky" %}
-  <p>
-    <strong>Best local strategy:</strong>
-    {% if method == "transplant" %}
-      Use transplants, choose very early or early varieties, and prioritize the warmest spots in the garden.
-    {% elif method == "direct-sow" %}
-      Sow as early as conditions safely allow, choose the fastest-maturing varieties, and prioritize the warmest spots in the garden.
-    {% else %}
-      Plant on time, choose the fastest realistic varieties, and prioritize the warmest spots in the garden.
-    {% endif %}
+    {{ pageData.advisory.bestStrategy }}
   </p>
 {% endif %}
-  
+
 </section>
 
 <section class="card">
@@ -246,7 +229,8 @@ eleventyComputed:
     {% elif crop.frostTolerance == "tender" %}
       Growing degree days measure how much useful warmth the season provides. For warm-season crops like {{ cropLower }}, GDD helps show whether local heat accumulation is usually strong enough for the crop to grow steadily and finish before fall.
     {% else %}
-Growing degree days measure how much useful warmth typically accumulates during the season. For {{ cropLower }}, this helps estimate whether local heat accumulation is usually enough for the crop to reach maturity on time.    {% endif %}
+      Growing degree days measure how much useful warmth typically accumulates during the season. For {{ cropLower }}, this helps estimate whether local heat accumulation is usually enough for the crop to reach maturity on time.
+    {% endif %}
   </p>
 
   <div class="quickStats">
@@ -269,36 +253,14 @@ Growing degree days measure how much useful warmth typically accumulates during 
   </div>
 
   {% if pageData.fit.gddMargin != null %}
-    {% if pageData.fit.gddMargin >= 150 %}
-      <p>
-        From the usual planting window, {{ pageData.cityName }} typically provides about {{ pageData.fit.availableGddFromPlanting }} growing degree days for {{ cropLower }}. With a typical crop target of {{ crop.gddTargetTypical }}, that leaves a heat margin of +{{ pageData.fit.gddMargin }}. That means the season usually provides enough accumulated warmth for {{ cropLower }} to mature reliably in typical local conditions.
-      </p>
-    {% elif pageData.fit.gddMargin >= 40 %}
-      <p>
-        From the usual planting window, {{ pageData.cityName }} typically provides about {{ pageData.fit.availableGddFromPlanting }} growing degree days for {{ cropLower }}. With a typical crop target of {{ crop.gddTargetTypical }}, that leaves a heat margin of +{{ pageData.fit.gddMargin }}. That usually gives {{ cropLower }} enough heat to finish, but not with much room for delay, slower varieties, or cooler-than-average conditions.
-      </p>
-    {% elif pageData.fit.gddMargin >= 0 %}
-      <p>
-        From the usual planting window, {{ pageData.cityName }} typically provides about {{ pageData.fit.availableGddFromPlanting }} growing degree days for {{ cropLower }}. With a typical crop target of {{ crop.gddTargetTypical }}, the heat margin is only +{{ pageData.fit.gddMargin }}. That is a very slim buffer, so variety speed, planting timing, and site warmth matter a great deal.
-      </p>
-    {% else %}
-      <p>
-        From the usual planting window, {{ pageData.cityName }} typically provides about {{ pageData.fit.availableGddFromPlanting }} growing degree days for {{ cropLower }}, against a typical crop target of {{ crop.gddTargetTypical }}. That leaves a heat margin of {{ pageData.fit.gddMargin }}, which means the season usually falls short of the warmth this crop prefers. Success depends on very fast varieties, warm sites, and consistently favorable conditions.
-      </p>
-    {% endif %}
+    <p>
+      From the usual planting window, {{ pageData.cityName }} typically provides about {{ pageData.fit.availableGddFromPlanting }} growing degree days for {{ cropLower }}. With a typical crop target of {{ crop.gddTargetTypical }}, that leaves a heat margin of {% if pageData.fit.gddMargin > 0 %}+{% endif %}{{ pageData.fit.gddMargin }}. {{ pageData.fit.gddInterpretation }}
+    </p>
   {% endif %}
 
   <h3>GDD Checkpoints for {{ pageData.cityName }}</h3>
 
-  {% if pageData.fit.confidence == "strong" or pageData.fit.confidence == "good" %}
-    <p>
-      If planting later than usual, this table shows how much growing degree day heat is typically still available from each point in the season. In {{ pageData.cityName }}, {{ cropLower }} {{ "keep" if isPluralCrop else "keeps" }} a comfortable margin through much of the season, so the table is most useful for judging how much flexibility you still have rather than whether the crop fits at all.
-    </p>
-  {% else %}
-    <p>
-      When planting later than usual, this table shows how much growing degree day heat is typically still available from each point in the season. As planting gets pushed back, the remaining heat drops and {{ cropLower }} {{ cropBecomeVerb }} less likely to mature on time. Use the heat margin column to judge whether the crop still fits, is becoming tight, or is likely running short of warmth.
-    </p>
-  {% endif %}
+  <p>{{ pageData.fit.checkpointIntro }}</p>
 
   {% set checkpointRows = [
     { label: "Apr 15", value: pageData.gdd.remainingApr15 },
@@ -362,7 +324,7 @@ Growing degree days measure how much useful warmth typically accumulates during 
 
 <section class="card">
 
-<h2>Best {{ crop.singularName | capitalize }} Varieties for {{ pageData.cityName }}</h2>
+<h2>Best {{ cropSingular | replace("-", " ") | title }} Varieties for {{ pageData.cityName }}</h2>
 
 {% if pageData.fit.bestVarietyParagraphOverride %}
   <p>{{ pageData.fit.bestVarietyParagraphOverride }}</p>
@@ -430,7 +392,7 @@ Growing degree days measure how much useful warmth typically accumulates during 
   <h2>How Frost Affects {{ cropName }} in {{ pageData.cityName }}</h2>
 
   <p>
-  {{ pageData.cityName }} usually has about {{ pageData.frost.frostFreeDays }} frost-free days for growing {{ cropLower }}, with a typical last spring frost around {{ formatMmdd(pageData.frost.spring50) }} and a typical first fall frost around {{ formatMmdd(pageData.frost.fall50) }}.
+    {{ pageData.cityName }} usually has about {{ pageData.frost.frostFreeDays }} frost-free days, with a typical last spring frost around {{ formatMmdd(pageData.frost.spring50) }} and a typical first fall frost around {{ formatMmdd(pageData.frost.fall50) }}.
   </p>
 
   {% if pageData.fit.protectionSentence %}
@@ -464,13 +426,17 @@ Growing degree days measure how much useful warmth typically accumulates during 
   {% if frostLabel or crop.minSafeTempF != null %}
     <p>
       {% if frostLabel and crop.minSafeTempF != null %}
-        {{ cropSubject }} {{ cropVerb }} generally {{ frostLabel }} and temperatures below about {{ crop.minSafeTempF }}°F ({{ fToC(crop.minSafeTempF) }}°C) can slow growth or damage plants.
+{{ cropSubjectLower | capitalize }} {{ cropVerb }} generally {{ frostLabel }} and temperatures below about {{ crop.minSafeTempF }}°F ({{ fToC(crop.minSafeTempF) }}°C) can slow growth or damage plants.
       {% elif frostLabel %}
-        {{ cropSubject }} {{ cropVerb }} generally {{ frostLabel }}.
+{{ cropSubjectLower | capitalize }} {{ cropVerb }} generally {{ frostLabel }}.
       {% elif crop.minSafeTempF != null %}
         Temperatures below about {{ crop.minSafeTempF }}°F ({{ fToC(crop.minSafeTempF) }}°C) can slow growth or damage plants.
       {% endif %}
     </p>
+  {% endif %}
+
+    {% if pageData.fit.frostInterpretation %}
+    <p>{{ pageData.fit.frostInterpretation }}</p>
   {% endif %}
 
   {% if pageData.advisory %}
@@ -501,7 +467,6 @@ Growing degree days measure how much useful warmth typically accumulates during 
 <p class="small muted" style="margin-top:1rem;">
   For a broader local overview, see the
   <a href="/planting-dates/{% if pageData.country == 'canada' %}canada/{% endif %}{{ pageData.regionKey }}/{{ pageData.cityKey }}/">
-    {{ pageData.cityName }} planting guide
-  </a>.
+    {{ pageData.cityName }} planting guide.</a>
   You can also use the <a href="/tools/growing-degree-day-planner/">Growing Degree Day Planner</a> to test planting dates and crop timing.
 </p>

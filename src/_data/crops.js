@@ -18,13 +18,143 @@ const GDD_BY_KEY = {
   lettuce: { base_f: 40, gdd_required: 450, category: "cool-season" },
   spinach: { base_f: 40, gdd_required: 400, category: "cool-season" },
   peas: { base_f: 40, gdd_required: 600, category: "cool-season" },
-
+  kale: { base_f: 40, gdd_required: 700, category: "cool-season" },
+  "swiss-chard": { base_f: 40, gdd_required: 750, category: "cool-season" },
   potatoes: { base_f: 45, gdd_required: 1100, category: "cool-season" },
   onions: { base_f: 45, gdd_required: 1300, category: "cool-season" }
 };
 
 
 const CROP_CITY_BY_KEY = {
+    kale: {
+    relatedCrops: ["spinach", "lettuce"],
+
+    plantingMethod: "transplant",
+    startingMethod: "indoors",
+    transplantRecommended: true,
+    directSowRecommended: true,
+
+    daysBeforeLastFrostStartIndoors: 35,
+    daysAfterLastFrostPlantOut: -14,
+    daysAfterLastFrostDirectSow: -7,
+
+    gddBase: 40,
+    gddTargetTypical: 700,
+    maturityFrom: "transplant",
+    daysToMaturityTypical: "50–65",
+
+    frostTolerance: "moderate",
+    minSafeTempF: 25,
+    protectedCultureBenefit: "low",
+
+    varietyClasses: [
+      {
+        key: "very-early",
+        label: "Very early",
+        daysToMaturity: "45–50",
+        gddTarget: 600,
+        examples: [
+          {
+            name: "Red Russian",
+            note: "fast and forgiving, especially where gardeners want an earlier leaf harvest"
+          }
+        ]
+      },
+      {
+        key: "early",
+        label: "Early",
+        daysToMaturity: "50–60",
+        gddTarget: 700,
+        examples: [
+          {
+            name: "Winterbor",
+            note: "dependable and widely grown, with good fit for cool climates"
+          }
+        ]
+      },
+      {
+        key: "mid",
+        label: "Mid-season",
+        daysToMaturity: "60–75",
+        gddTarget: 825,
+        examples: [
+          {
+            name: "Lacinato",
+            note: "productive and popular, but usually a little slower to size up than the earliest kales"
+          }
+        ]
+      }
+    ],
+
+    oneSentenceSummary: "Kale is one of the easiest cool-season crops to fit into short climates.",
+    shortSeasonStrategy: "Start early or direct sow early, and treat kale as a flexible spring-to-fall crop rather than a crop that needs peak summer heat.",
+    commonFailureMode: "Late planting usually does not kill the crop outright, but it can leave plants undersized before cold weather slows growth."
+  },
+    "swiss-chard": {
+    relatedCrops: ["kale", "spinach"],
+
+    plantingMethod: "direct-sow",
+    startingMethod: "outdoors",
+    transplantRecommended: true,
+    directSowRecommended: true,
+
+daysBeforeLastFrostStartIndoors: 28,
+daysAfterLastFrostPlantOut: -7,
+daysAfterLastFrostDirectSow: -7,
+
+    gddBase: 40,
+    gddTargetTypical: 750,
+    maturityFrom: "direct-sow",
+    daysToMaturityTypical: "55–65",
+
+    frostTolerance: "light",
+    minSafeTempF: 28,
+    protectedCultureBenefit: "low",
+
+    varietyClasses: [
+      {
+        key: "very-early",
+        label: "Very early",
+        daysToMaturity: "50–55",
+        gddTarget: 650,
+        examples: [
+          {
+            name: "Barese",
+            note: "a quicker compact type that fits tighter seasons well"
+          }
+        ]
+      },
+      {
+        key: "early",
+        label: "Early",
+        daysToMaturity: "55–65",
+        gddTarget: 750,
+        examples: [
+          {
+            name: "Bright Lights",
+            note: "widely grown and practical where gardeners want dependable mixed-color harvests"
+          }
+        ]
+      },
+      {
+        key: "mid",
+        label: "Mid-season",
+        daysToMaturity: "65–75",
+        gddTarget: 850,
+        examples: [
+          {
+            name: "Fordhook Giant",
+            note: "vigorous and productive, but usually benefits from a little more runway than the quickest chards"
+          }
+        ]
+      }
+    ],
+
+    oneSentenceSummary: "Swiss chard is a dependable cool-season leaf crop that usually fits short climates well.",
+    shortSeasonStrategy: "Sow or transplant early and use chard as a long-window leaf crop that tolerates cool conditions better than many summer vegetables.",
+    commonFailureMode: "Late sowing can still produce a crop, but plants may stay smaller when seasonal heat accumulation runs short."
+  },
+
   tomatoes: {
     relatedCrops: ["peppers", "sweet-corn"],
 
@@ -308,14 +438,14 @@ const CROP_CITY_BY_KEY = {
   cucumbers: {
     relatedCrops: ["zucchini", "beans"],
 
-    plantingMethod: "direct-sow",
-    startingMethod: "outdoors",
-    transplantRecommended: false,
-    directSowRecommended: true,
+plantingMethod: "direct-sow",
+startingMethod: "outdoors",
+transplantRecommended: true,
+directSowRecommended: true,
 
-    daysBeforeLastFrostStartIndoors: null,
-    daysAfterLastFrostPlantOut: null,
-    daysAfterLastFrostDirectSow: 7,
+daysBeforeLastFrostStartIndoors: 21,
+daysAfterLastFrostPlantOut: 7,
+daysAfterLastFrostDirectSow: 7,
 
     gddBase: 50,
     gddTargetTypical: 800,
@@ -376,14 +506,14 @@ const CROP_CITY_BY_KEY = {
   zucchini: {
     relatedCrops: ["cucumbers", "beans"],
 
-    plantingMethod: "direct-sow",
-    startingMethod: "outdoors",
-    transplantRecommended: false,
-    directSowRecommended: true,
+plantingMethod: "direct-sow",
+startingMethod: "outdoors",
+transplantRecommended: true,
+directSowRecommended: true,
 
-    daysBeforeLastFrostStartIndoors: null,
-    daysAfterLastFrostPlantOut: null,
-    daysAfterLastFrostDirectSow: 7,
+daysBeforeLastFrostStartIndoors: 21,
+daysAfterLastFrostPlantOut: 7,
+daysAfterLastFrostDirectSow: 7,
 
     gddBase: 50,
     gddTargetTypical: 750,
@@ -892,14 +1022,14 @@ const CROP_CITY_BY_KEY = {
 lettuce: {
   relatedCrops: ["spinach", "beans"],
 
-  plantingMethod: "direct-sow",
-  startingMethod: "outdoors",
-  transplantRecommended: false,
-  directSowRecommended: true,
+plantingMethod: "direct-sow",
+startingMethod: "outdoors",
+transplantRecommended: true,
+directSowRecommended: true,
 
-  daysBeforeLastFrostStartIndoors: null,
-  daysAfterLastFrostPlantOut: null,
-  daysAfterLastFrostDirectSow: -21,
+daysBeforeLastFrostStartIndoors: 35,
+daysAfterLastFrostPlantOut: -7,
+daysAfterLastFrostDirectSow: -21,
 
   gddBase: 40,
   gddTargetTypical: 500,
@@ -1275,7 +1405,7 @@ const RAW_CROPS = [
     indoorStartWeeks: [6, 4],
     transplantWeeks: [4, 1],
     directSowWeeks: [4, 2],
-    relatedTools: ["seed-start-planner", "first-frost-planner"],
+    relatedTools: ["seed-start-planner", "gdd-planner", "first-frost-planner"],
     singularName: "kale"
   },
   {
@@ -1949,7 +2079,7 @@ const RAW_CROPS = [
     indoorStartWeeks: null,
     transplantWeeks: null,
     directSowWeeks: [-4, 4],
-    relatedTools: ["seed-start-planner", "first-frost-planner"],
+    relatedTools: ["seed-start-planner", "gdd-planner", "first-frost-planner"],
     singularName: "radish"
   },
 {
@@ -2094,16 +2224,16 @@ const RAW_CROPS = [
     slug: "swiss-chard",
     order: 15,
     indexBlurb: "Flexible cool-season greens—handles cool nights and keeps producing into fall.",
-    description: "Swiss chard is durable in short seasons—start early, transplant around last frost, and harvest as fall temperatures drop.",
     tagline: "A cool-season workhorse with a long harvest window.",
-    lede: "Swiss chard is resilient across a wide temperature range. In short seasons, it’s valuable because it can be started early, planted into cool conditions, and harvested into fall as temperatures drop.",
+    description: "Swiss chard is durable in short seasons—either direct sow into cool spring conditions or start a little early for transplants, then harvest into fall.",
+    lede: "Swiss chard is resilient across a wide temperature range. In short seasons, it can be either direct sown into cool conditions or started a little early for transplants, then harvested well into fall.",
     seasonType: "cool",
     frostTolerance: "light to moderate (tolerates light frost; hard freezes can damage leaves)",
     daysToMaturity: [50, 70],
     indoorStartWeeks: [6, 4],
     transplantWeeks: [-2, 0],
     directSowWeeks: [-2, 2],
-    relatedTools: ["seed-start-planner", "first-frost-planner"],
+    relatedTools: ["seed-start-planner", "gdd-planner", "first-frost-planner"],
     singularName: "swiss chard"
   },
   {

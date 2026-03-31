@@ -917,6 +917,8 @@ p + .tableWrap {
 
 
 
+
+
 /* =======================================
    GDD WIDGET — shared everywhere
    ======================================= */
@@ -1382,28 +1384,58 @@ p + .tableWrap {
 }
 
 /* shared fit badges */
+
+.fitBadge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.32rem 0.72rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.1;
+  border: 1px solid transparent;
+}
+
+.fitBadge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.32rem 0.72rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.1;
+  border: 1px solid transparent;
+}
+
+.fitBadge-surplus,
+.fitBadge-excellent {
+  background: #dff3e6;
+  color: #155239;
+  border-color: #9fceb0;
+}
+
 .fitBadge-strong {
-  background: #e6f4ea;
-  color: #1e7e34;
-  border-color: rgba(30, 126, 52, 0.16);
+  background: #eaf6df;
+  color: #3d6b1f;
+  border-color: #bfd7a8;
 }
 
 .fitBadge-good {
-  background: #eef6ff;
-  color: #1c6ed5;
-  border-color: rgba(28, 110, 213, 0.16);
+  background: #f6f1cf;
+  color: #70601a;
+  border-color: #dfd28e;
 }
 
 .fitBadge-borderline {
-  background: #fff4e5;
-  color: #b26a00;
-  border-color: rgba(178, 106, 0, 0.18);
+  background: #f9e7c8;
+  color: #8a5a16;
+  border-color: #e4be78;
 }
 
 .fitBadge-risky {
-  background: #fff4e5;
-  color: #b26a00;
-  border-color: rgba(178, 106, 0, 0.18);
+  background: #f7dddd;
+  color: #8b3434;
+  border-color: #dfabab;
 }
 
 @media (max-width: 860px) {
@@ -1507,7 +1539,7 @@ p + .tableWrap {
 }
 
 .toolRoot[data-tool="gdd-planner"] [data-role="plantingWrap"] {
-  margin-top: 0;
+  margin-top: 12px;
 }
 
 /* =======================================
@@ -1573,29 +1605,6 @@ border-radius: 999px;
   border: 1px solid rgba(0,0,0,0.08);
 }
 
-.fitBadge-strong {
-  background: #e6f4ea;
-  color: #1e7e34;
-  border-color: rgba(30,126,52,0.16);
-}
-
-.fitBadge-good {
-  background: #eef6ff;
-  color: #1c6ed5;
-  border-color: rgba(28,110,213,0.16);
-}
-
-.fitBadge-borderline {
-  background: #fff4e5;
-  color: #b26a00;
-  border-color: rgba(178,106,0,0.18);
-}
-
-.fitBadge-risky {
-  background: #fdecea;
-  color: #b42318;
-  border-color: rgba(180,35,24,0.18);
-}
 
 .quickStats {
   display: grid;
@@ -2047,4 +2056,215 @@ border-radius: 999px;
   .frostResultCard__value {
     white-space: normal;
   }
+}
+
+
+
+
+
+
+
+
+
+.guidePage .header {
+  margin-bottom: 32px;
+  padding: 28px 28px 24px;
+  border: 1px solid #dfeadb;
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at top left, rgba(59, 188, 61, 0.09), transparent 38%),
+    linear-gradient(180deg, #fcfffc 0%, #f7fbf7 100%);
+}
+
+.guidePage .header h1,
+.statePage .header h1,
+.provincePage .header h1,
+.cityPage .header h1,
+.cropCityPage .header h1 {
+  margin: 0 0 12px;
+  font-size: clamp(2rem, 1.7rem + 1vw, 3rem);
+  line-height: 1.06;
+  letter-spacing: -0.03em;
+}
+
+.guidePage .tagline,
+.statePage .tagline,
+.provincePage .tagline,
+.cityPage .tagline,
+.cropCityPage .tagline {
+  margin-top: 10px;
+  font-size: 1rem;
+  color: #2d3a2d;
+}
+
+.guidePage .lede,
+.statePage .lede,
+.provincePage .lede,
+.cityPage .lede,
+.cropCityPage .lede {
+  margin-top: 16px;
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+.guidePage .card,
+.statePage .card,
+.provincePage .card,
+.cityPage .card,
+.cropCityPage .card {
+  padding: 24px;
+  border: 1px solid #e2e8df;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+}
+
+.guidePage .card + .card,
+.statePage .card + .card,
+.provincePage .card + .card,
+.cityPage .card + .card,
+.cropCityPage .card + .card {
+  margin-top: 18px;
+}
+
+.guidePage .card:nth-of-type(3n),
+.statePage .card:nth-of-type(3n),
+.provincePage .card:nth-of-type(3n),
+.cityPage .card:nth-of-type(3n),
+.cropCityPage .card:nth-of-type(3n) {
+  background: #fbfdf9;
+}
+
+.guidePage .card:nth-of-type(4n),
+.statePage .card:nth-of-type(4n),
+.provincePage .card:nth-of-type(4n),
+.cityPage .card:nth-of-type(4n),
+.cropCityPage .card:nth-of-type(4n) {
+  border-left: 5px solid #b9d3b5;
+}
+
+.guidePage .card h2,
+.statePage .card h2,
+.provincePage .card h2,
+.cityPage .card h2,
+.cropCityPage .card h2 {
+  margin: 0 0 14px;
+  font-size: 1.55rem;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.guidePage .card h3,
+.statePage .card h3,
+.provincePage .card h3,
+.cityPage .card h3,
+.cropCityPage .card h3 {
+  margin-top: 22px;
+  font-size: 1.08rem;
+}
+
+.guidePage p.muted,
+.statePage p.muted,
+.provincePage p.muted,
+.cityPage p.muted,
+.cropCityPage p.muted {
+  margin-top: 16px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: #f4f8f1;
+  border: 1px solid #e1eadc;
+  color: #314131;
+  font-size: 0.96rem;
+}
+
+.guidePage ul,
+.guidePage ol,
+.statePage ul,
+.statePage ol,
+.provincePage ul,
+.provincePage ol,
+.cityPage ul,
+.cityPage ol,
+.cropCityPage ul,
+.cropCityPage ol {
+  padding-left: 1.25rem;
+}
+
+.guidePage li + li,
+.statePage li + li,
+.provincePage li + li,
+.cityPage li + li,
+.cropCityPage li + li {
+  margin-top: 0.55rem;
+}
+
+.guidePage ul.tight li,
+.guidePage ol.tight li,
+.statePage ul.tight li,
+.statePage ol.tight li,
+.provincePage ul.tight li,
+.provincePage ol.tight li,
+.cityPage ul.tight li,
+.cityPage ol.tight li,
+.cropCityPage ul.tight li,
+.cropCityPage ol.tight li {
+  margin-top: 0.4rem;
+}
+
+.guidePage .card ul.tight,
+.statePage .card ul.tight,
+.provincePage .card ul.tight,
+.cityPage .card ul.tight,
+.cropCityPage .card ul.tight {
+  padding: 0;
+  list-style: none;
+}
+
+.guidePage .card ul.tight li,
+.statePage .card ul.tight li,
+.provincePage .card ul.tight li,
+.cityPage .card ul.tight li,
+.cropCityPage .card ul.tight li {
+  padding: 10px 12px;
+  margin-top: 8px;
+  border: 1px solid #e8eee4;
+  border-radius: 12px;
+  background: #fcfdfb;
+}
+
+.guidePage details,
+.statePage details,
+.provincePage details,
+.cityPage details,
+.cropCityPage details {
+  border: 1px solid #e7ece4;
+  border-radius: 14px;
+  padding: 12px 14px;
+  background: #fff;
+}
+
+.guidePage details + details,
+.statePage details + details,
+.provincePage details + details,
+.cityPage details + details,
+.cropCityPage details + details {
+  margin-top: 10px;
+}
+
+.guidePage summary,
+.statePage summary,
+.provincePage summary,
+.cityPage summary,
+.cropCityPage summary {
+  cursor: pointer;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.guidePage details[open],
+.statePage details[open],
+.provincePage details[open],
+.cityPage details[open],
+.cropCityPage details[open] {
+  background: #fbfdf9;
 }

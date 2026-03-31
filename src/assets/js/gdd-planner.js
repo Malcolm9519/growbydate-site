@@ -59,6 +59,8 @@ const CROP_ICONS = {
   cabbage: "🥬",
   lettuce: "🥬",
   spinach: "🍃",
+  "swiss-chard": "🥬",
+  chard: "🥬",
   kale: "🥬",
   radish: "🌱"
 };
@@ -806,7 +808,7 @@ for (const siteId of chosen) {
         <span class="small muted">· Base ${escapeHtml(baseKey)}°F</span>
       </td>
       <td class="cropHeaderMeta">
-        <span class="small muted">Planting date</span>
+<span class="small muted">Outdoor sow / Transplant date</span>
         <strong>${escapeHtml(plantingLabel)}</strong>
       </td>
     </tr>

@@ -9,7 +9,6 @@
 <section class="card" aria-labelledby="ff-title">
       <header>
         <h2 id="ff-title" class="sr-only">First frost planner</h2>
-        <p class="small" style="opacity:0.86;">
       </header>
 
       <div role="form" aria-describedby="ff-assumptions">
@@ -89,7 +88,7 @@
   <h2>What This Planner Answers</h2>
 
   <p>
-    In a typical year, when is the latest you can plant a crop and still expect it to mature before your first fall frost?
+    In a typical year, when is the latest you can direct sow or transplant a crop and still expect it to mature before your first fall frost?
   </p>
 
   <p>
@@ -165,9 +164,10 @@
   <h2>How to Interpret Your Results</h2>
 
   <p>
-    The planting cutoff date shown by this planner represents the latest date
-    a crop would typically need to be planted in order to mature
-    before your average first fall frost.
+    The cutoff shown by this planner represents the latest date
+    a crop would typically need to be <strong>direct sown or transplanted</strong>,
+    depending on how that crop’s maturity timing is normally counted,
+    in order to mature before your average first fall frost.
   </p>
 
   <p>
@@ -622,9 +622,128 @@
 
   function getDtmRange(crop) {
     const d = crop && crop.daysToMaturity;
-    if (Array.isArray(d) && d.length === 2) return [Number(d[0]), Number(d[1])].sort((a,b)=>a-b);
+    if (Array.isArray(d) && d.length === 2) return [Number(d[0]), Number(d[1])].sort((a, b) => a - b);
     if (Number.isFinite(d)) return [Number(d), Number(d)];
     return null;
+  }
+
+  function plantingTaskLabel(crop) {
+    const maturityFrom = String(crop?.maturityFrom || "").toLowerCase();
+    const startingMethod = String(crop?.startingMethod || "").toLowerCase();
+
+    if (maturityFrom === "transplant") return "Latest recommended transplant date";
+    if (maturityFrom === "direct-sow") return "Latest recommended direct-sow date";
+    if (startingMethod === "indoors" || crop?.transplantRecommended) return "Latest recommended transplant date";
+    return "Latest recommended sow date";
+  }
+
+  function plantingTimingNote(crop, minDtm, maxDtm, bufferDays) {
+    const rangeText = minDtm === maxDtm
+      ? `${maxDtm} days`
+      : `${minDtm}–${maxDtm} days`;
+
+    const maturityFrom = String(crop?.maturityFrom || "").toLowerCase();
+    const seasonType = String(crop?.seasonType || "").toLowerCase();
+
+    let anchorText = "Uses";
+    if (maturityFrom === "transplant") {
+      anchorText = "Uses transplant-to-harvest timing of";
+    } else if (maturityFrom === "direct-sow") {
+      anchorText = "Uses direct-sow-to-harvest timing of";
+    }
+
+    let note = `${anchorText} ${rangeText} + ${bufferDays} day buffer.`;
+
+    if (seasonType === "warm") {
+      note += " Warm-season crops often slow sharply in late season, so treat borderline dates cautiously.";
+    } else if (seasonType === "cool") {
+      note += " Cool-season crops are usually more forgiving in fall than warm-season crops.";
+    }
+
+    return note;
+  }
+
+  function effectiveFrostNote(crop, firstFrost, protectionDays) {
+    const seasonType = String(crop?.seasonType || "").toLowerCase();
+
+    if (!protectionDays) return `No protection applied. Average first frost: ${fmt(firstFrost)}.`;
+
+    if (seasonType === "warm") {
+      return `Based on ${fmt(firstFrost)} + ${protectionDays} days protection. Protection may reduce light frost exposure, but it does not restore late-season heat.`;
+    }
+
+    return `Based on ${fmt(firstFrost)} + ${protectionDays} days protection. Most useful for cool-season crops that tolerate cold better.`;
+  }
+
+  function classifyFallMargin(crop, minDtm, maxDtm, bufferDays, protectionDays) {
+    const seasonType = String(crop?.seasonType || "").toLowerCase();
+    const fastestTotal = minDtm + bufferDays;
+    const slowestTotal = maxDtm + bufferDays;
+    const spread = Math.max(0, maxDtm - minDtm);
+
+    let strongThreshold = 21;
+    let goodThreshold = 10;
+
+    if (seasonType === "warm") {
+      strongThreshold = 28;
+      goodThreshold = 14;
+    }
+
+    if (spread >= strongThreshold) {
+      return {
+        key: "comfortable",
+        label: "Comfortable margin",
+        note: seasonType === "warm"
+          ? "Fast and slow varieties still leave meaningful room before the effective frost boundary, though warm-season crops can still slow sharply in late season."
+          : "Fast and slow varieties still leave meaningful room before the effective frost boundary in a typical year."
+      };
+    }
+
+    if (spread >= goodThreshold) {
+      return {
+        key: "borderline",
+        label: "Borderline margin",
+        note: seasonType === "warm"
+          ? "The cutoff window is fairly tight. Variety speed, planting timing, and late-season warmth matter a great deal."
+          : "The cutoff window is usable, but there is not much room for delay, slower varieties, or cooler-than-average late-season conditions."
+      };
+    }
+
+    return {
+      key: "unlikely",
+      label: "Unlikely maturity",
+      note: seasonType === "warm"
+        ? "This is mostly a paper fit. Calendar days may remain, but warm-season crops often run short on useful late-season heat before they truly finish."
+        : "The projected window is extremely narrow, so even small delays or cooler conditions can prevent a reliable harvest."
+    };
+  }
+
+  function fallStrategyNote(crop, marginKey) {
+    const maturityFrom = String(crop?.maturityFrom || "").toLowerCase();
+    const seasonType = String(crop?.seasonType || "").toLowerCase();
+
+    if (marginKey === "comfortable") {
+      return maturityFrom === "transplant"
+        ? "Best local strategy: transplant on time and focus on steady growth rather than trying to squeeze the schedule."
+        : "Best local strategy: sow on time and focus on steady growth rather than trying to squeeze the schedule.";
+    }
+
+    if (marginKey === "borderline") {
+      if (maturityFrom === "transplant") {
+        return "Best local strategy: transplant on time, choose earlier varieties, and favor warmer or more protected spots.";
+      }
+      return "Best local strategy: sow on time, choose faster-maturing varieties, and favor warmer or more protected spots.";
+    }
+
+    if (seasonType === "warm") {
+      return maturityFrom === "transplant"
+        ? "Best local strategy: use only very fast varieties, transplant promptly, and treat the result as risky unless your site runs especially warm."
+        : "Best local strategy: use only very fast varieties, sow promptly, and treat the result as risky unless your site runs especially warm.";
+    }
+
+    return maturityFrom === "transplant"
+      ? "Best local strategy: use earlier varieties, transplant promptly, and expect less margin than the calendar alone suggests."
+      : "Best local strategy: use earlier varieties, sow promptly, and expect less margin than the calendar alone suggests.";
   }
 
   function cropUrl(crop) {
@@ -793,8 +912,10 @@
       addCropHeader(crop);
 
       const dtm = getDtmRange(crop);
+      const taskLabel = plantingTaskLabel(crop);
+
       if (!dtm) {
-        addRow("Latest recommended sow date", "—", "No days-to-maturity data available for this crop.");
+        addRow(taskLabel, "—", "No days-to-maturity data available for this crop.");
         return;
       }
 
@@ -810,37 +931,51 @@
         ? fmtSingle(conservative)
         : fmtRange(conservative, fastVariety);
 
+      const margin = classifyFallMargin(crop, minDtm, maxDtm, bufferDays, protectionDays);
+
       addRow(
-        "Latest recommended sow date",
+        taskLabel,
         windowText,
-        minDtm === maxDtm
-          ? `Uses ${maxDtm} days + ${bufferDays} day buffer.`
-          : `Uses ${minDtm}–${maxDtm} days + ${bufferDays} day buffer (fast → slow varieties).`
+        plantingTimingNote(crop, minDtm, maxDtm, bufferDays)
+      );
+
+      addRow(
+        "Fall fit",
+        `<strong>${margin.label}</strong>`,
+        margin.note
       );
 
       addRow(
         "Effective frost date",
         fmtSingle(effectiveFrost),
-        protectionDays ? `Based on ${fmt(firstFrost)} + ${protectionDays} days protection.` : `No protection applied.`
+        effectiveFrostNote(crop, firstFrost, protectionDays)
       );
 
-      // Crop note (keep it practical)
+      addRowSpan("Best local strategy", fallStrategyNote(crop, margin.key));
+
       const note = (crop.indexBlurb || crop.tagline || crop.notes || "").toString().trim();
       if (note) {
         addRowSpan("Crop note", note);
         planRows.push({ crop: crop.name, task: "Crop note", window: note, notes: "" });
       }
 
-      // Frost tolerance at bottom
       if (crop.frostTolerance) {
         addRowSpan("Frost tolerance", crop.frostTolerance);
         planRows.push({ crop: crop.name, task: "Frost tolerance", window: crop.frostTolerance, notes: "" });
       }
-planRows.push(
-        { crop: crop.name, task: "Latest recommended sow date", window: windowTextPlain, notes: "" },
-        { crop: crop.name, task: "Effective frost date", window: fmt(effectiveFrost), notes: protectionDays ? `Avg first frost ${fmt(firstFrost)} + ${protectionDays}d` : `Avg first frost ${fmt(firstFrost)}` },
+
+      planRows.push(
+        { crop: crop.name, task: taskLabel, window: windowTextPlain, notes: "" },
+        { crop: crop.name, task: "Fall fit", window: margin.label, notes: margin.note },
+        {
+          crop: crop.name,
+          task: "Effective frost date",
+          window: fmt(effectiveFrost),
+          notes: protectionDays ? `Avg first frost ${fmt(firstFrost)} + ${protectionDays}d` : `Avg first frost ${fmt(firstFrost)}`
+        },
+        { crop: crop.name, task: "Best local strategy", window: fallStrategyNote(crop, margin.key), notes: "" }
       );
-    });
+                });
 
     lastPlanRows = planRows;
     lastPlanMeta = { firstFrost, effectiveFrost, protectionDays, bufferDays };

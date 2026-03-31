@@ -75,19 +75,21 @@
     "squash", "winter-squash", "pumpkin", "tomatoes", "peppers"
   ] %}
 
-  {% macro confidenceLabel(confidence) %}
-    {% if confidence == "strong" %}
-      Strong fit
-    {% elif confidence == "good" %}
-      Good fit
-    {% elif confidence == "borderline" %}
-      Borderline
-    {% elif confidence == "risky" %}
-      Risky fit
-    {% else %}
-      —
-    {% endif %}
-  {% endmacro %}
+{% macro confidenceLabel(confidence) %}
+  {% if confidence == "surplus" %}
+    Excellent fit
+  {% elif confidence == "strong" %}
+    Strong fit
+  {% elif confidence == "good" %}
+    Good fit
+  {% elif confidence == "borderline" %}
+    Borderline
+  {% elif confidence == "risky" %}
+    Risky fit
+  {% else %}
+    —
+  {% endif %}
+{% endmacro %}
 
 {# City pages: use crop-city summaries for links/confidence, but pull real ranges from city planting windows when available #}
 {% if isCityPage %}

@@ -42,10 +42,8 @@
 
   <link rel="stylesheet" href="/styles.css" />
 
-  <!-- Google Analytics (production only) -->
   <script>
     (function () {
-      // Only track on production domains
       const allowedHosts = ["growbydate.com", "www.growbydate.com"];
       if (!allowedHosts.includes(location.hostname)) return;
 
@@ -62,84 +60,45 @@
       gtag("config", "G-1B458R6ZB7");
     })();
   </script>
-
-<script>
-  (function () {
-    const pairs = [
-      ["guideMascot", "guideHeroShell"],
-      ["cityMascot", "cityHeroShell"]
-    ];
-
-    function bindMascotFade(mascotId, shellId) {
-      const mascot = document.getElementById(mascotId);
-      const shell = document.getElementById(shellId);
-      if (!mascot || !shell) return;
-
-      function updateMascot() {
-        const rect = shell.getBoundingClientRect();
-        const fadeDistance = Math.max(180, shell.offsetHeight * 0.9);
-        const scrolled = Math.max(0, -rect.top);
-        const progress = Math.min(scrolled / fadeDistance, 1);
-
-        mascot.style.opacity = String(1 - progress);
-        mascot.style.transform = "translateY(" + (-10 * progress) + "px)";
-      }
-
-      updateMascot();
-      window.addEventListener("scroll", updateMascot, { passive: true });
-      window.addEventListener("resize", updateMascot);
-    }
-
-    for (const [mascotId, shellId] of pairs) {
-      bindMascotFade(mascotId, shellId);
-    }
-  })();
-</script>
 </head>
 
-<body>
-  <header class="siteHeader">
+<body{% if layoutClass or isGuide %} class="{% if isGuide %}guidePage{% endif %}{% if isGuide and layoutClass %} {% endif %}{% if layoutClass %}{{ layoutClass }}{% endif %}"{% endif %}>  <header class="siteHeader">
     <div class="container siteHeaderInner">
       {% include "nav.njk" %}
     </div>
   </header>
 
-  <main class="container">
+  <main class="container{% if isGuide %} guideMain{% endif %}">
     {{ content | safe }}
     {% include "footer.njk" %}
   </main>
 
   <script>
-  (function () {
-    const drops = Array.from(document.querySelectorAll("details.navdrop"));
-    if (!drops.length) return;
+    (function () {
+      const drops = Array.from(document.querySelectorAll("details.navdrop"));
+      if (!drops.length) return;
 
-    function closeAll(except) {
+      function closeAll(except) {
+        for (const d of drops) {
+          if (d !== except) d.removeAttribute("open");
+        }
+      }
+
       for (const d of drops) {
-        if (d !== except) d.removeAttribute("open");
+        d.addEventListener("toggle", () => {
+          if (d.open) closeAll(d);
+        });
       }
-    }
 
-    // When one opens, close the rest
-    for (const d of drops) {
-      d.addEventListener("toggle", () => {
-        if (d.open) closeAll(d);
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeAll(null);
       });
-    }
 
-    // Close on Escape
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") {
-        closeAll(null);
-      }
-    });
-
-    // Click outside closes
-    document.addEventListener("click", (e) => {
-      const clickedInside = drops.some((d) => d.contains(e.target));
-      if (!clickedInside) closeAll(null);
-    });
-  })();
+      document.addEventListener("click", (e) => {
+        const clickedInside = drops.some((d) => d.contains(e.target));
+        if (!clickedInside) closeAll(null);
+      });
+    })();
   </script>
 </body>
 </html>

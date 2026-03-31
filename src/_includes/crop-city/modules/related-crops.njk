@@ -14,7 +14,7 @@
     Published crop-specific planting guides for {{ city.name }}, ordered from best fit to highest risk.
   </p>
 
-  {% for confidence in ["strong", "good", "borderline", "risky"] %}
+  {% for confidence in ["surplus", "strong", "good", "borderline", "risky"] %}
     {% set group = [] %}
     {% for item in cityCropLinks %}
       {% if item.confidence == confidence %}
@@ -43,7 +43,9 @@
             line-height:1.1;
           "
         >
-          {% if confidence == "strong" %}
+          {% if confidence == "surplus" %}
+            Excellent fit
+          {% elif confidence == "strong" %}
             Strong fit
           {% elif confidence == "good" %}
             Good fit
@@ -63,17 +65,17 @@
             {% set rotatedBlurb = blurbOptions[loop.index0 % blurbOptions.length] %}
           {% endif %}
 
-          <div style="border:1px solid rgba(0,0,0,.08); border-radius:12px; padding:0.55rem 0.7rem; background:rgba(255,255,255,.45);">
-            <p class="small" style="margin:0 0 0.08rem 0; line-height:1.2;">
-              <a href="{{ item.url }}" style="text-decoration:none;">
-                <strong>{{ item.cropName }}</strong>
-              </a>
-            </p>
+<div style="padding:0.1rem 0;">
+  <p class="small" style="margin:0 0 0.08rem 0; line-height:1.2;">
+    <a href="{{ item.url }}" style="text-decoration:none;">
+      <strong>{{ item.cropName }}</strong>
+    </a>
+  </p>
 
-            <p class="small muted" style="margin:0; line-height:1.22;">
-              {{ rotatedBlurb }}
-            </p>
-          </div>
+  <p class="small" style="margin:0; line-height:1.22; color:rgba(0,0,0,.72);">
+    {{ rotatedBlurb }}
+  </p>
+</div>
         {% endfor %}
       </div>
     {% endif %}

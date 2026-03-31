@@ -10,11 +10,11 @@
 <section class="card">
   <h2>Crop Guides for {{ city.name }}</h2>
 
-  <p class="small" style="margin-top:-0.25rem; margin-bottom:0.85rem;">
-    Explore published crop-specific planting guides for {{ city.name }}, ordered from best local fit to highest risk.
+  <p class="small" style="margin-top:-0.25rem; margin-bottom:0.75rem;">
+    Published crop-specific planting guides for {{ city.name }}, ordered from best fit to highest risk.
   </p>
 
-  {% for confidence in ["strong", "good", "borderline", "risky"] %}
+  {% for confidence in ["surplus", "strong", "good", "borderline", "risky"] %}
     {% set group = [] %}
     {% for item in cityCropLinks %}
       {% if item.confidence == confidence %}
@@ -23,37 +23,39 @@
     {% endfor %}
 
     {% if group.length %}
-      <div
-        style="
-          margin:{% if loop.first %}0.35rem{% else %}1rem{% endif %} 0 0.55rem 0;
-          padding-top:{% if loop.first %}0{% else %}0.75rem{% endif %};
-          border-top:{% if loop.first %}none{% else %}1px solid rgba(0,0,0,.08){% endif %};
-        "
-      >
-        <p
-          style="
-            margin:0;
-            font-size:0.78rem;
-            font-weight:700;
-            letter-spacing:0.06em;
-            text-transform:uppercase;
-            color:rgba(0,0,0,.68);
-            line-height:1.2;
-          "
-        >
-          {% if confidence == "strong" %}
-            Strong fit
-          {% elif confidence == "good" %}
-            Good fit
-          {% elif confidence == "borderline" %}
-            Borderline
-          {% elif confidence == "risky" %}
-            Risky fit
-          {% endif %}
-        </p>
-      </div>
+<div
+  style="
+    margin:{% if loop.first %}0.45rem{% else %}1.1rem{% endif %} 0 0.6rem 0;
+    padding-top:{% if loop.first %}0{% else %}0.9rem{% endif %};
+    border-top:{% if loop.first %}none{% else %}1px solid rgba(0,0,0,.09){% endif %};
+  "
+>
+  <p
+    style="
+      margin:0;
+      font-size:0.9rem;
+      font-weight:800;
+      letter-spacing:0.04em;
+      text-transform:uppercase;
+      color:#2f3a2f;
+      line-height:1.15;
+    "
+  >
+    {% if confidence == "surplus" %}
+      Excellent fit
+    {% elif confidence == "strong" %}
+      Strong fit
+    {% elif confidence == "good" %}
+      Good fit
+    {% elif confidence == "borderline" %}
+      Borderline
+    {% elif confidence == "risky" %}
+      Risky fit
+    {% endif %}
+  </p>
+</div>
 
-<div class="city-crop-guides-grid">
+      <div class="city-crop-guides-grid">
         {% for item in group | sort(false, false, "cropName") %}
           {% set blurbOptions = item.fit.linkBlurbOptions or [] %}
           {% set rotatedBlurb = item.fit.summary %}
@@ -61,14 +63,14 @@
             {% set rotatedBlurb = blurbOptions[loop.index0 % blurbOptions.length] %}
           {% endif %}
 
-          <div style="border:1px solid rgba(0,0,0,.08); border-radius:12px; padding:0.65rem 0.8rem; background:rgba(255,255,255,.45);">
-            <p class="small" style="margin:0 0 0.16rem 0; line-height:1.25;">
+          <div style="border:1px solid rgba(0,0,0,.08); border-radius:12px; padding:0.55rem 0.7rem; background:rgba(255,255,255,.45);">
+            <p class="small" style="margin:0 0 0.08rem 0; line-height:1.2;">
               <a href="{{ item.url }}" style="text-decoration:none;">
                 <strong>{{ item.cropName }}</strong>
               </a>
             </p>
 
-            <p class="small muted" style="margin:0; line-height:1.3;">
+            <p class="small" style="margin:0; line-height:1.22;">
               {{ rotatedBlurb }}
             </p>
           </div>
@@ -77,4 +79,19 @@
     {% endif %}
   {% endfor %}
 </section>
+
+<style>
+  .city-crop-guides-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.55rem;
+    margin-bottom: 0.75rem;
+  }
+
+  @media (max-width: 700px) {
+    .city-crop-guides-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
 {% endif %}
