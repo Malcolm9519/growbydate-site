@@ -1,6 +1,5 @@
 module.exports = {
   // Alberta
-  "CA-3031090": "CA-3031093", // Calgary Glenmore Dam -> Calgary Int'l A
 
   // British Columbia
   "CA-1018595": "CA-1018615", // legacy Victoria Bay Street -> Victoria Harbour A
