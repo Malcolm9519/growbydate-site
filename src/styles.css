@@ -2268,3 +2268,146 @@ border-radius: 999px;
 .cropCityPage details[open] {
   background: #fbfdf9;
 }
+
+
+
+
+
+
+
+
+.frostResultsCard {
+  margin-top: 24px;
+}
+
+.frostPlannerResult__eyebrow {
+  margin: 0 0 6px;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+
+.frostPlannerResult__title {
+  margin: 0;
+}
+
+.frostPlannerResult__intro {
+  margin: 10px 0 0;
+}
+
+.frostPlannerResult__summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.frostPlannerMetric {
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  padding: 16px;
+  background: var(--surface-1);
+}
+
+.frostPlannerMetric__label {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+}
+
+.frostPlannerMetric__value {
+  margin-top: 8px;
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.frostPlannerActions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.frostPlannerAction {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+}
+
+.frostPlannerAction h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.frostPlannerAction p {
+  margin-top: 0;
+  flex: 1;
+}
+
+.frostPlannerAction .button {
+  margin-top: 8px;
+  align-self: flex-start;
+}
+
+@media (max-width: 900px) {
+  .frostPlannerResult__summary,
+  .frostPlannerActions {
+    grid-template-columns: 1fr;
+  }
+}
+
+.frostResultsCard {
+  margin-top: 24px;
+  scroll-margin-top: 96px;
+}
+
+.frostResultsCard {
+  margin-top: 24px;
+  scroll-margin-top: 110px;
+}
+
+.frostGuideSection {
+  margin-top: 24px;
+}
+
+.frostGuideSection__title {
+  margin-bottom: 14px;
+}
+
+.frostGuideLinks {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.frostGuideLink {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.frostGuideLink h4 {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.frostGuideLink p {
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .frostGuideLinks {
+    grid-template-columns: 1fr;
+  }
+}
+
+.frostPlannerActions--two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (max-width: 900px) {
+  .frostPlannerActions--two {
+    grid-template-columns: 1fr;
+  }
+}

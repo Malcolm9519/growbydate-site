@@ -3,13 +3,12 @@
     <p class="frostHero__eyebrow">Average frost dates by ZIP / postal code</p>
 
     <p class="frostHero__lede">
-Local frost dates help to time seed starting, outdoor planting, and fall crop planning.
+      Local frost dates help to time seed starting, outdoor planting, and fall crop planning.
     </p>
 
     <p class="frostHero__sublede">
       Use these dates as planning anchors, then adjust for real conditions like nighttime lows and soil temperature.
     </p>
-
   </div>
 
   <div class="frostLookupPanel">
@@ -30,7 +29,7 @@ Local frost dates help to time seed starting, outdoor planting, and fall crop pl
       <button id="lookup-btn" type="button" class="frostLookupBtn">Find frost dates</button>
     </div>
 
-    <div id="lookup-result" class="frostResultMount"></div>
+    <div id="lookup-result" class="frostResultMount" aria-live="polite"></div>
 
     <p class="small muted frostLookupPanel__note">
       Frost dates are <strong>averages</strong>. Freezing (32°F / 0°C) can occur earlier or later in any given year.
@@ -38,6 +37,14 @@ Local frost dates help to time seed starting, outdoor planting, and fall crop pl
   </div>
 </header>
 
+<section
+  id="frost-results-card"
+  class="card frostResultsCard"
+  aria-label="Frost date finder results"
+  style="display:none;"
+>
+  <div id="frost-results-body"></div>
+</section>
 
 <section class="card" aria-label="How this model works">
   <h2>How This Tool Works</h2>
@@ -92,8 +99,7 @@ Local frost dates help to time seed starting, outdoor planting, and fall crop pl
     To evaluate whether your season delivers enough accumulated heat,
     test your location with the
     <a href="/tools/growing-degree-day-planner/">Growing Degree Day Planner</a>.
-
-      </p>
+  </p>
 </section>
 
 <section class="card" aria-label="Accuracy and limitations">
@@ -155,22 +161,44 @@ Local frost dates help to time seed starting, outdoor planting, and fall crop pl
   </details>
 </section>
 
-  </div>
-</section>
-
 <script type="module">
-  import { lookupFrost, renderResultCard } from "/assets/js/frost-lookup.js";
+  import {
+    lookupFrost,
+    renderResultCard,
+    renderExpandedFrostResults
+  } from "/assets/js/frost-lookup.js";
 
   const input = document.getElementById("frost-lookup-input");
   const btn = document.getElementById("lookup-btn");
   const out = document.getElementById("lookup-result");
+  const resultsCard = document.getElementById("frost-results-card");
+  const resultsBody = document.getElementById("frost-results-body");
 
   async function doLookup() {
-    if (!input || !out) return;
+    if (!input || !out || !resultsCard || !resultsBody) return;
+
     const frost = await lookupFrost(input.value);
+
     renderResultCard(out, frost);
+
+    if (!frost) {
+      resultsCard.style.display = "none";
+      resultsBody.innerHTML = "";
+      return;
+    }
+
+    renderExpandedFrostResults(resultsBody, frost);
+    resultsCard.style.display = "block";
+
+    setTimeout(() => {
+      resultsCard.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 50);
   }
 
   if (btn) btn.addEventListener("click", doLookup);
-  if (input) input.addEventListener("keydown", (e) => { if (e.key === "Enter") doLookup(); });
+  if (input) {
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") doLookup();
+    });
+  }
 </script>
