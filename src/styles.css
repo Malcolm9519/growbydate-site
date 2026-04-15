@@ -2523,3 +2523,94 @@ border-radius: 999px;
     grid-template-columns: 1fr;
   }
 }
+
+.guideSection {
+  margin: 2.25rem 0;
+}
+
+.guideSection h2 {
+  margin-bottom: 0.8rem;
+}
+
+.quickAnswerBox {
+  margin: 1rem 0 1.25rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--borderColor, #d9e2d3);
+  border-radius: 16px;
+  background: linear-gradient(to bottom, #fcfcfa, #f7faf4);
+}
+
+.quickAnswerBox p {
+  margin: 0.5rem 0;
+}
+
+.decisionTableWrap {
+  overflow-x: auto;
+  margin: 1.1rem 0 1.4rem;
+}
+
+.decisionTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.decisionTable th,
+.decisionTable td {
+  padding: 0.8rem 0.85rem;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--borderColor, #d9e2d3);
+}
+
+.decisionTable th {
+  font-size: 0.96rem;
+}
+
+.plainList {
+  margin: 0.8rem 0 1rem 1.15rem;
+  padding: 0;
+}
+
+.plainList li {
+  margin: 0.45rem 0;
+}
+
+.inlineNote {
+  margin-top: 1rem;
+  padding-left: 0.9rem;
+  border-left: 3px solid #d9e2d3;
+}
+
+.scenarioGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.scenarioCard {
+  padding: 1rem 1.05rem;
+  border: 1px solid var(--borderColor, #d9e2d3);
+  border-radius: 16px;
+  background: #fff;
+}
+
+.scenarioCard h3 {
+  margin-top: 0;
+  margin-bottom: 0.45rem;
+  font-size: 1rem;
+}
+
+.calloutBox {
+  margin: 2.25rem 0;
+  padding: 1.25rem 1.25rem;
+  border: 1px solid var(--borderColor, #d9e2d3);
+  border-radius: 18px;
+  background: linear-gradient(to bottom, #fcfcfa, #f7faf4);
+}
+
+@media (max-width: 700px) {
+  .scenarioGrid {
+    grid-template-columns: 1fr;
+  }
+}
