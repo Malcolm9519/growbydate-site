@@ -1,0 +1,312 @@
+---
+layout: layout-base.njk
+layoutClass: "cropCityPage"
+pagination:
+  data: maturitySummaries
+  size: 1
+  alias: pageData
+permalink: "{{ pageData.url }}index.html"
+eleventyComputed:
+  title: "Will {{ pageData.cropName }} Mature Before Frost in {{ pageData.cityName }}?"
+  description: "See whether {{ pageData.cropName | lower }} usually has enough time and heat to mature before fall frost in {{ pageData.cityName }}, {{ pageData.regionName }}."
+  canonical: "https://growbydate.com{{ pageData.url }}"
+---
+
+{% set sections = pageData.copy.sections or {} %}
+{% set diagnostics = pageData.copy.diagnostics or pageData.diagnostics or {} %}
+{% set varietyStrategy = pageData.copy.varietyStrategy or diagnostics.varietyStrategy or {} %}
+{% set seasonMath = sections.verdictAndSeasonMath %}
+{% set controllingFactor = sections.controllingFactor %}
+{% set bufferLoss = sections.bufferLoss %}
+{% set successPattern = sections.successPattern %}
+{% set recommendedAdjustments = sections.recommendedAdjustments %}
+
+<header class="header">
+  <p class="eyebrow">Local maturity outlook for {{ pageData.cityName }}, {{ pageData.regionName }}</p>
+  <h1>Will {{ pageData.cropName }} Mature Before Frost in {{ pageData.cityName }}?</h1>
+
+  {% if pageData.copy.fitSummary %}
+    <p class="lede">{{ pageData.copy.fitSummary }}</p>
+  {% elif seasonMath and seasonMath.intro %}
+    <p class="lede">{{ seasonMath.intro }}</p>
+  {% endif %}
+</header>
+
+<section class="card">
+  <div class="quickAnswerTop">
+    <h2>Quick answer</h2>
+
+    {% if pageData.copy.maturityFitBadgeLabel %}
+      <div class="fitBadge fitBadge-{{ pageData.copy.maturityFitBadgeClass }}">
+        {{ pageData.copy.maturityFitBadgeLabel }}
+      </div>
+    {% endif %}
+  </div>
+
+  {% if pageData.copy.maturityFitBoxText %}
+    <p style="margin-top:0.85rem;">{{ pageData.copy.maturityFitBoxText }}</p>
+  {% endif %}
+
+  {% if pageData.copy.timingSummary %}
+    <p>{{ pageData.copy.timingSummary }}</p>
+  {% endif %}
+
+  <ul>
+    <li><strong>Typical planting date:</strong> {{ pageData.copy.primaryPlantingDateLong or '—' }}</li>
+    <li><strong>Typical fall frost:</strong> {{ pageData.copy.fallFrostLong or '—' }}</li>
+    <li><strong>Available GDD from the normal planting date:</strong> {{ pageData.heat.availableFromPlanting if pageData.heat.availableFromPlanting != null else '—' }}</li>
+    <li><strong>Typical GDD target:</strong> {{ pageData.heat.targetTypical if pageData.heat.targetTypical != null else '—' }}</li>
+    <li><strong>Estimated heat margin:</strong> {{ pageData.heat.margin if pageData.heat.margin != null else '—' }}</li>
+  </ul>
+
+  {% if pageData.copy.marginMeaning %}
+    <p>{{ pageData.copy.marginMeaning }}</p>
+  {% elif seasonMath and seasonMath.takeaway %}
+    <p>{{ seasonMath.takeaway }}</p>
+  {% endif %}
+</section>
+
+<section class="card">
+  <h2>Why this crop fits here when it works</h2>
+
+  {% if controllingFactor and controllingFactor.intro %}
+    <p>{{ controllingFactor.intro }}</p>
+  {% elif pageData.copy.priorityLeversIntro %}
+    <p>{{ pageData.copy.priorityLeversIntro }}</p>
+  {% endif %}
+
+  {% if controllingFactor and controllingFactor.bullets and controllingFactor.bullets.length %}
+    <ul>
+      {% for item in controllingFactor.bullets %}
+        <li>
+          <strong>{{ item.label }}:</strong> {{ item.text }}
+        </li>
+      {% endfor %}
+    </ul>
+  {% elif pageData.copy.priorityLevers and pageData.copy.priorityLevers.length %}
+    <ul>
+      {% for item in pageData.copy.priorityLevers %}
+        <li>
+          <strong>{{ item.title }}:</strong> {{ item.text }}
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  {% if pageData.copy.whatBreaksFirst and pageData.copy.fitRank <= 2 %}
+    <p>{{ pageData.copy.whatBreaksFirst }}</p>
+  {% endif %}
+
+  {% if pageData.copy.timeVsHeatDiagnosis %}
+    <p>{{ pageData.copy.timeVsHeatDiagnosis }}</p>
+  {% endif %}
+
+  {% if successPattern and successPattern.intro %}
+    <p>{{ successPattern.intro }}</p>
+  {% elif pageData.copy.realisticSuccessCase %}
+    <p>{{ pageData.copy.realisticSuccessCase }}</p>
+  {% else %}
+    <p>
+      The best way to read this climate fit is not as a yes-or-no promise, but as a pattern. Some crops
+      usually finish comfortably from the normal schedule. Others can mature here, but only if the grower
+      protects the early season, avoids wasted time, and stays realistic about variety speed.
+    </p>
+  {% endif %}
+
+  <p>
+    In other words, the local maturity outlook is not just about whether {{ pageData.copy.cropConceptPhrase }}
+    can finish before frost in a perfect season. It is about whether the crop still looks sensible once you account
+    for the way real seasons and real gardens behave.
+  </p>
+</section>
+
+<section class="card">
+  <h2>What usually erodes the margin</h2>
+
+  {% if bufferLoss and bufferLoss.intro %}
+    <p>{{ bufferLoss.intro }}</p>
+  {% elif pageData.timing and pageData.timing.delayAnalysis and pageData.timing.delayAnalysis.summary %}
+    <p>{{ pageData.timing.delayAnalysis.summary }}</p>
+  {% else %}
+    <p>
+      Even when the season math looks comfortable, the working margin still gets smaller once planting slips,
+      early growth slows, or the crop spends part of the season recovering instead of advancing.
+    </p>
+  {% endif %}
+
+  {% if bufferLoss and bufferLoss.bullets and bufferLoss.bullets.length %}
+    <ul>
+      {% for item in bufferLoss.bullets %}
+        <li>
+          <strong>{{ item.label }}:</strong> {{ item.text }}
+        </li>
+      {% endfor %}
+    </ul>
+  {% elif pageData.timing and pageData.timing.delayAnalysis and pageData.timing.delayAnalysis.rows and pageData.timing.delayAnalysis.rows.length %}
+    <ul>
+      {% for item in pageData.timing.delayAnalysis.rows %}
+        <li>
+          <strong>{{ item.label }}:</strong>
+          {% if item.date %}
+            {{ item.date | mmddLong }}
+          {% else %}
+            —
+          {% endif %}
+          {% if item.gddMargin != null %}
+            — about {{ item.gddMargin }} GDD of margin
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  {% if diagnostics.decisionProfile == "very_comfortable" %}
+    <p>
+      This is mostly a flexibility question. Very comfortable local fits usually absorb ordinary delays, but the table shows how much margin you are still spending when timing slips.
+    </p>
+  {% elif diagnostics.decisionProfile == "comfortable" %}
+    <p>
+      This is mostly a flexibility question. Comfortable local fits usually absorb ordinary delays, but the table shows how much margin you are still spending when timing slips.
+    </p>
+  {% elif diagnostics.decisionProfile == "workable" %}
+    <p>
+      This is the practical difference between a crop that is workable and one that feels easy. A decent fit can still narrow faster than it first appears once timing slips.
+    </p>
+  {% elif diagnostics.decisionProfile == "tight" %}
+    <p>
+      This is where a narrow fit becomes more fragile. Even modest delay can erase much of the usable margin and push the crop toward a more conditional finish.
+    </p>
+  {% endif %}
+</section>
+
+{% if pageData.fit.varietyClassFits and pageData.fit.varietyClassFits.length %}
+<section class="card">
+  <h2>Which variety speeds fit best</h2>
+
+  <p>
+    Variety choice matters because “can this crop mature here?” is rarely one single answer.
+    Faster classes protect margin. Slower classes spend it. That changes not just whether the crop can finish,
+    but how much room is left for ordinary delays and uneven early growth.
+  </p>
+
+  {% if varietyStrategy.defaultRecommendedVarietyLabel %}
+    <p>
+      The default recommendation here is usually <strong>{{ varietyStrategy.defaultRecommendedVarietyLabel }}</strong>.
+      {% if varietyStrategy.fastestReliableVarietyLabel and varietyStrategy.fastestReliableVarietyLabel != varietyStrategy.defaultRecommendedVarietyLabel %}
+        If you want the safest end of the range, start with <strong>{{ varietyStrategy.fastestReliableVarietyLabel }}</strong>.
+      {% endif %}
+      {% if varietyStrategy.slowestStillFittingVarietyLabel and varietyStrategy.slowestStillFittingVarietyLabel != varietyStrategy.defaultRecommendedVarietyLabel %}
+        The slowest class that still looks locally workable is <strong>{{ varietyStrategy.slowestStillFittingVarietyLabel }}</strong>.
+      {% endif %}
+    </p>
+  {% endif %}
+
+  <ul>
+    {% for variety in pageData.fit.varietyClassFits %}
+      <li>
+        <strong>{{ variety.label }}:</strong>
+        {% if variety.margin != null %}
+          {{ variety.margin }} GDD margin
+          {% if variety.fits %}
+            — locally workable from the normal schedule
+          {% else %}
+            — more of a stretch from the normal schedule
+          {% endif %}
+        {% else %}
+          no local margin estimate
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+
+  <p>
+    The useful question here is not just which class technically fits. It is which class leaves enough room
+    for the kind of season you actually expect to garden through.
+  </p>
+</section>
+{% endif %}
+
+<section class="card">
+  <h2>How to improve your odds</h2>
+
+  {% if recommendedAdjustments and recommendedAdjustments.intro %}
+    <p>{{ recommendedAdjustments.intro }}</p>
+  {% else %}
+    <p>
+      The most useful adjustments here are the ones that protect margin early rather than trying to recover it later.
+    </p>
+  {% endif %}
+
+  {% if pageData.copy.priorityLevers and pageData.copy.priorityLevers.length %}
+    <ul>
+      {% for item in pageData.copy.priorityLevers %}
+        <li>
+          <strong>{{ item.title }}:</strong> {{ item.text }}
+        </li>
+      {% endfor %}
+    </ul>
+  {% elif recommendedAdjustments and recommendedAdjustments.bullets and recommendedAdjustments.bullets.length %}
+    <ul>
+      {% for item in recommendedAdjustments.bullets %}
+        <li>
+          <strong>{{ item.label }}:</strong> {{ item.text }}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <ul>
+      {% if varietyStrategy.defaultRecommendedVarietyLabel %}
+        <li>
+          <strong>Choose the right maturity range:</strong>
+          {{ varietyStrategy.defaultRecommendedVarietyLabel }} is the best default class when you want a realistic local fit.
+        </li>
+      {% endif %}
+
+      <li>
+        <strong>Stay close to the normal schedule:</strong>
+        Preserving margin early usually matters more than trying to rescue the crop late.
+      </li>
+
+      {% if pageData.strategy.shortSeasonStrategy %}
+        <li>
+          <strong>Protect the main weakness:</strong>
+          {{ pageData.strategy.shortSeasonStrategy }}
+        </li>
+      {% endif %}
+    </ul>
+  {% endif %}
+
+  {% if pageData.copy.actionLayer and pageData.copy.actionLayer.length %}
+    <p>Good next steps usually look like this:</p>
+    <ul>
+      {% for item in pageData.copy.actionLayer %}
+        <li>{{ item }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+</section>
+
+<section class="card">
+  <h2>Related planning pages for {{ pageData.cropName }} in {{ pageData.cityName }}</h2>
+
+  <p>
+    Use these pages when you want to move from the broad maturity question into timing, late planting, or variety choice.
+  </p>
+
+  <ul>
+    <li>
+      <a href="{{ pageData.urlBase }}">Main {{ pageData.copy.cropNameLower }} planting guide for {{ pageData.cityName }}</a>
+      — use this for the normal planting window and the overall local crop plan.
+    </li>
+    <li>
+      <a href="{{ pageData.urlBase }}is-it-too-late-to-plant/">Is it too late to plant {{ pageData.copy.cropNameLower }}?</a>
+      — use this when you are already behind the normal schedule and want to know whether the answer has changed.
+    </li>
+    <li>
+      <a href="{{ pageData.urlBase }}best-varieties/">Best {{ pageData.copy.cropNameLower }} varieties for {{ pageData.cityName }}</a>
+      — use this when the crop itself looks possible, but maturity class is what will decide how safe or ambitious the plan is.
+    </li>
+  </ul>
+</section>
+
+{% include "planting-dates/modules/faq-block.njk" %}

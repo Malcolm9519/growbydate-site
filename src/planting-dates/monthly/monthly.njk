@@ -1,0 +1,300 @@
+---
+layout: layout-base.njk
+layoutClass: "cropCityPage"
+pagination:
+  data: monthlyPlantingSummaries
+  size: 1
+  alias: pageData
+permalink: "{{ pageData.url }}index.html"
+eleventyComputed:
+  title: "What Can You Plant in {{ pageData.monthName }} in {{ pageData.cityName }}?"
+  description: "See what to plant in {{ pageData.monthName }} in {{ pageData.cityName }}, {{ pageData.regionName }}, including the best bets this month and which crops are already getting tighter."
+  canonical: "https://growbydate.com{{ pageData.url }}"
+---
+
+<style>
+  .monthlyCropGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 1rem;
+  }
+
+  .monthlyCropCard {
+    border: 1px solid #d8e0d2;
+    border-radius: 1.6rem;
+    padding: 1.15rem 1.2rem 1rem;
+    background: #fff;
+  }
+
+  .monthlyCropTitle {
+    margin: 0 0 0.85rem 0;
+    font-size: 1.45rem;
+    line-height: 1.15;
+  }
+
+  .monthlyCropTitle a {
+    text-decoration: underline;
+    text-underline-offset: 0.08em;
+  }
+
+  .monthlyCropStats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 1.1rem;
+    row-gap: 0.65rem;
+  }
+
+  .monthlyCropStat {
+    min-width: 0;
+  }
+
+  .monthlyCropLabel {
+    display: block;
+    font-size: 0.9rem;
+    line-height: 1.2;
+    color: #4f5b52;
+    margin-bottom: 0.12rem;
+  }
+
+  .monthlyCropValue {
+    font-size: 1.02rem;
+    line-height: 1.35;
+    font-weight: 600;
+    color: #111;
+  }
+
+  .monthlyCropFooter {
+    margin: 0.9rem 0 0 0;
+    padding-top: 0.75rem;
+    border-top: 1px solid #e6ece2;
+    font-size: 0.97rem;
+    line-height: 1.4;
+  }
+
+  @media (max-width: 640px) {
+    .monthlyCropStats {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+{% set bestCount = pageData.sections.bestBets.length if pageData.sections and pageData.sections.bestBets else 0 %}
+{% set tightCount = pageData.sections.gettingTight.length if pageData.sections and pageData.sections.gettingTight else 0 %}
+{% set lateCount = pageData.sections.mostlyPast.length if pageData.sections and pageData.sections.mostlyPast else 0 %}
+{% set totalCount = bestCount + tightCount + lateCount %}
+{% set bestShare = (bestCount / totalCount) if totalCount > 0 else 0 %}
+
+{% set isLateMonthlyMode = false %}
+{% if bestShare < 0.2 or (bestCount <= 2 and tightCount <= 2) %}
+  {% set isLateMonthlyMode = true %}
+{% endif %}
+
+<header class="header">
+  <p class="eyebrow">Monthly planting guide for {{ pageData.cityName }}, {{ pageData.regionName }}</p>
+  <h1>What Can I Plant in {{ pageData.monthName }} in {{ pageData.cityName }}?</h1>
+
+  {% if pageData.copy.intro %}
+    <p class="lede">{{ pageData.copy.intro }}</p>
+  {% endif %}
+</header>
+
+<section class="card">
+  <h2>Seasonal context in {{ pageData.monthName }}</h2>
+
+  {% if pageData.copy.seasonalContext %}
+    <p>{{ pageData.copy.seasonalContext }}</p>
+  {% endif %}
+
+  <ul>
+    <li><strong>Average last spring frost:</strong> {{ pageData.seasonFacts.springLastFrost | mmddLong if pageData.seasonFacts.springLastFrost else '—' }}</li>
+    <li><strong>Average first fall frost:</strong> {{ pageData.seasonFacts.fallFirstFrost | mmddLong if pageData.seasonFacts.fallFirstFrost else '—' }}</li>
+    <li><strong>Typical frost-free season:</strong> {{ pageData.seasonFacts.frostFreeDays or '—' }} days</li>
+    {% if pageData.seasonFacts.daysUntilFallFrost != null %}
+      <li><strong>Approximate days until average first fall frost from {{ pageData.checkpoint | mmddLong }}:</strong> {{ pageData.seasonFacts.daysUntilFallFrost }}</li>
+    {% endif %}
+    {% if pageData.seasonFacts.gddRemaining != null %}
+      <li><strong>Estimated GDD still ahead from {{ pageData.checkpoint | mmddLong }}:</strong> {{ pageData.seasonFacts.gddRemaining }}</li>
+    {% endif %}
+  </ul>
+</section>
+
+{% macro monthlyCropCards(items) %}
+  <div class="monthlyCropGrid">
+    {% for item in items %}
+      <article class="monthlyCropCard">
+        <h3 class="monthlyCropTitle">
+          <a href="{{ item.href }}">{{ item.cropName }}</a>
+        </h3>
+
+        <div class="monthlyCropStats">
+          {% if item.recommendedVarietyType %}
+            <div class="monthlyCropStat">
+              <span class="monthlyCropLabel">Best variety type now</span>
+              <span class="monthlyCropValue">{{ item.recommendedVarietyType }}</span>
+            </div>
+          {% endif %}
+
+          {% if item.daysToMaturity %}
+            <div class="monthlyCropStat">
+              <span class="monthlyCropLabel">Days to maturity</span>
+              <span class="monthlyCropValue">{{ item.daysToMaturity }}</span>
+            </div>
+          {% endif %}
+
+          {% if item.gddTarget != null %}
+            <div class="monthlyCropStat">
+              <span class="monthlyCropLabel">GDD target</span>
+              <span class="monthlyCropValue">{{ item.gddTarget }}</span>
+            </div>
+          {% endif %}
+
+          {% if item.gddAvailableFromMonth != null %}
+            <div class="monthlyCropStat">
+              <span class="monthlyCropLabel">GDD available from {{ pageData.monthName }}</span>
+              <span class="monthlyCropValue">{{ item.gddAvailableFromMonth }}</span>
+            </div>
+          {% endif %}
+        </div>
+
+        {% if item.bestStartingMethodNow %}
+          <p class="monthlyCropFooter">
+            <strong>Best starting method now:</strong> {{ item.bestStartingMethodNow }}
+          </p>
+        {% endif %}
+      </article>
+    {% endfor %}
+  </div>
+{% endmacro %}
+
+{% if pageData.sections.bestBets and pageData.sections.bestBets.length %}
+<section class="card">
+<h2>
+  {% if isLateMonthlyMode %}
+    Best remaining options in {{ pageData.monthName }}
+  {% else %}
+    Best bets for {{ pageData.monthName }}
+  {% endif %}
+</h2>
+
+  <p>
+    These are the crops that still leave the clearest path from this point in the season.
+  </p>
+
+  {{ monthlyCropCards(pageData.sections.bestBets) }}
+</section>
+{% endif %}
+
+{% if pageData.sections.gettingTight and pageData.sections.gettingTight.length %}
+<section class="card">
+<h2>
+  {% if isLateMonthlyMode %}
+    Still possible, but narrower now
+  {% else %}
+    Crops that are getting tighter now
+  {% endif %}
+</h2>
+
+<p>
+  These can still make sense, but the margin is noticeably thinner now. This is usually where variety speed, starting method, and avoiding extra delay start making a more visible difference.
+</p>
+
+  {{ monthlyCropCards(pageData.sections.gettingTight) }}
+</section>
+{% endif %}
+
+{% if pageData.noRealOptionsLeft and pageData.fallbackOptions and pageData.fallbackOptions.length %}
+<section class="card">
+  <h2>What still makes sense in {{ pageData.monthName }}</h2>
+
+<p>
+  At this point, there are no easy normal planting choices left. The crops below are the few least-bad late paths, but they should be treated as narrow experiments rather than dependable plans. In most gardens, the bigger win now comes from finishing current crops well and getting ready for the next reliable planting window.
+</p>
+
+  <div class="monthlyCropGrid">
+    {% for item in pageData.fallbackOptions %}
+      <article class="monthlyCropCard">
+        <h3 class="monthlyCropTitle">
+          <a href="{{ item.href }}">{{ item.cropName }}</a>
+        </h3>
+
+        <div class="monthlyCropStats">
+          {% if item.recommendedVarietyType %}
+            <div class="monthlyCropStat">
+              <span class="monthlyCropLabel">Fastest realistic type now</span>
+              <span class="monthlyCropValue">{{ item.recommendedVarietyType }}</span>
+            </div>
+          {% endif %}
+
+          {% if item.daysToMaturity %}
+            <div class="monthlyCropStat">
+              <span class="monthlyCropLabel">Days to maturity</span>
+              <span class="monthlyCropValue">{{ item.daysToMaturity }}</span>
+            </div>
+          {% endif %}
+
+          {% if item.gddTarget != null %}
+            <div class="monthlyCropStat">
+              <span class="monthlyCropLabel">GDD target</span>
+              <span class="monthlyCropValue">{{ item.gddTarget }}</span>
+            </div>
+          {% endif %}
+
+          {% if item.gddAvailableFromMonth != null %}
+            <div class="monthlyCropStat">
+              <span class="monthlyCropLabel">GDD available from {{ pageData.monthName }}</span>
+              <span class="monthlyCropValue">{{ item.gddAvailableFromMonth }}</span>
+            </div>
+          {% endif %}
+
+          {% if item.gddMarginFromMonth != null %}
+            <div class="monthlyCropStat">
+              <span class="monthlyCropLabel">GDD margin from {{ pageData.monthName }}</span>
+              <span class="monthlyCropValue">{{ item.gddMarginFromMonth }}</span>
+            </div>
+          {% endif %}
+        </div>
+      </article>
+    {% endfor %}
+  </div>
+
+  {% if pageData.focusNowItems and pageData.focusNowItems.length %}
+    <h3 style="margin-top:1.25rem;">What you should focus on now</h3>
+    <ul style="margin-top:0.75rem;">
+      {% for item in pageData.focusNowItems %}
+        <li>{{ item }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+</section>
+{% elif pageData.sections.mostlyPast and pageData.sections.mostlyPast.length %}
+<section class="card">
+<h2>
+  {% if isLateMonthlyMode %}
+    Possible, but no longer easy
+  {% else %}
+    Mostly past the easy planting window
+  {% endif %}
+</h2>
+
+<p>
+  These crops are no longer easy default choices from this point. They only make sense when you are comfortable treating them as narrow late-path decisions instead of normal planting plans.
+</p>
+
+  {{ monthlyCropCards(pageData.sections.mostlyPast) }}
+</section>
+{% endif %}
+
+<section class="card">
+  <h2>Related planning pages for {{ pageData.cityName }}</h2>
+
+  <ul>
+    <li>
+      <a href="/planting-dates/{% if pageData.country == 'canada' %}canada/{% endif %}{{ pageData.regionKey }}/{{ pageData.cityKey }}/">
+        Main planting guide for {{ pageData.cityName }}
+      </a>
+      — use this for the full local crop list and normal planting windows.
+    </li>
+  </ul>
+</section>
+
+{% include "planting-dates/modules/faq-block.njk" %}
