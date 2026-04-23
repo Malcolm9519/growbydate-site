@@ -55,6 +55,14 @@ eleventyExcludeFromCollections: true
   </url>
 {%- endfor -%}
 
+{# Variety pages #}
+{%- for row in varietySummaries | sort(attribute="url") -%}
+  <url>
+    <loc>{{ base }}{{ row.url }}</loc>
+    {%- if buildLastmod %}<lastmod>{{ buildLastmod }}</lastmod>{%- endif %}
+  </url>
+{%- endfor -%}
+
 {# Crop pages #}
 {%- for crop in crops | sort(attribute="slug") -%}
   <url>
