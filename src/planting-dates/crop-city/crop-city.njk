@@ -385,6 +385,11 @@ eleventyComputed:
   <p class="small muted">
     Main risk: {{ pageData.fit.mainRiskSentence }}
   </p>
+
+<p>
+  For a more detailed variety breakdown, see
+  <a href="{{ pageData.url }}best-varieties/">best {{ cropSingularLower }} varieties for {{ pageData.cityName }}</a>.
+</p>
 {% endif %}
 </section>
 
@@ -462,6 +467,7 @@ eleventyComputed:
   {% endif %}
 
   {% include "crop-city/modules/related-crops.njk" %}
+  
 </section>
 
 <p class="small muted" style="margin-top:1rem;">

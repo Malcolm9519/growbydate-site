@@ -26,134 +26,159 @@ const GDD_BY_KEY = {
 
 
 const CROP_CITY_BY_KEY = {
-    kale: {
-    relatedCrops: ["spinach", "lettuce"],
+kale: {
+  relatedCrops: ["spinach", "lettuce"],
 
-    plantingMethod: "transplant",
-    startingMethod: "indoors",
-    transplantRecommended: true,
-    directSowRecommended: true,
+  plantingMethod: "transplant",
+  startingMethod: "indoors",
+  transplantRecommended: true,
+  directSowRecommended: true,
 
-    daysBeforeLastFrostStartIndoors: 35,
-    daysAfterLastFrostPlantOut: -14,
-    daysAfterLastFrostDirectSow: -7,
+  daysBeforeLastFrostStartIndoors: 35,
+  daysAfterLastFrostPlantOut: -14,
+  daysAfterLastFrostDirectSow: -7,
 
-    gddBase: 40,
-    gddTargetTypical: 700,
-    maturityFrom: "transplant",
-    daysToMaturityTypical: "50–65",
+  gddBase: 40,
+  gddTargetTypical: 700,
+  maturityFrom: "transplant",
+  daysToMaturityTypical: "50–65",
 
-    frostTolerance: "moderate",
-    minSafeTempF: 25,
-    protectedCultureBenefit: "low",
+  frostTolerance: "moderate",
+  minSafeTempF: 25,
+  protectedCultureBenefit: "low",
 
-    varietyClasses: [
-      {
-        key: "very-early",
-        label: "Very early",
-        daysToMaturity: "45–50",
-        gddTarget: 600,
-        examples: [
-          {
-            name: "Red Russian",
-            note: "fast and forgiving, especially where gardeners want an earlier leaf harvest"
-          }
-        ]
-      },
-      {
-        key: "early",
-        label: "Early",
-        daysToMaturity: "50–60",
-        gddTarget: 700,
-        examples: [
-          {
-            name: "Winterbor",
-            note: "dependable and widely grown, with good fit for cool climates"
-          }
-        ]
-      },
-      {
-        key: "mid",
-        label: "Mid-season",
-        daysToMaturity: "60–75",
-        gddTarget: 825,
-        examples: [
-          {
-            name: "Lacinato",
-            note: "productive and popular, but usually a little slower to size up than the earliest kales"
-          }
-        ]
-      }
-    ],
+  varietyClasses: [
+    {
+      key: "very-early",
+      label: "Very early",
+      daysToMaturity: "45–50",
+      gddTarget: 600,
+      examples: [
+        {
+          name: "Red Russian",
+          note: "fast and forgiving, especially where gardeners want an earlier leaf harvest"
+        },
+        {
+          name: "Siberian",
+          note: "cold-tolerant and useful when reliability matters more than a large curled plant"
+        }
+      ]
+    },
+    {
+      key: "early",
+      label: "Early",
+      daysToMaturity: "50–60",
+      gddTarget: 700,
+      examples: [
+        {
+          name: "Winterbor",
+          note: "dependable and widely grown, with good fit for cool climates"
+        },
+        {
+          name: "Vates",
+          note: "compact and dependable, especially where gardeners want steady leaves without oversized plants"
+        }
+      ]
+    },
+    {
+      key: "mid",
+      label: "Mid-season",
+      daysToMaturity: "60–75",
+      gddTarget: 825,
+      examples: [
+        {
+          name: "Lacinato",
+          note: "productive and popular, but usually a little slower to size up than the earliest kales"
+        },
+        {
+          name: "Redbor",
+          note: "colorful and ornamental, but chosen more for purple curled leaves than maximum speed"
+        }
+      ]
+    }
+  ],
 
-    oneSentenceSummary: "Kale is one of the easiest cool-season crops to fit into short climates.",
-    shortSeasonStrategy: "Start early or direct sow early, and treat kale as a flexible spring-to-fall crop rather than a crop that needs peak summer heat.",
-    commonFailureMode: "Late planting usually does not kill the crop outright, but it can leave plants undersized before cold weather slows growth."
-  },
-    "swiss-chard": {
-    relatedCrops: ["kale", "spinach"],
+  oneSentenceSummary: "Kale is one of the easiest cool-season crops to fit into short climates.",
+  shortSeasonStrategy: "Start early or direct sow early, and treat kale as a flexible spring-to-fall crop rather than a crop that needs peak summer heat.",
+  commonFailureMode: "Late planting usually does not kill the crop outright, but it can leave plants undersized before cold weather slows growth."
+},
 
-    plantingMethod: "direct-sow",
-    startingMethod: "outdoors",
-    transplantRecommended: true,
-    directSowRecommended: true,
+"swiss-chard": {
+  relatedCrops: ["kale", "spinach"],
 
-daysBeforeLastFrostStartIndoors: 28,
-daysAfterLastFrostPlantOut: -7,
-daysAfterLastFrostDirectSow: -7,
+  plantingMethod: "direct-sow",
+  startingMethod: "outdoors",
+  transplantRecommended: true,
+  directSowRecommended: true,
 
-    gddBase: 40,
-    gddTargetTypical: 750,
-    maturityFrom: "direct-sow",
-    daysToMaturityTypical: "55–65",
+  daysBeforeLastFrostStartIndoors: 28,
+  daysAfterLastFrostPlantOut: -7,
+  daysAfterLastFrostDirectSow: -7,
 
-    frostTolerance: "light",
-    minSafeTempF: 28,
-    protectedCultureBenefit: "low",
+  gddBase: 40,
+  gddTargetTypical: 750,
+  maturityFrom: "direct-sow",
+  daysToMaturityTypical: "55–65",
 
-    varietyClasses: [
-      {
-        key: "very-early",
-        label: "Very early",
-        daysToMaturity: "50–55",
-        gddTarget: 650,
-        examples: [
-          {
-            name: "Barese",
-            note: "a quicker compact type that fits tighter seasons well"
-          }
-        ]
-      },
-      {
-        key: "early",
-        label: "Early",
-        daysToMaturity: "55–65",
-        gddTarget: 750,
-        examples: [
-          {
-            name: "Bright Lights",
-            note: "widely grown and practical where gardeners want dependable mixed-color harvests"
-          }
-        ]
-      },
-      {
-        key: "mid",
-        label: "Mid-season",
-        daysToMaturity: "65–75",
-        gddTarget: 850,
-        examples: [
-          {
-            name: "Fordhook Giant",
-            note: "vigorous and productive, but usually benefits from a little more runway than the quickest chards"
-          }
-        ]
-      }
-    ],
+  frostTolerance: "light",
+  minSafeTempF: 28,
+  protectedCultureBenefit: "low",
 
-    oneSentenceSummary: "Swiss chard is a dependable cool-season leaf crop that usually fits short climates well.",
-    shortSeasonStrategy: "Sow or transplant early and use chard as a long-window leaf crop that tolerates cool conditions better than many summer vegetables.",
-    commonFailureMode: "Late sowing can still produce a crop, but plants may stay smaller when seasonal heat accumulation runs short."
-  },
+  varietyClasses: [
+    {
+      key: "very-early",
+      label: "Very early",
+      daysToMaturity: "50–55",
+      gddTarget: 650,
+      examples: [
+        {
+          name: "Barese",
+          note: "a quicker compact type that fits tighter seasons well"
+        },
+        {
+          name: "Perpetual Spinach",
+          note: "a leaf-beet type that gives spinach-like greens with more staying power through warm weather than true spinach"
+        }
+      ]
+    },
+    {
+      key: "early",
+      label: "Early",
+      daysToMaturity: "55–65",
+      gddTarget: 750,
+      examples: [
+        {
+          name: "Bright Lights",
+          note: "widely grown and practical where gardeners want dependable mixed-color harvests"
+        },
+        {
+          name: "Rhubarb Chard",
+          note: "a red-stemmed chard that adds color while keeping the same general harvest style as standard chard"
+        }
+      ]
+    },
+    {
+      key: "mid",
+      label: "Mid-season",
+      daysToMaturity: "65–75",
+      gddTarget: 850,
+      examples: [
+        {
+          name: "Fordhook Giant",
+          note: "vigorous and productive, but usually benefits from a little more runway than the quickest chards"
+        },
+        {
+          name: "Peppermint",
+          note: "a specialty chard chosen mostly for stem color and visual interest rather than the safest or fastest harvest"
+        }
+      ]
+    }
+  ],
+
+  oneSentenceSummary: "Swiss chard is a dependable cool-season leaf crop that usually fits short climates well.",
+  shortSeasonStrategy: "Sow or transplant early and use chard as a long-window leaf crop that tolerates cool conditions better than many summer vegetables.",
+  commonFailureMode: "Late sowing can still produce a crop, but plants may stay smaller when seasonal heat accumulation runs short."
+},
 
   tomatoes: {
     relatedCrops: ["peppers", "sweet-corn"],
@@ -768,70 +793,90 @@ daysAfterLastFrostDirectSow: 7,
     commonFailureMode: "Late planting can push heading into warmer weather, which increases bolting and reduces head quality."
   },
 
-  cabbage: {
-    relatedCrops: ["broccoli", "onions"],
+cabbage: {
+  relatedCrops: ["broccoli", "onions"],
 
-    plantingMethod: "transplant",
-    startingMethod: "indoors",
-    transplantRecommended: true,
-    directSowRecommended: false,
+  plantingMethod: "transplant",
+  startingMethod: "indoors",
+  transplantRecommended: true,
+  directSowRecommended: false,
 
-    daysBeforeLastFrostStartIndoors: 56,
-    daysAfterLastFrostPlantOut: -21,
-    daysAfterLastFrostDirectSow: null,
+  daysBeforeLastFrostStartIndoors: 56,
+  daysAfterLastFrostPlantOut: -21,
+  daysAfterLastFrostDirectSow: null,
 
-    gddBase: 40,
-    gddTargetTypical: 1000,
-    maturityFrom: "transplant",
-    daysToMaturityTypical: "70–90",
+  gddBase: 40,
+  gddTargetTypical: 1000,
+  maturityFrom: "transplant",
+  daysToMaturityTypical: "70–90",
 
-    frostTolerance: "light",
-    minSafeTempF: 28,
-    protectedCultureBenefit: "low",
+  frostTolerance: "light",
+  minSafeTempF: 28,
+  protectedCultureBenefit: "low",
 
-    varietyClasses: [
-      {
-        key: "very-early",
-        label: "Very early",
-        daysToMaturity: "60–70",
-        gddTarget: 800,
-        examples: [
-          { name: "Golden Acre", note: "a classic early cabbage with strong practical fit in shorter seasons" }
-        ]
-      },
-      {
-        key: "early",
-        label: "Early",
-        daysToMaturity: "70–80",
-        gddTarget: 900,
-        examples: [
-          { name: "Stonehead", note: "reliable and approachable, especially where gardeners want a firm early head" }
-        ]
-      },
-      {
-        key: "mid",
-        label: "Mid-season",
-        daysToMaturity: "80–95",
-        gddTarget: 1000,
-        examples: [
-          { name: "Cheers", note: "productive and strong where the season offers a comfortable cool run" }
-        ]
-      },
-      {
-        key: "late",
-        label: "Late",
-        daysToMaturity: "95–110",
-        gddTarget: 1150,
-        examples: [
-          { name: "Storage No. 4", note: "better suited where the growing window gives longer room for finishing" }
-        ]
-      }
-    ],
+  varietyClasses: [
+    {
+      key: "very-early",
+      label: "Very early",
+      daysToMaturity: "60–70",
+      gddTarget: 800,
+      examples: [
+        {
+          name: "Golden Acre",
+          note: "a classic early cabbage with strong practical fit in shorter seasons"
+        },
+        {
+          name: "Early Jersey Wakefield",
+          note: "an early pointed cabbage that is useful when speed and spring harvests matter more than storage"
+        }
+      ]
+    },
+    {
+      key: "early",
+      label: "Early",
+      daysToMaturity: "70–80",
+      gddTarget: 900,
+      examples: [
+        {
+          name: "Stonehead",
+          note: "reliable and approachable, especially where gardeners want a firm early head"
+        },
+        {
+          name: "Red Express",
+          note: "a faster red cabbage option for gardeners who want color without moving all the way into long-season storage types"
+        }
+      ]
+    },
+    {
+      key: "mid",
+      label: "Mid-season",
+      daysToMaturity: "80–95",
+      gddTarget: 1000,
+      examples: [
+        {
+          name: "Cheers",
+          note: "productive and strong where the season offers a comfortable cool run"
+        }
+      ]
+    },
+    {
+      key: "late",
+      label: "Late",
+      daysToMaturity: "95–110",
+      gddTarget: 1150,
+      examples: [
+        {
+          name: "Storage No. 4",
+          note: "better suited where the growing window gives longer room for finishing"
+        }
+      ]
+    }
+  ],
 
-    oneSentenceSummary: "Cabbage is usually very workable in cool climates if it gets started early enough.",
-    shortSeasonStrategy: "Use transplants, plant into cool spring conditions, and favor earlier heads where the spring window is tighter.",
-    commonFailureMode: "Late starts can leave heads sizing up into warmer weather, which raises splitting and quality issues."
-  },
+  oneSentenceSummary: "Cabbage is usually very workable in cool climates if it gets started early enough.",
+  shortSeasonStrategy: "Use transplants, plant into cool spring conditions, and favor earlier heads where the spring window is tighter.",
+  commonFailureMode: "Late starts can leave heads sizing up into warmer weather, which raises splitting and quality issues."
+},
 
   carrots: {
     relatedCrops: ["beets", "onions"],
@@ -964,7 +1009,8 @@ daysAfterLastFrostDirectSow: 7,
     shortSeasonStrategy: "Start early indoors and transplant into cool spring weather so bulbs have maximum time to develop.",
     commonFailureMode: "Starting too late reduces plant size before bulbing, which usually means smaller harvestable onions."
   },
-  beets: {
+
+beets: {
   relatedCrops: ["carrots", "spinach"],
 
   plantingMethod: "direct-sow",
@@ -992,7 +1038,14 @@ daysAfterLastFrostDirectSow: 7,
       daysToMaturity: "45–50",
       gddTarget: 600,
       examples: [
-        { name: "Early Wonder", note: "a classic early beet that fits well into shorter growing windows" }
+        {
+          name: "Early Wonder",
+          note: "a classic early beet that fits well into shorter growing windows"
+        },
+        {
+          name: "Red Ace",
+          note: "a dependable round red beet that works well as a practical all-purpose garden choice"
+        }
       ]
     },
     {
@@ -1001,7 +1054,14 @@ daysAfterLastFrostDirectSow: 7,
       daysToMaturity: "50–55",
       gddTarget: 650,
       examples: [
-        { name: "Detroit Dark Red", note: "widely grown and dependable when planted early" }
+        {
+          name: "Detroit Dark Red",
+          note: "widely grown and dependable when planted early"
+        },
+        {
+          name: "Touchstone Gold",
+          note: "a golden beet that adds color and sweetness while staying in a practical maturity range"
+        }
       ]
     },
     {
@@ -1010,7 +1070,14 @@ daysAfterLastFrostDirectSow: 7,
       daysToMaturity: "55–65",
       gddTarget: 725,
       examples: [
-        { name: "Chioggia", note: "distinctive and productive, but benefits from a bit more growing time" }
+        {
+          name: "Chioggia",
+          note: "distinctive and productive, but benefits from a bit more growing time"
+        },
+        {
+          name: "Cylindra",
+          note: "a longer-rooted beet that is useful for slicing, but benefits from loose soil and steady sizing time"
+        }
       ]
     }
   ],
@@ -1019,17 +1086,18 @@ daysAfterLastFrostDirectSow: 7,
   shortSeasonStrategy: "Direct sow early and consider staggered plantings to spread harvest.",
   commonFailureMode: "Late sowing limits root sizing before cooler fall conditions slow growth."
 },
+
 lettuce: {
   relatedCrops: ["spinach", "beans"],
 
-plantingMethod: "direct-sow",
-startingMethod: "outdoors",
-transplantRecommended: true,
-directSowRecommended: true,
+  plantingMethod: "direct-sow",
+  startingMethod: "outdoors",
+  transplantRecommended: true,
+  directSowRecommended: true,
 
-daysBeforeLastFrostStartIndoors: 35,
-daysAfterLastFrostPlantOut: -7,
-daysAfterLastFrostDirectSow: -21,
+  daysBeforeLastFrostStartIndoors: 35,
+  daysAfterLastFrostPlantOut: -7,
+  daysAfterLastFrostDirectSow: -21,
 
   gddBase: 40,
   gddTargetTypical: 500,
@@ -1047,7 +1115,14 @@ daysAfterLastFrostDirectSow: -21,
       daysToMaturity: "40–45",
       gddTarget: 450,
       examples: [
-        { name: "Black Seeded Simpson", note: "fast and forgiving, often used for early spring planting" }
+        {
+          name: "Black Seeded Simpson",
+          note: "fast and forgiving, often used for early spring planting"
+        },
+        {
+          name: "New Red Fire",
+          note: "a red loose-leaf lettuce that gives gardeners color while staying easy to fit into cool windows"
+        }
       ]
     },
     {
@@ -1056,7 +1131,14 @@ daysAfterLastFrostDirectSow: -21,
       daysToMaturity: "45–55",
       gddTarget: 500,
       examples: [
-        { name: "Buttercrunch", note: "widely grown and reliable across a range of conditions" }
+        {
+          name: "Buttercrunch",
+          note: "widely grown and reliable across a range of conditions"
+        },
+        {
+          name: "Jericho",
+          note: "a romaine-type lettuce that is useful when gardeners want upright heads with better heat tolerance than many lettuces"
+        }
       ]
     },
     {
@@ -1065,7 +1147,14 @@ daysAfterLastFrostDirectSow: -21,
       daysToMaturity: "55–65",
       gddTarget: 600,
       examples: [
-        { name: "Romaine", note: "productive but benefits from stable cool growing conditions" }
+        {
+          name: "Parris Island Cos",
+          note: "a classic romaine that makes sense when the planting window is cool enough for heads to form cleanly"
+        },
+        {
+          name: "Salanova",
+          note: "a specialty lettuce type for gardeners who want uniform heads, attractive leaves, and a more polished harvest"
+        }
       ]
     }
   ],
@@ -1074,6 +1163,7 @@ daysAfterLastFrostDirectSow: -21,
   shortSeasonStrategy: "Plant early and often, using succession sowing to extend harvest.",
   commonFailureMode: "Heat causes bolting, which shortens harvest windows."
 },
+
 spinach: {
   relatedCrops: ["lettuce", "peas"],
 
@@ -1100,7 +1190,18 @@ spinach: {
       daysToMaturity: "35–40",
       gddTarget: 400,
       examples: [
-        { name: "Bloomsdale", note: "cold-tolerant and well suited to early spring planting" }
+        {
+          name: "Bloomsdale",
+          note: "cold-tolerant and well suited to early spring planting"
+        },
+        {
+          name: "Avon",
+          note: "a faster spinach option that works well when the goal is earlier leaves or baby-leaf harvests"
+        },
+        {
+          name: "Reflect",
+          note: "a fast-growing spinach that can be useful when you want quick production before heat pressure builds"
+        }
       ]
     },
     {
@@ -1109,7 +1210,18 @@ spinach: {
       daysToMaturity: "40–45",
       gddTarget: 450,
       examples: [
-        { name: "Space", note: "reliable and relatively slow to bolt compared to some types" }
+        {
+          name: "Space",
+          note: "reliable and relatively slow to bolt compared to some types"
+        },
+        {
+          name: "Tyee",
+          note: "a dependable semi-savoyed spinach that is useful when gardeners want a broader harvest window"
+        },
+        {
+          name: "Regiment",
+          note: "a productive spinach for gardeners who want sturdy, full-size spring or fall leaves"
+        }
       ]
     }
   ],
@@ -1118,6 +1230,7 @@ spinach: {
   shortSeasonStrategy: "Sow as early as possible and prioritize spring and fall windows.",
   commonFailureMode: "Warm weather causes rapid bolting and short harvest windows."
 },
+
 radishes: {
   relatedCrops: ["lettuce", "carrots"],
 
@@ -1187,7 +1300,14 @@ cauliflower: {
       daysToMaturity: "60–70",
       gddTarget: 900,
       examples: [
-        { name: "Snowball", note: "a classic early cauliflower with reasonable reliability" }
+        {
+          name: "Snow Crown",
+          note: "a very early white cauliflower that gives short-season gardeners one of the safest paths to a finished head"
+        },
+        {
+          name: "Snowball",
+          note: "a classic early cauliflower with reasonable reliability"
+        }
       ]
     },
     {
@@ -1196,7 +1316,22 @@ cauliflower: {
       daysToMaturity: "70–85",
       gddTarget: 1000,
       examples: [
-        { name: "Amazing", note: "productive but sensitive to timing and conditions" }
+        {
+          name: "Amazing",
+          note: "productive but sensitive to timing and conditions"
+        },
+        {
+          name: "Cheddar",
+          note: "an orange cauliflower option for gardeners who want color without moving into the very slowest maturity range"
+        },
+        {
+          name: "Graffiti",
+          note: "a purple specialty cauliflower that is better chosen for color and novelty than for maximum short-season safety"
+        },
+        {
+          name: "Skywalker",
+          note: "a larger later cauliflower that usually needs a cleaner, longer run than the safest early types"
+        }
       ]
     }
   ],
@@ -1205,6 +1340,7 @@ cauliflower: {
   shortSeasonStrategy: "Use transplants and aim for consistent cool growth conditions.",
   commonFailureMode: "Temperature swings can prevent proper head formation."
 },
+
 garlic: {
   relatedCrops: ["onions"],
 

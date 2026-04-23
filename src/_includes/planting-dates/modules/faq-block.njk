@@ -1,0 +1,539 @@
+{% set isTooLatePage = false %}
+{% set isMaturityPage = false %}
+{% set isVarietiesPage = false %}
+{% set isMonthlyPage = false %}
+
+{% if pageData.url and "is-it-too-late-to-plant" in pageData.url %}
+  {% set isTooLatePage = true %}
+{% endif %}
+
+{% if pageData.url and "will-it-mature-before-frost" in pageData.url %}
+  {% set isMaturityPage = true %}
+{% endif %}
+
+{% if pageData.url and "best-varieties" in pageData.url %}
+  {% set isVarietiesPage = true %}
+{% endif %}
+
+{% if pageData.url and "what-can-i-plant-in-" in pageData.url %}
+  {% set isMonthlyPage = true %}
+{% endif %}
+
+{% set fastestVarietyLabel = pageData.copy.varietyStrategy.fastestReliableVarietyLabel if pageData.copy and pageData.copy.varietyStrategy and pageData.copy.varietyStrategy.fastestReliableVarietyLabel else (pageData.copy.bestVarietyLabel if pageData.copy and pageData.copy.bestVarietyLabel else null) %}
+{% set defaultVarietyLabel = pageData.copy.varietyStrategy.defaultRecommendedVarietyLabel if pageData.copy and pageData.copy.varietyStrategy and pageData.copy.varietyStrategy.defaultRecommendedVarietyLabel else (pageData.copy.bestVarietyLabel if pageData.copy and pageData.copy.bestVarietyLabel else null) %}
+
+{% set fastestVarietyDisplay = pageData.copy.fastestVarietyDisplay or null %}
+{% set defaultVarietyDisplay = pageData.copy.defaultVarietyDisplay or null %}
+
+{% if isTooLatePage %}
+<section class="card">
+  <h2>Frequently asked questions</h2>
+
+  <h3>How late can I plant {{ pageData.cropName }} in {{ pageData.cityName }}?</h3>
+  <p>
+    {% if pageData.copy.safeDateLong and pageData.copy.borderlineDateLong and pageData.copy.safeDateLong == pageData.copy.borderlineDateLong %}
+      Most gardeners use about {{ pageData.copy.safeDateLong }} as the late planting cutoff from local averages.
+    {% elif pageData.copy.safeDateLong and pageData.copy.borderlineDateLong %}
+      Most gardeners aim to plant by about {{ pageData.copy.safeDateLong }}, but planting can still be reasonable until around {{ pageData.copy.borderlineDateLong }} if variety choice, timing, and early growth are all helping.
+    {% elif pageData.copy.safeDateLong %}
+      Most gardeners aim to plant by about {{ pageData.copy.safeDateLong }}. After that, the fit usually gets noticeably tighter.
+    {% elif pageData.copy.borderlineDateLong %}
+      There is not much comfortable late window from local averages, but planting can still be realistic until around {{ pageData.copy.borderlineDateLong }} in the better cases.
+    {% else %}
+      {{ pageData.cropName }} is usually beyond the comfortable late planting window in {{ pageData.cityName }} when gardeners are relying on average local conditions alone.
+    {% endif %}
+  </p>
+
+  <h3>What matters most if I am planting {{ pageData.cropName | lower }} late?</h3>
+  <p>
+    The biggest things are how much season is still left, how fast the variety matures, and how cleanly the crop gets started. Once the normal window closes, small delays and weak early growth matter more than they did earlier.
+  </p>
+
+  <h3>Can a faster variety still make late planting realistic?</h3>
+  <p>
+    {% if fastestVarietyDisplay %}
+      Often yes. In this climate, {{ fastestVarietyDisplay.nounPhrasePlural }} usually leave the most room when planting is delayed.
+    {% else %}
+      Often yes. Faster-maturing varieties usually give the best remaining chance when planting is delayed.
+    {% endif %}
+  </p>
+</section>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How late can I plant {{ pageData.cropName | escape }} in {{ pageData.cityName | escape }}?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "{% if pageData.copy.safeDateLong and pageData.copy.borderlineDateLong and pageData.copy.safeDateLong == pageData.copy.borderlineDateLong %}Most gardeners use about {{ pageData.copy.safeDateLong | escape }} as the late planting cutoff from local averages.{% elif pageData.copy.safeDateLong and pageData.copy.borderlineDateLong %}Most gardeners aim to plant by about {{ pageData.copy.safeDateLong | escape }}, but planting can still be reasonable until around {{ pageData.copy.borderlineDateLong | escape }} if variety choice, timing, and early growth are all helping.{% elif pageData.copy.safeDateLong %}Most gardeners aim to plant by about {{ pageData.copy.safeDateLong | escape }}. After that, the fit usually gets noticeably tighter.{% elif pageData.copy.borderlineDateLong %}There is not much comfortable late window from local averages, but planting can still be realistic until around {{ pageData.copy.borderlineDateLong | escape }} in the better cases.{% else %}{{ pageData.cropName | escape }} is usually beyond the comfortable late planting window in {{ pageData.cityName | escape }} when gardeners are relying on average local conditions alone.{% endif %}"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What matters most if I am planting {{ pageData.cropName | escape }} late?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The biggest things are how much season is still left, how fast the variety matures, and how cleanly the crop gets started. Once the normal window closes, small delays and weak early growth matter more than they did earlier."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can a faster variety still make late planting realistic?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "{% if fastestVarietyDisplay %}Often yes. In this climate, {{ fastestVarietyDisplay.nounPhrasePlural | escape }} usually leave the most room when planting is delayed.{% else %}Often yes. Faster-maturing varieties usually give the best remaining chance when planting is delayed.{% endif %}"
+      }
+    }
+  ]
+}
+</script>
+{% endif %}
+
+{% if isMaturityPage %}
+<section class="card">
+  <h2>Frequently asked questions</h2>
+
+  <h3>Will {{ pageData.cropName }} usually mature before frost in {{ pageData.cityName }}?</h3>
+  <p>
+    {% if pageData.copy.fitRank >= 3 %}
+      Usually yes. {{ pageData.copy.timingSummary }}
+    {% elif pageData.copy.fitRank == 2 %}
+      Usually yes, but with less room for delay or slower variety choice. {{ pageData.copy.timingSummary }}
+    {% elif pageData.copy.fitRank == 1 %}
+      Sometimes, but timing and variety choice matter much more here. {{ pageData.copy.timingSummary }}
+    {% else %}
+      Usually not without help from faster varieties, stronger starts, or a better setup. {{ pageData.copy.timingSummary }}
+    {% endif %}
+  </p>
+
+  <h3>What usually decides whether {{ pageData.cropName | lower }} finishes in time?</h3>
+  <p>
+    The biggest factors are the normal planting date, how much heat the crop needs, the local fall frost timing, and whether the chosen variety is on the faster or slower end of the local range.
+  </p>
+
+  <h3>Which varieties usually give the best chance of maturing?</h3>
+  <p>
+    {% if fastestVarietyDisplay %}
+      In this climate, {{ fastestVarietyDisplay.nounPhrasePlural }} usually leave the most room.
+    {% else %}
+      The best chance usually comes from the faster end of the maturity range for this crop.
+    {% endif %}
+  </p>
+</section>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Will {{ pageData.cropName | escape }} usually mature before frost in {{ pageData.cityName | escape }}?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "{% if pageData.copy.fitRank >= 3 %}Usually yes. {{ pageData.copy.timingSummary | escape }}{% elif pageData.copy.fitRank == 2 %}Usually yes, but with less room for delay or slower variety choice. {{ pageData.copy.timingSummary | escape }}{% elif pageData.copy.fitRank == 1 %}Sometimes, but timing and variety choice matter much more here. {{ pageData.copy.timingSummary | escape }}{% else %}Usually not without help from faster varieties, stronger starts, or a better setup. {{ pageData.copy.timingSummary | escape }}{% endif %}"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What usually decides whether {{ pageData.cropName | escape }} finishes in time?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The biggest factors are the normal planting date, how much heat the crop needs, the local fall frost timing, and whether the chosen variety is on the faster or slower end of the local range."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which varieties usually give the best chance of maturing?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "{% if fastestVarietyDisplay %}In this climate, {{ fastestVarietyDisplay.nounPhrasePlural | escape }} usually leave the most room.{% else %}The best chance usually comes from the faster end of the maturity range for this crop.{% endif %}"
+      }
+    }
+  ]
+}
+</script>
+{% endif %}
+
+{% if isVarietiesPage %}
+{% set cropDisplayName = pageData.copy.cropDisplayName or pageData.cropName %}
+{% set qa = pageData.copy.varietyQuickAnswerParts or null %}
+
+{% set bestIsPlural = false %}
+{% if qa and qa.bestNames %}
+  {% if " and " in qa.bestNames or "," in qa.bestNames %}
+    {% set bestIsPlural = true %}
+  {% endif %}
+{% endif %}
+
+{% set safeIsPlural = false %}
+{% if qa and qa.safeNames %}
+  {% if " and " in qa.safeNames or "," in qa.safeNames %}
+    {% set safeIsPlural = true %}
+  {% endif %}
+{% endif %}
+
+{% set workableIsPlural = false %}
+{% if qa and qa.workableNames %}
+  {% if " and " in qa.workableNames or "," in qa.workableNames %}
+    {% set workableIsPlural = true %}
+  {% endif %}
+{% endif %}
+
+{% set isWorkableOnly = false %}
+{% if qa and qa.isWorkableOnly %}
+  {% set isWorkableOnly = true %}
+{% endif %}
+
+{% set isBestOnly = false %}
+{% if qa and qa.isBestOnly %}
+  {% set isBestOnly = true %}
+{% endif %}
+
+{% set hasMultipleGroups = false %}
+{% if qa and qa.bestNames and qa.safeNames %}
+  {% set hasMultipleGroups = true %}
+{% elif qa and qa.bestNames and qa.workableNames %}
+  {% set hasMultipleGroups = true %}
+{% elif qa and qa.safeNames and qa.workableNames %}
+  {% set hasMultipleGroups = true %}
+{% endif %}
+
+<section class="card">
+  <h2>Frequently asked questions</h2>
+
+  <h3>
+    {% if isWorkableOnly %}
+      Which {{ cropDisplayName | lower }} varieties should I start with in {{ pageData.cityName }}?
+    {% elif qa and qa.bestNames %}
+      Why start with {{ qa.bestNames }}?
+    {% else %}
+      Which {{ cropDisplayName | lower }} varieties should I start with in {{ pageData.cityName }}?
+    {% endif %}
+  </h3>
+  <p>
+    {% if isWorkableOnly and qa.workableNames %}
+      Start with {{ qa.workableNames }} because {% if workableIsPlural %}they are{% else %}it is{% endif %} the shortest realistic path for this crop in {{ pageData.cityName }}.
+      {% if workableIsPlural %}
+        Give them the warmest practical site you can, start them cleanly, and avoid slow early growth.
+      {% elif qa.workableGrowingNotePhrase %}
+        To improve the odds, {{ qa.workableGrowingNotePhrase }}.
+      {% else %}
+        Good timing and steady early growth matter more than usual here.
+      {% endif %}
+
+    {% elif isBestOnly and qa.bestNames %}
+      {% if qa.bestChoicePhrase %}
+        Start with {{ qa.bestNames }} because {% if bestIsPlural %}they are{% else %}it is{% endif %} among the more realistic options for keeping this crop on track in {{ pageData.cityName }}.
+        {% if bestIsPlural %}
+          They help by shortening the path to harvest and reducing how much of the season has to go right before the crop starts producing.
+        {% elif qa.bestTradeoffPhrase %}
+          The tradeoff is that {{ qa.bestTradeoffPhrase }}.
+        {% elif qa.bestGrowingNotePhrase %}
+          For the best result, {{ qa.bestGrowingNotePhrase }}.
+        {% endif %}
+      {% else %}
+        {% if bestIsPlural %}They are{% else %}It is{% endif %} the practical starting point because this crop needs the faster end of its range in {{ pageData.cityName }}.
+      {% endif %}
+
+    {% elif qa and qa.bestNames %}
+      Start with {{ qa.bestNames }} because
+      {% if qa.bestChoicePhrase %}
+        {% if bestIsPlural %}they suit{% else %}it suits{% endif %} {{ qa.bestChoicePhrase }}.
+      {% else %}
+        {% if bestIsPlural %}they fit{% else %}it fits{% endif %} the main maturity range for {{ pageData.cityName }}.
+      {% endif %}
+      {% if bestIsPlural %}
+        Use the variety notes to choose the specific trait you care about most.
+      {% elif qa.bestGrowingNotePhrase %}
+        For the best result, {{ qa.bestGrowingNotePhrase }}.
+      {% elif qa.bestTradeoffPhrase %}
+        The main tradeoff is that {{ qa.bestTradeoffPhrase }}.
+      {% endif %}
+
+    {% elif defaultVarietyDisplay %}
+      Start with varieties in {{ defaultVarietyDisplay.rangePhrase }}. That is usually the strongest default maturity range for this crop in {{ pageData.cityName }}.
+
+    {% else %}
+      Start with varieties that leave dependable room in the local season rather than slower options that only work when everything goes right.
+    {% endif %}
+  </p>
+
+  <h3>
+    {% if hasMultipleGroups %}
+      How should I choose between the groups on this page?
+    {% else %}
+      How should I choose between these varieties?
+    {% endif %}
+  </h3>
+  <p>
+    {% if isWorkableOnly %}
+      Compare the variety notes, then focus on giving the crop the strongest start possible. With this crop in {{ pageData.cityName }}, the main risk is not choosing between many easy options; it is getting a short-season variety to finish well.
+
+    {% elif qa and qa.safeNames and qa.workableNames %}
+      First decide what you want the variety to do, then use the groups as a risk ladder.
+      {% if qa.safeChoicePhrase %}
+        The faster group is best when you want {{ qa.safeChoicePhrase }}.
+      {% else %}
+        The faster group is best when speed and margin matter most.
+      {% endif %}
+      {% if qa.bestChoicePhrase %}
+        The main recommendation is the better starting point when you want {{ qa.bestChoicePhrase }}.
+      {% else %}
+        The main recommendation is the better starting point for the strongest normal fit.
+      {% endif %}
+      {% if qa.workableChoicePhrase %}
+        The other varieties are worth a look when their specific strengths matter more than taking the safest route.
+      {% else %}
+        The other varieties are worth a look when a specific trait matters more than taking the safest route.
+      {% endif %}
+
+    {% elif qa and qa.safeNames %}
+      First decide whether you want the main harvest type or the safer fast-end choice.
+      {% if qa.bestChoicePhrase %}
+        Use {{ qa.bestNames }} for {{ qa.bestChoicePhrase }}.
+      {% else %}
+        Use {{ qa.bestNames }} as the main recommendation.
+      {% endif %}
+      {% if qa.safeChoicePhrase %}
+        Choose {{ qa.safeNames }} when you want {{ qa.safeChoicePhrase }}.
+      {% else %}
+        Choose {{ qa.safeNames }} when you want a faster harvest, more cushion, or a safer finish.
+      {% endif %}
+
+    {% elif qa and qa.workableNames %}
+      First decide whether the main recommendation matches your goal.
+      {% if qa.bestChoicePhrase %}
+        Use {{ qa.bestNames }} for {{ qa.bestChoicePhrase }}.
+      {% else %}
+        Use {{ qa.bestNames }} as the cleanest local fit.
+      {% endif %}
+      {% if qa.workableChoicePhrase %}
+        Look at {{ qa.workableNames }} when you want {{ qa.workableChoicePhrase }}.
+      {% else %}
+        Look at {{ qa.workableNames }} when the variety trait is more important than taking the safest path.
+      {% endif %}
+
+    {% elif isBestOnly and qa.bestNames %}
+      Compare the variety notes.
+      {% if bestIsPlural %}
+        On pages like this, the decision is usually not whether the crop can handle a slower stretch option. It is which realistic early choice better matches your goal, whether that means the earliest harvest, a steadier short-season fit, or the specific harvest style you want most.
+      {% elif qa.bestChoicePhrase %}
+        The practical decision is whether {{ qa.bestChoicePhrase }} matches what you want from the crop.
+      {% else %}
+        The practical choice usually comes down to which realistic option best matches your goal.
+      {% endif %}
+
+    {% else %}
+      Compare the variety notes first. When two choices look similar, lean toward the one with fewer days to maturity, a lower heat target, or a harvest type that better matches what you want.
+    {% endif %}
+  </p>
+
+  {% if qa and qa.workableNames %}
+    <h3>
+      {% if isWorkableOnly %}
+        {% if workableIsPlural %}Are{% else %}Is{% endif %} the workable {% if workableIsPlural %}options{% else %}option{% endif %} still worth growing?
+      {% else %}
+        {% if workableIsPlural %}Are{% else %}Is{% endif %} the other {% if workableIsPlural %}varieties{% else %}variety{% endif %} worth exploring?
+      {% endif %}
+    </h3>
+    <p>
+      {% if isWorkableOnly %}
+        Yes, but treat {% if workableIsPlural %}them{% else %}it{% endif %} as careful short-season choices.
+        {% if workableIsPlural %}
+          Give them warm soil, a strong start, and as little delay as possible.
+        {% elif qa.workableGrowingNotePhrase %}
+          To make the attempt more realistic, {{ qa.workableGrowingNotePhrase }}.
+        {% else %}
+          {% if workableIsPlural %}They still need{% else %}It still needs{% endif %} good timing, steady early growth, and realistic expectations.
+        {% endif %}
+
+      {% else %}
+        Yes{% if qa.workableChoicePhrase %}, especially if you want {{ qa.workableChoicePhrase }}{% endif %}.
+        {% if workableIsPlural %}
+          These are purpose-specific choices rather than backups, so use the variety notes to match the harvest style, root type, flavor, plant habit, or growing setup you actually want.
+        {% elif qa.workableTradeoffPhrase %}
+          The tradeoff is that {{ qa.workableTradeoffPhrase }}.
+        {% elif qa.workableGrowingNotePhrase %}
+          For the best result, {{ qa.workableGrowingNotePhrase }}.
+        {% else %}
+          {{ qa.workableNames }} can still make sense, but it usually needs better timing, steadier early growth, or more tolerance for risk than the main recommendation.
+        {% endif %}
+      {% endif %}
+    </p>
+  {% endif %}
+
+  <h3>How much should days to maturity matter when choosing varieties?</h3>
+  <p>
+    Days to maturity are useful, but they are not the whole answer. A variety also needs enough local heat, a clean start, and enough room before the season gets tight. Use days to maturity as a first screen, then compare the variety's role on this page.
+  </p>
+</section>
+
+<script type="application/ld+json">
+{% if qa and qa.workableNames %}
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "{% if isWorkableOnly %}Which {{ cropDisplayName | lower | escape }} varieties should I start with in {{ pageData.cityName | escape }}?{% elif qa and qa.bestNames %}Why start with {{ qa.bestNames | escape }}?{% else %}Which {{ cropDisplayName | lower | escape }} varieties should I start with in {{ pageData.cityName | escape }}?{% endif %}",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "{% if isWorkableOnly and qa.workableNames %}Start with {{ qa.workableNames | escape }} because {% if workableIsPlural %}they are{% else %}it is{% endif %} the shortest realistic path for this crop in {{ pageData.cityName | escape }}. {% if workableIsPlural %}Give them the warmest practical site you can, start them cleanly, and avoid slow early growth.{% elif qa.workableGrowingNotePhrase %}To improve the odds, {{ qa.workableGrowingNotePhrase | escape }}.{% else %}Good timing and steady early growth matter more than usual here.{% endif %}{% elif isBestOnly and qa.bestNames %}{% if qa.bestChoicePhrase %}Start with {{ qa.bestNames | escape }} because {% if bestIsPlural %}they are{% else %}it is{% endif %} among the more realistic options for keeping this crop on track in {{ pageData.cityName | escape }}. {% if bestIsPlural %}They help by shortening the path to harvest and reducing how much of the season has to go right before the crop starts producing.{% elif qa.bestTradeoffPhrase %}The tradeoff is that {{ qa.bestTradeoffPhrase | escape }}.{% elif qa.bestGrowingNotePhrase %}For the best result, {{ qa.bestGrowingNotePhrase | escape }}.{% endif %}{% else %}{% if bestIsPlural %}They are{% else %}It is{% endif %} the practical starting point because this crop needs the faster end of its range in {{ pageData.cityName | escape }}.{% endif %}{% elif qa and qa.bestNames %}Start with {{ qa.bestNames | escape }} because {% if qa.bestChoicePhrase %}{% if bestIsPlural %}they suit{% else %}it suits{% endif %} {{ qa.bestChoicePhrase | escape }}.{% else %}{% if bestIsPlural %}they fit{% else %}it fits{% endif %} the main maturity range for {{ pageData.cityName | escape }}.{% endif %} {% if bestIsPlural %}Use the variety notes to choose the specific trait you care about most.{% elif qa.bestGrowingNotePhrase %}For the best result, {{ qa.bestGrowingNotePhrase | escape }}.{% elif qa.bestTradeoffPhrase %}The main tradeoff is that {{ qa.bestTradeoffPhrase | escape }}.{% endif %}{% elif defaultVarietyDisplay %}Start with varieties in {{ defaultVarietyDisplay.rangePhrase | escape }}. That is usually the strongest default maturity range for this crop in {{ pageData.cityName | escape }}.{% else %}Start with varieties that leave dependable room in the local season rather than slower options that only work when everything goes right.{% endif %}"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "{% if hasMultipleGroups %}How should I choose between the groups on this page?{% else %}How should I choose between these varieties?{% endif %}",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "{% if isWorkableOnly %}Compare the variety notes, then focus on giving the crop the strongest start possible. With this crop in {{ pageData.cityName | escape }}, the main risk is not choosing between many easy options; it is getting a short-season variety to finish well.{% elif qa and qa.safeNames and qa.workableNames %}First decide what you want the variety to do, then use the groups as a risk ladder. {% if qa.safeChoicePhrase %}The faster group is best when you want {{ qa.safeChoicePhrase | escape }}.{% else %}The faster group is best when speed and margin matter most.{% endif %} {% if qa.bestChoicePhrase %}The main recommendation is the better starting point when you want {{ qa.bestChoicePhrase | escape }}.{% else %}The main recommendation is the better starting point for the strongest normal fit.{% endif %} {% if qa.workableChoicePhrase %}The other varieties are worth a look when their specific strengths matter more than taking the safest route.{% else %}The other varieties are worth a look when a specific trait matters more than taking the safest route.{% endif %}{% elif qa and qa.safeNames %}First decide whether you want the main harvest type or the safer fast-end choice. {% if qa.bestChoicePhrase %}Use {{ qa.bestNames | escape }} for {{ qa.bestChoicePhrase | escape }}.{% else %}Use {{ qa.bestNames | escape }} as the main recommendation.{% endif %} {% if qa.safeChoicePhrase %}Choose {{ qa.safeNames | escape }} when you want {{ qa.safeChoicePhrase | escape }}.{% else %}Choose {{ qa.safeNames | escape }} when you want a faster harvest, more cushion, or a safer finish.{% endif %}{% elif qa and qa.workableNames %}First decide whether the main recommendation matches your goal. {% if qa.bestChoicePhrase %}Use {{ qa.bestNames | escape }} for {{ qa.bestChoicePhrase | escape }}.{% else %}Use {{ qa.bestNames | escape }} as the cleanest local fit.{% endif %} {% if qa.workableChoicePhrase %}Look at {{ qa.workableNames | escape }} when you want {{ qa.workableChoicePhrase | escape }}.{% else %}Look at {{ qa.workableNames | escape }} when the variety trait is more important than taking the safest path.{% endif %}{% elif isBestOnly and qa.bestNames %}Compare the variety notes. {% if bestIsPlural %}On pages like this, the decision is usually not whether the crop can handle a slower stretch option. It is which realistic early choice better matches your goal, whether that means the earliest harvest, a steadier short-season fit, or the specific harvest style you want most.{% elif qa.bestChoicePhrase %}The practical decision is whether {{ qa.bestChoicePhrase | escape }} matches what you want from the crop.{% else %}The practical choice usually comes down to which realistic option best matches your goal.{% endif %}{% else %}Compare the variety notes first. When two choices look similar, lean toward the one with fewer days to maturity, a lower heat target, or a harvest type that better matches what you want.{% endif %}"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "{% if isWorkableOnly %}{% if workableIsPlural %}Are{% else %}Is{% endif %} the workable {% if workableIsPlural %}options{% else %}option{% endif %} still worth growing?{% else %}{% if workableIsPlural %}Are{% else %}Is{% endif %} the other {% if workableIsPlural %}varieties{% else %}variety{% endif %} worth exploring?{% endif %}",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "{% if isWorkableOnly %}Yes, but treat {% if workableIsPlural %}them{% else %}it{% endif %} as careful short-season choices. {% if workableIsPlural %}Give them warm soil, a strong start, and as little delay as possible.{% elif qa.workableGrowingNotePhrase %}To make the attempt more realistic, {{ qa.workableGrowingNotePhrase | escape }}.{% else %}{% if workableIsPlural %}They still need{% else %}It still needs{% endif %} good timing, steady early growth, and realistic expectations.{% endif %}{% else %}Yes{% if qa.workableChoicePhrase %}, especially if you want {{ qa.workableChoicePhrase | escape }}{% endif %}. {% if workableIsPlural %}These are purpose-specific choices rather than backups, so use the variety notes to match the harvest style, root type, flavor, plant habit, or growing setup you actually want.{% elif qa.workableTradeoffPhrase %}The tradeoff is that {{ qa.workableTradeoffPhrase | escape }}.{% elif qa.workableGrowingNotePhrase %}For the best result, {{ qa.workableGrowingNotePhrase | escape }}.{% else %}{{ qa.workableNames | escape }} can still make sense, but it usually needs better timing, steadier early growth, or more tolerance for risk than the main recommendation.{% endif %}{% endif %}"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much should days to maturity matter when choosing varieties?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Days to maturity are useful, but they are not the whole answer. A variety also needs enough local heat, a clean start, and enough room before the season gets tight. Use days to maturity as a first screen, then compare the variety's role on this page."
+      }
+    }
+  ]
+}
+{% else %}
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "{% if qa and qa.bestNames %}Why start with {{ qa.bestNames | escape }}?{% else %}Which {{ cropDisplayName | lower | escape }} varieties should I start with in {{ pageData.cityName | escape }}?{% endif %}",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "{% if isBestOnly and qa.bestNames %}{% if qa.bestChoicePhrase %}Start with {{ qa.bestNames | escape }} because {% if bestIsPlural %}they are{% else %}it is{% endif %} among the more realistic options for keeping this crop on track in {{ pageData.cityName | escape }}. {% if bestIsPlural %}They help by shortening the path to harvest and reducing how much of the season has to go right before the crop starts producing.{% elif qa.bestTradeoffPhrase %}The tradeoff is that {{ qa.bestTradeoffPhrase | escape }}.{% elif qa.bestGrowingNotePhrase %}For the best result, {{ qa.bestGrowingNotePhrase | escape }}.{% endif %}{% else %}{% if bestIsPlural %}They are{% else %}It is{% endif %} the practical starting point because this crop needs the faster end of its range in {{ pageData.cityName | escape }}.{% endif %}{% elif qa and qa.bestNames %}Start with {{ qa.bestNames | escape }} because {% if qa.bestChoicePhrase %}{% if bestIsPlural %}they suit{% else %}it suits{% endif %} {{ qa.bestChoicePhrase | escape }}.{% else %}{% if bestIsPlural %}they fit{% else %}it fits{% endif %} the main maturity range for {{ pageData.cityName | escape }}.{% endif %} {% if bestIsPlural %}Use the variety notes to choose the specific trait you care about most.{% elif qa.bestGrowingNotePhrase %}For the best result, {{ qa.bestGrowingNotePhrase | escape }}.{% elif qa.bestTradeoffPhrase %}The main tradeoff is that {{ qa.bestTradeoffPhrase | escape }}.{% endif %}{% elif defaultVarietyDisplay %}Start with varieties in {{ defaultVarietyDisplay.rangePhrase | escape }}. That is usually the strongest default maturity range for this crop in {{ pageData.cityName | escape }}.{% else %}Start with varieties that leave dependable room in the local season rather than slower options that only work when everything goes right.{% endif %}"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "{% if hasMultipleGroups %}How should I choose between the groups on this page?{% else %}How should I choose between these varieties?{% endif %}",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "{% if qa and qa.safeNames %}First decide whether you want the main harvest type or the safer fast-end choice. {% if qa.bestChoicePhrase %}Use {{ qa.bestNames | escape }} for {{ qa.bestChoicePhrase | escape }}.{% else %}Use {{ qa.bestNames | escape }} as the main recommendation.{% endif %} {% if qa.safeChoicePhrase %}Choose {{ qa.safeNames | escape }} when you want {{ qa.safeChoicePhrase | escape }}.{% else %}Choose {{ qa.safeNames | escape }} when you want a faster harvest, more cushion, or a safer finish.{% endif %}{% elif isBestOnly and qa.bestNames %}Compare the variety notes. {% if bestIsPlural %}On pages like this, the decision is usually not whether the crop can handle a slower stretch option. It is which realistic early choice better matches your goal, whether that means the earliest harvest, a steadier short-season fit, or the specific harvest style you want most.{% elif qa.bestChoicePhrase %}The practical decision is whether {{ qa.bestChoicePhrase | escape }} matches what you want from the crop.{% else %}The practical choice usually comes down to which realistic option best matches your goal.{% endif %}{% else %}Compare the variety notes first. When two choices look similar, lean toward the one with fewer days to maturity, a lower heat target, or a harvest type that better matches what you want.{% endif %}"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much should days to maturity matter when choosing varieties?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Days to maturity are useful, but they are not the whole answer. A variety also needs enough local heat, a clean start, and enough room before the season gets tight. Use days to maturity as a first screen, then compare the variety's role on this page."
+      }
+    }
+  ]
+}
+{% endif %}
+</script>
+{% endif %}
+
+{% if isMonthlyPage %}
+{% set bestCount = pageData.sections.bestBets.length if pageData.sections and pageData.sections.bestBets else 0 %}
+{% set tightCount = pageData.sections.gettingTight.length if pageData.sections and pageData.sections.gettingTight else 0 %}
+{% set lateCount = pageData.sections.mostlyPast.length if pageData.sections and pageData.sections.mostlyPast else 0 %}
+{% set totalCount = bestCount + tightCount + lateCount %}
+{% set bestShare = (bestCount / totalCount) if totalCount > 0 else 0 %}
+
+{% set monthlyMode = "mixed" %}
+{% if bestShare >= 0.7 %}
+  {% set monthlyMode = "wide_open" %}
+{% elif bestCount == 0 and tightCount == 0 %}
+  {% set monthlyMode = "late_only" %}
+{% elif bestCount == 0 and tightCount > 0 %}
+  {% set monthlyMode = "narrow" %}
+{% endif %}
+
+<section class="card">
+  <h2>Frequently asked questions</h2>
+
+  <h3>What can I still plant in {{ pageData.monthName }} in {{ pageData.cityName }}?</h3>
+  <p>
+    {% if monthlyMode == "wide_open" %}
+      {{ pageData.monthName }} is still one of the easier planting months in {{ pageData.cityName }}. Most common garden crops are still comfortable choices, so the main decision is usually what you want to grow rather than whether the season can still support it.
+    {% elif monthlyMode == "mixed" %}
+      {{ pageData.monthName }} still leaves real planting options in {{ pageData.cityName }}, but the page is now splitting more clearly between crops that still feel comfortable and crops that already need cleaner timing, faster varieties, or a stronger start.
+    {% elif monthlyMode == "narrow" %}
+      {{ pageData.monthName }} is now a narrow planting month in {{ pageData.cityName }}. A few crops can still make sense, but this is no longer the easy part of the local planting season.
+    {% else %}
+      By {{ pageData.monthName }}, easy normal planting choices are mostly gone in {{ pageData.cityName }}. At that point, the better question is whether any narrow late path is still worth taking or whether your effort is better spent finishing current crops and preparing for the next reliable window.
+    {% endif %}
+  </p>
+
+  <h3>How do I know whether a crop is still a good fit this month?</h3>
+  <p>
+    Start by comparing the crop's heat demand to the season still left from {{ pageData.monthName }}. Crops in the strongest group still have enough room that the plan is mostly straightforward. Once a crop drops into the tighter group, variety speed, starting method, and avoiding extra delay matter much more. Once it moves beyond the easy window, it should be treated as a narrow late-path decision instead of a normal planting choice.
+  </p>
+
+  <h3>Why do some crops still look comfortable while others are already getting tight?</h3>
+  <p>
+    The difference is usually how much time and heat the crop still needs from this point forward. Faster crops, faster varieties, and crops that can get moving quickly still hold margin longer. Slower crops lose margin first, which is why they become tighter earlier even in the same month and city.
+  </p>
+
+  <h3>When should I stop trying to plant new crops this month?</h3>
+  <p>
+    Stop when the crop is no longer relying on one good choice, but on a chain of things all going right at once. If it needs the fastest variety, the safest starting method, no delay, and favorable conditions all at the same time, it is usually no longer behaving like a normal planting decision.
+  </p>
+</section>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What can I still plant in {{ pageData.monthName | escape }} in {{ pageData.cityName | escape }}?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "{% if monthlyMode == \"wide_open\" %}{{ pageData.monthName | escape }} is still one of the easier planting months in {{ pageData.cityName | escape }}. Most common garden crops are still comfortable choices, so the main decision is usually what you want to grow rather than whether the season can still support it.{% elif monthlyMode == \"mixed\" %}{{ pageData.monthName | escape }} still leaves real planting options in {{ pageData.cityName | escape }}, but the page is now splitting more clearly between crops that still feel comfortable and crops that already need cleaner timing, faster varieties, or a stronger start.{% elif monthlyMode == \"narrow\" %}{{ pageData.monthName | escape }} is now a narrow planting month in {{ pageData.cityName | escape }}. A few crops can still make sense, but this is no longer the easy part of the local planting season.{% else %}By {{ pageData.monthName | escape }}, easy normal planting choices are mostly gone in {{ pageData.cityName | escape }}. At that point, the better question is whether any narrow late path is still worth taking or whether your effort is better spent finishing current crops and preparing for the next reliable window.{% endif %}"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I know whether a crop is still a good fit this month?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Start by comparing the crop's heat demand to the season still left from {{ pageData.monthName | escape }}. Crops in the strongest group still have enough room that the plan is mostly straightforward. Once a crop drops into the tighter group, variety speed, starting method, and avoiding extra delay matter much more. Once it moves beyond the easy window, it should be treated as a narrow late-path decision instead of a normal planting choice."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why do some crops still look comfortable while others are already getting tight?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The difference is usually how much time and heat the crop still needs from this point forward. Faster crops, faster varieties, and crops that can get moving quickly still hold margin longer. Slower crops lose margin first, which is why they become tighter earlier even in the same month and city."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "When should I stop trying to plant new crops this month?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Stop when the crop is no longer relying on one good choice, but on a chain of things all going right at once. If it needs the fastest variety, the safest starting method, no delay, and favorable conditions all at the same time, it is usually no longer behaving like a normal planting decision."
+      }
+    }
+  ]
+}
+</script>
+{% endif %}
