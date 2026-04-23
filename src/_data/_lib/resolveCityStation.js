@@ -307,21 +307,6 @@ function resolveCityStation(city) {
   const stationMismatchFlag =
     stationDistanceKm != null && stationDistanceKm > 25 ? "review" : "";
 
-  const preferredIsSeeded = Boolean(
-    preferredStationMeta?.is_pseudo_station ||
-    preferredStationMeta?.seeded_station
-  );
-
-  const runtimeIsSeeded = Boolean(
-    runtimeStationMeta?.is_pseudo_station ||
-    runtimeStationMeta?.seeded_station
-  );
-
-  const seededSource =
-    runtimeStationMeta?.source ||
-    preferredStationMeta?.source ||
-    null;
-
   return {
     cityKey: city.key,
     cityName: city.name || null,
@@ -348,14 +333,6 @@ function resolveCityStation(city) {
       usedLookupStation: Boolean(lookupStationIdValue),
       usedAlias:
         runtimeSource === "alias" || runtimeSource === "lookup_alias",
-
-      seededPreferredStation: preferredIsSeeded,
-      seededRuntimeStation: runtimeIsSeeded,
-      seededFromDaymet:
-        runtimeIsSeeded &&
-        typeof seededSource === "string" &&
-        seededSource.toLowerCase().includes("daymet"),
-
       missingPreferredStation: !preferredStationId,
       missingPreferredMeta: !preferredStationMeta,
       missingRuntimeStation: !runtimeStationId,
@@ -364,7 +341,7 @@ function resolveCityStation(city) {
       longDistanceProxy: Number.isFinite(stationDistanceKm) && stationDistanceKm > 25,
       severeDistanceProxy: Number.isFinite(stationDistanceKm) && stationDistanceKm > 150
     }
-    };
+  };
 }
 
 module.exports = {
