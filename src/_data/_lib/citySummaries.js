@@ -21,6 +21,7 @@ const CROP_SLUG_ALIASES = {
   bean: "beans"
 };
 
+
 function normalizeCuratedContent(entry) {
   if (!entry) return null;
 
