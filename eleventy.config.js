@@ -21,7 +21,7 @@ module.exports = function (eleventyConfig) {
   }
 
   eleventyConfig.addShortcode("year", () => `${new Date().getFullYear()}`);
-  
+
   eleventyConfig.addFilter("toSitemapDate", (value) => {
     if (!value) return "";
     const d = new Date(value);
@@ -93,3 +93,4 @@ eleventyConfig.addFilter("mmddLong", (mmdd) => {
     htmlTemplateEngine: "njk"
   };
 };
+

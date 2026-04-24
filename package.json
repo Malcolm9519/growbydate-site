@@ -8,9 +8,10 @@
   "build": "npm run clean && npm run build:eleventy && npm run build:sitemap",
   "build:eleventy": "SITE_BUILD_TARGET=main node --max-old-space-size=12288 ./node_modules/@11ty/eleventy/cmd.cjs",
   "build:varieties": "npm run clean:varieties && SITE_BUILD_TARGET=varieties node --max-old-space-size=12288 ./node_modules/@11ty/eleventy/cmd.cjs --output=_site-varieties",
-  "build:sitemap": "node ./scripts/generate-sitemap.js"
+"build:sitemap": "node ./generate-sitemap.js"
 },
   "devDependencies": {
     "@11ty/eleventy": "^3.0.0"
   }
 }
+
