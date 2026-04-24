@@ -1,9 +1,27 @@
 const fs = require("fs");
 const path = require("path");
+const isQaBuild = process.env.BUILD_QA === "true";
+const buildTarget = process.env.SITE_BUILD_TARGET || "main";
 
 module.exports = function (eleventyConfig) {
-  eleventyConfig.addShortcode("year", () => `${new Date().getFullYear()}`);
+  if (buildTarget === "main") {
+    eleventyConfig.ignores.add("src/planting-dates/varieties/varieties.njk");
+  }
 
+  if (buildTarget === "varieties") {
+    eleventyConfig.ignores.add("src/planting-dates/crop-city/crop-city.njk");
+    eleventyConfig.ignores.add("src/planting-dates/cities/**");
+    eleventyConfig.ignores.add("src/planting-dates/states/**");
+    eleventyConfig.ignores.add("src/planting-dates/canada/provinces/**");
+    eleventyConfig.ignores.add("src/guides/**");
+    eleventyConfig.ignores.add("src/tools/**");
+    eleventyConfig.ignores.add("src/qa/**");
+    eleventyConfig.ignores.add("src/index.njk");
+    eleventyConfig.ignores.add("src/privacy-policy.njk");
+  }
+
+  eleventyConfig.addShortcode("year", () => `${new Date().getFullYear()}`);
+  
   eleventyConfig.addFilter("toSitemapDate", (value) => {
     if (!value) return "";
     const d = new Date(value);
