@@ -14,8 +14,6 @@ const DEFAULT_CROPS = [
   "carrots",
   "onions",
   "beets",
-  "winter-squash",
-  "pumpkin",
   "kale",
   "swiss-chard",
   "lettuce",
