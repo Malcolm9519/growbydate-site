@@ -370,7 +370,7 @@ eleventyComputed:
 
 <p>
   For a more detailed variety breakdown, see
-  <a href="{{ pageData.url }}best-varieties/">best {{ cropSingularLower }} varieties for {{ pageData.cityName }}</a>.
+<a href="{{ (pageData.url + 'best-varieties/') | toVarietiesUrl }}">best {{ cropSingularLower }} varieties for {{ pageData.cityName }}</a>
 </p>
 {% endif %}
 </section>

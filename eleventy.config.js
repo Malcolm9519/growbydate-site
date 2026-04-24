@@ -22,6 +22,12 @@ module.exports = function (eleventyConfig) {
 
   eleventyConfig.addShortcode("year", () => `${new Date().getFullYear()}`);
 
+  eleventyConfig.addFilter("toVarietiesUrl", function (url) {
+  if (!url) return "";
+  const path = String(url).startsWith("/") ? String(url) : `/${url}`;
+  return `https://varieties.growbydate.com${path}`;
+});
+
   eleventyConfig.addFilter("toSitemapDate", (value) => {
     if (!value) return "";
     const d = new Date(value);
