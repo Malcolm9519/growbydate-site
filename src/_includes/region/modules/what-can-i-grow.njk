@@ -27,10 +27,12 @@
     {% set marginPct = state.cropFit.meta.marginPct or 0.15 %}
     {% set marginLabel = (marginPct * 100) | round %}
 
-    <p class="small wcigMeta">
-      If you're starting later in the season, use this normals-based guide to what typically still has time to mature in {{ state.name }} at a few common planting checkpoints.
-      We apply a <strong>{{ marginLabel }}% safety margin</strong> to separate crops that usually fit from ones that are more borderline.
-    </p>
+<p class="small wcigMeta">
+  This table shows what can still mature from several later-season planting dates in {{ state.name }}.
+  It compares the <strong>growing degree days still typically available</strong> after each checkpoint
+  with the heat each crop usually needs to finish, then applies a <strong>{{ marginLabel }}% safety margin</strong>
+  to separate crops that usually still fit from ones that are more borderline.
+</p>
 
     {% macro prettyMmdd(mmdd) %}
       {% set m = (mmdd[0] ~ mmdd[1]) %}

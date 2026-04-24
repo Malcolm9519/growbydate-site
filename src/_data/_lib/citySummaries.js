@@ -171,9 +171,7 @@ const DEFAULT_PLANTING_RULES = [
   { key: "corn-sweet", label: "Sweet corn", offsetDays: 10, windowDays: 10, method: "direct sow" },
   { key: "cucumbers", label: "Cucumbers", offsetDays: 14, windowDays: 10, method: "direct sow / transplant" },
   { key: "zucchini", label: "Zucchini", offsetDays: 14, windowDays: 10, method: "direct sow / transplant" },
-  { key: "winter-squash", label: "Winter squash", offsetDays: 14, windowDays: 10, method: "direct sow / transplant" },
-  { key: "pumpkin", label: "Pumpkin", offsetDays: 14, windowDays: 10, method: "direct sow / transplant" },
-  { key: "tomatoes", label: "Tomatoes", offsetDays: 14, windowDays: 10, method: "transplant" },
+  { key: "squash", label: "Squash", offsetDays: 14, windowDays: 10, method: "direct sow / transplant" },  { key: "tomatoes", label: "Tomatoes", offsetDays: 14, windowDays: 10, method: "transplant" },
   { key: "peppers", label: "Peppers", offsetDays: 21, windowDays: 10, method: "transplant" }
 ];
 

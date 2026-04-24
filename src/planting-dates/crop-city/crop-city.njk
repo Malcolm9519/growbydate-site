@@ -172,37 +172,19 @@ eleventyComputed:
     {% endif %}
   </div>
 
-{% if pageData.planting.startIndoorsDate or pageData.planting.windowStart or pageData.planting.directSowDate or pageData.planting.plantOutDate or crop.daysToMaturityTypical %}
+{% if pageData.methodSummary.summarySentence or crop.daysToMaturityTypical %}
   <p>
-    {% if crop.transplantRecommended and crop.directSowRecommended and pageData.planting.directSowDate and pageData.planting.startIndoorsDate and pageData.planting.plantOutDate %}
-      Gardeners usually either sow outdoors around {{ formatMmdd(pageData.planting.directSowDate) }} or start indoors around {{ formatMmdd(pageData.planting.startIndoorsDate) }} and transplant outdoors around {{ formatMmdd(pageData.planting.plantOutDate) }}.
-    {% elif crop.transplantRecommended and crop.directSowRecommended and pageData.planting.directSowDate %}
-      Gardeners usually either sow outdoors around {{ formatMmdd(pageData.planting.directSowDate) }} or use transplants within the normal planting window.
-    {% elif crop.plantingMethod == "transplant" and pageData.planting.startIndoorsDate and (pageData.planting.windowStart or pageData.planting.plantOutDate) %}
-      Gardeners usually start indoors around {{ formatMmdd(pageData.planting.startIndoorsDate) }} and plant outdoors from about {{ formatMmdd(pageData.planting.windowStart or pageData.planting.plantOutDate) }}.
-    {% elif crop.plantingMethod == "transplant" and pageData.planting.plantOutDate %}
-      Gardeners usually plant outdoors around {{ formatMmdd(pageData.planting.plantOutDate) }}.
-    {% elif crop.plantingMethod == "direct-sow" and pageData.planting.windowStart %}
-      Gardeners usually sow outdoors around {{ formatMmdd(pageData.planting.windowStart) }}.
-    {% elif crop.plantingMethod == "direct-sow" and pageData.planting.directSowDate %}
-      Gardeners usually sow outdoors around {{ formatMmdd(pageData.planting.directSowDate) }}.
-    {% elif pageData.planting.windowStart %}
-      Gardeners usually sow or plant outdoors around {{ formatMmdd(pageData.planting.windowStart) }}.
-    {% elif pageData.planting.directSowDate %}
-      Gardeners usually sow outdoors around {{ formatMmdd(pageData.planting.directSowDate) }}.
-    {% elif pageData.planting.plantOutDate %}
-      Gardeners usually plant outdoors around {{ formatMmdd(pageData.planting.plantOutDate) }}.
-    {% elif pageData.planting.startIndoorsDate %}
-      Gardeners usually start indoors around {{ formatMmdd(pageData.planting.startIndoorsDate) }}.
+    {% if pageData.methodSummary.summarySentence %}
+      {{ pageData.methodSummary.summarySentence }}
     {% endif %}
 
-    {% if crop.daysToMaturityTypical %}
-      {% if crop.plantingMethod == "transplant" %}
-        Most varieties need about {{ crop.daysToMaturityTypical }} days to reach maturity once they are in the garden.
-      {% else %}
-        Most varieties need about {{ crop.daysToMaturityTypical }} days to reach maturity.
-      {% endif %}
-    {% endif %}
+{% if crop.daysToMaturityTypical %}
+  {% if crop.transplantRecommended and not crop.directSowRecommended %}
+    Most varieties need about {{ crop.daysToMaturityTypical }} days to reach maturity once they are in the garden.
+  {% else %}
+    Most varieties need about {{ crop.daysToMaturityTypical }} days to reach maturity.
+  {% endif %}
+{% endif %}
   </p>
 {% endif %}
 

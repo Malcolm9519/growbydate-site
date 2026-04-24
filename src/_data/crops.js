@@ -344,6 +344,7 @@ kale: {
         }
       ]
     },
+    
     {
       key: "mid",
       label: "Mid-season",

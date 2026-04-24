@@ -11,6 +11,8 @@ const DEFAULT_CROPS = [
   "peas",
   "broccoli",
   "cabbage",
+  "pumpkin",
+  "winter-squash",
   "carrots",
   "onions",
   "beets",
