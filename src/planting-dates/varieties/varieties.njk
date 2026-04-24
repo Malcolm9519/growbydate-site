@@ -9,7 +9,7 @@ permalink: "{{ pageData.url }}index.html"
 eleventyComputed:
   title: "Best {{ pageData.copy.varietyPageCropName or pageData.copy.cropDisplayName }} Varieties for {{ pageData.cityName }}"
   description: "See which {{ (pageData.copy.varietyPageCropName or pageData.copy.cropDisplayName or pageData.cropSingularName or pageData.cropName) | lower }} varieties fit best in {{ pageData.cityName }}, {{ pageData.regionName }}, including named recommendations and slower types to be more careful with."
-  canonical: "https://growbydate.com{{ pageData.url }}"
+  canonical: "https://varieties.growbydate.com{{ pageData.url }}"
 ---
 
 {% set cropDisplayName = pageData.copy.varietyPageCropName or pageData.copy.cropDisplayName or pageData.cropName %}
