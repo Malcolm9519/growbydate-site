@@ -890,7 +890,7 @@ function buildRegionalComparison(summary, peerSummaries) {
   if (!summary || !Array.isArray(peerSummaries) || peerSummaries.length < 3) return null;
 
   const regionName = summary.regionName || "this region";
-  const cropNoun = summary.cropNounSingular || "this crop";
+const cropNoun = String(summary.cropName || summary.cropNounSingular || "this crop").toLowerCase();
 
   const plantingMedian = median(
     peerSummaries.map((item) => mmddToDayOfYear(item.primaryPlantingDate))
@@ -908,53 +908,66 @@ function buildRegionalComparison(summary, peerSummaries) {
   if (plantingDoy != null && plantingMedian != null) {
     const diff = Math.round(plantingDoy - plantingMedian);
 
-    if (diff >= 5) {
-      const variants = [
-        `Compared with many ${regionName} locations, ${summary.cityName} usually reaches ${cropNoun} planting season a bit later.`,
-        `Within ${regionName}, ${summary.cityName} usually reaches ${cropNoun} planting time a little later than many comparable locations.`,
-        `${summary.cityName} usually gets into ${cropNoun} planting season slightly later than many other ${regionName} locations.`
-      ];
+if (diff >= 5) {
+  const variants = [
+    `Compared with many ${regionName} locations, ${summary.cityName} usually reaches the planting season for ${cropNoun} a bit later.`,
+    `Within ${regionName}, ${summary.cityName} usually reaches planting time for ${cropNoun} a little later than many comparable locations.`,
+    `${summary.cityName} usually gets into the planting season for ${cropNoun} slightly later than many other ${regionName} locations.`
+  ];
 
-      return variants[
-        stableVariantIndex(stableKey, cropKey, "regional-planting-later") %
-          variants.length
-      ];
-    }
+  return variants[
+    stableVariantIndex(stableKey, cropKey, "regional-planting-later") %
+      variants.length
+  ];
+}
 
-    if (diff <= -5) {
-      const variants = [
-        `Compared with many ${regionName} locations, ${summary.cityName} usually reaches ${cropNoun} planting season a bit earlier.`,
-        `Within ${regionName}, ${summary.cityName} usually reaches ${cropNoun} planting time a little earlier than many comparable locations.`,
-        `${summary.cityName} usually gets into ${cropNoun} planting season slightly earlier than many other ${regionName} locations.`
-      ];
+if (diff <= -5) {
+  const variants = [
+    `Compared with many ${regionName} locations, ${summary.cityName} usually reaches the planting season for ${cropNoun} a bit earlier.`,
+    `Within ${regionName}, ${summary.cityName} usually reaches planting time for ${cropNoun} a little earlier than many comparable locations.`,
+    `${summary.cityName} usually gets into the planting season for ${cropNoun} slightly earlier than many other ${regionName} locations.`
+  ];
 
-      return variants[
-        stableVariantIndex(stableKey, cropKey, "regional-planting-earlier") %
-          variants.length
-      ];
-    }
+  return variants[
+    stableVariantIndex(stableKey, cropKey, "regional-planting-earlier") %
+      variants.length
+  ];
+}
   }
 
   if (Number.isFinite(frostDays) && Number.isFinite(frostMedian)) {
     const diff = Math.round(frostDays - frostMedian);
 
-    if (diff >= 8) {
-      const variants = [
-        `Compared with many ${regionName} locations, ${summary.cityName} usually gives ${cropNoun} a somewhat longer frost-free stretch.`,
-        `Within ${regionName}, ${summary.cityName} usually offers ${cropNoun} a somewhat longer frost-free window than many comparable places.`,
-        `${summary.cityName} usually gives ${cropNoun} a little more frost-free time than many other ${regionName} locations.`
-      ];
+if (diff >= 8) {
+  if (summary.confidence === "risky" || summary.confidence === "borderline") {
+    const variants = [
+      `Compared with many ${regionName} locations, ${summary.cityName} usually gives ${cropNoun} a somewhat longer frost-free stretch, but this crop still sits close to the edge here.`,
+      `Within ${regionName}, ${summary.cityName} usually gives ${cropNoun} a somewhat longer frost-free window than many comparable places, but the overall seasonal margin is still tight.`,
+      `${summary.cityName} usually gives ${cropNoun} a little more frost-free time than many other ${regionName} locations, though not enough to make this an easy fit.`
+    ];
 
-      return variants[
-        stableVariantIndex(stableKey, cropKey, "regional-frost-longer") %
-          variants.length
-      ];
-    }
+    return variants[
+      stableVariantIndex(stableKey, cropKey, "regional-frost-longer-risky") %
+        variants.length
+    ];
+  }
+
+  const variants = [
+    `Compared with many ${regionName} locations, ${summary.cityName} usually gives ${cropNoun} a somewhat longer frost-free stretch.`,
+    `Within ${regionName}, ${summary.cityName} usually gives ${cropNoun} a somewhat longer frost-free window than many comparable places.`,
+    `${summary.cityName} usually gives ${cropNoun} a little more frost-free time than many other ${regionName} locations.`
+  ];
+
+  return variants[
+    stableVariantIndex(stableKey, cropKey, "regional-frost-longer") %
+      variants.length
+  ];
+}
 
     if (diff <= -8) {
       const variants = [
         `Compared with many ${regionName} locations, ${summary.cityName} usually gives ${cropNoun} a somewhat shorter frost-free stretch.`,
-        `Within ${regionName}, ${summary.cityName} usually offers ${cropNoun} a somewhat shorter frost-free window than many comparable places.`,
+`Within ${regionName}, ${summary.cityName} usually gives ${cropNoun} a somewhat shorter frost-free window than many comparable places.`,
         `${summary.cityName} usually gives ${cropNoun} a little less frost-free time than many other ${regionName} locations.`
       ];
 
@@ -968,18 +981,31 @@ function buildRegionalComparison(summary, peerSummaries) {
   if (Number.isFinite(availableGdd) && Number.isFinite(gddMedian)) {
     const diff = Math.round(availableGdd - gddMedian);
 
-    if (diff >= 120) {
-      const variants = [
-        `Compared with many ${regionName} locations, ${summary.cityName} usually has a warmer seasonal runway for ${cropNoun}.`,
-        `Within ${regionName}, ${summary.cityName} usually provides ${cropNoun} a warmer seasonal runway than many comparable locations.`,
-        `${summary.cityName} usually offers ${cropNoun} a warmer seasonal setup than many other ${regionName} locations.`
-      ];
+if (diff >= 120) {
+  if (summary.confidence === "risky" || summary.confidence === "borderline") {
+    const variants = [
+      `Compared with many ${regionName} locations, ${summary.cityName} usually has a warmer seasonal setup for ${cropNoun}, but the crop still sits close to the edge here.`,
+      `Within ${regionName}, ${summary.cityName} usually gives ${cropNoun} a warmer seasonal setup than many comparable locations, but the overall seasonal margin is still tight.`,
+      `${summary.cityName} usually offers ${cropNoun} a warmer seasonal setup than many other ${regionName} locations, though not enough to make this an easy fit.`
+    ];
 
-      return variants[
-        stableVariantIndex(stableKey, cropKey, "regional-gdd-warmer") %
-          variants.length
-      ];
-    }
+    return variants[
+      stableVariantIndex(stableKey, cropKey, "regional-gdd-warmer-risky") %
+        variants.length
+    ];
+  }
+
+  const variants = [
+    `Compared with many ${regionName} locations, ${summary.cityName} usually has a warmer seasonal setup for ${cropNoun}.`,
+    `Within ${regionName}, ${summary.cityName} usually gives ${cropNoun} a warmer seasonal setup than many comparable locations.`,
+    `${summary.cityName} usually offers ${cropNoun} a warmer seasonal setup than many other ${regionName} locations.`
+  ];
+
+  return variants[
+    stableVariantIndex(stableKey, cropKey, "regional-gdd-warmer") %
+      variants.length
+  ];
+}
 
     if (diff <= -120) {
       const variants = [
@@ -1785,9 +1811,9 @@ function buildLocalInterpretation({
 
   const cropLower = crop.name.toLowerCase();
 
-  if (regionalComparisonSentence && confidence !== "strong" && confidence !== "surplus") {
-    return `${regionalComparisonSentence} That makes local site warmth more important than it would be where the seasonal margin is wider.`;
-  }
+if (regionalComparisonSentence && confidence !== "strong" && confidence !== "surplus") {
+  return regionalComparisonSentence;
+}
 
 if (confidence === "surplus") {
   if (profile === "cool-season-quality") {

@@ -324,7 +324,7 @@ eleventyComputed:
 
 <section class="card">
 
-<h2>Best {{ cropSingular | replace("-", " ") | title }} Varieties for {{ pageData.cityName }}</h2>
+<h2>How Different {{ cropSingular | replace("-", " ") | title }} Varieties Affect Results</h2>
 
 {% if pageData.fit.bestVarietyParagraphOverride %}
   <p>{{ pageData.fit.bestVarietyParagraphOverride }}</p>
@@ -394,7 +394,7 @@ eleventyComputed:
 </section>
 
 <section class="card">
-  <h2>How Frost Affects {{ cropName }} in {{ pageData.cityName }}</h2>
+  <h2>How Frost Affects Planting Dates for {{ cropName }} in {{ pageData.cityName }}</h2>
 
   <p>
     {{ pageData.cityName }} usually has about {{ pageData.frost.frostFreeDays }} frost-free days, with a typical last spring frost around {{ formatMmdd(pageData.frost.spring50) }} and a typical first fall frost around {{ formatMmdd(pageData.frost.fall50) }}.
