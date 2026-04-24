@@ -103,6 +103,192 @@ kale: {
   commonFailureMode: "Late planting usually does not kill the crop outright, but it can leave plants undersized before cold weather slows growth."
 },
 
+  pumpkin: {
+    relatedCrops: ["winter-squash", "sweet-corn"],
+
+    plantingMethod: "transplant",
+    startingMethod: "indoors",
+    transplantRecommended: true,
+    directSowRecommended: true,
+
+    daysBeforeLastFrostStartIndoors: 21,
+    daysAfterLastFrostPlantOut: 7,
+    daysAfterLastFrostDirectSow: 10,
+
+    gddBase: 50,
+    gddTargetTypical: 1300,
+    maturityFrom: "transplant",
+    daysToMaturityTypical: "90–110",
+
+    frostTolerance: "none",
+    minSafeTempF: 32,
+    protectedCultureBenefit: "moderate",
+
+    varietyClasses: [
+      {
+        key: "very-early",
+        label: "Very early",
+        daysToMaturity: "85–95",
+        gddTarget: 1100,
+        examples: [
+          {
+            name: "Small Sugar",
+            note: "a classic pie pumpkin that is one of the more realistic choices where the season is not especially long"
+          },
+          {
+            name: "Jack Be Little",
+            note: "a very small ornamental pumpkin that fits better than larger types where gardeners want the safest finish"
+          }
+        ]
+      },
+      {
+        key: "early",
+        label: "Early",
+        daysToMaturity: "95–100",
+        gddTarget: 1200,
+        examples: [
+          {
+            name: "Baby Bear",
+            note: "a small pumpkin with useful short-season practicality when gardeners still want a traditional pumpkin look"
+          },
+          {
+            name: "Winter Luxury",
+            note: "a pie pumpkin valued for eating quality, but still more realistic than large carving pumpkins"
+          }
+        ]
+      },
+      {
+        key: "mid",
+        label: "Mid-season",
+        daysToMaturity: "100–110",
+        gddTarget: 1300,
+        examples: [
+          {
+            name: "Howden",
+            note: "a classic jack-o-lantern pumpkin that makes sense when the season has enough room for a more standard finish"
+          },
+          {
+            name: "Cinderella",
+            note: "a specialty pumpkin chosen for shape and appearance, but it needs more season than the quickest pie types"
+          }
+        ]
+      },
+      {
+        key: "late",
+        label: "Late",
+        daysToMaturity: "110–120",
+        gddTarget: 1450,
+        examples: [
+          {
+            name: "Big Max",
+            note: "a large pumpkin that is much more exposed in shorter seasons because it needs a long, warm run"
+          },
+          {
+            name: "Atlantic Giant",
+            note: "a novelty giant pumpkin that is usually better treated as a stretch choice where heat and season length are generous"
+          }
+        ]
+      }
+    ],
+
+    oneSentenceSummary: "Pumpkins are a warm-season crop that reward early establishment and variety discipline in shorter climates.",
+    shortSeasonStrategy: "Give pumpkins a short indoor head start or plant promptly into warm soil, then stay near smaller or earlier varieties where the season is limited.",
+    commonFailureMode: "Large or late pumpkins can size up poorly or fail to color and mature before fall frost closes the season."
+  },
+
+  "winter-squash": {
+    relatedCrops: ["pumpkin", "zucchini"],
+
+    plantingMethod: "transplant",
+    startingMethod: "indoors",
+    transplantRecommended: true,
+    directSowRecommended: true,
+
+    daysBeforeLastFrostStartIndoors: 21,
+    daysAfterLastFrostPlantOut: 7,
+    daysAfterLastFrostDirectSow: 10,
+
+    gddBase: 50,
+    gddTargetTypical: 1300,
+    maturityFrom: "transplant",
+    daysToMaturityTypical: "90–110",
+
+    frostTolerance: "none",
+    minSafeTempF: 32,
+    protectedCultureBenefit: "moderate",
+
+    varietyClasses: [
+      {
+        key: "very-early",
+        label: "Very early",
+        daysToMaturity: "85–90",
+        gddTarget: 1100,
+        examples: [
+          {
+            name: "Delicata",
+            note: "one of the more realistic winter squash choices where gardeners need a quicker finish and good eating quality"
+          },
+          {
+            name: "Sweet Dumpling",
+            note: "a smaller winter squash that is useful when the goal is a safer finish rather than maximum fruit size"
+          }
+        ]
+      },
+      {
+        key: "early",
+        label: "Early",
+        daysToMaturity: "90–95",
+        gddTarget: 1200,
+        examples: [
+          {
+            name: "Honeyboat",
+            note: "an earlier delicata-type squash that gives gardeners a strong balance of quality and season fit"
+          },
+          {
+            name: "Bush Delicata",
+            note: "a practical choice when gardeners want delicata quality in a somewhat more manageable plant habit"
+          }
+        ]
+      },
+      {
+        key: "mid",
+        label: "Mid-season",
+        daysToMaturity: "95–105",
+        gddTarget: 1300,
+        examples: [
+          {
+            name: "Honey Nut",
+            note: "a compact butternut-type squash with strong eating quality, but it still asks for more season than the quickest delicatas"
+          },
+          {
+            name: "Waltham Butternut",
+            note: "a classic winter squash that can do well when the season gives it enough warm runway to size and ripen properly"
+          }
+        ]
+      },
+      {
+        key: "late",
+        label: "Late",
+        daysToMaturity: "105–120",
+        gddTarget: 1450,
+        examples: [
+          {
+            name: "Burgess Buttercup",
+            note: "a rich-flavored squash that is more exposed where the growing season is already tight"
+          },
+          {
+            name: "Blue Hubbard",
+            note: "a large long-season squash that is best saved for places with a generous warm finish"
+          }
+        ]
+      }
+    ],
+
+    oneSentenceSummary: "Winter squash is one of the more season-sensitive warm crops, so variety choice matters a lot in shorter climates.",
+    shortSeasonStrategy: "Start plants briefly indoors or sow promptly into warm soil, then stay close to smaller or earlier squash where the first fall frost arrives early.",
+    commonFailureMode: "Longer-season squash can look healthy all summer but still fail to mature fully before frost if the variety spends too much of the local warm window."
+  },
+
 "swiss-chard": {
   relatedCrops: ["kale", "spinach"],
 

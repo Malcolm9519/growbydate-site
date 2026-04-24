@@ -2498,7 +2498,7 @@ text: `${crop.name} ${verb} usually well matched to the season in ${city.name}. 
 
   return [
     `${crop.name} ${verb} often difficult in ${city.name} because the local season is short enough that the crop can easily run out of time or heat before finishing well.`,
-`In ${city.name}, ${cropNameLower} usually has only a narrow seasonal margin.`,
+    `In ${city.name}, ${cropNameLower} usually has only a narrow seasonal margin, so earlier varieties and good planting timing matter much more than they do for easier crops.`,
     `${crop.name} ${verb} a more demanding choice in ${city.name}, usually favoring only the quickest and most climate-appropriate approaches.`
   ][idx];
 }

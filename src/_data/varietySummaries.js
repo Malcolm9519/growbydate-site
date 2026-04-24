@@ -37,6 +37,76 @@ const VARIETY_COPY_OVERRIDES = {
     }
   },
 
+    pumpkin: {
+    'small sugar': {
+      bestFor: 'reliable pie pumpkins',
+      note: 'A classic pie pumpkin that is one of the more realistic choices where the season is not especially long.'
+    },
+    'jack be little': {
+      bestFor: 'very small ornamental pumpkins',
+      note: 'A tiny ornamental pumpkin that fits better than larger types where gardeners want the safest finish.'
+    },
+    'baby bear': {
+      bestFor: 'small traditional pumpkins',
+      note: 'A small pumpkin with useful short-season practicality when gardeners still want a traditional pumpkin look.'
+    },
+    'winter luxury': {
+      bestFor: 'eating quality and pie use',
+      note: 'A pie pumpkin valued for eating quality, while still being more realistic than large carving pumpkins.'
+    },
+    howden: {
+      bestFor: 'classic jack-o-lantern pumpkins',
+      note: 'A standard carving pumpkin that makes sense when the season has enough room for a more typical finish.'
+    },
+    cinderella: {
+      bestFor: 'specialty shape and display',
+      note: 'A specialty pumpkin chosen for shape and appearance, but it needs more season than the quickest pie types.'
+    },
+    'big max': {
+      bestFor: 'large pumpkins',
+      note: 'A large pumpkin that is much more exposed in shorter seasons because it needs a long, warm run.'
+    },
+    'atlantic giant': {
+      bestFor: 'novelty giant pumpkins',
+      note: 'A giant pumpkin that is usually better treated as a stretch choice where heat and season length are generous.'
+    }
+  },
+
+    'winter-squash': {
+    delicata: {
+      bestFor: 'quicker winter squash harvests',
+      note: 'One of the more realistic winter squash choices where gardeners need a quicker finish and good eating quality.'
+    },
+    'sweet dumpling': {
+      bestFor: 'small winter squash',
+      note: 'A smaller winter squash that is useful when the goal is a safer finish rather than maximum fruit size.'
+    },
+    honeyboat: {
+      bestFor: 'early delicata-type quality',
+      note: 'An earlier delicata-type squash that gives gardeners a strong balance of eating quality and season fit.'
+    },
+    'bush delicata': {
+      bestFor: 'manageable delicata plants',
+      note: 'A practical choice when gardeners want delicata quality in a somewhat more manageable plant habit.'
+    },
+    'honey nut': {
+      bestFor: 'compact butternut flavor',
+      note: 'A compact butternut-type squash with strong eating quality, but it still asks for more season than the quickest delicatas.'
+    },
+    'waltham butternut': {
+      bestFor: 'classic butternut squash',
+      note: 'A classic winter squash that can do well when the season gives it enough warm runway to size and ripen properly.'
+    },
+    'burgess buttercup': {
+      bestFor: 'rich winter squash flavor',
+      note: 'A rich-flavored squash that is more exposed where the growing season is already tight.'
+    },
+    'blue hubbard': {
+      bestFor: 'large storage squash',
+      note: 'A large long-season squash that is best saved for places with a generous warm finish.'
+    }
+  },
+
   'swiss-chard': {
     barese: {
       bestFor: 'quick compact harvests',
@@ -586,6 +656,92 @@ const VARIETY_DECISION_OVERRIDES = {
       chooseWhen: 'purple curled leaves and ornamental color',
       tradeoff: 'it is chosen for color more than speed',
       growingNote: 'grow it when appearance and cold-season interest matter'
+    }
+  },
+
+    pumpkin: {
+    'small sugar': {
+      chooseWhen: 'a practical pie pumpkin for shorter seasons',
+      tradeoff: 'it is smaller and less dramatic than classic large carving pumpkins',
+      growingNote: 'use it when finishing reliably matters more than maximum fruit size'
+    },
+    'jack be little': {
+      chooseWhen: 'very small ornamental pumpkins',
+      tradeoff: 'it is more about appearance and size than substantial eating use',
+      growingNote: 'grow it when you want the safest small-fruited pumpkin path'
+    },
+    'baby bear': {
+      chooseWhen: 'small traditional pumpkins',
+      tradeoff: 'it is not the choice for very large carving fruit',
+      growingNote: 'use it when you want a classic pumpkin look without pushing size too hard'
+    },
+    'winter luxury': {
+      chooseWhen: 'pie pumpkins with stronger eating quality',
+      tradeoff: 'it is chosen more for kitchen use than big display size',
+      growingNote: 'choose it when flavor matters more than the largest fruit'
+    },
+    howden: {
+      chooseWhen: 'classic jack-o-lantern pumpkins',
+      tradeoff: 'it needs more season than smaller pie or mini pumpkins',
+      growingNote: 'use it only where the season can support a more standard pumpkin finish'
+    },
+    cinderella: {
+      chooseWhen: 'specialty shape and display pumpkins',
+      tradeoff: 'it is more exposed than the quickest pumpkin choices',
+      growingNote: 'save it for plantings where appearance matters and the season is supportive'
+    },
+    'big max': {
+      chooseWhen: 'large pumpkins',
+      tradeoff: 'it spends much more of the season on size rather than safety',
+      growingNote: 'avoid it where pumpkins already feel marginal'
+    },
+    'atlantic giant': {
+      chooseWhen: 'novelty giant pumpkins',
+      tradeoff: 'it is the riskiest option here for season length and finish',
+      growingNote: 'treat it as a fun stretch crop, not the practical default'
+    }
+  },
+
+    'winter-squash': {
+    delicata: {
+      chooseWhen: 'a quicker reliable winter squash',
+      tradeoff: 'it is smaller and less storage-heavy than large long-season squash',
+      growingNote: 'use it when getting mature squash reliably matters most'
+    },
+    'sweet dumpling': {
+      chooseWhen: 'small winter squash with a safer finish',
+      tradeoff: 'it is more about manageable size than large harvest weight',
+      growingNote: 'choose it where the season leaves less extra room'
+    },
+    honeyboat: {
+      chooseWhen: 'earlier delicata-type eating quality',
+      tradeoff: 'it is not the biggest or longest-storing squash type',
+      growingNote: 'use it when flavor and season fit both matter'
+    },
+    'bush delicata': {
+      chooseWhen: 'delicata quality in a more manageable plant',
+      tradeoff: 'it is still chosen more for fit and convenience than maximum size',
+      growingNote: 'good where space or season length make sprawling vines less appealing'
+    },
+    'honey nut': {
+      chooseWhen: 'compact butternut flavor',
+      tradeoff: 'it still needs more season than the quickest delicata-types',
+      growingNote: 'use it when you want butternut character without going fully long-season'
+    },
+    'waltham butternut': {
+      chooseWhen: 'classic butternut squash',
+      tradeoff: 'it needs a supportive warm season to finish well',
+      growingNote: 'choose it where winter squash has enough runway to size and ripen properly'
+    },
+    'burgess buttercup': {
+      chooseWhen: 'rich winter squash flavor',
+      tradeoff: 'it is less forgiving than earlier small-fruited squash',
+      growingNote: 'save it for stronger squash climates or especially timely plantings'
+    },
+    'blue hubbard': {
+      chooseWhen: 'large storage squash',
+      tradeoff: 'it needs the longest warm run of the group',
+      growingNote: 'avoid it where winter squash already feels tight'
     }
   },
 
