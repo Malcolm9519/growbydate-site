@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+
 const isQaBuild = process.env.BUILD_QA === "true";
 const buildTarget = process.env.SITE_BUILD_TARGET || "main";
 
@@ -24,10 +25,16 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addShortcode("year", () => `${new Date().getFullYear()}`);
 
   eleventyConfig.addFilter("toVarietiesUrl", function (url) {
-  if (!url) return "";
-  const path = String(url).startsWith("/") ? String(url) : `/${url}`;
-  return `https://varieties.growbydate.com${path}`;
-});
+    if (!url) return "";
+    const path = String(url).startsWith("/") ? String(url) : `/${url}`;
+    return `https://varieties.growbydate.com${path}`;
+  });
+
+  eleventyConfig.addFilter("toMainSiteUrl", function (url) {
+    if (!url) return "https://growbydate.com/";
+    const path = String(url).startsWith("/") ? String(url) : `/${url}`;
+    return `https://growbydate.com${path}`;
+  });
 
   eleventyConfig.addFilter("toSitemapDate", (value) => {
     if (!value) return "";
@@ -36,50 +43,56 @@ module.exports = function (eleventyConfig) {
     return d.toISOString();
   });
 
-  // your other filters / collections stay as they are below
-  // Collections for navigation + index pages
-  // Uses URL prefixes so you don't have to maintain front matter flags.
- eleventyConfig.addCollection("tools", (collectionApi) => {
-  return collectionApi.getAll().filter((p) => {
-    const url = p.url || "";
-    return url.startsWith("/tools/") && url !== "/tools/";
+  eleventyConfig.addCollection("tools", (collectionApi) => {
+    return collectionApi.getAll().filter((p) => {
+      const url = p.url || "";
+      return url.startsWith("/tools/") && url !== "/tools/";
+    });
   });
-});
 
-eleventyConfig.addCollection("guides", (collectionApi) => {
-  return collectionApi.getAll().filter((p) => {
-    const url = p.url || "";
-    return url.startsWith("/guides/") && url !== "/guides/";
+  eleventyConfig.addCollection("guides", (collectionApi) => {
+    return collectionApi.getAll().filter((p) => {
+      const url = p.url || "";
+      return url.startsWith("/guides/") && url !== "/guides/";
+    });
   });
-});
-// Strip site suffix from titles in nav labels
-eleventyConfig.addFilter("stripSiteSuffix", function (title) {
-  if (!title) return "";
-  return String(title)
-    .replace(/\s*\|\s*GrowByDate(?:\.com)?\s*$/i, "")
-    .trim();
-});
 
-eleventyConfig.addFilter("mmddLong", (mmdd) => {
-  const s = String(mmdd || "").trim();
-  const m = s.slice(0, 2);
-  const d = s.slice(3, 5);
-  if (!/^\d{2}$/.test(m) || !/^\d{2}$/.test(d)) return s;
+  eleventyConfig.addFilter("stripSiteSuffix", function (title) {
+    if (!title) return "";
+    return String(title)
+      .replace(/\s*\|\s*GrowByDate(?:\.com)?\s*$/i, "")
+      .trim();
+  });
 
-  const months = [
-    "January","February","March","April","May","June",
-    "July","August","September","October","November","December"
-  ];
-  const mi = parseInt(m, 10) - 1;
-  const di = parseInt(d, 10);
+  eleventyConfig.addFilter("mmddLong", (mmdd) => {
+    const s = String(mmdd || "").trim();
+    const m = s.slice(0, 2);
+    const d = s.slice(3, 5);
+    if (!/^\d{2}$/.test(m) || !/^\d{2}$/.test(d)) return s;
 
-  if (mi < 0 || mi > 11 || di < 1 || di > 31) return s;
-  return `${months[mi]} ${di}`;
-});
+    const months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ];
 
-  // ✅ Add this filter (used by crops/crop.njk)
+    const mi = parseInt(m, 10) - 1;
+    const di = parseInt(d, 10);
+
+    if (mi < 0 || mi > 11 || di < 1 || di > 31) return s;
+    return `${months[mi]} ${di}`;
+  });
+
   eleventyConfig.addFilter("fileExists", function (relativeIncludePath) {
-    // Your includes dir is: src/_includes/
     const fullPath = path.join(process.cwd(), "src", "_includes", relativeIncludePath);
     return fs.existsSync(fullPath);
   });
@@ -89,7 +102,6 @@ eleventyConfig.addFilter("mmddLong", (mmdd) => {
   eleventyConfig.addPassthroughCopy({ "src/site.webmanifest": "site.webmanifest" });
   eleventyConfig.addPassthroughCopy({ "src/assets": "assets" });
 
-  
   return {
     dir: {
       input: "src",
@@ -100,4 +112,3 @@ eleventyConfig.addFilter("mmddLong", (mmdd) => {
     htmlTemplateEngine: "njk"
   };
 };
-

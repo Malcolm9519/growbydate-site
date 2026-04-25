@@ -1,8 +1,8 @@
 <div class="siteHeaderRow">
   <div class="brand">
-    <a href="/" class="brandLink" aria-label="Grow By Date home">
+    <a href="{{ '/' | toMainSiteUrl }}" class="brandLink" aria-label="Grow By Date home">
       <img
-        src="/assets/img/GrowByDateLogo.png"
+        src="{{ '/assets/img/GrowByDateLogo.png' | toMainSiteUrl }}"
         alt="Grow By Date"
         class="brandLogo"
         width="220"
@@ -16,14 +16,14 @@
 
   {# Desktop nav (pills) #}
   <nav class="siteNav siteNavDesktop" aria-label="Primary">
-    <a href="/tools/growing-degree-day-planner/" class="primaryLink">GDD Garden Planner</a>
+    <a href="{{ '/tools/growing-degree-day-planner/' | toMainSiteUrl }}" class="primaryLink">GDD Garden Planner</a>
 
     {# Simple stable links — no dropdowns #}
-    <a href="/tools/">Tools</a>
-    <a href="/guides/">Guides</a>
-    <a href="/crops/">Crops</a>
-    <a href="/planting-dates/states/">States</a>
-    <a href="/planting-dates/canada/provinces/">Provinces</a>
+    <a href="{{ '/tools/' | toMainSiteUrl }}">Tools</a>
+    <a href="{{ '/guides/' | toMainSiteUrl }}">Guides</a>
+    <a href="{{ '/crops/' | toMainSiteUrl }}">Crops</a>
+    <a href="{{ '/planting-dates/states/' | toMainSiteUrl }}">States</a>
+    <a href="{{ '/planting-dates/canada/provinces/' | toMainSiteUrl }}">Provinces</a>
   </nav>
 
   {# Mobile nav (hamburger) #}
@@ -35,11 +35,11 @@
       </summary>
 
       <div class="navpanel">
-        <a href="/tools/">All tools</a>
-        <a href="/guides/">All guides</a>
-        <a href="/crops/">All crops</a>
-        <a href="/planting-dates/states/">States</a>
-        <a href="/planting-dates/canada/provinces/">Provinces</a>
+        <a href="{{ '/tools/' | toMainSiteUrl }}">All tools</a>
+        <a href="{{ '/guides/' | toMainSiteUrl }}">All guides</a>
+        <a href="{{ '/crops/' | toMainSiteUrl }}">All crops</a>
+        <a href="{{ '/planting-dates/states/' | toMainSiteUrl }}">States</a>
+        <a href="{{ '/planting-dates/canada/provinces/' | toMainSiteUrl }}">Provinces</a>
       </div>
     </details>
   </nav>

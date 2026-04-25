@@ -352,12 +352,12 @@ eleventyComputed:
 <section class="card">
   <p>
     For a broader local overview, see the
-    <a href="/planting-dates/{% if pageData.country == 'canada' %}canada/{% endif %}{{ pageData.regionKey }}/{{ pageData.cityKey }}/">
-    {{ pageData.cityName }} planting guide</a>.
+    <a href="{{ ('/planting-dates/' + ('canada/' if pageData.country == 'canada' else '') + pageData.regionKey + '/' + pageData.cityKey + '/') | toMainSiteUrl }}">
+      {{ pageData.cityName }} planting guide</a>.
     For the crop-specific version, use the
-    <a href="{{ pageData.urlBase }}">{{ pageData.cityName }} {{ pageData.cropName }} guide</a>.
+    <a href="{{ pageData.urlBase | toMainSiteUrl }}">{{ pageData.cityName }} {{ pageData.cropName }} guide</a>.
     You can also use the
-    <a href="/tools/growing-degree-day-planner/">Growing Degree Day Planner</a>
+    <a href="{{ '/tools/growing-degree-day-planner/' | toMainSiteUrl }}">Growing Degree Day Planner</a>
     to test planting dates and crop timing.
   </p>
 </section>
