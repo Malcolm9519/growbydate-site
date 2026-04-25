@@ -22,19 +22,22 @@ function walk(dir) {
   return files;
 }
 
-const htmlFiles = walk(outputDir);
-
 const urls = htmlFiles
   .map((file) => {
     const relative = path.relative(outputDir, file);
-    let urlPath = "/" + relative.replace(/\\/g, "/").replace(/index\.html$/, "");
-    return siteUrl + urlPath;
+    const urlPath = "/" + relative.replace(/\\/g, "/").replace(/index\.html$/, "");
+    const lastmod = fs.statSync(file).mtime.toISOString();
+
+    return {
+      loc: siteUrl + urlPath,
+      lastmod
+    };
   })
-  .sort();
+  .sort((a, b) => a.loc.localeCompare(b.loc));
 
 const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls.map((url) => `  <url><loc>${url}</loc></url>`).join("\n")}
+${urls.map((url) => `  <url><loc>${url.loc}</loc><lastmod>${url.lastmod}</lastmod></url>`).join("\n")}
 </urlset>
 `;
 
