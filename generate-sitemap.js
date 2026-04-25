@@ -22,6 +22,8 @@ function walk(dir) {
   return files;
 }
 
+const htmlFiles = walk(outputDir);
+
 const urls = htmlFiles
   .map((file) => {
     const relative = path.relative(outputDir, file);
