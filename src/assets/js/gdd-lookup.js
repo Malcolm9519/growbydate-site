@@ -11,7 +11,7 @@ function _fetchMap() {
   if (_mapData) return Promise.resolve(_mapData);
   if (_mapPromise) return _mapPromise;
 
-  _mapPromise = fetch("/assets/data/gdd-stations.json", { cache: "force-cache" })
+  _mapPromise = fetch("/assets/data/gdd-stations.json", { cache: "no-cache" })
     .then((r) => {
       if (!r.ok) throw new Error(`Failed to load GDD station map (${r.status})`);
       return r.json();
@@ -85,7 +85,7 @@ export async function loadStationSeries(stationId) {
     return typeof cached?.then === "function" ? await cached : cached;
   }
 
-  const p = fetch(`/assets/data/gdd-stations/${encodeURIComponent(id)}.json`, { cache: "force-cache" })
+  const p = fetch(`/assets/data/gdd-stations/${encodeURIComponent(id)}.json`, { cache: "no-cache" })
     .then((r) => {
       if (!r.ok) throw new Error(`Missing station series (${r.status})`);
       return r.json();

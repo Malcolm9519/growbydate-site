@@ -18,8 +18,9 @@
        crop supports comma-separated or repeated crop params
 */
 
-import { lookupFrost, formatMmddLong } from "./frost-lookup.js";
-import { lookupStationId, loadStationSeries } from "./gdd-lookup.js";
+import { formatMmddLong } from "./frost-lookup.js";
+import { lookupPlannerClimate } from "./planner-climate-lookup.js";
+import { loadStationSeries } from "./gdd-lookup.js";
 
 const MONTHS = [
   "January","February","March","April","May","June",
@@ -600,7 +601,7 @@ const formWarnEl = q('[data-role="formWarn"]');
   setStatus(locationStatusEl || statusEl, "Checking location…");
 
   try {
-    const frost = await lookupFrost(rawLoc);
+    const frost = await lookupPlannerClimate(rawLoc);
     if (!frost) {
       setStatus(locationStatusEl || statusEl, "");
       if (formWarnEl) {
@@ -610,7 +611,7 @@ const formWarnEl = q('[data-role="formWarn"]');
       return;
     }
 
-    const stationId = await lookupStationId(rawLoc);
+    const stationId = frost.stationId || frost.gddStationId || "";
     const where = [frost.name, frost.region].filter(Boolean).join(", ");
 
     if (!stationId) {
@@ -719,7 +720,7 @@ if (plantingDoy < 0) {
     }
 
     try {
-      const frost = await lookupFrost(rawLoc);
+      const frost = await lookupPlannerClimate(rawLoc);
       if (!frost) {
         setStatus(statusEl, "");
         if (formWarnEl) {
@@ -729,7 +730,7 @@ if (plantingDoy < 0) {
         return;
       }
 
-      const stationId = await lookupStationId(rawLoc);
+      const stationId = frost.stationId || frost.gddStationId || "";
       const where = [frost.name, frost.region].filter(Boolean).join(", ");
       const frostLabel = formatMmddLong(frost.firstFrost);
 

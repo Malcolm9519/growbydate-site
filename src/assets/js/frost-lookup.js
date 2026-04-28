@@ -8,7 +8,7 @@ function _fetchDataset() {
   if (_cacheData) return Promise.resolve(_cacheData);
   if (_cachePromise) return _cachePromise;
 
-  _cachePromise = fetch("/assets/data/frost-dates.json", { cache: "force-cache" })
+  _cachePromise = fetch("/assets/data/frost-dates.json", { cache: "no-cache" })
     .then((r) => {
       if (!r.ok) throw new Error("Failed to load frost dataset");
       return r.json();
