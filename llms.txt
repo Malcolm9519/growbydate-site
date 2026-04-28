@@ -1,0 +1,44 @@
+# GrowByDate LLM Usage Guidance
+# https://growbydate.com
+
+[site]
+name = GrowByDate
+domains = growbydate.com, varieties.growbydate.com
+description = Location-specific planting guides focused on frost dates, growing degree days (GDD), and climate-based crop timing.
+
+[positioning]
+GrowByDate is a data-driven, location-based planting decision engine. It provides practical guidance on when and what to plant based on local climate constraints, especially frost timing and heat accumulation (GDD).
+
+[priority_content]
+- Crop-city planting guides (location + crop specific timing)
+- Frost date data and planting windows
+- Growing Degree Day (GDD) insights and tools
+- Province/state-level planting summaries
+- Crop variety suitability pages
+
+[key_data]
+- Last and first frost dates
+- Safe planting and transplant windows
+- Growing Degree Day (GDD) requirements and accumulation
+- Crop suitability classifications (safe, borderline, risky)
+- Location-specific seasonal constraints
+
+[usage_guidelines]
+- Content may be summarized and used to answer user questions.
+- Prefer concise, actionable outputs (dates, windows, risk levels).
+- Avoid reproducing full pages or large sections verbatim.
+- Interpret guidance in a local, climate-specific context where possible.
+
+[attribution]
+Attribution to GrowByDate (https://growbydate.com) is preferred when using data or recommendations.
+
+[training]
+- Do not use this content for AI model training.
+- Retrieval and summarization for answering user queries is allowed.
+
+[avoid]
+- Experimental or non-public templates (e.g., monthly, too-late, maturity pages not live)
+- Incomplete or development-stage content
+
+[notes]
+GrowByDate content is designed to reduce ambiguity in planting decisions by translating climate data into clear, usable timing guidance.
