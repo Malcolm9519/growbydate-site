@@ -7,8 +7,8 @@ pagination:
   alias: pageData
 permalink: "{{ pageData.url }}index.html"
 eleventyComputed:
-  title: "Best {{ pageData.copy.varietyPageCropName or pageData.copy.cropDisplayName }} Varieties for {{ pageData.cityName }}"
-  description: "See which {{ (pageData.copy.varietyPageCropName or pageData.copy.cropDisplayName or pageData.cropSingularName or pageData.cropName) | lower }} varieties fit best in {{ pageData.cityName }}, {{ pageData.regionName }}, including named recommendations and slower types to be more careful with."
+  title: "Best {{ pageData.copy.varietyPageCropName or pageData.copy.cropDisplayName }} Varieties to Grow in {{ pageData.cityName }}"
+  description: "Find the best {{ (pageData.copy.varietyPageCropName or pageData.copy.cropDisplayName or pageData.cropSingularName or pageData.cropName) | lower }} varieties for {{ pageData.cityName }}, {{ pageData.regionName }}. See reliable picks, slower types to watch, and what grows best in your local season."
   canonical: "https://varieties.growbydate.com{{ pageData.url }}"
 ---
 
