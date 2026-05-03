@@ -11,6 +11,12 @@ module.exports = function (eleventyConfig) {
 
   if (buildTarget === "varieties") {
     eleventyConfig.ignores.add("src/planting-dates/crop-city/crop-city.njk");
+
+    // Keep non-variety planting page families out of the varieties subdomain build.
+    eleventyConfig.ignores.add("src/planting-dates/monthly/**");
+    eleventyConfig.ignores.add("src/planting-dates/too-late/**");
+    eleventyConfig.ignores.add("src/planting-dates/maturity/**");
+
     eleventyConfig.ignores.add("src/planting-dates/cities/**");
     eleventyConfig.ignores.add("src/planting-dates/states/**");
     eleventyConfig.ignores.add("src/planting-dates/canada/provinces/**");
@@ -98,7 +104,13 @@ module.exports = function (eleventyConfig) {
   });
 
   eleventyConfig.addPassthroughCopy({ "src/styles.css": "styles.css" });
-  eleventyConfig.addPassthroughCopy({ "src/robots.txt": "robots.txt" });
+
+  if (buildTarget === "varieties") {
+    eleventyConfig.addPassthroughCopy({ "src/robots-varieties.txt": "robots.txt" });
+  } else {
+    eleventyConfig.addPassthroughCopy({ "src/robots.txt": "robots.txt" });
+  }
+
   eleventyConfig.addPassthroughCopy({ "src/site.webmanifest": "site.webmanifest" });
   eleventyConfig.addPassthroughCopy({ "src/assets": "assets" });
 
