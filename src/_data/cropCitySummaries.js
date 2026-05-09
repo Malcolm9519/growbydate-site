@@ -51,6 +51,1319 @@ const PLANTING_WINDOW_LABELS = {
   basil: "Basil"
 };
 
+const AMAZON_MARKETPLACES = {
+  canada: {
+    domain: "www.amazon.ca",
+    tag: "growbydate-20"
+  },
+  usa: {
+    domain: "www.amazon.com",
+    tag: "growbydate-20"
+  },
+  default: {
+    domain: "www.amazon.com",
+    tag: "growbydate-20"
+  }
+};
+
+const AMAZON_SEARCH_BY_THEME = {
+  "soil-thermometer": "soil thermometer garden",
+  "black-mulch": "black plastic mulch garden",
+  "row-cover": "garden row cover",
+  "low-tunnel": "low tunnel hoops garden",
+  "row-cover-accessories": "garden fabric pins row cover clips",
+  "seed-starting": "seed starting trays",
+  "heat-mat": "seedling heat mat",
+  "grow-light": "grow light for seed starting",
+  "drip-irrigation": "garden drip irrigation kit",
+  "soaker-hose": "garden soaker hose",
+  "watering-wand": "gentle watering wand garden",
+  "mulch": "garden mulch straw mulch",
+  "supports": "garden plant supports trellis stakes",
+  "plant-ties": "soft plant ties garden",
+  "pruning-tools": "garden pruning snips",
+  "transplant-support": "starter fertilizer for transplants",
+  "soil-health": "compost garden soil amendment",
+  "soil-prep": "garden fork broadfork",
+  "spacing": "seed spacing ruler garden dibber",
+  "harvest-tools": "garden harvest knife pruning snips",
+  "storage": "mesh garden storage bags",
+  "starter-plants": "strawberry bare root crowns",
+  "plant-supports": "strawberry supports garden",
+  "bird-netting": "bird netting for garden",
+  "shade-cloth": "garden shade cloth",
+  "plant-labels": "reusable plant labels garden",
+  "insect-netting": "garden insect netting",
+  "cloches": "garden cloche plant protector",
+  "raised-bed": "raised garden bed grow bag",
+  "watering": "garden watering wand drip irrigation",
+    "wall-of-water": "wall of water plant protector",
+  "landscape-fabric": "dark landscape fabric garden",
+  "grow-bag": "garden grow bags",
+    "broadfork": "garden broadfork",
+  "cell-inserts": "seed starting cell inserts",
+  "fine-soil-rake": "fine soil rake garden",
+  "garden-scissors": "garden harvest scissors",
+  "fabric-pins": "garden fabric pins",
+  "compost-fertilizer": "starter fertilizer for transplants compost",
+};
+
+function buildCropCityActionBox({
+  city,
+  crop,
+  confidence,
+  fittingVarietyLabels = [],
+  fittingVarietyClasses = [],
+  gddMargin = null
+}) {
+  if (!city || !crop || !confidence) return null;
+
+  const cropName = getCropSubject(crop);
+  const cropNameCap = getCropSubject(crop, { capitalize: true });
+  const cityName = city.name;
+  const behaviorProfile = getBehaviorProfile(crop);
+  const objectPronoun = getPronoun(crop);
+
+  const varietyUrl = `${buildUrl(city, crop)}best-varieties/`;
+  const gddPlannerUrl = "/tools/growing-degree-day-planner/";
+  const shopUrl = buildGrowingSuppliesUrl(crop, confidence, behaviorProfile);
+
+  const fastestFittingVarietyLabel =
+    Array.isArray(fittingVarietyLabels) && fittingVarietyLabels.length
+      ? fittingVarietyLabels[0]
+      : null;
+
+  const varietyPhrase = formatVarietyLabelsForProse(fittingVarietyClasses);
+
+  const base = {
+    confidence,
+    cropKey: crop.key,
+    cityKey: city.key,
+    country: city.country,
+    type: "crop-city-commerce-action",
+    eyebrow: "Recommended growing setup",
+    title: null,
+    intro: null,
+    productGroups: [],
+    bullets: [],
+    primaryCta: null,
+    secondaryCta: null,
+    productThemes: [],
+    disclosure:
+      "Recommendations are based on the local growing margin for this crop. As an Amazon Associate, we may earn from qualifying purchases."
+  };
+
+  if (behaviorProfile === "perennial-fruit") {
+    return buildPerennialFruitActionBox({
+      base,
+      crop,
+      cropName,
+      cropNameCap,
+      cityName,
+      confidence,
+      varietyUrl,
+      shopUrl
+    });
+  }
+
+  if (behaviorProfile === "storage-root" || behaviorProfile === "fast-root") {
+    return buildRootCropActionBox({
+      base,
+      crop,
+      cropName,
+      cropNameCap,
+      cityName,
+      confidence,
+      varietyUrl,
+      shopUrl
+    });
+  }
+
+  if (behaviorProfile === "cool-season-quality") {
+    return buildCoolSeasonQualityActionBox({
+      base,
+      crop,
+      cropName,
+      cropNameCap,
+      cityName,
+      confidence,
+      varietyUrl,
+      shopUrl
+    });
+  }
+
+  if (behaviorProfile === "cool-season-structural") {
+    return buildCoolSeasonStructuralActionBox({
+      base,
+      crop,
+      cropName,
+      cropNameCap,
+      cityName,
+      confidence,
+      varietyUrl,
+      shopUrl
+    });
+  }
+
+  if (behaviorProfile === "warm-season-fruiting") {
+    return buildWarmSeasonFruitingActionBox({
+      base,
+      crop,
+      cropName,
+      cropNameCap,
+      cityName,
+      confidence,
+      varietyUrl,
+      shopUrl,
+      gddPlannerUrl,
+      fastestFittingVarietyLabel,
+      varietyPhrase
+    });
+  }
+
+  if (behaviorProfile === "warm-season-direct") {
+    return buildWarmSeasonDirectActionBox({
+      base,
+      crop,
+      cropName,
+      cropNameCap,
+      cityName,
+      confidence,
+      varietyUrl,
+      shopUrl,
+      gddPlannerUrl,
+      fastestFittingVarietyLabel,
+      varietyPhrase
+    });
+  }
+
+  if (behaviorProfile === "long-season-risk") {
+    return buildLongSeasonRiskActionBox({
+      base,
+      crop,
+      cropName,
+      cropNameCap,
+      cityName,
+      confidence,
+      varietyUrl,
+      shopUrl,
+      gddPlannerUrl,
+      fastestFittingVarietyLabel,
+      objectPronoun
+    });
+  }
+
+  return buildGeneralCropActionBox({
+    base,
+    crop,
+    cropName,
+    cropNameCap,
+    cityName,
+    confidence,
+    varietyUrl,
+    shopUrl,
+    gddPlannerUrl
+  });
+}
+
+function buildGrowingSuppliesUrl(crop, confidence, behaviorProfile) {
+  const cropKey = crop?.key || "garden";
+  const profile = behaviorProfile || "general";
+
+  if (confidence === "borderline" || confidence === "risky") {
+    return `/recommended/season-extension-supplies/`;
+  }
+
+  if (profile === "perennial-fruit") {
+    return `/recommended/strawberry-growing-supplies/`;
+  }
+
+  if (profile === "storage-root" || profile === "fast-root") {
+    return `/recommended/root-crop-growing-supplies/`;
+  }
+
+  if (profile === "warm-season-fruiting") {
+    return `/recommended/warm-season-crop-supplies/`;
+  }
+
+  if (profile === "long-season-risk") {
+    return `/recommended/season-extension-supplies/`;
+  }
+
+  return `/recommended/${cropKey}-growing-supplies/`;
+}
+
+function makeProductGroup(label, reason, items) {
+  return {
+    label,
+    reason,
+    items: Array.isArray(items) ? items.filter(Boolean) : []
+  };
+}
+
+function makeProductItem(labelOrParts, theme = null) {
+  if (Array.isArray(labelOrParts)) {
+    return {
+      label: null,
+      theme: null,
+      parts: labelOrParts
+        .filter(Boolean)
+        .map((part) => ({
+          text: part.text || "",
+          theme: part.theme || null,
+          url: part.url || null
+        })),
+      url: null
+    };
+  }
+
+  return {
+    label: labelOrParts || "",
+    theme: theme || null,
+    parts: null,
+    url: null
+  };
+}
+
+function getAmazonMarketplace(country) {
+  return AMAZON_MARKETPLACES[country] || AMAZON_MARKETPLACES.default;
+}
+
+function buildAmazonSearchUrl(theme, country) {
+  const query = AMAZON_SEARCH_BY_THEME[theme];
+  if (!query) return null;
+
+  const marketplace = getAmazonMarketplace(country);
+  const encodedQuery = encodeURIComponent(query).replace(/%20/g, "+");
+
+  return `https://${marketplace.domain}/s?k=${encodedQuery}&tag=${encodeURIComponent(marketplace.tag)}`;
+}
+
+function flattenProductThemes(productGroups) {
+  if (!Array.isArray(productGroups)) return [];
+
+  const themes = [];
+
+  for (const group of productGroups) {
+    if (!Array.isArray(group.items)) continue;
+
+    for (const item of group.items) {
+      if (typeof item === "string") continue;
+
+      if (item?.theme && !themes.includes(item.theme)) {
+        themes.push(item.theme);
+      }
+
+      if (Array.isArray(item?.parts)) {
+        for (const part of item.parts) {
+          if (part?.theme && !themes.includes(part.theme)) {
+            themes.push(part.theme);
+          }
+        }
+      }
+    }
+  }
+
+  return themes;
+}
+
+function getHasEnoughSeasonPhrase(crop) {
+  return getVerb(crop) === "is" ? "usually has enough season" : "usually have enough season";
+}
+
+function getPrimaryAmazonThemeForAction(action) {
+  if (!Array.isArray(action.productGroups)) return null;
+
+  for (const group of action.productGroups) {
+    if (!Array.isArray(group.items)) continue;
+
+    for (const item of group.items) {
+      if (item?.theme) return item.theme;
+
+      if (Array.isArray(item?.parts)) {
+        for (const part of item.parts) {
+          if (part?.theme) return part.theme;
+        }
+      }
+    }
+  }
+
+  return null;
+}
+
+function finalizeActionBox(action) {
+  const country = action.country || "usa";
+  const productGroups = Array.isArray(action.productGroups)
+    ? action.productGroups.map((group) => ({
+        ...group,
+        items: Array.isArray(group.items)
+          ? group.items.map((item) => {
+              if (!item || typeof item === "string") return item;
+
+              const parts = Array.isArray(item.parts)
+                ? item.parts.map((part) => ({
+                    ...part,
+                    url: part.url || buildAmazonSearchUrl(part.theme, country)
+                  }))
+                : null;
+
+              return {
+                ...item,
+                url: item.url || buildAmazonSearchUrl(item.theme, country),
+                parts
+              };
+            })
+          : []
+      }))
+    : [];
+
+  const productThemes = flattenProductThemes(productGroups);
+
+  const primaryTheme = getPrimaryAmazonThemeForAction({
+    ...action,
+    productGroups
+  });
+
+  const primaryAmazonUrl = primaryTheme
+    ? buildAmazonSearchUrl(primaryTheme, country)
+    : null;
+
+  return {
+    ...action,
+    productGroups,
+    productThemes,
+    primaryCta:
+      action.primaryCta && primaryAmazonUrl
+        ? {
+            ...action.primaryCta,
+            url: primaryAmazonUrl,
+            external: true
+          }
+        : action.primaryCta
+  };
+}
+
+function buildPerennialFruitActionBox({
+  base,
+  crop,
+  cropName,
+  cropNameCap,
+  cityName,
+  confidence,
+  varietyUrl,
+  shopUrl
+}) {
+  const isRisky = confidence === "borderline" || confidence === "risky";
+
+  const productGroups = isRisky
+    ? [
+        makeProductGroup(
+          "Establishment help",
+          "When the local margin is tighter, strong early establishment matters more.",
+          [
+            makeProductItem("Bare-root strawberry crowns or healthy starter plants", "starter-plants"),
+            makeProductItem("Compost or berry-friendly soil amendment", "soil-health"),
+            makeProductItem("Mulch for moisture and root protection", "mulch")
+          ]
+        ),
+        makeProductGroup(
+          "Moisture control",
+          "Strawberries do best when young plants avoid big swings between dry and wet soil.",
+          [
+            makeProductItem("Drip irrigation kit", "drip-irrigation"),
+            makeProductItem("Gentle watering wand", "watering-wand")
+          ]
+        ),
+        makeProductGroup(
+          "Crop protection",
+          "Protection is most useful when berries are establishing or ripening.",
+          [
+            makeProductItem("Bird netting", "bird-netting"),
+            makeProductItem("Lightweight row cover", "row-cover")
+          ]
+        )
+      ]
+    : [
+        makeProductGroup(
+          "Cleaner berries",
+          "With enough season to grow, the bigger payoff is usually cleaner fruit and easier harvests.",
+          [
+            makeProductItem("Straw mulch or garden mulch", "mulch"),
+            makeProductItem("Berry supports or low plant supports", "plant-supports"),
+            makeProductItem("Bird netting", "bird-netting")
+          ]
+        ),
+        makeProductGroup(
+          "Steady moisture",
+          "Even moisture helps plants establish and reduces stress during fruiting.",
+          [
+            makeProductItem("Drip irrigation kit", "drip-irrigation"),
+            makeProductItem("Gentle watering wand", "watering-wand")
+          ]
+        ),
+        makeProductGroup(
+          "Planting and renewal",
+          "The main setup decision is usually plant quality and harvest style, not whether the crop can mature.",
+          [
+            makeProductItem("Bare-root crowns or strawberry starter plants", "starter-plants"),
+            makeProductItem("Compost or berry-friendly soil amendment", "soil-health")
+          ]
+        )
+      ];
+
+  return finalizeActionBox({
+    ...base,
+    title: getCommerceActionTitle(crop, cropName, confidence, getBehaviorProfile(crop)),
+    intro: isRisky
+      ? `The most useful setup is about early establishment, steady moisture, and protecting the planting while it settles in.`
+      : `The best purchases are not about rushing maturity; they are the simple supplies that keep berries cleaner, plants steadier, and harvests easier.`,
+    productGroups,
+    primaryCta: {
+      label: `Shop ${cropName} growing supplies`,
+      url: shopUrl
+    },
+    secondaryCta: {
+      label: `Compare ${cropName} varieties`,
+      url: varietyUrl
+    }
+  });
+}
+
+function buildRootCropActionBox({
+  base,
+  crop,
+  cropName,
+  cropNameCap,
+  cityName,
+  confidence,
+  varietyUrl,
+  shopUrl
+}) {
+  const tight = confidence === "borderline" || confidence === "risky";
+  const storageCrop = ["potatoes", "onions", "garlic"].includes(crop.key);
+
+  const productGroups = storageCrop
+    ? [
+        makeProductGroup(
+          "Soil and planting setup",
+          "For storage crops, the best gains usually come from strong early growth and a clean finish.",
+          [
+makeProductItem([
+  { text: "Garden fork", theme: "soil-prep" },
+  { text: " or " },
+  { text: "broadfork", theme: "broadfork" },
+  { text: " for loosening soil" }
+]),
+            makeProductItem("Compost or balanced garden amendment", "soil-health"),
+            makeProductItem("Plant spacing ruler or dibber", "spacing")
+          ]
+        ),
+        makeProductGroup(
+          "Moisture control",
+          "Consistent watering helps sizing and reduces stress during key growth stages.",
+          [
+            makeProductItem("Drip irrigation kit", "drip-irrigation"),
+            makeProductItem("Soaker hose", "soaker-hose")
+          ]
+        ),
+        makeProductGroup(
+          "Harvest and storage",
+          "Once the crop fits the season, harvest handling and curing become part of the result.",
+          [
+            makeProductItem("Harvest fork", "harvest-tools"),
+            makeProductItem("Mesh curing or storage bags", "storage")
+          ]
+        )
+      ]
+    : [
+        makeProductGroup(
+          "Soil and spacing",
+          "Root quality usually depends more on the seedbed than on extra season.",
+          [
+makeProductItem([
+  { text: "Garden fork", theme: "soil-prep" },
+  { text: " or " },
+  { text: "broadfork", theme: "broadfork" },
+  { text: " for loosening soil" }
+]),
+            makeProductItem("Seed spacing ruler or seed tape", "spacing"),
+makeProductItem([
+  { text: "Compost screen", theme: "soil-prep" },
+  { text: " or " },
+  { text: "fine soil rake", theme: "fine-soil-rake" }
+]),
+          ]
+        ),
+        makeProductGroup(
+          "Germination moisture",
+          "Small seeds need steady surface moisture while they germinate.",
+          [
+            makeProductItem("Gentle watering wand", "watering-wand"),
+makeProductItem([
+  { text: "Drip irrigation", theme: "drip-irrigation" },
+  { text: " or " },
+  { text: "soaker hose", theme: "soaker-hose" }
+]),
+          ]
+        ),
+        makeProductGroup(
+          "Seedling protection",
+          "Light protection can reduce drying, pest pressure, and early stress.",
+          [
+            makeProductItem("Lightweight row cover", "row-cover"),
+            makeProductItem("Garden hoops for low cover", "low-tunnel")
+          ]
+        )
+      ];
+
+  const title = getCommerceActionTitle(
+    crop,
+    cropName,
+    confidence,
+    getBehaviorProfile(crop)
+  );
+
+  const intro = storageCrop
+    ? tight
+      ? `The useful setup is about strong early growth, steady moisture, and getting the crop to a clean finish.`
+      : `The biggest gains usually come from better planting setup, steady moisture, good sizing, and clean harvest handling rather than season extension.`
+    : tight
+      ? `The useful setup is about avoiding wasted time: loose soil, even moisture, and early seedling protection.`
+      : `The biggest gains usually come from better root quality, cleaner spacing, and steadier moisture rather than season extension.`;
+
+  return finalizeActionBox({
+    ...base,
+    title,
+    intro,
+    productGroups,
+    primaryCta: {
+      label: storageCrop
+        ? `Shop storage crop growing supplies`
+        : `Shop root crop growing supplies`,
+      url: shopUrl
+    },
+    secondaryCta: {
+      label: `Compare ${cropName} varieties`,
+      url: varietyUrl
+    }
+  });
+}
+
+function buildCoolSeasonQualityActionBox({
+  base,
+  crop,
+  cropName,
+  cropNameCap,
+  cityName,
+  confidence,
+  varietyUrl,
+  shopUrl
+}) {
+  const tight = confidence === "borderline" || confidence === "risky";
+
+  const productGroups = [
+    makeProductGroup(
+      "Temperature and light control",
+      tight
+        ? "When the crop has less margin, protection helps keep early growth steady."
+        : "For cool-season crops, the best setup often protects quality rather than maturity.",
+      [
+        makeProductItem("Lightweight row cover", "row-cover"),
+        makeProductItem("Shade cloth for warmer spells", "shade-cloth"),
+        makeProductItem("Garden hoops for low cover", "low-tunnel")
+      ]
+    ),
+    makeProductGroup(
+      "Steady watering",
+      "Consistent moisture helps tenderness, germination, and harvest quality.",
+      [
+        makeProductItem("Gentle watering wand", "watering-wand"),
+makeProductItem([
+  { text: "Drip irrigation", theme: "drip-irrigation" },
+  { text: " or " },
+  { text: "soaker hose", theme: "soaker-hose" }
+]),
+      ]
+    ),
+    makeProductGroup(
+      "Repeat harvest setup",
+      "Succession planting works better when seed spacing and harvest tools are simple.",
+      [
+        makeProductItem("Seed spacing ruler", "spacing"),
+makeProductItem([
+  { text: "Harvest knife", theme: "harvest-tools" },
+  { text: " or " },
+  { text: "garden scissors", theme: "garden-scissors" }
+]),
+        makeProductItem("Reusable plant labels", "plant-labels")
+      ]
+    )
+  ];
+
+  return finalizeActionBox({
+    ...base,
+    title: getCommerceActionTitle(crop, cropName, confidence, getBehaviorProfile(crop)),
+    intro: tight
+      ? `The best setup is about protecting early growth and avoiding quality loss.`
+      : `The more useful purchases are the ones that improve tenderness, watering, and harvest timing.`,
+    productGroups,
+    primaryCta: {
+      label: `Shop cool-season growing supplies`,
+      url: shopUrl
+    },
+    secondaryCta: {
+      label: `Compare ${cropName} varieties`,
+      url: varietyUrl
+    }
+  });
+}
+
+function buildCoolSeasonStructuralActionBox({
+  base,
+  crop,
+  cropName,
+  cropNameCap,
+  cityName,
+  confidence,
+  varietyUrl,
+  shopUrl
+}) {
+  const tight = confidence === "borderline" || confidence === "risky";
+
+  const productGroups = [
+    makeProductGroup(
+      "Transplant support",
+      "Strong young plants help avoid slow starts and uneven sizing.",
+      [
+        makeProductItem("Seed-starting trays", "seed-starting"),
+        makeProductItem("Grow light", "grow-light"),
+makeProductItem([
+  { text: "Transplant fertilizer", theme: "transplant-support" },
+  { text: " or " },
+  { text: "compost", theme: "compost-fertilizer" }
+]),
+      ]
+    ),
+    makeProductGroup(
+      "Pest and weather protection",
+      "Brassicas and leafy crops often benefit from simple protection while they establish.",
+      [
+        makeProductItem("Lightweight row cover", "row-cover"),
+        makeProductItem("Garden hoops for low cover", "low-tunnel"),
+        makeProductItem("Insect netting", "insect-netting")
+      ]
+    ),
+    makeProductGroup(
+      "Even growth",
+      "Consistent moisture and spacing help the crop size evenly.",
+      [
+makeProductItem([
+  { text: "Drip irrigation", theme: "drip-irrigation" },
+  { text: " or " },
+  { text: "soaker hose", theme: "soaker-hose" }
+]),
+        makeProductItem("Plant spacing ruler", "spacing")
+      ]
+    )
+  ];
+
+  return finalizeActionBox({
+    ...base,
+    title: getCommerceActionTitle(crop, cropName, confidence, getBehaviorProfile(crop)),
+    intro: tight
+      ? `The most useful setup is about strong starts, early protection, and steady growth.`
+      : `The better results usually come from steady growth, pest protection, and avoiding early setbacks.`,
+    productGroups,
+    primaryCta: {
+      label: `Shop ${cropName} growing supplies`,
+      url: shopUrl
+    },
+    secondaryCta: {
+      label: `Compare ${cropName} varieties`,
+      url: varietyUrl
+    }
+  });
+}
+
+function getCommerceActionTitle(crop, cropName, confidence, behaviorProfile) {
+  const tight = confidence === "borderline" || confidence === "risky";
+  const comfortable = confidence === "surplus" || confidence === "strong";
+
+  if (behaviorProfile === "storage-root") {
+    if (["potatoes", "onions", "garlic"].includes(crop.key)) {
+      return tight
+        ? `Protect ${cropName} with trong starts and steady moisture`
+        : `Set up ${cropName} for sizing, watering, and storage`;
+    }
+
+    return tight
+      ? `Grow better ${cropName} with early growth and steady moisture`
+      : `Grow better ${cropName} with soil prep and even moisture`;
+  }
+
+  if (behaviorProfile === "fast-root") {
+    return tight
+      ? `Grow better ${cropName} with early growth and steady moisture`
+      : `Grow better ${cropName} with soil prep and even moisture`;
+  }
+
+  if (behaviorProfile === "perennial-fruit") {
+    return tight
+      ? `Set up ${cropName} for stronger establishment`
+      : `Set up ${cropName} for cleaner berries and easier harvests`;
+  }
+
+  if (behaviorProfile === "cool-season-quality") {
+    return tight
+      ? `Keep ${cropName} growing with protection and steady water`
+      : `Grow better ${cropName} with steady watering and shade control`;
+  }
+
+  if (behaviorProfile === "cool-season-structural") {
+    return tight
+      ? `Start ${cropName} strong with protection and steady growth`
+      : `Set up ${cropName} for steady growth and pest protection`;
+  }
+
+  if (behaviorProfile === "warm-season-fruiting") {
+    return getWarmSeasonFruitingActionTitle(crop, cropName, confidence);
+  }
+
+  if (behaviorProfile === "warm-season-direct") {
+    return getWarmSeasonDirectActionTitle(crop, cropName, confidence);
+  }
+
+  if (behaviorProfile === "long-season-risk") {
+    if (comfortable) {
+      return `Set up ${cropName} for strong vines and steady watering`;
+    }
+
+    if (confidence === "good") {
+      return `Grow better ${cropName} with warm starts and steady growth`;
+    }
+
+    if (confidence === "borderline") {
+      return `Grow better ${cropName} with warm soil and season protection`;
+    }
+
+    return `Give ${cropName} a warmer start with protection`;
+  }
+
+  return tight
+    ? `Protect ${cropName} with steady growth and season protection`
+    : `Set up ${cropName} for better results`;
+}
+
+function getWarmSeasonFruitingActionTitle(crop, cropName, confidence) {
+  const tight = confidence === "borderline" || confidence === "risky";
+
+  if (crop.key === "tomatoes") {
+    return tight
+      ? "Grow better tomatoes with warm starts and support"
+      : "Set up tomatoes for support, watering, and better fruit quality";
+  }
+
+  if (crop.key === "peppers") {
+    return tight
+      ? "Grow better peppers with warm starts and season protection"
+      : "Set up peppers for steady watering and better fruit quality";
+  }
+
+  if (crop.key === "eggplant") {
+    return tight
+      ? "Grow better eggplant with warm starts and season protection"
+      : "Set up eggplant for warm soil and steady watering";
+  }
+
+  if (crop.key === "basil") {
+    return tight
+      ? "Grow better basil with warmth and early protection"
+      : "Grow better basil with warm soil and steady growth";
+  }
+
+  return tight
+    ? `Grow better ${cropName} with warm starts and protection`
+    : `Set up ${cropName} for steady watering and better growth`;
+}
+
+function getWarmSeasonDirectActionTitle(crop, cropName, confidence) {
+  const tight = confidence === "borderline" || confidence === "risky";
+
+  if (crop.key === "sweet-corn") {
+    return tight
+      ? "Grow better sweet corn with warm soil and early protection"
+      : "Set up sweet corn for warm soil and steady moisture";
+  }
+
+  if (crop.key === "beans") {
+    return tight
+      ? "Grow better beans with warm soil and early protection"
+      : "Grow better beans with warm soil and steady moisture";
+  }
+
+  if (crop.key === "cucumbers") {
+    return tight
+      ? "Grow better cucumbers with warm soil and early protection"
+      : "Set up cucumbers for support and steady water";
+  }
+
+  if (crop.key === "zucchini") {
+    return tight
+      ? "Grow better zucchini with warm soil and early protection"
+      : "Grow better zucchini with steady water and mulch";
+  }
+
+  return tight
+    ? `Grow better ${cropName} with warm soil and early protection`
+    : `Set up ${cropName} for steady water and good timing`;
+}
+
+function buildWarmSeasonFruitingActionBox({
+  base,
+  crop,
+  cropName,
+  cropNameCap,
+  cityName,
+  confidence,
+  varietyUrl,
+  shopUrl,
+  gddPlannerUrl,
+  fastestFittingVarietyLabel,
+  varietyPhrase
+}) {
+  const tight = confidence === "borderline" || confidence === "risky";
+  const comfortable = confidence === "surplus" || confidence === "strong";
+
+  const productGroups = comfortable
+    ? [
+        makeProductGroup(
+          "Support and training",
+          "When the crop fits, supports help turn a good seasonal fit into a cleaner harvest.",
+          [
+            makeProductItem("Tomato cages, stakes, or plant supports", "supports"),
+            makeProductItem("Soft plant ties or clips", "plant-ties"),
+            makeProductItem("Pruning snips", "pruning-tools")
+          ]
+        ),
+        makeProductGroup(
+          "Watering and mulch",
+          "Steady moisture helps reduce stress and improves fruit quality.",
+          [
+            makeProductItem("Drip irrigation kit", "drip-irrigation"),
+            makeProductItem("Garden mulch", "mulch")
+          ]
+        ),
+        makeProductGroup(
+          "Starting or transplanting",
+          "Healthy starts still matter, even where the season is forgiving.",
+          [
+            makeProductItem("Seed-starting trays", "seed-starting"),
+            makeProductItem("Grow light", "grow-light"),
+            makeProductItem("Transplant fertilizer or compost", "transplant-support")
+          ]
+        )
+      ]
+    : [
+        makeProductGroup(
+          "Warm start setup",
+          "Warm-season crops lose margin quickly when early growth is slow.",
+          [
+            makeProductItem("Seedling heat mat", "heat-mat"),
+            makeProductItem("Grow light", "grow-light"),
+            makeProductItem("Seed-starting trays", "seed-starting")
+          ]
+        ),
+        makeProductGroup(
+          "Outdoor protection",
+          "Protection helps hold warmth and reduce early-season setbacks.",
+          [
+            makeProductItem("Row cover", "row-cover"),
+            makeProductItem("Low tunnel hoops", "low-tunnel"),
+makeProductItem([
+  { text: "Wall-of-water", theme: "wall-of-water" },
+  { text: " or " },
+  { text: "plant cloches", theme: "cloches" }
+])
+          ]
+        ),
+        makeProductGroup(
+          "Soil warmth and stability",
+          "Warmer soil and steady water can make the season feel less tight.",
+          [
+            makeProductItem("Soil thermometer", "soil-thermometer"),
+makeProductItem([
+  { text: "Black plastic mulch", theme: "black-mulch" },
+  { text: " or " },
+  { text: "dark landscape fabric", theme: "landscape-fabric" }
+]),
+            makeProductItem("Drip irrigation kit", "drip-irrigation")
+          ]
+        )
+      ];
+
+  let intro;
+
+  if (comfortable) {
+    intro = `The best purchases are the supplies that improve support, watering, and fruit quality rather than simply forcing the crop to mature.`;
+  } else if (confidence === "good") {
+    intro = `A warm start and steady transplant setup can help protect the season you have.`;
+  } else {
+    intro = `The most useful setup is the one that protects early warmth, improves transplant strength, and avoids wasting season.`;
+  }
+
+  return finalizeActionBox({
+    ...base,
+    title: getCommerceActionTitle(crop, cropName, confidence, getBehaviorProfile(crop)),
+    intro,
+    productGroups,
+    primaryCta: {
+      label: tight
+        ? `Shop season-extension supplies`
+        : `Shop warm-season growing supplies`,
+      url: shopUrl
+    },
+    secondaryCta: {
+      label:
+        fastestFittingVarietyLabel || varietyPhrase
+          ? `Compare faster ${cropName} varieties`
+          : `Compare ${cropName} varieties`,
+      url: varietyUrl
+    }
+  });
+}
+
+function getUsuallyWorkablePhrase(crop) {
+  return getVerb(crop) === "is" ? "is usually workable" : "are usually workable";
+}
+
+function getUsuallySolidFitPhrase(crop) {
+  return getVerb(crop) === "is" ? "is usually a solid fit" : "are usually a solid fit";
+}
+
+function getUsuallyFitPhrase(crop) {
+  return getVerb(crop) === "is" ? "usually fits" : "usually fit";
+}
+
+function getUsuallyHaveEnoughSeasonPhrase(crop) {
+  return getVerb(crop) === "is" ? "usually has enough season" : "usually have enough season";
+}
+
+function buildWarmSeasonDirectActionBox({
+  base,
+  crop,
+  cropName,
+  cropNameCap,
+  cityName,
+  confidence,
+  varietyUrl,
+  shopUrl,
+  gddPlannerUrl,
+  fastestFittingVarietyLabel,
+  varietyPhrase
+}) {
+  const tight = confidence === "borderline" || confidence === "risky";
+  const comfortable = confidence === "surplus" || confidence === "strong";
+
+  const productGroups = comfortable
+    ? [
+        makeProductGroup(
+          "Soil warmth and timing",
+          "Direct-sown warm-season crops do better when soil is warm enough for fast germination.",
+          [
+            makeProductItem("Soil thermometer", "soil-thermometer"),
+            makeProductItem("Garden labels for sowing dates", "plant-labels")
+          ]
+        ),
+        makeProductGroup(
+          "Watering and mulch",
+          "Steady water helps plants establish quickly and keep producing.",
+          [
+makeProductItem([
+  { text: "Drip irrigation", theme: "drip-irrigation" },
+  { text: " or " },
+  { text: "soaker hose", theme: "soaker-hose" }
+]),
+            makeProductItem("Garden mulch", "mulch")
+          ]
+        ),
+        makeProductGroup(
+          "Support or harvest setup",
+          "The right support makes harvest cleaner for climbing or sprawling crops.",
+          [
+            makeProductItem(
+              crop.key === "beans" || crop.key === "cucumbers"
+                ? "Trellis, netting, or plant supports"
+                : "Harvest basket or garden scissors",
+              crop.key === "beans" || crop.key === "cucumbers"
+                ? "supports"
+                : "harvest-tools"
+            )
+          ]
+        )
+      ]
+    : [
+        makeProductGroup(
+          "Soil warming",
+          "When the crop is tight, warm soil matters before the seed even germinates.",
+          [
+            makeProductItem("Soil thermometer", "soil-thermometer"),
+makeProductItem([
+  { text: "Black plastic mulch", theme: "black-mulch" },
+  { text: " or " },
+  { text: "dark landscape fabric", theme: "landscape-fabric" }
+])
+          ]
+        ),
+        makeProductGroup(
+          "Early protection",
+          "A little protection can help young plants avoid cold setbacks.",
+          [
+            makeProductItem("Row cover", "row-cover"),
+            makeProductItem("Low tunnel hoops", "low-tunnel"),
+makeProductItem([
+  { text: "Garden clips", theme: "row-cover-accessories" },
+  { text: " or " },
+  { text: "fabric pins", theme: "fabric-pins" }
+]),
+          ]
+        ),
+        makeProductGroup(
+          "Moisture and establishment",
+          "Fast early growth needs steady moisture after sowing.",
+          [
+makeProductItem([
+  { text: "Drip irrigation", theme: "drip-irrigation" },
+  { text: " or " },
+  { text: "soaker hose", theme: "soaker-hose" }
+]),
+            makeProductItem("Gentle watering wand", "watering-wand")
+          ]
+        )
+      ];
+
+  return finalizeActionBox({
+    ...base,
+    title: getCommerceActionTitle(crop, cropName, confidence, getBehaviorProfile(crop)),
+    intro: comfortable
+      ? `The practical setup is about warm soil, steady moisture, and support where the crop needs it.`
+      : `The most useful supplies are the ones that warm the soil, protect young plants, and prevent a slow start.`,
+    productGroups,
+    primaryCta: {
+      label: tight
+        ? `Shop soil-warming and protection supplies`
+        : `Shop ${cropName} growing supplies`,
+      url: shopUrl
+    },
+    secondaryCta: {
+      label:
+        confidence === "risky"
+          ? "Check the GDD planner before planting"
+          : `Compare ${cropName} varieties`,
+      url: confidence === "risky" ? gddPlannerUrl : varietyUrl
+    }
+  });
+}
+
+function buildLongSeasonRiskActionBox({
+  base,
+  crop,
+  cropName,
+  cropNameCap,
+  cityName,
+  confidence,
+  varietyUrl,
+  shopUrl,
+  gddPlannerUrl,
+  fastestFittingVarietyLabel,
+  objectPronoun
+}) {
+  const risky = confidence === "risky";
+  const tight = confidence === "borderline" || confidence === "risky";
+  const comfortable = confidence === "surplus" || confidence === "strong";
+
+  const productGroups = comfortable
+    ? [
+        makeProductGroup(
+          "Vine and fruit support",
+          "When the crop has enough season, the setup can focus more on clean growth and harvest quality.",
+          [
+            makeProductItem("Garden mulch", "mulch"),
+            makeProductItem("Drip irrigation kit", "drip-irrigation"),
+            makeProductItem("Harvest knife or pruning snips", "harvest-tools")
+          ]
+        ),
+        makeProductGroup(
+          "Soil warmth",
+          "Warm soil still helps long-season crops start faster.",
+          [
+            makeProductItem("Soil thermometer", "soil-thermometer"),
+            makeProductItem("Compost or balanced garden amendment", "soil-health")
+          ]
+        )
+      ]
+    : [
+        makeProductGroup(
+          "Start earlier indoors",
+          "Long-season crops lose too much time when they start slowly.",
+          [
+makeProductItem([
+  { text: "Seed-starting trays", theme: "seed-starting" },
+  { text: " or " },
+  { text: "large cell inserts", theme: "cell-inserts" }
+]),
+            makeProductItem("Seedling heat mat", "heat-mat"),
+            makeProductItem("Grow light", "grow-light")
+          ]
+        ),
+        makeProductGroup(
+          "Warm the planting site",
+          "Warmer soil and protected beds help the crop begin faster after planting out.",
+          [
+            makeProductItem("Soil thermometer", "soil-thermometer"),
+makeProductItem([
+  { text: "Black plastic mulch", theme: "black-mulch" },
+  { text: " or " },
+  { text: "dark landscape fabric", theme: "landscape-fabric" }
+]),
+makeProductItem([
+  { text: "Raised bed", theme: "raised-bed" },
+  { text: " or " },
+  { text: "grow bag setup", theme: "grow-bag" }
+])
+          ]
+        ),
+        makeProductGroup(
+          "Protect early growth",
+          "Protection improves the odds, but it does not remove the climate risk.",
+          [
+            makeProductItem("Row cover", "row-cover"),
+            makeProductItem("Low tunnel hoops", "low-tunnel"),
+            makeProductItem("Garden clips or fabric pins", "row-cover-accessories")
+          ]
+        )
+      ];
+
+  const title = getCommerceActionTitle(
+    crop,
+    cropName,
+    confidence,
+    getBehaviorProfile(crop)
+  );
+
+  let intro;
+
+  if (comfortable) {
+    intro = `The useful setup is about warm soil, steady water, and keeping vines growing cleanly.`;
+  } else if (confidence === "good") {
+    intro = `Warm soil, strong starts, and steady early growth help protect the margin.`;
+  } else if (confidence === "borderline") {
+    intro = `The most useful supplies are the ones that warm the site, protect early growth, and help the crop avoid losing time.`;
+} else {
+  intro = `If you try ${cropName}, focus on the supplies that create a warmer start and reduce early-season setbacks.`;
+}
+
+  return finalizeActionBox({
+    ...base,
+    title,
+    intro,
+    productGroups,
+    primaryCta: {
+      label: tight
+        ? `Shop season-extension supplies`
+        : `Shop ${cropName} growing supplies`,
+      url: shopUrl
+    },
+    secondaryCta: {
+      label: risky
+        ? "Test the risk in the GDD planner"
+        : fastestFittingVarietyLabel
+          ? `Compare faster ${cropName} varieties`
+          : `Compare ${cropName} varieties`,
+      url: risky ? gddPlannerUrl : varietyUrl
+    }
+  });
+}
+
+function buildGeneralCropActionBox({
+  base,
+  crop,
+  cropName,
+  cropNameCap,
+  cityName,
+  confidence,
+  varietyUrl,
+  shopUrl,
+  gddPlannerUrl
+}) {
+  const tight = confidence === "borderline" || confidence === "risky";
+
+  const productGroups = tight
+    ? [
+        makeProductGroup(
+          "Season protection",
+          "When the margin is tight, simple protection helps reduce early setbacks.",
+          [
+            makeProductItem("Row cover", "row-cover"),
+            makeProductItem("Low tunnel hoops", "low-tunnel"),
+            makeProductItem("Soil thermometer", "soil-thermometer")
+          ]
+        ),
+        makeProductGroup(
+          "Starting and establishment",
+          "A stronger start helps protect the season you have.",
+          [
+            makeProductItem("Seed-starting trays", "seed-starting"),
+            makeProductItem("Grow light", "grow-light"),
+makeProductItem([
+  { text: "Drip irrigation", theme: "drip-irrigation" },
+  { text: " or " },
+  { text: "watering wand", theme: "watering-wand" }
+]),
+          ]
+        )
+      ]
+    : [
+        makeProductGroup(
+          "Basic growing setup",
+          "When the crop fits, the best supplies usually improve consistency and harvest quality.",
+          [
+makeProductItem([
+  { text: "Drip irrigation", theme: "drip-irrigation" },
+  { text: " or " },
+  { text: "watering wand", theme: "watering-wand" }
+]),
+            makeProductItem("Compost or garden soil amendment", "soil-health"),
+makeProductItem([
+  { text: "Plant labels", theme: "plant-labels" },
+  { text: " and " },
+  { text: "spacing tools", theme: "spacing" }
+]),
+          ]
+        )
+      ];
+
+  return finalizeActionBox({
+    ...base,
+    title: getCommerceActionTitle(crop, cropName, confidence, getBehaviorProfile(crop)),
+    intro: tight
+      ? `The useful setup is about protecting early growth and avoiding lost time.`
+      : `The best purchases are the practical supplies that improve watering, spacing, and crop consistency.`,
+    productGroups,
+    primaryCta: {
+      label: tight
+        ? "Shop season-extension supplies"
+        : `Shop ${cropName} growing supplies`,
+      url: shopUrl
+    },
+    secondaryCta: {
+      label: tight
+        ? "Check the GDD planner"
+        : `Compare ${cropName} varieties`,
+      url: tight ? gddPlannerUrl : varietyUrl
+    }
+  });
+}
+
 function formatVarietyLabelsForProse(fittingVarietyClasses, { capitalize = false } = {}) {
   if (!Array.isArray(fittingVarietyClasses) || !fittingVarietyClasses.length) return null;
 
@@ -166,6 +1479,10 @@ function getCropSubject(crop, { capitalize = false } = {}) {
 function getBehaviorProfile(crop) {
   if (crop?.behaviorProfile) return crop.behaviorProfile;
 
+  if (crop?.key === "strawberries") {
+    return "perennial-fruit";
+  }
+
   if (["spinach", "lettuce", "peas"].includes(crop?.key)) {
     return "cool-season-quality";
   }
@@ -182,7 +1499,7 @@ function getBehaviorProfile(crop) {
     return "storage-root";
   }
 
-  if (["tomatoes", "peppers", "eggplant"].includes(crop?.key)) {
+  if (["tomatoes", "peppers", "eggplant", "basil"].includes(crop?.key)) {
     return "warm-season-fruiting";
   }
 
@@ -212,6 +1529,28 @@ function buildMethodSummary({
   let primaryDate = null;
   let summarySentence = null;
 
+  if (crop?.key === "strawberries") {
+    primaryLabel = "Typical planting window";
+    primaryDate = plantingWindow?.start || plantOutDate || null;
+
+    if (plantingWindow?.start && plantingWindow?.end) {
+      summarySentence = `${cropSubject} are usually planted during the normal local window of ${formatMmddForCopy(plantingWindow.start)} to ${formatMmddForCopy(plantingWindow.end)}. Earlier planting usually helps plants establish more strongly and improves first harvest timing.`;
+    } else if (plantOutDate) {
+      summarySentence = `${cropSubject} are usually planted outdoors around ${formatMmddForCopy(plantOutDate)}. Earlier planting usually helps plants establish more strongly and improves first harvest timing.`;
+    }
+
+    return {
+      primaryLabel,
+      primaryDate,
+      startIndoorsDate,
+      plantOutDate,
+      directSowDate,
+      transplantRecommended,
+      directSowRecommended,
+      summarySentence
+    };
+  }
+
   if (transplantRecommended && directSowRecommended) {
     primaryLabel = "Typical planting window";
     primaryDate = plantingWindow?.start || directSowDate || plantOutDate || startIndoorsDate || null;
@@ -219,43 +1558,41 @@ function buildMethodSummary({
     if (startIndoorsDate && plantingWindow?.start && plantingWindow?.end) {
       summarySentence = `${cropSubject} can usually be started indoors around ${formatMmddForCopy(startIndoorsDate)} or sown directly during the normal local planting window of ${formatMmddForCopy(plantingWindow.start)} to ${formatMmddForCopy(plantingWindow.end)}.`;
     } else if (plantingWindow?.start && plantingWindow?.end) {
-      summarySentence = `${cropSubject} is usually planted within the normal local window of ${formatMmddForCopy(plantingWindow.start)} to ${formatMmddForCopy(plantingWindow.end)}, either by direct sowing or by setting out transplants.`;
+summarySentence = `${cropSubject} ${getVerb(crop)} usually planted within the normal local window of ${formatMmddForCopy(plantingWindow.start)} to ${formatMmddForCopy(plantingWindow.end)}, either by direct sowing or by setting out transplants.`;
     } else if (directSowDate && startIndoorsDate && plantOutDate) {
       summarySentence = `${cropSubject} can usually be either sown directly outdoors around ${formatMmddForCopy(directSowDate)} or started indoors around ${formatMmddForCopy(startIndoorsDate)} and transplanted outdoors around ${formatMmddForCopy(plantOutDate)}.`;
     } else if (directSowDate && plantOutDate) {
       summarySentence = `${cropSubject} can usually be either sown directly outdoors around ${formatMmddForCopy(directSowDate)} or planted as transplants around ${formatMmddForCopy(plantOutDate)}.`;
     } else if (directSowDate) {
-      summarySentence = `${cropSubject} is usually sown directly outdoors around ${formatMmddForCopy(directSowDate)}.`;
+summarySentence = `${cropSubject} ${getVerb(crop)} usually sown directly outdoors around ${formatMmddForCopy(directSowDate)}.`;
     } else if (startIndoorsDate && plantOutDate) {
-      summarySentence = `${cropSubject} is usually started indoors around ${formatMmddForCopy(startIndoorsDate)} and transplanted outdoors around ${formatMmddForCopy(plantOutDate)}.`;
+summarySentence = `${cropSubject} ${getVerb(crop)} usually started indoors around ${formatMmddForCopy(startIndoorsDate)} and transplanted outdoors around ${formatMmddForCopy(plantOutDate)}.`;
     }
-  
-} else if (transplantRecommended) {
-  primaryLabel = "Typical transplant date";
-  primaryDate = plantingWindow?.start || plantOutDate || startIndoorsDate || null;
+  } else if (transplantRecommended) {
+    primaryLabel = "Typical transplant date";
+    primaryDate = plantingWindow?.start || plantOutDate || startIndoorsDate || null;
 
-  if (startIndoorsDate && plantingWindow?.start && plantingWindow?.end) {
-    summarySentence = `${cropSubject} ${getVerb(crop)} usually started indoors around ${formatMmddForCopy(startIndoorsDate)} and planted outdoors during the normal local window of ${formatMmddForCopy(plantingWindow.start)} to ${formatMmddForCopy(plantingWindow.end)}.`;
-  } else if (plantingWindow?.start && plantingWindow?.end) {
-    summarySentence = `${cropSubject} ${getVerb(crop)} usually planted outdoors during the normal local window of ${formatMmddForCopy(plantingWindow.start)} to ${formatMmddForCopy(plantingWindow.end)}.`;
-  } else if (startIndoorsDate && plantOutDate) {
-    summarySentence = `${cropSubject} ${getVerb(crop)} usually started indoors around ${formatMmddForCopy(startIndoorsDate)} and transplanted outdoors around ${formatMmddForCopy(plantOutDate)}.`;
-  } else if (plantOutDate) {
-    summarySentence = `${cropSubject} ${getVerb(crop)} usually transplanted outdoors around ${formatMmddForCopy(plantOutDate)}.`;
+    if (startIndoorsDate && plantingWindow?.start && plantingWindow?.end) {
+      summarySentence = `${cropSubject} ${getVerb(crop)} usually started indoors around ${formatMmddForCopy(startIndoorsDate)} and planted outdoors during the normal local window of ${formatMmddForCopy(plantingWindow.start)} to ${formatMmddForCopy(plantingWindow.end)}.`;
+    } else if (plantingWindow?.start && plantingWindow?.end) {
+      summarySentence = `${cropSubject} ${getVerb(crop)} usually planted outdoors during the normal local window of ${formatMmddForCopy(plantingWindow.start)} to ${formatMmddForCopy(plantingWindow.end)}.`;
+    } else if (startIndoorsDate && plantOutDate) {
+      summarySentence = `${cropSubject} ${getVerb(crop)} usually started indoors around ${formatMmddForCopy(startIndoorsDate)} and transplanted outdoors around ${formatMmddForCopy(plantOutDate)}.`;
+    } else if (plantOutDate) {
+      summarySentence = `${cropSubject} ${getVerb(crop)} usually transplanted outdoors around ${formatMmddForCopy(plantOutDate)}.`;
+    }
+  } else if (directSowRecommended) {
+    primaryLabel = "Typical sowing date";
+    primaryDate = directSowDate || plantingWindow?.start || null;
+
+    if (directSowDate) {
+      summarySentence = `${cropSubject} ${getVerb(crop)} usually sown directly outdoors around ${formatMmddForCopy(directSowDate)}${
+        plantingWindow?.start && plantingWindow?.end
+          ? `, with a typical local planting window of ${formatMmddForCopy(plantingWindow.start)} to ${formatMmddForCopy(plantingWindow.end)}.`
+          : `.`
+      }`;
+    }
   }
-
-} else if (directSowRecommended) {
-  primaryLabel = "Typical sowing date";
-  primaryDate = directSowDate || plantingWindow?.start || null;
-
-  if (directSowDate) {
-    summarySentence = `${cropSubject} ${getVerb(crop)} usually sown directly outdoors around ${formatMmddForCopy(directSowDate)}${
-      plantingWindow?.start && plantingWindow?.end
-        ? `, with a typical local planting window of ${formatMmddForCopy(plantingWindow.start)} to ${formatMmddForCopy(plantingWindow.end)}.`
-        : `.`
-    }`;
-  }
-}
 
   return {
     primaryLabel,
@@ -637,7 +1974,7 @@ const cropNameLower = getCropSubject(crop);
     return `From the usual planting window, ${city.name} usually clears this typical ${cropNameLower} target by only about ${gddMargin} GDD, so delays and slower varieties can still narrow the margin.`;
   }
 
-  return `From the usual planting window, ${cropNameLower} in ${city.name} usually come up about ${absMargin} GDD short of this typical target.`;
+return `From the usual planting window, ${cropNameLower} in ${city.name} ${getVerb(crop) === "is" ? "usually comes up" : "usually come up"} about ${absMargin} GDD short of this typical target.`;
 }
 
 function getVarietyFitLabel(margin) {
@@ -765,20 +2102,36 @@ function buildBestVarietyParagraph({ crop, city, confidence, varietyClassFits })
 function buildGddInterpretation({ crop, city, confidence, gddMargin }) {
   const profile = getBehaviorProfile(crop);
 
+  if (profile === "perennial-fruit") {
+    if (confidence === "surplus" || confidence === "strong") {
+      return `That large heat margin means strawberries usually have no trouble establishing and producing here. The more useful effect of planting date is on how quickly plants settle in and when harvest begins, not whether the crop can finish.`;
+    }
+
+    if (confidence === "good") {
+      return `That heat margin usually gives strawberries enough room to establish and produce reliably, though earlier planting still improves momentum and harvest timing.`;
+    }
+
+    if (confidence === "borderline") {
+      return `That narrower heat margin means delayed planting can reduce establishment strength and leave less room for the kind of harvest gardeners usually want.`;
+    }
+
+    return `That heat shortfall means strawberries usually need the earliest practical planting and the best local conditions to establish and produce well.`;
+  }
+
   if (confidence === "surplus") {
     if (profile === "cool-season-quality") {
       return `That large heat margin gives gardeners flexibility. Planting can be shifted later and the crop will still mature easily, so the more important effect of timing is on harvest quality and how long the crop stays at its best.`;
     }
 
     if (profile === "cool-season-structural") {
-return `That large heat margin means the crop usually has no trouble reaching maturity here. In practice, planting timing mostly affects how comfortably the crop sizes up and when harvest is ready, not whether the crop can finish.`;
+      return `That large heat margin means the crop usually has no trouble reaching maturity here. In practice, planting timing mostly affects how comfortably the crop sizes up and when harvest is ready, not whether the crop can finish.`;
     }
 
     if (profile === "fast-root" || profile === "storage-root") {
-return `That large heat margin means season length is usually not the limiting issue here. The more useful question is how gardeners use that room to improve sizing, finish quality, and harvest timing.`;
+      return `That large heat margin means season length is usually not the limiting issue here. The more useful question is how gardeners use that room to improve sizing, finish quality, and harvest timing.`;
     }
 
-return `That large heat margin means season length is usually not the limiting issue here. The season usually gives gardeners room to focus on finish quality, harvest goals, and overall crop performance.`;
+    return `That large heat margin means season length is usually not the limiting issue here. The season usually gives gardeners room to focus on finish quality, harvest goals, and overall crop performance.`;
   }
 
   if (confidence === "strong") {
@@ -799,12 +2152,24 @@ return `That large heat margin means season length is usually not the limiting i
 function buildCheckpointIntro({ crop, city, confidence }) {
   const profile = getBehaviorProfile(crop);
 
+  if (profile === "perennial-fruit") {
+    if (confidence === "surplus" || confidence === "strong") {
+      return `If planting later than usual, this table shows how much growing degree day heat is still available from each point in the season. For strawberries, it is less about whether the crop can finish and more about how planting date affects establishment, first harvest timing, and overall crop momentum.`;
+    }
+
+    if (confidence === "good") {
+      return `If planting later than usual, this table shows how much growing degree day heat is still available from each point in the season. For strawberries, it helps show how much room is left for good establishment and a comfortable first harvest.`;
+    }
+
+    return `When planting later than usual, this table shows how much growing degree day heat is still available from each point in the season. For strawberries, delayed planting usually matters because it weakens establishment and reduces the margin for a strong crop.`;
+  }
+
   if (confidence === "surplus") {
     if (profile === "cool-season-quality") {
       return `If planting later than usual, this table shows how much growing degree day heat is still available from each point in the season. For ${crop.name.toLowerCase()}, the table is less about whether the crop will finish and more about how planting date changes harvest timing, crop speed, and the length of the harvest window.`;
     }
 
-return `If planting later than usual, this table shows how much growing degree day heat is still available from each point in the season. For ${crop.name.toLowerCase()}, it is most useful for judging how much freedom you still have to plant for quality, finish, and harvest goals as the season moves along.`;
+    return `If planting later than usual, this table shows how much growing degree day heat is still available from each point in the season. For ${crop.name.toLowerCase()}, it is most useful for judging how much freedom you still have to plant for quality, finish, and harvest goals as the season moves along.`;
   }
 
   if (confidence === "strong" || confidence === "good") {
@@ -868,6 +2233,10 @@ function buildProtectionSentence({ crop, city, confidence, varietyClassFits }) {
 function buildFrostInterpretation({ crop, city }) {
   const cropSubject = getCropSubject(crop, { capitalize: true });
   const profile = getBehaviorProfile(crop);
+
+  if (profile === "perennial-fruit") {
+    return `${cropSubject} are usually comfortable with light frost once established, so frost dates matter more for planting opportunity and early establishment than as hard maturity boundaries. In practice, earlier planting usually helps plants settle in and build strength for better harvests.`;
+  }
 
   if (profile === "cool-season-quality") {
     return `${cropSubject} ${getVerb(crop)} usually comfortable with light frost, which makes early planting an advantage rather than a problem. In practice, frost matters less here than timing the crop for cool conditions and good leaf quality.`;
@@ -1030,6 +2399,38 @@ function buildMainRiskSentence({ crop, city, confidence, gddMargin }) {
   const cropNoun = getCropNounSingular(crop);
   const profile = getBehaviorProfile(crop);
   const idx = stableVariantIndex(city.key || city.name, crop.key, `main-risk-${confidence}`) % 3;
+
+  if (profile === "perennial-fruit") {
+    if (confidence === "surplus" || confidence === "strong") {
+      return [
+        `The main issue here is usually weak or delayed establishment rather than running out of season.`,
+        `The most common setback is losing planting time that would have helped plants establish more strongly and produce more confidently.`,
+        `For strawberries, the bigger risk is usually poor establishment or delayed planting, not lack of enough season to grow.`
+      ][idx];
+    }
+
+    if (confidence === "good") {
+      return [
+        `The usual trouble here is giving up establishment time through delayed planting or uneven early growth.`,
+        `The crop usually fits, but later planting can still reduce establishment strength and push harvest timing in the wrong direction.`,
+        `The most common issue is not basic feasibility but losing early momentum through delayed planting or weak establishment.`
+      ][idx];
+    }
+
+    if (confidence === "borderline") {
+      return [
+        `The main problem here is usually that delayed planting leaves too little room for strong establishment and a comfortable first harvest.`,
+        `There is not much margin here, so later planting can quickly turn a possible crop into a weaker planting.`,
+        `This is close enough that weak establishment or delayed planting can make the crop much less rewarding than it looks on paper.`
+      ][idx];
+    }
+
+    return [
+      `The season often leaves too little room for strong establishment and a comfortable harvest.`,
+      `The main issue here is usually limited time for the planting to establish and produce well.`,
+      `In this location, strawberries often struggle because the local season leaves very little room for delayed planting or weak establishment.`
+    ][idx];
+  }
 
   if (confidence === "surplus") {
     if (profile === "cool-season-quality") {
@@ -1543,6 +2944,38 @@ function buildBestStrategy({ crop, city, confidence, avoidThemes = [] }) {
   const idx =
     stableVariantIndex(city.key || city.name, crop.key, `best-strategy-${confidence}`) % 3;
 
+if (crop?.key === "strawberries") {
+  if (confidence === "surplus" || confidence === "strong") {
+    return [
+      `Plant early, establish crowns or transplants cleanly, and choose varieties based on whether you want an early concentrated crop or a longer picking window.`,
+      `Use the normal planting window, focus on strong establishment, and choose the kind of harvest pattern you want.`,
+      `Plant early enough for strong establishment, then choose between earlier June-bearing types and longer-harvest day-neutral types.`
+    ][idx];
+  }
+
+  if (confidence === "good") {
+    return [
+      `Plant early enough to establish the crop cleanly, then choose varieties based on whether you want an earlier flush or a longer picking window.`,
+      `Stay close to the normal planting window, protect early establishment, and choose variety type based on harvest style rather than just basic maturity.`,
+      `Use the earliest practical planting window, aim for strong establishment, and choose whether your priority is early harvest or a longer picking season.`
+    ][idx];
+  }
+
+  if (confidence === "borderline") {
+    return [
+      `Plant as early as conditions allow, protect establishment, and lean toward variety types that give the crop the best chance to settle in quickly.`,
+      `Use the earliest practical planting window, prioritize strong establishment, and avoid giving away time through delay.`,
+      `Treat early planting and clean establishment as the main strategy, then choose varieties with a realistic harvest pattern for the local season.`
+    ][idx];
+  }
+
+  return [
+    `Use the earliest practical planting window, the best local sites, and the strongest transplants or crowns you can get.`,
+    `Stack the odds with early planting, strong establishment, and the most favorable sites available.`,
+    `Treat this as a higher-risk planting where early establishment and good local placement matter as much as variety choice.`
+  ][idx];
+}
+
   if (confidence === "surplus") {
     if (["spinach", "lettuce", "peas"].includes(crop.key)) {
       return pickThemedVariant({
@@ -1557,7 +2990,7 @@ function buildBestStrategy({ crop, city, confidence, avoidThemes = [] }) {
           },
           {
             theme: "bolt-tenderness",
-            text: `Plant on time and manage for tenderness, bolt resistance, and harvest timing; season length is rarely the limiting factor here.`
+text: `Plant on time, then manage for tenderness, bolt resistance, and the harvest style you want.`
           },
           {
             theme: "harvest-window",
@@ -1816,105 +3249,121 @@ function buildLocalInterpretation({
 
   const cropLower = crop.name.toLowerCase();
 
-if (regionalComparisonSentence && confidence !== "strong" && confidence !== "surplus") {
-  return regionalComparisonSentence;
-}
-
-if (confidence === "surplus") {
-  if (profile === "cool-season-quality") {
-    return [
-      `Even here, the climate does not protect ${cropLower} from bolting or quality loss once conditions warm. The real advantage is having more room to target the best eating window.`,
-`What the extra seasonal room changes for ${cropLower} is not whether the crop can finish, but how precisely gardeners can aim for tenderness, slower bolting, and better harvest quality.`,
-      `The easiest mistake with ${cropLower} here is assuming a comfortable fit guarantees top quality. The better use of the margin is timing the crop for its best texture and flavor.`
-    ][variant];
+  if (regionalComparisonSentence && confidence !== "strong" && confidence !== "surplus") {
+    return regionalComparisonSentence;
   }
 
-  if (profile === "cool-season-structural") {
-    return [
-      `Even in an easier climate, this crop still pays back uninterrupted growth. The season helps with maturity, but it does not erase the effects of checks that reduce sizing or finish quality.`,
-      `What the local margin changes most is that gardeners can hold out for a better-sized, better-finished crop instead of cutting early just to stay on schedule.`,
-      `The climate usually makes this crop possible without strain, but the difference between an average result and a strong one still comes from steady growth and harvesting at the right stage.`
-    ][variant];
-  }
-
-if (profile === "fast-root") {
+  if (confidence === "surplus") {
+if (profile === "perennial-fruit") {
   return [
-    `Even with plenty of seasonal room, this crop still rewards uniform growth. The climate helps with timing, but spacing and moisture still decide how even the roots turn out.`,
-    `What the easier season buys gardeners here is freedom to choose harvest size instead of pulling early out of necessity, but root shape and texture still depend on steady growth.`,
-    `The climate rarely limits this crop here. What still matters is avoiding uneven growth that leads to rough shape, variable sizing, or roots that miss their best texture.`
+    `The extra seasonal room is most useful when gardeners use it to establish plants well, shape the kind of harvest they want, and keep the patch productive longer.`,
+    `In a climate like this, the real value is not just that strawberries work, but that growers have more freedom to shape harvest pattern and patch performance.`,
+    `The generous local season gives gardeners more room to manage strawberries for establishment, harvest rhythm, and longer-term patch quality.`
   ][variant];
 }
 
-if (profile === "storage-root") {
+    if (profile === "cool-season-quality") {
+      return [
+        `Even here, the climate does not protect ${cropLower} from bolting or quality loss once conditions warm. The real advantage is having more room to target the best eating window.`,
+`The extra seasonal room usually gives gardeners more flexibility to plan for quality and harvest timing instead of simply trying to make the crop finish.`,
+        `The easiest mistake with ${cropLower} here is assuming a comfortable fit guarantees top quality. The better use of the margin is timing the crop for its best texture and flavor.`
+      ][variant];
+    }
+
+    if (profile === "cool-season-structural") {
+      return [
+        `Even in an easier climate, this crop still pays back uninterrupted growth. The season helps with maturity, but it does not erase the effects of checks that reduce sizing or finish quality.`,
+        `What the local margin changes most is that gardeners can hold out for a better-sized, better-finished crop instead of cutting early just to stay on schedule.`,
+        `The climate usually makes this crop possible without strain, but the difference between an average result and a strong one still comes from steady growth and harvesting at the right stage.`
+      ][variant];
+    }
+
+    if (profile === "fast-root") {
+      return [
+        `Even with plenty of seasonal room, this crop still rewards uniform growth. The climate helps with timing, but spacing and moisture still decide how even the roots turn out.`,
+        `What the easier season buys gardeners here is freedom to choose harvest size instead of pulling early out of necessity, but root shape and texture still depend on steady growth.`,
+        `The climate rarely limits this crop here. What still matters is avoiding uneven growth that leads to rough shape, variable sizing, or roots that miss their best texture.`
+      ][variant];
+    }
+
+    if (profile === "storage-root") {
+      return [
+        `Even here, the climate does not guarantee an even finish. The better results still come from steady growth, consistent sizing, and harvesting when the crop is actually ready.`,
+        `What the easier season changes most is that gardeners can grow for a more even finish instead of settling for whatever matures first.`,
+        `The local margin usually makes this crop comfortable to finish, but uniformity, finish quality, and harvest judgment still separate average results from strong ones.`
+      ][variant];
+    }
+
+    if (profile === "warm-season-fruiting") {
+      return [
+        `The local season usually gives this crop enough time to finish, but warmer sites still improve ripening speed and overall finish quality.`,
+        `What the easier climate changes is that gardeners can choose more deliberately for flavor, finish, or ripening style instead of selecting only for survival.`,
+        `Even with a comfortable margin, this crop still gets better when site warmth is used to improve ripening pace and finish quality rather than merely protect maturity.`
+      ][variant];
+    }
+
+    return [
+      `The local season usually makes this crop easy enough to finish, so the more useful question is what separates an acceptable result from a really good one.`,
+      `What the extra room changes here is not whether the crop can make it, but how much control gardeners have over finish quality and harvest timing.`,
+      `Even in a supportive climate, the season only solves the timing side of the problem. The rest still comes down to how the crop is managed.`
+    ][variant];
+  }
+
+  if (confidence === "strong") {
+if (profile === "perennial-fruit") {
   return [
-    `Even here, the climate does not guarantee an even finish. The better results still come from steady growth, consistent sizing, and harvesting when the crop is actually ready.`,
-    `What the easier season changes most is that gardeners can grow for a more even finish instead of settling for whatever matures first.`,
-    `The local margin usually makes this crop comfortable to finish, but uniformity, finish quality, and harvest judgment still separate average results from strong ones.`
+    `Earlier planting still matters here because stronger establishment usually leads to a cleaner first harvest and a more rewarding patch overall.`,
+    `The local margin is supportive for strawberries, so the more useful decisions are about patch strength, variety type, and harvest pattern.`,
+    `This climate usually gives strawberries enough room to work well, but site quality and early establishment still shape how rewarding the planting becomes.`
   ][variant];
 }
 
-  if (profile === "warm-season-fruiting") {
+    if (profile === "cool-season-quality") {
+      return [
+        `This crop usually has enough room to work well here, but the climate still does not protect it from missing its best quality window.`,
+        `The local advantage is real, though the better results still come from using that margin to target tenderness, slower bolting, and a cleaner harvest window.`,
+        `Even as a dependable crop here, ${cropLower} still rewards gardeners who use the season for better quality, not just for a successful finish.`
+      ][variant];
+    }
+
+    if (profile === "cool-season-structural") {
+      return [
+        `The season is usually supportive here, but it still pays to protect uninterrupted growth because the climate does not erase setbacks that affect sizing and finish.`,
+        `What stronger local margin really changes is that gardeners can wait for a better-finished crop instead of harvesting defensively.`,
+        `This crop is usually dependable here, though the difference between decent and excellent results still comes from steady growth and harvest stage.`
+      ][variant];
+    }
+
+    if (profile === "fast-root") {
+      return [
+        `The climate usually gives this crop enough room, but root quality still depends much more on uniform growth than on the margin itself.`,
+        `What a stronger fit changes here is that growers can aim for better size and texture instead of pulling early to stay ahead of the season.`,
+        `Even as a dependable crop here, this one still rewards spacing, moisture consistency, and good harvest judgment more than it rewards climate luck.`
+      ][variant];
+    }
+
+    if (profile === "storage-root") {
+      return [
+        `The extra room here is most valuable when gardeners use it to improve finish quality and uniform sizing rather than merely count on maturity.`,
+        `This crop usually has enough season to finish well here, which means the stronger results come from managing for uniformity, finish, and holding quality.`,
+        `The climate is supportive here, but the season still does not substitute for the work that goes into producing a cleaner, more even finish.`
+      ][variant];
+    }
+
+    if (profile === "warm-season-fruiting") {
+      return [
+        `This crop is usually workable here, though warmer sites still do more than add comfort: they improve ripening pace and help the crop finish more completely.`,
+        `The local cushion means gardeners can think beyond minimum earliness, but site warmth still shapes ripening quality by season’s end.`,
+        `Even as a stronger fit here, this crop still improves when warmth is used to turn workable ripening into a better finish.`
+      ][variant];
+    }
+
     return [
-`The local season usually gives this crop enough time to finish, but warmer sites still improve ripening speed and overall finish quality.`,
-      `What the easier climate changes is that gardeners can choose more deliberately for flavor, finish, or ripening style instead of selecting only for survival.`,
-      `Even with a comfortable margin, this crop still gets better when site warmth is used to improve ripening pace and finish quality rather than merely protect maturity.`
+      `The season is usually supportive here, but the more useful question is still what turns a safe crop into a notably better one.`,
+      `A stronger fit here gives gardeners more control over finish and timing, but it does not remove the value of careful management.`,
+      `This crop usually works well here, though the climate mainly buys flexibility; the finish still depends on how that flexibility is used.`
     ][variant];
   }
-
-  return [
-    `The local season usually makes this crop easy enough to finish, so the more useful question is what separates an acceptable result from a really good one.`,
-    `What the extra room changes here is not whether the crop can make it, but how much control gardeners have over finish quality and harvest timing.`,
-    `Even in a supportive climate, the season only solves the timing side of the problem. The rest still comes down to how the crop is managed.`
-  ][variant];
-}
-
-if (confidence === "strong") {
-  if (profile === "cool-season-quality") {
-    return [
-      `This crop usually has enough room to work well here, but the climate still does not protect it from missing its best quality window.`,
-      `The local advantage is real, though the better results still come from using that margin to target tenderness, slower bolting, and a cleaner harvest window.`,
-      `Even as a dependable crop here, ${cropLower} still rewards gardeners who use the season for better quality, not just for a successful finish.`
-    ][variant];
-  }
-
-  if (profile === "cool-season-structural") {
-    return [
-      `The season is usually supportive here, but it still pays to protect uninterrupted growth because the climate does not erase setbacks that affect sizing and finish.`,
-      `What stronger local margin really changes is that gardeners can wait for a better-finished crop instead of harvesting defensively.`,
-      `This crop is usually dependable here, though the difference between decent and excellent results still comes from steady growth and harvest stage.`
-    ][variant];
-  }
-
-  if (profile === "fast-root") {
-    return [
-      `The climate usually gives this crop enough room, but root quality still depends much more on uniform growth than on the margin itself.`,
-      `What a stronger fit changes here is that growers can aim for better size and texture instead of pulling early to stay ahead of the season.`,
-      `Even as a dependable crop here, this one still rewards spacing, moisture consistency, and good harvest judgment more than it rewards climate luck.`
-    ][variant];
-  }
-
-  if (profile === "storage-root") {
-    return [
-      `The extra room here is most valuable when gardeners use it to improve finish quality and uniform sizing rather than merely count on maturity.`,
-      `This crop usually has enough season to finish well here, which means the stronger results come from managing for uniformity, finish, and holding quality.`,
-      `The climate is supportive here, but the season still does not substitute for the work that goes into producing a cleaner, more even finish.`
-    ][variant];
-  }
-
-  if (profile === "warm-season-fruiting") {
-    return [
-      `This crop is usually workable here, though warmer sites still do more than add comfort: they improve ripening pace and help the crop finish more completely.`,
-`The local cushion means gardeners can think beyond minimum earliness, but site warmth still shapes ripening quality by season’s end.`,
-      `Even as a stronger fit here, this crop still improves when warmth is used to turn workable ripening into a better finish.`
-    ][variant];
-  }
-
-  return [
-    `The season is usually supportive here, but the more useful question is still what turns a safe crop into a notably better one.`,
-    `A stronger fit here gives gardeners more control over finish and timing, but it does not remove the value of careful management.`,
-    `This crop usually works well here, though the climate mainly buys flexibility; the finish still depends on how that flexibility is used.`
-  ][variant];
-}
 
   if (confidence === "good") {
     if (profile === "cool-season-quality") {
@@ -1927,7 +3376,7 @@ if (confidence === "strong") {
 
     if (profile === "cool-season-structural") {
       return [
-        `${cropSubject} is workable here, though the crop benefits from using the season efficiently rather than assuming there is margin to waste.`,
+`${cropSubject} ${getVerb(crop)} workable here, though the crop benefits from using the season efficiently rather than assuming there is margin to waste.`,
         `${inPracticeCrop(crop)}, most growers have enough room for success, but not so much that timing stops mattering.`,
         `The local season can support ${cropLower}, though steady growth and timely planting still do a lot of the work.`
       ][variant];
@@ -1935,7 +3384,7 @@ if (confidence === "strong") {
 
     if (profile === "fast-root") {
       return [
-        `${cropSubject} is workable here, though better timing and steady growth still matter if gardeners want the cleanest roots and most even sizing.`,
+`${cropSubject} ${getVerb(crop)} workable here, though better timing and steady growth still matter if gardeners want the cleanest roots and most even sizing.`,
         `${inPracticeCrop(crop)}, the season generally works, but the margin is not so wide that it disappears as a factor.`,
         `The local season is usually enough for ${cropLower}, though growers still get better results when they stay close to normal planting windows.`
       ][variant];
@@ -1943,7 +3392,7 @@ if (confidence === "strong") {
 
     if (profile === "storage-root") {
       return [
-        `${cropSubject} is usually workable here, though gardeners still do best when they protect the season margin with timely planting.`,
+`${cropSubject} ${getVerb(crop)} usually workable here, though gardeners still do best when they protect the season margin with timely planting.`,
         `${inPracticeCrop(crop)}, this is less of an edge crop and more of a crop that rewards not giving away time early.`,
         `The season can support ${cropLower}, though it is not so generous that growers can ignore timing.`
       ][variant];
@@ -1951,23 +3400,23 @@ if (confidence === "strong") {
 
     if (profile === "warm-season-fruiting") {
       return [
-        `${cropSubject} is workable here, though the crop still benefits from warm placement and realistic variety choice if growers want a more comfortable finish.`,
+`${cropSubject} ${getVerb(crop)} workable here, though the crop still benefits from warm placement and realistic variety choice if growers want a more comfortable finish.`,
         `${inPracticeCrop(crop)}, the season can support success, but not so easily that site warmth and timing stop mattering.`,
         `The local season is usually enough for ${cropLower}, though this is still a crop that rewards gardeners who protect every bit of margin they have.`
       ][variant];
     }
 
-    return [
-      `${cropSubject} is workable here, though the crop still rewards using the local season efficiently rather than assuming there is margin to spare.`,
-      `${inPracticeCrop(crop)}, the season can support good results, but timing and variety choice still do a lot of the work.`,
-      `This crop usually works here, though gardeners do best when they stay reasonably close to normal planting timing.`
-    ][variant];
+return [
+  `${cropSubject} ${getVerb(crop)} workable here, though the crop still rewards using the local season efficiently rather than assuming there is margin to spare.`,
+  `${inPracticeCrop(crop)}, the season can support good results, but timing and variety choice still do a lot of the work.`,
+  `This crop usually works here, though gardeners do best when they stay reasonably close to normal planting timing.`
+][variant];
   }
 
   if (confidence === "borderline") {
     if (profile === "cool-season-quality") {
       return [
-`The seasonal margin for ${crop.name.toLowerCase()} is tighter here, so careful timing and cooler local conditions matter more than they do for easier crops.`,
+        `The seasonal margin for ${crop.name.toLowerCase()} is tighter here, so careful timing and cooler local conditions matter more than they do for easier crops.`,
         `${inPracticeCrop(crop)}, there is usually less room to recover from delay. The crop can work, but it is easier to lose quality or maturity margin.`,
         `The challenge with ${cropLower} here is that the season is usable, but not generous. Timing and local conditions shape the result much more than usual.`
       ][variant];
@@ -1991,7 +3440,7 @@ if (confidence === "strong") {
 
     if (profile === "storage-root") {
       return [
-`The seasonal margin is tighter here, so gardeners usually need to use the season efficiently and favor better local spots.`,
+        `The seasonal margin is tighter here, so gardeners usually need to use the season efficiently and favor better local spots.`,
         `${inPracticeCrop(crop)}, there is enough local season for possible success, but not enough to get casual about timing or slower finishes.`,
         `This is a crop where the local season can work, though it leaves limited room for delayed starts or weaker placement.`
       ][variant];
@@ -2023,7 +3472,7 @@ if (confidence === "strong") {
 
     if (profile === "cool-season-structural") {
       return [
-`${cropSubject} is difficult here because the local season leaves limited room for delay, slower growth, or cooler sites.`,
+        `${cropSubject} is difficult here because the local season leaves limited room for delay, slower growth, or cooler sites.`,
         `${inPracticeCrop(crop)}, even modest setbacks can turn a possible crop into a weak finish because the margin starts tight.`,
         `The challenge with ${cropLower} here is not just whether it can mature, but whether local conditions give it enough uninterrupted time to finish well.`
       ][variant];
@@ -2047,14 +3496,14 @@ if (confidence === "strong") {
 
     if (profile === "warm-season-fruiting") {
       return [
-`${cropSubject} ${getVerb(crop)} difficult here because the crop is asking for more reliable warmth and finish time than the local season usually provides.`,
+        `${cropSubject} ${getVerb(crop)} difficult here because the crop is asking for more reliable warmth and finish time than the local season usually provides.`,
         `${inPracticeCrop(crop)}, gardeners typically need speed, warmth, and favorable placement all working together to have a realistic chance at success.`,
         `The real challenge with ${cropLower} here is not just setting fruit, but getting the crop to ripen and finish well before conditions turn against it.`
       ][variant];
     }
 
     return [
-      `${cropSubject} is challenging here because the local season leaves little room for delay, slower varieties, or cooler sites.`,
+`${cropSubject} ${getVerb(crop)} challenging here because the local season leaves little room for delay, slower varieties, or cooler sites.`,
       `${inPracticeCrop(crop)}, growers usually need to stack timing, variety speed, and local warmth to have a realistic chance at success.`,
       `This crop sits close to the local seasonal edge, so smaller setbacks matter more here than they would in easier climates.`
     ][variant];
@@ -2071,6 +3520,7 @@ if (confidence === "strong") {
   return `${cropSubject} ${getRespondVerb(crop)} most to getting the fundamentals right: planting on time, using a warm site, and choosing varieties that match the local season.`;
 }
 
+
 function buildAdvisoryCopy({
   city,
   crop,
@@ -2084,137 +3534,240 @@ function buildAdvisoryCopy({
   regionalComparisonSentence
 }) {
   if (!city || !crop) return null;
+
 const cropSubject = getCropSubject(crop, { capitalize: true });
-  const varietyText =
-    formatVarietyLabelsForProse(fittingVarietyClasses) ||
-    formatList(fittingVarietyLabels)?.toLowerCase();
+const cropNameLower = getCropSubject(crop);
+const varietyText =
+  formatVarietyLabelsForProse(fittingVarietyClasses) ||
+  formatList(fittingVarietyLabels)?.toLowerCase();
+  const behaviorProfile = getBehaviorProfile(crop);
   const profile = getClimateProfile(city);
 
   let succeed = "";
 
-if (confidence === "surplus") {
-  const idx = stableVariantIndex(city.key || city.name, crop.key, "surplus-succeed") % 3;
-  const behaviorProfile = getBehaviorProfile(crop);
+  if (confidence === "surplus") {
+    const idx = stableVariantIndex(city.key || city.name, crop.key, "surplus-succeed") % 3;
 
-  if (behaviorProfile === "cool-season-quality") {
-    succeed = [
-      `${cropEasyToGrow(crop, city)}, and the real advantage is having room to aim for tenderness, slower bolting, and a longer harvest window rather than just getting the crop to maturity.`,
-      `${cropSubject} usually ${getPerformVerb(crop)} well in ${city.name}. The season is generous enough that gardeners can plant for eating quality and harvest style, not just basic success.`,
-      `${cropSubject} usually ${getPerformVerb(crop)} easily with normal timing in ${city.name}. What matters most is how planting date shapes tenderness, bolt resistance, and the kind of harvest you want.`
-    ][idx];
-  } else if (behaviorProfile === "cool-season-structural") {
-    succeed = [
-      `${cropInSeason(crop, city)}, and the real payoff is having enough room to size the crop properly and harvest at the stage you actually want.`,
-      `${cropSubject} ${getVerb(crop)} usually an easy seasonal fit in ${city.name}. The more useful question is how to turn that margin into better sizing, steadier growth, and a cleaner finish.`,
-      `${cropSubject} usually ${getPerformVerb(crop)} comfortably in ${city.name}. Gardeners get the most from this climate when they use the margin to improve finish quality rather than merely count on maturity.`
-    ][idx];
-  } else if (behaviorProfile === "fast-root") {
-    succeed = [
-      `${cropEasyToGrow(crop, city)}, and the climate usually gives gardeners room to choose harvest size and grow for better texture instead of pulling roots early out of necessity.`,
-      `${cropSubject} ${getVerb(crop)} usually an easy fit in ${city.name}. The bigger difference comes from spacing, moisture consistency, and how evenly the roots size up.`,
-      `${cropSubject} usually ${getPerformVerb(crop)} comfortably in ${city.name}. The season usually does its part, so the real gains come from root quality, uniformity, and harvest judgment.`
-    ][idx];
-  } else if (behaviorProfile === "storage-root") {
-    succeed = [
-      `${cropEasyToGrow(crop, city)}, and the extra room is most useful for getting a more even finish, steadier sizing, and better keeping quality.`,
-      `${cropSubject} ${getVerb(crop)} usually a comfortable fit in ${city.name}. Gardeners usually get the best results when they use that margin to improve finish quality and uniformity.`,
-      `${cropSubject} usually ${getPerformVerb(crop)} well in ${city.name}. The local advantage is not just that the crop can finish, but that growers can aim for a cleaner, more complete finish.`
-    ][idx];
-  } else if (behaviorProfile === "warm-season-fruiting") {
-    succeed = [
-      `${cropSubject} ${getVerb(crop)} usually one of the easier warm-season crops to finish in ${city.name}. The real advantage is having enough room to choose more deliberately for flavor, finish, and ripening style.`,
-`${cropSubject} usually ${getPerformVerb(crop)} well in ${city.name}. The season is comfortable enough that gardeners can think beyond minimum earliness and manage for a better finish.`,
-      `${cropSubject} ${getVerb(crop)} usually a strong warm-season fit in ${city.name}. What matters most is how gardeners use that cushion to improve ripening pace, fruit quality, and variety ambition.`
-    ][idx];
-  } else {
-    succeed = [
-      `${cropSubject} ${getVerb(crop)} usually very workable in ${city.name}. The extra room is most useful when gardeners use it to aim for a better finish rather than simply relying on the crop to mature.`,
-      `${cropSubject} usually ${getPerformVerb(crop)} comfortably in ${city.name}. The better question here is what turns an acceptable crop into a notably better one.`,
-      `${cropSubject} ${getVerb(crop)} usually an easy fit in ${city.name}. The season usually solves the timing side of the problem, leaving gardeners room to optimize for finish and quality.`
-    ][idx];
-  }
+if (behaviorProfile === "perennial-fruit") {
+  succeed = [
+    `${cropSubject} usually fit very comfortably in ${city.name}. Gardeners generally have room to think about crop style and patch performance, not just basic feasibility.`,
+    `${cropSubject} are usually an easy fit in ${city.name}. The season is supportive enough that growers can focus more on the kind of crop they want than on whether strawberries can work at all.`,
+    `${cropSubject} usually have plenty of seasonal room in ${city.name}. That makes strawberries more of a planning and harvest-style crop than a crop fighting the calendar.`
+  ][idx];
+
+} else if (behaviorProfile === "cool-season-quality") {
+      succeed = [
+        `${cropEasyToGrow(crop, city)}, and the real advantage is having room to aim for tenderness, slower bolting, and a longer harvest window rather than just getting the crop to maturity.`,
+        `${cropSubject} usually ${getPerformVerb(crop)} well in ${city.name}. The season is generous enough that gardeners can plant for eating quality and harvest style, not just basic success.`,
+        `${cropSubject} usually ${getPerformVerb(crop)} easily with normal timing in ${city.name}. What matters most is how planting date shapes tenderness, bolt resistance, and the kind of harvest you want.`
+      ][idx];
+    } else if (behaviorProfile === "cool-season-structural") {
+      succeed = [
+        `${cropInSeason(crop, city)}, and the real payoff is having enough room to size the crop properly and harvest at the stage you actually want.`,
+        `${cropSubject} ${getVerb(crop)} usually an easy seasonal fit in ${city.name}. The more useful question is how to turn that margin into better sizing, steadier growth, and a cleaner finish.`,
+        `${cropSubject} usually ${getPerformVerb(crop)} comfortably in ${city.name}. Gardeners get the most from this climate when they use the margin to improve finish quality rather than merely count on maturity.`
+      ][idx];
+    } else if (behaviorProfile === "fast-root") {
+      succeed = [
+        `${cropEasyToGrow(crop, city)}, and the climate usually gives gardeners room to choose harvest size and grow for better texture instead of pulling roots early out of necessity.`,
+        `${cropSubject} ${getVerb(crop)} usually an easy fit in ${city.name}. The bigger difference comes from spacing, moisture consistency, and how evenly the roots size up.`,
+        `${cropSubject} usually ${getPerformVerb(crop)} comfortably in ${city.name}. The season usually does its part, so the real gains come from root quality, uniformity, and harvest judgment.`
+      ][idx];
+    } else if (behaviorProfile === "storage-root") {
+      succeed = [
+        `${cropEasyToGrow(crop, city)}, and the extra room is most useful for getting a more even finish, steadier sizing, and better keeping quality.`,
+        `${cropSubject} ${getVerb(crop)} usually a comfortable fit in ${city.name}. Gardeners usually get the best results when they use that margin to improve finish quality and uniformity.`,
+        `${cropSubject} usually ${getPerformVerb(crop)} well in ${city.name}. The local advantage is not just that the crop can finish, but that growers can aim for a cleaner, more complete finish.`
+      ][idx];
+    } else if (behaviorProfile === "warm-season-fruiting") {
+      succeed = [
+        `${cropSubject} ${getVerb(crop)} usually one of the easier warm-season crops to finish in ${city.name}. The real advantage is having enough room to choose more deliberately for flavor, finish, and ripening style.`,
+        `${cropSubject} usually ${getPerformVerb(crop)} well in ${city.name}. The season is comfortable enough that gardeners can think beyond minimum earliness and manage for a better finish.`,
+        `${cropSubject} ${getVerb(crop)} usually a strong warm-season fit in ${city.name}. What matters most is how gardeners use that cushion to improve ripening pace, fruit quality, and variety ambition.`
+      ][idx];
+    } else {
+      succeed = [
+        `${cropSubject} ${getVerb(crop)} usually very workable in ${city.name}. The extra room is most useful when gardeners use it to aim for a better finish rather than simply relying on the crop to mature.`,
+        `${cropSubject} usually ${getPerformVerb(crop)} comfortably in ${city.name}. The better question here is what turns an acceptable crop into a notably better one.`,
+        `${cropSubject} ${getVerb(crop)} usually an easy fit in ${city.name}. The season usually solves the timing side of the problem, leaving gardeners room to optimize for finish and quality.`
+      ][idx];
+    }
   } else if (confidence === "strong") {
     const idx = stableVariantIndex(city.key || city.name, crop.key, "strong-succeed") % 5;
 
-const strongVariants = [
-  `${cropSubject} usually ${getPerformVerb(crop)} reliably when planted on time in ${city.name}. Gardeners generally have enough room to choose varieties for preference, not just for speed.`,
-  `${cropDependable(crop, city)}. The season is supportive enough that gardeners usually have options instead of feeling pushed into only the quickest path.`,
-  `${cropDependable(crop, city)}. Normal timing and realistic variety choice are usually enough to produce dependable results.`,
-`${cropSubject} usually ${getPerformVerb(crop)} well in ${city.name}. The practical advantage is that gardeners have some flexibility in timing and variety choice.`,
-`${cropSubject} ${getVerb(crop)} usually a strong local fit in ${city.name}. Most gardeners have some room to work with it here rather than feeling pressed against the calendar.`
+    if (behaviorProfile === "perennial-fruit") {
+const strongStrawberryVariants = [
+  `${cropSubject} are usually a dependable crop in ${city.name}. The season is supportive enough that growers can focus more on crop style and patch performance than on basic feasibility.`,
+  `In ${city.name}, ${crop.name.toLowerCase()} are usually a strong fit. The main advantage is having enough season for reliable establishment and a more flexible harvest plan.`,
+  `${cropSubject} are usually a good match for the season in ${city.name}. This is less about whether the crop can work and more about what kind of planting and harvest pattern you want.`,
+  `${cropSubject} usually have enough local season in ${city.name} that growers can think more about patch performance and harvest pattern than about whether the crop can finish.`,
+  `${cropSubject} are usually a practical, dependable planting in ${city.name}. The local advantage is mostly about giving gardeners more freedom in crop style and patch performance.`
 ];
 
-    succeed = strongVariants[idx];
+      succeed = strongStrawberryVariants[idx];
+    } else {
+      const strongVariants = [
+        `${cropSubject} usually ${getPerformVerb(crop)} reliably when planted on time in ${city.name}. Gardeners generally have enough room to choose varieties for preference, not just for speed.`,
+        `${cropDependable(crop, city)}. The season is supportive enough that gardeners usually have options instead of feeling pushed into only the quickest path.`,
+        `${cropDependable(crop, city)}. Normal timing and realistic variety choice are usually enough to produce dependable results.`,
+        `${cropSubject} usually ${getPerformVerb(crop)} well in ${city.name}. The practical advantage is that gardeners have some flexibility in timing and variety choice.`,
+        `${cropSubject} ${getVerb(crop)} usually a strong local fit in ${city.name}. Most gardeners have some room to work with it here rather than feeling pressed against the calendar.`
+      ];
+
+      succeed = strongVariants[idx];
+    }
   } else if (confidence === "good") {
-    const goodVariants = [
-      `${cropSubject} ${getVerb(crop)} usually workable in ${city.name} with normal timing and reasonable variety choice. This is a good fit, but it still rewards gardeners who stay close to the local season.`,
-      `${cropSubject} ${getVerb(crop)} generally practical in ${city.name}, especially when gardeners plant on time${varietyText ? ` and stay close to ${varietyText.toLowerCase()} varieties` : ""}.`,
-      `${cropSubject} ${getVerb(crop)} usually a solid option in ${city.name}, but this is still a crop where delays or slower varieties can narrow the margin noticeably.`
-    ];
-
-    succeed =
-      goodVariants[
-        stableVariantIndex(city.key || city.name, crop.key, "good-succeed") %
-          goodVariants.length
+    if (behaviorProfile === "perennial-fruit") {
+      const goodStrawberryVariants = [
+        `${cropSubject} are usually a practical fit in ${city.name}, though planting timing still matters because stronger early establishment usually leads to better results.`,
+        `In ${city.name}, ${crop.name.toLowerCase()} are usually workable with enough season for solid production, but earlier planting still improves establishment and first harvest timing.`,
+        `${cropSubject} are generally a good local option in ${city.name}, especially when gardeners plant early enough to establish the crop cleanly.`
       ];
+
+      succeed =
+        goodStrawberryVariants[
+          stableVariantIndex(city.key || city.name, crop.key, "good-succeed") %
+            goodStrawberryVariants.length
+        ];
+    } else {
+      const goodVariants = [
+        `${cropSubject} ${getVerb(crop)} usually workable in ${city.name} with normal timing and reasonable variety choice. This is a good fit, but it still rewards gardeners who stay close to the local season.`,
+        `${cropSubject} ${getVerb(crop)} generally practical in ${city.name}, especially when gardeners plant on time${varietyText ? ` and stay close to ${varietyText.toLowerCase()} varieties` : ""}.`,
+        `${cropSubject} ${getVerb(crop)} usually a solid option in ${city.name}, but this is still a crop where delays or slower varieties can narrow the margin noticeably.`
+      ];
+
+      succeed =
+        goodVariants[
+          stableVariantIndex(city.key || city.name, crop.key, "good-succeed") %
+            goodVariants.length
+        ];
+    }
   } else if (confidence === "borderline") {
-    const borderlineVariants = [
-      `${cropSubject} can still succeed in ${city.name}, but the crop usually needs better-than-average planning around timing, variety speed, and site warmth.`,
-      `${cropSubject} ${getVerb(crop)} possible in ${city.name}, though this is the kind of crop where the margin is narrow enough that small choices start to matter a lot.`,
-      `Gardeners can still grow ${crop.name.toLowerCase()} in ${city.name}, but success usually depends on treating earliness and warm placement as part of the plan rather than as nice bonuses.`
-    ];
-
-    succeed =
-      borderlineVariants[
-        stableVariantIndex(city.key || city.name, crop.key, "borderline-succeed") %
-          borderlineVariants.length
+    if (behaviorProfile === "perennial-fruit") {
+      const borderlineStrawberryVariants = [
+        `${cropSubject} are more marginal in ${city.name} because the season is workable but not roomy. Timing and good early establishment matter much more here.`,
+        `In ${city.name}, ${crop.name.toLowerCase()} can work, but the local season leaves less room for delayed planting or weaker establishment.`,
+        `${cropSubject} are possible in ${city.name}, though this is the kind of crop where planting timing and establishment quality matter much more than they do in easier climates.`
       ];
+
+      succeed =
+        borderlineStrawberryVariants[
+          stableVariantIndex(city.key || city.name, crop.key, "borderline-succeed") %
+            borderlineStrawberryVariants.length
+        ];
+    } else {
+      const borderlineVariants = [
+        `${cropSubject} can still succeed in ${city.name}, but the crop usually needs better-than-average planning around timing, variety speed, and site warmth.`,
+        `${cropSubject} ${getVerb(crop)} possible in ${city.name}, though this is the kind of crop where the margin is narrow enough that small choices start to matter a lot.`,
+        `Gardeners can still grow ${crop.name.toLowerCase()} in ${city.name}, but success usually depends on treating earliness and warm placement as part of the plan rather than as nice bonuses.`
+      ];
+
+      succeed =
+        borderlineVariants[
+          stableVariantIndex(city.key || city.name, crop.key, "borderline-succeed") %
+            borderlineVariants.length
+        ];
+    }
   } else {
-    const riskyVariants = [
-      `${cropSubject} ${getVerb(crop)} challenging in ${city.name}. Gardeners who succeed usually stack the odds with the fastest varieties, the best timing, and the warmest sites they have.`,
-      `${cropSubject} ${getVerb(crop)} usually a higher-risk crop in ${city.name}. Success tends to come from careful variety choice and the most favorable microclimates available.`,
-      `In ${city.name}, ${crop.name.toLowerCase()} usually needs active risk management rather than ordinary planting. Gardeners normally need speed, warmth, and a bit of luck all working together.`
-    ];
-
-    succeed =
-      riskyVariants[
-        stableVariantIndex(city.key || city.name, crop.key, "risky-succeed") %
-          riskyVariants.length
+    if (behaviorProfile === "perennial-fruit") {
+      const riskyStrawberryVariants = [
+        `${cropSubject} are often difficult in ${city.name} because the local season leaves little room for delayed planting or weak establishment.`,
+        `In ${city.name}, ${crop.name.toLowerCase()} usually have only a narrow seasonal margin, so early planting and strong establishment matter much more than they do for easier crops.`,
+        `${cropSubject} are a more demanding choice in ${city.name}, usually favoring the earliest practical planting and the strongest establishment possible.`
       ];
+
+      succeed =
+        riskyStrawberryVariants[
+          stableVariantIndex(city.key || city.name, crop.key, "risky-succeed") %
+            riskyStrawberryVariants.length
+        ];
+    } else {
+const riskyVariants = [
+  `${cropSubject} ${getVerb(crop)} challenging in ${city.name}. Gardeners who succeed usually stack the odds with the fastest varieties, the best timing, and the warmest sites they have.`,
+  `${cropSubject} ${getVerb(crop)} usually a higher-risk crop in ${city.name}. Success tends to come from careful variety choice and the most favorable microclimates available.`,
+  `In ${city.name}, ${cropNameLower} ${getVerb(crop)} usually a crop that needs active risk management rather than ordinary planting. Gardeners normally need speed, warmth, and a bit of luck all working together.`
+];
+
+      succeed =
+        riskyVariants[
+          stableVariantIndex(city.key || city.name, crop.key, "risky-succeed") %
+            riskyVariants.length
+        ];
+    }
   }
 
   let fail = "";
 
   if (confidence === "surplus") {
-    const surplusFailVariants = [
-      `Setbacks here usually come from practical decisions rather than from season length: planting later than ideal, uneven growth, poor moisture management, or harvesting outside the best eating window.`,
-`When this crop disappoints in ${city.name}, the issue is usually management rather than climate fit. Timing, consistency, and harvest decisions matter more than season length.`,
-      `The most common problems here are not climatic ones. Gardeners usually lose ground through timing, uneven growth, or letting the crop move past its best stage.`
-    ];
-
-    fail =
-      surplusFailVariants[
-        stableVariantIndex(city.key || city.name, crop.key, "surplus-fail") %
-          surplusFailVariants.length
+    if (behaviorProfile === "perennial-fruit") {
+      const strawberryFailVariants = [
+        `When strawberries disappoint here, the issue is usually delayed planting, weak establishment, or letting the patch drift past its best harvest window.`,
+        `The most common setbacks here are practical ones: planting too late, weak establishment, or uneven care after planting.`,
+        `In a climate like this, strawberries usually fail more from weak establishment and management drift than from lack of season.`
       ];
+
+      fail =
+        strawberryFailVariants[
+          stableVariantIndex(city.key || city.name, crop.key, "surplus-fail") %
+            strawberryFailVariants.length
+        ];
+    } else {
+      const surplusFailVariants = [
+        `Setbacks here usually come from practical decisions rather than from season length: planting later than ideal, uneven growth, poor moisture management, or harvesting outside the best eating window.`,
+        `When this crop disappoints in ${city.name}, the issue is usually management rather than climate fit. Timing, consistency, and harvest decisions matter more than season length.`,
+        `The most common problems here are not climatic ones. Gardeners usually lose ground through timing, uneven growth, or letting the crop move past its best stage.`
+      ];
+
+      fail =
+        surplusFailVariants[
+          stableVariantIndex(city.key || city.name, crop.key, "surplus-fail") %
+            surplusFailVariants.length
+        ];
+    }
   } else if (confidence === "strong") {
-    const strongFailVariants = [
-      `Problems here usually come from giving up part of the season through late planting, weak early growth, or slower variety choice than the crop really needs.`,
-      `When this crop underperforms in ${city.name}, the culprit is usually timing or variety choice rather than the climate itself.`,
-      `The most common setbacks here are practical: planting too late, losing momentum early, or choosing varieties that ask for more season than necessary.`
-    ];
-
-    fail =
-      strongFailVariants[
-        stableVariantIndex(city.key || city.name, crop.key, "strong-fail") %
-          strongFailVariants.length
+    if (behaviorProfile === "perennial-fruit") {
+      const strongStrawberryFailVariants = [
+        `The usual setback here is giving up establishment time through delayed planting or uneven early care.`,
+        `When strawberries underperform in ${city.name}, the cause is usually delayed planting or weaker establishment rather than climate limits.`,
+        `The most common problems here are practical ones: planting later than ideal, losing early momentum, or managing the planting unevenly after it goes in.`
       ];
+
+      fail =
+        strongStrawberryFailVariants[
+          stableVariantIndex(city.key || city.name, crop.key, "strong-fail") %
+            strongStrawberryFailVariants.length
+        ];
+    } else {
+      const strongFailVariants = [
+        `Problems here usually come from giving up part of the season through late planting, weak early growth, or slower variety choice than the crop really needs.`,
+        `When this crop underperforms in ${city.name}, the culprit is usually timing or variety choice rather than the climate itself.`,
+        `The most common setbacks here are practical: planting too late, losing momentum early, or choosing varieties that ask for more season than necessary.`
+      ];
+
+      fail =
+        strongFailVariants[
+          stableVariantIndex(city.key || city.name, crop.key, "strong-fail") %
+            strongFailVariants.length
+        ];
+    }
   } else if (confidence === "good") {
-    fail = `The usual trouble comes from delayed planting or from choosing slower varieties when the local season would reward simpler, faster choices.`;
+    if (behaviorProfile === "perennial-fruit") {
+      fail = `The usual trouble comes from delayed planting or weaker early establishment rather than from running out of season outright.`;
+    } else {
+      fail = `The usual trouble comes from delayed planting or from choosing slower varieties when the local season would reward simpler, faster choices.`;
+    }
   } else if (confidence === "borderline") {
-    fail = `The most common problem is running short on season. Late planting, slower varieties, and cooler exposed sites can turn a possible crop into a disappointing one.`;
+    if (behaviorProfile === "perennial-fruit") {
+      fail = `The most common problem is losing too much time for strong establishment. Late planting and weaker sites can turn a possible crop into a much less rewarding one.`;
+    } else {
+      fail = `The most common problem is running short on season. Late planting, slower varieties, and cooler exposed sites can turn a possible crop into a disappointing one.`;
+    }
   } else {
-    fail = `The crop usually falls short here because the season runs out before it finishes well. Late planting, cool nights, and slower varieties make that problem much worse.`;
+    if (behaviorProfile === "perennial-fruit") {
+      fail = `The crop usually struggles here because delayed planting or weak establishment leaves too little room for a strong, productive planting.`;
+    } else {
+      fail = `The crop usually falls short here because the season runs out before it finishes well. Late planting, cool nights, and slower varieties make that problem much worse.`;
+    }
   }
 
   const siteSentenceVariants = [
@@ -2240,9 +3793,9 @@ const strongVariants = [
     buildMicroCropEffect({ crop, city, confidence, gddMargin })
   ];
 
-if (confidence !== "strong") {
-  microParts.splice(1, 0, `${profile.baseline.charAt(0).toUpperCase() + profile.baseline.slice(1)}.`);
-}
+  if (confidence !== "strong" && confidence !== "surplus") {
+    microParts.splice(1, 0, `${profile.baseline.charAt(0).toUpperCase() + profile.baseline.slice(1)}.`);
+  }
 
   const micro = microParts.filter(Boolean).join(" ");
 
@@ -2255,84 +3808,84 @@ if (confidence !== "strong") {
     gddMargin
   });
 
-const ledeThemeMap = {
-  surplus: {
-    "cool-season-quality": ["easy-fit", "timing-matters-most", "plenty-of-time"],
-    "cool-season-structural": ["easy-fit", "well-within-season", "room-to-aim"],
-    "fast-root": ["quality-over-maturity", "root-quality", "size-and-harvest"],
-    "storage-root": ["comfortable-fit", "finish-well", "harvest-goals"],
-    default: ["easy-fit", "well-within-season", "result-oriented"]
+  const ledeThemeMap = {
+    surplus: {
+      "cool-season-quality": ["easy-fit", "timing-matters-most", "plenty-of-time"],
+      "cool-season-structural": ["easy-fit", "well-within-season", "room-to-aim"],
+      "fast-root": ["quality-over-maturity", "root-quality", "size-and-harvest"],
+      "storage-root": ["comfortable-fit", "finish-well", "harvest-goals"],
+      default: ["easy-fit", "well-within-season", "result-oriented"]
+    }
+  };
+
+  const localThemeMap = {
+    surplus: {
+      "cool-season-quality": ["quality-window", "warmup-pressure", "cool-conditions"],
+      "cool-season-structural": ["window-flexibility", "finish-quality", "timing-variety-freedom"],
+      "fast-root": ["root-quality", "even-growth", "size-and-timing"],
+      "storage-root": ["consistency-and-sizing", "finish-well", "finish-goals"],
+      default: ["maturity-easy", "comfortable-margin", "harvest-goals"]
+    }
+  };
+
+  const bestStrategyThemeMap = {
+    surplus: {
+      leafy: ["quality-window", "bolt-tenderness", "harvest-window"],
+      brassica: ["avoid-growth-checks", "harvest-stage", "even-finish"],
+      roots: ["spacing-moisture", "uniformity", "root-quality"],
+      storage: ["steady-growth", "uniformity-finish", "quality-consistency"],
+      summer: ["harvest-rhythm", "early-vigor", "production-management"],
+      warm_fruit: ["variety-flexibility", "ripening-goals", "site-variety-match"],
+      default: ["quality-management", "goal-oriented", "flexibility"]
+    }
+  };
+
+  function getSurplusLedeThemes(profile) {
+    return ledeThemeMap.surplus[profile] || ledeThemeMap.surplus.default;
   }
-};
 
-const localThemeMap = {
-  surplus: {
-    "cool-season-quality": ["quality-window", "warmup-pressure", "cool-conditions"],
-    "cool-season-structural": ["window-flexibility", "finish-quality", "timing-variety-freedom"],
-    "fast-root": ["root-quality", "even-growth", "size-and-timing"],
-    "storage-root": ["consistency-and-sizing", "finish-well", "finish-goals"],
-    default: ["maturity-easy", "comfortable-margin", "harvest-goals"]
+  function getSurplusLocalThemes(profile) {
+    return localThemeMap.surplus[profile] || localThemeMap.surplus.default;
   }
-};
 
-const bestStrategyThemeMap = {
-  surplus: {
-    leafy: ["quality-window", "bolt-tenderness", "harvest-window"],
-    brassica: ["avoid-growth-checks", "harvest-stage", "even-finish"],
-    roots: ["spacing-moisture", "uniformity", "root-quality"],
-    storage: ["steady-growth", "uniformity-finish", "quality-consistency"],
-    summer: ["harvest-rhythm", "early-vigor", "production-management"],
-    warm_fruit: ["variety-flexibility", "ripening-goals", "site-variety-match"],
-    default: ["quality-management", "goal-oriented", "flexibility"]
+  function getSurplusStrategyThemes(cropKey) {
+    if (["spinach", "lettuce", "peas"].includes(cropKey)) return bestStrategyThemeMap.surplus.leafy;
+    if (["kale", "swiss-chard", "broccoli", "cauliflower", "cabbage"].includes(cropKey)) return bestStrategyThemeMap.surplus.brassica;
+    if (["carrots", "beets", "radishes", "turnips"].includes(cropKey)) return bestStrategyThemeMap.surplus.roots;
+    if (["onions", "garlic", "potatoes"].includes(cropKey)) return bestStrategyThemeMap.surplus.storage;
+    if (["zucchini", "cucumbers", "beans"].includes(cropKey)) return bestStrategyThemeMap.surplus.summer;
+    if (["tomatoes", "peppers"].includes(cropKey)) return bestStrategyThemeMap.surplus.warm_fruit;
+    return bestStrategyThemeMap.surplus.default;
   }
-};
 
-function getSurplusLedeThemes(profile) {
-  return ledeThemeMap.surplus[profile] || ledeThemeMap.surplus.default;
-}
+  const profileKey = getBehaviorProfile(crop);
+  const ledeThemesToAvoid =
+    confidence === "surplus" ? getSurplusLedeThemes(profileKey) : [];
 
-function getSurplusLocalThemes(profile) {
-  return localThemeMap.surplus[profile] || localThemeMap.surplus.default;
-}
+  const localInterpretation = buildLocalInterpretation({
+    crop,
+    city,
+    confidence,
+    gddMargin,
+    regionalComparisonSentence,
+    frostFreeDays,
+    avoidThemes: ledeThemesToAvoid
+  });
 
-function getSurplusStrategyThemes(cropKey) {
-  if (["spinach", "lettuce", "peas"].includes(cropKey)) return bestStrategyThemeMap.surplus.leafy;
-  if (["kale", "swiss-chard", "broccoli", "cauliflower", "cabbage"].includes(cropKey)) return bestStrategyThemeMap.surplus.brassica;
-  if (["carrots", "beets", "radishes", "turnips"].includes(cropKey)) return bestStrategyThemeMap.surplus.roots;
-  if (["onions", "garlic", "potatoes"].includes(cropKey)) return bestStrategyThemeMap.surplus.storage;
-  if (["zucchini", "cucumbers", "beans"].includes(cropKey)) return bestStrategyThemeMap.surplus.summer;
-  if (["tomatoes", "peppers"].includes(cropKey)) return bestStrategyThemeMap.surplus.warm_fruit;
-  return bestStrategyThemeMap.surplus.default;
-}
+  const localThemesToAvoid =
+    confidence === "surplus" ? getSurplusLocalThemes(profileKey) : [];
 
-const profileKey = getBehaviorProfile(crop);
-const ledeThemesToAvoid =
-  confidence === "surplus" ? getSurplusLedeThemes(profileKey) : [];
+  const bestStrategy = buildBestStrategy({
+    crop,
+    city,
+    confidence,
+    avoidThemes:
+      confidence === "surplus"
+        ? mergeAvoidThemes(ledeThemesToAvoid, localThemesToAvoid, getSurplusStrategyThemes(crop.key))
+        : []
+  });
 
-const localInterpretation = buildLocalInterpretation({
-  crop,
-  city,
-  confidence,
-  gddMargin,
-  regionalComparisonSentence,
-  frostFreeDays,
-  avoidThemes: ledeThemesToAvoid
-});
-
-const localThemesToAvoid =
-  confidence === "surplus" ? getSurplusLocalThemes(profileKey) : [];
-
-const bestStrategy = buildBestStrategy({
-  crop,
-  city,
-  confidence,
-  avoidThemes:
-    confidence === "surplus"
-      ? mergeAvoidThemes(ledeThemesToAvoid, localThemesToAvoid, getSurplusStrategyThemes(crop.key))
-      : []
-});
-
-return {
+  return {
     heading: `What Local Garden Sites Change for ${crop.name}`,
     succeed,
     fail,
@@ -2363,6 +3916,46 @@ function buildLede({
 
   const profile = getBehaviorProfile(crop);
 
+  if (profile === "perennial-fruit") {
+    if (confidence === "surplus") {
+      return [
+        `${cropSubject} are usually very easy to grow in ${city.name}. The crop typically has plenty of time, so planting date and harvest style matter more than whether it can finish.`,
+        `${cropSubject} are usually a strong fit in ${city.name}. The main decisions are about planting early enough for strong establishment and choosing the kind of harvest you want.`,
+        `In ${city.name}, ${cropNameLower} usually have plenty of seasonal room. The more useful decisions are about establishment, harvest timing, and variety type rather than simple maturity.`
+      ][idx];
+    }
+
+    if (confidence === "strong") {
+      return [
+        `${cropSubject} are usually a dependable crop in ${city.name}. The season is supportive enough that gardeners can focus more on establishment and harvest style than on whether the planting can work at all.`,
+        `In ${city.name}, ${cropNameLower} are usually a strong fit. The main value of the local margin is giving gardeners room to plant for the kind of harvest they want.`,
+        `${cropSubject} are usually a good match for the season in ${city.name}. Planting timing still matters, but this is less about basic feasibility than about establishment and crop style.`
+      ][idx];
+    }
+
+    if (confidence === "good") {
+      return [
+        `${cropSubject} are usually a practical fit in ${city.name}, though planting timing still matters because stronger early establishment usually leads to better results.`,
+        `In ${city.name}, ${cropNameLower} are usually workable with enough season for solid production, but earlier planting still improves establishment and first harvest timing.`,
+        `${cropSubject} are generally a good local option in ${city.name}, especially when gardeners plant early enough to establish the crop cleanly.`
+      ][idx];
+    }
+
+    if (confidence === "borderline") {
+      return [
+        `${cropSubject} are more marginal in ${city.name} because the season is workable but not roomy. Timing and good early establishment matter much more here.`,
+        `In ${city.name}, ${cropNameLower} can work, but the local season leaves less room for delayed planting or weaker establishment.`,
+        `${cropSubject} are possible in ${city.name}, though this is the kind of crop where planting timing and establishment quality matter much more than they do in easier climates.`
+      ][idx];
+    }
+
+    return [
+      `${cropSubject} are often difficult in ${city.name} because the local season leaves little room for delayed planting or weak establishment.`,
+      `In ${city.name}, ${cropNameLower} usually have only a narrow seasonal margin, so early planting and strong establishment matter much more than they do for easier crops.`,
+      `${cropSubject} are a more demanding choice in ${city.name}, usually favoring the earliest practical planting and the strongest establishment possible.`
+    ][idx];
+  }
+
   if (confidence === "surplus") {
     if (profile === "cool-season-quality") {
       return pickThemedVariant({
@@ -2381,7 +3974,7 @@ function buildLede({
           },
           {
             theme: "plenty-of-time",
-text: `${cropSubject} ${verb} usually very easy to grow in ${city.name}. The crop typically has plenty of time, so timing and eating quality matter more than whether the crop can finish.`
+            text: `${cropSubject} ${verb} usually very easy to grow in ${city.name}. The crop typically has plenty of time, so timing and eating quality matter more than whether the crop can finish.`
           }
         ]
       })?.text;
@@ -2446,7 +4039,7 @@ text: `${cropSubject} ${verb} usually very easy to grow in ${city.name}. The cro
           },
           {
             theme: "finish-well",
-text: `${cropSubject} ${verb} usually well matched to the season in ${city.name}. The practical focus is usually crop quality and finishing well rather than merely getting the crop to maturity.`
+            text: `${cropSubject} ${verb} usually well matched to the season in ${city.name}. The practical focus is usually crop quality and finishing well rather than merely getting the crop to maturity.`
           },
           {
             theme: "harvest-goals",
@@ -2761,10 +4354,13 @@ const confidence = getConfidence(gddMargin, gddTargetTypical);
   const cropNounSingular = getCropNounSingular(crop);
   const plantingWindow = resolvePlantingWindow(city, crop);
 
-  const bestStrategy = buildBestStrategy({
-  crop,
+const actionBox = buildCropCityActionBox({
   city,
-  confidence
+  crop,
+  confidence,
+  fittingVarietyLabels,
+  fittingVarietyClasses,
+  gddMargin
 });
 
   const methodSummary = buildMethodSummary({
@@ -2805,6 +4401,10 @@ const confidence = getConfidence(gddMargin, gddTargetTypical);
     preferredStationLon:
       city.preferredStationLon != null ? city.preferredStationLon : null,
 
+    monetization: {
+  primaryAction: actionBox
+},
+    
     stationId: city.gddStationId || null,
     gddStationId: city.gddStationId || null,
     stationName: city.stationName || null,

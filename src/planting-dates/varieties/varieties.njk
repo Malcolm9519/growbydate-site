@@ -15,8 +15,18 @@ eleventyComputed:
 {% set cropDisplayName = pageData.copy.varietyPageCropName or pageData.copy.cropDisplayName or pageData.cropName %}
 {% set cropNameLower = pageData.copy.cropNameLower or (pageData.cropName | lower) %}
 {% set named = pageData.namedVarieties or {} %}
+{% set action = pageData.monetization.varietyAction if pageData.monetization else null %}
 {% set tables = pageData.varietyTables or {} %}
+{% set cutRows = named.notRecommended or [] %}
 {% set slowestStillFittingDisplay = pageData.copy.slowestStillFittingDisplay or null %}
+{% set seasonGdd = pageData.copy.availableGddFromPlanting or pageData.heat.availableFromPlanting or pageData.heat.gddAvailable or pageData.heat.available or pageData.heat.seasonTotal or null %}
+{% set frostFreeDays = pageData.copy.frostFreeDays or pageData.frost.frostFreeDays or null %}
+{% set hasNamedVarieties = (named.bestDefaults and named.bestDefaults.length) or (named.safest and named.safest.length) or (named.workable and named.workable.length) %}
+{% set hasSeasonFitChart = seasonGdd and hasNamedVarieties %}
+{% set workableGroupLabel = "Also realistic" %}
+{% if named.workable and named.workable.length and not (named.bestDefaults and named.bestDefaults.length) and not (named.safest and named.safest.length) %}
+  {% set workableGroupLabel = "Closest matches for a marginal season" %}
+{% endif %}
 
 <style>
   .varietySection {
@@ -39,12 +49,12 @@ eleventyComputed:
     margin-top: 1rem;
   }
 
-.varietyCard {
-  border: 1px solid #dde6d8;
-  border-radius: 1.6rem;
-  padding: 1.15rem 1.2rem 1.05rem;
-  background: #f7fbf4;
-}
+  .varietyCard {
+    border: 1px solid #dde6d8;
+    border-radius: 1.6rem;
+    padding: 1.15rem 1.2rem 1.05rem;
+    background: #f7fbf4;
+  }
 
   .varietyCardTitle {
     margin: 0 0 0.7rem 0;
@@ -97,13 +107,834 @@ eleventyComputed:
   .varietyTradeoff {
     color: #2f3a31;
   }
-  
+
+  .seasonFitSection {
+    margin: 2rem 0;
+  }
+
+  .seasonFitHeader {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.25rem;
+    align-items: start;
+    margin-bottom: 1.15rem;
+  }
+
+  .seasonFitHeader h2 {
+    margin-bottom: 0.35rem;
+  }
+
+  .seasonFitIntro {
+    max-width: 50rem;
+    margin: 0;
+  }
+
+  .seasonFitQuickAnswer {
+    max-width: 60rem;
+    margin: 0 0 0.65rem;
+    font-size: 1.03rem;
+    line-height: 1.55;
+  }
+
+    .heroSeasonAxis {
+    margin: 1.35rem 0 2rem;
+  }
+
+  .heroSeasonAxis .seasonRunwayAxis {
+    margin-bottom: 0;
+  }
+
+  .seasonRunway {
+    margin-top: 1rem;
+  }
+
+  .seasonFitGroups {
+    display: grid;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .varietyActionBox {
+    padding: 1.05rem;
+    border: 1px solid #dce9d5;
+    border-radius: 1.25rem;
+    background: linear-gradient(180deg, rgba(247, 251, 244, 0.94), rgba(255, 255, 255, 0.88));
+    box-shadow: 0 14px 34px rgba(43, 64, 43, 0.055);
+  }
+
+  .varietyActionBox-borderline,
+  .varietyActionBox-risky {
+    border-color: #ead9cf;
+    background: linear-gradient(180deg, rgba(255, 250, 247, 0.94), rgba(255, 255, 255, 0.9));
+  }
+
+  .varietyActionEyebrow {
+    margin: 0 0 0.25rem;
+    color: #536153;
+    font-size: 0.78rem;
+    line-height: 1.2;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 900;
+  }
+
+  .varietyActionBox h2 {
+    margin: 0 0 0.45rem;
+    font-size: clamp(1.35rem, 2.2vw, 1.75rem);
+    line-height: 1.15;
+  }
+
+  .varietyActionIntro {
+    max-width: 58rem;
+    margin: 0 0 0.95rem;
+    color: #2f3a31;
+  }
+
+  .varietyActionGroups {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.8rem;
+  }
+
+  .varietyActionGroup {
+    padding: 0.9rem;
+    border: 1px solid #e3ecdf;
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.86);
+  }
+
+  .varietyActionGroup h3 {
+    margin: 0 0 0.35rem;
+    font-size: 1rem;
+    line-height: 1.25;
+  }
+
+  .varietyActionReason {
+    margin: 0 0 0.55rem;
+    color: #536153;
+  }
+
+  .varietyActionGroup ul {
+    margin: 0;
+    padding-left: 1.1rem;
+  }
+
+  .varietyActionGroup li + li {
+    margin-top: 0.35rem;
+  }
+
+  .varietyActionCtas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 0.95rem;
+  }
+
+  .varietyActionCta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.58rem 0.82rem;
+    border-radius: 999px;
+    border: 1px solid #d8e8d1;
+    background: #f3f8ef;
+    color: #315f2b;
+    font-weight: 800;
+    text-decoration: none;
+  }
+
+  .varietyActionCta-primary {
+    background: #315f2b;
+    border-color: #315f2b;
+    color: #fff;
+  }
+
+  .varietyActionDisclosure {
+    margin: 0.8rem 0 0;
+  }
+
+
+  .seasonRunwayAxis {
+    margin-bottom: 1.15rem;
+    padding: 0.95rem 1rem 1rem;
+    border: 1px solid #e4eedf;
+    border-radius: 1rem;
+    background: rgba(247, 251, 244, 0.9);
+  }
+
+  .seasonAxisHeading {
+    display: inline-flex;
+    align-items: center;
+    margin: 0 0 0.75rem;
+    padding: 0.22rem 0.55rem;
+    border: 1px solid #d8e8d1;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.72);
+    color: #536153;
+    font-size: 0.74rem;
+    line-height: 1.2;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .seasonAxisTop {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.45rem;
+    color: #536153;
+    font-size: 0.82rem;
+    line-height: 1.25;
+  }
+
+  .seasonAxisTop strong {
+    display: block;
+    color: #172217;
+    font-size: 0.95rem;
+  }
+
+  .seasonAxisTop span:last-child {
+    text-align: right;
+  }
+
+.seasonAxisLine {
+  position: relative;
+  height: 0.72rem;
+  margin-top: 0.7rem;
+  margin-bottom: 3.4rem;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #dfe9da 0%, #b9dba7 35%, #e2cc86 74%, #f0b89d 100%);
+  overflow: visible;
+}
+
+  .seasonAxisMarker {
+    position: absolute;
+    left: var(--marker-pos, 0%);
+    top: calc(50% + var(--stack-shift, 0px));
+    width: 0.68rem;
+    height: 0.68rem;
+    transform: translate(-50%, -50%);
+    border-radius: 999px;
+    border: 2px solid #fff;
+    background: #1f271f;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.18);
+    cursor: pointer;
+    z-index: 3;
+    padding: 0;
+  }
+
+  .seasonAxisMarker.is-best,
+  .seasonAxisMarker.is-workable {
+    background: #79aa5f;
+  }
+
+  .seasonAxisMarker.is-safest {
+    background: #c99c45;
+  }
+
+  .seasonAxisMarker::after {
+    content: attr(data-label);
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 0.55rem);
+    transform: translateX(-50%);
+    white-space: nowrap;
+    padding: 0.35rem 0.5rem;
+    border-radius: 0.65rem;
+    background: rgba(31, 39, 31, 0.94);
+    color: #fff;
+    font-size: 0.76rem;
+    line-height: 1.15;
+    font-weight: 700;
+    opacity: 0;
+    pointer-events: none;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+  }
+
+  .seasonAxisMarker:hover::after,
+  .seasonAxisMarker:focus-visible::after,
+  .seasonAxisMarker.is-active::after {
+    opacity: 1;
+  }
+
+  .seasonAxisCaption {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 0.15rem;
+    color: #536153;
+    font-size: 0.78rem;
+  }
+
+  .seasonAxisHint {
+    margin: 0.45rem 0 0;
+    color: #536153;
+    font-size: 0.76rem;
+    line-height: 1.25;
+  }
+
+  .seasonFitGroupSection {
+    margin: 0;
+    padding: 1.05rem;
+    border: 1px solid #dce9d5;
+    border-radius: 1.25rem;
+    background: rgba(247, 251, 244, 0.84);
+    box-shadow: 0 14px 34px rgba(43, 64, 43, 0.055);
+  }
+
+  .seasonFitGroupSection.is-safest {
+    border-color: #eadfbf;
+    background: rgba(255, 250, 236, 0.86);
+  }
+
+  .seasonFitGroupSection.is-workable {
+    border-color: #dbe5d7;
+    background: rgba(255, 255, 255, 0.86);
+  }
+
+  .seasonFitGroupLabel {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin: 0 0 0.85rem;
+    padding: 0.65rem 0.8rem;
+    border: 1px solid #d8e8d1;
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.88);
+    color: #243528;
+    font-size: 1rem;
+    line-height: 1.2;
+    text-transform: uppercase;
+    letter-spacing: 0.075em;
+    font-weight: 950;
+    box-shadow: 0 8px 20px rgba(43, 64, 43, 0.05);
+  }
+
+  .seasonFitGroupLabel::before {
+    content: "";
+    flex: 0 0 auto;
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 999px;
+    background: #79aa5f;
+  }
+
+  .seasonFitGroupSection.is-safest .seasonFitGroupLabel {
+    border-color: #eadfbf;
+    color: #5b4515;
+  }
+
+  .seasonFitGroupSection.is-safest .seasonFitGroupLabel::before {
+    background: #c99c45;
+  }
+
+  .seasonFitGroupSection.is-workable .seasonFitGroupLabel {
+    border-color: #dbe5d7;
+    color: #445549;
+  }
+
+  .seasonFitRows {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .seasonFitRow {
+    display: grid;
+    grid-template-columns: minmax(10rem, 0.9fr) minmax(0, 2.35fr) minmax(8rem, 0.72fr);
+    align-items: center;
+    gap: 0.9rem;
+    padding: 0.95rem 1rem;
+    border: 1px solid #dce9d5;
+    border-radius: 1.1rem;
+    background: rgba(255, 255, 255, 0.94);
+  }
+
+  .seasonFitName {
+    min-width: 0;
+  }
+
+  .seasonFitName strong {
+    display: block;
+    font-size: 1.05rem;
+    line-height: 1.15;
+    color: #111;
+  }
+
+  .seasonFitName span {
+    display: block;
+    margin-top: 0.22rem;
+    font-size: 0.9rem;
+    color: #536153;
+  }
+
+  .seasonFitTimeline {
+    min-width: 0;
+  }
+
+  .seasonFitBarLabels {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.28rem;
+    font-size: 0.78rem;
+    color: #536153;
+  }
+
+  .seasonFitBarLabels span:last-child {
+    text-align: right;
+  }
+
+  .seasonFitBar {
+    position: relative;
+    height: 1rem;
+    overflow: visible;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #dfe9da 0%, #b9dba7 35%, #e2cc86 74%, #f0b89d 100%);
+    box-shadow: inset 0 0 0 1px rgba(132, 65, 40, 0.08);
+  }
+
+  .seasonScaleLimit {
+    position: absolute;
+    right: 0;
+    top: -0.2rem;
+    bottom: -0.2rem;
+    width: 3px;
+    border-radius: 999px;
+    background: rgba(106, 85, 77, 0.95);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.82);
+    z-index: 2;
+  }
+
+  .seasonScaleMarker {
+    position: absolute;
+    left: var(--scale-pos, 100%);
+    top: 50%;
+    width: 0.7rem;
+    height: 0.7rem;
+    transform: translate(-50%, -50%);
+    border-radius: 999px;
+    background: #1f271f;
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.18);
+    z-index: 3;
+  }
+
+  .seasonScaleOverrun {
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    height: 1rem;
+    width: var(--overrun-width, 0%);
+    transform: translateY(-50%);
+    border-radius: 0 999px 999px 0;
+    background: repeating-linear-gradient(135deg, #f0b89d 0 10px, #cf8768 10px 20px);
+    box-shadow: inset 0 0 0 1px rgba(132, 65, 40, 0.08);
+  }
+
+  .seasonCutRows {
+    display: grid;
+    gap: 0.8rem;
+  }
+
+  .seasonCutCard {
+    display: grid;
+    grid-template-columns: minmax(9.5rem, 0.85fr) minmax(0, 2.25fr) minmax(8rem, 0.8fr);
+    gap: 0.9rem;
+    align-items: start;
+    padding: 1rem;
+    border: 1px solid #ead9cf;
+    border-radius: 1.1rem;
+    background: rgba(255, 250, 247, 0.9);
+  }
+
+  .seasonCutName strong {
+    display: block;
+    font-size: 1.05rem;
+    line-height: 1.15;
+    color: #111;
+    text-transform: capitalize;
+  }
+
+  .seasonCutName span {
+    display: block;
+    margin-top: 0.22rem;
+    font-size: 0.9rem;
+    color: #6a554d;
+  }
+
+  .seasonCutBody {
+    min-width: 0;
+  }
+
+  .seasonCutStats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .seasonCutStat {
+    padding: 0.55rem 0.65rem;
+    border: 1px solid #eaded6;
+    border-radius: 0.85rem;
+    background: rgba(255, 255, 255, 0.72);
+  }
+
+  .seasonCutStat span {
+    display: block;
+    font-size: 0.72rem;
+    line-height: 1.15;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #6a554d;
+    font-weight: 800;
+  }
+
+  .seasonCutStat strong {
+    display: block;
+    margin-top: 0.15rem;
+    font-size: 1.02rem;
+    line-height: 1.2;
+    color: #111;
+  }
+
+  .seasonCutStat.isShort strong {
+    color: #854128;
+  }
+
+  .seasonCutDataGap {
+    margin: 0.25rem 0 0.25rem;
+    padding: 0.7rem 0.8rem;
+    border: 1px dashed #ead9cf;
+    border-radius: 0.9rem;
+    background: rgba(255, 255, 255, 0.58);
+    color: #6a554d;
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+
+  .seasonCutGdd {
+    margin-top: 0.75rem;
+  }
+
+  .seasonCutGddLabels {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.28rem;
+    color: #6a554d;
+    font-size: 0.78rem;
+    line-height: 1.25;
+  }
+
+  .seasonCutGddLabels span:last-child {
+    text-align: right;
+  }
+
+  .seasonCutSeason {
+    margin-top: 0.75rem;
+    padding-bottom: 1.65rem;
+  }
+
+  .seasonCutSeasonLabels {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.28rem;
+    color: #6a554d;
+    font-size: 0.78rem;
+    line-height: 1.25;
+  }
+
+  .seasonCutSeasonLabels span:last-child {
+    text-align: right;
+  }
+
+  .seasonCutSeasonLine {
+    position: relative;
+    height: 1rem;
+    overflow: visible;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #dfe9da 0%, #b9dba7 35%, #e2cc86 74%, #f0b89d 100%);
+    box-shadow: inset 0 0 0 1px rgba(132, 65, 40, 0.08);
+  }
+
+  .seasonCutSeasonLimit {
+    position: absolute;
+    right: 0;
+    top: -0.2rem;
+    bottom: -0.2rem;
+    width: 3px;
+    border-radius: 999px;
+    background: rgba(106, 85, 77, 0.95);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.82);
+    z-index: 2;
+  }
+
+  .seasonCutMaturityMarker {
+    position: absolute;
+    left: var(--maturity-pos, 100%);
+    top: 50%;
+    width: 0.7rem;
+    height: 0.7rem;
+    transform: translate(-50%, -50%);
+    border-radius: 999px;
+    background: #1f271f;
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.18);
+    z-index: 3;
+  }
+
+  .seasonCutMaturityMarker::after {
+    content: attr(data-label);
+    position: absolute;
+    left: 50%;
+    top: calc(100% + 0.35rem);
+    transform: translateX(-50%);
+    white-space: nowrap;
+    color: #7a4a39;
+    font-size: 0.78rem;
+    line-height: 1.25;
+    font-weight: 700;
+  }
+
+  .seasonFitMaturity {
+    margin-top: 0.8rem;
+  }
+
+  .seasonFitMaturity .seasonCutSeasonLabels,
+  .seasonFitMaturity .seasonCutMaturityMarker::after {
+    color: #536153;
+  }
+
+  .seasonCutBadge {
+    justify-self: start;
+    display: inline-flex;
+    align-items: center;
+    padding: 0.38rem 0.68rem;
+    border-radius: 999px;
+    background: #fff0e9;
+    color: #854128;
+    font-size: 0.85rem;
+    font-weight: 800;
+    white-space: nowrap;
+  }
+
+  .seasonFitBadge {
+    justify-self: start;
+    display: inline-flex;
+    align-items: center;
+    padding: 0.38rem 0.68rem;
+    border-radius: 999px;
+    background: #eef7e8;
+    color: #2f5e28;
+    font-size: 0.85rem;
+    font-weight: 800;
+    white-space: nowrap;
+  }
+
+  .seasonFitRow[data-fit="tight"] .seasonFitBadge {
+    background: #fff5dc;
+    color: #775019;
+  }
+
+  .seasonFitRow[data-fit="poor"] .seasonFitBadge {
+    background: #fff0e9;
+    color: #854128;
+  }
+
+  .seasonFitDetails {
+    grid-column: 1 / -1;
+    margin-top: -0.25rem;
+    color: #2f3a31;
+    font-size: 0.96rem;
+    line-height: 1.45;
+  }
+
+  .seasonFitDetails summary {
+    display: inline-flex;
+    align-items: center;
+    width: auto;
+    cursor: pointer;
+    color: #315f2b;
+    font-weight: 800;
+    padding: 0.35rem 0.55rem;
+    border-radius: 999px;
+    background: #f3f8ef;
+    border: 1px solid #dfead9;
+  }
+
+  .seasonFitDetails summary::after {
+  content: "▾";
+  display: inline-block;
+  margin-left: 0.4rem;
+  font-size: 0.78em;
+  line-height: 1;
+  transform: translateY(-0.02em);
+}
+
+.seasonFitDetails[open] summary::after {
+  transform: translateY(-0.02em) rotate(180deg);
+}
+
+  .seasonFitDetails[open] summary {
+    margin-bottom: 0.55rem;
+  }
+
+  .seasonFitDetailsInner {
+    padding: 0.85rem 0.95rem;
+    border: 1px solid #e3eadf;
+    border-radius: 0.95rem;
+    background: rgba(247, 251, 244, 0.8);
+  }
+
+  .seasonFitDetailsInner p {
+    margin: 0;
+  }
+
+  .seasonFitDetailsInner p + p {
+    margin-top: 0.45rem;
+  }
+
+  .seasonFitTradeoff {
+    color: #344237;
+  }
+
+
+  .seasonFitCutSection {
+    margin: 0;
+    padding: 1.05rem;
+    border: 1px solid #ead9cf;
+    border-radius: 1.25rem;
+    background: rgba(255, 250, 247, 0.86);
+    box-shadow: 0 14px 34px rgba(132, 65, 40, 0.045);
+  }
+
+  .seasonFitCutIntro {
+    max-width: 54rem;
+    margin: 0 0 0.75rem;
+    color: #536153;
+  }
+
+  .seasonFitCutSection .seasonFitGroupLabel {
+    border-color: #ead9cf;
+    background: #fffaf7;
+    color: #6a554d;
+  }
+
+  .seasonFitCutSection .seasonFitGroupLabel::before {
+    background: #b46a4c;
+  }
+
+  .seasonFitCutSection .seasonFitRow {
+    background: rgba(255, 250, 247, 0.86);
+  }
+
+  .seasonFitFootnote {
+    margin: 0.9rem 0 0;
+    color: #536153;
+  }
+
+  @media (max-width: 920px) {
+    .seasonFitHeader {
+      grid-template-columns: 1fr;
+    }
+
+    .seasonFitRow {
+      grid-template-columns: minmax(9rem, 0.85fr) minmax(0, 1.95fr) minmax(7rem, 0.7fr);
+    }
+
+    .seasonFitBadge {
+      grid-column: 1 / -1;
+      justify-self: start;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .seasonFitGroupSection,
+    .seasonFitCutSection {
+      padding: 0.85rem;
+    }
+
+    .seasonFitRow,
+    .seasonCutCard {
+      grid-template-columns: 1fr;
+      gap: 0.65rem;
+    }
+
+    .varietyActionGroups {
+      grid-template-columns: 1fr;
+    }
+
+
+    .seasonCutStats {
+      grid-template-columns: 1fr;
+    }
+
+    .seasonCutGddLabels,
+    .seasonCutSeasonLabels {
+      font-size: 0.74rem;
+    }
+
+    .seasonAxisMarker::after {
+      font-size: 0.72rem;
+      max-width: 10rem;
+      white-space: normal;
+      text-align: center;
+    }
+  }
+
   @media (max-width: 640px) {
     .varietyCardMeta {
       grid-template-columns: 1fr;
     }
   }
 </style>
+
+{% macro quickAnswerContent() %}
+  {% if pageData.copy.varietyQuickAnswerParts %}
+    {% set qa = pageData.copy.varietyQuickAnswerParts %}
+
+    <p class="seasonFitQuickAnswer">
+      {% if qa.isWorkableOnly and qa.workableNames %}
+        For {{ qa.cityName }}, <strong>{{ qa.workableNames }}</strong>
+        {% if qa.workableIsPlural %}are{% else %}is{% endif %}
+        the most realistic {{ qa.cropVarietyForm }}
+        {% if qa.workableIsPlural %}options{% else %}option{% endif %}
+        for this short-season fit.
+        {% if qa.workableIsPlural %}They need{% else %}It needs{% endif %}
+        good timing, steady early growth, and realistic expectations.
+
+      {% elif qa.isBestOnly and qa.bestNames %}
+        {% if qa.bestChoicePhrase %}
+          For {{ qa.cityName }}, start with <strong>{{ qa.bestNames }}</strong> for {{ qa.cropLabel }} when you want {{ qa.bestChoicePhrase }}.
+        {% else %}
+          For {{ qa.cityName }}, <strong>{{ qa.bestNames }}</strong>
+          {% if qa.bestIsPlural %}are{% else %}is{% endif %}
+          the earliest {{ qa.cropVarietyForm }}
+          {% if qa.bestIsPlural %}varieties{% else %}variety{% endif %}
+          that make sense given the local growing season.
+        {% endif %}
+
+      {% else %}
+        {% if qa.bestNames %}
+          For {{ qa.cityName }}, start with <strong>{{ qa.bestNames }}</strong> for {{ qa.cropLabel }}{% if qa.bestChoicePhrase %} when you want {{ qa.bestChoicePhrase }}{% endif %}.
+        {% endif %}
+
+        {% if qa.safeNames %}
+          Choose <strong>{{ qa.safeNames }}</strong>{% if qa.safeChoicePhrase %} when you want {{ qa.safeChoicePhrase }}{% else %} when you want more cushion or an earlier harvest{% endif %}.
+        {% endif %}
+
+        {% if qa.workableNames %}
+          Look at <strong>{{ qa.workableNames }}</strong>{% if qa.workableChoicePhrase %} when you specifically want {{ qa.workableChoicePhrase }}{% else %} when a specific variety trait matters more than the safest default{% endif %}.
+        {% endif %}
+      {% endif %}
+    </p>
+  {% elif pageData.copy.varietyQuickAnswer %}
+    <p class="seasonFitQuickAnswer">{{ pageData.copy.varietyQuickAnswer }}</p>
+  {% endif %}
+{% endmacro %}
 
 {% macro varietyCards(items) %}
   <div class="varietyGrid">
@@ -141,20 +972,450 @@ eleventyComputed:
           {% endif %}
         </div>
 
-{% if item.note or item.tradeoffDisplay %}
-  <div class="varietyCardNote">
-    {% if item.note %}
-      <p>{{ item.note }}</p>
-    {% endif %}
+        {% if item.note or item.tradeoffDisplay %}
+          <div class="varietyCardNote">
+            {% if item.note %}
+              <p>{{ item.note }}</p>
+            {% endif %}
 
-    {% if item.tradeoffDisplay %}
-      <p class="varietyTradeoff"><strong>Tradeoff:</strong> {{ item.tradeoffDisplay }}</p>
-    {% endif %}
-  </div>
-{% endif %}
+            {% if item.tradeoffDisplay %}
+              <p class="varietyTradeoff"><strong>Tradeoff:</strong> {{ item.tradeoffDisplay }}</p>
+            {% endif %}
+          </div>
+        {% endif %}
       </article>
     {% endfor %}
   </div>
+{% endmacro %}
+
+{% macro seasonAxisMarkers(items, markerFit) %}
+  {% if items and items.length %}
+    {% for item in items %}
+      {% if item.gddTarget and seasonGdd %}
+        <button
+          type="button"
+          class="seasonAxisMarker{% if markerFit %} is-{{ markerFit }}{% endif %}"
+          data-axis-marker
+          data-gdd-target="{{ item.gddTarget }}"
+          data-label="{{ item.name }} · {{ item.gddTarget }} GDD"
+          aria-label="{{ item.name }}: {{ item.gddTarget }} GDD needed"
+        ></button>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+{% endmacro %}
+
+{% macro localSeasonAxis() %}
+  <div class="seasonRunwayAxis">
+    <div class="seasonAxisTop">
+      <span>
+        <strong>{{ pageData.copy.springFrostLong or pageData.copy.lastSpringFrostLong or "Season start" }}</strong>
+        local season starts
+      </span>
+      <span>
+        <strong>{{ pageData.copy.fallFrostLong or "Fall frost" }}</strong>
+        frost pressure returns
+      </span>
+    </div>
+
+    <div class="seasonAxisLine" data-axis-line data-axis-max="{{ seasonGdd }}">
+      {{ seasonAxisMarkers(named.bestDefaults, "best") }}
+      {{ seasonAxisMarkers(named.safest, "safest") }}
+      {{ seasonAxisMarkers(named.workable, "workable") }}
+    </div>
+
+    <div class="seasonAxisCaption">
+      <span>Less heat used</span>
+      <span>{{ seasonGdd }} GDD available</span>
+    </div>
+
+    <p class="seasonAxisHint">Hover or tap the dots to see which recommended varieties use that much local heat.</p>
+  </div>
+{% endmacro %}
+
+
+{% macro varietyActionBox(action) %}
+  {% if action %}
+    <section class="varietyActionBox varietyActionBox-{{ action.confidence }}">
+      {% if action.eyebrow %}
+        <p class="varietyActionEyebrow">{{ action.eyebrow }}</p>
+      {% endif %}
+
+      <h2>{{ action.title }}</h2>
+
+      {% if action.intro %}
+        <p class="varietyActionIntro">{{ action.intro }}</p>
+      {% endif %}
+
+      {% if action.productGroups and action.productGroups.length %}
+        <div class="varietyActionGroups">
+          {% for group in action.productGroups %}
+            <div class="varietyActionGroup">
+              <h3>{{ group.label }}</h3>
+
+              {% if group.reason %}
+                <p class="small varietyActionReason">{{ group.reason }}</p>
+              {% endif %}
+
+              {% if group.items and group.items.length %}
+                <ul>
+                  {% for item in group.items %}
+                    <li>
+                      {% if item.parts and item.parts.length %}
+                        {% for part in item.parts %}
+                          {% if part.url %}
+                            <a href="{{ part.url }}" rel="sponsored nofollow noopener" target="_blank">{{ part.text }}</a>
+                          {% else %}
+                            {{ part.text }}
+                          {% endif %}
+                        {% endfor %}
+                      {% elif item.label and item.url %}
+                        <a href="{{ item.url }}" rel="sponsored nofollow noopener" target="_blank">{{ item.label }}</a>
+                      {% elif item.label %}
+                        {{ item.label }}
+                      {% else %}
+                        {{ item }}
+                      {% endif %}
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      {% elif action.bullets and action.bullets.length %}
+        <ul>
+          {% for item in action.bullets %}
+            <li>{{ item }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+
+      {% if action.primaryCta or action.secondaryCta %}
+        <div class="varietyActionCtas">
+          {% if action.primaryCta %}
+            <a class="varietyActionCta varietyActionCta-primary" href="{{ action.primaryCta.url }}">
+              {{ action.primaryCta.label }}
+            </a>
+          {% endif %}
+
+          {% if action.secondaryCta %}
+            <a class="varietyActionCta" href="{{ action.secondaryCta.url }}">
+              {{ action.secondaryCta.label }}
+            </a>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% if action.disclosure %}
+        <p class="small muted varietyActionDisclosure">{{ action.disclosure }}</p>
+      {% endif %}
+    </section>
+  {% endif %}
+{% endmacro %}
+
+{% macro seasonFitRows(items, groupLabel, groupKey) %}
+  {% if items and items.length %}
+    <section class="seasonFitGroupSection{% if groupKey %} is-{{ groupKey }}{% endif %}">
+      <h3 class="seasonFitGroupLabel">{{ groupLabel }}</h3>
+
+      <div class="seasonFitRows">
+      {% for item in items %}
+        {% set gddMargin = (seasonGdd - item.gddTarget) if seasonGdd and item.gddTarget else null %}
+        {% set rawPercent = ((item.gddTarget / seasonGdd) * 100) if seasonGdd and item.gddTarget else null %}
+        {% set markerPercent = rawPercent if rawPercent != null else 0 %}
+        {% set overrunPercent = 0 %}
+
+        {% if markerPercent < 0 %}
+          {% set markerPercent = 0 %}
+        {% endif %}
+
+        {% if markerPercent > 100 %}
+          {% set overrunPercent = markerPercent - 100 %}
+        {% endif %}
+
+        {% if overrunPercent > 12 %}
+          {% set overrunPercent = 12 %}
+        {% endif %}
+
+        {% if markerPercent > 112 %}
+          {% set markerPercent = 112 %}
+        {% endif %}
+
+        {% set fitKey = "unknown" %}
+        {% set fitText = "Compare details" %}
+        {% set marginText = null %}
+
+        {% if gddMargin != null %}
+          {% if gddMargin >= 300 %}
+            {% set fitKey = "good" %}
+            {% set fitText = "Comfortable fit" %}
+            {% set marginText = gddMargin + " GDD cushion" %}
+          {% elif gddMargin >= 150 %}
+            {% set fitKey = "good" %}
+            {% set fitText = "Good fit" %}
+            {% set marginText = gddMargin + " GDD cushion" %}
+          {% elif gddMargin >= 0 %}
+            {% set fitKey = "tight" %}
+            {% set fitText = "Tight fit" %}
+            {% set marginText = gddMargin + " GDD cushion" %}
+          {% else %}
+            {% set fitKey = "poor" %}
+            {% set fitText = "Usually too long" %}
+            {% set marginText = (gddMargin | abs) + " GDD short" %}
+          {% endif %}
+        {% elif item.fitLabelText and item.fitLabelText != "—" %}
+          {% set fitText = item.fitLabelText %}
+        {% endif %}
+
+        <article class="seasonFitRow" data-fit="{{ fitKey }}">
+          <div class="seasonFitName">
+            <strong>{{ item.name }}</strong>
+            {% if item.classLabel %}<span>{{ item.classLabel }}</span>{% endif %}
+          </div>
+
+          <div class="seasonFitTimeline">
+            <div class="seasonFitBarLabels">
+              <span>{{ item.gddTarget or "—" }} GDD needed</span>
+              <span>{{ seasonGdd }} available before frost</span>
+            </div>
+
+            <div class="seasonFitBar" aria-hidden="true">
+              <span class="seasonScaleLimit"></span>
+              {% if overrunPercent and overrunPercent > 0 %}
+                <span class="seasonScaleOverrun" style="--overrun-width: {{ overrunPercent }}%;"></span>
+              {% endif %}
+              <span class="seasonScaleMarker" style="--scale-pos: {{ markerPercent or 0 }}%;"></span>
+            </div>
+
+            {% if item.daysToMaturity and frostFreeDays %}
+              <div
+                class="seasonCutSeason seasonFitMaturity"
+                data-season-timeline
+                data-frost-free-days="{{ frostFreeDays }}"
+                data-maturity-days="{{ item.daysToMaturity }}"
+              >
+                <div class="seasonCutSeasonLabels">
+                  <span>{{ pageData.copy.springFrostLong or pageData.copy.lastSpringFrostLong or "Season start" }}</span>
+                  <span>{{ pageData.copy.fallFrostLong or "Fall frost" }}</span>
+                </div>
+
+                <div class="seasonCutSeasonLine" aria-hidden="true">
+                  <span class="seasonCutSeasonLimit"></span>
+                  <span class="seasonCutMaturityMarker" data-season-marker data-label="{{ item.daysToMaturity }} days"></span>
+                </div>
+              </div>
+            {% endif %}
+          </div>
+
+          <div class="seasonFitBadge">{{ fitText }}</div>
+
+          {% if item.note or item.tradeoffDisplay or item.bestFor or marginText %}
+            <details class="seasonFitDetails">
+              <summary>Why this fit?</summary>
+
+              <div class="seasonFitDetailsInner">
+                {% if marginText %}
+                  <p>
+                    <strong>Local season fit:</strong>
+                    {% if fitKey == "poor" %}
+                      {{ item.name }} is about {{ marginText }} against the normal {{ pageData.cityName }} crop heat estimate.
+                    {% else %}
+                      {{ item.name }} leaves about {{ marginText }} against the normal {{ pageData.cityName }} crop heat estimate.
+                    {% endif %}
+                  </p>
+                {% endif %}
+
+                {% if item.bestFor %}
+                  <p><strong>Best for:</strong> {{ item.bestFor }}.</p>
+                {% endif %}
+
+                {% if item.note %}
+                  <p>{{ item.note }}</p>
+                {% endif %}
+
+                {% if item.tradeoffDisplay %}
+                  <p class="seasonFitTradeoff"><strong>Tradeoff:</strong> {{ item.tradeoffDisplay }}</p>
+                {% endif %}
+              </div>
+            </details>
+          {% endif %}
+        </article>
+      {% endfor %}
+      </div>
+    </section>
+  {% endif %}
+{% endmacro %}
+
+{% macro seasonFitCutRows(items) %}
+  {% if items and items.length %}
+    <div class="seasonFitCutSection">
+      <h3 class="seasonFitGroupLabel">Varieties that didn’t make the cut</h3>
+
+      <p class="seasonFitCutIntro">
+        These varieties are not the main picks for {{ pageData.cityName }} because they either run past the normal season or leave too little margin before frost.
+      </p>
+
+      <div class="seasonCutRows">
+        {% for item in items %}
+          {% set gddMargin = (seasonGdd - item.gddTarget) if seasonGdd and item.gddTarget else null %}
+          {% set isShort = gddMargin != null and gddMargin < 0 %}
+          {% set availablePercent = ((seasonGdd / item.gddTarget) * 100) if seasonGdd and item.gddTarget and isShort else null %}
+          {% set missingPercent = (100 - availablePercent) if availablePercent != null else null %}
+
+          {% if availablePercent != null and availablePercent < 4 %}
+            {% set availablePercent = 4 %}
+            {% set missingPercent = 96 %}
+          {% endif %}
+
+          {% if availablePercent != null and availablePercent > 96 %}
+            {% set availablePercent = 96 %}
+            {% set missingPercent = 4 %}
+          {% endif %}
+
+          {% set badgeText = "Not a main pick" %}
+          {% if gddMargin != null %}
+            {% if gddMargin < 0 %}
+              {% set badgeText = "Runs past season" %}
+            {% elif gddMargin < 150 %}
+              {% set badgeText = "Tight margin" %}
+            {% else %}
+              {% set badgeText = "Less forgiving" %}
+            {% endif %}
+          {% elif item.fitLabelText and item.fitLabelText != "—" %}
+            {% if item.fitLabel == "poor" %}
+              {% set badgeText = "Runs past season" %}
+            {% elif item.fitLabel == "tight" %}
+              {% set badgeText = "Tight margin" %}
+            {% else %}
+              {% set badgeText = item.fitLabelText %}
+            {% endif %}
+          {% endif %}
+
+          <article class="seasonCutCard">
+            <div class="seasonCutName">
+              <strong>{{ item.name }}</strong>
+              {% if item.classLabel %}<span>{{ item.classLabel }}</span>{% endif %}
+            </div>
+
+            <div class="seasonCutBody">
+              {% if item.gddTarget and seasonGdd %}
+                <div class="seasonCutStats">
+                  <div class="seasonCutStat">
+                    <span>Needs</span>
+                    <strong>{{ item.gddTarget }} GDD</strong>
+                  </div>
+
+                  <div class="seasonCutStat">
+                    <span>{{ pageData.cityName }} gives</span>
+                    <strong>{{ seasonGdd }} GDD</strong>
+                  </div>
+
+                  <div class="seasonCutStat{% if isShort %} isShort{% endif %}">
+                    <span>{% if isShort %}Gap{% else %}Margin{% endif %}</span>
+                    <strong>
+                      {% if gddMargin != null %}
+                        {% if isShort %}{{ gddMargin | abs }} GDD short{% else %}{{ gddMargin }} GDD left{% endif %}
+                      {% else %}
+                        —
+                      {% endif %}
+                    </strong>
+                  </div>
+                </div>
+              {% else %}
+<p class="seasonCutDataGap">
+  This variety is not a main pick for {{ pageData.cityName }}{% if item.classLabel %} because its {{ item.classLabel | lower }} class is less forgiving here{% endif %}.
+</p>
+              {% endif %}
+
+              {% if isShort and availablePercent != null and missingPercent != null %}
+                <div class="seasonCutGdd">
+                  <div class="seasonCutGddLabels">
+                    <span>{{ seasonGdd }} GDD available before frost</span>
+                    <span>{{ gddMargin | abs }} more GDD needed</span>
+                  </div>
+
+                  {% set gddMarkerPercent = ((item.gddTarget / seasonGdd) * 100) if seasonGdd and item.gddTarget else 0 %}
+                  {% set gddOverrunPercent = 0 %}
+                  {% if gddMarkerPercent > 100 %}
+                    {% set gddOverrunPercent = gddMarkerPercent - 100 %}
+                  {% endif %}
+                  {% if gddOverrunPercent > 12 %}
+                    {% set gddOverrunPercent = 12 %}
+                  {% endif %}
+                  {% if gddMarkerPercent > 112 %}
+                    {% set gddMarkerPercent = 112 %}
+                  {% endif %}
+
+                  <div class="seasonFitBar seasonCutGddTrack" aria-hidden="true">
+                    <span class="seasonScaleLimit"></span>
+                    {% if gddOverrunPercent and gddOverrunPercent > 0 %}
+                      <span class="seasonScaleOverrun" style="--overrun-width: {{ gddOverrunPercent }}%;"></span>
+                    {% endif %}
+                    <span class="seasonScaleMarker" style="--scale-pos: {{ gddMarkerPercent or 0 }}%;"></span>
+                  </div>
+
+                </div>
+              {% endif %}
+
+              {% if item.daysToMaturity and frostFreeDays %}
+                <div
+                  class="seasonCutSeason"
+                  data-season-timeline
+                  data-frost-free-days="{{ frostFreeDays }}"
+                  data-maturity-days="{{ item.daysToMaturity }}"
+                >
+                  <div class="seasonCutSeasonLabels">
+                    <span>{{ pageData.copy.springFrostLong or pageData.copy.lastSpringFrostLong or "Season start" }}</span>
+                    <span>{{ pageData.copy.fallFrostLong or "Fall frost" }}</span>
+                  </div>
+
+                  <div class="seasonCutSeasonLine" aria-hidden="true">
+                    <span class="seasonCutSeasonLimit"></span>
+                    <span class="seasonCutMaturityMarker" data-season-marker data-label="{{ item.daysToMaturity }} days"></span>
+                  </div>
+
+                </div>
+              {% endif %}
+            </div>
+
+            <div class="seasonCutBadge">{{ badgeText }}</div>
+
+            {% if item.note or item.tradeoffDisplay or item.bestFor or gddMargin != null %}
+              <details class="seasonFitDetails">
+                <summary>Why not a main pick?</summary>
+
+                <div class="seasonFitDetailsInner">
+                  {% if gddMargin != null %}
+                    <p>
+                      <strong>Local season fit:</strong>
+                      {% if isShort %}
+                        {{ item.name }} usually needs about {{ gddMargin | abs }} more GDD than {{ pageData.cityName }} provides before frost.
+                      {% else %}
+                        {{ item.name }} leaves only about {{ gddMargin }} GDD of cushion against the normal {{ pageData.cityName }} crop heat estimate.
+                      {% endif %}
+                    </p>
+                  {% endif %}
+
+                  {% if item.bestFor %}
+                    <p><strong>Best for:</strong> {{ item.bestFor }}.</p>
+                  {% endif %}
+
+                  {% if item.note %}
+                    <p>{{ item.note }}</p>
+                  {% endif %}
+
+                  {% if item.tradeoffDisplay %}
+                    <p class="seasonFitTradeoff"><strong>Tradeoff:</strong> {{ item.tradeoffDisplay }}</p>
+                  {% endif %}
+                </div>
+              </details>
+            {% endif %}
+          </article>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
 {% endmacro %}
 
 <header class="header">
@@ -166,185 +1427,283 @@ eleventyComputed:
   {% endif %}
 </header>
 
-<section class="card">
-  <h2>Quick answer</h2>
+{% if hasSeasonFitChart %}
+  <div class="heroSeasonAxis">
+    {{ localSeasonAxis() }}
+  </div>
+{% endif %}
 
-  {% if pageData.copy.varietyQuickAnswerParts %}
-    {% set qa = pageData.copy.varietyQuickAnswerParts %}
+{% if not hasSeasonFitChart %}
+  <section class="card">
+    <h2>Quick answer</h2>
+    {{ quickAnswerContent() }}
+  </section>
+{% endif %}
 
-    <p>
-      {% if qa.isWorkableOnly and qa.workableNames %}
-        For {{ qa.cityName }}, <strong>{{ qa.workableNames }}</strong>
-        {% if qa.workableIsPlural %}are{% else %}is{% endif %}
-        the most realistic {{ qa.cropVarietyForm }}
-        {% if qa.workableIsPlural %}options{% else %}option{% endif %}
-        for this short-season fit.
-        {% if qa.workableIsPlural %}They need{% else %}It needs{% endif %}
-        good timing, steady early growth, and realistic expectations.
+{% if hasSeasonFitChart %}
+  <section class="seasonFitSection">
+    <div class="seasonFitHeader">
+      <div>
+        <h2>Which {{ cropDisplayName | lower }} varieties fit best in the {{ pageData.cityName }} growing season?</h2>
+        {{ quickAnswerContent() }}
+        <p class="seasonFitIntro">
+          Compare each variety’s heat need and maturity timing against the local frost-free window before choosing what to grow.
+        </p>
+      </div>
+    </div>
 
-      {% elif qa.isBestOnly and qa.bestNames %}
-        {% if qa.bestChoicePhrase %}
-          For {{ qa.cityName }}, start with <strong>{{ qa.bestNames }}</strong> for {{ qa.cropLabel }} when you want {{ qa.bestChoicePhrase }}.
-        {% else %}
-          For {{ qa.cityName }}, <strong>{{ qa.bestNames }}</strong>
-          {% if qa.bestIsPlural %}are{% else %}is{% endif %}
-          the earliest {{ qa.cropVarietyForm }}
-          {% if qa.bestIsPlural %}varieties{% else %}variety{% endif %}
-          that make sense given the local growing season.
-        {% endif %}
+    <div class="seasonFitGroups">
+      {{ seasonFitRows(named.bestDefaults, "Recommended starting point", "recommended") }}
+      {{ seasonFitRows(named.safest, "Fastest / most cushion", "safest") }}
+      {{ seasonFitRows(named.workable, workableGroupLabel, "workable") }}
 
-      {% else %}
-        {% if qa.bestNames %}
-          For {{ qa.cityName }}, start with <strong>{{ qa.bestNames }}</strong> for {{ qa.cropLabel }}{% if qa.bestChoicePhrase %} when you want {{ qa.bestChoicePhrase }}{% endif %}.
-        {% endif %}
+      <p class="seasonFitFootnote small">
+        GDD comparisons are a planning shortcut, not a guarantee. Soil, watering, sowing depth, pests, transplant quality, and harvest goals still affect the final result.
+      </p>
 
-        {% if qa.safeNames %}
-          Choose <strong>{{ qa.safeNames }}</strong>{% if qa.safeChoicePhrase %} when you want {{ qa.safeChoicePhrase }}{% else %} when you want more cushion or an earlier harvest{% endif %}.
-        {% endif %}
-
-        {% if qa.workableNames %}
-          Look at <strong>{{ qa.workableNames }}</strong>{% if qa.workableChoicePhrase %} when you specifically want {{ qa.workableChoicePhrase }}{% else %} when a specific variety trait matters more than the safest default{% endif %}.
-        {% endif %}
+      {{ varietyActionBox(action) }}
+      {% if cutRows and cutRows.length %}
+        {{ seasonFitCutRows(cutRows) }}
       {% endif %}
-    </p>
-  {% elif pageData.copy.varietyQuickAnswer %}
-    <p>{{ pageData.copy.varietyQuickAnswer }}</p>
+    </div>
+      </section>
+{% endif %}
+
+{% if not hasSeasonFitChart %}
+  {% if named.bestDefaults and named.bestDefaults.length %}
+    {% set qa = pageData.copy.varietyQuickAnswerParts or null %}
+
+    <section class="varietySection">
+      {% if qa and qa.isBestOnly %}
+        <h2>Earliest practical varieties for {{ pageData.cityName }}</h2>
+
+        <p class="varietySectionIntro">
+          These varieties keep the crop on the early side, which is usually the safer place to start in {{ pageData.cityName }}.
+        </p>
+      {% else %}
+        <h2>Best {{ cropDisplayName | lower }} varieties for {{ pageData.cityName }}</h2>
+
+        <p class="varietySectionIntro">
+          Start here when you want the strongest all-around local fit for {{ pageData.cityName }}.
+        </p>
+      {% endif %}
+
+      {{ varietyCards(named.bestDefaults) }}
+    </section>
   {% endif %}
 
-</section>
+  {% if named.safest and named.safest.length %}
+    <section class="varietySection">
+      <h2>Fastest {{ cropDisplayName | lower }} varieties for {{ pageData.cityName }}</h2>
 
-{% if named.bestDefaults and named.bestDefaults.length %}
-{% set qa = pageData.copy.varietyQuickAnswerParts or null %}
+      <p class="varietySectionIntro">
+        Choose from this group when preserving margin matters more than pushing for a slower or more specialized variety.
+      </p>
 
-<section class="varietySection">
-{% if qa and qa.isBestOnly %}
-  <h2>Earliest practical varieties for {{ pageData.cityName }}</h2>
-
-  <p class="varietySectionIntro">
-    These varieties keep the crop on the early side, which is usually the safer place to start in {{ pageData.cityName }}.
-  </p>
-{% else %}
-    <h2>Best varieties to start with</h2>
-
-    <p class="varietySectionIntro">
-      Start here when you want the strongest all-around local fit for {{ pageData.cityName }}.
-    </p>
+      {{ varietyCards(named.safest) }}
+    </section>
   {% endif %}
 
-  {{ varietyCards(named.bestDefaults) }}
+  {% if named.workable and named.workable.length %}
+    <section class="varietySection">
+      {% if pageData.copy.varietyQuickAnswerParts and pageData.copy.varietyQuickAnswerParts.isWorkableOnly %}
+        <h2>Workable short-season {{ cropDisplayName | lower }} options</h2>
 
-</section>
-{% endif %}
+        <p class="varietySectionIntro">
+          These are the most realistic options for {{ pageData.cityName }}, but they still deserve careful timing and a strong start.
+        </p>
+      {% else %}
+        <h2>{% if workableGroupLabel == "Closest matches for a marginal season" %}Closest remaining {{ cropDisplayName | lower }} options{% else %}Other {{ cropDisplayName | lower }} varieties to explore{% endif %}</h2>
 
-{% if named.safest and named.safest.length %}
-<section class="varietySection">
-  <h2>Safest faster picks</h2>
+        <p class="varietySectionIntro">
+          {% if workableGroupLabel == "Closest matches for a marginal season" %}These are the closest remaining matches for {{ pageData.cityName }}, but they still need careful timing and realistic expectations.{% else %}These are still realistic options, especially when their specific traits match what you want from the crop.{% endif %}
+        </p>
+      {% endif %}
 
-  <p class="varietySectionIntro">
-    Choose from this group when preserving margin matters more than pushing for a slower or more specialized variety.
-  </p>
-
-  {{ varietyCards(named.safest) }}
-</section>
-{% endif %}
-
-{% if named.workable and named.workable.length %}
-<section class="varietySection">
-  {% if pageData.copy.varietyQuickAnswerParts and pageData.copy.varietyQuickAnswerParts.isWorkableOnly %}
-    <h2>Workable short-season options</h2>
-
-    <p class="varietySectionIntro">
-      These are the most realistic options for {{ pageData.cityName }}, but they still deserve careful timing and a strong start.
-    </p>
-  {% else %}
-<h2>Other varieties to explore</h2>
-
-<p class="varietySectionIntro">
-  These are still realistic options, especially when their specific traits match what you want from the crop.
-</p>
+      {{ varietyCards(named.workable) }}
+    </section>
   {% endif %}
-
-  {{ varietyCards(named.workable) }}
-</section>
 {% endif %}
 
-{% if tables.strongerRows and tables.strongerRows.length %}
-<section class="card">
-  <h2>Which maturity classes fit best here</h2>
-
-  <p>
-    A variety name only helps when its maturity range still fits the local season. These classes usually leave the clearest path in {{ pageData.cityName }}.
-  </p>
-
-  <div class="tableWrap">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Variety class</th>
-          <th>Typical days to maturity</th>
-          <th>Typical GDD need</th>
-          <th>Local fit</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for item in tables.strongerRows %}
-          <tr>
-            <td>{{ item.label }}</td>
-            <td>{{ item.daysToMaturity or "—" }}</td>
-            <td>{{ item.gddTarget or "—" }}</td>
-            <td>{{ item.fitLabelText }}</td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-</section>
+{% if action and not hasSeasonFitChart %}
+  {{ varietyActionBox(action) }}
 {% endif %}
 
-{% if tables.slowerRiskRows and tables.slowerRiskRows.length %}
-<section class="card">
-  <h2>Slower classes to be more careful with</h2>
+{% if tables.strongerRows and tables.strongerRows.length and not hasSeasonFitChart %}
+  <section class="card">
+    <h2>{{ cropDisplayName }} maturity classes that fit {{ pageData.cityName }}</h2>
 
-  <p>
-    Slower varieties are not automatically wrong, but they spend local margin faster. That makes ordinary delays, cooler stretches, and uneven early growth more expensive.
-  </p>
-
-  <div class="tableWrap">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Slower class</th>
-          <th>Typical days to maturity</th>
-          <th>Typical GDD need</th>
-          <th>Local fit</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for item in tables.slowerRiskRows %}
-          <tr>
-            <td>{{ item.label }}</td>
-            <td>{{ item.daysToMaturity or "—" }}</td>
-            <td>{{ item.gddTarget or "—" }}</td>
-            <td>{{ item.fitLabelText }}</td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-
-  {% if slowestStillFittingDisplay %}
     <p>
-      A good rule of thumb here is to stay at or faster than <strong>{{ slowestStillFittingDisplay.rangePhrase }}</strong>.
-      Once you move slower than that, the variety choice usually becomes much less forgiving.
+      A variety name only helps when its maturity range still fits the local season. These classes usually leave the clearest path in {{ pageData.cityName }}.
     </p>
-  {% endif %}
-</section>
+
+    <div class="tableWrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Variety class</th>
+            <th>Typical days to maturity</th>
+            <th>Typical GDD need</th>
+            <th>Local fit</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in tables.strongerRows %}
+            <tr>
+              <td>{{ item.label }}</td>
+              <td>{{ item.daysToMaturity or "—" }}</td>
+              <td>{{ item.gddTarget or "—" }}</td>
+              <td>{{ item.fitLabelText }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
 {% endif %}
 
-  {% if pageData.copy and pageData.copy.availableGddFromPlanting %}
-  <p class="small muted" style="margin-top:0.65rem;">
-    From a normal planting window, {{ pageData.cityName }} typically gives this crop about {{ pageData.copy.availableGddFromPlanting }} GDD.
-  </p>
+{% if tables.slowerRiskRows and tables.slowerRiskRows.length and not hasSeasonFitChart %}
+  <section class="card">
+    <h2>{{ cropDisplayName }} varieties to use carefully in {{ pageData.cityName }}</h2>
+
+    <p>
+      Slower varieties are not automatically wrong, but they spend local margin faster. That makes ordinary delays, cooler stretches, and uneven early growth more expensive.
+    </p>
+
+    <div class="tableWrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Slower class</th>
+            <th>Typical days to maturity</th>
+            <th>Typical GDD need</th>
+            <th>Local fit</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in tables.slowerRiskRows %}
+            <tr>
+              <td>{{ item.label }}</td>
+              <td>{{ item.daysToMaturity or "—" }}</td>
+              <td>{{ item.gddTarget or "—" }}</td>
+              <td>{{ item.fitLabelText }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    {% if slowestStillFittingDisplay %}
+      <p>
+        A good rule of thumb here is to stay at or faster than <strong>{{ slowestStillFittingDisplay.rangePhrase }}</strong>.
+        Once you move slower than that, the variety choice usually becomes much less forgiving.
+      </p>
+    {% endif %}
+  </section>
+{% endif %}
+
+
+{% if hasSeasonFitChart %}
+  <script>
+    (function () {
+      function parseLastNumber(text) {
+        const matches = String(text || "").match(/\d+/g) || [];
+        return matches.length ? Number(matches[matches.length - 1]) : null;
+      }
+
+      function initializeSeasonFitCharts() {
+        document.querySelectorAll("[data-season-timeline]").forEach(function (timeline) {
+          const frostFreeDays = parseLastNumber(timeline.getAttribute("data-frost-free-days"));
+          const maturityDays = parseLastNumber(timeline.getAttribute("data-maturity-days"));
+          const marker = timeline.querySelector("[data-season-marker]");
+
+          if (!marker || !Number.isFinite(frostFreeDays) || frostFreeDays <= 0) return;
+          if (!Number.isFinite(maturityDays)) return;
+
+          const position = Math.max(0, Math.min(112, (maturityDays / frostFreeDays) * 100));
+          marker.style.setProperty("--maturity-pos", position + "%");
+
+          if (maturityDays > frostFreeDays) {
+            timeline.setAttribute("data-over-season", "true");
+          }
+        });
+
+        document.querySelectorAll("[data-axis-line]").forEach(function (line) {
+          const axisMax = parseLastNumber(line.getAttribute("data-axis-max"));
+          if (!Number.isFinite(axisMax) || axisMax <= 0) return;
+
+          const markers = Array.from(line.querySelectorAll("[data-axis-marker]"));
+
+          markers.forEach(function (marker) {
+            const gddTarget = parseLastNumber(marker.getAttribute("data-gdd-target"));
+            if (!Number.isFinite(gddTarget)) return;
+
+            const position = Math.max(0, Math.min(100, (gddTarget / axisMax) * 100));
+            marker.style.setProperty("--marker-pos", position + "%");
+            marker.dataset.markerPos = String(position);
+          });
+
+          markers
+            .filter(function (marker) {
+              return marker.dataset.markerPos !== undefined;
+            })
+            .sort(function (a, b) {
+              return Number(a.dataset.markerPos) - Number(b.dataset.markerPos);
+            })
+            .forEach(function (marker, index, sorted) {
+              const position = Number(marker.dataset.markerPos);
+              let stack = 0;
+
+              for (let i = index - 1; i >= 0; i -= 1) {
+                const previousPosition = Number(sorted[i].dataset.markerPos);
+                if (position - previousPosition > 4) break;
+                stack += 1;
+              }
+
+              const shifts = [0, 13, 26, 39, 52];
+              marker.style.setProperty("--stack-shift", (shifts[stack] || 0) + "px");
+            });
+
+          markers.forEach(function (marker) {
+            if (marker.dataset.clickBound === "true") return;
+            marker.dataset.clickBound = "true";
+
+            marker.addEventListener("click", function (event) {
+              event.preventDefault();
+
+              const alreadyActive = marker.classList.contains("is-active");
+
+              line.querySelectorAll("[data-axis-marker]").forEach(function (other) {
+                other.classList.remove("is-active");
+              });
+
+              if (!alreadyActive) {
+                marker.classList.add("is-active");
+              }
+            });
+          });
+        });
+
+        if (document.documentElement.dataset.seasonFitClickBound !== "true") {
+          document.documentElement.dataset.seasonFitClickBound = "true";
+
+          document.addEventListener("click", function (event) {
+            if (!event.target.closest("[data-axis-marker]")) {
+              document.querySelectorAll("[data-axis-marker].is-active").forEach(function (marker) {
+                marker.classList.remove("is-active");
+              });
+            }
+          });
+        }
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initializeSeasonFitCharts);
+      } else {
+        initializeSeasonFitCharts();
+      }
+    })();
+  </script>
 {% endif %}
 
 {% include "planting-dates/modules/faq-block.njk" %}

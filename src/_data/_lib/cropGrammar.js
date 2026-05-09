@@ -54,6 +54,42 @@ function getCropGrammar(record) {
       beVerb: 'are',
       matureVerb: 'mature'
     },
+    strawberries: {
+  nounStyle: 'plural',
+  conceptLabel: 'growing strawberries',
+  singularLabel: 'strawberry',
+  pluralLabel: 'strawberries',
+  adjectiveSingular: 'strawberry',
+  beVerb: 'are',
+  matureVerb: 'mature'
+},
+basil: {
+  nounStyle: 'mass',
+  conceptLabel: 'growing basil',
+  singularLabel: 'basil',
+  pluralLabel: 'basil',
+  adjectiveSingular: 'basil',
+  beVerb: 'is',
+  matureVerb: 'matures'
+},
+pumpkin: {
+  nounStyle: 'mass',
+  conceptLabel: 'growing pumpkin',
+  singularLabel: 'pumpkin',
+  pluralLabel: 'pumpkin',
+  adjectiveSingular: 'pumpkin',
+  beVerb: 'is',
+  matureVerb: 'matures'
+},
+'winter-squash': {
+  nounStyle: 'mass',
+  conceptLabel: 'growing winter squash',
+  singularLabel: 'winter squash',
+  pluralLabel: 'winter squash',
+  adjectiveSingular: 'winter squash',
+  beVerb: 'is',
+  matureVerb: 'matures'
+},
     beans: {
       nounStyle: 'plural',
       conceptLabel: 'growing beans',

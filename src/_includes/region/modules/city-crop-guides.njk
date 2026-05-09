@@ -64,14 +64,18 @@
           {% endif %}
 
           <div style="border:1px solid rgba(0,0,0,.08); border-radius:12px; padding:0.55rem 0.7rem; background:rgba(255,255,255,.45);">
-            <p class="small" style="margin:0 0 0.08rem 0; line-height:1.2;">
-              <a href="{{ item.url }}" style="text-decoration:none;">
-                <strong>{{ item.cropName }}</strong>
-              </a>
+            <p class="small" style="margin:0 0 0.28rem 0; line-height:1.2;">
+              <strong>{{ item.cropName }}</strong>
             </p>
 
-            <p class="small" style="margin:0; line-height:1.22;">
+            <p class="small" style="margin:0 0 0.45rem 0; line-height:1.22;">
               {{ rotatedBlurb }}
+            </p>
+
+            <p class="small" style="margin:0; line-height:1.35;">
+              {% set varietyCropLabel = item.cropNounSingular or item.cropSingularName or item.cropName %}
+              <a href="{{ item.url }}">When to Plant {{ item.cropName }} in {{ city.name }}</a><br>
+              <a href="{{ (item.url + 'best-varieties/') | toVarietiesUrl }}">Best {{ varietyCropLabel | lower }} varieties for {{ city.name }}</a>
             </p>
           </div>
         {% endfor %}

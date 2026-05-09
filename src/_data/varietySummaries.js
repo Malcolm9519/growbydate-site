@@ -37,6 +37,114 @@ const VARIETY_COPY_OVERRIDES = {
     }
   },
 
+    basil: {
+    prospera: {
+      bestFor: 'practical early basil',
+      note: 'A productive basil that is useful when gardeners want a relatively quick, practical harvest.'
+    },
+    'spicy globe': {
+      bestFor: 'compact basil plants',
+      note: 'A compact basil that fits well when gardeners want a smaller plant and earlier usable harvests.'
+    },
+    genovese: {
+      bestFor: 'classic sweet basil',
+      note: 'The classic sweet basil type and the most familiar choice for full-size leaf harvests.'
+    },
+    nufar: {
+      bestFor: 'dependable Genovese-type harvests',
+      note: 'A Genovese-type basil that is useful when gardeners want a familiar leaf style with practical garden performance.'
+    },
+    'thai basil': {
+      bestFor: 'specialty basil flavor',
+      note: 'A specialty basil chosen for distinctive flavor, but it usually matters more for culinary style than for maximum earliness.'
+    },
+    'dark opal': {
+      bestFor: 'purple basil color',
+      note: 'A purple basil that is often chosen for color and flavor character rather than the fastest finish.'
+    }
+  },
+
+    strawberries: {
+    earliglow: {
+      bestFor: 'early June-bearing harvests',
+      note: 'A classic early June-bearing strawberry that is often one of the safer choices where earliness matters.'
+    },
+    annapolis: {
+      bestFor: 'early cool-climate strawberries',
+      note: 'An early strawberry that is useful when gardeners want a quicker first harvest in cooler climates.'
+    },
+    jewel: {
+      bestFor: 'dependable main-crop berries',
+      note: 'A dependable main-crop strawberry with broad usefulness in home gardens.'
+    },
+    honeoye: {
+      bestFor: 'vigorous early production',
+      note: 'A widely grown early strawberry that is practical where growers want vigor and a familiar June-bearing pattern.'
+    },
+    seascape: {
+      bestFor: 'day-neutral harvests',
+      note: 'A day-neutral type chosen when gardeners want continued harvests rather than only the earliest flush.'
+    },
+    albion: {
+      bestFor: 'fruit quality over a longer season',
+      note: 'A day-neutral strawberry valued for fruit quality, though it asks for a steadier season than the quickest June-bearers.'
+    }
+  },
+
+    melons: {
+    'minnesota midget': {
+      bestFor: 'short-season melons',
+      note: 'One of the best-known short-season muskmelons where getting any ripe melon is the first priority.'
+    },
+    'sweet granite': {
+      bestFor: 'very early melon maturity',
+      note: 'An early melon that makes sense when the season is too tight for larger standard muskmelons.'
+    },
+    "hale's best": {
+      bestFor: 'classic early cantaloupe',
+      note: 'A classic muskmelon that can work when the season offers a realistic but not oversized margin.'
+    },
+    'sugar cube': {
+      bestFor: 'smaller realistic fruit size',
+      note: 'A smaller melon type that helps keep fruit size more realistic in shorter seasons.'
+    },
+    athena: {
+      bestFor: 'productive mid-season melons',
+      note: 'A productive eastern-type cantaloupe that needs a steadier warm run than the quickest melon choices.'
+    },
+    'hearts of gold': {
+      bestFor: 'heirloom melon flavor',
+      note: 'A flavorful heirloom melon that is often more exposed when the local season is already tight.'
+    }
+  },
+
+    watermelons: {
+    'sugar baby': {
+      bestFor: 'small short-season watermelons',
+      note: 'The classic small short-season watermelon and one of the safest starting points where season length is limited.'
+    },
+    'blacktail mountain': {
+      bestFor: 'cooler-climate watermelon success',
+      note: 'A practical early watermelon that is often chosen specifically for cooler or shorter climates.'
+    },
+    'golden midget': {
+      bestFor: 'small early watermelon fruit',
+      note: 'A smaller early watermelon that makes sense where fruit size needs to stay realistic.'
+    },
+    'bush sugar baby': {
+      bestFor: 'compact early watermelon plants',
+      note: 'A compact early type that is useful when gardeners want a smaller plant without giving up short-season focus.'
+    },
+    'crimson sweet': {
+      bestFor: 'classic full-size watermelons',
+      note: 'A classic watermelon that usually needs a warmer and steadier season than the quickest small-fruited types.'
+    },
+    'moon and stars': {
+      bestFor: 'specialty heirloom watermelons',
+      note: 'A specialty heirloom watermelon that is appealing for character and appearance, but more exposed in shorter seasons.'
+    }
+  },
+
     pumpkin: {
     'small sugar': {
       bestFor: 'reliable pie pumpkins',
@@ -656,6 +764,138 @@ const VARIETY_DECISION_OVERRIDES = {
       chooseWhen: 'purple curled leaves and ornamental color',
       tradeoff: 'it is chosen for color more than speed',
       growingNote: 'grow it when appearance and cold-season interest matter'
+    }
+  },
+
+    basil: {
+    prospera: {
+      chooseWhen: 'practical early basil harvests',
+      tradeoff: 'it is more about reliability than distinctive specialty character',
+      growingNote: 'use it where getting basil growing quickly matters most'
+    },
+    'spicy globe': {
+      chooseWhen: 'compact basil plants',
+      tradeoff: 'it is more about form and manageability than large full-size leaf yield',
+      growingNote: 'good where space is limited or smaller plants are easier to manage'
+    },
+    genovese: {
+      chooseWhen: 'classic sweet basil leaves',
+      tradeoff: 'it still needs real warmth and does not reward cold starts',
+      growingNote: 'wait for warm conditions if you want the cleanest strongest growth'
+    },
+    nufar: {
+      chooseWhen: 'dependable Genovese-type basil',
+      tradeoff: 'it is chosen for practical garden performance more than novelty',
+      growingNote: 'a strong default choice where gardeners want familiar basil use'
+    },
+    'thai basil': {
+      chooseWhen: 'specialty basil flavor',
+      tradeoff: 'it is more about culinary style than the simplest default crop fit',
+      growingNote: 'grow it when flavor profile matters as much as pure earliness'
+    },
+    'dark opal': {
+      chooseWhen: 'purple basil color and character',
+      tradeoff: 'it is chosen partly for appearance rather than maximum speed',
+      growingNote: 'best where visual appeal matters along with harvest use'
+    }
+  },
+
+    strawberries: {
+    earliglow: {
+      chooseWhen: 'early June-bearing berries',
+      tradeoff: 'it is more about an earlier concentrated harvest than season-long picking',
+      growingNote: 'use it where the safest path is getting berries moving early'
+    },
+    annapolis: {
+      chooseWhen: 'early cool-climate strawberries',
+      tradeoff: 'it is less about extended harvests than about an earlier first crop',
+      growingNote: 'a useful fit where earliness matters more than spreading harvest across the season'
+    },
+    jewel: {
+      chooseWhen: 'dependable main-crop berries',
+      tradeoff: 'it is not mainly chosen for the earliest possible harvest',
+      growingNote: 'a strong all-purpose choice where growers want a balanced June-bearing crop'
+    },
+    honeoye: {
+      chooseWhen: 'vigorous early production',
+      tradeoff: 'it is more about garden practicality than premium season-long fruiting',
+      growingNote: 'good where a familiar early June-bearing pattern is the goal'
+    },
+    seascape: {
+      chooseWhen: 'day-neutral continued harvests',
+      tradeoff: 'it asks for steadier support than the quickest early June-bearers',
+      growingNote: 'use it when repeated harvest matters more than only the earliest flush'
+    },
+    albion: {
+      chooseWhen: 'fruit quality across a longer season',
+      tradeoff: 'it is less about the earliest first crop than about sustained quality',
+      growingNote: 'grow it where gardeners want day-neutral harvest style and can support steady growth'
+    }
+  },
+
+    melons: {
+    'minnesota midget': {
+      chooseWhen: 'the safest short-season melon path',
+      tradeoff: 'it is smaller and less ambitious than standard larger muskmelons',
+      growingNote: 'use it when getting ripe fruit at all matters more than fruit size'
+    },
+    'sweet granite': {
+      chooseWhen: 'very early melon maturity',
+      tradeoff: 'it is chosen more for earliness than for large classic melon size',
+      growingNote: 'a good choice where the season does not leave much room'
+    },
+    "hale's best": {
+      chooseWhen: 'classic early cantaloupe flavor',
+      tradeoff: 'it still needs a reasonably supportive warm run',
+      growingNote: 'choose it where the season is workable but not truly generous'
+    },
+    'sugar cube': {
+      chooseWhen: 'smaller realistic melon size',
+      tradeoff: 'it is more about keeping the crop finish realistic than chasing larger fruits',
+      growingNote: 'use it where fruit size needs to stay matched to local warmth'
+    },
+    athena: {
+      chooseWhen: 'productive mid-season melons',
+      tradeoff: 'it needs more steady warmth than the quickest melon classes',
+      growingNote: 'save it for stronger melon climates or especially favorable sites'
+    },
+    'hearts of gold': {
+      chooseWhen: 'heirloom melon flavor',
+      tradeoff: 'it is more exposed if the season is already tight',
+      growingNote: 'grow it when flavor and heirloom character are worth the extra risk'
+    }
+  },
+
+    watermelons: {
+    'sugar baby': {
+      chooseWhen: 'small short-season watermelons',
+      tradeoff: 'it is smaller and less ambitious than larger classic watermelon types',
+      growingNote: 'use it when reliable ripening matters most'
+    },
+    'blacktail mountain': {
+      chooseWhen: 'cooler-climate watermelon success',
+      tradeoff: 'it is chosen more for practicality than for maximum fruit size',
+      growingNote: 'a strong fit where watermelon already feels marginal'
+    },
+    'golden midget': {
+      chooseWhen: 'small early watermelon fruit',
+      tradeoff: 'it is more about early finish than big classic watermelon scale',
+      growingNote: 'use it where keeping fruit size realistic improves the odds'
+    },
+    'bush sugar baby': {
+      chooseWhen: 'compact early watermelon plants',
+      tradeoff: 'it is more about manageability and fit than maximum vine size or yield',
+      growingNote: 'good where space or season length makes a compact early plant more practical'
+    },
+    'crimson sweet': {
+      chooseWhen: 'classic full-size watermelons',
+      tradeoff: 'it needs a warmer and steadier season than the quickest early types',
+      growingNote: 'save it for warmer sites or places where watermelons already have some margin'
+    },
+    'moon and stars': {
+      chooseWhen: 'specialty heirloom watermelons',
+      tradeoff: 'it is chosen for character and appearance more than the safest finish',
+      growingNote: 'grow it when heirloom appeal matters and the site is strong enough to support it'
     }
   },
 
@@ -1417,6 +1657,7 @@ function capitalizeFirst(text) {
   return value ? value.charAt(0).toUpperCase() + value.slice(1) : value;
 }
 
+
 function normalizeVarietyNameKey(name) {
   return String(name || '')
     .trim()
@@ -1424,6 +1665,82 @@ function normalizeVarietyNameKey(name) {
     .replace(/[_-]+/g, ' ')
     .replace(/\s+/g, ' ');
 }
+
+function getRecordVarietyClasses(record) {
+  const candidates = [
+    record?.crop?.varietyClasses,
+    record?.crop?.cropCity?.varietyClasses,
+    record?.cropCity?.varietyClasses,
+    record?.cropData?.varietyClasses,
+    record?.varietyClasses
+  ];
+
+  return candidates.find((item) => Array.isArray(item)) || [];
+}
+
+function getClassLabelFromVarietyClass(item) {
+  return normalizeClassLabel(
+    item?.label ||
+    item?.classLabel ||
+    item?.displayLabel ||
+    item?.name ||
+    item?.key ||
+    null
+  );
+}
+
+function getExamplesFromVarietyClass(item) {
+  const examples =
+    item?.examples ||
+    item?.varieties ||
+    item?.varietyExamples ||
+    [];
+
+  return Array.isArray(examples) ? examples : [];
+}
+
+function inferClassFromCropVarietyClasses(record, item) {
+  const varietyKey = normalizeVarietyNameKey(item?.name);
+  if (!varietyKey) return null;
+
+  for (const varietyClass of getRecordVarietyClasses(record)) {
+    const classLabel = getClassLabelFromVarietyClass(varietyClass);
+    if (!classLabel) continue;
+
+    const examples = getExamplesFromVarietyClass(varietyClass);
+
+    const match = examples.find((example) => {
+      const exampleName = typeof example === 'string' ? example : example?.name;
+      return normalizeVarietyNameKey(exampleName) === varietyKey;
+    });
+
+    if (match) return classLabel;
+  }
+
+  return null;
+}
+
+function getClassMetadataFromCropVarietyClasses(record) {
+  const map = new Map();
+
+  for (const varietyClass of getRecordVarietyClasses(record)) {
+    const label = getClassLabelFromVarietyClass(varietyClass);
+    if (!label) continue;
+
+    map.set(label, {
+      label,
+      daysToMaturity: varietyClass?.daysToMaturity || record?.crop?.daysToMaturityTypical || null,
+      gddTarget: varietyClass?.gddTarget || null,
+      fitLabel: null,
+      fitLabelText: null,
+      fits: false
+    });
+  }
+
+  return map;
+}
+
+
 
 function getVarietyCopyOverride(record, item) {
   const cropKey = record?.cropKey || null;
@@ -1781,12 +2098,344 @@ function removePicked(rows, pickedGroups) {
   return rows.filter((item) => !pickedNames.has(item.name));
 }
 
+function getPickedVarietyNameSet(namedVarieties) {
+  return new Set(
+    [
+      ...(namedVarieties?.bestDefaults || []),
+      ...(namedVarieties?.safest || []),
+      ...(namedVarieties?.workable || [])
+    ]
+      .map((item) => normalizeVarietyNameKey(item?.name))
+      .filter(Boolean)
+  );
+}
+
+function getOverrideVarietyItemsForCrop(record) {
+  const cropKey = record?.cropKey || null;
+  const cropOverrides = cropKey ? VARIETY_COPY_OVERRIDES[cropKey] : null;
+
+  if (!cropOverrides || typeof cropOverrides !== 'object') return [];
+
+  return Object.keys(cropOverrides).map((name) => ({
+    name
+  }));
+}
+
+function inferClassForOverrideVariety(record, item) {
+  const classFitMap = getClassFitMap(record);
+  const cropKey = record?.cropKey || null;
+  const varietyKey = normalizeVarietyNameKey(item?.name);
+
+  const exactExample = Array.isArray(record?.fit?.fittingVarietyExamplesDetailed)
+    ? record.fit.fittingVarietyExamplesDetailed.find((example) =>
+        normalizeVarietyNameKey(example?.name) === varietyKey
+      )
+    : null;
+
+if (exactExample?.classLabel) {
+  return normalizeClassLabel(exactExample.classLabel);
+}
+
+const classFromCropData = inferClassFromCropVarietyClasses(record, item);
+
+if (classFromCropData) {
+  return classFromCropData;
+}
+
+const knownClassByCrop = {
+      tomatoes: {
+      stupice: 'Very early',
+      glacier: 'Very early',
+      'early girl': 'Early',
+      'fourth of july': 'Early',
+      celebrity: 'Mid-season',
+      juliet: 'Mid-season',
+      brandywine: 'Late',
+      'mortgage lifter': 'Late',
+      'cherokee purple': 'Late'
+    },
+    peppers: {
+      ace: 'Very early',
+      'king of the north': 'Very early',
+      gypsy: 'Early',
+      lipstick: 'Early',
+      'california wonder': 'Mid-season',
+      carmen: 'Mid-season',
+      'corno di toro': 'Late',
+      'marconi red': 'Late',
+      'chocolate beauty': 'Late'
+    },
+    'sweet-corn': {
+      'yukon chief': 'Very early',
+      'early sunglow': 'Very early',
+      'peaches and cream': 'Early',
+      peaches_and_cream: 'Early',
+      bodacious: 'Mid-season',
+      'silver queen': 'Late',
+      ambrosia: 'Mid-season',
+      'kandy korn': 'Late',
+      incredible: 'Late',
+      'honey select': 'Late'
+    },
+    melons: {
+      'minnesota midget': 'Very early',
+      'sweet granite': 'Very early',
+      "hale's best": 'Early',
+      'sugar cube': 'Early',
+      athena: 'Mid-season',
+'hearts of gold': 'Mid-season'
+    },
+    watermelons: {
+      'sugar baby': 'Very early',
+      'blacktail mountain': 'Very early',
+      'golden midget': 'Early',
+      'bush sugar baby': 'Early',
+      'crimson sweet': 'Mid-season',
+      'moon and stars': 'Late'
+    },
+    pumpkin: {
+      'jack be little': 'Very early',
+      'small sugar': 'Early',
+      'baby bear': 'Early',
+      'winter luxury': 'Mid-season',
+      howden: 'Mid-season',
+      cinderella: 'Late',
+      'big max': 'Late',
+      'atlantic giant': 'Late'
+    },
+    'winter-squash': {
+      delicata: 'Very early',
+      'sweet dumpling': 'Very early',
+      honeyboat: 'Early',
+      'bush delicata': 'Early',
+      'honey nut': 'Mid-season',
+      'waltham butternut': 'Mid-season',
+      'burgess buttercup': 'Late',
+      'blue hubbard': 'Late'
+    },
+    cucumbers: {
+      'cool breeze': 'Very early',
+      spacemaster: 'Early',
+      'marketmore 76': 'Early',
+      'suyo long': 'Mid-season',
+      'straight eight': 'Mid-season',
+      lemon: 'Late',
+      telegraph: 'Late'
+    },
+    zucchini: {
+      dunja: 'Very early',
+      raven: 'Early',
+      'black beauty': 'Early',
+      'costata romanesco': 'Mid-season',
+      cocozelle: 'Late'
+    },
+    beans: {
+      provider: 'Very early',
+      mascotte: 'Very early',
+      contender: 'Early',
+      'blue lake': 'Early',
+      'roma ii': 'Mid-season',
+      'kentucky wonder': 'Mid-season',
+      rattlesnake: 'Late',
+      'scarlet runner': 'Late',
+      fortex: 'Late'
+    },
+    peas: {
+      alaska: 'Very early',
+      'sugar ann': 'Very early',
+      'little marvel': 'Early',
+      'green arrow': 'Mid-season',
+      'tall telephone': 'Late'
+    },
+    broccoli: {
+      'de cicco': 'Very early',
+      packman: 'Very early',
+      'green magic': 'Early',
+      belstar: 'Mid-season',
+      marathon: 'Late'
+    },
+    cabbage: {
+      'golden acre': 'Very early',
+      stonehead: 'Very early',
+      'early jersey wakefield': 'Early',
+      'red express': 'Early',
+      cheers: 'Mid-season',
+      'storage no. 4': 'Late'
+    },
+    cauliflower: {
+      'snow crown': 'Very early',
+      snowball: 'Early',
+      amazing: 'Mid-season',
+      cheddar: 'Mid-season',
+      graffiti: 'Late',
+      skywalker: 'Late'
+    },
+    carrots: {
+      amsterdam: 'Very early',
+      nelson: 'Early',
+      yaya: 'Early',
+      bolero: 'Mid-season',
+      'danvers 126': 'Late'
+    },
+    beets: {
+      'early wonder': 'Very early',
+      'red ace': 'Early',
+      'detroit dark red': 'Mid-season',
+      'touchstone gold': 'Mid-season',
+      chioggia: 'Late',
+      cylindra: 'Late'
+    },
+    onions: {
+      'walla walla': 'Mid-season',
+      copra: 'Mid-season',
+      redwing: 'Mid-season',
+      patterson: 'Mid-season',
+      'ailsa craig': 'Late'
+    },
+    potatoes: {
+      norland: 'Very early',
+      'dark red norland': 'Early',
+      'yukon gold': 'Early',
+      kennebec: 'Mid-season',
+      'gold rush': 'Mid-season',
+      'russet burbank': 'Late'
+    },
+    lettuce: {
+      'black seeded simpson': 'Very early',
+      'new red fire': 'Very early',
+      buttercrunch: 'Early',
+      jericho: 'Mid-season',
+      'parris island cos': 'Mid-season',
+      salanova: 'Mid-season'
+    },
+    spinach: {
+      avon: 'Very early',
+      reflect: 'Very early',
+      bloomsdale: 'Early',
+      space: 'Early',
+      tyee: 'Mid-season',
+      regiment: 'Mid-season'
+    },
+    kale: {
+      'red russian': 'Very early',
+      siberian: 'Early',
+      vates: 'Early',
+      winterbor: 'Mid-season',
+      lacinato: 'Mid-season',
+      redbor: 'Late'
+    },
+    'swiss-chard': {
+      barese: 'Very early',
+      'perpetual spinach': 'Early',
+      'bright lights': 'Mid-season',
+      'rhubarb chard': 'Mid-season',
+      'fordhook giant': 'Late',
+      peppermint: 'Late'
+    },
+    radishes: {
+      'cherry belle': 'Very early',
+      'french breakfast': 'Early'
+    },
+    garlic: {
+      music: 'Mid-season',
+      'california early': 'Late'
+    },
+    basil: {
+      prospera: 'Very early',
+      'spicy globe': 'Very early',
+      genovese: 'Early',
+      nufar: 'Early',
+      'thai basil': 'Mid-season',
+      'dark opal': 'Mid-season'
+    },
+    strawberries: {
+      earliglow: 'Very early',
+      annapolis: 'Very early',
+      honeoye: 'Early',
+      jewel: 'Mid-season',
+      seascape: 'Mid-season',
+      albion: 'Late'
+    }
+  };
+
+  const inferredClass = knownClassByCrop[cropKey]?.[varietyKey] || null;
+
+  if (inferredClass && classFitMap.has(inferredClass)) {
+    return inferredClass;
+  }
+
+  return inferredClass;
+}
+
+function normalizeOverrideVarietyItem(record, item) {
+  const classLabel = inferClassForOverrideVariety(record, item);
+
+  return normalizeNamedVarietyItem(
+    record,
+    {
+      ...item,
+      classLabel
+    },
+    getClassFitMap(record)
+  );
+}
+
+function getSlowestShownClassRank(namedVarieties) {
+  const shown = [
+    ...(namedVarieties?.bestDefaults || []),
+    ...(namedVarieties?.safest || []),
+    ...(namedVarieties?.workable || [])
+  ];
+
+  const ranks = shown
+    .map((item) => getClassSpeedRank(item?.classLabel))
+    .filter((rank) => Number.isFinite(rank) && rank < 99);
+
+  return ranks.length ? Math.max(...ranks) : null;
+}
+
+function buildNamedVarietiesThatDidntMakeCut(record, namedVarieties) {
+  const pickedNames = getPickedVarietyNameSet(namedVarieties);
+  const slowestShownRank = getSlowestShownClassRank(namedVarieties);
+
+  const rows = getOverrideVarietyItemsForCrop(record)
+    .map((item) => normalizeOverrideVarietyItem(record, item))
+    .filter((item) => {
+      const key = normalizeVarietyNameKey(item?.name);
+      if (!key || pickedNames.has(key)) return false;
+
+      const itemRank = getClassSpeedRank(item?.classLabel);
+
+      // Always show explicitly poor classes if they are not already shown above.
+      if (item.fitLabel === 'poor') return true;
+
+      // Show tight classes only when they were not already selected above.
+      if (item.fitLabel === 'tight') return true;
+
+      // Important for pages like Calgary tomatoes:
+      // if the main chart only shows Very early varieties, then slower named varieties
+      // should still appear as "didn't make the cut" even if their class fit data is incomplete.
+      if (
+        slowestShownRank != null &&
+        Number.isFinite(itemRank) &&
+        itemRank < 99 &&
+        itemRank > slowestShownRank
+      ) {
+        return true;
+      }
+
+      return false;
+    });
+
+  return sortBySlowerThenName(dedupeVarieties(rows));
+}
+
 function getClassFitMap(record) {
   const classes = Array.isArray(record?.fit?.varietyClassFits)
     ? record.fit.varietyClassFits
     : [];
 
-  const map = new Map();
+  const map = getClassMetadataFromCropVarietyClasses(record);
 
   for (const item of classes) {
     const label = normalizeClassLabel(
@@ -1800,13 +2449,15 @@ function getClassFitMap(record) {
 
     if (!label) continue;
 
+    const existing = map.get(label) || {};
+
     map.set(label, {
       label,
-      daysToMaturity: item?.daysToMaturity || record?.crop?.daysToMaturityTypical || null,
-      gddTarget: item?.gddTarget || null,
-      fitLabel: item?.fitLabel || null,
-      fitLabelText: normalizeFitLabel(item?.fitLabel),
-      fits: item?.fits === true
+      daysToMaturity: item?.daysToMaturity || existing.daysToMaturity || record?.crop?.daysToMaturityTypical || null,
+      gddTarget: item?.gddTarget || existing.gddTarget || null,
+      fitLabel: item?.fitLabel || existing.fitLabel || null,
+      fitLabelText: normalizeFitLabel(item?.fitLabel || existing.fitLabel),
+      fits: item?.fits === true || existing.fits === true
     });
   }
 
@@ -1908,12 +2559,17 @@ function classifyNamedVarieties(record) {
       removePicked(dedupeVarieties(grouped.workable), [bestDefaults, safest])
     );
 
-    return {
+    const groupedResult = {
       bestDefaults,
       safest,
       workable,
       slowestStillFittingClass,
       totalNamedExamples: allExamples.length
+    };
+
+    return {
+      ...groupedResult,
+      notRecommended: buildNamedVarietiesThatDidntMakeCut(record, groupedResult)
     };
   }
 
@@ -1977,23 +2633,29 @@ function classifyNamedVarieties(record) {
     removePicked(dedupeVarieties(safest), [bestDefaults])
   );
 
-  const workable = sortBySlowerThenName(
-    removePicked(
-      dedupeVarieties([
-        ...fittingExamples,
-        ...tightExamples
-      ]),
-      [bestDefaults, safest]
-    )
-  );
+const workableSource = fittingExamples.length
+  ? fittingExamples
+  : tightExamples;
 
-  return {
-    bestDefaults,
-    safest,
-    workable,
-    slowestStillFittingClass,
-    totalNamedExamples: allExamples.length
-  };
+const workable = sortBySlowerThenName(
+  removePicked(
+    dedupeVarieties(workableSource),
+    [bestDefaults, safest]
+  )
+);
+
+const result = {
+  bestDefaults,
+  safest,
+  workable,
+  slowestStillFittingClass,
+  totalNamedExamples: allExamples.length
+};
+
+return {
+  ...result,
+  notRecommended: buildNamedVarietiesThatDidntMakeCut(record, result)
+};
 }
 
 function buildTraitBasedVarietySummary(record) {
@@ -2315,6 +2977,622 @@ function buildVarietyLocalContext(record, namedVarieties) {
   return null;
 }
 
+const VARIETY_ACTION_MARKETPLACES = {
+  canada: {
+    domain: "www.amazon.ca",
+    tag: "growbydate-20"
+  },
+  usa: {
+    domain: "www.amazon.com",
+    tag: "growbydate-20"
+  },
+  default: {
+    domain: "www.amazon.com",
+    tag: "growbydate-20"
+  }
+};
+
+const VARIETY_ACTION_SEARCH_BY_THEME = {
+  'soil-thermometer': 'soil thermometer garden',
+  'black-mulch': 'black plastic mulch garden',
+  'row-cover': 'garden row cover',
+  'low-tunnel': 'low tunnel hoops garden',
+  'seed-starting': 'seed starting trays',
+  'heat-mat': 'seedling heat mat',
+  'grow-light': 'grow light for seed starting',
+  'drip-irrigation': 'garden drip irrigation kit',
+  'soaker-hose': 'garden soaker hose',
+  'watering-wand': 'gentle watering wand garden',
+  mulch: 'garden mulch straw mulch',
+  supports: 'garden plant supports trellis stakes',
+  'plant-ties': 'soft plant ties garden',
+  'soil-health': 'compost garden soil amendment',
+  'soil-prep': 'garden fork broadfork',
+  spacing: 'seed spacing ruler garden dibber',
+  'fine-soil-rake': 'fine soil rake garden',
+  storage: 'mesh garden storage bags',
+  'germination-cover': 'garden row cover germination',
+  'shade-cloth': 'garden shade cloth',
+  'garden-scissors': 'garden harvest scissors',
+  'plant-labels': 'reusable plant labels garden',
+  'cell-inserts': 'seed starting cell inserts',
+  'landscape-fabric': 'dark landscape fabric garden',
+  'tomato-cages': 'tomato cages stakes',
+  trellis: 'garden trellis netting',
+  'berry-netting': 'bird netting for berries garden',
+  'seedling-pots': 'seedling pots transplant pots',
+  watering: 'garden watering wand drip irrigation'
+};
+
+function getVarietyActionMarketplace(country) {
+  return VARIETY_ACTION_MARKETPLACES[country] || VARIETY_ACTION_MARKETPLACES.default;
+}
+
+function buildVarietyActionUrl(theme, country) {
+  const query = VARIETY_ACTION_SEARCH_BY_THEME[theme];
+  if (!query) return null;
+
+  const marketplace = getVarietyActionMarketplace(country);
+  const encodedQuery = encodeURIComponent(query).replace(/%20/g, '+');
+  const tagPart = marketplace.tag ? `&tag=${encodeURIComponent(marketplace.tag)}` : '';
+
+  return `https://${marketplace.domain}/s?k=${encodedQuery}${tagPart}`;
+}
+
+function makeVarietyActionGroup(label, reason, items) {
+  return {
+    label,
+    reason,
+    items: Array.isArray(items) ? items.filter(Boolean) : []
+  };
+}
+
+function makeVarietyActionItem(labelOrParts, theme = null) {
+  if (Array.isArray(labelOrParts)) {
+    return {
+      label: null,
+      theme: null,
+      url: null,
+      parts: labelOrParts
+        .filter(Boolean)
+        .map((part) => ({
+          text: part.text || '',
+          theme: part.theme || null,
+          url: part.url || null
+        }))
+    };
+  }
+
+  return {
+    label: labelOrParts || '',
+    theme,
+    url: null,
+    parts: null
+  };
+}
+
+function finalizeVarietyActionBox(action) {
+  const country = action.country || 'usa';
+
+  const productGroups = Array.isArray(action.productGroups)
+    ? action.productGroups.map((group) => ({
+        ...group,
+        items: Array.isArray(group.items)
+          ? group.items.map((item) => {
+              if (!item || typeof item === 'string') return item;
+
+              const parts = Array.isArray(item.parts)
+                ? item.parts.map((part) => ({
+                    ...part,
+                    url: part.url || buildVarietyActionUrl(part.theme, country)
+                  }))
+                : null;
+
+              return {
+                ...item,
+                url: item.url || buildVarietyActionUrl(item.theme, country),
+                parts
+              };
+            })
+          : []
+      }))
+    : [];
+
+  return {
+    ...action,
+    productGroups
+  };
+}
+
+function getVarietyActionBehaviorProfile(record) {
+  const cropKey = record?.cropKey;
+
+  if (record?.crop?.behaviorProfile) return record.crop.behaviorProfile;
+
+  if (cropKey === 'strawberries') return 'perennial-fruit';
+
+  if (['spinach', 'lettuce', 'peas'].includes(cropKey)) {
+    return 'cool-season-quality';
+  }
+
+  if (['kale', 'swiss-chard', 'broccoli', 'cauliflower', 'cabbage'].includes(cropKey)) {
+    return 'cool-season-structural';
+  }
+
+  if (['radishes', 'turnips'].includes(cropKey)) {
+    return 'fast-root';
+  }
+
+if (['carrots', 'beets'].includes(cropKey)) {
+  return 'storage-root';
+}
+
+if (['potatoes', 'onions', 'garlic'].includes(cropKey)) {
+  return 'storage-crop';
+}
+
+if (['tomatoes', 'peppers', 'eggplant'].includes(cropKey)) {
+  return 'warm-season-fruiting';
+}
+
+if (cropKey === 'basil') {
+  return 'herb';
+}
+
+  if (['beans', 'cucumbers', 'zucchini', 'sweet-corn'].includes(cropKey)) {
+    return 'warm-season-direct';
+  }
+
+  if (['melons', 'watermelons', 'pumpkin', 'winter-squash'].includes(cropKey)) {
+    return 'long-season-risk';
+  }
+
+  return 'general';
+}
+
+function getVarietyActionConfidence(record, namedVarieties) {
+  const raw =
+    record?.fit?.confidence ||
+    record?.confidence ||
+    record?.diagnostics?.confidence ||
+    null;
+
+  if (raw) return raw;
+
+  const all = [
+    ...((Array.isArray(namedVarieties?.bestDefaults) && namedVarieties.bestDefaults) || []),
+    ...((Array.isArray(namedVarieties?.safest) && namedVarieties.safest) || []),
+    ...((Array.isArray(namedVarieties?.workable) && namedVarieties.workable) || [])
+  ];
+
+  if (all.some((item) => item?.fitLabel === 'poor')) return 'risky';
+  if (all.some((item) => item?.fitLabel === 'tight')) return 'borderline';
+  if (all.some((item) => item?.fitLabel === 'workable')) return 'good';
+
+  return 'strong';
+}
+
+function buildVarietyActionShopUrl(record, confidence, behaviorProfile) {
+  const cropKey = record?.cropKey || 'garden';
+  const tight = confidence === 'borderline' || confidence === 'risky';
+
+  if (tight || behaviorProfile === 'long-season-risk') {
+    return '/recommended/season-extension-supplies/';
+  }
+
+  if (behaviorProfile === 'perennial-fruit') {
+    return '/recommended/strawberry-growing-supplies/';
+  }
+
+  if (behaviorProfile === 'storage-root' || behaviorProfile === 'fast-root') {
+    return '/recommended/root-crop-growing-supplies/';
+  }
+
+  if (behaviorProfile === 'warm-season-fruiting') {
+    return '/recommended/warm-season-crop-supplies/';
+  }
+
+  return `/recommended/${cropKey}-growing-supplies/`;
+}
+
+function getVarietyActionNameList(items, limit = 3) {
+  const names = (Array.isArray(items) ? items : [])
+    .slice(0, limit)
+    .map((item) => item?.name)
+    .filter(Boolean);
+
+  if (!names.length) return null;
+  if (names.length === 1) return names[0];
+  if (names.length === 2) return `${names[0]} and ${names[1]}`;
+
+  return `${names.slice(0, -1).join(', ')}, and ${names[names.length - 1]}`;
+}
+
+function getVarietyActionChoiceItems(namedVarieties) {
+  const groups = [
+    ...(Array.isArray(namedVarieties?.bestDefaults) ? namedVarieties.bestDefaults.slice(0, 2) : []),
+    ...(Array.isArray(namedVarieties?.safest) ? namedVarieties.safest.slice(0, 2) : []),
+    ...(Array.isArray(namedVarieties?.workable) ? namedVarieties.workable.slice(0, 3) : [])
+  ];
+
+  const items = [];
+  const seen = new Set();
+
+  for (const item of groups) {
+    if (!item?.name || seen.has(item.name)) continue;
+
+    seen.add(item.name);
+    items.push(`${item.name}: ${item.bestFor || 'a useful fit for this page'}`);
+  }
+
+  return items;
+}
+
+function getVarietyActionPrimaryNames(namedVarieties) {
+  return (
+    getVarietyActionNameList(namedVarieties?.bestDefaults, 2) ||
+    getVarietyActionNameList(namedVarieties?.safest, 2) ||
+    getVarietyActionNameList(namedVarieties?.workable, 2)
+  );
+}
+
+function buildRootVarietyActionGroups(namedVarieties, tight) {
+  return [
+    makeVarietyActionGroup(
+      'Turn the variety choice into a planting plan',
+      'For root crops, the next step is deciding how the row will be used: quick baby roots, fresh eating, storage, or a later fall harvest.',
+      [
+        'Mark separate rows or sowing dates for baby roots, fresh eating, and storage roots',
+        'Plan to thin more aggressively for full-size or storage roots',
+        'Use shorter succession rows when you want repeated fresh harvests instead of one big pull'
+      ]
+    ),
+    makeVarietyActionGroup(
+      'Prepare the seedbed',
+      'Straight, full-size roots depend on loose soil, clean spacing, and a fine surface for small seed.',
+      [
+        makeVarietyActionItem([
+          { text: 'Garden fork', theme: 'soil-prep' },
+          { text: ' or ' },
+          { text: 'broadfork', theme: 'soil-prep' },
+          { text: ' for loosening soil' }
+        ]),
+        makeVarietyActionItem('Seed spacing ruler, dibber, or seed tape', 'spacing'),
+        makeVarietyActionItem('Fine soil rake or compost screen', 'fine-soil-rake')
+      ]
+    ),
+    makeVarietyActionGroup(
+      tight ? 'Protect the early window' : 'Keep germination steady',
+      tight
+        ? 'When margin is tighter, a clean start matters more because uneven germination wastes usable season.'
+        : 'For root crops with enough season, even moisture usually matters more than extra heat.',
+      [
+        makeVarietyActionItem('Gentle watering wand', 'watering-wand'),
+        makeVarietyActionItem('Drip irrigation or soaker hose', 'drip-irrigation'),
+        makeVarietyActionItem('Lightweight row cover for germination moisture', 'germination-cover')
+      ]
+    )
+  ];
+}
+
+function buildStorageCropVarietyActionGroups(namedVarieties, tight) {
+  return [
+    makeVarietyActionGroup(
+      'Turn the variety choice into a storage plan',
+'For storage-focused crops, the next step is planning for sizing, curing, keeping quality, and a clean harvest.',
+      [
+        'Choose the planting area with storage goals in mind, not just the earliest possible harvest',
+        'Keep spacing realistic so bulbs, tubers, or heads can size properly',
+        'Plan the harvest window so the crop can cure or dry down cleanly before storage'
+      ]
+    ),
+    makeVarietyActionGroup(
+      'Set up steady growth',
+      tight
+        ? 'When the local season is tight, these crops need a clean start and steady growth before the finishing window closes.'
+        : 'Once the variety fits, steady growth usually matters more than pushing the crop harder.',
+      [
+        makeVarietyActionItem('Compost or balanced garden amendment', 'soil-health'),
+        makeVarietyActionItem('Plant spacing ruler or dibber', 'spacing'),
+        makeVarietyActionItem('Drip irrigation or soaker hose', 'drip-irrigation')
+      ]
+    ),
+    makeVarietyActionGroup(
+      'Handle harvest and storage',
+      'Good storage results depend on how the crop is lifted, cured, dried, and kept after harvest.',
+      [
+        makeVarietyActionItem('Harvest fork or garden fork', 'soil-prep'),
+        makeVarietyActionItem('Mesh curing or storage bags', 'storage'),
+        makeVarietyActionItem('Labels for variety and harvest notes', 'plant-labels')
+      ]
+    )
+  ];
+}
+
+function buildWarmFruitingVarietyActionGroups(namedVarieties, tight) {
+  return [
+    makeVarietyActionGroup(
+      tight ? 'Protect the ripening window' : 'Turn the variety choice into a harvest plan',
+      tight
+        ? 'For warm-season fruiting crops, the next step is helping the fastest realistic varieties keep moving before the season runs out.'
+        : 'For warm-season fruiting crops, the next step is matching the setup to the harvest style: fresh eating, sauce, compact plants, specialty flavor, or longer picking.',
+      [
+        'Decide whether you are growing for fresh eating, cooking, storage, or specialty flavor',
+        'Match the support style to the plant habit before growth takes off',
+        'Use steady watering and mulch so plants do not stall during heat or dry spells'
+      ]
+    ),
+    makeVarietyActionGroup(
+      'Start strong',
+      tight
+        ? 'Warm-season fruiting crops lose margin quickly when seedlings start slowly.'
+        : 'Healthy starts still improve timing, even when the season is workable.',
+      [
+        makeVarietyActionItem('Seed-starting trays or larger cell inserts', 'seed-starting'),
+        makeVarietyActionItem('Seedling heat mat', 'heat-mat'),
+        makeVarietyActionItem('Bright seed-starting light for sturdy seedlings', 'grow-light')
+      ]
+    ),
+    makeVarietyActionGroup(
+      'Support and steady water',
+      'Good support and even moisture turn a fitting variety into a cleaner, easier harvest.',
+      [
+        makeVarietyActionItem('Tomato cages, stakes, trellis, or plant supports', 'tomato-cages'),
+        makeVarietyActionItem('Soft plant ties or clips', 'plant-ties'),
+        makeVarietyActionItem('Drip irrigation kit', 'drip-irrigation')
+      ]
+    )
+  ];
+}
+
+function buildWarmDirectVarietyActionGroups(namedVarieties, tight) {
+  return [
+    makeVarietyActionGroup(
+      tight ? 'Use the warmest planting window well' : 'Turn the variety choice into a sowing plan',
+      'For direct-sown warm-season crops, the next step is getting fast germination, steady early growth, and the right harvest setup.',
+      [
+        'Wait for warm enough soil instead of rushing seed into cold ground',
+        'Use short repeat sowings if you want a longer harvest window',
+        'Set up trellis, spacing, or supports before vines or tall plants need them'
+      ]
+    ),
+    makeVarietyActionGroup(
+      'Warm the planting site',
+      tight
+        ? 'Warm soil can protect the margin before the seed even germinates.'
+        : 'Warm soil still improves emergence and early vigor.',
+      [
+        makeVarietyActionItem('Soil thermometer', 'soil-thermometer'),
+        makeVarietyActionItem('Black plastic mulch or dark landscape fabric', 'black-mulch'),
+        makeVarietyActionItem('Reusable plant labels for sowing dates', 'plant-labels')
+      ]
+    ),
+    makeVarietyActionGroup(
+      'Establish and support the crop',
+      'Once the variety fits, the setup should keep plants growing steadily.',
+      [
+        makeVarietyActionItem('Drip irrigation or soaker hose', 'drip-irrigation'),
+        makeVarietyActionItem('Low tunnel hoops or row cover', 'low-tunnel'),
+        makeVarietyActionItem('Trellis, netting, or plant supports', 'trellis')
+      ]
+    )
+  ];
+}
+
+function buildLongSeasonVarietyActionGroups(namedVarieties, tight) {
+  return [
+    makeVarietyActionGroup(
+      tight ? 'Protect every part of the season' : 'Keep the variety plan realistic',
+      tight
+        ? 'For long-season crops, the next step is stacking small advantages: warm starts, warm soil, protection, and realistic fruit size.'
+        : 'For long-season crops, even realistic varieties can use the season quickly, so the setup should protect warmth and early momentum.',
+      [
+        'Start with the shortest-season or most realistic type for the site',
+        'Use larger or later varieties only as stretch choices',
+        'Limit plant stress early so the crop does not lose the warmest part of the season'
+      ]
+    ),
+    makeVarietyActionGroup(
+      'Start earlier and warmer',
+      'Long-season crops lose too much time when seedlings are slow.',
+      [
+        makeVarietyActionItem('Seed-starting trays or large cell inserts', 'cell-inserts'),
+        makeVarietyActionItem('Seedling heat mat', 'heat-mat'),
+        makeVarietyActionItem('Bright seed-starting light for sturdy seedlings', 'grow-light')
+      ]
+    ),
+    makeVarietyActionGroup(
+      'Warm and protect the bed',
+      'A warmer site helps the variety make better use of the local season.',
+      [
+        makeVarietyActionItem('Soil thermometer', 'soil-thermometer'),
+        makeVarietyActionItem('Black plastic mulch or dark landscape fabric', 'black-mulch'),
+        makeVarietyActionItem('Row cover, low tunnel hoops, or cloches', 'row-cover')
+      ]
+    )
+  ];
+}
+
+function buildCoolSeasonVarietyActionGroups(namedVarieties, tight) {
+  return [
+    makeVarietyActionGroup(
+      'Turn the variety choice into a harvest plan',
+      'For cool-season crops, the next step is deciding whether you want the earliest harvest, repeat picking, better heat tolerance, or a longer quality window.',
+      [
+        'Use short succession sowings if you want repeated fresh harvests',
+        'Plan row cover for early starts or pest pressure',
+        'Use shade or afternoon protection when warm spells threaten quality'
+      ]
+    ),
+    makeVarietyActionGroup(
+      'Control temperature swings',
+      tight
+        ? 'Protection helps young plants keep moving when the season has less margin.'
+        : 'Quality often improves when the crop avoids heat and moisture stress.',
+      [
+        makeVarietyActionItem('Lightweight row cover', 'row-cover'),
+        makeVarietyActionItem('Shade cloth for warmer spells', 'shade-cloth'),
+        makeVarietyActionItem('Garden hoops for low cover', 'low-tunnel')
+      ]
+    ),
+    makeVarietyActionGroup(
+      'Make repeat harvests easier',
+      'Succession planting and quick harvests work better with simple tools.',
+      [
+        makeVarietyActionItem('Seed spacing ruler', 'spacing'),
+        makeVarietyActionItem('Garden scissors or harvest knife', 'garden-scissors'),
+        makeVarietyActionItem('Reusable plant labels', 'plant-labels')
+      ]
+    )
+  ];
+}
+
+function buildHerbVarietyActionGroups(namedVarieties, tight) {
+  return [
+    makeVarietyActionGroup(
+      'Turn the variety choice into a harvest plan',
+      'For basil and leafy herbs, the next step is deciding whether you want large leaf harvests, compact plants, specialty flavor, or color.',
+      [
+        'Pick regularly so plants keep making tender new growth',
+        'Grow compact varieties where space, containers, or tidy plants matter',
+        'Use specialty types when flavor or color matters more than maximum leaf volume'
+      ]
+    ),
+    makeVarietyActionGroup(
+      'Start warm and avoid cold stalls',
+      'Basil grows best when it gets a warm start and avoids sitting in cold soil or chilly nights.',
+      [
+        makeVarietyActionItem('Seed-starting trays or small pots', 'seed-starting'),
+        makeVarietyActionItem('Seedling heat mat', 'heat-mat'),
+        makeVarietyActionItem('Bright seed-starting light for sturdy seedlings', 'grow-light')
+      ]
+    ),
+    makeVarietyActionGroup(
+      'Keep harvests clean and steady',
+      'Once basil is growing, steady moisture and frequent picking usually matter more than pushing the plant harder.',
+      [
+        makeVarietyActionItem('Garden scissors or herb snips', 'garden-scissors'),
+        makeVarietyActionItem('Gentle watering wand', 'watering-wand'),
+        makeVarietyActionItem('Plant labels for different basil types', 'plant-labels')
+      ]
+    )
+  ];
+}
+
+function buildPerennialVarietyActionGroups(namedVarieties) {
+  return [
+    makeVarietyActionGroup(
+      'Turn the variety choice into a planting plan',
+      'For perennial fruit, the next step is planning the harvest pattern: early crop, main crop, longer picking window, or repeat harvests.',
+      [
+        'Choose a bed location before buying plants, because the planting will stay in place for multiple seasons',
+        'Decide whether you want one concentrated harvest or a longer picking window',
+        'Plan spacing, mulch, and irrigation before the plants begin spreading'
+      ]
+    ),
+    makeVarietyActionGroup(
+      'Establish the planting',
+      'Strong early establishment usually matters more than forcing maturity.',
+      [
+        makeVarietyActionItem('Healthy starter plants or bare-root crowns', 'seedling-pots'),
+        makeVarietyActionItem('Compost or soil amendment', 'soil-health'),
+        makeVarietyActionItem('Mulch for moisture and cleaner fruit', 'mulch')
+      ]
+    ),
+    makeVarietyActionGroup(
+      'Protect the harvest',
+      'Small setup choices help keep fruit cleaner and easier to pick.',
+      [
+        makeVarietyActionItem('Bird netting', 'berry-netting'),
+        makeVarietyActionItem('Drip irrigation kit', 'drip-irrigation'),
+        makeVarietyActionItem('Garden labels', 'plant-labels')
+      ]
+    )
+  ];
+}
+
+function buildGeneralVarietyActionGroups(namedVarieties) {
+  return [
+    makeVarietyActionGroup(
+      'Turn the variety choice into a growing plan',
+      'Once the variety fits the local season, the next step is matching the setup to the crop’s growth habit, harvest goal, and timing risk.',
+      [
+        'Decide whether you want the earliest harvest, the biggest harvest, or the most reliable harvest',
+        'Match spacing, support, and watering to the crop before growth gets crowded',
+        'Use labels or notes so you can compare which choices worked best'
+      ]
+    ),
+    makeVarietyActionGroup(
+      'Set up for steady growth',
+      'Once the variety fits, consistency usually matters more than chasing a perfect date.',
+      [
+        makeVarietyActionItem('Compost or soil amendment', 'soil-health'),
+        makeVarietyActionItem('Drip irrigation or watering wand', 'watering'),
+        makeVarietyActionItem('Plant labels and spacing tools', 'spacing')
+      ]
+    )
+  ];
+}
+
+function buildBestVarietyActionBox(record, namedVarieties) {
+  if (!record || !namedVarieties) return null;
+
+  const cityName = record.cityName || 'your area';
+  const cropDisplayName = buildVarietyPageCropName(record);
+  const cropLower = cropDisplayName.toLowerCase();
+  const confidence = getVarietyActionConfidence(record, namedVarieties);
+  const behaviorProfile = getVarietyActionBehaviorProfile(record);
+  const tight = confidence === 'borderline' || confidence === 'risky';
+  const plantingGuideUrl = record.urlBase || record.url || null;
+
+  let productGroups;
+
+  if (behaviorProfile === 'perennial-fruit') {
+    productGroups = buildPerennialVarietyActionGroups(namedVarieties, tight);
+  } else if (behaviorProfile === 'storage-root' || behaviorProfile === 'fast-root') {
+    productGroups = buildRootVarietyActionGroups(namedVarieties, tight);
+  } else if (behaviorProfile === 'storage-crop') {
+    productGroups = buildStorageCropVarietyActionGroups(namedVarieties, tight);
+} else if (behaviorProfile === 'cool-season-quality' || behaviorProfile === 'cool-season-structural') {
+  productGroups = buildCoolSeasonVarietyActionGroups(namedVarieties, tight);
+} else if (behaviorProfile === 'herb') {
+  productGroups = buildHerbVarietyActionGroups(namedVarieties, tight);
+} else if (behaviorProfile === 'warm-season-fruiting') {
+      productGroups = buildWarmFruitingVarietyActionGroups(namedVarieties, tight);
+  } else if (behaviorProfile === 'warm-season-direct') {
+    productGroups = buildWarmDirectVarietyActionGroups(namedVarieties, tight);
+  } else if (behaviorProfile === 'long-season-risk') {
+    productGroups = buildLongSeasonVarietyActionGroups(namedVarieties, tight);
+  } else {
+    productGroups = buildGeneralVarietyActionGroups(namedVarieties, tight);
+  }
+
+  const actionTitle = tight
+    ? `Help ${cropLower} varieties finish in ${cityName}`
+    : `Help ${cropLower} varieties grow well in ${cityName}`;
+
+  const intro = tight
+    ? `The variety choice matters, but the setup matters too. In ${cityName}, focus on the few things that protect timing, preserve warmth, and keep growth moving while the season is still usable.`
+    : `The variety choice is only part of the result. In ${cityName}, the next step is matching the setup to the crop’s needs, harvest goal, and local growing window.`;
+
+  return finalizeVarietyActionBox({
+    confidence,
+    cropKey: record.cropKey,
+    cityKey: record.cityKey,
+    country: record.country,
+    type: 'best-variety-commerce-action',
+    eyebrow: 'Next step',
+    title: actionTitle,
+    intro,
+    productGroups,
+    bullets: [],
+    primaryCta: null,
+    secondaryCta: null,
+        disclosure:
+      'Recommendations are based on the local variety fit and common setup needs for this crop. As an Amazon Associate, we may earn from qualifying purchases.'
+  });
+}
+
 module.exports = function () {
   const records = Array.isArray(getRecords()) ? getRecords() : [];
 
@@ -2329,12 +3607,17 @@ module.exports = function () {
       const defaultVarietyDisplay = getVarietyClassDisplay(strategy.defaultRecommendedVarietyLabel);
       const fastestVarietyDisplay = getVarietyClassDisplay(strategy.fastestReliableVarietyLabel);
       const slowestStillFittingDisplay = getVarietyClassDisplay(strategy.slowestStillFittingVarietyLabel);
+      const varietyAction = buildBestVarietyActionBox(record, namedVarieties);
 
       return {
         ...record,
         pageType: 'varieties',
+        monetization: {
+          ...(record.monetization || {}),
+          varietyAction
+        },
         copy: {
-          ...copy,
+                    ...copy,
           fitSummary: buildVarietyFitSummary(record),
           cropDisplayName: buildVarietyPageCropName(record),
           varietyPageCropName: buildVarietyPageCropName(record),

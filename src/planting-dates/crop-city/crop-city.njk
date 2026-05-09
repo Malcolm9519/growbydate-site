@@ -7,7 +7,7 @@ pagination:
   alias: pageData
 permalink: "{{ pageData.url }}index.html"
 eleventyComputed:
-  title: "When to Plant {{ pageData.cropName }} in {{ pageData.cityName }}: Timing and Maturity Guide"
+  title: "When to Plant {{ pageData.cropName }} in {{ pageData.cityName }}: Timing and Local Growing Guide"
   description: "Find the best time to plant {{ pageData.cropName | lower }} in {{ pageData.cityName }}, {{ pageData.regionName }}, with local planting windows, frost dates, indoor and outdoor timing, and whether the crop will typically mature in time."
   canonical: "https://growbydate.com{{ pageData.url }}"
 ---
@@ -93,7 +93,9 @@ eleventyComputed:
 {% set frostLabel = frostToleranceText(crop.frostToleranceLabel or crop.frostTolerance) %}
 
 {% set methodLabel = "" %}
-{% if crop.transplantRecommended and crop.directSowRecommended %}
+{% if crop.key == "strawberries" %}
+  {% set methodLabel = "Plant crowns or transplants" %}
+{% elif crop.transplantRecommended and crop.directSowRecommended %}
   {% set methodLabel = "Direct sow or transplant" %}
 {% elif crop.plantingMethod == "transplant" and crop.startingMethod == "indoors" %}
   {% set methodLabel = "Transplant" %}
@@ -178,13 +180,14 @@ eleventyComputed:
       {{ pageData.methodSummary.summarySentence }}
     {% endif %}
 
-{% if crop.daysToMaturityTypical %}
-  {% if crop.transplantRecommended and not crop.directSowRecommended %}
-    Most varieties need about {{ crop.daysToMaturityTypical }} days to reach maturity once they are in the garden.
-  {% else %}
-    Most varieties need about {{ crop.daysToMaturityTypical }} days to reach maturity.
-  {% endif %}
-{% endif %}
+    {% if crop.daysToMaturityTypical and crop.key != "strawberries" %}
+      {% if pageData.methodSummary.summarySentence %} {% endif %}
+      {% if crop.transplantRecommended and not crop.directSowRecommended %}
+        Most varieties need about {{ crop.daysToMaturityTypical }} days to reach maturity once they are in the garden.
+      {% else %}
+        Most varieties need about {{ crop.daysToMaturityTypical }} days to reach maturity.
+      {% endif %}
+    {% endif %}
   </p>
 {% endif %}
 
@@ -203,17 +206,29 @@ eleventyComputed:
 </section>
 
 <section class="card">
+{% if crop.key == "strawberries" %}
+  <h2>Can Strawberries Establish and Produce Well in {{ pageData.cityName }}?</h2>
+{% else %}
   <h2>Can {{ cropName }} Mature in {{ pageData.cityName }}?</h2>
+{% endif %}
 
+{% if crop.key == "strawberries" %}
   <p>
-    {% if crop.key == "tomatoes" %}
-      Growing degree days measure how much useful warmth the season provides. For tomatoes, that warmth is what drives steady growth, fruit sizing, and ripening, so low GDD seasons often leave later varieties green or unfinished before frost.
-    {% elif crop.frostTolerance == "tender" %}
-      Growing degree days measure how much useful warmth the season provides. For warm-season crops like {{ cropLower }}, GDD helps show whether local heat accumulation is usually strong enough for the crop to grow steadily and finish before fall.
-    {% else %}
-      Growing degree days measure how much useful warmth typically accumulates during the season. For {{ cropLower }}, this helps estimate whether local heat accumulation is usually enough for the crop to reach maturity on time.
-    {% endif %}
+    Growing degree days measure how much useful warmth typically accumulates during the season. For strawberries, this is most useful for judging how comfortably plants can establish, how quickly harvest begins, and how much seasonal room gardeners have for different variety types.
   </p>
+{% elif crop.key == "tomatoes" %}
+  <p>
+    Growing degree days measure how much useful warmth the season provides. For tomatoes, that warmth is what drives steady growth, fruit sizing, and ripening, so low GDD seasons often leave later varieties green or unfinished before frost.
+  </p>
+{% elif crop.frostTolerance == "tender" %}
+  <p>
+    Growing degree days measure how much useful warmth the season provides. For warm-season crops like {{ cropLower }}, GDD helps show whether local heat accumulation is usually strong enough for the crop to grow steadily and finish before fall.
+  </p>
+{% else %}
+  <p>
+    Growing degree days measure how much useful warmth typically accumulates during the season. For {{ cropLower }}, this helps estimate whether local heat accumulation is usually enough for the crop to reach maturity on time.
+  </p>
+{% endif %}
 
   <div class="quickStats">
     <div class="statCard">
@@ -432,6 +447,8 @@ eleventyComputed:
   {% endif %}
 </section>
 
+{% include "region/modules/action-box.njk" %}
+
 <section class="card">
   <h2>Related crops</h2>
 
@@ -448,8 +465,6 @@ eleventyComputed:
     </ul>
   {% endif %}
 
-  {% include "crop-city/modules/related-crops.njk" %}
-  
 </section>
 
 <p class="small muted" style="margin-top:1rem;">

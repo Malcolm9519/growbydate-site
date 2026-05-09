@@ -1,17 +1,23 @@
 {
   "name": "growbydate",
   "private": true,
-"scripts": {
-  "clean": "node -e \"require('fs').rmSync('_site', { recursive: true, force: true })\"",
-  "clean:varieties": "node -e \"require('fs').rmSync('_site-varieties', { recursive: true, force: true })\"",
-  "dev": "npm run clean && npx @11ty/eleventy --serve",
-  "build": "npm run clean && npm run build:eleventy && npm run build:sitemap",
-  "build:eleventy": "SITE_BUILD_TARGET=main node --max-old-space-size=12288 ./node_modules/@11ty/eleventy/cmd.cjs",
-  "build:varieties": "npm run clean:varieties && SITE_BUILD_TARGET=varieties node --max-old-space-size=12288 ./node_modules/@11ty/eleventy/cmd.cjs --output=_site-varieties && npm run build:sitemap:varieties",
-"build:sitemap": "node ./generate-sitemap.js",
-"build:sitemap:varieties": "node ./generate-varieties-sitemap.js",
-"dev:varieties": "SITE_BUILD_TARGET=varieties npx @11ty/eleventy --serve --output=_site-varieties"
-},
+  "scripts": {
+    "clean": "cmd /c \"if exist _site rmdir /s /q _site\"",
+    "clean:varieties": "cmd /c \"if exist _site-varieties rmdir /s /q _site-varieties\"",
+
+    "dev": "npm run clean && set SITE_BUILD_TARGET=main&& node --max-old-space-size=12288 ./node_modules/@11ty/eleventy/cmd.cjs --serve",
+
+    "build": "npm run clean && npm run build:eleventy && npm run build:sitemap",
+
+    "build:eleventy": "set SITE_BUILD_TARGET=main&& node --max-old-space-size=12288 ./node_modules/@11ty/eleventy/cmd.cjs",
+
+    "build:varieties": "npm run clean:varieties && set SITE_BUILD_TARGET=varieties&& node --max-old-space-size=12288 ./node_modules/@11ty/eleventy/cmd.cjs --output=_site-varieties && npm run build:sitemap:varieties",
+
+    "build:sitemap": "node ./generate-sitemap.js",
+    "build:sitemap:varieties": "node ./generate-varieties-sitemap.js",
+
+    "dev:varieties": "npm run clean:varieties && set SITE_BUILD_TARGET=varieties&& node --max-old-space-size=12288 ./node_modules/@11ty/eleventy/cmd.cjs --serve --output=_site-varieties"
+  },
   "devDependencies": {
     "@11ty/eleventy": "^3.0.0"
   }

@@ -8,19 +8,23 @@ const DEFAULT_CROPS = [
   "cucumbers",
   "zucchini",
   "potatoes",
+  "basil",
+  "strawberries",
+  "melons",
+  "watermelons",
   "peas",
   "broccoli",
   "cabbage",
   "carrots",
   "onions",
   "beets",
-  "pumpkin",
-  "winter-squash",
   "kale",
   "swiss-chard",
   "lettuce",
   "spinach",
   "cauliflower",
+  "pumpkin",
+  "winter-squash"
 
 ];
 

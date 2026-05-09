@@ -9,7 +9,11 @@ const GDD_BY_KEY = {
   pumpkin: { base_f: 50, gdd_required: 1300, category: "warm-season" },
   "sweet-corn": { base_f: 50, gdd_required: 1100, category: "warm-season" },
   beans: { base_f: 50, gdd_required: 600, category: "warm-season" },
+  melons: { base_f: 50, gdd_required: 1200, category: "warm-season" },
+  watermelons: { base_f: 50, gdd_required: 1350, category: "warm-season" },
+  basil: { base_f: 50, gdd_required: 700, category: "warm-season" },
 
+  strawberries: { base_f: 40, gdd_required: 600, category: "cool-season" },
   broccoli: { base_f: 40, gdd_required: 900, category: "cool-season" },
   cabbage: { base_f: 40, gdd_required: 1000, category: "cool-season" },
   cauliflower: { base_f: 40, gdd_required: 1050, category: "cool-season" },
@@ -102,6 +106,314 @@ kale: {
   shortSeasonStrategy: "Start early or direct sow early, and treat kale as a flexible spring-to-fall crop rather than a crop that needs peak summer heat.",
   commonFailureMode: "Late planting usually does not kill the crop outright, but it can leave plants undersized before cold weather slows growth."
 },
+
+  basil: {
+    relatedCrops: ["tomatoes", "peppers"],
+
+    plantingMethod: "transplant",
+    startingMethod: "indoors",
+    transplantRecommended: true,
+    directSowRecommended: true,
+
+    daysBeforeLastFrostStartIndoors: 28,
+    daysAfterLastFrostPlantOut: 7,
+    daysAfterLastFrostDirectSow: 10,
+
+    gddBase: 50,
+    gddTargetTypical: 700,
+    maturityFrom: "transplant",
+    daysToMaturityTypical: "55–70",
+
+    frostTolerance: "none",
+    minSafeTempF: 32,
+    protectedCultureBenefit: "moderate",
+
+    varietyClasses: [
+      {
+        key: "very-early",
+        label: "Very early",
+        daysToMaturity: "45–55",
+        gddTarget: 550,
+        examples: [
+          {
+            name: "Prospera",
+            note: "a productive basil that is useful when gardeners want a relatively quick, practical harvest"
+          },
+          {
+            name: "Spicy Globe",
+            note: "a compact basil that fits well when gardeners want a smaller plant and earlier usable harvests"
+          }
+        ]
+      },
+      {
+        key: "early",
+        label: "Early",
+        daysToMaturity: "55–65",
+        gddTarget: 650,
+        examples: [
+          {
+            name: "Genovese",
+            note: "the classic sweet basil type and the most familiar choice for full-size leaf harvests"
+          },
+          {
+            name: "Nufar",
+            note: "a Genovese-type basil that is useful when gardeners want a familiar leaf style with practical garden performance"
+          }
+        ]
+      },
+      {
+        key: "mid",
+        label: "Mid-season",
+        daysToMaturity: "65–75",
+        gddTarget: 750,
+        examples: [
+          {
+            name: "Thai Basil",
+            note: "a specialty basil chosen for distinctive flavor, but it usually matters more for culinary style than for maximum earliness"
+          },
+          {
+            name: "Dark Opal",
+            note: "a purple basil that is often chosen for color and flavor character rather than the fastest finish"
+          }
+        ]
+      }
+    ],
+
+    oneSentenceSummary: "Basil is a warm-season herb that benefits from real warmth and usually performs best when not rushed into cold conditions.",
+    shortSeasonStrategy: "Use indoor starts or wait for warm soil, then favor practical sweet basil types if the season is tight.",
+    commonFailureMode: "Cold soil and chilly nights can stall basil badly, even when frost is no longer the main risk."
+  },
+
+    strawberries: {
+    relatedCrops: ["lettuce", "peas"],
+
+    plantingMethod: "transplant",
+    startingMethod: "outdoors",
+    transplantRecommended: true,
+    directSowRecommended: false,
+
+    daysBeforeLastFrostStartIndoors: null,
+    daysAfterLastFrostPlantOut: -14,
+    daysAfterLastFrostDirectSow: null,
+
+    gddBase: 40,
+    gddTargetTypical: 600,
+    maturityFrom: "transplant",
+    daysToMaturityTypical: "60–90",
+
+    frostTolerance: "moderate",
+    minSafeTempF: 25,
+    protectedCultureBenefit: "moderate",
+
+    varietyClasses: [
+      {
+        key: "very-early",
+        label: "Very early",
+        daysToMaturity: "60–70",
+        gddTarget: 500,
+        examples: [
+          {
+            name: "Earliglow",
+            note: "a classic early June-bearing strawberry that is often one of the safer choices where earliness matters"
+          },
+          {
+            name: "Annapolis",
+            note: "an early strawberry that is useful when gardeners want a quicker first harvest in cooler climates"
+          }
+        ]
+      },
+      {
+        key: "early",
+        label: "Early",
+        daysToMaturity: "70–80",
+        gddTarget: 600,
+        examples: [
+          {
+            name: "Jewel",
+            note: "a dependable main-crop strawberry with broad usefulness in home gardens"
+          },
+          {
+            name: "Honeoye",
+            note: "a widely grown early strawberry that is practical where growers want vigor and a familiar June-bearing pattern"
+          }
+        ]
+      },
+      {
+        key: "mid",
+        label: "Mid-season",
+        daysToMaturity: "80–95",
+        gddTarget: 700,
+        examples: [
+          {
+            name: "Seascape",
+            note: "a day-neutral type chosen when gardeners want continued harvests rather than only the earliest flush"
+          },
+          {
+            name: "Albion",
+            note: "a day-neutral strawberry valued for fruit quality, though it asks for a steadier season than the quickest June-bearers"
+          }
+        ]
+      }
+    ],
+
+    oneSentenceSummary: "Strawberries usually fit cool climates well, but variety type affects whether harvest is concentrated early or spread across more of the season.",
+    shortSeasonStrategy: "Plant early, establish strong crowns, and lean toward earlier June-bearing types where the main goal is dependable timing.",
+    commonFailureMode: "Weak establishment in the planting year usually matters more than narrow maturity differences between decent varieties."
+  },
+
+    melons: {
+    relatedCrops: ["watermelons", "cucumbers"],
+
+    plantingMethod: "transplant",
+    startingMethod: "indoors",
+    transplantRecommended: true,
+    directSowRecommended: true,
+
+    daysBeforeLastFrostStartIndoors: 21,
+    daysAfterLastFrostPlantOut: 7,
+    daysAfterLastFrostDirectSow: 10,
+
+    gddBase: 50,
+    gddTargetTypical: 1200,
+    maturityFrom: "transplant",
+    daysToMaturityTypical: "80–95",
+
+    frostTolerance: "none",
+    minSafeTempF: 32,
+    protectedCultureBenefit: "high",
+
+    varietyClasses: [
+      {
+        key: "very-early",
+        label: "Very early",
+        daysToMaturity: "75–80",
+        gddTarget: 1000,
+        examples: [
+          {
+            name: "Minnesota Midget",
+            note: "one of the best-known short-season muskmelons where getting any ripe melon is the first priority"
+          },
+          {
+            name: "Sweet Granite",
+            note: "an early melon that makes sense when the season is too tight for larger standard muskmelons"
+          }
+        ]
+      },
+      {
+        key: "early",
+        label: "Early",
+        daysToMaturity: "80–90",
+        gddTarget: 1150,
+        examples: [
+          {
+            name: "Hale's Best",
+            note: "a classic muskmelon that can work when the season offers a realistic but not oversized margin"
+          },
+          {
+            name: "Sugar Cube",
+            note: "a smaller melon type that helps keep fruit size more realistic in shorter seasons"
+          }
+        ]
+      },
+      {
+        key: "mid",
+        label: "Mid-season",
+        daysToMaturity: "90–100",
+        gddTarget: 1300,
+        examples: [
+          {
+            name: "Athena",
+            note: "a productive eastern-type cantaloupe that needs a steadier warm run than the quickest melon choices"
+          },
+          {
+            name: "Hearts of Gold",
+            note: "a flavorful heirloom melon that is often more exposed when the local season is already tight"
+          }
+        ]
+      }
+    ],
+
+    oneSentenceSummary: "Melons are a true warm-season crop, and short-season success depends heavily on earliness, warmth, and realistic fruit size.",
+    shortSeasonStrategy: "Use transplants, warm sites, and the fastest melon classes when the season is not generous.",
+    commonFailureMode: "Melons often grow vines successfully but still fail to ripen well if the season lacks enough warmth near the finish."
+  },
+
+    watermelons: {
+    relatedCrops: ["melons", "pumpkin"],
+
+    plantingMethod: "transplant",
+    startingMethod: "indoors",
+    transplantRecommended: true,
+    directSowRecommended: true,
+
+    daysBeforeLastFrostStartIndoors: 21,
+    daysAfterLastFrostPlantOut: 7,
+    daysAfterLastFrostDirectSow: 10,
+
+    gddBase: 50,
+    gddTargetTypical: 1350,
+    maturityFrom: "transplant",
+    daysToMaturityTypical: "80–100",
+
+    frostTolerance: "none",
+    minSafeTempF: 32,
+    protectedCultureBenefit: "high",
+
+    varietyClasses: [
+      {
+        key: "very-early",
+        label: "Very early",
+        daysToMaturity: "75–80",
+        gddTarget: 1100,
+        examples: [
+          {
+            name: "Sugar Baby",
+            note: "the classic small short-season watermelon and one of the safest starting points where season length is limited"
+          },
+          {
+            name: "Blacktail Mountain",
+            note: "a practical early watermelon that is often chosen specifically for cooler or shorter climates"
+          }
+        ]
+      },
+      {
+        key: "early",
+        label: "Early",
+        daysToMaturity: "80–90",
+        gddTarget: 1250,
+        examples: [
+          {
+            name: "Golden Midget",
+            note: "a smaller early watermelon that makes sense where fruit size needs to stay realistic"
+          },
+          {
+            name: "Bush Sugar Baby",
+            note: "a compact early type that is useful when gardeners want a smaller plant without giving up short-season focus"
+          }
+        ]
+      },
+      {
+        key: "mid",
+        label: "Mid-season",
+        daysToMaturity: "90–100",
+        gddTarget: 1400,
+        examples: [
+          {
+            name: "Crimson Sweet",
+            note: "a classic watermelon that usually needs a warmer and steadier season than the quickest small-fruited types"
+          },
+          {
+            name: "Moon and Stars",
+            note: "a specialty heirloom watermelon that is appealing for character and appearance, but more exposed in shorter seasons"
+          }
+        ]
+      }
+    ],
+
+    oneSentenceSummary: "Watermelons are one of the more demanding warm-season crops, and small early types usually make the most sense outside very warm climates.",
+    shortSeasonStrategy: "Start briefly indoors, plant only into warm conditions, and stay close to smaller early watermelons where season length is limited.",
+    commonFailureMode: "Large or later watermelons often set fruit but fail to sweeten and finish well before fall closes the season."
+  },
 
   pumpkin: {
     relatedCrops: ["winter-squash", "sweet-corn"],
@@ -1578,6 +1890,78 @@ garlic: {
 
 
 const RAW_CROPS = [
+  {
+  id: "basil",
+  name: "Basil",
+  slug: "basil",
+  order: 23,
+  indexBlurb: "Warm-season herb—start indoors or wait for settled warmth before planting out.",
+  description: "Basil needs warmth from the start. In shorter seasons, success comes from avoiding cold soil and chilly nights, then keeping plants growing steadily through summer.",
+  tagline: "A warm-season herb that hates cold starts.",
+  lede: "Basil is much more sensitive to cold than many gardeners expect. In shorter seasons, the main advantage comes from waiting for real warmth or using transplants so plants do not stall early.",
+  seasonType: "warm",
+  frostTolerance: "None (protect from all frost)",
+  daysToMaturity: [45, 75],
+  indoorStartWeeks: [6, 4],
+  transplantWeeks: [2, 1],
+  directSowWeeks: [1, 3],
+  relatedTools: ["seed-start-planner", "first-frost-planner", "gdd-planner"],
+  singularName: "basil"
+},
+{
+  id: "strawberries",
+  name: "Strawberries",
+  slug: "strawberries",
+  order: 24,
+  indexBlurb: "Cool-season perennial fruit—plant early so crowns establish well.",
+  description: "Strawberries usually fit cool climates well, but timing still matters because strong early establishment leads to better flowering and harvest later.",
+  tagline: "Plant early, establish well, harvest better.",
+  lede: "Strawberries are usually a good fit for cool climates, but the real key is getting plants established early and cleanly. In shorter seasons, early planting and variety type matter more than trying to force growth later.",
+  seasonType: "cool",
+  frostTolerance: "moderate (established plants handle light frost well)",
+  daysToMaturity: [60, 95],
+  indoorStartWeeks: null,
+  transplantWeeks: [-2, 0],
+  directSowWeeks: null,
+  relatedTools: ["first-frost-planner", "gdd-planner"],
+  singularName: "strawberry"
+},
+{
+  id: "melons",
+  name: "Melons",
+  slug: "melons",
+  order: 25,
+  indexBlurb: "Heat-loving crop—best with warm soil, transplants, and realistic variety choice.",
+  description: "Melons need real summer heat. In shorter seasons, the safest path is using transplants, warm sites, and earlier smaller-fruited types.",
+  tagline: "Warmth, earliness, and realistic fruit size matter.",
+  lede: "Melons are one of the crops that reveal whether a season is truly warm enough. In shorter climates, success usually depends on fast-maturing varieties, warm planting conditions, and enough heat late in the season to finish fruit properly.",
+  seasonType: "warm",
+  frostTolerance: "None (protect from all frost)",
+  daysToMaturity: [75, 100],
+  indoorStartWeeks: [4, 3],
+  transplantWeeks: [2, 1],
+  directSowWeeks: [1, 3],
+  relatedTools: ["seed-start-planner", "first-frost-planner", "gdd-planner"],
+  singularName: "melon"
+},
+{
+  id: "watermelons",
+  name: "Watermelons",
+  slug: "watermelons",
+  order: 26,
+  indexBlurb: "High-heat crop—small early varieties are the safest fit outside very warm climates.",
+  description: "Watermelons need more sustained heat than many summer crops. In shorter seasons, success usually depends on using small early types and the warmest sites available.",
+  tagline: "A demanding warm-season crop that rewards early, realistic choices.",
+  lede: "Watermelons are one of the more demanding warm-season crops. In shorter climates, the safest strategy is to use small early varieties, start promptly, and avoid giving up any heat or season to slow establishment.",
+  seasonType: "warm",
+  frostTolerance: "None (protect from all frost)",
+  daysToMaturity: [75, 100],
+  indoorStartWeeks: [4, 3],
+  transplantWeeks: [2, 1],
+  directSowWeeks: [1, 3],
+  relatedTools: ["seed-start-planner", "first-frost-planner", "gdd-planner"],
+  singularName: "watermelon"
+},
 {
   id: "broccoli",
   name: "Broccoli",
@@ -2929,6 +3313,10 @@ const RAW_CROPS = [
 ];
 
 const DETAIL_PARTIAL_BY_KEY = {
+  basil: "crops/basil-details.njk",
+  strawberries: "crops/strawberries-details.njk",
+  melons: "crops/melons-details.njk",
+  watermelons: "crops/watermelons-details.njk",
   beans: "crops/beans-details.njk",
   beets: "crops/beets-details.njk",
   broccoli: "crops/broccoli-details.njk",
@@ -3001,7 +3389,17 @@ const ALIASES = {
 
   "sweet-corn": "sweet-corn",
   "sweet corn": "sweet-corn",
-  "corn-sweet": "sweet-corn"
+  "corn-sweet": "sweet-corn",
+    basil: "basil",
+
+  strawberry: "strawberries",
+  strawberries: "strawberries",
+
+  melon: "melons",
+  melons: "melons",
+
+  watermelon: "watermelons",
+  watermelons: "watermelons",
 };
 
 function inferCategoryFromSeasonType(seasonType) {

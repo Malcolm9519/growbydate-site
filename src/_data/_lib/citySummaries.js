@@ -156,6 +156,7 @@ const DEFAULT_PLANTING_RULES = [
   { key: "peas", label: "Peas", offsetDays: -21, windowDays: 14, method: "direct sow" },
   { key: "spinach", label: "Spinach", offsetDays: -21, windowDays: 14, method: "direct sow" },
   { key: "lettuce", label: "Lettuce", offsetDays: -14, windowDays: 14, method: "direct sow / transplant" },
+  { key: "strawberries", label: "Strawberries", offsetDays: -14, windowDays: 14, method: "plant crowns / transplants" },
   { key: "carrots", label: "Carrots", offsetDays: -14, windowDays: 14, method: "direct sow" },
   { key: "beets", label: "Beets", offsetDays: -14, windowDays: 14, method: "direct sow" },
   { key: "radishes", label: "Radishes", offsetDays: -21, windowDays: 14, method: "direct sow" },
@@ -172,7 +173,11 @@ const DEFAULT_PLANTING_RULES = [
   { key: "corn-sweet", label: "Sweet corn", offsetDays: 10, windowDays: 10, method: "direct sow" },
   { key: "cucumbers", label: "Cucumbers", offsetDays: 14, windowDays: 10, method: "direct sow / transplant" },
   { key: "zucchini", label: "Zucchini", offsetDays: 14, windowDays: 10, method: "direct sow / transplant" },
-  { key: "squash", label: "Squash", offsetDays: 14, windowDays: 10, method: "direct sow / transplant" },  { key: "tomatoes", label: "Tomatoes", offsetDays: 14, windowDays: 10, method: "transplant" },
+  { key: "squash", label: "Squash", offsetDays: 14, windowDays: 10, method: "direct sow / transplant" },
+  { key: "melons", label: "Melons", offsetDays: 14, windowDays: 10, method: "direct sow / transplant" },
+  { key: "watermelons", label: "Watermelons", offsetDays: 14, windowDays: 10, method: "direct sow / transplant" },
+  { key: "basil", label: "Basil", offsetDays: 14, windowDays: 10, method: "direct sow / transplant" },
+  { key: "tomatoes", label: "Tomatoes", offsetDays: 14, windowDays: 10, method: "transplant" },
   { key: "peppers", label: "Peppers", offsetDays: 21, windowDays: 10, method: "transplant" }
 ];
 

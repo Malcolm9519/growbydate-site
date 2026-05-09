@@ -19,6 +19,10 @@
     "cabbage": "cabbage",
     "beans": "beans",
     "cucumbers": "cucumbers",
+    "strawberries": "strawberries",
+    "melons": "melons",
+    "basil": "basil",
+    "watermelons": "watermelons",
     "zucchini": "zucchini",
     "carrots": "carrots",
     "beets": "beets",
@@ -47,6 +51,10 @@
     "Pumpkins": "pumpkin",
     "Sweet corn": "corn",
     "Corn": "corn",
+    "Strawberries": "strawberries",
+    "Melons": "melons",
+    "Basil": "basil",
+    "Watermelons": "watermelons",
     "Beans": "beans",
     "Peas": "peas",
     "Carrots": "carrots",
@@ -64,16 +72,16 @@
     "Swiss chard": "swiss-chard"
   } %}
 
-  {% set coolKeys = [
-    "peas", "spinach", "lettuce", "carrots", "beets", "radishes",
-    "onions", "garlic", "broccoli", "cauliflower", "cabbage", "kale",
-    "swiss-chard", "potatoes"
-  ] %}
+{% set coolKeys = [
+  "peas", "spinach", "lettuce", "carrots", "beets", "radishes",
+  "onions", "garlic", "broccoli", "cauliflower", "cabbage", "kale",
+  "swiss-chard", "potatoes", "strawberries"
+] %}
 
-  {% set warmKeys = [
-    "beans", "corn", "sweet-corn", "cucumbers", "zucchini",
-    "squash", "winter-squash", "pumpkin", "tomatoes", "peppers"
-  ] %}
+{% set warmKeys = [
+  "beans", "corn", "melons", "watermelons", "sweet-corn", "cucumbers", "zucchini",
+  "squash", "winter-squash", "pumpkin", "tomatoes", "peppers", "basil"
+] %}
 
 {% macro confidenceLabel(confidence) %}
   {% if confidence == "surplus" %}
@@ -141,6 +149,26 @@
         {% endif %}
       {% endif %}
 
+      {% set recommendedVariety = null %}
+      {% set varietyHref = null %}
+
+      {% for varietyPage in (varietySummaries or []) %}
+        {% if varietyPage.cityKey == activeCity.key and varietyPage.cropKey == cropKey %}
+          {% set namedVarieties = varietyPage.namedVarieties or {} %}
+          {% set recommendationGroup = namedVarieties.bestDefaults or [] %}
+          {% if not recommendationGroup.length %}
+            {% set recommendationGroup = namedVarieties.safest or [] %}
+          {% endif %}
+          {% if not recommendationGroup.length %}
+            {% set recommendationGroup = namedVarieties.workable or [] %}
+          {% endif %}
+          {% if recommendationGroup.length %}
+            {% set recommendedVariety = recommendationGroup[0].name %}
+            {% set varietyHref = varietyPage.url %}
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+
       {% set windows = windows.concat([{
         "label": item.cropName,
         "key": cropKey,
@@ -149,7 +177,9 @@
         "end": end,
         "method": method,
         "href": item.url,
-        "confidence": item.confidence
+        "confidence": item.confidence,
+        "recommendedVariety": recommendedVariety,
+        "varietyHref": varietyHref
       }]) %}
     {% endif %}
   {% endfor %}
@@ -180,10 +210,21 @@
 
     <div class="tableWrap plantingWindowsWrap">
 <table class="table plantingWindowsTable{% if isCityPage %} plantingWindowsTableCity{% endif %}">
+        <thead>
+          <tr>
+            <th>Crop</th>
+            <th>Planting Window</th>
+            <th>Method</th>
+            {% if isCityPage %}
+              <th>Best Variety</th>
+              <th>Local Fit</th>
+            {% endif %}
+          </tr>
+        </thead>
         <tbody>
           {% if coolWindows.length %}
             <tr class="plantWindowSectionRow">
-<td colspan="{{ isCityPage and 4 or 3 }}">
+<td colspan="{{ isCityPage and 5 or 3 }}">
                 <strong>Cool-season / early window</strong>
                 <span class="plantWindowSectionHint">
                   Cold-tolerant crops that usually handle cooler spring conditions better.
@@ -221,6 +262,17 @@
                 </td>
 {% if isCityPage %}
   <td>
+    {% if w.recommendedVariety %}
+      {% if w.varietyHref %}
+        <a href="{{ w.varietyHref | toVarietiesUrl }}">{{ w.recommendedVariety }}</a>
+      {% else %}
+        {{ w.recommendedVariety }}
+      {% endif %}
+    {% else %}
+      —
+    {% endif %}
+  </td>
+  <td>
     {% if w.confidence %}
       <span class="fitBadge fitBadge-{{ w.confidence }}">
         {{ confidenceLabel(w.confidence) | trim }}
@@ -236,7 +288,7 @@
 
           {% if warmWindows.length %}
             <tr class="plantWindowSectionRow">
-<td colspan="{{ isCityPage and 4 or 3 }}">
+<td colspan="{{ isCityPage and 5 or 3 }}">
                 <strong>Main warm-season window</strong>
                 <span class="plantWindowSectionHint">
                   Crops that usually do best once frost risk fades and the season starts opening up more fully.
@@ -274,6 +326,17 @@
                 </td>
 {% if isCityPage %}
   <td>
+    {% if w.recommendedVariety %}
+      {% if w.varietyHref %}
+        <a href="{{ w.varietyHref | toVarietiesUrl }}">{{ w.recommendedVariety }}</a>
+      {% else %}
+        {{ w.recommendedVariety }}
+      {% endif %}
+    {% else %}
+      —
+    {% endif %}
+  </td>
+  <td>
     {% if w.confidence %}
       <span class="fitBadge fitBadge-{{ w.confidence }}">
         {{ confidenceLabel(w.confidence) | trim }}
@@ -289,7 +352,7 @@
 
           {% if otherWindows.length %}
             <tr class="plantWindowSectionRow">
-<td colspan="{{ isCityPage and 4 or 3 }}">
+<td colspan="{{ isCityPage and 5 or 3 }}">
                 <strong>Other crops</strong>
               </td>
             </tr>
@@ -323,6 +386,17 @@
                   <span class="plantMethodTag">{{ w.method or "—" }}</span>
                 </td>
 {% if isCityPage %}
+  <td>
+    {% if w.recommendedVariety %}
+      {% if w.varietyHref %}
+        <a href="{{ w.varietyHref | toVarietiesUrl }}">{{ w.recommendedVariety }}</a>
+      {% else %}
+        {{ w.recommendedVariety }}
+      {% endif %}
+    {% else %}
+      —
+    {% endif %}
+  </td>
   <td>
     {% if w.confidence %}
       <span class="fitBadge fitBadge-{{ w.confidence }}">

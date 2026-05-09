@@ -1,0 +1,63 @@
+{% set action = pageData.monetization.primaryAction if pageData.monetization else null %}
+
+{% if action %}
+<section class="card cropActionBox cropActionBox-{{ action.confidence }}">
+  <h2>{{ action.title }}</h2>
+
+  {% if action.intro %}
+    <p>{{ action.intro }}</p>
+  {% endif %}
+
+  {% if action.productGroups and action.productGroups.length %}
+    <div class="setupGroups">
+      {% for group in action.productGroups %}
+        <div class="setupGroup">
+          <h3>{{ group.label }}</h3>
+
+          {% if group.reason %}
+            <p class="small setupReason">{{ group.reason }}</p>
+          {% endif %}
+
+          {% if group.items and group.items.length %}
+            <ul>
+              {% for item in group.items %}
+                <li>
+                  {% if item.parts and item.parts.length %}
+                    {% for part in item.parts %}
+                      {% if part.url %}
+                        <a href="{{ part.url }}" rel="sponsored nofollow noopener" target="_blank">
+                          {{ part.text }}
+                        </a>
+                      {% else %}
+                        {{ part.text }}
+                      {% endif %}
+                    {% endfor %}
+                  {% elif item.label and item.url %}
+                    <a href="{{ item.url }}" rel="sponsored nofollow noopener" target="_blank">
+                      {{ item.label }}
+                    </a>
+                  {% elif item.label %}
+                    {{ item.label }}
+                  {% else %}
+                    {{ item }}
+                  {% endif %}
+                </li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  {% elif action.bullets and action.bullets.length %}
+    <ul>
+      {% for item in action.bullets %}
+        <li>{{ item }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  {% if action.disclosure %}
+    <p class="small muted actionDisclosure">{{ action.disclosure }}</p>
+  {% endif %}
+</section>
+{% endif %}
