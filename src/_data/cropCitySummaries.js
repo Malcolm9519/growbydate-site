@@ -4629,4 +4629,3 @@ summary.advisory = buildAdvisoryCopy({
 
   return output;
 };
-
