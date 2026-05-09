@@ -2,23 +2,25 @@
   "name": "growbydate",
   "private": true,
   "scripts": {
-    "clean": "cmd /c \"if exist _site rmdir /s /q _site\"",
-    "clean:varieties": "cmd /c \"if exist _site-varieties rmdir /s /q _site-varieties\"",
+    "clean": "rimraf _site",
+    "clean:varieties": "rimraf _site-varieties",
 
-    "dev": "npm run clean && set SITE_BUILD_TARGET=main&& node --max-old-space-size=12288 ./node_modules/@11ty/eleventy/cmd.cjs --serve",
+    "dev": "npm run clean && cross-env SITE_BUILD_TARGET=main node --max-old-space-size=12288 ./node_modules/@11ty/eleventy/cmd.cjs --serve",
 
     "build": "npm run clean && npm run build:eleventy && npm run build:sitemap",
 
-    "build:eleventy": "set SITE_BUILD_TARGET=main&& node --max-old-space-size=12288 ./node_modules/@11ty/eleventy/cmd.cjs",
+    "build:eleventy": "cross-env SITE_BUILD_TARGET=main node --max-old-space-size=12288 ./node_modules/@11ty/eleventy/cmd.cjs",
 
-    "build:varieties": "npm run clean:varieties && set SITE_BUILD_TARGET=varieties&& node --max-old-space-size=12288 ./node_modules/@11ty/eleventy/cmd.cjs --output=_site-varieties && npm run build:sitemap:varieties",
+    "build:varieties": "npm run clean:varieties && cross-env SITE_BUILD_TARGET=varieties node --max-old-space-size=12288 ./node_modules/@11ty/eleventy/cmd.cjs --output=_site-varieties && npm run build:sitemap:varieties",
 
     "build:sitemap": "node ./generate-sitemap.js",
     "build:sitemap:varieties": "node ./generate-varieties-sitemap.js",
 
-    "dev:varieties": "npm run clean:varieties && set SITE_BUILD_TARGET=varieties&& node --max-old-space-size=12288 ./node_modules/@11ty/eleventy/cmd.cjs --serve --output=_site-varieties"
+    "dev:varieties": "npm run clean:varieties && cross-env SITE_BUILD_TARGET=varieties node --max-old-space-size=12288 ./node_modules/@11ty/eleventy/cmd.cjs --serve --output=_site-varieties"
   },
   "devDependencies": {
-    "@11ty/eleventy": "^3.0.0"
+    "@11ty/eleventy": "^3.0.0",
+    "cross-env": "^7.0.3",
+    "rimraf": "^6.0.1"
   }
 }
