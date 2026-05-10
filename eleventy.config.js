@@ -4,6 +4,9 @@ const path = require("path");
 const isQaBuild = process.env.BUILD_QA === "true";
 const buildTarget = process.env.SITE_BUILD_TARGET || "main";
 
+const indexNowKey = "78dd8b7095134bcc9613bbcf7be523c9";
+const indexNowKeyFile = `${indexNowKey}.txt`;
+
 module.exports = function (eleventyConfig) {
   if (buildTarget === "main") {
     eleventyConfig.ignores.add("src/planting-dates/varieties/varieties.njk");
@@ -114,10 +117,18 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ "src/site.webmanifest": "site.webmanifest" });
   eleventyConfig.addPassthroughCopy({ "src/assets": "assets" });
 
+  // IndexNow verification key.
+  // Source file should live in the project root:
+  // 78dd8b7095134bcc9613bbcf7be523c9.txt
+  // It will be copied to the deployed site root.
+  eleventyConfig.addPassthroughCopy({
+    [indexNowKeyFile]: indexNowKeyFile
+  });
+
   return {
     dir: {
       input: "src",
-      output: "_site",
+      output: buildTarget === "varieties" ? "_site-varieties" : "_site",
       includes: "_includes",
       data: "_data"
     },
