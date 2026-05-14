@@ -738,7 +738,7 @@ function buildCoolSeasonStructuralActionBox({
       "Strong young plants help avoid slow starts and uneven sizing.",
       [
         makeProductItem("Seed-starting trays", "seed-starting"),
-        makeProductItem("Grow light", "grow-light"),
+makeProductItem("Bright seed-starting light for strong early growth", "grow-light"),
 makeProductItem([
   { text: "Transplant fertilizer", theme: "transplant-support" },
   { text: " or " },
@@ -794,7 +794,7 @@ function getCommerceActionTitle(crop, cropName, confidence, behaviorProfile) {
   if (behaviorProfile === "storage-root") {
     if (["potatoes", "onions", "garlic"].includes(crop.key)) {
       return tight
-        ? `Protect ${cropName} with trong starts and steady moisture`
+        ? `Protect ${cropName} with strong starts and steady moisture`
         : `Set up ${cropName} for sizing, watering, and storage`;
     }
 
@@ -960,7 +960,7 @@ function buildWarmSeasonFruitingActionBox({
           "Healthy starts still matter, even where the season is forgiving.",
           [
             makeProductItem("Seed-starting trays", "seed-starting"),
-            makeProductItem("Grow light", "grow-light"),
+makeProductItem("Bright seed-starting light for sturdy transplants", "grow-light"),
             makeProductItem("Transplant fertilizer or compost", "transplant-support")
           ]
         )
@@ -971,7 +971,7 @@ function buildWarmSeasonFruitingActionBox({
           "Warm-season crops lose margin quickly when early growth is slow.",
           [
             makeProductItem("Seedling heat mat", "heat-mat"),
-            makeProductItem("Grow light", "grow-light"),
+makeProductItem("Bright seed-starting light for sturdy transplants", "grow-light"),
             makeProductItem("Seed-starting trays", "seed-starting")
           ]
         ),
@@ -1183,28 +1183,41 @@ function buildLongSeasonRiskActionBox({
   const tight = confidence === "borderline" || confidence === "risky";
   const comfortable = confidence === "surplus" || confidence === "strong";
 
-  const productGroups = comfortable
-    ? [
-        makeProductGroup(
-          "Vine and fruit support",
-          "When the crop has enough season, the setup can focus more on clean growth and harvest quality.",
-          [
-            makeProductItem("Garden mulch", "mulch"),
-            makeProductItem("Drip irrigation kit", "drip-irrigation"),
-            makeProductItem("Harvest knife or pruning snips", "harvest-tools")
-          ]
-        ),
-        makeProductGroup(
-          "Soil warmth",
-          "Warm soil still helps long-season crops start faster.",
-          [
-            makeProductItem("Soil thermometer", "soil-thermometer"),
-            makeProductItem("Compost or balanced garden amendment", "soil-health")
-          ]
-        )
-      ]
-    : [
-        makeProductGroup(
+const productGroups = comfortable
+  ? [
+      makeProductGroup(
+        "Vine and fruit support",
+        "When the crop has enough season, the setup can focus more on clean growth and harvest quality.",
+        [
+          makeProductItem("Garden mulch", "mulch"),
+          makeProductItem("Drip irrigation kit", "drip-irrigation"),
+          makeProductItem("Harvest knife or pruning snips", "harvest-tools")
+        ]
+      ),
+      makeProductGroup(
+        "Soil warmth",
+        "Warm soil still helps long-season crops start faster.",
+        [
+          makeProductItem("Soil thermometer", "soil-thermometer"),
+          makeProductItem("Compost or balanced garden amendment", "soil-health")
+        ]
+      ),
+      makeProductGroup(
+        "Early growth protection",
+        "Young vines still benefit from a warmer, cleaner start even when the overall season is workable.",
+        [
+          makeProductItem("Lightweight row cover", "row-cover"),
+          makeProductItem("Low tunnel hoops", "low-tunnel"),
+          makeProductItem([
+            { text: "Garden clips", theme: "row-cover-accessories" },
+            { text: " or " },
+            { text: "fabric pins", theme: "fabric-pins" }
+          ])
+        ]
+      )
+    ]
+  : [
+          makeProductGroup(
           "Start earlier indoors",
           "Long-season crops lose too much time when they start slowly.",
           [
@@ -1214,7 +1227,7 @@ makeProductItem([
   { text: "large cell inserts", theme: "cell-inserts" }
 ]),
             makeProductItem("Seedling heat mat", "heat-mat"),
-            makeProductItem("Grow light", "grow-light")
+makeProductItem("Bright seed-starting light for strong early growth", "grow-light")
           ]
         ),
         makeProductGroup(
@@ -1315,7 +1328,7 @@ function buildGeneralCropActionBox({
           "A stronger start helps protect the season you have.",
           [
             makeProductItem("Seed-starting trays", "seed-starting"),
-            makeProductItem("Grow light", "grow-light"),
+makeProductItem("Bright seed-starting light for sturdy transplants", "grow-light"),
 makeProductItem([
   { text: "Drip irrigation", theme: "drip-irrigation" },
   { text: " or " },
