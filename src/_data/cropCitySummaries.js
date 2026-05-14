@@ -5,6 +5,8 @@ const cropCityCrops = require("./cropCityCrops");
 const cropCityRollout = require("./cropCityRollout");
 const { getStationSeries } = require("./_lib/resolveCityStation");
 
+let cache = null;
+
 const CHECKPOINTS = [
   "03-15",
   "04-01",
@@ -4578,6 +4580,8 @@ summary.advisory = buildAdvisoryCopy({
 }
 
 module.exports = function () {
+  if (cache) return cache;
+
   const allCitySummaries = getCitySummaries();
   const allCrops = getCrops();
   const ENABLED_CITY_CROPS = getEnabledCityCrops();
@@ -4627,5 +4631,6 @@ summary.advisory = buildAdvisoryCopy({
 });
   }
 
-  return output;
+  cache = output;
+  return cache;
 };

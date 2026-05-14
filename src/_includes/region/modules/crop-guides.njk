@@ -1,10 +1,4 @@
-{% set cropLinks = [] %}
-
-{% for item in (cropCitySummaries or []) %}
-  {% if item.cityKey == state.key %}
-    {% set cropLinks = cropLinks.concat([item]) %}
-  {% endif %}
-{% endfor %}
+{% set cropLinks = cropCityByCity[state.key] or [] %}
 
 {% if cropLinks.length %}
 <section class="card">

@@ -4,7 +4,13 @@ const { buildCitySummaries } = require("./_lib/citySummaries");
 
 const ENABLED_CITIES = new Set(cityRollout);
 
+let cache = null;
+
 module.exports = function () {
+  if (cache) return cache;
+
   const allowedCities = cities.filter((city) => ENABLED_CITIES.has(city.key));
-  return buildCitySummaries(allowedCities);
+  cache = buildCitySummaries(allowedCities);
+
+  return cache;
 };

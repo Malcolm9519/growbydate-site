@@ -3,6 +3,8 @@ const cropCityCrops = require('./cropCityCrops');
 const cropCityRollout = require('./cropCityRollout');
 const { buildCropClimateRecord } = require('./_lib/buildCropClimateRecord');
 
+let cache = null;
+
 function normalizeArrayLike(value) {
   if (!value) return [];
   if (Array.isArray(value)) return value;
@@ -31,6 +33,8 @@ function getCitySummaries() {
 }
 
 module.exports = function () {
+  if (cache) return cache;
+
   const allCitySummaries = getCitySummaries();
   const allCrops = Array.isArray(cropCityCrops) ? cropCityCrops : [];
   const enabledCityCrops = getEnabledCityCrops();
@@ -47,5 +51,6 @@ module.exports = function () {
     }
   }
 
-  return output;
+  cache = output;
+  return cache;
 };

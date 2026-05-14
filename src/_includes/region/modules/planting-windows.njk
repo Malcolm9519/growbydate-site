@@ -109,11 +109,10 @@
     "zucchini": "cucumbers"
   } %}
 
-  {% for item in (cropCitySummaries or []) %}
-    {% if item.cityKey == activeCity.key %}
+  {% for item in (cropCityByCity[activeCity.key] or []) %}
       {% set cropKey = item.cropKey %}
       {% set planting = item.planting or {} %}
-      {% set sourceWindows = item.plantingWindows or [] %}
+      {% set sourceWindows = activeCity.plantingWindows or [] %}
 
       {% set lookupKey = cropKey %}
       {% if plantingWindowKeyMap[lookupKey] %}
@@ -149,25 +148,10 @@
         {% endif %}
       {% endif %}
 
-      {% set recommendedVariety = null %}
-      {% set varietyHref = null %}
-
-      {% for varietyPage in (varietySummaries or []) %}
-        {% if varietyPage.cityKey == activeCity.key and varietyPage.cropKey == cropKey %}
-          {% set namedVarieties = varietyPage.namedVarieties or {} %}
-          {% set recommendationGroup = namedVarieties.bestDefaults or [] %}
-          {% if not recommendationGroup.length %}
-            {% set recommendationGroup = namedVarieties.safest or [] %}
-          {% endif %}
-          {% if not recommendationGroup.length %}
-            {% set recommendationGroup = namedVarieties.workable or [] %}
-          {% endif %}
-          {% if recommendationGroup.length %}
-            {% set recommendedVariety = recommendationGroup[0].name %}
-            {% set varietyHref = varietyPage.url %}
-          {% endif %}
-        {% endif %}
-      {% endfor %}
+      {% set recommendationKey = activeCity.key ~ "|" ~ cropKey %}
+      {% set recommendation = varietyRecommendationIndex[recommendationKey] or null %}
+      {% set recommendedVariety = recommendation.recommendedVariety if recommendation else null %}
+      {% set varietyHref = recommendation.url if recommendation else null %}
 
       {% set windows = windows.concat([{
         "label": item.cropName,
@@ -181,7 +165,6 @@
         "recommendedVariety": recommendedVariety,
         "varietyHref": varietyHref
       }]) %}
-    {% endif %}
   {% endfor %}
 
   {% set windows = windows | sort(false, false, "start") %}

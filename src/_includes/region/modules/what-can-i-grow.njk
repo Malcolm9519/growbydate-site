@@ -106,8 +106,7 @@
 
 {# City pages: use crop-city rows for coverage/links, but borrow canonical keys from cropFit catalog #}
 {% if isCityPage %}
-  {% for item in (cropCitySummaries or []) %}
-    {% if item.cityKey == activeCity.key %}
+  {% for item in (cropCityByCity[activeCity.key] or []) %}
       {% set rowHref = item.url %}
       {% if rowHref and (seen.indexOf("," ~ rowHref ~ ",") == -1) %}
 
@@ -149,7 +148,6 @@
         }]) %}
         {% set seen = seen ~ rowHref ~ "," %}
       {% endif %}
-    {% endif %}
   {% endfor %}
 {% elseif state.cropFit.meta and state.cropFit.meta.catalog %}
   {% for c in (state.cropFit.meta.catalog or []) %}
