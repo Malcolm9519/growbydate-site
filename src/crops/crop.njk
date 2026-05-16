@@ -6,15 +6,17 @@ pagination:
   alias: crop
 permalink: "crops/{{ crop.slug }}/"
 eleventyComputed:
-  title: "Growing {{ crop.name }} in Short Growing Seasons | GrowByDate"
+  title: "When to Plant {{ crop.name }} in Short Seasons | Frost Dates & Timing"
   description: "{{ crop.description }}"
   canonical: "https://growbydate.com/crops/{{ crop.slug }}/"
 ---
 
 <header class="header">
-  <h1>Growing {{ crop.name }} in Short Growing Seasons</h1>
+<h1>When to Plant {{ crop.name }} in Short Growing Seasons</h1>
   <p class="tagline">{{ crop.tagline or "Practical crop-by-crop planning references." }}</p>
-  <p class="lede">{{ crop.lede or "Use this page for timing ranges and decision points. For exact dates based on your frost window, use the tools below." }}</p>
+<p class="lede">
+  {{ crop.lede or "Use frost dates, soil conditions, and days to maturity to decide when to start, transplant, or direct sow " ~ crop.name | lower ~ " in a short growing season." }}
+</p>
 </header>
 
 <section class="card">

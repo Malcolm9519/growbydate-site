@@ -7,8 +7,8 @@ pagination:
   alias: city
 permalink: "/planting-dates/{% if city.country == 'canada' %}canada/{% endif %}{{ city.regionKey }}/{{ city.key }}/index.html"
 eleventyComputed:
-  title: "{{ city.name }}, {{ city.regionName }} Planting Dates, Frost Dates & Growing Season | GrowByDate"
-  description: "Typical frost dates, growing season length, and crop timing guidance for {{ city.name }}, {{ city.regionName }}."
+  title: "When to Plant in {{ city.name }}, {{ city.regionName }} | Frost Dates & Crop Timing"
+  description: "Find {{ city.name }} planting dates, average last spring frost, first fall frost, frost-free season length, and local crop timing guidance."
   canonical: "https://growbydate.com/planting-dates/{% if city.country == 'canada' %}canada/{% endif %}{{ city.regionKey }}/{{ city.key }}/"
 ---
 

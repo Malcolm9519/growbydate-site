@@ -38,14 +38,14 @@ module.exports = function (eleventyConfig) {
 
   eleventyConfig.addFilter("toVarietiesUrl", function (url) {
     if (!url) return "";
-    const path = String(url).startsWith("/") ? String(url) : `/${url}`;
-    return `https://varieties.growbydate.com${path}`;
+    const pagePath = String(url).startsWith("/") ? String(url) : `/${url}`;
+    return `https://varieties.growbydate.com${pagePath}`;
   });
 
   eleventyConfig.addFilter("toMainSiteUrl", function (url) {
     if (!url) return "https://growbydate.com/";
-    const path = String(url).startsWith("/") ? String(url) : `/${url}`;
-    return `https://growbydate.com${path}`;
+    const pagePath = String(url).startsWith("/") ? String(url) : `/${url}`;
+    return `https://growbydate.com${pagePath}`;
   });
 
   eleventyConfig.addFilter("toSitemapDate", (value) => {
@@ -80,6 +80,7 @@ module.exports = function (eleventyConfig) {
     const s = String(mmdd || "").trim();
     const m = s.slice(0, 2);
     const d = s.slice(3, 5);
+
     if (!/^\d{2}$/.test(m) || !/^\d{2}$/.test(d)) return s;
 
     const months = [
@@ -101,6 +102,7 @@ module.exports = function (eleventyConfig) {
     const di = parseInt(d, 10);
 
     if (mi < 0 || mi > 11 || di < 1 || di > 31) return s;
+
     return `${months[mi]} ${di}`;
   });
 
@@ -119,6 +121,14 @@ module.exports = function (eleventyConfig) {
 
   eleventyConfig.addPassthroughCopy({ "src/site.webmanifest": "site.webmanifest" });
   eleventyConfig.addPassthroughCopy({ "src/assets": "assets" });
+
+  // Optional AI/LLM discovery file.
+  // Source file should live in the project root:
+  // llms.txt
+  // It will be copied to the deployed site root.
+  eleventyConfig.addPassthroughCopy({
+    "llms.txt": "llms.txt"
+  });
 
   // IndexNow verification key.
   // Source file should live in the project root:

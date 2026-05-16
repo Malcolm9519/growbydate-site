@@ -18,5 +18,27 @@ eleventyComputed:
   <p class="lede">{{ tool.description }}</p>
 </header>
 
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": {{ tool.name | dump | safe }},
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "isAccessibleForFree": true,
+  "url": {{ ("https://growbydate.com/tools/" ~ tool.slug ~ "/") | dump | safe }},
+  "description": {{ tool.description | dump | safe }},
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "CAD"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "GrowByDate"
+  }
+}
+</script>
+
 {% include "tools/" + tool.slug + ".njk" ignore missing %}
 
