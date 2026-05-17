@@ -1,0 +1,21 @@
+{% set cropKey = crop.slug or crop.key %}
+{% set cropLabel = crop.name or cropKey | replace("-", " ") | title %}
+{% set guides = cropRelatedGuides.byCrop[cropKey] or cropRelatedGuides.default %}
+
+{% if guides and guides.length %}
+<section class="card index-card relatedGuides">
+  <h2>Related guides for {{ cropLabel }}</h2>
+  <ul class="index-list">
+    {% for guide in guides %}
+      <li class="index-item">
+        <a class="index-link" href="{{ guide.url }}">
+          <strong>{{ guide.title }}</strong>
+        </a>
+        {% if guide.note %}
+          <div class="small index-desc">{{ guide.note }}</div>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+</section>
+{% endif %}

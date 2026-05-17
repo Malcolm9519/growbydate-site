@@ -460,23 +460,7 @@ eleventyComputed:
 
 {% include "region/modules/action-box.njk" %}
 
-<section class="card">
-  <h2>Related crops</h2>
-
-  {% if crop.relatedCrops and crop.relatedCrops.length %}
-    <p>Related crops worth comparing for the same city:</p>
-    <ul>
-      {% for key in crop.relatedCrops %}
-        <li>
-          <a href="/planting-dates/{% if pageData.country == 'canada' %}canada/{% endif %}{{ pageData.regionKey }}/{{ pageData.cityKey }}/{{ key }}/">
-            {{ key | replace("-", " ") | title }} in {{ pageData.cityName }}
-          </a>
-        </li>
-      {% endfor %}
-    </ul>
-  {% endif %}
-
-</section>
+{% include "crop-city/modules/related-crops.njk" %}
 
 <p class="small muted" style="margin-top:1rem;">
   For a broader local overview, see the

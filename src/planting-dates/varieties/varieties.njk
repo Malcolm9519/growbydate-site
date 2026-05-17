@@ -1727,6 +1727,7 @@ eleventyComputed:
   </script>
 {% endif %}
 
+
 {% include "planting-dates/modules/faq-block.njk" %}
 
 <section class="card">
@@ -1741,3 +1742,22 @@ eleventyComputed:
     to test planting dates and crop timing.
   </p>
 </section>
+
+{% set varietyGuideCards = cropRelatedGuides.varietyByCrop[pageData.cropKey] or cropRelatedGuides.varietyDefault %}
+{% if varietyGuideCards and varietyGuideCards.length %}
+<section class="card index-card relatedGuides">
+  <h2>Related guides</h2>
+  <ul class="index-list">
+    {% for guide in varietyGuideCards %}
+      <li class="index-item">
+        <a class="index-link" href="{{ guide.url | toMainSiteUrl }}">
+          <strong>{{ guide.title }}</strong>
+        </a>
+        {% if guide.note %}
+          <div class="small index-desc">{{ guide.note }}</div>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+</section>
+{% endif %}

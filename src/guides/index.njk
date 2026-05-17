@@ -5,45 +5,47 @@ description: Practical gardening guides for frost dates, seed starting, transpla
 canonical: "https://growbydate.com/guides/"
 ---
 
+{% macro guideLinkBySlug(slug) %}
+  {% for p in collections.guides | sort(attribute="data.title") %}
+    {% if p.fileSlug == slug %}
+      {% set rawTitle = p.data.title or p.fileSlug %}
+      {% set cleanTitle = rawTitle | replace(" | GrowByDate", "") %}
+      <li class="index-item">
+        <a class="index-link" href="{{ p.url }}"><strong>{{ cleanTitle }}</strong></a>
+        {% if p.data.description %}
+          <div class="small index-desc">{{ p.data.description }}</div>
+        {% endif %}
+      </li>
+    {% endif %}
+  {% endfor %}
+{% endmacro %}
+
 <section class="card index-card">
   <h1>Garden Planning Guides for Short Seasons</h1>
 
   <p class="small intro">
-    These guides focus on decision-making in climates where frost timing and limited heat matter. 
-    They’re written to be practical, direct, and grounded in real seasonal constraints.
+    Use these guides to plan around frost dates, limited heat, seed-starting windows, transplant timing, and crop maturity risk.
+    They are organized by the actual planning problem, not as one long alphabetical archive.
   </p>
 
   <p>
-    Most garden advice assumes long, forgiving seasons. Short-season growing requires a different approach — 
-    one built around frost boundaries, growing degree accumulation, crop maturity windows, and timing margins.
-  </p>
-
-  <p>
-    The articles below support that framework. Some explain planning concepts (like counting backward from frost 
-    or estimating growing degree days). Others help you evaluate crop feasibility, seed timing, or maturity risk.
-  </p>
-
-  <p>
-    If you're new to climate-based planning, start with a frost boundary and seasonal heat estimate, 
-    then use these guides to refine decisions.
-  </p>
-
-  <ul class="index-list" style="margin-top:1rem;">
-    {%- for p in collections.guides | sort(attribute="data.title") -%}
-      {%- set rawTitle = p.data.title or p.fileSlug -%}
-      {%- set cleanTitle = rawTitle | replace(" | GrowByDate", "") -%}
-
-      <li class="index-item">
-        <a class="index-link" href="{{ p.url }}"><strong>{{ cleanTitle }}</strong></a>
-
-        {%- if p.data.description -%}
-          <div class="small index-desc">{{ p.data.description }}</div>
-        {%- endif -%}
-      </li>
-    {%- endfor -%}
-  </ul>
-
-  <p class="small" style="margin-top:1.25rem;">
-    These guides are designed to complement the planning tools — use them together to move from theory to dates.
+    Short-season gardening is not just about counting calendar days. Frost dates define the outside edge of the season, while growing degree days show how much useful warmth crops usually receive inside that window.
+    Start with the first section if you are new, or jump to the topic that matches the decision you are working on.
   </p>
 </section>
+
+{% for section in guideHub %}
+  <section class="card index-card">
+    <h2>{{ section.title }}</h2>
+
+    {% if section.description %}
+      <p class="small intro">{{ section.description }}</p>
+    {% endif %}
+
+    <ul class="index-list">
+      {% for slug in section.slugs %}
+        {{ guideLinkBySlug(slug) }}
+      {% endfor %}
+    </ul>
+  </section>
+{% endfor %}

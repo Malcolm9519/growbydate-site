@@ -71,6 +71,9 @@
 
   <main class="container{% if isGuide %} guideMain{% endif %}">
     {{ content | safe }}
+    {% if isGuide and page.url != "/guides/" and guideRelated[page.fileSlug] %}
+      {% include "guides/related-guides.njk" %}
+    {% endif %}
     {% include "footer.njk" %}
   </main>
 

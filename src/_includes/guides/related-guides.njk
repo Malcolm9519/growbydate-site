@@ -1,0 +1,23 @@
+{% set relatedSlugs = guideRelated[page.fileSlug] or [] %}
+
+{% if relatedSlugs.length %}
+<section class="card index-card relatedGuides">
+  <h2>Related guides</h2>
+  <ul class="index-list">
+    {% for slug in relatedSlugs %}
+      {% for p in collections.guides | sort(attribute="data.title") %}
+        {% if p.fileSlug == slug %}
+          {% set rawTitle = p.data.title or p.fileSlug %}
+          {% set cleanTitle = rawTitle | replace(" | GrowByDate", "") %}
+          <li class="index-item">
+            <a class="index-link" href="{{ p.url }}"><strong>{{ cleanTitle }}</strong></a>
+            {% if p.data.description %}
+              <div class="small index-desc">{{ p.data.description }}</div>
+            {% endif %}
+          </li>
+        {% endif %}
+      {% endfor %}
+    {% endfor %}
+  </ul>
+</section>
+{% endif %}
