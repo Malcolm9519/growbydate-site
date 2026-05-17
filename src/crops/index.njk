@@ -50,7 +50,7 @@ canonical: "https://growbydate.com/crops/"
         {% set guides = varietyGuides.byCrop[crop.slug] %}
         {% if guides and guides.length %}
           <div class="small index-desc" style="margin-top:0.35rem;">
-            <span>Variety guides:</span>
+            <span><strong>Variety guides:</strong></span>
             {% for guide in guides %}
               <a href="{{ guide.url }}">{{ guide.name }}</a>{% if not loop.last %}, {% endif %}
             {% endfor %}
@@ -60,7 +60,7 @@ canonical: "https://growbydate.com/crops/"
         {% set clusterGuides = varietyGuides.clusterGuidesByCrop[crop.slug] %}
         {% if clusterGuides and clusterGuides.length %}
           <div class="small index-desc" style="margin-top:0.35rem;">
-            <span>Variety articles:</span>
+            <span><strong>Variety articles:</strong></span>
             {% for guide in clusterGuides %}
               <a href="{{ guide.url }}">{{ guide.title }}</a>{% if not loop.last %}, {% endif %}
             {% endfor %}
