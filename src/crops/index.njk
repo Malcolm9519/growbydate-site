@@ -9,13 +9,13 @@ canonical: "https://growbydate.com/crops/"
   <h1>Crop Guides for Short Growing Seasons</h1>
 
   <p class="small intro">
-    Not all crops behave the same in a short or unpredictable season. 
+    Not all crops behave the same in a short or unpredictable season.
     These references break planning down crop by crop, focusing on frost boundaries, maturity windows, and heat requirements.
   </p>
 
   <p>
-    In long-season climates, planting dates are often flexible. In short seasons, they are not. 
-    Success depends on whether a crop can accumulate enough growing degree days before fall frost returns — 
+    In long-season climates, planting dates are often flexible. In short seasons, they are not.
+    Success depends on whether a crop can accumulate enough growing degree days before fall frost returns —
     and whether it tolerates cool soil or requires protected early starts.
   </p>
 
@@ -50,9 +50,19 @@ canonical: "https://growbydate.com/crops/"
         {% set guides = varietyGuides.byCrop[crop.slug] %}
         {% if guides and guides.length %}
           <div class="small index-desc" style="margin-top:0.35rem;">
-            Variety guides:
+            <span>Variety guides:</span>
             {% for guide in guides %}
               <a href="{{ guide.url }}">{{ guide.name }}</a>{% if not loop.last %}, {% endif %}
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        {% set clusterGuides = varietyGuides.clusterGuidesByCrop[crop.slug] %}
+        {% if clusterGuides and clusterGuides.length %}
+          <div class="small index-desc" style="margin-top:0.35rem;">
+            <span>Variety articles:</span>
+            {% for guide in clusterGuides %}
+              <a href="{{ guide.url }}">{{ guide.title }}</a>{% if not loop.last %}, {% endif %}
             {% endfor %}
           </div>
         {% endif %}
@@ -61,7 +71,7 @@ canonical: "https://growbydate.com/crops/"
   </ul>
 
   <p class="small" style="margin-top:1.25rem;">
-    If you're unsure whether a crop is realistic in your season, evaluate your frost boundaries and total seasonal heat first — 
+    If you're unsure whether a crop is realistic in your season, evaluate your frost boundaries and total seasonal heat first —
     then compare those limits against the crop’s maturity requirements.
   </p>
 </section>

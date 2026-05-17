@@ -335,9 +335,20 @@ eleventyComputed:
   </p>
 
   <ul style="margin-top:0.45rem;">
-    {% for v in pageData.fit.fittingVarietyExamplesDetailed %}
-      <li><strong>{{ v.name }}</strong> — {{ v.note }}</li>
-    {% endfor %}
+{% set cropGuides = varietyGuides.byCrop[crop.key] or varietyGuides.byCrop[crop.slug] %}
+{% for v in pageData.fit.fittingVarietyExamplesDetailed %}
+  {% set varietyGuide = cropGuides | findVarietyGuide(v.name) %}
+  <li>
+    <strong>
+      {% if varietyGuide %}
+        <a href="{{ varietyGuide.url }}">{{ v.name }}</a>
+      {% else %}
+        {{ v.name }}
+      {% endif %}
+    </strong>
+    — {{ v.note }}
+  </li>
+{% endfor %}
   </ul>
 {% endif %}
 
@@ -384,8 +395,8 @@ eleventyComputed:
   </p>
 
 <p>
-  For a more detailed variety breakdown, see
-<a href="{{ (pageData.url + 'best-varieties/') | toVarietiesUrl }}">best {{ cropSingularLower }} varieties for {{ pageData.cityName }}</a>
+  For more local variety options, see
+  <a href="{{ (pageData.url + 'best-varieties/') | toVarietiesUrl }}">best {{ cropSingularLower }} varieties for {{ pageData.cityName }}</a>.
 </p>
 {% endif %}
 </section>

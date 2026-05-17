@@ -131,5 +131,74 @@ module.exports = {
       { name: "Black Beauty", label: "Black Beauty zucchini", url: "https://varieties.growbydate.com/zucchini/black-beauty/" },
       { name: "Raven", label: "Raven zucchini", url: "https://varieties.growbydate.com/zucchini/raven/" }
     ]
+    },
+
+  clusterGuidesByCrop: {
+    tomatoes: [
+      {
+        title: "Short-Season Tomato Varieties",
+        url: "https://varieties.growbydate.com/tomatoes/short-season-tomato-varieties/"
+      },
+      {
+        title: "Determinate vs Indeterminate Tomatoes",
+        url: "https://varieties.growbydate.com/tomatoes/determinate-vs-indeterminate/"
+      }
+    ],
+
+    peppers: [
+      {
+        title: "Short-Season Pepper Varieties",
+        url: "https://varieties.growbydate.com/peppers/short-season-pepper-varieties/"
+      }
+    ],
+
+    melons: [
+      {
+        title: "Short-Season Melon Varieties",
+        url: "https://varieties.growbydate.com/melons/short-season-melon-varieties/"
+      }
+    ],
+
+    watermelons: [
+      {
+        title: "Short-Season Watermelon Varieties",
+        url: "https://varieties.growbydate.com/watermelons/short-season-watermelon-varieties/"
+      }
+    ],
+
+    "winter-squash": [
+      {
+        title: "Short-Season Winter Squash Varieties",
+        url: "https://varieties.growbydate.com/winter-squash/short-season-winter-squash-varieties/"
+      }
+    ],
+
+    "corn-sweet": [
+      {
+        title: "Short-Season Sweet Corn Varieties",
+        url: "https://varieties.growbydate.com/sweet-corn/short-season-sweet-corn-varieties/"
+      }
+    ],
+
+    strawberries: [
+      {
+        title: "Day-Neutral vs June-Bearing Strawberries",
+        url: "https://varieties.growbydate.com/strawberries/day-neutral-vs-june-bearing/"
+      }
+    ],
+
+    beans: [
+      {
+        title: "Bush Beans vs Pole Beans",
+        url: "https://varieties.growbydate.com/beans/bush-beans-vs-pole-beans/"
+      }
+    ],
+
+    carrots: [
+      {
+        title: "Best Storage Carrot Varieties",
+        url: "https://varieties.growbydate.com/carrots/best-storage-carrot-varieties/"
+      }
+    ]
   }
 };
