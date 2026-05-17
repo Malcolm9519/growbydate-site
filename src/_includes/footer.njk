@@ -1,6 +1,16 @@
 <footer class="footer">
+  <nav aria-label="Footer">
+    <p>
+      <a href="{{ '/tools/' | toMainSiteUrl }}">Garden Planning Tools</a> ·
+      <a href="{{ '/guides/' | toMainSiteUrl }}">Growing Guides</a> ·
+      <a href="{{ '/crops/' | toMainSiteUrl }}">Crop Guides</a> ·
+      <a href="{{ '/planting-dates/states/' | toMainSiteUrl }}">U.S. Planting Dates</a> ·
+      <a href="{{ '/planting-dates/canada/provinces/' | toMainSiteUrl }}">Canada Planting Dates</a>
+    </p>
+  </nav>
+
   <p>
-    © {% year %} {{ site.name }} · 
+    © {% year %} {{ site.name }} ·
     <a href="{{ '/privacy-policy/' | toMainSiteUrl }}">Privacy Policy</a>
   </p>
 </footer>

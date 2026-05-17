@@ -1,0 +1,16 @@
+{% set guides = varietyGuides.byCrop[crop.slug] %}
+{% if guides and guides.length %}
+<section class="card">
+  <h2>Variety Guides for {{ crop.name }}</h2>
+
+  <p>
+    Choosing the right variety can change how much timing margin you have in a short growing season. These variety guides explain maturity timing, harvest use, and where each option tends to fit best.
+  </p>
+
+  <ul class="tight">
+    {% for guide in guides %}
+      <li><a href="{{ guide.url }}">{{ guide.label }}</a></li>
+    {% endfor %}
+  </ul>
+</section>
+{% endif %}

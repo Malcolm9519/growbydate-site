@@ -46,6 +46,16 @@ canonical: "https://growbydate.com/crops/"
             {{ crop.description }}
           </div>
         {% endif %}
+
+        {% set guides = varietyGuides.byCrop[crop.slug] %}
+        {% if guides and guides.length %}
+          <div class="small index-desc" style="margin-top:0.35rem;">
+            Variety guides:
+            {% for guide in guides %}
+              <a href="{{ guide.url }}">{{ guide.name }}</a>{% if not loop.last %}, {% endif %}
+            {% endfor %}
+          </div>
+        {% endif %}
       </li>
     {% endfor %}
   </ul>

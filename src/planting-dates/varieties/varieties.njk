@@ -62,6 +62,13 @@ eleventyComputed:
     line-height: 1.15;
   }
 
+  .varietyCardTitle a,
+  .seasonFitName a {
+    color: inherit;
+    text-decoration-thickness: 0.08em;
+    text-underline-offset: 0.14em;
+  }
+
   .varietyCardMeta {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -940,7 +947,14 @@ eleventyComputed:
   <div class="varietyGrid">
     {% for item in items %}
       <article class="varietyCard">
-        <h3 class="varietyCardTitle">{{ item.name }}</h3>
+        {% set varietyGuide = (varietyGuides.byCrop[pageData.cropKey] or []) | findVarietyGuide(item.name) %}
+        <h3 class="varietyCardTitle">
+          {% if varietyGuide %}
+            <a href="{{ varietyGuide.url }}">{{ item.name }}</a>
+          {% else %}
+            {{ item.name }}
+          {% endif %}
+        </h3>
 
         <div class="varietyCardMeta">
           {% if item.classLabel %}
@@ -1169,8 +1183,15 @@ eleventyComputed:
         {% endif %}
 
         <article class="seasonFitRow" data-fit="{{ fitKey }}">
+          {% set varietyGuide = (varietyGuides.byCrop[pageData.cropKey] or []) | findVarietyGuide(item.name) %}
           <div class="seasonFitName">
-            <strong>{{ item.name }}</strong>
+            <strong>
+              {% if varietyGuide %}
+                <a href="{{ varietyGuide.url }}">{{ item.name }}</a>
+              {% else %}
+                {{ item.name }}
+              {% endif %}
+            </strong>
             {% if item.classLabel %}<span>{{ item.classLabel }}</span>{% endif %}
           </div>
 
