@@ -266,6 +266,11 @@ module.exports = [
     slugs: [
       "is-a-garden-planner-subscription-worth-it",
       "is-growveg-worth-it-for-home-gardeners",
+      "ai-garden-planning-guide",
+      "ai-garden-planner-prompts",
+      "can-chatgpt-make-a-planting-calendar",
+      "use-ai-to-choose-what-to-grow-short-season",
+      "ai-raised-bed-garden-planner",
     ],
   },
   {
