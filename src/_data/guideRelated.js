@@ -265,12 +265,12 @@ module.exports = {
     "starting-seeds-too-early",
   ],
   "best-grow-light-stand-for-seed-starting-shelves": [
-    "best-grow-lights-for-starting-vegetable-seedlings-indoors",
+    "best-grow-lights-for-seedlings",
     "shop-lights-vs-grow-lights",
     "how-far-should-grow-lights-be-from-seedlings",
     "how-long-should-grow-lights-be-on-for-seedlings",
   ],
-  "best-grow-lights-for-starting-vegetable-seedlings-indoors": [
+  "best-grow-lights-for-seedlings": [
     "shop-lights-vs-grow-lights",
     "how-far-should-grow-lights-be-from-seedlings",
     "how-long-should-grow-lights-be-on-for-seedlings",
@@ -379,13 +379,13 @@ module.exports = {
     "best-potting-up-pots-for-seedlings",
   ],
   "best-timer-for-grow-lights-for-seedlings": [
-    "best-grow-lights-for-starting-vegetable-seedlings-indoors",
+    "best-grow-lights-for-seedlings",
     "shop-lights-vs-grow-lights",
     "how-far-should-grow-lights-be-from-seedlings",
     "how-long-should-grow-lights-be-on-for-seedlings",
   ],
   "best-timer-setup-for-grow-lights-for-seedlings": [
-    "best-grow-lights-for-starting-vegetable-seedlings-indoors",
+    "best-grow-lights-for-seedlings",
     "shop-lights-vs-grow-lights",
     "how-far-should-grow-lights-be-from-seedlings",
     "how-long-should-grow-lights-be-on-for-seedlings",
@@ -433,7 +433,7 @@ module.exports = {
     "cold-frame-vs-mini-greenhouse-for-seedlings",
   ],
   "can-you-start-seeds-without-grow-lights": [
-    "best-grow-lights-for-starting-vegetable-seedlings-indoors",
+    "best-grow-lights-for-seedlings",
     "shop-lights-vs-grow-lights",
     "how-far-should-grow-lights-be-from-seedlings",
     "how-long-should-grow-lights-be-on-for-seedlings",
@@ -469,19 +469,19 @@ module.exports = {
     "best-soil-mix-for-seed-starting-trays",
   ],
   "how-far-should-grow-lights-be-from-seedlings": [
-    "best-grow-lights-for-starting-vegetable-seedlings-indoors",
+    "best-grow-lights-for-seedlings",
     "shop-lights-vs-grow-lights",
     "how-long-should-grow-lights-be-on-for-seedlings",
     "can-you-start-seeds-without-grow-lights",
   ],
   "how-long-should-grow-lights-be-on-for-seedlings": [
-    "best-grow-lights-for-starting-vegetable-seedlings-indoors",
+    "best-grow-lights-for-seedlings",
     "shop-lights-vs-grow-lights",
     "how-far-should-grow-lights-be-from-seedlings",
     "can-you-start-seeds-without-grow-lights",
   ],
   "how-much-light-do-seedlings-need": [
-    "best-grow-lights-for-starting-vegetable-seedlings-indoors",
+    "best-grow-lights-for-seedlings",
     "shop-lights-vs-grow-lights",
     "how-far-should-grow-lights-be-from-seedlings",
     "how-long-should-grow-lights-be-on-for-seedlings",
@@ -547,7 +547,7 @@ module.exports = {
     "what-is-seed-starting-mix",
   ],
   "shop-lights-vs-grow-lights": [
-    "best-grow-lights-for-starting-vegetable-seedlings-indoors",
+    "best-grow-lights-for-seedlings",
     "how-far-should-grow-lights-be-from-seedlings",
     "how-long-should-grow-lights-be-on-for-seedlings",
     "can-you-start-seeds-without-grow-lights",
@@ -577,7 +577,7 @@ module.exports = {
     "cold-frame-vs-mini-greenhouse-for-seedlings",
   ],
   "best-timer-for-grow-lights-mechanical-vs-digital": [
-    "best-grow-lights-for-starting-vegetable-seedlings-indoors",
+    "best-grow-lights-for-seedlings",
     "shop-lights-vs-grow-lights",
     "how-far-should-grow-lights-be-from-seedlings",
     "how-long-should-grow-lights-be-on-for-seedlings",
