@@ -2809,3 +2809,85 @@ border-radius: 999px;
 .guideAffiliateTextLink:focus {
   text-decoration-thickness: 0.14em;
 }
+
+
+
+/* ---------- Compact guide table of contents ---------- */
+
+.guideToc {
+  margin: 1.4rem 0 2rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--borderColor, #d9e2d3);
+  border-radius: 16px;
+  background: linear-gradient(to bottom, #fcfffc, #f7faf4);
+}
+
+.guideToc h2 {
+  margin: 0 0 0.65rem;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.guideToc ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  column-count: 2;
+  column-gap: 2rem;
+}
+
+.guideToc li {
+  break-inside: avoid;
+  margin: 0 0 0.28rem;
+  padding: 0;
+}
+
+.guideToc a {
+  display: inline;
+  color: var(--link-hover, #2fa331);
+  font-weight: 600;
+  font-size: 0.95rem;
+  line-height: 1.35;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.guideToc a::before {
+  content: "› ";
+  color: #6b8f3a;
+  text-decoration: none;
+}
+
+.guideToc a:hover,
+.guideToc a:focus {
+  color: #15803d;
+  text-decoration-thickness: 0.12em;
+}
+
+@media (max-width: 720px) {
+  .guideToc {
+    padding: 0.9rem 1rem;
+  }
+
+  .guideToc ul {
+    column-count: 1;
+  }
+
+  .guideToc a {
+    font-size: 0.94rem;
+  }
+}
+
+/* Offset in-page jump links below sticky header */
+.guidePage section[id],
+.guidePage [id].guideSection {
+  scroll-margin-top: 120px;
+}
+
+@media (max-width: 720px) {
+  .guidePage section[id],
+  .guidePage [id].guideSection {
+    scroll-margin-top: 96px;
+  }
+}

@@ -74,6 +74,19 @@ module.exports = function (eleventyConfig) {
     return `https://growbydate.com${pagePath}`;
   });
 
+  eleventyConfig.addFilter("amazonSearchUrl", function (query, marketplace = "default") {
+    const marketplaces = {
+      canada: { domain: "www.amazon.ca", tag: "growbydate-20" },
+      usa: { domain: "www.amazon.com", tag: "growbydate-20" },
+      default: { domain: "www.amazon.com", tag: "growbydate-20" }
+    };
+
+    const config = marketplaces[marketplace] || marketplaces.default;
+    const params = new URLSearchParams({ k: String(query || ""), tag: config.tag });
+
+    return `https://${config.domain}/s?${params.toString()}`;
+  });
+
   eleventyConfig.addFilter("toSitemapDate", (value) => {
     if (!value) return "";
     const d = new Date(value);
@@ -157,6 +170,7 @@ module.exports = function (eleventyConfig) {
 
   eleventyConfig.addPassthroughCopy({ "src/site.webmanifest": "site.webmanifest" });
   eleventyConfig.addPassthroughCopy({ "src/assets": "assets" });
+  eleventyConfig.addPassthroughCopy({ "src/_redirects": "_redirects" });
 
   // Optional AI/LLM discovery file.
   // Source file should live in the project root:
