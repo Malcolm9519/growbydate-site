@@ -2236,43 +2236,42 @@ border-radius: 999px;
   background: #fcfdfb;
 }
 
-.guidePage details,
-.statePage details,
-.provincePage details,
-.cityPage details,
-.cropCityPage details {
+.guideMain details,
+.statePage main details,
+.provincePage main details,
+.cityPage main details,
+.cropCityPage main details {
   border: 1px solid #e7ece4;
   border-radius: 14px;
   padding: 12px 14px;
   background: #fff;
 }
 
-.guidePage details + details,
-.statePage details + details,
-.provincePage details + details,
-.cityPage details + details,
-.cropCityPage details + details {
+.guideMain details + details,
+.statePage main details + details,
+.provincePage main details + details,
+.cityPage main details + details,
+.cropCityPage main details + details {
   margin-top: 10px;
 }
 
-.guidePage summary,
-.statePage summary,
-.provincePage summary,
-.cityPage summary,
-.cropCityPage summary {
+.guideMain summary,
+.statePage main summary,
+.provincePage main summary,
+.cityPage main summary,
+.cropCityPage main summary {
   cursor: pointer;
   font-weight: 700;
   line-height: 1.4;
 }
 
-.guidePage details[open],
-.statePage details[open],
-.provincePage details[open],
-.cityPage details[open],
-.cropCityPage details[open] {
+.guideMain details[open],
+.statePage main details[open],
+.provincePage main details[open],
+.cityPage main details[open],
+.cropCityPage main details[open] {
   background: #fbfdf9;
 }
-
 
 
 
