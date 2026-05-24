@@ -1,0 +1,119 @@
+---
+layout: layout-base.njk
+title: Canadian Cities With the Longest Growing Seasons | GrowByDate Data Rankings
+description: A GrowByDate Data Ranking comparing Canadian cities by median frost-free season length.
+canonical: "https://growbydate.com/data/rankings/canadian-cities-with-the-longest-growing-seasons/"
+---
+
+{% set board = canadianCitiesLongestGrowingSeasons %}
+{% set top = board.top %}
+
+<section class="card leaderboardHero">
+  <p class="eyebrow">GrowByDate Data Ranking</p>
+  <h1>Canadian Cities With the Longest Growing Seasons</h1>
+  <p class="lede">
+    This ranking compares currently published Canadian GrowByDate cities by median frost-free season length — the window between
+    typical last spring frost and first fall frost.
+  </p>
+
+  <div class="leaderboardStatGrid" aria-label="Ranking summary">
+    {% if top %}
+      <div class="leaderboardStat">
+        <span class="statLabel">Longest current season</span>
+        <strong>{{ top.cityName }}</strong>
+        <span>{{ top.frostFreeDays }} frost-free days · {{ top.label }}</span>
+      </div>
+    {% endif %}
+
+    <div class="leaderboardStat">
+      <span class="statLabel">Dataset</span>
+      <strong>{{ board.entries.length }} cities</strong>
+      <span>Published Canadian GrowByDate city records</span>
+    </div>
+
+    <div class="leaderboardStat">
+      <span class="statLabel">Best paired with</span>
+      <strong>GDD</strong>
+      <span>Long seasons and high heat are related, but not identical.</span>
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>The ranking</h2>
+  <p>
+    Cities are ranked by median frost-free days. This is a season-length ranking, not a full crop-success ranking — GDD and crop heat needs still matter.
+  </p>
+
+  <div class="tableWrap leaderboardTableWrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>City</th>
+          <th>Last spring frost</th>
+          <th>First fall frost</th>
+          <th>Frost-free days</th>
+          <th>Season read</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in board.entries %}
+          <tr>
+            <td><strong>#{{ row.rank }}</strong></td>
+            <td>
+              <a href="{{ row.url }}"><strong>{{ row.cityName }}</strong></a><br>
+              <span class="small muted">{{ row.regionName }}, Canada</span>
+            </td>
+            <td>{{ row.springFrost }}</td>
+            <td>{{ row.fallFrost }}</td>
+            <td><strong>{{ row.frostFreeDays }}</strong></td>
+            <td>{{ row.label }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="card leaderboardCallout">
+  <h2>What this ranking means</h2>
+  <p>
+    A longer frost-free season usually gives gardeners more room, but it does not always mean more heat. Coastal cities can have long frost-free windows
+    while still accumulating less warm-season GDD than hotter inland locations.
+  </p>
+  <p>
+    Compare with <a href="/data/rankings/canadian-cities-with-the-highest-growing-degree-days/">Canadian Cities With the Highest Growing Degree Days</a>
+    and the full <a href="/data/frost-dates-by-city/">Frost Dates by City</a> reference.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Methodology</h2>
+  <p>{{ board.methodology }}</p>
+  <p>{{ board.caveat }}</p>
+  <p class="small">
+    Data export: <a href="/assets/data/rankings/canadian-cities-with-the-longest-growing-seasons.json">longest growing seasons JSON</a>.
+  </p>
+</section>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": {{ board.title | dump | safe }},
+  "description": {{ board.description | dump | safe }},
+  "url": "https://growbydate.com/data/rankings/canadian-cities-with-the-longest-growing-seasons/",
+  "numberOfItems": {{ board.entries.length }},
+  "itemListElement": [
+    {% for row in board.entries %}
+      {
+        "@type": "ListItem",
+        "position": {{ row.rank }},
+        "name": {{ (row.cityName ~ " frost-free growing season") | dump | safe }},
+        "url": {{ (site.url ~ row.url) | dump | safe }}
+      }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>

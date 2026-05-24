@@ -1,0 +1,114 @@
+---
+layout: layout-base.njk
+title: Crops That Lose the Most Margin When Planted Late | GrowByDate Data Rankings
+description: A GrowByDate Data Ranking of crops that lose the most heat and maturity margin when planting slips by two weeks.
+canonical: "https://growbydate.com/data/rankings/crops-that-lose-the-most-margin-when-planted-late/"
+---
+
+{% set board = cropsThatLoseMarginWhenPlantedLate %}
+{% set top = board.top %}
+
+<section class="card leaderboardHero">
+  <p class="eyebrow">GrowByDate Data Ranking</p>
+  <h1>Crops That Lose the Most Margin When Planted Late</h1>
+  <p class="lede">
+    Some crops forgive a late start. Others quickly lose the heat margin they need before fall frost.
+    This ranking compares crops by how much modeled GDD margin is lost when planting slips by two weeks.
+  </p>
+
+  <div class="leaderboardStatGrid" aria-label="Ranking summary">
+    {% if top %}
+      <div class="leaderboardStat">
+        <span class="statLabel">Highest pressure crop</span>
+        <strong>{{ top.cropName }}</strong>
+        <span>{{ top.score }}/100 · {{ top.label }}</span>
+      </div>
+    {% endif %}
+
+    <div class="leaderboardStat">
+      <span class="statLabel">Dataset</span>
+      <strong>{{ board.entries.length }} crops</strong>
+      <span>Published crops with two-week delay data</span>
+    </div>
+
+    <div class="leaderboardStat">
+      <span class="statLabel">Best used for</span>
+      <strong>Late starts</strong>
+      <span>Prioritizing crops when spring timing slips</span>
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>The ranking</h2>
+  <p>
+    Crops rank higher when they lose more heat margin after a two-week planting delay, especially when that delay pushes more locations
+    into negative maturity margin.
+  </p>
+
+  <div class="tableWrap leaderboardTableWrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Crop</th>
+          <th>Pressure score</th>
+          <th>Two-week margin loss</th>
+          <th>Avg. late margin</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in board.entries %}
+          <tr>
+            <td><strong>#{{ row.rank }}</strong></td>
+            <td><strong>{{ row.cropName }}</strong><br><span class="small muted">{{ row.publishedLocations }} modeled locations</span></td>
+            <td><strong>{{ row.score }}/100</strong></td>
+            <td>{{ row.averageTwoWeekMarginLoss }} GDD</td>
+            <td>{{ row.averageTwoWeekLateMargin }} GDD</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="card leaderboardCallout">
+  <h2>What this ranking means</h2>
+  <p>
+    A high score does not mean the crop is impossible. It means late planting is more expensive: the crop loses more of its available heat window,
+    and the difference between “probably fine” and “too tight” can shrink quickly.
+  </p>
+  <p>
+    For a crop-specific answer, use the <a href="/tools/growing-degree-day-planner/">GDD planner</a> or compare the crop against
+    <a href="/data/crop-heat-requirements/">Crop Heat Requirements</a>.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Methodology</h2>
+  <p>{{ board.methodology }}</p>
+  <p>{{ board.caveat }}</p>
+  <p class="small">
+    Data export: <a href="/assets/data/rankings/crops-that-lose-the-most-margin-when-planted-late.json">late-planting margin loss JSON</a>.
+  </p>
+</section>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": {{ board.title | dump | safe }},
+  "description": {{ board.description | dump | safe }},
+  "url": "https://growbydate.com/data/rankings/crops-that-lose-the-most-margin-when-planted-late/",
+  "numberOfItems": {{ board.entries.length }},
+  "itemListElement": [
+    {% for row in board.entries %}
+      {
+        "@type": "ListItem",
+        "position": {{ row.rank }},
+        "name": {{ (row.cropName ~ " late-planting margin pressure") | dump | safe }}
+      }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>

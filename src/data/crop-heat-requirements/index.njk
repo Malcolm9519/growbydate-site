@@ -1,0 +1,121 @@
+---
+layout: layout-base.njk
+title: Crop Heat Requirements | GrowByDate
+description: Search typical crop growing degree day requirements and compare heat demand for short-season garden planning.
+canonical: "https://growbydate.com/data/crop-heat-requirements/"
+---
+
+<section class="card leaderboardHero">
+  <p class="eyebrow">Reference table</p>
+  <h1>Crop Heat Requirements</h1>
+  <p class="lede">
+    Crop heat requirements help explain why some vegetables are easy in short seasons while others run out of warmth before frost.
+    Use this table to compare typical growing degree day targets before choosing crops, varieties, or planting dates.
+  </p>
+</section>
+
+<section class="leaderboardStatGrid" aria-label="Crop heat requirement summary">
+  <article class="leaderboardStat">
+    <span class="statLabel">Crop targets</span>
+    <strong>{{ cropHeatRequirements.totalCrops }}</strong>
+    <span class="small">Crops with GDD planning targets.</span>
+  </article>
+  <article class="leaderboardStat">
+    <span class="statLabel">Warm-season crops</span>
+    <strong>{{ cropHeatRequirements.warmSeasonCount }}</strong>
+    <span class="small">Heat-loving crops where GDD is especially useful.</span>
+  </article>
+  <article class="leaderboardStat">
+    <span class="statLabel">Highest target</span>
+    <strong>{{ cropHeatRequirements.highestRequirement.cropName }}</strong>
+    <span class="small">{{ cropHeatRequirements.highestRequirement.gddRequired }} GDD at base {{ cropHeatRequirements.highestRequirement.baseF }}°F.</span>
+  </article>
+</section>
+
+<section class="card">
+  <h2>How to read crop GDD requirements</h2>
+  <p>
+    A crop’s GDD target is a heat-planning reference. Higher targets usually mean the crop needs more accumulated warmth before it can mature.
+    In short seasons, those crops are often more sensitive to late planting, cool soil, slow varieties, and early fall frost.
+  </p>
+  <ul class="tight">
+    <li><strong>Base temperature</strong> is the threshold used for the crop’s heat model.</li>
+    <li><strong>Typical GDD target</strong> is the estimated accumulated heat often needed to reach maturity.</li>
+    <li><strong>Short-season read</strong> explains how demanding that crop tends to be in cooler or shorter locations.</li>
+  </ul>
+</section>
+
+<section class="card leaderboardTableWrap">
+  <h2>Search crop heat requirements</h2>
+  <p class="small">Search by crop, category, heat demand, or base temperature.</p>
+  <label class="sr-only" for="crop-heat-search">Search crop heat requirements</label>
+  <input
+    id="crop-heat-search"
+    type="search"
+    placeholder="Search crop, category, or heat demand..."
+    autocomplete="off"
+    style="width:100%;max-width:36rem;margin:0.75rem 0 1rem;padding:0.75rem 0.9rem;border:1px solid #d8e2d0;border-radius:999px;"
+  />
+  <p class="small" id="crop-heat-search-count" aria-live="polite">
+    Showing {{ cropHeatRequirements.rows.length }} crops.
+  </p>
+  <table id="crop-heat-table">
+    <thead>
+      <tr>
+        <th>Crop</th>
+        <th>Base temperature</th>
+        <th>Typical GDD target</th>
+        <th>Category</th>
+        <th>Heat demand</th>
+        <th>Short-season read</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in cropHeatRequirements.rows %}
+        <tr data-search="{{ row.cropName | lower }} {{ row.category | lower }} {{ row.heatDemand | lower }} base {{ row.baseF }} {{ row.gddRequired }}">
+          <td><strong><a href="{{ row.cropUrl }}">{{ row.cropName }}</a></strong></td>
+          <td>{{ row.baseF }}°F</td>
+          <td>{{ row.gddRequired }}</td>
+          <td>{{ row.category }}</td>
+          <td>{{ row.heatDemand }}</td>
+          <td>{{ row.shortSeasonRead }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+
+<section class="card leaderboardCallout">
+  <h2>Turn heat requirements into a local answer</h2>
+  <p>
+    Heat targets are most useful when compared with local GDD and frost timing. Use the table above with
+    <a href="/data/growing-degree-days-by-city/">Growing Degree Days by City</a>, or open the
+    <a href="/tools/growing-degree-day-planner/">GDD planner</a> to test a crop against a specific planting date.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Important limitation</h2>
+  <p>{{ cropHeatRequirements.methodology }}</p>
+</section>
+
+<script>
+(function () {
+  const input = document.getElementById("crop-heat-search");
+  const table = document.getElementById("crop-heat-table");
+  const count = document.getElementById("crop-heat-search-count");
+  if (!input || !table || !count) return;
+  const rows = Array.from(table.querySelectorAll("tbody tr"));
+  function update() {
+    const query = input.value.trim().toLowerCase();
+    let visible = 0;
+    rows.forEach((row) => {
+      const matches = !query || (row.dataset.search || "").includes(query);
+      row.hidden = !matches;
+      if (matches) visible += 1;
+    });
+    count.textContent = `Showing ${visible} ${visible === 1 ? "crop" : "crops"}.`;
+  }
+  input.addEventListener("input", update);
+}());
+</script>

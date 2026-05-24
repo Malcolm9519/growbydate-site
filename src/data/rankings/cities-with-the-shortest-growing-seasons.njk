@@ -1,0 +1,116 @@
+---
+layout: layout-base.njk
+title: Cities With the Shortest Growing Seasons | GrowByDate Data Rankings
+description: A GrowByDate Data Ranking comparing median frost-free days across the currently published city dataset.
+canonical: "https://growbydate.com/data/rankings/cities-with-the-shortest-growing-seasons/"
+---
+
+{% set board = citiesWithShortestGrowingSeasons %}
+{% set top = board.top %}
+{% set longest = board.longest %}
+
+<section class="card leaderboardHero">
+  <p class="eyebrow">GrowByDate Data Ranking</p>
+  <h1>Cities With the Shortest Growing Seasons</h1>
+  <p class="lede">
+    Frost-free days are not the whole story, but they are one of the clearest ways to compare outdoor gardening pressure. This ranking compares median frost-free windows across the currently published GrowByDate city dataset.
+  </p>
+
+  <div class="leaderboardStatGrid" aria-label="Ranking summary">
+    {% if top %}
+      <div class="leaderboardStat">
+        <span class="statLabel">Shortest current season</span>
+        <strong>{{ top.cityName }}</strong>
+        <span>{{ top.frostFreeDays }} frost-free days · {{ top.label }}</span>
+      </div>
+    {% endif %}
+
+    {% if longest %}
+      <div class="leaderboardStat">
+        <span class="statLabel">Longest current season</span>
+        <strong>{{ longest.cityName }}</strong>
+        <span>{{ longest.frostFreeDays }} frost-free days · {{ longest.label }}</span>
+      </div>
+    {% endif %}
+
+    <div class="leaderboardStat">
+      <span class="statLabel">Dataset</span>
+      <strong>{{ board.entries.length }} cities</strong>
+      <span>Published GrowByDate city pages</span>
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>The ranking</h2>
+  <p>
+    Cities are ranked from shortest to longest median frost-free window. GDD still matters: two places can have similar frost dates but very different heat accumulation during the season.
+  </p>
+
+  <div class="tableWrap leaderboardTableWrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>City</th>
+          <th>Frost-free days</th>
+          <th>Typical last frost</th>
+          <th>Typical first frost</th>
+          <th>GDD remaining May 1</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in board.entries %}
+          <tr>
+            <td><strong>#{{ row.rank }}</strong></td>
+            <td>
+              <a href="{{ row.url }}"><strong>{{ row.cityName }}</strong></a><br>
+              <span class="small muted">{{ row.regionName }}{% if row.country == "canada" %}, Canada{% elseif row.country == "usa" %}, U.S.{% endif %}</span>
+            </td>
+            <td><strong>{{ row.frostFreeDays }}</strong><br>{{ row.label }}</td>
+            <td>{{ row.springFrost }}</td>
+            <td>{{ row.fallFrost }}</td>
+            <td>{{ row.gddRemainingMay1 }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="card leaderboardCallout">
+  <h2>What this ranking means</h2>
+  <p>
+    A shorter frost-free season does not automatically mean a bad gardening city. It means gardeners should pay closer attention to crop selection, variety speed, indoor starts, warm microclimates, and frost protection.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Methodology</h2>
+  <p>{{ board.methodology }}</p>
+  <p>{{ board.caveat }}</p>
+  <p class="small">
+    Data export: <a href="/assets/data/rankings/cities-with-the-shortest-growing-seasons.json">shortest growing seasons JSON</a>.
+  </p>
+</section>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": {{ board.title | dump | safe }},
+  "description": {{ board.description | dump | safe }},
+  "url": "https://growbydate.com/data/rankings/cities-with-the-shortest-growing-seasons/",
+  "numberOfItems": {{ board.entries.length }},
+  "itemListElement": [
+    {% for row in board.entries %}
+      {
+        "@type": "ListItem",
+        "position": {{ row.rank }},
+        "name": {{ (row.cityName ~ " frost-free season length") | dump | safe }},
+        "url": {{ (site.url ~ row.url) | dump | safe }}
+      }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>

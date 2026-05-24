@@ -1,0 +1,158 @@
+---
+layout: layout-base.njk
+title: Growing Degree Days by City | GrowByDate
+description: Look up seasonal growing degree day reference values by city and compare heat accumulation for crop maturity planning.
+canonical: "https://growbydate.com/data/growing-degree-days-by-city/"
+---
+
+<section class="card leaderboardHero">
+  <p class="eyebrow">Reference table</p>
+  <h1>Growing Degree Days by City</h1>
+  <p class="lede">
+    Look up seasonal growing degree day reference values by city. GDD is a way to compare accumulated warmth, which helps explain why heat-loving crops can mature easily in one place and struggle in another.
+  </p>
+</section>
+
+<section class="leaderboardStatGrid" aria-label="GDD data summary">
+  <article class="leaderboardStat">
+    <span class="statLabel">Cities listed</span>
+    <strong>{{ gddReference.totalReferenceCities }}</strong>
+    <span class="small">Published city records with GDD reference values.</span>
+  </article>
+  <article class="leaderboardStat">
+    <span class="statLabel">Crop requirements</span>
+    <strong>{{ gddReference.totalCropRequirements }}</strong>
+    <span class="small">Crop heat targets used for maturity planning.</span>
+  </article>
+  <article class="leaderboardStat">
+    <span class="statLabel">Use this for</span>
+    <strong>Heat-loving crops</strong>
+    <span class="small">Tomatoes, peppers, corn, squash, cucumbers, and melons.</span>
+  </article>
+</section>
+
+<section class="card">
+  <h2>What growing degree days mean</h2>
+  <p>
+    Growing degree days estimate how much useful heat accumulates during the season. Each crop has a base temperature below which growth is assumed to slow dramatically.
+    Daily heat above that base is added through the season and compared with a crop’s typical heat requirement.
+  </p>
+  <ul class="tight">
+    <li><strong>Base 50°F GDD</strong> is a common warm-season reference and is useful for comparing heat between cities.</li>
+    <li><strong>Base 45°F and base 40°F GDD</strong> help describe heat accumulation for crops that grow in cooler conditions.</li>
+    <li><strong>Higher GDD does not replace frost dates.</strong> A crop still needs enough time before the first fall frost.</li>
+  </ul>
+</section>
+
+<section class="card leaderboardTableWrap">
+  <h2>Search growing degree days by city</h2>
+  <p class="small">
+    Search by city, province/state, or country. City names link to local planting-date pages with crop-specific timing.
+  </p>
+  <label class="sr-only" for="gdd-city-search">Search growing degree days by city</label>
+  <input
+    id="gdd-city-search"
+    type="search"
+    placeholder="Search city, province/state, or country..."
+    autocomplete="off"
+    style="width:100%;max-width:36rem;margin:0.75rem 0 1rem;padding:0.75rem 0.9rem;border:1px solid #d8e2d0;border-radius:999px;"
+  />
+  <p class="small" id="gdd-city-search-count" aria-live="polite">
+    Showing {{ gddReference.cityRecords.length }} cities.
+  </p>
+  <table id="gdd-city-table">
+    <thead>
+      <tr>
+        <th>City</th>
+        <th>Region</th>
+        <th>Country</th>
+        <th>Base 50°F GDD</th>
+        <th>Base 45°F GDD</th>
+        <th>Base 40°F GDD</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in gddReference.cityRecords %}
+        <tr data-search="{{ row.cityName | lower }} {{ row.regionName | lower }} {{ row.regionAbbr | lower }} {{ row.countryLabel | lower }}">
+          <td><strong><a href="{{ row.cityUrl }}">{{ row.cityName }}</a></strong></td>
+          <td>{{ row.regionName }}</td>
+          <td>{{ row.countryLabel }}</td>
+          <td>{{ row.gddBase50 if row.gddBase50 != null else "—" }}</td>
+          <td>{{ row.gddBase45 if row.gddBase45 != null else "—" }}</td>
+          <td>{{ row.gddBase40 if row.gddBase40 != null else "—" }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+
+<section class="card leaderboardCallout">
+  <h2>How to use GDD with frost dates</h2>
+  <p>
+    GDD helps estimate whether a season has enough heat, while frost dates estimate how much outdoor time is available.
+    A warm city with an early fall frost can still be tight for long-season crops, and a city with many frost-free days can still feel cool for peppers or melons.
+    Compare this table with <a href="/data/frost-dates-by-city/">Frost Dates by City</a> before making crop decisions.
+  </p>
+  <p>
+    For a ranked comparison of high-heat locations, see <a href="/data/rankings/canadian-cities-with-the-highest-growing-degree-days/">Canadian Cities With the Highest Growing Degree Days</a>.
+  </p>
+</section>
+
+<section class="card leaderboardTableWrap">
+  <h2>Example crop GDD requirements</h2>
+  <p>
+    These examples show why high-GDD cities are usually more forgiving for warm-season crops. Crops with higher targets need more accumulated heat before frost.
+  </p>
+  <table>
+    <thead>
+      <tr>
+        <th>Crop</th>
+        <th>Base temperature</th>
+        <th>Typical GDD target</th>
+        <th>Category</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for crop in gddReference.warmSeasonCrops %}
+        <tr>
+          <td><strong>{{ crop.name }}</strong></td>
+          <td>{{ crop.base_f }}°F</td>
+          <td>{{ crop.gdd_required }}</td>
+          <td>{{ crop.category }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <p><a href="/data/crop-heat-requirements/">Open the full crop heat requirements table</a></p>
+</section>
+
+<section class="card">
+  <h2>Important limitations</h2>
+  <p>
+    GDD is a useful maturity signal, but it does not capture everything that affects a garden. Soil temperature, variety behavior,
+    irrigation, wind, pests, cloud cover, transplant stress, and microclimate can all change real-world outcomes. Treat GDD as a planning model,
+    not a harvest guarantee.
+  </p>
+  <p><a href="/tools/growing-degree-day-planner/">Open the GDD planner</a></p>
+</section>
+
+<script>
+(function () {
+  const input = document.getElementById("gdd-city-search");
+  const table = document.getElementById("gdd-city-table");
+  const count = document.getElementById("gdd-city-search-count");
+  if (!input || !table || !count) return;
+  const rows = Array.from(table.querySelectorAll("tbody tr"));
+  function update() {
+    const query = input.value.trim().toLowerCase();
+    let visible = 0;
+    rows.forEach((row) => {
+      const matches = !query || (row.dataset.search || "").includes(query);
+      row.hidden = !matches;
+      if (matches) visible += 1;
+    });
+    count.textContent = `Showing ${visible} ${visible === 1 ? "city" : "cities"}.`;
+  }
+  input.addEventListener("input", update);
+}());
+</script>

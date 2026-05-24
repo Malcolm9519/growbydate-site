@@ -1,0 +1,124 @@
+---
+layout: layout-base.njk
+title: The Pepper Pain Index | GrowByDate Data Rankings
+description: A GrowByDate Data Ranking of where outdoor peppers are most timing-sensitive, heat-limited, or fussy.
+canonical: "https://growbydate.com/data/rankings/the-pepper-pain-index/"
+---
+
+{% set board = pepperPainIndex %}
+{% set top = board.top %}
+{% set easiest = board.easiest %}
+
+<section class="card leaderboardHero">
+  <p class="eyebrow">GrowByDate Data Ranking</p>
+  <h1>The Pepper Pain Index</h1>
+  <p class="lede">
+    Peppers are not impossible in short seasons, but they are often less forgiving than gardeners expect. This ranking compares currently published GrowByDate pepper locations by how much timing, heat, and variety pressure peppers create outdoors.
+  </p>
+
+  <div class="leaderboardStatGrid" aria-label="Ranking summary">
+    {% if top %}
+      <div class="leaderboardStat">
+        <span class="statLabel">Highest pain</span>
+        <strong>{{ top.cityName }}</strong>
+        <span>{{ top.score }}/100 · {{ top.label }}</span>
+      </div>
+    {% endif %}
+
+    {% if easiest %}
+      <div class="leaderboardStat">
+        <span class="statLabel">Most forgiving current test</span>
+        <strong>{{ easiest.cityName }}</strong>
+        <span>{{ easiest.score }}/100 · {{ easiest.label }}</span>
+      </div>
+    {% endif %}
+
+    <div class="leaderboardStat">
+      <span class="statLabel">Dataset</span>
+      <strong>{{ board.entries.length }} locations</strong>
+      <span>Published pepper crop-city pages</span>
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>The ranking</h2>
+  <p>
+    Higher scores mean peppers are more timing-sensitive outdoors. High-pain locations usually need indoor starts, fast varieties, warm sites, and less room for late planting.
+  </p>
+
+  <div class="tableWrap leaderboardTableWrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Location</th>
+          <th>Pain score</th>
+          <th>Plain-English read</th>
+          <th>Crop fit</th>
+          <th>GDD margin</th>
+          <th>Frost-free days</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in board.entries %}
+          <tr>
+            <td><strong>#{{ row.rank }}</strong></td>
+            <td>
+              <a href="{{ row.url }}"><strong>{{ row.cityName }}</strong></a><br>
+              <span class="small muted">{{ row.regionName }}{% if row.country == "canada" %}, Canada{% elseif row.country == "usa" %}, U.S.{% endif %}</span>
+            </td>
+            <td>
+              <strong>{{ row.score }}/100</strong><br>
+              <span class="fitBadge fitBadge-{{ row.badgeClass }}">{{ row.label }}</span>
+            </td>
+            <td>{{ row.tone }}</td>
+            <td>{{ row.cropFitScore }}/100<br><span class="small muted">{{ row.cropFitLabel }}</span></td>
+            <td>{% if row.gddMargin >= 0 %}+{% endif %}{{ row.gddMargin }} GDD</td>
+            <td>{{ row.frostFreeDays }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="card leaderboardCallout">
+  <h2>What the Pepper Pain Index means</h2>
+  <p>
+    A high score does not mean “do not grow peppers.” It means peppers are likely to punish late starts, cold soil, slow varieties, or casual timing more than forgiving crops do.
+  </p>
+  <p>
+    For high-pain locations, treat peppers as a planned crop: start indoors, choose fast varieties, transplant after real warmth arrives, and use the warmest microclimate you have.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Methodology</h2>
+  <p>{{ board.methodology }}</p>
+  <p>{{ board.caveat }}</p>
+  <p class="small">
+    Data export: <a href="/assets/data/rankings/the-pepper-pain-index.json">Pepper Pain Index JSON</a>.
+  </p>
+</section>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": {{ board.title | dump | safe }},
+  "description": {{ board.description | dump | safe }},
+  "url": "https://growbydate.com/data/rankings/the-pepper-pain-index/",
+  "numberOfItems": {{ board.entries.length }},
+  "itemListElement": [
+    {% for row in board.entries %}
+      {
+        "@type": "ListItem",
+        "position": {{ row.rank }},
+        "name": {{ (row.cityName ~ " pepper pain score") | dump | safe }},
+        "url": {{ (site.url ~ row.url) | dump | safe }}
+      }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>

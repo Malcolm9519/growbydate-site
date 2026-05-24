@@ -1,0 +1,112 @@
+---
+layout: layout-base.njk
+title: Hardest Crops to Grow in Short Seasons | GrowByDate Data Rankings
+description: A GrowByDate Data Ranking of crops that are most timing-sensitive in short frost windows and lower-GDD locations.
+canonical: "https://growbydate.com/data/rankings/hardest-crops-to-grow-in-short-seasons/"
+---
+
+{% set board = hardestCropsShortSeasons %}
+{% set top = board.top %}
+{% set easiest = board.easiestOfThisSet %}
+
+<section class="card leaderboardHero">
+  <p class="eyebrow">GrowByDate Data Ranking</p>
+  <h1>Hardest Crops to Grow in Short Seasons</h1>
+  <p class="lede">
+    Some crops are not impossible in cold or short-season gardens, but they demand more heat, tighter timing, faster varieties, or season extension. This ranking identifies the crops that create the most outdoor pressure in the current GrowByDate short-season dataset.
+  </p>
+
+  <div class="leaderboardStatGrid" aria-label="Ranking summary">
+    {% if top %}
+      <div class="leaderboardStat">
+        <span class="statLabel">Toughest current crop</span>
+        <strong>{{ top.cropName }}</strong>
+        <span>{{ top.score }}/100 · {{ top.label }}</span>
+      </div>
+    {% endif %}
+
+    {% if easiest %}
+      <div class="leaderboardStat">
+        <span class="statLabel">Most manageable in this set</span>
+        <strong>{{ easiest.cropName }}</strong>
+        <span>{{ easiest.score }}/100 · {{ easiest.label }}</span>
+      </div>
+    {% endif %}
+
+    <div class="leaderboardStat">
+      <span class="statLabel">Dataset</span>
+      <strong>{{ board.entries.length }} crops</strong>
+      <span>Published short-season crop-city data</span>
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>The ranking</h2>
+  <p>
+    Higher scores mean the crop is more likely to be difficult outdoors in short-season locations. This does not mean the crop is impossible; it means the crop leaves less room for late starts, slow varieties, cold soil, or early fall frost.
+  </p>
+
+  <div class="tableWrap leaderboardTableWrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Crop</th>
+          <th>Difficulty score</th>
+          <th>Avg. crop fit</th>
+          <th>Avg. GDD margin</th>
+          <th>Risky locations</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in board.entries %}
+          <tr>
+            <td><strong>#{{ row.rank }}</strong></td>
+            <td><strong>{{ row.cropName }}</strong><br><span class="small muted">{{ row.cropCategory or "Crop" }}</span></td>
+            <td><strong>{{ row.score }}/100</strong><br>{{ row.label }}</td>
+            <td>{{ row.averageFitScore }}/100</td>
+            <td>{% if row.averageGddMargin >= 0 %}+{% endif %}{{ row.averageGddMargin }} GDD</td>
+            <td>{{ row.riskyLocationCount }} of {{ row.shortSeasonLocations }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="card leaderboardCallout">
+  <h2>What this ranking means</h2>
+  <p>
+    Short-season difficulty is mostly about margin. Heat-loving crops with high GDD needs and frost sensitivity can still succeed, but they tend to punish late planting, cool starts, and slow variety choices more than forgiving crops do.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Methodology</h2>
+  <p>{{ board.methodology }}</p>
+  <p>{{ board.caveat }}</p>
+  <p class="small">
+    Data export: <a href="/assets/data/rankings/hardest-crops-to-grow-in-short-seasons.json">short-season crop difficulty JSON</a>.
+  </p>
+</section>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": {{ board.title | dump | safe }},
+  "description": {{ board.description | dump | safe }},
+  "url": "https://growbydate.com/data/rankings/hardest-crops-to-grow-in-short-seasons/",
+  "numberOfItems": {{ board.entries.length }},
+  "itemListElement": [
+    {% for row in board.entries %}
+      {
+        "@type": "ListItem",
+        "position": {{ row.rank }},
+        "name": {{ (row.cropName ~ " short-season difficulty score") | dump | safe }}
+      }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>
