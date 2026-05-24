@@ -1,0 +1,93 @@
+---
+layout: layout-base.njk
+title: Data Methodology | GrowByDate
+description: How frost dates, growing degree days, crop heat requirements, and timing rankings are used to help gardeners plan short-season crops.
+canonical: "https://growbydate.com/data/"
+---
+
+<section class="card leaderboardHero">
+  <p class="eyebrow">Data methodology</p>
+  <h1>Frost, Heat and Crop Data for Short Season Garden Planning</h1>
+  <p class="lede">
+    Planting dates are easier to use when frost risk, seasonal heat, crop maturity, and timing pressure are explained together.
+    This page shows how the reference tables and rankings on this site are organized, what they can help with, and where their limits are.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Start with the reference tables</h2>
+  <p>
+    Look up a city, compare nearby places, and understand the basic season window before choosing crops or varieties.
+  </p>
+  <div class="leaderboardGrid">
+    <article class="leaderboardTile">
+      <p class="eyebrow">Frost dates</p>
+      <h3><a href="/data/frost-dates-by-city/">Frost Dates by City</a></h3>
+      <p>Look up average last spring frost, first fall frost, and frost-free growing-season length by city.</p>
+    </article>
+
+    <article class="leaderboardTile">
+      <p class="eyebrow">Seasonal heat</p>
+      <h3><a href="/data/growing-degree-days-by-city/">Growing Degree Days by City</a></h3>
+      <p>Compare seasonal heat accumulation for warm-season crop planning, especially tomatoes, peppers, corn, squash, and melons.</p>
+    </article>
+
+    <article class="leaderboardTile">
+      <p class="eyebrow">Crop requirements</p>
+      <h3><a href="/data/crop-heat-requirements/">Crop Heat Requirements</a></h3>
+      <p>See typical crop GDD targets and why some vegetables need much more heat than others.</p>
+    </article>
+  </div>
+</section>
+
+<section class="card">
+  <h2>The basic method</h2>
+  <p>
+    The pages in this section use two different kinds of season signals: frost timing and heat accumulation.
+    Frost dates estimate the outdoor window for tender crops. Growing degree days estimate whether the season is warm enough for a crop to mature inside that window.
+  </p>
+  <ol class="tight">
+    <li><strong>Find the frost window.</strong> Last spring frost and first fall frost define the average outdoor season for tender crops.</li>
+    <li><strong>Estimate seasonal heat.</strong> Growing degree days measure accumulated warmth, which matters for heat-loving crops.</li>
+    <li><strong>Compare crops against the season.</strong> Crop heat requirements and maturity timing show which crops have room to finish and which are tight.</li>
+    <li><strong>Account for timing pressure.</strong> A crop that works with perfect timing may become risky if it is planted one or two weeks late.</li>
+  </ol>
+</section>
+
+<section class="card">
+  <h2>Data rankings</h2>
+  <p>
+    Rankings are a more readable way to compare the reference data. They are not guarantees; they are planning signals that highlight short seasons, high-heat cities,
+    difficult crops, forgiving crops, and crop-location combinations where frost timing gets tight.
+  </p>
+  <div class="leaderboardGrid">
+    {% for board in dataRankingSummaries %}
+      <article class="leaderboardTile">
+        <p class="eyebrow">{{ board.category }}</p>
+        <h3><a href="{{ board.url }}">{{ board.title }}</a></h3>
+        <p>{{ board.description }}</p>
+        <p class="small">{{ board.entriesCount }} items ranked.</p>
+      </article>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="card">
+  <h2>How to use these pages</h2>
+  <p>
+    Start with your city’s frost dates, then compare its growing degree days if you are planning warm-season crops. After that, use the crop heat requirements and rankings to decide where to be conservative.
+  </p>
+  <ul class="tight">
+    <li>For seed starting and transplant timing, begin with the frost-date table.</li>
+    <li>For tomatoes, peppers, corn, squash, and melons, check the GDD table as well.</li>
+    <li>For late planting decisions, use the rankings and the crop maturity planner to see which crops lose margin fastest.</li>
+  </ul>
+</section>
+
+<section class="card leaderboardCallout">
+  <h2>Important limitations</h2>
+  <p>
+    Frost dates and GDD are planning models, not weather forecasts. Averages cannot capture every slope, cold pocket, raised bed, windy site, urban heat island, lake effect, soil condition, irrigation pattern, pest issue, or variety difference.
+    Use the data to make better starting decisions, then adjust with local forecasts and what you know about your own garden.
+  </p>
+</section>

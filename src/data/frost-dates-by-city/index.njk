@@ -1,0 +1,130 @@
+---
+layout: layout-base.njk
+title: Frost Dates by City | GrowByDate
+description: Look up average last spring frost, first fall frost, and frost-free growing season length by city.
+canonical: "https://growbydate.com/data/frost-dates-by-city/"
+---
+
+<section class="card leaderboardHero">
+  <p class="eyebrow">Reference table</p>
+  <h1>Frost Dates by City</h1>
+  <p class="lede">
+    Look up average last spring frost, first fall frost, and frost-free season length by city.
+    These dates help you estimate when tender crops can usually go outside in spring and how much outdoor growing time remains before fall frost.
+  </p>
+</section>
+
+<section class="leaderboardStatGrid" aria-label="Frost date data summary">
+  <article class="leaderboardStat">
+    <span class="statLabel">Cities listed</span>
+    <strong>{{ frostDateReference.totalReferenceCities }}</strong>
+    <span class="small">Published city records with frost-date reference values.</span>
+  </article>
+  <article class="leaderboardStat">
+    <span class="statLabel">Median frost-free season</span>
+    <strong>{{ frostDateReference.medianFrostFreeDays }} days</strong>
+    <span class="small">Median across the current city list.</span>
+  </article>
+  <article class="leaderboardStat">
+    <span class="statLabel">Use this for</span>
+    <strong>Planting windows</strong>
+    <span class="small">Seed starting, transplant timing, and fall harvest planning.</span>
+  </article>
+</section>
+
+<section class="card">
+  <h2>How to use frost dates</h2>
+  <p>
+    Frost dates are best used as planning signals. The last spring frost helps estimate when frost-sensitive crops such as tomatoes, peppers, basil, cucumbers, squash, beans, corn, and melons can usually move outdoors.
+    The first fall frost helps estimate whether a crop has enough time to mature before cold weather returns.
+  </p>
+  <ul class="tight">
+    <li><strong>Last spring frost</strong> — the average date after which spring frost risk usually drops.</li>
+    <li><strong>First fall frost</strong> — the average date when fall frost risk begins returning.</li>
+    <li><strong>Frost-free days</strong> — the approximate number of days between those two dates.</li>
+  </ul>
+  <p>
+    A longer frost-free season gives warm-season crops more room to mature. A shorter season usually means earlier varieties, indoor starts, row cover, or more conservative crop choices matter more.
+  </p>
+</section>
+
+<section class="card leaderboardTableWrap">
+  <h2>Search frost dates by city</h2>
+  <p class="small">
+    Search by city, province/state, or country. City names link to local planting-date pages with crop-specific timing.  If you don't see your city listed here, try using your <a href="/tools/frost-date-finder/">zip or postal code to find frost dates</a>
+
+  </p>
+  <label class="sr-only" for="frost-city-search">Search frost dates by city</label>
+  <input
+    id="frost-city-search"
+    type="search"
+    placeholder="Search city, province/state, or country..."
+    autocomplete="off"
+    style="width:100%;max-width:36rem;margin:0.75rem 0 1rem;padding:0.75rem 0.9rem;border:1px solid #d8e2d0;border-radius:999px;"
+  />
+  <p class="small" id="frost-city-search-count" aria-live="polite">
+    Showing {{ frostDateReference.cityRecords.length }} cities.
+  </p>
+  <table id="frost-city-table">
+    <thead>
+      <tr>
+        <th>City</th>
+        <th>Region</th>
+        <th>Country</th>
+        <th>Last spring frost</th>
+        <th>First fall frost</th>
+        <th>Frost-free days</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in frostDateReference.cityRecords %}
+        <tr data-search="{{ row.cityName | lower }} {{ row.regionName | lower }} {{ row.regionAbbr | lower }} {{ row.countryLabel | lower }}">
+          <td><strong><a href="{{ row.cityUrl }}">{{ row.cityName }}</a></strong></td>
+          <td>{{ row.regionName }}</td>
+          <td>{{ row.countryLabel }}</td>
+          <td>{{ row.lastFrostLabel }}</td>
+          <td>{{ row.firstFrostLabel }}</td>
+          <td>{{ row.frostFreeDays }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+
+<section class="card leaderboardCallout">
+  <h2>What frost-free days do and do not tell you</h2>
+  <p>
+    Frost-free days are useful for comparing season length, but they do not tell the whole story. Two cities can have similar frost-free windows but very different summer heat.
+    For heat-loving crops, compare this table with <a href="/data/growing-degree-days-by-city/">Growing Degree Days by City</a>.
+    For a ranked view of the tightest seasons, see <a href="/data/rankings/cities-with-the-shortest-growing-seasons/">Cities With the Shortest Growing Seasons</a>.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Before planting tender crops</h2>
+  <p>
+    Always check the actual forecast before setting tender plants outdoors. Averages are helpful for planning, but a late cold snap can still happen after the average last frost date.
+    If your site is exposed, low-lying, windy, or outside town, it may run colder than the city average.
+  </p>
+</section>
+
+<script>
+(function () {
+  const input = document.getElementById("frost-city-search");
+  const table = document.getElementById("frost-city-table");
+  const count = document.getElementById("frost-city-search-count");
+  if (!input || !table || !count) return;
+  const rows = Array.from(table.querySelectorAll("tbody tr"));
+  function update() {
+    const query = input.value.trim().toLowerCase();
+    let visible = 0;
+    rows.forEach((row) => {
+      const matches = !query || (row.dataset.search || "").includes(query);
+      row.hidden = !matches;
+      if (matches) visible += 1;
+    });
+    count.textContent = `Showing ${visible} ${visible === 1 ? "city" : "cities"}.`;
+  }
+  input.addEventListener("input", update);
+}());
+</script>

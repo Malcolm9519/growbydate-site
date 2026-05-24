@@ -58,6 +58,8 @@ module.exports = function (eleventyConfig) {
     eleventyConfig.ignores.add("src/index.njk");
     eleventyConfig.ignores.add("src/privacy-policy.njk");
     eleventyConfig.ignores.add("src/crops/**");
+    eleventyConfig.ignores.add("src/data/**");
+    eleventyConfig.ignores.add("src/assets/data/rankings/**");
   }
 
   eleventyConfig.addShortcode("year", () => `${new Date().getFullYear()}`);

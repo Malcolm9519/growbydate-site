@@ -1,0 +1,154 @@
+---
+layout: layout-base.njk
+title: Crop Fit Index | GrowByDate Data
+description: How GrowByDate estimates whether crops fit local frost windows, growing degree days, planting timing, and variety options.
+canonical: "https://growbydate.com/data/crop-fit-index/"
+---
+
+<section class="card leaderboardHero">
+  <p class="eyebrow">GrowByDate Data · Core Model</p>
+  <h1>Crop Fit Index</h1>
+  <p class="lede">
+    The Crop Fit Index is GrowByDate’s planning signal for whether a crop fits a local outdoor growing season.
+    It combines frost timing, growing degree days, crop heat targets, planting delay pressure, and variety flexibility.
+  </p>
+</section>
+
+<section class="leaderboardStatGrid" aria-label="Crop Fit Index summary">
+  <article class="leaderboardStat">
+    <span class="statLabel">Crop-city records</span>
+    <strong>{{ cropFitIndex.totalCropCityRows }}</strong>
+    <span class="small">Published crop-location rows currently feeding the model.</span>
+  </article>
+  <article class="leaderboardStat">
+    <span class="statLabel">Crops</span>
+    <strong>{{ cropFitIndex.totalCrops }}</strong>
+    <span class="small">Crops with modeled local fit records.</span>
+  </article>
+  <article class="leaderboardStat">
+    <span class="statLabel">Cities</span>
+    <strong>{{ cropFitIndex.totalCities }}</strong>
+    <span class="small">Published city locations represented in crop fit records.</span>
+  </article>
+</section>
+
+<section class="card">
+  <h2>What the score means</h2>
+  <p>
+    A Crop Fit score is not a promise of harvest. It is a planning signal: higher scores mean the crop usually has more room
+    inside the local season; lower scores mean the crop depends more on fast varieties, timely starts, warm sites, or protection.
+  </p>
+  <div class="tableWrap leaderboardTableWrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Score range</th>
+          <th>Fit label</th>
+          <th>Planning meaning</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for band in cropFitIndex.scoreBands %}
+          <tr>
+            <td><strong>{{ band.range }}</strong></td>
+            <td>{{ band.label }}</td>
+            <td>{{ band.meaning }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="card">
+  <h2>What goes into the model</h2>
+  <ul class="tight">
+    {% for factor in cropFitIndex.factors %}
+      <li><strong>{{ factor.name }}:</strong> {{ factor.description }}</li>
+    {% endfor %}
+  </ul>
+</section>
+
+<section class="card leaderboardTableWrap">
+  <h2>Example crop fit records</h2>
+  <p class="small">
+    These examples show how the index reads different kinds of crop-location outcomes. They are examples, not a raw export of every computed row.
+  </p>
+  <table>
+    <thead>
+      <tr>
+        <th>Crop and city</th>
+        <th>Score</th>
+        <th>Fit</th>
+        <th>GDD margin</th>
+        <th>Variety fit</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for groupName, groupRows in cropFitIndex.examples %}
+        {% for row in groupRows %}
+          <tr>
+            <td>
+              <a href="{{ row.url }}"><strong>{{ row.cropName }} in {{ row.cityName }}</strong></a><br>
+              <span class="small muted">{{ row.regionName }}{% if row.country == "canada" %}, Canada{% else %}, United States{% endif %}</span>
+            </td>
+            <td><strong>{{ row.score }}/100</strong></td>
+            <td>{{ row.label }}</td>
+            <td>{{ row.gddMargin if row.gddMargin != null else "—" }}</td>
+            <td>{{ row.fittingVarietyLabels | join(", ") if row.fittingVarietyLabels and row.fittingVarietyLabels.length else "No clear fit" }}</td>
+          </tr>
+        {% endfor %}
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+
+<section class="card leaderboardTableWrap">
+  <h2>Crop-level summary</h2>
+  <p class="small">
+    This summary rolls up the strongest current crop signals without exposing the full operational crop-location dataset.
+  </p>
+  <table>
+    <thead>
+      <tr>
+        <th>Crop</th>
+        <th>Published locations</th>
+        <th>Average fit score</th>
+        <th>Average GDD margin</th>
+        <th>Typical target</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in cropFitIndex.cropSummaries %}
+        <tr>
+          <td><strong>{{ row.cropName }}</strong></td>
+          <td>{{ row.publishedLocations }}</td>
+          <td>{{ row.averageScore }}/100</td>
+          <td>{{ row.averageGddMargin }}</td>
+          <td>{{ row.targetGdd if row.targetGdd != null else "—" }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+
+<section class="card leaderboardCallout">
+  <h2>How rankings use the Crop Fit Index</h2>
+  <p>
+    GrowByDate Data Rankings use the Crop Fit Index as one of their source layers. Some rankings use it directly, such as tomato city rankings.
+    Others reinterpret the same data for a specific question, such as frost pressure, late-start margin loss, or short-season difficulty.
+  </p>
+  <p>
+    Explore <a href="/data/rankings/">Data Rankings</a>, <a href="/data/frost-dates-by-city/">Frost Dates by City</a>,
+    and <a href="/data/growing-degree-days-by-city/">Growing Degree Days by City</a>.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Important limitation</h2>
+  <p>{{ cropFitIndex.methodology }}</p>
+  <p>
+    Soil temperature, irrigation, wind, transplant size, pest pressure, cultivar behavior, and microclimate can all change real-world results.
+    Use the score to choose better strategies, not to treat gardening as a guarantee.
+  </p>
+</section>

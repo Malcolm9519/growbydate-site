@@ -19,12 +19,18 @@
     <a href="{{ '/tools/frost-date-finder/' | toMainSiteUrl }}" class="primaryLink">Frost Date Finder</a>
     <a href="{{ '/tools/growing-degree-day-planner/' | toMainSiteUrl }}" class="primaryLink">Will Your Crop Mature?</a>
 
-    {# Simple stable links — no dropdowns #}
     <a href="{{ '/tools/' | toMainSiteUrl }}">Tools</a>
+    <a href="{{ '/data/' | toMainSiteUrl }}">Data</a>
     <a href="{{ '/guides/' | toMainSiteUrl }}">Growing Guides</a>
     <a href="{{ '/crops/' | toMainSiteUrl }}">Crop Guides</a>
-    <a href="{{ '/planting-dates/states/' | toMainSiteUrl }}">U.S. Planting Dates</a>
-    <a href="{{ '/planting-dates/canada/provinces/' | toMainSiteUrl }}">Canada Planting Dates</a>
+
+    <details class="navdrop">
+      <summary>Planting Dates</summary>
+      <div class="navpanel">
+        <a href="{{ '/planting-dates/states/' | toMainSiteUrl }}">U.S. Planting Dates</a>
+        <a href="{{ '/planting-dates/canada/provinces/' | toMainSiteUrl }}">Canada Planting Dates</a>
+      </div>
+    </details>
   </nav>
 
   {# Mobile nav (hamburger) #}
@@ -39,8 +45,11 @@
         <a href="{{ '/tools/frost-date-finder/' | toMainSiteUrl }}">Frost Date Finder</a>
         <a href="{{ '/tools/growing-degree-day-planner/' | toMainSiteUrl }}">Will Your Crop Mature?</a>
         <a href="{{ '/tools/' | toMainSiteUrl }}">All tools</a>
+        <a href="{{ '/data/' | toMainSiteUrl }}">Data</a>
         <a href="{{ '/guides/' | toMainSiteUrl }}">Growing guides</a>
         <a href="{{ '/crops/' | toMainSiteUrl }}">Crop guides</a>
+
+        <span class="navpanelLabel">Planting Dates</span>
         <a href="{{ '/planting-dates/states/' | toMainSiteUrl }}">U.S. planting dates</a>
         <a href="{{ '/planting-dates/canada/provinces/' | toMainSiteUrl }}">Canada planting dates</a>
       </div>

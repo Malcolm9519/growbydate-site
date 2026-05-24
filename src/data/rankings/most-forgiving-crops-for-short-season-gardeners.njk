@@ -1,0 +1,114 @@
+---
+layout: layout-base.njk
+title: Most Forgiving Crops for Short-Season Gardeners | GrowByDate Data Rankings
+description: A GrowByDate Data Ranking of crops that leave the most timing margin in short-season gardens.
+canonical: "https://growbydate.com/data/rankings/most-forgiving-crops-for-short-season-gardeners/"
+---
+
+{% set board = mostForgivingCropsShortSeason %}
+{% set top = board.top %}
+{% set leastForgiving = board.leastForgiving %}
+
+<section class="card leaderboardHero">
+  <p class="eyebrow">GrowByDate Data Ranking</p>
+  <h1>Most Forgiving Crops for Short-Season Gardeners</h1>
+  <p class="lede">
+    Some crops give cold-climate and short-season gardeners more room for imperfect timing. This ranking identifies crops that are more likely to fit short frost windows, lower heat accumulation, and beginner-level timing mistakes.
+  </p>
+
+  <div class="leaderboardStatGrid" aria-label="Ranking summary">
+    {% if top %}
+      <div class="leaderboardStat">
+        <span class="statLabel">Most forgiving</span>
+        <strong>{{ top.cropName }}</strong>
+        <span>{{ top.score }}/100 · {{ top.label }}</span>
+      </div>
+    {% endif %}
+
+    {% if leastForgiving %}
+      <div class="leaderboardStat">
+        <span class="statLabel">Least forgiving in this set</span>
+        <strong>{{ leastForgiving.cropName }}</strong>
+        <span>{{ leastForgiving.score }}/100 · {{ leastForgiving.label }}</span>
+      </div>
+    {% endif %}
+
+    <div class="leaderboardStat">
+      <span class="statLabel">Dataset</span>
+      <strong>{{ board.entries.length }} crops</strong>
+      <span>Published short-season crop-city data</span>
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>The ranking</h2>
+  <p>
+    Higher scores mean the crop is more forgiving in short-season locations. These crops tend to have better crop fit, lower heat pressure, useful frost tolerance, or more variety flexibility.
+  </p>
+
+  <div class="tableWrap leaderboardTableWrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Crop</th>
+          <th>Forgiveness score</th>
+          <th>Avg. crop fit</th>
+          <th>Avg. GDD margin</th>
+          <th>Frost tolerance</th>
+          <th>Risky locations</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in board.entries %}
+          <tr>
+            <td><strong>#{{ row.rank }}</strong></td>
+            <td><strong>{{ row.cropName }}</strong><br><span class="small muted">{{ row.cropCategory or "Crop" }}</span></td>
+            <td><strong>{{ row.score }}/100</strong><br>{{ row.label }}</td>
+            <td>{{ row.averageFitScore }}/100</td>
+            <td>{% if row.averageGddMargin >= 0 %}+{% endif %}{{ row.averageGddMargin }} GDD</td>
+            <td>{{ row.frostTolerance or "Varies" }}</td>
+            <td>{{ row.riskyLocationCount }} of {{ row.shortSeasonLocations }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="card leaderboardCallout">
+  <h2>What “forgiving” means</h2>
+  <p>
+    Forgiving crops are not guaranteed crops. They are crops that usually leave more room for real-world garden problems: a slightly late start, a cool spring, a shorter frost-free window, or a beginner still learning timing.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Methodology</h2>
+  <p>{{ board.methodology }}</p>
+  <p>{{ board.caveat }}</p>
+  <p class="small">
+    Data export: <a href="/assets/data/rankings/most-forgiving-crops-for-short-season-gardeners.json">most forgiving crops JSON</a>.
+  </p>
+</section>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": {{ board.title | dump | safe }},
+  "description": {{ board.description | dump | safe }},
+  "url": "https://growbydate.com/data/rankings/most-forgiving-crops-for-short-season-gardeners/",
+  "numberOfItems": {{ board.entries.length }},
+  "itemListElement": [
+    {% for row in board.entries %}
+      {
+        "@type": "ListItem",
+        "position": {{ row.rank }},
+        "name": {{ (row.cropName ~ " short-season forgiveness score") | dump | safe }}
+      }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>

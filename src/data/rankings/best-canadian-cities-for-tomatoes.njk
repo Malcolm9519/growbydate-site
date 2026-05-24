@@ -1,0 +1,128 @@
+---
+layout: layout-base.njk
+title: Best Canadian Cities for Tomatoes | GrowByDate Data Rankings
+description: A GrowByDate Data Ranking comparing Canadian tomato locations by outdoor tomato fit, GDD margin, frost-free days, and variety flexibility.
+canonical: "https://growbydate.com/data/rankings/best-canadian-cities-for-tomatoes/"
+---
+
+{% set board = bestCanadianCitiesForTomatoes %}
+{% set top = board.top %}
+{% set hardest = board.hardest %}
+
+<section class="card leaderboardHero">
+  <p class="eyebrow">GrowByDate Data Ranking</p>
+  <h1>Best Canadian Cities for Tomatoes</h1>
+  <p class="lede">
+    Which Canadian locations in the current GrowByDate dataset give outdoor tomatoes the best shot? This ranking compares tomato fit by GDD margin, frost-free days, delay tolerance, and variety flexibility.
+  </p>
+
+  <div class="leaderboardStatGrid" aria-label="Ranking summary">
+    {% if top %}
+      <div class="leaderboardStat">
+        <span class="statLabel">Current leader</span>
+        <strong>{{ top.cityName }}</strong>
+        <span>{{ top.score }}/100 · {{ top.label }}</span>
+      </div>
+    {% endif %}
+
+    {% if hardest %}
+      <div class="leaderboardStat">
+        <span class="statLabel">Toughest current test</span>
+        <strong>{{ hardest.cityName }}</strong>
+        <span>{{ hardest.score }}/100 · {{ hardest.label }}</span>
+      </div>
+    {% endif %}
+
+    <div class="leaderboardStat">
+      <span class="statLabel">Dataset</span>
+      <strong>{{ board.entries.length }} locations</strong>
+      <span>Published Canadian tomato crop-city pages</span>
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>The ranking</h2>
+  <p>
+    Higher scores mean tomatoes have a more comfortable outdoor season in a typical year. Lower scores usually mean gardeners need faster varieties, timely indoor starts, warmer garden sites, or protection.
+  </p>
+
+  <div class="tableWrap leaderboardTableWrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Location</th>
+          <th>Tomato fit</th>
+          <th>GDD margin</th>
+          <th>Frost-free days</th>
+          <th>Best variety fit</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in board.entries %}
+          <tr>
+            <td><strong>#{{ row.rank }}</strong></td>
+            <td>
+              <a href="{{ row.url }}"><strong>{{ row.cityName }}</strong></a><br>
+              <span class="small muted">{{ row.regionName }}, Canada</span>
+            </td>
+            <td>
+              <strong>{{ row.score }}/100</strong><br>
+              <span class="fitBadge fitBadge-{{ row.badgeClass }}">{{ row.label }}</span>
+            </td>
+            <td>
+              {% if row.gddMargin >= 0 %}+{% endif %}{{ row.gddMargin }} GDD<br>
+              <span class="small muted">{{ row.availableGddFromPlanting }} available / {{ row.targetGdd }} target</span>
+            </td>
+            <td>{{ row.frostFreeDays }}</td>
+            <td>
+              {% if row.fittingVarietyLabels.length %}
+                {{ row.fittingVarietyLabels | join(", ") }}
+              {% else %}
+                No clear outdoor fit
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="card leaderboardCallout">
+  <h2>What this ranking means</h2>
+  <p>
+    Tomatoes are one of the best crops for a city-vs-city data ranking because they are popular, frost-sensitive, and heavily affected by seasonal heat. A tomato page can look fine by calendar days alone, but GDD margin often tells a more useful story.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Methodology</h2>
+  <p>{{ board.methodology }}</p>
+  <p>{{ board.caveat }}</p>
+  <p class="small">
+    Data export: <a href="/assets/data/rankings/best-canadian-cities-for-tomatoes.json">Canadian tomato ranking JSON</a>.
+  </p>
+</section>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": {{ board.title | dump | safe }},
+  "description": {{ board.description | dump | safe }},
+  "url": "https://growbydate.com/data/rankings/best-canadian-cities-for-tomatoes/",
+  "numberOfItems": {{ board.entries.length }},
+  "itemListElement": [
+    {% for row in board.entries %}
+      {
+        "@type": "ListItem",
+        "position": {{ row.rank }},
+        "name": {{ (row.cityName ~ " tomato fit score") | dump | safe }},
+        "url": {{ (site.url ~ row.url) | dump | safe }}
+      }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>

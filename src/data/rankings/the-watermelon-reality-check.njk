@@ -1,0 +1,148 @@
+---
+layout: layout-base.njk
+title: The Watermelon Reality Check | GrowByDate Data Rankings
+description: A GrowByDate Data Ranking how realistic outdoor watermelon is using local GDD margin, frost-free days, delay tolerance, and variety fit.
+canonical: "https://growbydate.com/data/rankings/the-watermelon-reality-check/"
+---
+
+{% set board = watermelonRealityCheck %}
+{% set top = board.top %}
+{% set hardest = board.hardest %}
+
+<section class="card leaderboardHero">
+  <p class="eyebrow">GrowByDate Data Ranking</p>
+  <h1>The Watermelon Reality Check</h1>
+  <p class="lede">
+    Can you actually grow watermelon outdoors where you live? This data ranking compares currently published GrowByDate watermelon locations by outdoor realism, using GDD margin, frost-free days, delay tolerance, and variety flexibility.
+  </p>
+
+  <div class="leaderboardStatGrid" aria-label="Ranking summary">
+    {% if top %}
+      <div class="leaderboardStat">
+        <span class="statLabel">Current leader</span>
+        <strong>{{ top.cityName }}</strong>
+        <span>{{ top.score }}/100 · {{ top.label }}</span>
+      </div>
+    {% endif %}
+
+    {% if hardest %}
+      <div class="leaderboardStat">
+        <span class="statLabel">Hardest current test</span>
+        <strong>{{ hardest.cityName }}</strong>
+        <span>{{ hardest.score }}/100 · {{ hardest.label }}</span>
+      </div>
+    {% endif %}
+
+    <div class="leaderboardStat">
+      <span class="statLabel">Dataset</span>
+      <strong>{{ board.entries.length }} locations</strong>
+      <span>Published watermelon crop-city pages</span>
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>The ranking</h2>
+  <p>
+    Higher scores mean outdoor watermelon is more realistic in a typical season. Lower scores mean the crop is more dependent on fast varieties, transplants, warm soil, protection, or a greenhouse-style setup.
+  </p>
+
+  <div class="tableWrap leaderboardTableWrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Location</th>
+          <th>Reality score</th>
+          <th>Outdoor read</th>
+          <th>GDD margin</th>
+          <th>Frost-free days</th>
+          <th>Best variety fit</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in board.entries %}
+          <tr>
+            <td><strong>#{{ row.rank }}</strong></td>
+            <td>
+              <a href="{{ row.url }}"><strong>{{ row.cityName }}</strong></a><br>
+              <span class="small muted">{{ row.regionName }}{% if row.country == "canada" %}, Canada{% elseif row.country == "usa" %}, U.S.{% endif %}</span>
+            </td>
+            <td>
+              <strong>{{ row.score }}/100</strong><br>
+              <span class="fitBadge fitBadge-{{ row.badgeClass }}">{{ row.label }}</span>
+            </td>
+            <td>{{ row.tone }}</td>
+            <td>
+              {% if row.gddMargin >= 0 %}+{% endif %}{{ row.gddMargin }} GDD<br>
+              <span class="small muted">{{ row.availableGddFromPlanting }} available / {{ row.targetGdd }} target</span>
+            </td>
+            <td>{{ row.frostFreeDays }}</td>
+            <td>
+              {% if row.fittingVarietyLabels.length %}
+                {{ row.fittingVarietyLabels | join(", ") }}
+              {% else %}
+                No clear outdoor fit
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="card leaderboardCallout">
+  <h2>What the ranking means</h2>
+  <p>
+    Watermelon is a useful “reality check” crop because it is heat-hungry, frost-sensitive, and easy to underestimate from a seed-packet maturity number alone.
+    A location can have plenty of calendar days but still be short on warm growing degree days.
+  </p>
+  <p>
+    The score is intentionally practical: it rewards locations with positive GDD margin, longer frost-free seasons, better tolerance if planting slips late, and more watermelon variety classes that fit the local season.
+  </p>
+</section>
+
+<section class="card">
+  <h2>How to use this</h2>
+  <ul class="tight">
+    <li><strong>70+:</strong> outdoor watermelon is realistic, though timely transplanting still helps.</li>
+    <li><strong>40–69:</strong> treat watermelon as a careful project, not a casual direct-sow crop.</li>
+    <li><strong>Below 40:</strong> use very early varieties, transplants, warm soil, covers, or protected culture.</li>
+  </ul>
+  <p>
+    For a specific location, open the linked watermelon planting page or test your own timing in the
+    <a href="/tools/growing-degree-day-planner/">GDD Planner</a>.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Methodology</h2>
+  <p>{{ board.methodology }}</p>
+  <p>{{ board.caveat }}</p>
+  <p class="small">
+    Score components: GDD margin, number of fitting watermelon variety classes, frost-free season length, and whether the crop still has margin if planting is delayed by one or two weeks.
+    Data export: <a href="/assets/data/rankings/the-watermelon-reality-check.json">watermelon ranking JSON</a>.
+  </p>
+</section>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": {{ board.title | dump | safe }},
+  "description": {{ board.description | dump | safe }},
+  "url": "https://growbydate.com/data/rankings/the-watermelon-reality-check/",
+  "numberOfItems": {{ board.entries.length }},
+  "itemListElement": [
+    {% for row in board.entries %}
+      {
+        "@type": "ListItem",
+        "position": {{ row.rank }},
+        "name": {{ (row.cityName ~ " watermelon reality score") | dump | safe }},
+        "url": {{ (site.url ~ row.url) | dump | safe }}
+      }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>
