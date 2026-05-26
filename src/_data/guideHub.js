@@ -1,4 +1,4 @@
-// Curated /guides/ hub categories.
+﻿// Curated /guides/ hub categories.
 // To move a guide, move its slug between the arrays below.
 // Slugs map to src/guides/<slug>.njk. The index page reads title/description from each guide file.
 
@@ -69,7 +69,7 @@ module.exports = [
       "best-grafting-clips-for-vegetable-seedlings",
       "best-grow-light-stand-for-seed-starting-shelves",
       "best-grow-lights-for-seedlings",
-      "best-heat-mat-for-peppers-and-tomatoes",
+      "best-heat-mat-for-seedlings",
       "best-heat-mat-setup-for-peppers-in-a-cool-basement",
       "best-humidity-dome-for-seed-starting",
       "best-instant-net-cover-for-young-seedlings",
@@ -85,7 +85,7 @@ module.exports = [
       "best-setup-for-starting-seeds-in-a-basement",
       "best-shelving-setup-for-starting-seeds-indoors",
       "best-soil-blocker-for-seed-starting",
-      "best-soil-mix-for-seed-starting-trays",
+      "best-seed-starting-mix",
       "best-timer-for-grow-lights-for-seedlings",
       "best-timer-setup-for-grow-lights-for-seedlings",
       "best-tray-size-for-peppers-if-you-want-to-avoid-potting-up",
@@ -178,7 +178,7 @@ module.exports = [
     slugs: [
       "best-reusable-vine-clips-for-peppers-and-eggplant",
       "best-seed-starting-kit-for-tomatoes-and-peppers",
-      "best-seed-starting-trays-for-tomatoes-and-peppers",
+      "best-seed-starting-trays",
       "can-tomato-seedlings-survive-a-light-frost",
       "how-cold-is-too-cold-for-pepper-seedlings",
       "how-cold-is-too-cold-for-tomato-seedlings",
@@ -230,6 +230,7 @@ module.exports = [
     title: "Supports, Grafting & Vertical Growing",
     description: "Grafting clips, tomato hooks, vine clips, trellis connectors, slings, and vertical growing supports.",
     slugs: [
+      "best-tomato-cages",
       "2-0-to-4-5-mm-grafting-clips-for-home-gardeners",
       "best-cucumber-clips-for-vertical-growing",
       "best-grafting-clips-for-cucumbers",
@@ -282,7 +283,7 @@ module.exports = [
       "best-hand-seeder-for-carrots-and-lettuce",
       "best-mini-seed-spreader-for-tiny-seeds",
       "best-products-to-ripen-tomatoes-before-frost",
-      "best-soil-thermometer-for-gardening-in-cold-climates",
+      "best-soil-thermometer",
       "binder-vs-box-for-storing-seed-packets",
       "soil-thermometer-vs-infrared-thermometer-for-planting-decisions",
     ],

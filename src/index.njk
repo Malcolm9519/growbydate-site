@@ -1,12 +1,12 @@
 ---
 layout: layout-base.njk
-title: Climate-Aware Garden Planning for Cold and Short-Seasons | GrowByDate
-description: Plan your garden using frost dates, heat data and crop knowledge. Use practical tools for seed starting, crop timing, and fall planting — built for short growing seasons.
+title: Climate-Aware Garden Planning | GrowByDate
+description: Plan your garden using frost dates, heat data and local crop knowledge. Use practical tools for seed starting, crop timing, and fall planting — built especially for short growing seasons.
 canonical: https://growbydate.com/
 ---
 
 <header class="header homeHero">
-  <p class="homeEyebrow">Climate-aware garden planning for cold and short-season climates</p>
+  <p class="homeEyebrow">Climate-aware garden planning with a focus on cold and short-seasons </p>
 
   <h1>Plan Your Garden by Date, Not Guesswork</h1>
 
@@ -24,98 +24,227 @@ canonical: https://growbydate.com/
   </div>
 </header>
 
-<section class="card homeTools" aria-label="Main planning tools">
-  <div class="cardHead homeSectionHead">
-    <h2>Pick the Tool That Fits Your Season</h2>
+<section class="homeDataPanel homeBreakout" aria-label="GrowByDate data coverage">
+  <div class="homeSectionHead homeSectionHeadWide">
+    <p class="homeKicker">Built on more than generic zone advice</p>
+    <h2>Use local frost, heat, crop, and planting data in one place</h2>
     <p class="muted">
-      Each tool answers a different planning question, whether you’re starting seeds, checking frost dates, or seeing if a crop can still finish before fall.
+      We cover city-level planting pages, crop timing checks, frost references, growing degree day data, variety notes, and practical product guides for short-season gardeners.
     </p>
   </div>
 
-  <div class="homeToolGrid">
-    <article class="tool homeToolCard">
-      <h3>Growing Degree Day Planner☀️</h3>
-      <p class="homeToolIntro">
-        The main garden planning tool for checking what can realistically mature in your season.
-      </p>
-      <p>
-        Use it to compare crop heat requirements against your local growing season so you can tell whether a variety is realistically finishable before frost.
-      </p>
-      <div class="actions">
-    <a class="button" href="/tools/growing-degree-day-planner/">See What Will Mature in Your Area</a>
+  <div class="homeStatGrid homeStatGridDetailed" aria-label="Site data highlights">
+    <div class="homeStatCard">
+      <strong>7,480</strong>
+      <span>climate stations in the frost and heat dataset</span>
+    </div>
+  <div class="homeStatCard">
+      <strong>35</strong>
+      <span>province and state planting indexes</span>
+    </div>
+    <div class="homeStatCard">
+      <strong>{{ citySummaries.length | default(428) }}</strong>
+      <span>city planting pages with local frost and GDD context</span>
+    </div>
+    <div class="homeStatCard">
+      <strong>{{ cropCitySummaries.length | default(10272) }}</strong>
+      <span>local crop guides</span>
+    </div>
+    <div class="homeStatCard">
+      <strong>156</strong>
+      <span>crop variety types</span>
+    </div>
+    <div class="homeStatCard">
+      <strong>{{ crops.length | default(26) }}</strong>
+      <span>vegetable crops tracked across planning tools</span>
+    </div>
+  </div>
+
+  <div class="homeDataLinks">
+    <a href="/data/">Explore the data library</a>
+    <a href="/data/frost-dates-by-city/">Browse frost dates by city</a>
+    <a href="/data/growing-degree-days-by-city/">Browse growing degree days</a>
+  </div>
+</section>
+
+<section class="homeToolShowcase homeBreakout" aria-label="Main planning tools">
+  <div class="homeSectionHead homeSectionHeadWide">
+    <p class="homeKicker">Pick the tool that fits your season</p>
+    <h2>Four planning tools, one job: better timing decisions</h2>
+    <p class="muted">
+      Each tool answers a different planning question, whether you are starting seeds, checking frost dates, or seeing if a crop can still finish before fall.
+    </p>
+  </div>
+
+  <div class="homeToolBands">
+    <article class="homeToolBand">
+      <div class="homeToolBandIcon" aria-hidden="true">☀️</div>
+      <div class="homeToolBandText">
+        <p class="homeCardLabel">Main maturity checker</p>
+        <h3>Growing Degree Day Planner</h3>
+        <p class="homeToolIntro">The main garden planning tool for checking what can realistically mature in your season.</p>
+        <p>Compare crop heat requirements against your local growing season so you can tell whether a variety is realistically finishable before frost.</p>
+        <a class="button primary" href="/tools/growing-degree-day-planner/">See what will mature in your area</a>
       </div>
     </article>
 
-    <article class="tool homeToolCard">
-      <h3>Spring Seed Starting Calculator🌱</h3>
-      <p class="homeToolIntro">
-        Find the right indoor seed-starting dates based on your local last frost date.
-      </p>
-      <p>
-        Use it when you want a practical spring planting schedule instead of guessing from a generic calendar.
-      </p>
-      <div class="actions">
-    <a class="button" href="/tools/seed-start-planner/">Find Out When to Start Seeds Indoors</a>
+    <article class="homeToolBand">
+      <div class="homeToolBandIcon" aria-hidden="true">🌱</div>
+      <div class="homeToolBandText">
+        <p class="homeCardLabel">Spring timing</p>
+        <h3>Spring Seed Starting Calculator</h3>
+        <p class="homeToolIntro">Find the right indoor seed-starting dates based on your local last frost date.</p>
+        <p>Use it when you want a practical spring planting schedule instead of guessing from a generic calendar.</p>
+        <a class="button primary" href="/tools/seed-start-planner/">Find out when to start seeds indoors</a>
       </div>
     </article>
 
-    <article class="tool homeToolCard">
-      <h3>Fall Planting Calculator🍂</h3>
-      <p class="homeToolIntro">
-        Check whether you still have time to plant a crop before your season runs out.
-      </p>
-      <p>
-        Work backward from your first fall frost to estimate the latest safer planting window for fast crops and succession planting.
-      </p>
-      <div class="actions">
-    <a class="button" href="/tools/first-frost-planner/">Is It Too Late to Plant?</a>
+    <article class="homeToolBand">
+      <div class="homeToolBandIcon" aria-hidden="true">🍂</div>
+      <div class="homeToolBandText">
+        <p class="homeCardLabel">Late-season decisions</p>
+        <h3>Fall Planting Calculator</h3>
+        <p class="homeToolIntro">Check whether you still have time to plant a crop before your season runs out.</p>
+        <p>Work backward from your first fall frost to estimate the latest safer planting window for fast crops and succession planting.</p>
+        <a class="button primary" href="/tools/first-frost-planner/">Check if it is too late to plant</a>
       </div>
     </article>
 
-    <article class="tool homeToolCard">
-      <h3>Frost Date Calculator❄️</h3>
-      <p class="homeToolIntro">
-        Look up the frost boundaries that shape your local growing season.
-      </p>
-      <p>
-        Use it to find your typical last spring frost and first fall frost — the basic planning anchors behind the rest of the site.
-      </p>
-      <div class="actions">
-    <a class="button" href="/tools/frost-date-finder/">Find Frost Dates From Your Local Area Code</a>
+    <article class="homeToolBand">
+      <div class="homeToolBandIcon" aria-hidden="true">❄️</div>
+      <div class="homeToolBandText">
+        <p class="homeCardLabel">Local season anchors</p>
+        <h3>Frost Date Calculator</h3>
+        <p class="homeToolIntro">Look up the frost boundaries that shape your local growing season.</p>
+        <p>Find your typical last spring frost and first fall frost — the basic planning anchors behind the rest of the site.</p>
+        <a class="button primary" href="/tools/frost-date-finder/">Find frost dates from your local area code</a>
       </div>
     </article>
   </div>
 </section>
 
-<section class="homeSystem" aria-label="How GrowByDate works">
-  <div class="cardHead homeSectionHead">
-    <h2>Why this works better than a generic planting calendar</h2>
+<section class="homeAffiliateGuides homeBreakout" aria-label="Recommended buying guides">
+  <div class="homeSectionHead homeSectionHeadWide">
+    <p class="homeKicker">Our best practical buying guides</p>
+    <h2>Gear guides for the problems short-season gardeners actually face</h2>
     <p class="muted">
-      Most gardening advice assumes a longer, more forgiving season than many gardeners actually have.
+      These guides support the planning tools with the supplies that matter most when your season is short: light, warmth, airflow, protection, and accurate temperature checks.
     </p>
   </div>
 
-  <div class="homeSystemBody">
-    <p>
-      GrowByDate is built around two measurable constraints: <strong>frost timing</strong> and <strong>heat accumulation</strong>.
-      Frost tells you when your season usually begins and ends. Growing degree days (GDD) help estimate whether a crop has enough accumulated warmth to mature inside that window.
-    </p>
-
-    <p>
-      This matters most in short-season climates, where “days to maturity” on its own can be misleading. A crop may fit on paper, but still struggle if the season does not deliver enough heat.
-    </p>
-
-    <p>
-      The goal is not perfect prediction. It is building a plan with better odds — one that matches your actual season instead of a generic average.
-    </p>
+  <div class="homeGuideGrid">
+    <article class="homeGuideCard">
+      <p class="homeCardLabel">Seed starting light</p>
+      <h3>Best Grow Lights for Seedlings</h3>
+      <p>Choose lights that keep starts compact and strong before outdoor conditions are ready.</p>
+      <a href="/guides/best-grow-lights-for-seedlings/">Read the guide →</a>
+    </article>
+    <article class="homeGuideCard">
+      <p class="homeCardLabel">Seed starting soil</p>
+      <h3>Best Seed Starting Mix</h3>
+      <p>Pick a mix that supports even germination, moisture control, and healthy early roots.</p>
+      <a href="/guides/best-seed-starting-mix/">Read the guide →</a>
+    </article>
+    <article class="homeGuideCard">
+      <p class="homeCardLabel">Plant protection</p>
+      <h3>Best Frost Cloth by Temperature Rating</h3>
+      <p>Match row cover and frost cloth to the freeze risk you are actually trying to manage.</p>
+      <a href="/guides/best-frost-cloth-for-vegetable-gardens-by-temperature-rating/">Read the guide →</a>
+    </article>
+    <article class="homeGuideCard">
+      <p class="homeCardLabel">Cool soil decisions</p>
+      <h3>Best Soil Thermometer for Gardening</h3>
+      <p>Stop guessing whether the bed is warm enough for direct sowing and transplanting.</p>
+      <a href="/guides/best-soil-thermometer/">Read the guide →</a>
+    </article>
+    <article class="homeGuideCard">
+      <p class="homeCardLabel">Indoor airflow</p>
+      <h3>Best Fan for Seedlings Indoors</h3>
+      <p>Improve airflow around seed trays and reduce weak, crowded, overly damp starts.</p>
+      <a href="/guides/best-fan-for-seedlings-indoors/">Read the guide →</a>
+    </article>
+<article class="homeGuideCard">
+  <p class="homeCardLabel">Seed starting heat</p>
+  <h3>Best Heat Mats for Seedlings</h3>
+  <p>Choose the right heat mat for peppers, tomatoes, and indoor seed starting without overheating trays or drying them too fast.</p>
+  <a href="/guides/best-heat-mats-for-seedlings/">Read the guide →</a>
+</article>
+<article class="homeGuideCard">
+  <p class="homeCardLabel">Tomato support</p>
+  <h3>Best Tomato Cages</h3>
+  <p>Compare tomato cage styles for determinate and indeterminate plants, raised beds, windy gardens, and heavy-producing varieties.</p>
+  <a href="/guides/best-tomato-cages/">Read the guide →</a>
+</article>
+<article class="homeGuideCard">
+  <p class="homeCardLabel">Seed starting gear</p>
+  <h3>Best Seed Starting Trays</h3>
+  <p>Choose sturdy trays, cells, and humidity domes that fit your seed-starting setup without wasting space.</p>
+  <a href="/guides/best-seed-starting-trays/">Read the guide →</a>
+</article>
   </div>
 
   <div class="actions homeGuideActions">
-    <a class="button" href="/guides/how-frost-dates-and-growing-degree-days-work-together/">
-      How Frost Dates and GDD Work Together
-    </a>
-    <a class="button" href="/guides/how-to-plan-a-garden-in-a-short-growing-season/">
-      Planning a Garden in a Short Growing Season
-    </a>
+    <a class="button" href="/guides/">Browse all garden guides</a>
+  </div>
+</section>
+
+<section class="homeRegionIndexes homeBreakout" aria-label="Planting date indexes">
+  <div class="homeSectionHead homeSectionHeadWide">
+    <p class="homeKicker">Planting dates by region</p>
+    <h2>Start with your state, province, or city</h2>
+    <p class="muted">
+      Browse local planting date pages built around frost dates, frost-free days, and growing degree day context instead of broad zone-only advice.
+    </p>
+  </div>
+
+  <div class="homeIndexGrid">
+    <article class="homeIndexCard">
+      <span class="homeIndexBadge">U.S.</span>
+      <h3>Planting Dates by State</h3>
+      <p>Find state-level planting indexes and city pages for local frost timing and crop planning.</p>
+      <a class="button primary" href="/planting-dates/states/">Browse U.S. States</a>
+    </article>
+    <article class="homeIndexCard">
+      <span class="homeIndexBadge">Canada</span>
+      <h3>Planting Dates by Province</h3>
+      <p>Browse Canadian province pages with city-level frost dates, growing season notes, and crop timing links.</p>
+      <a class="button primary" href="/planting-dates/canada/provinces/">Browse Canadian Provinces</a>
+    </article>
+  </div>
+</section>
+
+<section class="homeSystem homeBreakout" aria-label="How GrowByDate works">
+  <div class="homeSystemInner">
+    <div class="homeSystemIntro">
+      <p class="homeKicker">Why it works</p>
+      <h2>Better than a generic planting calendar</h2>
+      <p class="muted">
+        Most gardening advice assumes a longer, more forgiving season than many gardeners actually have.
+      </p>
+    </div>
+
+    <div class="homeSystemBody">
+      <p>
+        GrowByDate is built around two measurable constraints: <strong>frost timing</strong> and <strong>heat accumulation</strong>.
+        Frost tells you when your season usually begins and ends. Growing degree days (GDD) help estimate whether a crop has enough accumulated warmth to mature inside that window.
+      </p>
+
+      <p>
+        This matters most in short-season climates, where “days to maturity” on its own can be misleading. A crop may fit on paper, but still struggle if the season does not deliver enough heat.
+      </p>
+
+      <p>
+        The goal is not perfect prediction. It is building a plan with better odds — one that matches your actual season instead of a generic average.
+      </p>
+
+      <div class="actions homeGuideActions">
+        <a class="button" href="/guides/how-frost-dates-and-growing-degree-days-work-together/">
+          How frost dates and GDD work together
+        </a>
+        <a class="button" href="/guides/how-to-plan-a-garden-in-a-short-growing-season/">
+          Plan a short-season garden
+        </a>
+      </div>
+    </div>
   </div>
 </section>

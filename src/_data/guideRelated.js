@@ -1,4 +1,4 @@
-// Curated related-guide blocks for individual guide articles.
+﻿// Curated related-guide blocks for individual guide articles.
 // Keys are guide slugs from src/guides/<slug>.njk.
 // Each page gets four intentional links: usually one parent concept, two close sibling articles, and one next-step guide.
 // Keep this file curated by editing the arrays directly rather than relying on popularity or automatic fallbacks.
@@ -59,7 +59,7 @@ module.exports = {
   "how-microclimates-change-frost-dates": [
     "why-your-backyard-may-be-warmer-or-colder-than-your-zip-code",
     "reliable-outdoor-thermometer-for-frost-monitoring",
-    "best-soil-thermometer-for-gardening-in-cold-climates",
+    "best-soil-thermometer",
     "how-to-find-your-last-frost-date",
   ],
   "how-to-find-your-first-frost-date": [
@@ -113,7 +113,7 @@ module.exports = {
   "reliable-outdoor-thermometer-for-frost-monitoring": [
     "how-microclimates-change-frost-dates",
     "why-your-backyard-may-be-warmer-or-colder-than-your-zip-code",
-    "best-soil-thermometer-for-gardening-in-cold-climates",
+    "best-soil-thermometer",
     "how-to-find-your-last-frost-date",
   ],
   "what-to-do-if-frost-is-forecast-after-planting": [
@@ -131,7 +131,7 @@ module.exports = {
   "why-your-backyard-may-be-warmer-or-colder-than-your-zip-code": [
     "how-microclimates-change-frost-dates",
     "reliable-outdoor-thermometer-for-frost-monitoring",
-    "best-soil-thermometer-for-gardening-in-cold-climates",
+    "best-soil-thermometer",
     "how-to-find-your-last-frost-date",
   ],
   "why-your-last-frost-date-isnt-exact": [
@@ -170,7 +170,7 @@ module.exports = {
     "how-microclimates-change-frost-dates",
     "why-your-backyard-may-be-warmer-or-colder-than-your-zip-code",
     "reliable-outdoor-thermometer-for-frost-monitoring",
-    "best-soil-thermometer-for-gardening-in-cold-climates",
+    "best-soil-thermometer",
   ],
   "how-many-frost-free-days-do-potatoes-need": [
     "how-many-growing-degree-days-do-tomatoes-need",
@@ -276,7 +276,7 @@ module.exports = {
     "how-long-should-grow-lights-be-on-for-seedlings",
     "can-you-start-seeds-without-grow-lights",
   ],
-  "best-heat-mat-for-peppers-and-tomatoes": [
+  "best-heat-mat-for-seedlings": [
     "do-you-need-a-heat-mat-to-start-seeds",
     "best-heat-mat-setup-for-peppers-in-a-cool-basement",
     "when-a-thermostat-matters-for-seed-starting-heat-mats",
@@ -284,7 +284,7 @@ module.exports = {
   ],
   "best-heat-mat-setup-for-peppers-in-a-cool-basement": [
     "do-you-need-a-heat-mat-to-start-seeds",
-    "best-heat-mat-for-peppers-and-tomatoes",
+    "best-heat-mat-for-seedlings",
     "when-a-thermostat-matters-for-seed-starting-heat-mats",
     "how-to-start-seeds-in-a-cold-house",
   ],
@@ -292,7 +292,7 @@ module.exports = {
     "seed-starting-supplies-checklist",
     "best-setup-for-starting-seeds-in-a-basement",
     "best-shelving-setup-for-starting-seeds-indoors",
-    "best-soil-mix-for-seed-starting-trays",
+    "best-seed-starting-mix",
   ],
   "best-instant-net-cover-for-young-seedlings": [
     "seed-starting-short-season",
@@ -304,7 +304,7 @@ module.exports = {
     "seed-starting-supplies-checklist",
     "best-setup-for-starting-seeds-in-a-basement",
     "best-shelving-setup-for-starting-seeds-indoors",
-    "best-soil-mix-for-seed-starting-trays",
+    "best-seed-starting-mix",
   ],
   "best-mini-greenhouse-for-hardening-off-seedlings": [
     "how-to-harden-off-seedlings",
@@ -357,13 +357,13 @@ module.exports = {
   "best-setup-for-starting-seeds-in-a-basement": [
     "seed-starting-supplies-checklist",
     "best-shelving-setup-for-starting-seeds-indoors",
-    "best-soil-mix-for-seed-starting-trays",
+    "best-seed-starting-mix",
     "what-is-seed-starting-mix",
   ],
   "best-shelving-setup-for-starting-seeds-indoors": [
     "seed-starting-supplies-checklist",
     "best-setup-for-starting-seeds-in-a-basement",
-    "best-soil-mix-for-seed-starting-trays",
+    "best-seed-starting-mix",
     "what-is-seed-starting-mix",
   ],
   "best-soil-blocker-for-seed-starting": [
@@ -372,7 +372,7 @@ module.exports = {
     "best-deep-cell-trays-for-long-indoor-starts",
     "best-potting-up-pots-for-seedlings",
   ],
-  "best-soil-mix-for-seed-starting-trays": [
+  "best-seed-starting-mix": [
     "72-cell-vs-128-cell-seed-trays",
     "best-containers-for-starting-seeds-indoors",
     "best-deep-cell-trays-for-long-indoor-starts",
@@ -418,7 +418,7 @@ module.exports = {
     "seed-starting-supplies-checklist",
     "best-setup-for-starting-seeds-in-a-basement",
     "best-shelving-setup-for-starting-seeds-indoors",
-    "best-soil-mix-for-seed-starting-trays",
+    "best-seed-starting-mix",
   ],
   "can-seedlings-survive-35-degrees": [
     "how-to-harden-off-seedlings",
@@ -466,7 +466,7 @@ module.exports = {
     "seed-starting-supplies-checklist",
     "best-setup-for-starting-seeds-in-a-basement",
     "best-shelving-setup-for-starting-seeds-indoors",
-    "best-soil-mix-for-seed-starting-trays",
+    "best-seed-starting-mix",
   ],
   "how-far-should-grow-lights-be-from-seedlings": [
     "best-grow-lights-for-seedlings",
@@ -506,7 +506,7 @@ module.exports = {
   ],
   "how-to-start-seeds-in-a-cold-house": [
     "do-you-need-a-heat-mat-to-start-seeds",
-    "best-heat-mat-for-peppers-and-tomatoes",
+    "best-heat-mat-for-seedlings",
     "best-heat-mat-setup-for-peppers-in-a-cool-basement",
     "when-a-thermostat-matters-for-seed-starting-heat-mats",
   ],
@@ -526,7 +526,7 @@ module.exports = {
     "seed-starting-supplies-checklist",
     "best-setup-for-starting-seeds-in-a-basement",
     "best-shelving-setup-for-starting-seeds-indoors",
-    "best-soil-mix-for-seed-starting-trays",
+    "best-seed-starting-mix",
   ],
   "seed-starting-short-season": [
     "when-to-start-seeds-indoors",
@@ -543,7 +543,7 @@ module.exports = {
   "seed-starting-supplies-checklist": [
     "best-setup-for-starting-seeds-in-a-basement",
     "best-shelving-setup-for-starting-seeds-indoors",
-    "best-soil-mix-for-seed-starting-trays",
+    "best-seed-starting-mix",
     "what-is-seed-starting-mix",
   ],
   "shop-lights-vs-grow-lights": [
@@ -568,7 +568,7 @@ module.exports = {
     "seed-starting-supplies-checklist",
     "best-setup-for-starting-seeds-in-a-basement",
     "best-shelving-setup-for-starting-seeds-indoors",
-    "best-soil-mix-for-seed-starting-trays",
+    "best-seed-starting-mix",
   ],
   "what-temperature-is-too-cold-for-hardened-off-seedlings": [
     "how-to-harden-off-seedlings",
@@ -583,14 +583,14 @@ module.exports = {
     "how-long-should-grow-lights-be-on-for-seedlings",
   ],
   "do-you-need-a-heat-mat-to-start-seeds": [
-    "best-heat-mat-for-peppers-and-tomatoes",
+    "best-heat-mat-for-seedlings",
     "best-heat-mat-setup-for-peppers-in-a-cool-basement",
     "when-a-thermostat-matters-for-seed-starting-heat-mats",
     "how-to-start-seeds-in-a-cold-house",
   ],
   "when-a-thermostat-matters-for-seed-starting-heat-mats": [
     "do-you-need-a-heat-mat-to-start-seeds",
-    "best-heat-mat-for-peppers-and-tomatoes",
+    "best-heat-mat-for-seedlings",
     "best-heat-mat-setup-for-peppers-in-a-cool-basement",
     "how-to-start-seeds-in-a-cold-house",
   ],
@@ -850,7 +850,7 @@ module.exports = {
     "how-many-growing-degree-days-do-tomatoes-need",
     "how-cold-is-too-cold-for-tomato-seedlings",
   ],
-  "best-seed-starting-trays-for-tomatoes-and-peppers": [
+  "best-seed-starting-trays": [
     "is-it-too-late-to-plant-tomatoes",
     "will-tomatoes-grow-in-a-100-day-growing-season",
     "how-many-growing-degree-days-do-tomatoes-need",
@@ -1274,7 +1274,7 @@ module.exports = {
     "how-many-growing-degree-days-do-tomatoes-need",
     "how-cold-is-too-cold-for-tomato-seedlings",
   ],
-  "best-soil-thermometer-for-gardening-in-cold-climates": [
+  "best-soil-thermometer": [
     "soil-thermometer-vs-infrared-thermometer-for-planting-decisions",
     "reliable-outdoor-thermometer-for-frost-monitoring",
     "how-microclimates-change-frost-dates",
@@ -1287,7 +1287,7 @@ module.exports = {
     "best-pollination-bags-for-pepper-seed-saving",
   ],
   "soil-thermometer-vs-infrared-thermometer-for-planting-decisions": [
-    "best-soil-thermometer-for-gardening-in-cold-climates",
+    "best-soil-thermometer",
     "reliable-outdoor-thermometer-for-frost-monitoring",
     "how-microclimates-change-frost-dates",
     "how-to-find-your-last-frost-date",

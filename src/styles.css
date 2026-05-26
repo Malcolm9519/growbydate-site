@@ -760,12 +760,18 @@ p + .tableWrap {
   padding: 36px 0 12px;
 }
 
-.homeEyebrow {
+.homeEyebrow,
+.homeKicker,
+.homeCardLabel {
   margin: 0 0 10px;
   font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
+  font-weight: 800;
+  letter-spacing: 0.09em;
   text-transform: uppercase;
+  color: #2f7d32;
+}
+
+.homeHero .homeEyebrow {
   color: var(--muted);
 }
 
@@ -792,12 +798,10 @@ p + .tableWrap {
   margin-top: 20px;
 }
 
-.homeTools {
-  margin-top: 0;
-  padding: 32px;
-  border-radius: 24px;
-  background: linear-gradient(to bottom, #f6fbf4, #eef7ec);
-  border: 1px solid #dfeadb;
+.homeBreakout {
+  width: min(1120px, calc(100vw - 32px));
+  margin-left: 50%;
+  transform: translateX(-50%);
 }
 
 .homeSectionHead {
@@ -806,66 +810,296 @@ p + .tableWrap {
   margin: 0 auto 8px;
 }
 
-.homeSectionHead h2 {
-  color: #111;
+.homeSectionHeadWide {
+  max-width: 820px;
+  margin-bottom: 28px;
 }
 
-.homeToolGrid {
+.homeSectionHead h2,
+.homeSystemIntro h2 {
+  margin: 0;
+  color: #111;
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+}
+
+.homeSectionHead .muted,
+.homeSystemIntro .muted {
+  margin: 14px auto 0;
+  font-size: 17px;
+}
+
+.homeDataPanel,
+.homeToolShowcase,
+.homeAffiliateGuides,
+.homeRegionIndexes,
+.homeSystem {
+  position: relative;
+  margin-top: 64px;
+}
+
+.homeDataPanel {
+  overflow: hidden;
+  padding: clamp(28px, 5vw, 48px);
+  border: 1px solid #d8ead4;
+  border-radius: 32px;
+  background:
+    radial-gradient(circle at 8% 12%, rgba(255, 210, 99, 0.34), transparent 26%),
+    radial-gradient(circle at 92% 2%, rgba(59, 188, 61, 0.16), transparent 30%),
+    linear-gradient(135deg, #fbfff4 0%, #eef8e9 55%, #f7fbef 100%);
+  box-shadow: 0 22px 60px rgba(33, 66, 24, 0.10);
+}
+
+.homeDataPanel::after {
+  content: "";
+  position: absolute;
+  right: -90px;
+  bottom: -110px;
+  width: 310px;
+  height: 310px;
+  border-radius: 54% 46% 45% 55%;
+  border: 36px solid rgba(47, 125, 50, 0.08);
+  transform: rotate(-18deg);
+}
+
+.homeStatGrid {
+  position: relative;
+  z-index: 1;
   display: grid;
-  gap: 18px;
-  margin-top: 24px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
 }
 
-.homeToolCard {
-  border: 1px solid #dfe7dc;
-  border-radius: 18px;
-  padding: 22px;
-  background: #ffffff;
+.homeStatGridDetailed {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.homeToolCard h3 {
-  margin: 0 0 10px;
-  font-size: 20px;
-  letter-spacing: -0.01em;
+.homeStatCard {
+  padding: 22px 18px;
+  border: 1px solid rgba(47, 125, 50, 0.18);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(8px);
+  text-align: center;
+}
+
+.homeStatCard strong {
+  display: block;
   color: #111;
+  font-size: clamp(2rem, 4vw, 3.3rem);
+  line-height: 1;
+  letter-spacing: -0.06em;
+}
+
+.homeStatCard span {
+  display: block;
+  margin-top: 10px;
+  color: rgba(0, 0, 0, 0.70);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.homeDataLinks {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.homeDataLinks a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  padding: 8px 13px;
+  border: 1px solid rgba(47, 125, 50, 0.20);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.84);
+  color: #1f5f23;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.homeToolShowcase {
+  padding: 10px 0 0;
+}
+
+.homeToolBands {
+  display: grid;
+  gap: 24px;
+}
+
+.homeToolBand {
+  display: grid;
+  grid-template-columns: 190px minmax(0, 1fr);
+  align-items: center;
+  min-height: 250px;
+  width: min(940px, 100%);
+  padding: clamp(22px, 4vw, 36px);
+  border: 1px solid #dfe7dc;
+  border-radius: 30px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(246, 251, 244, 0.96)),
+    radial-gradient(circle at 0% 0%, rgba(255, 210, 99, 0.18), transparent 34%);
+  box-shadow: 0 18px 42px rgba(20, 45, 20, 0.09);
+}
+
+.homeToolBand:nth-child(odd) {
+  justify-self: start;
+}
+
+.homeToolBand:nth-child(even) {
+  justify-self: end;
+  grid-template-columns: minmax(0, 1fr) 190px;
+}
+
+.homeToolBand:nth-child(even) .homeToolBandIcon {
+  order: 2;
+}
+
+.homeToolBandIcon {
+  display: grid;
+  place-items: center;
+  width: 138px;
+  height: 138px;
+  border-radius: 36px;
+  background:
+    radial-gradient(circle at 30% 25%, rgba(255, 255, 255, 0.9), transparent 34%),
+    linear-gradient(135deg, #dff3d8, #fff1bb);
+  box-shadow: inset 0 0 0 1px rgba(47, 125, 50, 0.12);
+  font-size: 58px;
+}
+
+.homeToolBand h3,
+.homeGuideCard h3,
+.homeIndexCard h3 {
+  margin: 0 0 10px;
+  color: #111;
+  font-size: clamp(1.35rem, 2.2vw, 1.85rem);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
 }
 
 .homeToolIntro {
   margin: 0 0 12px;
-  font-weight: 600;
+  font-weight: 760;
   color: #111;
   line-height: 1.45;
 }
 
-.homeToolLink {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 6px;
-  font-weight: 600;
-  text-decoration: none;
-  color: #111;
+.homeToolBand p:not(.homeCardLabel),
+.homeGuideCard p:not(.homeCardLabel),
+.homeIndexCard p {
+  margin: 0 0 16px;
+  color: rgba(0, 0, 0, 0.72);
 }
 
-.homeToolLink:hover {
-  color: var(--link-hover);
-  text-decoration: underline;
-  text-underline-offset: 3px;
+.homeAffiliateGuides {
+  overflow: hidden;
+  padding: clamp(28px, 5vw, 48px);
+  border-radius: 32px;
+  background:
+    radial-gradient(circle at 14% 12%, rgba(255, 197, 119, 0.24), transparent 25%),
+    linear-gradient(180deg, #fff8ef 0%, #fffdf8 100%);
+  border: 1px solid #f0dfc9;
+}
+
+.homeGuideGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
+  gap: 18px;
+  align-items: stretch;
+}
+
+.homeGuideCard {
+  display: flex;
+  min-height: 245px;
+  padding: 24px;
+  border-radius: 24px;
+  flex-direction: column;
+  border: 1px solid rgba(101, 65, 24, 0.14);
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 12px 32px rgba(89, 53, 17, 0.06);
+}
+
+.homeGuideCardFeature {
+  min-height: 245px;
+  background:
+    radial-gradient(circle at 88% 16%, rgba(59, 188, 61, 0.16), transparent 30%),
+    linear-gradient(135deg, #ffffff, #f4fbef);
+}
+
+.homeGuideCard a:not(.button) {
+  margin-top: auto;
+  color: #256f29;
+  font-weight: 800;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+.homeRegionIndexes {
+  padding: clamp(28px, 5vw, 46px);
+  border-radius: 32px;
+  background:
+    linear-gradient(135deg, rgba(47, 125, 50, 0.10), rgba(59, 188, 61, 0.05)),
+    #f8fbf5;
+  border: 1px solid #dfeadb;
+}
+
+.homeIndexGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.homeIndexCard {
+  padding: clamp(24px, 4vw, 34px);
+  border-radius: 28px;
+  background: #ffffff;
+  border: 1px solid #dfe7dc;
+  box-shadow: 0 14px 38px rgba(20, 45, 20, 0.08);
+}
+
+.homeIndexBadge {
+  display: inline-flex;
+  margin-bottom: 18px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: #eef8e9;
+  color: #256f29;
+  font-size: 13px;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .homeSystem {
-  margin-top: 56px;
-  padding: 28px 0 0;
-  border-top: 1px solid #e8e8e8;
+  padding: 0;
 }
 
-.homeSystem .homeSectionHead {
-  margin-bottom: 18px;
+.homeSystemInner {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: clamp(22px, 5vw, 58px);
+  align-items: start;
+  padding: clamp(28px, 5vw, 48px);
+  border-radius: 32px;
+  background: #111;
+  color: #fff;
 }
 
-.homeSystemBody {
-  max-width: 760px;
-  margin: 0 auto;
+.homeSystemIntro h2,
+.homeSystemBody strong {
+  color: #fff;
+}
+
+.homeSystemIntro .muted,
+.homeSystemBody p {
+  color: rgba(255, 255, 255, 0.76);
 }
 
 .homeSystemBody p + p {
@@ -877,9 +1111,46 @@ p + .tableWrap {
   margin-top: 22px;
 }
 
-@media (min-width: 760px) {
-  .homeToolGrid {
+.homeSystem .homeGuideActions {
+  justify-content: flex-start;
+}
+
+.homeSystem .button {
+  border-color: rgba(255, 255, 255, 0.42);
+  color: #fff;
+}
+
+@media (max-width: 900px) {
+  .homeStatGrid,
+  .homeStatGridDetailed,
+  .homeGuideGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .homeGuideCardFeature {
+    grid-row: auto;
+  }
+
+  .homeToolBand,
+  .homeToolBand:nth-child(even) {
+    width: 100%;
+    grid-template-columns: 120px minmax(0, 1fr);
+    justify-self: stretch;
+  }
+
+  .homeToolBand:nth-child(even) .homeToolBandIcon {
+    order: 0;
+  }
+
+  .homeToolBandIcon {
+    width: 96px;
+    height: 96px;
+    border-radius: 26px;
+    font-size: 42px;
+  }
+
+  .homeSystemInner {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -897,13 +1168,32 @@ p + .tableWrap {
     font-size: 15px;
   }
 
-  .homeTools {
-    padding: 22px;
-  }
-
+  .homeDataPanel,
+  .homeToolShowcase,
+  .homeAffiliateGuides,
+  .homeRegionIndexes,
   .homeSystem {
     margin-top: 42px;
-    padding-top: 22px;
+  }
+
+  .homeStatGrid,
+  .homeStatGridDetailed,
+  .homeGuideGrid,
+  .homeIndexGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .homeToolBand,
+  .homeToolBand:nth-child(even) {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    min-height: 0;
+  }
+
+  .homeToolBandIcon {
+    width: 82px;
+    height: 82px;
+    font-size: 36px;
   }
 }
 
@@ -2236,42 +2526,43 @@ border-radius: 999px;
   background: #fcfdfb;
 }
 
-.guideMain details,
-.statePage main details,
-.provincePage main details,
-.cityPage main details,
-.cropCityPage main details {
+.guidePage details,
+.statePage details,
+.provincePage details,
+.cityPage details,
+.cropCityPage details {
   border: 1px solid #e7ece4;
   border-radius: 14px;
   padding: 12px 14px;
   background: #fff;
 }
 
-.guideMain details + details,
-.statePage main details + details,
-.provincePage main details + details,
-.cityPage main details + details,
-.cropCityPage main details + details {
+.guidePage details + details,
+.statePage details + details,
+.provincePage details + details,
+.cityPage details + details,
+.cropCityPage details + details {
   margin-top: 10px;
 }
 
-.guideMain summary,
-.statePage main summary,
-.provincePage main summary,
-.cityPage main summary,
-.cropCityPage main summary {
+.guidePage summary,
+.statePage summary,
+.provincePage summary,
+.cityPage summary,
+.cropCityPage summary {
   cursor: pointer;
   font-weight: 700;
   line-height: 1.4;
 }
 
-.guideMain details[open],
-.statePage main details[open],
-.provincePage main details[open],
-.cityPage main details[open],
-.cropCityPage main details[open] {
+.guidePage details[open],
+.statePage details[open],
+.provincePage details[open],
+.cityPage details[open],
+.cropCityPage details[open] {
   background: #fbfdf9;
 }
+
 
 
 
