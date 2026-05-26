@@ -13,3 +13,5 @@ Thumbs.db
 
 # Local data generation scripts (not part of deployed site)
 scripts/
+
+_site-varieties/
