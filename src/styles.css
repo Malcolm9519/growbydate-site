@@ -12,6 +12,21 @@
   --link-hover: #2fa331; /* slightly deeper green */
 }
 
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
+  height: auto;
+}
+
 html,
 body {
   overflow-x: clip;
@@ -3285,3 +3300,126 @@ ul.tight {
 ul.tight li + li {
   margin-top: 0.45rem;
 }
+
+/* ---------- Mobile overflow hardening ---------- */
+
+/* Keep full-bleed homepage panels from exceeding the viewport once padding/borders are added. */
+.homeBreakout {
+  max-width: 100%;
+}
+
+.homeBreakout,
+.homeBreakout * {
+  min-width: 0;
+}
+
+/* Prevent long labels, URLs, city names, and CTA text from forcing mobile overflow. */
+.card,
+.homeStatCard,
+.homeGuideCard,
+.homeIndexCard,
+.homeToolBand,
+.homeSystemInner,
+.leaderboardStat,
+.leaderboardTile,
+.frostPlannerMetric,
+.frostPlannerAction,
+.guideAffiliateLink {
+  overflow-wrap: anywhere;
+}
+
+/* Data/reference tables need their own scroll container when the table wrapper is also the card. */
+.card.leaderboardTableWrap,
+.tableWrap.leaderboardTableWrap,
+.leaderboardTableWrap {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+.card.leaderboardTableWrap table,
+.tableWrap.leaderboardTableWrap table,
+.leaderboardTableWrap table {
+  min-width: 760px;
+}
+
+/* Decision tables in guides should scroll instead of squeezing columns or widening the page. */
+.decisionTableWrap {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+.decisionTable {
+  min-width: 640px;
+}
+
+@media (max-width: 720px) {
+  .homeBreakout {
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    transform: none;
+  }
+
+  .homeDataPanel,
+  .homeAffiliateGuides,
+  .homeRegionIndexes {
+    padding: 22px 16px;
+    border-radius: 22px;
+  }
+
+  .homeSystemInner {
+    padding: 22px 16px;
+    border-radius: 22px;
+  }
+
+  .leaderboardTableWrap table,
+  .card.leaderboardTableWrap table,
+  .tableWrap.leaderboardTableWrap table {
+    min-width: 680px;
+  }
+
+  .leaderboardTableWrap th,
+  .leaderboardTableWrap td {
+    white-space: normal;
+  }
+}
+
+@media (max-width: 520px) {
+  .actions,
+  .homeDataLinks,
+  .toolRoot[data-tool="gdd-planner"] .gddHybridActions,
+  .toolRoot[data-tool="gdd-planner"] .gddHybridLocationActions,
+  .cropActionBox .actionLinks {
+    align-items: stretch;
+  }
+
+  .button,
+  .btn,
+  .homeDataLinks a {
+    max-width: 100%;
+    white-space: normal;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .homeHeroActions,
+  .homeGuideActions {
+    flex-direction: column;
+  }
+
+  .homeHeroActions .button,
+  .homeGuideActions .button,
+  .homeToolBand .button,
+  .homeIndexCard .button,
+  .toolRoot[data-tool="gdd-planner"] .gddHybridActions .button,
+  .toolRoot[data-tool="gdd-planner"] .gddHybridActions .btn,
+  .toolRoot[data-tool="gdd-planner"] .gddHybridLocationActions .button,
+  .cropActionBox .actionLinks .button {
+    width: 100%;
+  }
+}
+
