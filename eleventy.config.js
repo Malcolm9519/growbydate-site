@@ -24,6 +24,7 @@ module.exports = function (eleventyConfig) {
     eleventyConfig.ignores.add("src/watermelons/**");
     eleventyConfig.ignores.add("src/strawberries/**");
     eleventyConfig.ignores.add("src/kale/**");
+    eleventyConfig.ignores.add("src/basil/**");
     eleventyConfig.ignores.add("src/spinach/**");
     eleventyConfig.ignores.add("src/peas/**");
     eleventyConfig.ignores.add("src/beans/**");
