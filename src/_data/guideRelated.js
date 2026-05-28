@@ -58,7 +58,6 @@ module.exports = {
   ],
   "how-microclimates-change-frost-dates": [
     "why-your-backyard-may-be-warmer-or-colder-than-your-zip-code",
-    "reliable-outdoor-thermometer-for-frost-monitoring",
     "best-soil-thermometer",
     "how-to-find-your-last-frost-date",
   ],
@@ -110,12 +109,6 @@ module.exports = {
     "what-if-frost-is-forecast-after-planting",
     "what-to-do-if-frost-is-forecast-after-planting",
   ],
-  "reliable-outdoor-thermometer-for-frost-monitoring": [
-    "how-microclimates-change-frost-dates",
-    "why-your-backyard-may-be-warmer-or-colder-than-your-zip-code",
-    "best-soil-thermometer",
-    "how-to-find-your-last-frost-date",
-  ],
   "what-to-do-if-frost-is-forecast-after-planting": [
     "32f-vs-28f-what-temperature-kills-plants",
     "light-freeze-vs-hard-freeze",
@@ -130,7 +123,6 @@ module.exports = {
   ],
   "why-your-backyard-may-be-warmer-or-colder-than-your-zip-code": [
     "how-microclimates-change-frost-dates",
-    "reliable-outdoor-thermometer-for-frost-monitoring",
     "best-soil-thermometer",
     "how-to-find-your-last-frost-date",
   ],
@@ -169,7 +161,6 @@ module.exports = {
   "how-elevation-affects-growing-degree-days": [
     "how-microclimates-change-frost-dates",
     "why-your-backyard-may-be-warmer-or-colder-than-your-zip-code",
-    "reliable-outdoor-thermometer-for-frost-monitoring",
     "best-soil-thermometer",
   ],
   "how-many-frost-free-days-do-potatoes-need": [
@@ -212,31 +203,16 @@ module.exports = {
   // Seed Starting & Transplanting
   "72-cell-vs-128-cell-seed-trays": [
     "best-containers-for-starting-seeds-indoors",
-    "best-deep-cell-trays-for-long-indoor-starts",
     "best-potting-up-pots-for-seedlings",
     "best-soil-blocker-for-seed-starting",
   ],
   "best-bottom-watering-trays-for-seedlings": [
     "72-cell-vs-128-cell-seed-trays",
     "best-containers-for-starting-seeds-indoors",
-    "best-deep-cell-trays-for-long-indoor-starts",
     "best-potting-up-pots-for-seedlings",
-  ],
-  "best-clip-on-fan-for-seed-starting-shelves": [
-    "how-to-prevent-damping-off-in-seedlings",
-    "do-you-need-a-fan-for-seedlings",
-    "best-fan-for-seedlings-indoors",
-    "best-watering-method-for-seedlings-indoors",
   ],
   "best-containers-for-starting-seeds-indoors": [
     "72-cell-vs-128-cell-seed-trays",
-    "best-deep-cell-trays-for-long-indoor-starts",
-    "best-potting-up-pots-for-seedlings",
-    "best-soil-blocker-for-seed-starting",
-  ],
-  "best-deep-cell-trays-for-long-indoor-starts": [
-    "72-cell-vs-128-cell-seed-trays",
-    "best-containers-for-starting-seeds-indoors",
     "best-potting-up-pots-for-seedlings",
     "best-soil-blocker-for-seed-starting",
   ],
@@ -264,12 +240,6 @@ module.exports = {
     "counting-backward-from-frost-how-seed-timing-works",
     "starting-seeds-too-early",
   ],
-  "best-grow-light-stand-for-seed-starting-shelves": [
-    "best-grow-lights-for-seedlings",
-    "shop-lights-vs-grow-lights",
-    "how-far-should-grow-lights-be-from-seedlings",
-    "how-long-should-grow-lights-be-on-for-seedlings",
-  ],
   "best-grow-lights-for-seedlings": [
     "shop-lights-vs-grow-lights",
     "how-far-should-grow-lights-be-from-seedlings",
@@ -278,13 +248,6 @@ module.exports = {
   ],
   "best-heat-mat-for-seedlings": [
     "do-you-need-a-heat-mat-to-start-seeds",
-    "best-heat-mat-setup-for-peppers-in-a-cool-basement",
-    "when-a-thermostat-matters-for-seed-starting-heat-mats",
-    "how-to-start-seeds-in-a-cold-house",
-  ],
-  "best-heat-mat-setup-for-peppers-in-a-cool-basement": [
-    "do-you-need-a-heat-mat-to-start-seeds",
-    "best-heat-mat-for-seedlings",
     "when-a-thermostat-matters-for-seed-starting-heat-mats",
     "how-to-start-seeds-in-a-cold-house",
   ],
@@ -293,12 +256,6 @@ module.exports = {
     "best-setup-for-starting-seeds-in-a-basement",
     "best-shelving-setup-for-starting-seeds-indoors",
     "best-seed-starting-mix",
-  ],
-  "best-instant-net-cover-for-young-seedlings": [
-    "seed-starting-short-season",
-    "when-to-start-seeds-indoors",
-    "counting-backward-from-frost-how-seed-timing-works",
-    "starting-seeds-too-early",
   ],
   "best-labels-for-seed-starting-that-dont-fade": [
     "seed-starting-supplies-checklist",
@@ -321,31 +278,26 @@ module.exports = {
   "best-newspaper-pot-maker-for-seedlings": [
     "72-cell-vs-128-cell-seed-trays",
     "best-containers-for-starting-seeds-indoors",
-    "best-deep-cell-trays-for-long-indoor-starts",
     "best-potting-up-pots-for-seedlings",
   ],
   "best-ollas-for-tomatoes-in-containers": [
     "72-cell-vs-128-cell-seed-trays",
     "best-containers-for-starting-seeds-indoors",
-    "best-deep-cell-trays-for-long-indoor-starts",
     "best-potting-up-pots-for-seedlings",
   ],
   "best-paper-pot-maker-for-seed-starting": [
     "72-cell-vs-128-cell-seed-trays",
     "best-containers-for-starting-seeds-indoors",
-    "best-deep-cell-trays-for-long-indoor-starts",
     "best-potting-up-pots-for-seedlings",
   ],
   "best-potting-up-pots-for-seedlings": [
     "72-cell-vs-128-cell-seed-trays",
     "best-containers-for-starting-seeds-indoors",
-    "best-deep-cell-trays-for-long-indoor-starts",
     "best-soil-blocker-for-seed-starting",
   ],
   "best-seed-dibber-for-seed-starting-trays": [
     "72-cell-vs-128-cell-seed-trays",
     "best-containers-for-starting-seeds-indoors",
-    "best-deep-cell-trays-for-long-indoor-starts",
     "best-potting-up-pots-for-seedlings",
   ],
   "best-setup-for-hardening-off-seedlings-outdoors": [
@@ -369,13 +321,11 @@ module.exports = {
   "best-soil-blocker-for-seed-starting": [
     "72-cell-vs-128-cell-seed-trays",
     "best-containers-for-starting-seeds-indoors",
-    "best-deep-cell-trays-for-long-indoor-starts",
     "best-potting-up-pots-for-seedlings",
   ],
   "best-seed-starting-mix": [
     "72-cell-vs-128-cell-seed-trays",
     "best-containers-for-starting-seeds-indoors",
-    "best-deep-cell-trays-for-long-indoor-starts",
     "best-potting-up-pots-for-seedlings",
   ],
   "best-timer-for-grow-lights-for-seedlings": [
@@ -383,18 +333,6 @@ module.exports = {
     "shop-lights-vs-grow-lights",
     "how-far-should-grow-lights-be-from-seedlings",
     "how-long-should-grow-lights-be-on-for-seedlings",
-  ],
-  "best-timer-setup-for-grow-lights-for-seedlings": [
-    "best-grow-lights-for-seedlings",
-    "shop-lights-vs-grow-lights",
-    "how-far-should-grow-lights-be-from-seedlings",
-    "how-long-should-grow-lights-be-on-for-seedlings",
-  ],
-  "best-tray-size-for-peppers-if-you-want-to-avoid-potting-up": [
-    "72-cell-vs-128-cell-seed-trays",
-    "best-containers-for-starting-seeds-indoors",
-    "best-deep-cell-trays-for-long-indoor-starts",
-    "best-potting-up-pots-for-seedlings",
   ],
   "best-watering-method-for-seedlings-indoors": [
     "how-to-prevent-damping-off-in-seedlings",
@@ -507,19 +445,16 @@ module.exports = {
   "how-to-start-seeds-in-a-cold-house": [
     "do-you-need-a-heat-mat-to-start-seeds",
     "best-heat-mat-for-seedlings",
-    "best-heat-mat-setup-for-peppers-in-a-cool-basement",
     "when-a-thermostat-matters-for-seed-starting-heat-mats",
   ],
   "mini-soil-blocker-vs-2-inch-blocker-for-peppers": [
     "72-cell-vs-128-cell-seed-trays",
     "best-containers-for-starting-seeds-indoors",
-    "best-deep-cell-trays-for-long-indoor-starts",
     "best-potting-up-pots-for-seedlings",
   ],
   "paper-pot-maker-vs-soil-blocker": [
     "72-cell-vs-128-cell-seed-trays",
     "best-containers-for-starting-seeds-indoors",
-    "best-deep-cell-trays-for-long-indoor-starts",
     "best-potting-up-pots-for-seedlings",
   ],
   "seed-dibber-vs-pencil-for-planting-seeds": [
@@ -584,14 +519,12 @@ module.exports = {
   ],
   "do-you-need-a-heat-mat-to-start-seeds": [
     "best-heat-mat-for-seedlings",
-    "best-heat-mat-setup-for-peppers-in-a-cool-basement",
     "when-a-thermostat-matters-for-seed-starting-heat-mats",
     "how-to-start-seeds-in-a-cold-house",
   ],
   "when-a-thermostat-matters-for-seed-starting-heat-mats": [
     "do-you-need-a-heat-mat-to-start-seeds",
     "best-heat-mat-for-seedlings",
-    "best-heat-mat-setup-for-peppers-in-a-cool-basement",
     "how-to-start-seeds-in-a-cold-house",
   ],
   "when-should-you-fertilize-seedlings": [
@@ -656,12 +589,6 @@ module.exports = {
     "cold-frame-vs-low-tunnel",
     "how-many-degrees-does-frost-cloth-protect",
   ],
-  "best-frost-cloth-support-hoops-for-4x8-raised-beds": [
-    "how-to-add-2-to-4-weeks-to-your-growing-season",
-    "floating-row-cover-vs-frost-blanket",
-    "cold-frame-vs-low-tunnel",
-    "how-many-degrees-does-frost-cloth-protect",
-  ],
   "best-greenhouse-repair-tape-for-torn-plastic": [
     "best-shade-cloth-percentage-for-tomatoes-vs-lettuce",
     "best-shade-cloth-setup-for-west-facing-gardens",
@@ -678,13 +605,11 @@ module.exports = {
     "insect-netting-vs-row-cover-for-brassicas",
     "best-insect-netting-height-for-raised-bed-tunnels",
     "best-netting-for-carrot-rust-fly-vs-cabbage-moth",
-    "best-pop-up-plant-protector-for-brassicas",
   ],
   "best-insect-netting-height-for-raised-bed-tunnels": [
     "insect-netting-vs-row-cover-for-brassicas",
     "best-insect-netting-for-brassicas",
     "best-netting-for-carrot-rust-fly-vs-cabbage-moth",
-    "best-pop-up-plant-protector-for-brassicas",
   ],
   "best-low-tunnel-kit-for-home-vegetable-gardens": [
     "best-cold-frame-for-raised-beds",
@@ -708,19 +633,12 @@ module.exports = {
     "insect-netting-vs-row-cover-for-brassicas",
     "best-insect-netting-for-brassicas",
     "best-insect-netting-height-for-raised-bed-tunnels",
-    "best-pop-up-plant-protector-for-brassicas",
   ],
   "best-place-to-buy-season-extension-supplies-for-home-gardeners": [
     "how-to-add-2-to-4-weeks-to-your-growing-season",
     "floating-row-cover-vs-frost-blanket",
     "cold-frame-vs-low-tunnel",
     "how-many-degrees-does-frost-cloth-protect",
-  ],
-  "best-pop-up-plant-protector-for-brassicas": [
-    "insect-netting-vs-row-cover-for-brassicas",
-    "best-insect-netting-for-brassicas",
-    "best-insect-netting-height-for-raised-bed-tunnels",
-    "best-netting-for-carrot-rust-fly-vs-cabbage-moth",
   ],
   "best-repair-kit-for-mini-greenhouse-covers": [
     "best-shade-cloth-percentage-for-tomatoes-vs-lettuce",
@@ -757,18 +675,6 @@ module.exports = {
     "best-clips-for-holding-shade-cloth-in-wind",
     "shade-cloth-clips-vs-bungee-cords-for-raised-beds",
     "best-greenhouse-repair-tape-for-torn-plastic",
-  ],
-  "best-tomato-hooks-with-string-for-greenhouse-growing": [
-    "best-shade-cloth-percentage-for-tomatoes-vs-lettuce",
-    "best-shade-cloth-setup-for-west-facing-gardens",
-    "best-clips-for-holding-shade-cloth-in-wind",
-    "shade-cloth-clips-vs-bungee-cords-for-raised-beds",
-  ],
-  "best-tomato-roller-hooks-for-greenhouse-growing": [
-    "best-shade-cloth-percentage-for-tomatoes-vs-lettuce",
-    "best-shade-cloth-setup-for-west-facing-gardens",
-    "best-clips-for-holding-shade-cloth-in-wind",
-    "shade-cloth-clips-vs-bungee-cords-for-raised-beds",
   ],
   "best-way-to-secure-row-cover-in-high-wind": [
     "how-to-add-2-to-4-weeks-to-your-growing-season",
@@ -816,7 +722,6 @@ module.exports = {
     "best-insect-netting-for-brassicas",
     "best-insect-netting-height-for-raised-bed-tunnels",
     "best-netting-for-carrot-rust-fly-vs-cabbage-moth",
-    "best-pop-up-plant-protector-for-brassicas",
   ],
   "metal-vs-fiberglass-garden-hoops-for-row-cover": [
     "how-to-add-2-to-4-weeks-to-your-growing-season",
@@ -957,37 +862,31 @@ module.exports = {
   "best-garden-planner-gift-certificate": [
     "best-gift-for-someone-starting-a-vegetable-garden",
     "best-gift-for-a-vegetable-gardener-who-has-everything",
-    "best-practical-gardening-gifts-for-spring-planting",
     "best-gift-seed-collection-for-gardeners",
   ],
   "best-garden-planner-subscription-gift-for-gardeners": [
     "best-gift-for-someone-starting-a-vegetable-garden",
     "best-gift-for-a-vegetable-gardener-who-has-everything",
-    "best-practical-gardening-gifts-for-spring-planting",
     "best-gift-seed-collection-for-gardeners",
   ],
   "best-gardening-software-gift-for-beginners": [
     "best-gift-for-someone-starting-a-vegetable-garden",
     "best-gift-for-a-vegetable-gardener-who-has-everything",
-    "best-practical-gardening-gifts-for-spring-planting",
     "best-gift-seed-collection-for-gardeners",
   ],
   "best-gift-for-a-vegetable-gardener-who-has-everything": [
     "best-gift-for-someone-starting-a-vegetable-garden",
-    "best-practical-gardening-gifts-for-spring-planting",
     "best-gift-seed-collection-for-gardeners",
     "best-seed-company-gift-card-for-gardeners",
   ],
   "best-gift-for-someone-starting-a-vegetable-garden": [
     "best-gift-for-a-vegetable-gardener-who-has-everything",
-    "best-practical-gardening-gifts-for-spring-planting",
     "best-gift-seed-collection-for-gardeners",
     "best-seed-company-gift-card-for-gardeners",
   ],
   "best-gift-seed-collection-for-gardeners": [
     "best-gift-for-someone-starting-a-vegetable-garden",
     "best-gift-for-a-vegetable-gardener-who-has-everything",
-    "best-practical-gardening-gifts-for-spring-planting",
     "best-seed-company-gift-card-for-gardeners",
   ],
   "best-pollination-bags-for-pepper-seed-saving": [
@@ -1001,12 +900,6 @@ module.exports = {
     "best-seed-organizer-binder-for-gardeners",
     "binder-vs-box-for-storing-seed-packets",
     "best-seed-saving-envelopes-for-home-gardeners",
-  ],
-  "best-practical-gardening-gifts-for-spring-planting": [
-    "best-gift-for-someone-starting-a-vegetable-garden",
-    "best-gift-for-a-vegetable-gardener-who-has-everything",
-    "best-gift-seed-collection-for-gardeners",
-    "best-seed-company-gift-card-for-gardeners",
   ],
   "best-retailer-for-fast-maturing-vegetable-varieties": [
     "best-seed-company-for-short-season-gardens",
@@ -1053,7 +946,6 @@ module.exports = {
   "best-seed-company-gift-card-for-gardeners": [
     "best-gift-for-someone-starting-a-vegetable-garden",
     "best-gift-for-a-vegetable-gardener-who-has-everything",
-    "best-practical-gardening-gifts-for-spring-planting",
     "best-gift-seed-collection-for-gardeners",
   ],
   "best-seed-organizer-binder-for-gardeners": [
@@ -1083,7 +975,6 @@ module.exports = {
   "best-vegetable-seed-gift-box-for-gardeners": [
     "best-gift-for-someone-starting-a-vegetable-garden",
     "best-gift-for-a-vegetable-gardener-who-has-everything",
-    "best-practical-gardening-gifts-for-spring-planting",
     "best-gift-seed-collection-for-gardeners",
   ],
   "pollination-bags-vs-organza-bags-for-seed-saving": [
@@ -1124,18 +1015,6 @@ module.exports = {
     "best-trellis-connectors-for-cucumber-teepees",
     "diy-cucumber-trellis-connectors-vs-zip-ties",
   ],
-  "best-support-hooks-for-indeterminate-tomatoes": [
-    "tomato-hooks-vs-clips-for-vertical-growing",
-    "best-tomato-hooks-with-string-for-greenhouse-growing",
-    "best-tomato-roller-hooks-for-greenhouse-growing",
-    "best-tomato-truss-sling-for-heavy-fruit",
-  ],
-  "best-tomato-truss-sling-for-heavy-fruit": [
-    "best-support-hooks-for-indeterminate-tomatoes",
-    "tomato-hooks-vs-clips-for-vertical-growing",
-    "best-tomato-hooks-with-string-for-greenhouse-growing",
-    "best-tomato-roller-hooks-for-greenhouse-growing",
-  ],
   "best-trellis-connectors-for-cucumber-teepees": [
     "best-cucumber-clips-for-vertical-growing",
     "cucumber-clips-vs-tomato-clips",
@@ -1173,10 +1052,6 @@ module.exports = {
     "best-grafting-clips-for-tomato-seedlings",
   ],
   "tomato-hooks-vs-clips-for-vertical-growing": [
-    "best-support-hooks-for-indeterminate-tomatoes",
-    "best-tomato-hooks-with-string-for-greenhouse-growing",
-    "best-tomato-roller-hooks-for-greenhouse-growing",
-    "best-tomato-truss-sling-for-heavy-fruit",
   ],
 
   // Watering, Sensors & Pest Protection
@@ -1276,7 +1151,6 @@ module.exports = {
   ],
   "best-soil-thermometer": [
     "soil-thermometer-vs-infrared-thermometer-for-planting-decisions",
-    "reliable-outdoor-thermometer-for-frost-monitoring",
     "how-microclimates-change-frost-dates",
     "how-to-find-your-last-frost-date",
   ],
@@ -1288,7 +1162,6 @@ module.exports = {
   ],
   "soil-thermometer-vs-infrared-thermometer-for-planting-decisions": [
     "best-soil-thermometer",
-    "reliable-outdoor-thermometer-for-frost-monitoring",
     "how-microclimates-change-frost-dates",
     "how-to-find-your-last-frost-date",
   ],
