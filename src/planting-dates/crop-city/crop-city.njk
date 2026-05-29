@@ -78,6 +78,8 @@ eleventyComputed:
 {% set cropBecomeVerb = "become" if isPluralCrop else "becomes" %}
 
 {% set outlookClass = pageData.fit.confidence %}
+{% set varietyLookupKey = [pageData.country, pageData.regionKey, pageData.cityKey, pageData.cropKey] | join("|") %}
+{% set embeddedVarietyData = varietySummariesByCropCity[varietyLookupKey] %}
 
 {% set plantingWindowValue = "" %}
 {% if pageData.planting.windowStart and pageData.planting.windowEnd %}
@@ -319,7 +321,7 @@ eleventyComputed:
   </div>
 </section>
 
-<section class="card">
+<section class="card" id="variety-fit">
 
 <h2>How Different {{ cropSingular | replace("-", " ") | title }} Varieties Affect Results</h2>
 
@@ -350,6 +352,10 @@ eleventyComputed:
   </li>
 {% endfor %}
   </ul>
+{% endif %}
+
+{% if embeddedVarietyData %}
+  {% include "planting-dates/modules/embedded-variety-fit.njk" %}
 {% endif %}
 
 {% if pageData.fit.varietyClassFits and pageData.fit.varietyClassFits.length %}
@@ -394,10 +400,6 @@ eleventyComputed:
     Main risk: {{ pageData.fit.mainRiskSentence }}
   </p>
 
-<p>
-  For more local variety options, see
-  <a href="{{ (pageData.url + 'best-varieties/') | toVarietiesUrl }}">best {{ cropSingularLower }} varieties for {{ pageData.cityName }}</a>.
-</p>
 {% endif %}
 </section>
 
