@@ -1,0 +1,38 @@
+{% set countryPrefix = "" %}
+{% if pageData.country == "canada" %}
+  {% set countryPrefix = "canada/" %}
+{% endif %}
+
+{% set cityUrlBase = "/planting-dates/" + countryPrefix + pageData.regionKey + "/" + pageData.cityKey + "/" %}
+{% set cropUrlBase = cityUrlBase + pageData.cropKey + "/" %}
+
+<section class="card">
+  <h2>Turn this into a planting decision</h2>
+
+  <p>
+    Once you know the normal planting window, the next useful questions are usually whether {{ pageData.cropName | lower }} still fits the remaining season, which varieties leave the most room, and what other crops are easier bets in {{ pageData.cityName }}.
+  </p>
+
+  <ul>
+    <li>
+      <a href="{{ cropUrlBase }}is-it-too-late-to-plant/">
+        See the latest practical planting dates for {{ pageData.cropName | lower }} in {{ pageData.cityName }}
+      </a>
+    </li>
+    <li>
+      <a href="{{ cropUrlBase }}will-it-mature-before-frost/">
+        Check whether {{ pageData.cropName | lower }} usually matures before local fall frost
+      </a>
+    </li>
+    <li>
+      <a href="{{ cropUrlBase }}#variety-fit">
+        Compare the best {{ pageData.cropName | lower }} variety classes for this climate
+      </a>
+    </li>
+    <li>
+      <a href="{{ cityUrlBase }}what-can-i-plant-in-may/">
+        See what else is usually worth planting in {{ pageData.cityName }}
+      </a>
+    </li>
+  </ul>
+</section>

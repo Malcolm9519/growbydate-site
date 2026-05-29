@@ -2541,40 +2541,40 @@ border-radius: 999px;
   background: #fcfdfb;
 }
 
-.guidePage details,
-.statePage details,
-.provincePage details,
-.cityPage details,
-.cropCityPage details {
+body.guidePage main details,
+body.statePage main details,
+body.provincePage main details,
+body.cityPage main details,
+body.cropCityPage main details {
   border: 1px solid #e7ece4;
   border-radius: 14px;
   padding: 12px 14px;
   background: #fff;
 }
 
-.guidePage details + details,
-.statePage details + details,
-.provincePage details + details,
-.cityPage details + details,
-.cropCityPage details + details {
+body.guidePage main details + details,
+body.statePage main details + details,
+body.provincePage main details + details,
+body.cityPage main details + details,
+body.cropCityPage main details + details {
   margin-top: 10px;
 }
 
-.guidePage summary,
-.statePage summary,
-.provincePage summary,
-.cityPage summary,
-.cropCityPage summary {
+body.guidePage main summary,
+body.statePage main summary,
+body.provincePage main summary,
+body.cityPage main summary,
+body.cropCityPage main summary {
   cursor: pointer;
   font-weight: 700;
   line-height: 1.4;
 }
 
-.guidePage details[open],
-.statePage details[open],
-.provincePage details[open],
-.cityPage details[open],
-.cropCityPage details[open] {
+body.guidePage main details[open],
+body.statePage main details[open],
+body.provincePage main details[open],
+body.cityPage main details[open],
+body.cropCityPage main details[open] {
   background: #fbfdf9;
 }
 
@@ -3423,3 +3423,390 @@ ul.tight li + li {
   }
 }
 
+
+/* Visual data resources */
+.resourceHero .lede {
+  max-width: 68rem;
+}
+
+.resourceSectionHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.resourceSectionHeader > p {
+  max-width: 24rem;
+  margin-top: 0.25rem;
+}
+
+.resourceChartCard {
+  overflow: hidden;
+}
+
+.resourceIntroGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.resourceIntroGrid article,
+.resourceExampleGrid article {
+  border: 1px solid #d8e2d0;
+  border-radius: 18px;
+  padding: 1rem;
+  background: #fbfdf8;
+}
+
+.resourceIntroGrid h2 {
+  font-size: clamp(1.25rem, 2.3vw, 1.85rem);
+}
+
+.resourceScatterFrame,
+.atlasMapFrame {
+  max-width: 100%;
+}
+
+.resourceScatterPlot,
+.atlasMap {
+  position: relative;
+  width: 100%;
+  min-height: 340px;
+  border: 1px solid #d8e2d0;
+  border-radius: 24px;
+  background:
+    linear-gradient(90deg, rgba(58, 97, 62, 0.08) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(58, 97, 62, 0.08) 1px, transparent 1px),
+    radial-gradient(circle at 20% 20%, rgba(231, 242, 222, 0.9), transparent 36%),
+    #fbfdf8;
+  background-size: 25% 100%, 100% 25%, auto, auto;
+}
+
+.resourceScatterPlot {
+  height: clamp(340px, 42vw, 440px);
+}
+
+.resourceScatterPlot::before,
+.resourceScatterPlot::after {
+  content: "";
+  position: absolute;
+  background: rgba(58, 97, 62, 0.2);
+  pointer-events: none;
+}
+
+.resourceScatterPlot::before {
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+}
+
+.resourceScatterPlot::after {
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+}
+
+.axisTitle,
+.quadrantLabel {
+  position: absolute;
+  z-index: 2;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #425540;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(66, 85, 64, 0.15);
+  border-radius: 999px;
+  padding: 0.25rem 0.55rem;
+  box-shadow: 0 1px 4px rgba(25, 45, 24, 0.06);
+}
+
+.axisTitleX { right: 1rem; bottom: 0.75rem; }
+.axisTitleY { left: 0.75rem; top: 0.75rem; }
+.qLongWarm { right: 1rem; top: 0.75rem; }
+.qLongCool { right: 1rem; bottom: 3.25rem; }
+.qShortWarm { left: 1rem; top: 3.25rem; }
+.qShortCool { left: 1rem; bottom: 0.75rem; }
+
+.scatterPoint,
+.atlasPoint {
+  position: absolute;
+  display: block;
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  transform: translate(-50%, -50%);
+  background: #567a45;
+  opacity: 0.5;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.88);
+}
+
+.scatterPoint:hover,
+.scatterPoint:focus,
+.atlasPoint:hover,
+.atlasPoint:focus {
+  opacity: 1;
+  z-index: 5;
+  outline: 2px solid #263d24;
+  outline-offset: 2px;
+}
+
+.scatterPoint.is-highlight {
+  width: 12px;
+  height: 12px;
+  opacity: 0.96;
+  background: #263d24;
+  z-index: 3;
+}
+
+.scatterLabel {
+  position: absolute;
+  z-index: 4;
+  transform: translate(var(--label-x, 8px), var(--label-y, -50%));
+  max-width: 7rem;
+  color: #263d24;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(66, 85, 64, 0.16);
+  border-radius: 999px;
+  padding: 0.15rem 0.45rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  box-shadow: 0 1px 5px rgba(25, 45, 24, 0.08);
+}
+
+.atlasMap {
+  height: clamp(310px, 36vw, 410px);
+  background:
+    linear-gradient(135deg, rgba(126, 160, 94, 0.16), rgba(255, 255, 255, 0.92)),
+    radial-gradient(circle at 22% 26%, rgba(126, 160, 94, 0.18), transparent 22%),
+    radial-gradient(circle at 63% 44%, rgba(126, 160, 94, 0.13), transparent 28%),
+    #fbfdf8;
+}
+
+.atlasPoint {
+  width: 8px;
+  height: 8px;
+  opacity: 0.64;
+}
+
+.frost-very-short,
+.gdd-very-cool,
+.band-very-cool { background: #8b9a7e; }
+.frost-short,
+.gdd-cool,
+.band-cool { background: #6f8f5e; }
+.frost-moderate,
+.gdd-moderate,
+.band-moderate { background: #527a44; }
+.frost-long,
+.gdd-warm,
+.band-warm { background: #315f34; }
+.frost-very-long,
+.gdd-high-heat,
+.band-high-heat { background: #1f4729; }
+
+.frost-long,
+.gdd-warm { width: 10px; height: 10px; }
+.frost-very-long,
+.gdd-high-heat { width: 12px; height: 12px; }
+
+.resourceLegend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 1rem;
+}
+
+.resourceLegend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border: 1px solid #d8e2d0;
+  border-radius: 999px;
+  padding: 0.35rem 0.65rem;
+  font-size: 0.82rem;
+  background: #fff;
+}
+
+.resourceLegend i {
+  width: 0.65rem;
+  height: 0.65rem;
+  border-radius: 999px;
+  background: #527a44;
+}
+
+.resourceLegend small {
+  color: #66705f;
+}
+
+.resourceRankGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.resourceRankGrid.compact article,
+.resourceRankGrid article,
+.marginCompareRow {
+  border: 1px solid #d8e2d0;
+  border-radius: 18px;
+  padding: 1rem;
+  background: #fbfdf8;
+}
+
+.resourceExampleGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.resourceExampleGrid h3 {
+  margin-top: 0;
+}
+
+.penaltyChart,
+.marginCompareChart {
+  display: grid;
+  gap: 0.72rem;
+}
+
+.penaltyChart.featured {
+  gap: 0.85rem;
+}
+
+.penaltyRow {
+  display: grid;
+  grid-template-columns: minmax(10rem, 16rem) 1fr minmax(9rem, auto);
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.penaltyCrop strong,
+.penaltyCrop span {
+  display: block;
+}
+
+.penaltyCrop span,
+.penaltyValue,
+.marginLabel,
+.marginValue {
+  font-size: 0.82rem;
+  color: #66705f;
+}
+
+.penaltyBarTrack,
+.marginTrack {
+  position: relative;
+  height: 0.72rem;
+  border-radius: 999px;
+  background: #e7efdf;
+  overflow: hidden;
+}
+
+.penaltyBar,
+.marginTrack i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: #527a44;
+}
+
+.penaltyBar.high-penalty { background: #315f34; }
+.penaltyBar.moderate-penalty { background: #527a44; }
+.penaltyBar.more-forgiving { background: #8b9a7e; }
+
+.resourceChartNote {
+  margin-top: 1rem;
+  max-width: 52rem;
+}
+
+.marginCompareChart {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.marginCompareRow h3 {
+  margin-top: 0;
+}
+
+.marginBars {
+  display: grid;
+  grid-template-columns: 5.75rem 1fr 5rem;
+  gap: 0.45rem 0.65rem;
+  align-items: center;
+}
+
+.marginTrack.late i {
+  opacity: 0.72;
+}
+
+.resourceShareBox textarea {
+  width: 100%;
+  min-height: 5.5rem;
+  resize: vertical;
+  border: 1px solid #d8e2d0;
+  border-radius: 14px;
+  padding: 0.8rem;
+  background: #fbfdf8;
+  color: #263d24;
+  font: inherit;
+}
+
+@media (max-width: 900px) {
+  .resourceExampleGrid,
+  .marginCompareChart {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .resourceSectionHeader {
+    display: block;
+  }
+
+  .resourceIntroGrid,
+  .resourceRankGrid,
+  .resourceExampleGrid,
+  .marginCompareChart {
+    grid-template-columns: 1fr;
+  }
+
+  .resourceScatterFrame,
+  .atlasMapFrame {
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .resourceScatterPlot,
+  .atlasMap {
+    min-width: 640px;
+    height: 360px;
+  }
+
+  .atlasMap {
+    height: 340px;
+  }
+
+  .penaltyRow {
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+  }
+
+  .penaltyValue {
+    text-align: right;
+  }
+
+  .marginBars {
+    grid-template-columns: 5.5rem 1fr;
+  }
+
+  .marginValue {
+    grid-column: 2;
+    margin-top: -0.3rem;
+  }
+}

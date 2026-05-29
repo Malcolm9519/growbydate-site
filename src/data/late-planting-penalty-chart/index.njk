@@ -1,0 +1,154 @@
+---
+layout: layout-base.njk
+title: Late Planting Penalty Chart | GrowByDate Data Resource
+description: A visual chart showing which vegetables lose the most growing margin when planting slips by two weeks.
+canonical: "https://growbydate.com/data/late-planting-penalty-chart/"
+---
+
+<section class="card leaderboardHero resourceHero">
+  <p class="eyebrow">Visual resource</p>
+  <h1>Late Planting Penalty Chart</h1>
+  <p class="lede">
+    Some crops forgive a late start. Others punish it fast. This chart shows which vegetables lose the most growing margin when planting slips by two weeks.
+  </p>
+  <p class="small">Updated {{ resourceLatePlantingPenalty.updated }} · {{ resourceLatePlantingPenalty.entries.length }} crops compared.</p>
+</section>
+
+<section class="leaderboardStatGrid" aria-label="Late planting penalty summary">
+  <article class="leaderboardStat">
+    <span class="statLabel">Highest penalty crop</span>
+    <strong>{{ resourceLatePlantingPenalty.top.cropName }}</strong>
+    <span class="small">{{ resourceLatePlantingPenalty.top.averageTwoWeekMarginLoss }} GDD margin lost after a two-week delay.</span>
+  </article>
+  <article class="leaderboardStat">
+    <span class="statLabel">Big idea</span>
+    <strong>Delays compound</strong>
+    <span class="small">Late starts matter most when crop heat demand and season margin are already tight.</span>
+  </article>
+  <article class="leaderboardStat">
+    <span class="statLabel">Best use</span>
+    <strong>Prioritize timing</strong>
+    <span class="small">Use this before deciding what to start first or what to switch when you are behind.</span>
+  </article>
+</section>
+
+<section class="card resourceChartCard">
+  <div class="resourceSectionHeader">
+    <div>
+      <p class="eyebrow">Main chart</p>
+      <h2>Highest two-week planting penalties</h2>
+    </div>
+    <p class="small">Top crops by average GDD margin lost when planting is delayed by two weeks.</p>
+  </div>
+
+  <div class="penaltyChart featured">
+    {% for row in resourceLatePlantingPenalty.featuredEntries %}
+      <div class="penaltyRow">
+        <div class="penaltyCrop">
+          <strong>{{ row.cropName }}</strong>
+          <span>{{ row.cropCategory }} · {{ row.label }}</span>
+        </div>
+        <div class="penaltyBarTrack">
+          <span class="penaltyBar {{ row.groupClass }}" style="width:{{ row.lossBarPct }}%;"></span>
+        </div>
+        <div class="penaltyValue">{{ row.averageTwoWeekMarginLoss }} GDD margin lost</div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <p class="small resourceChartNote">
+    Some crops show the same penalty because this model measures the seasonal heat margin lost over the same two-week calendar delay in the currently published crop-city set. The useful signal is the timing-pressure group, not tiny differences between tied crops.
+  </p>
+</section>
+
+<section class="card resourceChartCard">
+  <div class="resourceSectionHeader">
+    <div>
+      <p class="eyebrow">Margin comparison</p>
+      <h2>Selected examples: on-time margin vs two-weeks-late margin</h2>
+    </div>
+    <p class="small">This view shows whether representative crops still have cushion after a delay.</p>
+  </div>
+
+  <div class="marginCompareChart compact">
+    {% for row in resourceLatePlantingPenalty.comparisonEntries %}
+      <article class="marginCompareRow">
+        <h3>{{ row.cropName }}</h3>
+        <p class="small">{{ row.group }} · {{ row.reason }}</p>
+        <div class="marginBars">
+          <span class="marginLabel">On time</span>
+          <span class="marginTrack"><i style="width:{{ row.onTimeBarPct }}%;"></i></span>
+          <span class="marginValue">{{ row.averageOnTimeMargin }} GDD</span>
+          <span class="marginLabel">2 weeks late</span>
+          <span class="marginTrack late"><i style="width:{{ row.lateBarPct }}%;"></i></span>
+          <span class="marginValue">{{ row.averageTwoWeekLateMargin }} GDD</span>
+        </div>
+      </article>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="card">
+  <h2>What to prioritize if you are already late</h2>
+  <div class="leaderboardGrid">
+    <article class="leaderboardTile">
+      <p class="eyebrow">High penalty</p>
+      <h3>Prioritize first</h3>
+      <p>These crops lose margin quickly. Use transplants, faster varieties, warm sites, or protection when the calendar slips.</p>
+      <ul class="tight small">
+        {% for row in resourceLatePlantingPenalty.highPenalty %}
+          <li>{{ row.cropName }}</li>
+        {% endfor %}
+      </ul>
+    </article>
+    <article class="leaderboardTile">
+      <p class="eyebrow">Moderate penalty</p>
+      <h3>Plant soon</h3>
+      <p>These crops can still be practical, but delays reduce cushion and make variety speed more important.</p>
+      <ul class="tight small">
+        {% for row in resourceLatePlantingPenalty.moderatePenalty %}
+          <li>{{ row.cropName }}</li>
+        {% endfor %}
+      </ul>
+    </article>
+    <article class="leaderboardTile">
+      <p class="eyebrow">More forgiving</p>
+      <h3>Better backup options</h3>
+      <p>These are usually better candidates when you need flexible timing or a recovery plan.</p>
+      <ul class="tight small">
+        {% for row in resourceLatePlantingPenalty.moreForgiving %}
+          <li>{{ row.cropName }}</li>
+        {% endfor %}
+      </ul>
+    </article>
+  </div>
+</section>
+
+<section class="card">
+  <h2>What this means in the garden</h2>
+  <p>
+    A two-week delay is not equal across crops. Long-season crops and crops with narrow heat margins are easier to push into frost risk. If planting slips, the usual fixes are faster varieties, stronger transplants, warmer microclimates, season extension, or switching to crops with more timing flexibility.
+  </p>
+</section>
+
+<section class="card resourceShareBox">
+  <h2>Use this resource</h2>
+  <p>You may reference this chart with attribution to GrowByDate.</p>
+  <textarea readonly>Source: GrowByDate, Late Planting Penalty Chart, https://growbydate.com/data/late-planting-penalty-chart/</textarea>
+</section>
+
+<section class="card leaderboardCallout">
+  <h2>Methodology and limits</h2>
+  <p>
+    This chart uses GrowByDate's crop timing margin model and compares average on-time margin with average margin after a two-week planting delay. It highlights timing pressure, not guaranteed success or failure. Weather, soil warmth, transplant quality, variety speed, irrigation, protection, and local microclimates can change real outcomes.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Related data</h2>
+  <ul class="tight">
+    <li><a href="/data/rankings/crops-that-lose-the-most-margin-when-planted-late/">Full late-planting ranking</a></li>
+    <li><a href="/data/crop-heat-requirements/">Crop Heat Requirements</a></li>
+    <li><a href="/guides/when-to-start-seeds-indoors/">When to Start Seeds Indoors</a></li>
+  </ul>
+</section>

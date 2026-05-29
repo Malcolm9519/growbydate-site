@@ -3596,8 +3596,7 @@ function buildBestVarietyActionBox(record, namedVarieties) {
   });
 }
 
-module.exports = function () {
-  if (BUILD_TARGET !== 'varieties') return [];
+function buildVarietySummaries() {
   if (cache) return cache;
 
   const records = Array.isArray(getRecords()) ? getRecords() : [];
@@ -3661,4 +3660,11 @@ module.exports = function () {
     });
 
   return cache;
+}
+
+module.exports = function () {
+  if (BUILD_TARGET !== 'varieties') return [];
+  return buildVarietySummaries();
 };
+
+module.exports.buildVarietySummaries = buildVarietySummaries;

@@ -41,8 +41,6 @@ module.exports = {
   "32f-vs-28f-what-temperature-kills-plants": [
     "light-freeze-vs-hard-freeze",
     "what-is-a-killing-frost",
-    "what-if-frost-is-forecast-after-planting",
-    "what-to-do-if-frost-is-forecast-after-planting",
   ],
   "average-frost-date-vs-actual-weather": [
     "how-to-find-your-last-frost-date",
@@ -82,8 +80,6 @@ module.exports = {
   "light-freeze-vs-hard-freeze": [
     "32f-vs-28f-what-temperature-kills-plants",
     "what-is-a-killing-frost",
-    "what-if-frost-is-forecast-after-planting",
-    "what-to-do-if-frost-is-forecast-after-planting",
   ],
   "should-you-wait-2-weeks-after-frost-to-plant": [
     "how-to-find-your-last-frost-date",
@@ -95,25 +91,10 @@ module.exports = {
     "average-frost-date-vs-actual-weather",
     "why-your-last-frost-date-isnt-exact",
     "how-to-find-your-last-frost-date",
-    "what-if-frost-is-forecast-after-planting",
-  ],
-  "what-if-frost-is-forecast-after-planting": [
-    "32f-vs-28f-what-temperature-kills-plants",
-    "light-freeze-vs-hard-freeze",
-    "what-is-a-killing-frost",
-    "what-to-do-if-frost-is-forecast-after-planting",
   ],
   "what-is-a-killing-frost": [
     "32f-vs-28f-what-temperature-kills-plants",
     "light-freeze-vs-hard-freeze",
-    "what-if-frost-is-forecast-after-planting",
-    "what-to-do-if-frost-is-forecast-after-planting",
-  ],
-  "what-to-do-if-frost-is-forecast-after-planting": [
-    "32f-vs-28f-what-temperature-kills-plants",
-    "light-freeze-vs-hard-freeze",
-    "what-is-a-killing-frost",
-    "what-if-frost-is-forecast-after-planting",
   ],
   "why-frost-dates-matter-more-than-planting-calendars": [
     "how-to-find-your-last-frost-date",
@@ -227,18 +208,6 @@ module.exports = {
     "do-you-need-a-fan-for-seedlings",
     "best-fan-for-seedlings-indoors",
     "best-watering-method-for-seedlings-indoors",
-  ],
-  "best-grafting-clips-for-tomato-seedlings": [
-    "seed-starting-short-season",
-    "when-to-start-seeds-indoors",
-    "counting-backward-from-frost-how-seed-timing-works",
-    "starting-seeds-too-early",
-  ],
-  "best-grafting-clips-for-vegetable-seedlings": [
-    "seed-starting-short-season",
-    "when-to-start-seeds-indoors",
-    "counting-backward-from-frost-how-seed-timing-works",
-    "starting-seeds-too-early",
   ],
   "best-grow-lights-for-seedlings": [
     "shop-lights-vs-grow-lights",
@@ -985,29 +954,11 @@ module.exports = {
   ],
 
   // Supports, Grafting & Vertical Growing
-  "2-0-to-4-5-mm-grafting-clips-for-home-gardeners": [
-    "best-grafting-supplies-for-beginner-gardeners",
-    "best-grafting-clips-for-vegetable-seedlings",
-    "best-grafting-clips-for-tomato-seedlings",
-    "tomato-grafting-clips-vs-silicone-clips",
-  ],
   "best-cucumber-clips-for-vertical-growing": [
     "cucumber-clips-vs-tomato-clips",
     "best-hanging-line-clips-for-vine-crops",
     "best-trellis-connectors-for-cucumber-teepees",
     "diy-cucumber-trellis-connectors-vs-zip-ties",
-  ],
-  "best-grafting-clips-for-cucumbers": [
-    "best-grafting-supplies-for-beginner-gardeners",
-    "2-0-to-4-5-mm-grafting-clips-for-home-gardeners",
-    "best-grafting-clips-for-vegetable-seedlings",
-    "best-grafting-clips-for-tomato-seedlings",
-  ],
-  "best-grafting-supplies-for-beginner-gardeners": [
-    "2-0-to-4-5-mm-grafting-clips-for-home-gardeners",
-    "best-grafting-clips-for-vegetable-seedlings",
-    "best-grafting-clips-for-tomato-seedlings",
-    "tomato-grafting-clips-vs-silicone-clips",
   ],
   "best-hanging-line-clips-for-vine-crops": [
     "best-cucumber-clips-for-vertical-growing",
@@ -1044,12 +995,6 @@ module.exports = {
     "cucumber-clips-vs-tomato-clips",
     "best-hanging-line-clips-for-vine-crops",
     "best-trellis-connectors-for-cucumber-teepees",
-  ],
-  "tomato-grafting-clips-vs-silicone-clips": [
-    "best-grafting-supplies-for-beginner-gardeners",
-    "2-0-to-4-5-mm-grafting-clips-for-home-gardeners",
-    "best-grafting-clips-for-vegetable-seedlings",
-    "best-grafting-clips-for-tomato-seedlings",
   ],
   "tomato-hooks-vs-clips-for-vertical-growing": [
   ],

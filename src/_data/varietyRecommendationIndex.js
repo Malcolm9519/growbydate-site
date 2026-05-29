@@ -56,7 +56,7 @@ module.exports = function () {
     byCityCrop[key] = {
       cityKey: record.cityKey,
       cropKey: record.cropKey,
-      url: `${record.urlBase}best-varieties/`,
+      url: `${record.urlBase}#variety-fit`,
       recommendedVariety: pickRecommendedVariety(record)
     };
   }
