@@ -78,8 +78,7 @@ eleventyComputed:
 {% set cropBecomeVerb = "become" if isPluralCrop else "becomes" %}
 
 {% set outlookClass = pageData.fit.confidence %}
-{% set varietyLookupKey = [pageData.country, pageData.regionKey, pageData.cityKey, pageData.cropKey] | join("|") %}
-{% set embeddedVarietyData = varietySummariesByCropCity[varietyLookupKey] %}
+{% set embeddedVarietyData = varietySummariesByCropCity(pageData.country, pageData.regionKey, pageData.cityKey, pageData.cropKey) %}
 
 {% set plantingWindowValue = "" %}
 {% if pageData.planting.windowStart and pageData.planting.windowEnd %}
