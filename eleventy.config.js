@@ -14,31 +14,7 @@ module.exports = function (eleventyConfig) {
   if (buildTarget === "main") {
     eleventyConfig.ignores.add("src/planting-dates/varieties/varieties.njk");
 
-    // Individual variety guide pages live only on varieties.growbydate.com
-    eleventyConfig.ignores.add("src/carrots/**");
-    eleventyConfig.ignores.add("src/beets/**");
-    eleventyConfig.ignores.add("src/lettuce/**");
-    eleventyConfig.ignores.add("src/tomatoes/**");
-    eleventyConfig.ignores.add("src/peppers/**");
-    eleventyConfig.ignores.add("src/melons/**");
-    eleventyConfig.ignores.add("src/watermelons/**");
-    eleventyConfig.ignores.add("src/strawberries/**");
-    eleventyConfig.ignores.add("src/kale/**");
-    eleventyConfig.ignores.add("src/basil/**");
-    eleventyConfig.ignores.add("src/spinach/**");
-    eleventyConfig.ignores.add("src/peas/**");
-    eleventyConfig.ignores.add("src/beans/**");
-    eleventyConfig.ignores.add("src/broccoli/**");
-    eleventyConfig.ignores.add("src/cabbage/**");
-    eleventyConfig.ignores.add("src/cauliflower/**");
-    eleventyConfig.ignores.add("src/cucumbers/**");
-    eleventyConfig.ignores.add("src/onions/**");
-    eleventyConfig.ignores.add("src/potatoes/**");
-    eleventyConfig.ignores.add("src/pumpkin/**");
-    eleventyConfig.ignores.add("src/sweet-corn/**");
-    eleventyConfig.ignores.add("src/swiss-chard/**");
-    eleventyConfig.ignores.add("src/winter-squash/**");
-    eleventyConfig.ignores.add("src/zucchini/**");
+    // Variety guide pages now live on the main domain under /crops/.
   }
 
 
@@ -61,6 +37,32 @@ module.exports = function (eleventyConfig) {
     eleventyConfig.ignores.add("src/crops/**");
     eleventyConfig.ignores.add("src/data/**");
     eleventyConfig.ignores.add("src/assets/data/rankings/**");
+
+    // Individual and cluster variety guide pages moved to the main domain under /crops/.
+    eleventyConfig.ignores.add("src/basil/**");
+    eleventyConfig.ignores.add("src/beans/**");
+    eleventyConfig.ignores.add("src/beets/**");
+    eleventyConfig.ignores.add("src/broccoli/**");
+    eleventyConfig.ignores.add("src/cabbage/**");
+    eleventyConfig.ignores.add("src/carrots/**");
+    eleventyConfig.ignores.add("src/cauliflower/**");
+    eleventyConfig.ignores.add("src/cucumbers/**");
+    eleventyConfig.ignores.add("src/kale/**");
+    eleventyConfig.ignores.add("src/lettuce/**");
+    eleventyConfig.ignores.add("src/melons/**");
+    eleventyConfig.ignores.add("src/onions/**");
+    eleventyConfig.ignores.add("src/peas/**");
+    eleventyConfig.ignores.add("src/peppers/**");
+    eleventyConfig.ignores.add("src/potatoes/**");
+    eleventyConfig.ignores.add("src/pumpkin/**");
+    eleventyConfig.ignores.add("src/spinach/**");
+    eleventyConfig.ignores.add("src/strawberries/**");
+    eleventyConfig.ignores.add("src/sweet-corn/**");
+    eleventyConfig.ignores.add("src/swiss-chard/**");
+    eleventyConfig.ignores.add("src/tomatoes/**");
+    eleventyConfig.ignores.add("src/watermelons/**");
+    eleventyConfig.ignores.add("src/winter-squash/**");
+    eleventyConfig.ignores.add("src/zucchini/**");
   }
 
   eleventyConfig.addShortcode("year", () => `${new Date().getFullYear()}`);
@@ -68,7 +70,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addFilter("toVarietiesUrl", function (url) {
     if (!url) return "";
     const pagePath = String(url).startsWith("/") ? String(url) : `/${url}`;
-    return `https://varieties.growbydate.com${pagePath}`;
+    return `https://growbydate.com/crops${pagePath}`;
   });
 
   eleventyConfig.addFilter("toMainSiteUrl", function (url) {

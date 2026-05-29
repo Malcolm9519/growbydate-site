@@ -1,0 +1,123 @@
+---
+layout: layout-base.njk
+title: Long Season vs Warm Season | GrowByDate Data Resource
+description: A visual explainer showing why frost-free days and growing degree days measure different parts of a garden climate.
+canonical: "https://growbydate.com/data/long-season-vs-warm-season/"
+---
+
+<section class="card leaderboardHero resourceHero">
+  <p class="eyebrow">Visual explainer</p>
+  <h1>Long Season vs Warm Season</h1>
+  <p class="lede">
+    Frost-free days and growing degree days measure different parts of a garden climate. This chart shows why gardeners need both when planning tomatoes, peppers, squash, corn, melons, and other heat-loving crops.
+  </p>
+  <p class="small">Updated {{ resourceClimateAtlas.updated }} · {{ resourceClimateAtlas.totalCanadaCities }} Canadian cities with both frost and GDD reference data.</p>
+</section>
+
+<section class="leaderboardStatGrid" aria-label="Long season versus warm season summary">
+  <article class="leaderboardStat">
+    <span class="statLabel">Frost-free days answer</span>
+    <strong>How long?</strong>
+    <span class="small">The likely outdoor window between spring and fall frost.</span>
+  </article>
+  <article class="leaderboardStat">
+    <span class="statLabel">GDD answers</span>
+    <strong>How warm?</strong>
+    <span class="small">How much usable crop heat accumulates during the season.</span>
+  </article>
+  <article class="leaderboardStat">
+    <span class="statLabel">Best planning signal</span>
+    <strong>Use both</strong>
+    <span class="small">A long window can still be cool, and a short window can still have strong summer heat.</span>
+  </article>
+</section>
+
+<section class="card resourceChartCard">
+  <div class="resourceSectionHeader">
+    <div>
+      <p class="eyebrow">Main visual</p>
+      <h2>Frost-free days vs base-50°F growing degree days</h2>
+    </div>
+    <p class="small">Each point is one Canadian city. Only selected reference cities are labeled to keep the chart readable.</p>
+  </div>
+
+  <div class="resourceScatterFrame" role="img" aria-label="Scatterplot comparing frost-free days to base-50 growing degree days for Canadian cities.">
+    <div class="resourceScatterPlot">
+      <span class="axisTitle axisTitleY">More crop heat →</span>
+      <span class="axisTitle axisTitleX">More frost-free days →</span>
+      <span class="quadrantLabel qLongWarm">Long + warm</span>
+      <span class="quadrantLabel qLongCool">Long + cool</span>
+      <span class="quadrantLabel qShortWarm">Short + warm</span>
+      <span class="quadrantLabel qShortCool">Short + cool</span>
+      {% for row in resourceClimateAtlas.canadaCities %}
+        <a class="scatterPoint{% if row.isHighlighted %} is-highlight{% endif %} band-{{ row.gddBandClass }}"
+          href="{{ row.cityUrl }}"
+          style="left:{{ row.scatterX }}%;top:{{ row.scatterY }}%;"
+          title="{{ row.cityName }}, {{ row.regionAbbr }}: {{ row.frostFreeDays }} frost-free days, {{ row.gddBase50 }} base-50 GDD">
+          <span class="sr-only">{{ row.cityName }}, {{ row.regionName }}: {{ row.frostFreeDays }} frost-free days, {{ row.gddBase50 }} base-50 GDD.</span>
+        </a>
+      {% endfor %}
+      {% for row in resourceClimateAtlas.scatterLabelCities %}
+        <a class="scatterLabel" href="{{ row.cityUrl }}" style="left:{{ row.scatterX }}%;top:{{ row.scatterY }}%;--label-x:{{ row.labelDx }}px;--label-y:{{ row.labelDy }}px;">{{ row.cityName }}</a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>How to read the chart</h2>
+  <div class="leaderboardGrid">
+    {% for item in resourceClimateAtlas.scatterQuadrants %}
+      <article class="leaderboardTile">
+        <p class="eyebrow">{{ item.label }}</p>
+        <p>{{ item.meaning }}</p>
+      </article>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="card">
+  <h2>Reference city examples</h2>
+  <div class="resourceExampleGrid">
+    {% for row in resourceClimateAtlas.exampleCities %}
+      <article>
+        <h3><a href="{{ row.cityUrl }}">{{ row.cityName }}, {{ row.regionAbbr }}</a></h3>
+        <p class="small">{{ row.frostFreeDays }} frost-free days · {{ row.gddBase50 }} base-50 GDD</p>
+        <p>{{ row.note }}</p>
+      </article>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="card">
+  <h2>The useful gardening distinction</h2>
+  <p>
+    Frost-free days measure the likely outdoor window for tender crops. Growing degree days measure accumulated warmth. A cool coastal city may have many frost-free days but less heat intensity, while an inland prairie city may have a shorter window with stronger summer heat.
+  </p>
+  <p>
+    This is why a frost-date chart alone can be misleading for heat-loving crops. Tomatoes, peppers, corn, squash, and melons need both enough time before frost and enough heat inside that window.
+  </p>
+</section>
+
+<section class="card resourceShareBox">
+  <h2>Use this resource</h2>
+  <p>You may reference this visual with attribution to GrowByDate.</p>
+  <textarea readonly>Source: GrowByDate, Long Season vs Warm Season, https://growbydate.com/data/long-season-vs-warm-season/</textarea>
+</section>
+
+<section class="card leaderboardCallout">
+  <h2>Methodology and limits</h2>
+  <p>
+    This resource joins GrowByDate city frost-date records with base-50°F GDD reference records. Frost-free days estimate the average window between last spring frost and first fall frost. GDD estimates seasonal accumulated crop heat from the mapped station series. These are planning signals, not forecasts, and do not capture every microclimate, slope, cold pocket, lake effect, soil condition, or variety difference.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Related data</h2>
+  <ul class="tight">
+    <li><a href="/data/canada-garden-climate-atlas/">Canada Garden Climate Atlas</a></li>
+    <li><a href="/data/frost-dates-by-city/">Frost Dates by City</a></li>
+    <li><a href="/data/growing-degree-days-by-city/">Growing Degree Days by City</a></li>
+    <li><a href="/data/crop-heat-requirements/">Crop Heat Requirements</a></li>
+  </ul>
+</section>

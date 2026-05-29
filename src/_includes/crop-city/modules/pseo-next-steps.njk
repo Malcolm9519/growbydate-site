@@ -1,0 +1,41 @@
+{% set countryPrefix = "" %}
+{% if pageData.country == "canada" %}
+  {% set countryPrefix = "canada/" %}
+{% endif %}
+
+{% set cityUrlBase = "/planting-dates/" + countryPrefix + pageData.regionKey + "/" + pageData.cityKey + "/" %}
+{% set cropUrlBase = cityUrlBase + pageData.cropKey + "/" %}
+
+{% set isTooLatePage = false %}
+{% set isMaturityPage = false %}
+{% set isVarietiesPage = false %}
+
+{% if pageData.url and "is-it-too-late-to-plant" in pageData.url %}
+  {% set isTooLatePage = true %}
+{% endif %}
+{% if pageData.url and "will-it-mature-before-frost" in pageData.url %}
+  {% set isMaturityPage = true %}
+{% endif %}
+{% if pageData.url and "best-varieties" in pageData.url %}
+  {% set isVarietiesPage = true %}
+{% endif %}
+
+<section class="card">
+  <h2>More local planning pages for {{ pageData.cropName }} in {{ pageData.cityName }}</h2>
+
+  <ul>
+    <li><a href="{{ cropUrlBase }}">Main {{ pageData.cropName | lower }} planting guide for {{ pageData.cityName }}</a></li>
+
+    {% if not isTooLatePage %}
+      <li><a href="{{ cropUrlBase }}is-it-too-late-to-plant/">Is it too late to plant {{ pageData.cropName | lower }}?</a></li>
+    {% endif %}
+
+    {% if not isMaturityPage %}
+      <li><a href="{{ cropUrlBase }}will-it-mature-before-frost/">Will {{ pageData.cropName | lower }} mature before frost?</a></li>
+    {% endif %}
+
+    {% if not isVarietiesPage %}
+      <li><a href="{{ cropUrlBase }}#variety-fit">Best {{ pageData.cropName | lower }} varieties for {{ pageData.cityName }}</a></li>
+    {% endif %}
+  </ul>
+</section>

@@ -126,7 +126,7 @@ function buildCropCityActionBox({
   const behaviorProfile = getBehaviorProfile(crop);
   const objectPronoun = getPronoun(crop);
 
-  const varietyUrl = `${buildUrl(city, crop)}best-varieties/`;
+  const varietyUrl = `${buildUrl(city, crop)}#variety-fit`;
   const gddPlannerUrl = "/tools/growing-degree-day-planner/";
   const shopUrl = buildGrowingSuppliesUrl(crop, confidence, behaviorProfile);
 

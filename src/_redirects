@@ -1,5 +1,14 @@
-﻿/guides/best-grow-lights-for-starting-vegetable-seedlings-indoors/ /guides/best-grow-lights-for-seedlings/ 301
+/guides/best-grow-lights-for-starting-vegetable-seedlings-indoors/ /guides/best-grow-lights-for-seedlings/ 301
 /guides/best-soil-mix-for-seed-starting-trays/ /guides/best-seed-starting-mix/ 301
 /guides/best-soil-thermometer-for-gardening-in-cold-climates/ /guides/best-soil-thermometer/ 301
 /guides/best-heat-mat-for-peppers-and-tomatoes/ /guides/best-heat-mat-for-seedlings/ 301
 /guides/best-seed-starting-trays-for-tomatoes-and-peppers/ /guides/best-seed-starting-trays/ 301
+
+# Moved city-level best-varieties pages into main crop-city pages.
+https://varieties.growbydate.com/planting-dates/canada/:province/:city/:crop/best-varieties/ https://growbydate.com/planting-dates/canada/:province/:city/:crop/ 301!
+https://varieties.growbydate.com/planting-dates/:state/:city/:crop/best-varieties/ https://growbydate.com/planting-dates/:state/:city/:crop/ 301!
+
+# Moved crop-level variety guides from varieties.growbydate.com to the main site.
+https://varieties.growbydate.com/:crop/:slug/ https://growbydate.com/crops/:crop/:slug/ 301!
+https://varieties.growbydate.com/:crop/ https://growbydate.com/crops/:crop/ 301!
+https://varieties.growbydate.com/ https://growbydate.com/crops/ 301!
