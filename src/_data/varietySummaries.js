@@ -2083,10 +2083,8 @@ function dedupeVarieties(rows) {
   const seen = new Set();
 
   return rows.filter((item) => {
-    const nameKey = normalizeVarietyNameKey(item?.name);
-    const classKey = normalizeClassLabel(item?.classLabel || '') || '';
-    const key = `${nameKey}::${classKey}`;
-    if (!nameKey || seen.has(key)) return false;
+    const key = `${item.name}::${item.classLabel || ''}`;
+    if (seen.has(key)) return false;
     seen.add(key);
     return true;
   });
@@ -2096,11 +2094,11 @@ function removePicked(rows, pickedGroups) {
   const pickedNames = new Set(
     pickedGroups
       .flat()
-      .map((item) => normalizeVarietyNameKey(item?.name))
+      .map((item) => item.name)
       .filter(Boolean)
   );
 
-  return rows.filter((item) => !pickedNames.has(normalizeVarietyNameKey(item?.name)));
+  return rows.filter((item) => !pickedNames.has(item.name));
 }
 
 function getPickedVarietyNameSet(namedVarieties) {
@@ -2115,50 +2113,15 @@ function getPickedVarietyNameSet(namedVarieties) {
   );
 }
 
-function getCanonicalOverrideVarietyName(record, name) {
-  const key = normalizeVarietyNameKey(name);
-  if (!key) return name;
-
-  const detailedExample = Array.isArray(record?.fit?.fittingVarietyExamplesDetailed)
-    ? record.fit.fittingVarietyExamplesDetailed.find((example) =>
-        normalizeVarietyNameKey(example?.name) === key
-      )
-    : null;
-
-  if (detailedExample?.name) return detailedExample.name;
-
-  const varietyClasses = getRecordVarietyClasses(record);
-
-  for (const varietyClass of varietyClasses) {
-    const examples = Array.isArray(varietyClass?.examples) ? varietyClass.examples : [];
-    const matchedExample = examples.find((example) =>
-      normalizeVarietyNameKey(example?.name) === key
-    );
-
-    if (matchedExample?.name) return matchedExample.name;
-  }
-
-  return titleCaseWords(String(name).replace(/[_-]+/g, ' '));
-}
-
 function getOverrideVarietyItemsForCrop(record) {
   const cropKey = record?.cropKey || null;
   const cropOverrides = cropKey ? VARIETY_COPY_OVERRIDES[cropKey] : null;
 
   if (!cropOverrides || typeof cropOverrides !== 'object') return [];
 
-  const seen = new Set();
-
-  return Object.keys(cropOverrides)
-    .filter((name) => {
-      const key = normalizeVarietyNameKey(name);
-      if (!key || seen.has(key)) return false;
-      seen.add(key);
-      return true;
-    })
-    .map((name) => ({
-      name: getCanonicalOverrideVarietyName(record, name)
-    }));
+  return Object.keys(cropOverrides).map((name) => ({
+    name
+  }));
 }
 
 function inferClassForOverrideVariety(record, item) {
@@ -3633,6 +3596,64 @@ function buildBestVarietyActionBox(record, namedVarieties) {
   });
 }
 
+function buildVarietySummary(record) {
+  if (!record || !isCityCropEnabled(record)) return null;
+
+  const classRows = buildClassRows(record);
+  const namedVarieties = classifyNamedVarieties(record);
+  const copy = buildCropClimateCopy(record, 'varieties');
+  const strategy = record?.diagnostics?.varietyStrategy || {};
+
+  const defaultVarietyDisplay = getVarietyClassDisplay(strategy.defaultRecommendedVarietyLabel);
+  const fastestVarietyDisplay = getVarietyClassDisplay(strategy.fastestReliableVarietyLabel);
+  const slowestStillFittingDisplay = getVarietyClassDisplay(strategy.slowestStillFittingVarietyLabel);
+  const varietyAction = buildBestVarietyActionBox(record, namedVarieties);
+  const availableGddFromPlanting = getRecordGddAvailable(record);
+
+  return {
+    pageType: 'varieties',
+    cityKey: record.cityKey,
+    cityName: record.cityName,
+    country: record.country,
+    regionKey: record.regionKey,
+    regionName: record.regionName,
+    cropKey: record.cropKey,
+    cropName: record.cropName,
+    cropSingularName: record.cropSingularName,
+    urlBase: record.urlBase,
+    url: `${record.urlBase}best-varieties/`,
+    frost: {
+      ...(record.frost || {})
+    },
+    heat: {
+      ...(record.heat || {}),
+      available: availableGddFromPlanting,
+      gddAvailable: availableGddFromPlanting,
+      seasonTotal: record?.heat?.seasonTotal ?? availableGddFromPlanting
+    },
+    monetization: {
+      varietyAction
+    },
+    copy: {
+      ...copy,
+      fitSummary: buildVarietyFitSummary(record),
+      cropDisplayName: buildVarietyPageCropName(record),
+      varietyPageCropName: buildVarietyPageCropName(record),
+      varietyQuickAnswer: buildQuickAnswer(record, namedVarieties),
+      varietyQuickAnswerParts: buildQuickAnswerParts(record, namedVarieties),
+      availableGddFromPlanting,
+      defaultVarietyDisplay,
+      fastestVarietyDisplay,
+      slowestStillFittingDisplay
+    },
+    varietyTables: {
+      strongerRows: classRows.filter((item) => item.fitLabel === 'good' || item.fitLabel === 'workable'),
+      slowerRiskRows: classRows.filter((item) => item.fitLabel === 'tight' || item.fitLabel === 'poor')
+    },
+    namedVarieties
+  };
+}
+
 function buildVarietySummaries() {
   if (cache) return cache;
 
@@ -3640,61 +3661,8 @@ function buildVarietySummaries() {
 
   cache = records
     .filter((record) => isCityCropEnabled(record))
-    .map((record) => {
-      const classRows = buildClassRows(record);
-      const namedVarieties = classifyNamedVarieties(record);
-      const copy = buildCropClimateCopy(record, 'varieties');
-      const strategy = record?.diagnostics?.varietyStrategy || {};
-
-      const defaultVarietyDisplay = getVarietyClassDisplay(strategy.defaultRecommendedVarietyLabel);
-      const fastestVarietyDisplay = getVarietyClassDisplay(strategy.fastestReliableVarietyLabel);
-      const slowestStillFittingDisplay = getVarietyClassDisplay(strategy.slowestStillFittingVarietyLabel);
-      const varietyAction = buildBestVarietyActionBox(record, namedVarieties);
-      const availableGddFromPlanting = getRecordGddAvailable(record);
-
-      return {
-        pageType: 'varieties',
-        cityKey: record.cityKey,
-        cityName: record.cityName,
-        country: record.country,
-        regionKey: record.regionKey,
-        regionName: record.regionName,
-        cropKey: record.cropKey,
-        cropName: record.cropName,
-        cropSingularName: record.cropSingularName,
-        urlBase: record.urlBase,
-        url: `${record.urlBase}best-varieties/`,
-        frost: {
-          ...(record.frost || {})
-        },
-        heat: {
-          ...(record.heat || {}),
-          available: availableGddFromPlanting,
-          gddAvailable: availableGddFromPlanting,
-          seasonTotal: record?.heat?.seasonTotal ?? availableGddFromPlanting
-        },
-        monetization: {
-          varietyAction
-        },
-        copy: {
-          ...copy,
-          fitSummary: buildVarietyFitSummary(record),
-          cropDisplayName: buildVarietyPageCropName(record),
-          varietyPageCropName: buildVarietyPageCropName(record),
-          varietyQuickAnswer: buildQuickAnswer(record, namedVarieties),
-          varietyQuickAnswerParts: buildQuickAnswerParts(record, namedVarieties),
-          availableGddFromPlanting,
-          defaultVarietyDisplay,
-          fastestVarietyDisplay,
-          slowestStillFittingDisplay
-        },
-        varietyTables: {
-          strongerRows: classRows.filter((item) => item.fitLabel === 'good' || item.fitLabel === 'workable'),
-          slowerRiskRows: classRows.filter((item) => item.fitLabel === 'tight' || item.fitLabel === 'poor')
-        },
-        namedVarieties
-      };
-    });
+    .map((record) => buildVarietySummary(record))
+    .filter(Boolean);
 
   return cache;
 }
@@ -3705,3 +3673,4 @@ module.exports = function () {
 };
 
 module.exports.buildVarietySummaries = buildVarietySummaries;
+module.exports.buildVarietySummary = buildVarietySummary;
