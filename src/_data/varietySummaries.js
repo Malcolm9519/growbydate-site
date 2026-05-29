@@ -2083,8 +2083,10 @@ function dedupeVarieties(rows) {
   const seen = new Set();
 
   return rows.filter((item) => {
-    const key = `${item.name}::${item.classLabel || ''}`;
-    if (seen.has(key)) return false;
+    const nameKey = normalizeVarietyNameKey(item?.name);
+    const classKey = normalizeClassLabel(item?.classLabel || '') || '';
+    const key = `${nameKey}::${classKey}`;
+    if (!nameKey || seen.has(key)) return false;
     seen.add(key);
     return true;
   });
@@ -2094,11 +2096,11 @@ function removePicked(rows, pickedGroups) {
   const pickedNames = new Set(
     pickedGroups
       .flat()
-      .map((item) => item.name)
+      .map((item) => normalizeVarietyNameKey(item?.name))
       .filter(Boolean)
   );
 
-  return rows.filter((item) => !pickedNames.has(item.name));
+  return rows.filter((item) => !pickedNames.has(normalizeVarietyNameKey(item?.name)));
 }
 
 function getPickedVarietyNameSet(namedVarieties) {
@@ -2113,15 +2115,50 @@ function getPickedVarietyNameSet(namedVarieties) {
   );
 }
 
+function getCanonicalOverrideVarietyName(record, name) {
+  const key = normalizeVarietyNameKey(name);
+  if (!key) return name;
+
+  const detailedExample = Array.isArray(record?.fit?.fittingVarietyExamplesDetailed)
+    ? record.fit.fittingVarietyExamplesDetailed.find((example) =>
+        normalizeVarietyNameKey(example?.name) === key
+      )
+    : null;
+
+  if (detailedExample?.name) return detailedExample.name;
+
+  const varietyClasses = getRecordVarietyClasses(record);
+
+  for (const varietyClass of varietyClasses) {
+    const examples = Array.isArray(varietyClass?.examples) ? varietyClass.examples : [];
+    const matchedExample = examples.find((example) =>
+      normalizeVarietyNameKey(example?.name) === key
+    );
+
+    if (matchedExample?.name) return matchedExample.name;
+  }
+
+  return titleCaseWords(String(name).replace(/[_-]+/g, ' '));
+}
+
 function getOverrideVarietyItemsForCrop(record) {
   const cropKey = record?.cropKey || null;
   const cropOverrides = cropKey ? VARIETY_COPY_OVERRIDES[cropKey] : null;
 
   if (!cropOverrides || typeof cropOverrides !== 'object') return [];
 
-  return Object.keys(cropOverrides).map((name) => ({
-    name
-  }));
+  const seen = new Set();
+
+  return Object.keys(cropOverrides)
+    .filter((name) => {
+      const key = normalizeVarietyNameKey(name);
+      if (!key || seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    })
+    .map((name) => ({
+      name: getCanonicalOverrideVarietyName(record, name)
+    }));
 }
 
 function inferClassForOverrideVariety(record, item) {
