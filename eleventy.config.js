@@ -20,6 +20,9 @@ module.exports = function (eleventyConfig) {
 
   if (buildTarget === "varieties") {
     eleventyConfig.ignores.add("src/planting-dates/crop-city/crop-city.njk");
+    // City-level best-varieties pages now live inside the main crop-city pages.
+    // The varieties subdomain should serve redirects only for these URLs.
+    eleventyConfig.ignores.add("src/planting-dates/varieties/varieties.njk");
 
     // Keep non-variety planting page families out of the varieties subdomain build.
     eleventyConfig.ignores.add("src/planting-dates/monthly/**");
@@ -175,7 +178,11 @@ module.exports = function (eleventyConfig) {
 
   eleventyConfig.addPassthroughCopy({ "src/site.webmanifest": "site.webmanifest" });
   eleventyConfig.addPassthroughCopy({ "src/assets": "assets" });
-  eleventyConfig.addPassthroughCopy({ "src/_redirects": "_redirects" });
+  if (buildTarget === "varieties") {
+    eleventyConfig.addPassthroughCopy({ "src/_redirects-varieties": "_redirects" });
+  } else {
+    eleventyConfig.addPassthroughCopy({ "src/_redirects": "_redirects" });
+  }
 
   // Optional AI/LLM discovery file.
   // Source file should live in the project root:

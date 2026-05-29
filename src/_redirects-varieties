@@ -1,0 +1,11 @@
+# Redirects for varieties.growbydate.com after moving variety content to growbydate.com.
+# These are path-only because this file is deployed on the varieties subdomain.
+
+# City-level best-varieties pages moved into the corresponding main crop-city pages.
+/planting-dates/canada/:province/:city/:crop/best-varieties/ https://growbydate.com/planting-dates/canada/:province/:city/:crop/ 301!
+/planting-dates/:state/:city/:crop/best-varieties/ https://growbydate.com/planting-dates/:state/:city/:crop/ 301!
+
+# Crop-level variety guides moved under /crops/ on the main domain.
+/:crop/:slug/ https://growbydate.com/crops/:crop/:slug/ 301!
+/:crop/ https://growbydate.com/crops/:crop/ 301!
+/ https://growbydate.com/crops/ 301!
