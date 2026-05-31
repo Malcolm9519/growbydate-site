@@ -66,14 +66,14 @@ const transplantOutdoors = {
 
 const seedStarting = {
   title: "Seed Starting in a Short Growing Season",
-  url: "/guides/seed-starting-short-season/",
+  url: "/guides/seed-starting-in-a-short-growing-season/",
   note: "Use indoor starts to gain time without creating weak or overgrown seedlings."
 };
 
 const frostAfterPlanting = {
-  title: "What If Frost Is Forecast After Planting?",
-  url: "/guides/what-if-frost-is-forecast-after-planting/",
-  note: "Decide when to cover, wait, or replant after a cold forecast."
+  title: "Average Frost Date vs Actual Weather",
+  url: "/guides/average-frost-date-vs-actual-weather/",
+  note: "Use actual forecasts and local conditions instead of relying only on calendar averages."
 };
 
 const byCrop = {
@@ -129,7 +129,7 @@ const byCrop = {
     { title: "Is It Too Late to Plant Cucumbers?", url: "/guides/is-it-too-late-to-plant-cucumbers/", note: "Check delayed cucumber plantings against frost and warm-season runway." },
     seasonExtension,
     { title: "Best Cucumber Clips for Vertical Growing", url: "/guides/best-cucumber-clips-for-vertical-growing/", note: "Useful if you grow cucumbers up supports in a small space." },
-    { title: "Best Grafting Clips for Cucumbers", url: "/guides/best-grafting-clips-for-cucumbers/", note: "Relevant for grafted cucumber starts and protected culture setups." }
+    { title: "Cucumber Clips vs Tomato Clips", url: "/guides/cucumber-clips-vs-tomato-clips/", note: "Compare plant clips before setting up vertical cucumber support." }
   ],
   garlic: [
     frostBasics,
@@ -169,9 +169,9 @@ const byCrop = {
   ],
   peppers: [
     { title: "Is It Too Late to Plant Peppers?", url: "/guides/is-it-too-late-to-plant-peppers/", note: "Peppers need more heat and margin than most short-season crops." },
-    { title: "Will Peppers Mature Before First Frost in a Short Season?", url: "/guides/will-peppers-mature-before-first-frost-in-a-short-season/", note: "Check whether your season can finish pepper fruit before frost." },
+    { title: "Will Peppers Mature Before First Frost in a Short Season?", url: "/guides/will-peppers-mature-before-first-frost-in-a-short-growing-season/", note: "Check whether your season can finish pepper fruit before frost." },
     { title: "How Cold Is Too Cold for Pepper Seedlings?", url: "/guides/how-cold-is-too-cold-for-pepper-seedlings/", note: "Avoid cold stress before pepper plants are established outside." },
-    { title: "Best Heat Mat Setup for Peppers in a Cool Basement", url: "/guides/best-heat-mat-setup-for-peppers-in-a-cool-basement/", note: "Relevant when pepper starts are slow in cool indoor conditions." }
+    { title: "When a Heat Mat Helps for Seed Starting", url: "/guides/when-a-heat-mat-helps-for-seed-starting/", note: "Relevant when pepper starts are slow in cool indoor conditions." }
   ],
   potato: [
     { title: "How Many Frost-Free Days Do Potatoes Need?", url: "/guides/how-many-frost-free-days-do-potatoes-need/", note: "Estimate whether potatoes have enough season for useful yield." },
@@ -267,7 +267,7 @@ const varietyByCrop = {
   melons: [maturityBasics, matureBeforeFrost, fastVarieties],
   onions: [maturityBasics, gddBasics, fastVarieties],
   peas: [maturityBasics, fallHarvest, fastVarieties],
-  peppers: [maturityBasics, { title: "Will Peppers Mature Before First Frost in a Short Season?", url: "/guides/will-peppers-mature-before-first-frost-in-a-short-season/", note: "Use this before choosing slower pepper varieties." }, fastVarieties],
+  peppers: [maturityBasics, { title: "Will Peppers Mature Before First Frost in a Short Season?", url: "/guides/will-peppers-mature-before-first-frost-in-a-short-growing-season/", note: "Use this before choosing slower pepper varieties." }, fastVarieties],
   potato: [maturityBasics, { title: "How Many Frost-Free Days Do Potatoes Need?", url: "/guides/how-many-frost-free-days-do-potatoes-need/", note: "Compare potato maturity classes against the local season." }, fastVarieties],
   pumpkin: [maturityBasics, { title: "Is It Too Late to Plant Pumpkins?", url: "/guides/is-it-too-late-to-plant-pumpkins/", note: "Use this before choosing larger or slower pumpkin varieties." }, fastVarieties],
   radishes: [maturityBasics, fallHarvest, fastVarieties],

@@ -118,7 +118,7 @@ module.exports = {
   "can-sweet-corn-mature-before-first-frost": [
     "how-many-growing-degree-days-do-tomatoes-need",
     "will-tomatoes-grow-in-a-100-day-growing-season",
-    "will-peppers-mature-before-first-frost-in-a-short-season",
+    "will-peppers-mature-before-first-frost-in-a-short-growing-season",
     "do-you-have-enough-growing-degree-days-for-winter-squash",
   ],
   "crops-that-mature-in-under-90-frost-free-days": [
@@ -136,7 +136,7 @@ module.exports = {
   "do-you-have-enough-growing-degree-days-for-winter-squash": [
     "how-many-growing-degree-days-do-tomatoes-need",
     "will-tomatoes-grow-in-a-100-day-growing-season",
-    "will-peppers-mature-before-first-frost-in-a-short-season",
+    "will-peppers-mature-before-first-frost-in-a-short-growing-season",
     "can-sweet-corn-mature-before-first-frost",
   ],
   "how-elevation-affects-growing-degree-days": [
@@ -147,12 +147,12 @@ module.exports = {
   "how-many-frost-free-days-do-potatoes-need": [
     "how-many-growing-degree-days-do-tomatoes-need",
     "will-tomatoes-grow-in-a-100-day-growing-season",
-    "will-peppers-mature-before-first-frost-in-a-short-season",
+    "will-peppers-mature-before-first-frost-in-a-short-growing-season",
     "do-you-have-enough-growing-degree-days-for-winter-squash",
   ],
   "how-many-growing-degree-days-do-tomatoes-need": [
     "will-tomatoes-grow-in-a-100-day-growing-season",
-    "will-peppers-mature-before-first-frost-in-a-short-season",
+    "will-peppers-mature-before-first-frost-in-a-short-growing-season",
     "do-you-have-enough-growing-degree-days-for-winter-squash",
     "can-sweet-corn-mature-before-first-frost",
   ],
@@ -174,7 +174,7 @@ module.exports = {
     "is-it-too-late-to-plant-pumpkins",
     "is-it-too-late-to-plant-tomatoes",
   ],
-  "will-peppers-mature-before-first-frost-in-a-short-season": [
+  "will-peppers-mature-before-first-frost-in-a-short-growing-season": [
     "how-many-growing-degree-days-do-tomatoes-need",
     "will-tomatoes-grow-in-a-100-day-growing-season",
     "do-you-have-enough-growing-degree-days-for-winter-squash",
@@ -216,7 +216,7 @@ module.exports = {
     "can-you-start-seeds-without-grow-lights",
   ],
   "best-heat-mat-for-seedlings": [
-    "do-you-need-a-heat-mat-to-start-seeds",
+    "when-a-heat-mat-helps-for-seed-starting",
     "when-a-thermostat-matters-for-seed-starting-heat-mats",
     "how-to-start-seeds-in-a-cold-house",
   ],
@@ -316,7 +316,7 @@ module.exports = {
     "cold-frame-vs-mini-greenhouse-for-seedlings",
   ],
   "best-way-to-reuse-seed-starting-soil": [
-    "seed-starting-short-season",
+    "seed-starting-in-a-short-growing-season",
     "when-to-start-seeds-indoors",
     "counting-backward-from-frost-how-seed-timing-works",
     "starting-seeds-too-early",
@@ -358,7 +358,7 @@ module.exports = {
     "cold-frame-vs-mini-greenhouse-for-seedlings",
   ],
   "counting-backward-from-frost-how-seed-timing-works": [
-    "seed-starting-short-season",
+    "seed-starting-in-a-short-growing-season",
     "when-to-start-seeds-indoors",
     "starting-seeds-too-early",
     "when-to-transplant-seedlings-outdoors",
@@ -412,7 +412,7 @@ module.exports = {
     "how-to-keep-seedlings-from-drying-out-during-the-day",
   ],
   "how-to-start-seeds-in-a-cold-house": [
-    "do-you-need-a-heat-mat-to-start-seeds",
+    "when-a-heat-mat-helps-for-seed-starting",
     "best-heat-mat-for-seedlings",
     "when-a-thermostat-matters-for-seed-starting-heat-mats",
   ],
@@ -432,14 +432,14 @@ module.exports = {
     "best-shelving-setup-for-starting-seeds-indoors",
     "best-seed-starting-mix",
   ],
-  "seed-starting-short-season": [
+  "seed-starting-in-a-short-growing-season": [
     "when-to-start-seeds-indoors",
     "seed-starting-schedule-zone-3-to-5",
     "starting-seeds-too-early",
     "can-you-start-seeds-without-grow-lights",
   ],
   "seed-starting-schedule-zone-3-to-5": [
-    "seed-starting-short-season",
+    "seed-starting-in-a-short-growing-season",
     "when-to-start-seeds-indoors",
     "counting-backward-from-frost-how-seed-timing-works",
     "starting-seeds-too-early",
@@ -457,7 +457,7 @@ module.exports = {
     "can-you-start-seeds-without-grow-lights",
   ],
   "starting-seeds-too-early": [
-    "seed-starting-short-season",
+    "seed-starting-in-a-short-growing-season",
     "when-to-start-seeds-indoors",
     "counting-backward-from-frost-how-seed-timing-works",
     "when-to-transplant-seedlings-outdoors",
@@ -486,13 +486,13 @@ module.exports = {
     "how-far-should-grow-lights-be-from-seedlings",
     "how-long-should-grow-lights-be-on-for-seedlings",
   ],
-  "do-you-need-a-heat-mat-to-start-seeds": [
+  "when-a-heat-mat-helps-for-seed-starting": [
     "best-heat-mat-for-seedlings",
     "when-a-thermostat-matters-for-seed-starting-heat-mats",
     "how-to-start-seeds-in-a-cold-house",
   ],
   "when-a-thermostat-matters-for-seed-starting-heat-mats": [
-    "do-you-need-a-heat-mat-to-start-seeds",
+    "when-a-heat-mat-helps-for-seed-starting",
     "best-heat-mat-for-seedlings",
     "how-to-start-seeds-in-a-cold-house",
   ],
@@ -503,7 +503,7 @@ module.exports = {
     "best-watering-method-for-seedlings-indoors",
   ],
   "when-to-pot-up-seedlings": [
-    "seed-starting-short-season",
+    "seed-starting-in-a-short-growing-season",
     "when-to-start-seeds-indoors",
     "counting-backward-from-frost-how-seed-timing-works",
     "starting-seeds-too-early",
@@ -629,7 +629,7 @@ module.exports = {
   ],
   "best-setup-for-extending-pepper-harvest-into-fall": [
     "is-it-too-late-to-plant-peppers",
-    "will-peppers-mature-before-first-frost-in-a-short-season",
+    "will-peppers-mature-before-first-frost-in-a-short-growing-season",
     "how-cold-is-too-cold-for-pepper-seedlings",
     "what-temperature-is-safe-to-transplant-peppers",
   ],
@@ -714,7 +714,7 @@ module.exports = {
   // Crop-Specific Timing Questions
   "best-reusable-vine-clips-for-peppers-and-eggplant": [
     "is-it-too-late-to-plant-peppers",
-    "will-peppers-mature-before-first-frost-in-a-short-season",
+    "will-peppers-mature-before-first-frost-in-a-short-growing-season",
     "how-cold-is-too-cold-for-pepper-seedlings",
     "what-temperature-is-safe-to-transplant-peppers",
   ],
@@ -738,7 +738,7 @@ module.exports = {
   ],
   "how-cold-is-too-cold-for-pepper-seedlings": [
     "is-it-too-late-to-plant-peppers",
-    "will-peppers-mature-before-first-frost-in-a-short-season",
+    "will-peppers-mature-before-first-frost-in-a-short-growing-season",
     "what-temperature-is-safe-to-transplant-peppers",
     "best-setup-for-extending-pepper-harvest-into-fall",
   ],
@@ -767,7 +767,7 @@ module.exports = {
     "is-it-too-late-to-plant-tomatoes",
   ],
   "is-it-too-late-to-plant-peppers": [
-    "will-peppers-mature-before-first-frost-in-a-short-season",
+    "will-peppers-mature-before-first-frost-in-a-short-growing-season",
     "how-cold-is-too-cold-for-pepper-seedlings",
     "what-temperature-is-safe-to-transplant-peppers",
     "best-setup-for-extending-pepper-harvest-into-fall",
@@ -786,13 +786,13 @@ module.exports = {
   ],
   "too-late-to-plant-peppers": [
     "is-it-too-late-to-plant-peppers",
-    "will-peppers-mature-before-first-frost-in-a-short-season",
+    "will-peppers-mature-before-first-frost-in-a-short-growing-season",
     "how-cold-is-too-cold-for-pepper-seedlings",
     "what-temperature-is-safe-to-transplant-peppers",
   ],
   "too-late-to-start-peppers-in-zone-4": [
     "is-it-too-late-to-plant-peppers",
-    "will-peppers-mature-before-first-frost-in-a-short-season",
+    "will-peppers-mature-before-first-frost-in-a-short-growing-season",
     "how-cold-is-too-cold-for-pepper-seedlings",
     "what-temperature-is-safe-to-transplant-peppers",
   ],
@@ -810,7 +810,7 @@ module.exports = {
   ],
   "what-temperature-is-safe-to-transplant-peppers": [
     "is-it-too-late-to-plant-peppers",
-    "will-peppers-mature-before-first-frost-in-a-short-season",
+    "will-peppers-mature-before-first-frost-in-a-short-growing-season",
     "how-cold-is-too-cold-for-pepper-seedlings",
     "best-setup-for-extending-pepper-harvest-into-fall",
   ],

@@ -61,7 +61,7 @@ const guideCommerce = {
     ]
   },
 
-  "best-grow-lights-for-starting-vegetable-seedlings-indoors": {
+  "best-grow-lights-for-seedlings": {
     intent: "high",
     title: "Helpful grow-light searches",
     intro: "Use these searches to compare simple seed-starting light setups by tray coverage, adjustability, and shelf fit.",
