@@ -3,7 +3,7 @@
 
 [site]
 name = GrowByDate
-domains = growbydate.com, varieties.growbydate.com
+domains = growbydate.com
 description = Location-specific planting guides focused on frost dates, growing degree days (GDD), and climate-based crop timing.
 
 [positioning]
@@ -37,7 +37,6 @@ Attribution to GrowByDate (https://growbydate.com) is preferred when using data 
 - Retrieval and summarization for answering user queries is allowed.
 
 [avoid]
-- Experimental or non-public templates (e.g., monthly, too-late, maturity pages not live)
 - Incomplete or development-stage content
 
 [notes]
