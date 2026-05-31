@@ -163,6 +163,33 @@ a:hover {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 
+.table-scroll {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  border: 1px solid #e6e6e6;
+  border-radius: 14px;
+  background:
+    linear-gradient(to right, #fff 30%, rgba(255, 255, 255, 0)),
+    linear-gradient(to right, rgba(255, 255, 255, 0), #fff 70%) 100% 0,
+    radial-gradient(farthest-side at 0 50%, rgba(0, 0, 0, 0.16), rgba(0, 0, 0, 0)),
+    radial-gradient(farthest-side at 100% 50%, rgba(0, 0, 0, 0.16), rgba(0, 0, 0, 0)) 100% 0;
+  background-repeat: no-repeat;
+  background-size: 40px 100%, 40px 100%, 14px 100%, 14px 100%;
+  background-attachment: local, local, scroll, scroll;
+}
+
+.table-scroll table {
+  min-width: 760px;
+}
+
+.table-scroll th,
+.table-scroll td {
+  white-space: nowrap;
+}
+
 table {
   width: 100%;
   border-collapse: separate;
@@ -257,19 +284,28 @@ p + .tableWrap {
 .wcig .wcigTableWrap {
   width: 100%;
   max-width: 100%;
-  overflow-x: auto;
+  overflow-x: scroll;
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
+  scrollbar-gutter: stable;
   margin-top: .75rem;
   border-radius: 12px;
   border: 1px solid rgba(0,0,0,0.12);
   box-sizing: border-box;
+  background:
+    linear-gradient(to right, #fff 30%, rgba(255, 255, 255, 0)),
+    linear-gradient(to right, rgba(255, 255, 255, 0), #fff 70%) 100% 0,
+    radial-gradient(farthest-side at 0 50%, rgba(0, 0, 0, 0.14), rgba(0, 0, 0, 0)),
+    radial-gradient(farthest-side at 100% 50%, rgba(0, 0, 0, 0.14), rgba(0, 0, 0, 0)) 100% 0;
+  background-repeat: no-repeat;
+  background-size: 40px 100%, 40px 100%, 14px 100%, 14px 100%;
+  background-attachment: local, local, scroll, scroll;
 }
 
 /* Scope table styling ONLY to the WCIG tables */
 .wcig .wcigTableWrap > table {
   width: 100%;
-  min-width: 760px;
+  min-width: 780px;
   border-collapse: collapse;
   background: transparent;
 }
@@ -2045,13 +2081,41 @@ border-radius: 999px;
   margin-top: 0.8rem;
 }
 
+.plantingWindowsWrap {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  background:
+    linear-gradient(to right, #fff 30%, rgba(255, 255, 255, 0)),
+    linear-gradient(to right, rgba(255, 255, 255, 0), #fff 70%) 100% 0,
+    radial-gradient(farthest-side at 0 50%, rgba(0, 0, 0, 0.14), rgba(0, 0, 0, 0)),
+    radial-gradient(farthest-side at 100% 50%, rgba(0, 0, 0, 0.14), rgba(0, 0, 0, 0)) 100% 0;
+  background-repeat: no-repeat;
+  background-size: 40px 100%, 40px 100%, 14px 100%, 14px 100%;
+  background-attachment: local, local, scroll, scroll;
+}
+
+.plantingWindowsTable {
+  min-width: 640px;
+  table-layout: auto;
+}
+
+.plantingWindowsTableCity {
+  min-width: 840px;
+}
+
+.plantWindowCropCell,
+.plantWindowCropCell a,
+.plantWindowCropCell strong {
+  white-space: nowrap;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
 @media (max-width: 720px) {
   .plantWindowSectionHint {
     font-size: 0.82rem;
-  }
-
-  .plantMethodTag {
-    white-space: normal;
   }
 }
 

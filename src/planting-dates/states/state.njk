@@ -7,13 +7,13 @@ pagination:
   alias: state
 permalink: "/planting-dates/states/{{ state.key }}/index.html"
 eleventyComputed:
-  title: "{{ state.name }} Planting Dates by City | Last Frost, First Frost & Timing"
+  title: "{{ state.name }} Planting Dates, Frost Dates and Growing Season by City"
   description: "Browse {{ state.name }} planting dates by city, with average last frost, first frost, frost-free days, and local crop timing links."
   canonical: "https://growbydate.com/planting-dates/states/{{ state.key }}/"
 ---
 
 <header class="header">
-<h1>{{ state.name }} Planting Dates, Frost Dates & Growing Season</h1>
+<h1>{{ state.name }} Planting Dates, Frost Dates & Growing Seasons</h1>
 
   {% set hero = (state.content and state.content.hero) or {} %}
 
