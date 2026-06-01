@@ -1969,7 +1969,7 @@ border-radius: 999px;
 
 .statCard strong {
   font-size: 1.05rem;
-  color: #111;
+  color: var(--link);
 }
 
 .quickSummary .small.muted,
