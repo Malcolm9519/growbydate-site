@@ -63,11 +63,11 @@ module.exports = function () {
     slug: "cities-with-the-shortest-growing-seasons",
     permalink: "/data/rankings/cities-with-the-shortest-growing-seasons/",
     description:
-      "A GrowByDate Data Ranking comparing median frost-free windows across the currently published city dataset.",
+      "Cities ranked by median frost-free windows.",
     updated: "2026-05-23",
     category: "Data ranking",
     methodology:
-      "Cities are ranked by median frost-free days between the typical last spring frost and first fall frost in GrowByDate city data. Ties use remaining base-50 GDD as a secondary signal.",
+      "Cities are ranked by median frost-free days between the typical last spring frost and first fall frost. Ties use remaining base-50 GDD as a secondary signal.",
     caveat:
       "A short frost-free window does not mean gardening is impossible. It means crop choice, variety speed, warm microclimates, and season extension matter more.",
     top: entries[0] || null,

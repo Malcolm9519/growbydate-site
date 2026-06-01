@@ -3408,6 +3408,21 @@ ul.tight li + li {
   min-width: 760px;
 }
 
+
+/* Keep data tables readable by scrolling horizontally instead of breaking city, region, and crop names. */
+.leaderboardTableWrap th,
+.leaderboardTableWrap td {
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+  white-space: nowrap;
+}
+
+.leaderboardTableWrap td.wrapText,
+.leaderboardTableWrap th.wrapText {
+  white-space: normal;
+  min-width: 16rem;
+}
+
 /* Decision tables in guides should scroll instead of squeezing columns or widening the page. */
 .decisionTableWrap {
   max-width: 100%;
@@ -3448,7 +3463,7 @@ ul.tight li + li {
 
   .leaderboardTableWrap th,
   .leaderboardTableWrap td {
-    white-space: normal;
+    white-space: nowrap;
   }
 }
 

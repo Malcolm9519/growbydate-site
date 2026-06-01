@@ -1,7 +1,7 @@
 ---
 layout: layout-base.njk
-title: Hardest Crops to Grow in Short Seasons | GrowByDate Data Rankings
-description: A GrowByDate Data Ranking of crops that are most timing-sensitive in short frost windows and lower-GDD locations.
+title: Hardest Crops to Grow in Short Seasons | GrowByDate
+description: Compare crops that are most timing-sensitive in short frost windows and lower-GDD locations.
 canonical: "https://growbydate.com/data/rankings/hardest-crops-to-grow-in-short-seasons/"
 ---
 
@@ -10,16 +10,16 @@ canonical: "https://growbydate.com/data/rankings/hardest-crops-to-grow-in-short-
 {% set easiest = board.easiestOfThisSet %}
 
 <section class="card leaderboardHero">
-  <p class="eyebrow">GrowByDate Data Ranking</p>
+  <p class="eyebrow">Crop comparison</p>
   <h1>Hardest Crops to Grow in Short Seasons</h1>
   <p class="lede">
-    Some crops are not impossible in cold or short-season gardens, but they demand more heat, tighter timing, faster varieties, or season extension. This ranking identifies the crops that create the most outdoor pressure in the current GrowByDate short-season dataset.
+    Some crops are not impossible in cold or short-season gardens, but they demand more heat, tighter timing, faster varieties, or season extension. This ranking identifies crops that create the most outdoor pressure in short-season locations.
   </p>
 
   <div class="leaderboardStatGrid" aria-label="Ranking summary">
     {% if top %}
       <div class="leaderboardStat">
-        <span class="statLabel">Toughest current crop</span>
+        <span class="statLabel">Toughest crop</span>
         <strong>{{ top.cropName }}</strong>
         <span>{{ top.score }}/100 · {{ top.label }}</span>
       </div>
@@ -27,16 +27,16 @@ canonical: "https://growbydate.com/data/rankings/hardest-crops-to-grow-in-short-
 
     {% if easiest %}
       <div class="leaderboardStat">
-        <span class="statLabel">Most manageable in this set</span>
+        <span class="statLabel">Most manageable</span>
         <strong>{{ easiest.cropName }}</strong>
         <span>{{ easiest.score }}/100 · {{ easiest.label }}</span>
       </div>
     {% endif %}
 
     <div class="leaderboardStat">
-      <span class="statLabel">Dataset</span>
-      <strong>{{ board.entries.length }} crops</strong>
-      <span>Published short-season crop-city data</span>
+      <span class="statLabel">Crops compared</span>
+      <strong>{{ board.entries.length }}</strong>
+      <span>Short-season crop comparisons</span>
     </div>
   </div>
 </section>
@@ -87,7 +87,7 @@ canonical: "https://growbydate.com/data/rankings/hardest-crops-to-grow-in-short-
   <p>{{ board.methodology }}</p>
   <p>{{ board.caveat }}</p>
   <p class="small">
-    Data export: <a href="/assets/data/rankings/hardest-crops-to-grow-in-short-seasons.json">short-season crop difficulty JSON</a>.
+    Download: <a href="/assets/data/rankings/hardest-crops-to-grow-in-short-seasons.json">short-season crop difficulty JSON</a>.
   </p>
 </section>
 

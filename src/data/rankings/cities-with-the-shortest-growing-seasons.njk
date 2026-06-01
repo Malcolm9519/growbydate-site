@@ -1,7 +1,7 @@
 ---
 layout: layout-base.njk
-title: Cities With the Shortest Growing Seasons | GrowByDate Data Rankings
-description: A GrowByDate Data Ranking comparing median frost-free days across the currently published city dataset.
+title: Cities With the Shortest Growing Seasons | GrowByDate
+description: Compare cities by median frost-free days and typical outdoor growing-season length.
 canonical: "https://growbydate.com/data/rankings/cities-with-the-shortest-growing-seasons/"
 ---
 
@@ -10,16 +10,16 @@ canonical: "https://growbydate.com/data/rankings/cities-with-the-shortest-growin
 {% set longest = board.longest %}
 
 <section class="card leaderboardHero">
-  <p class="eyebrow">GrowByDate Data Ranking</p>
+  <p class="eyebrow">City comparison</p>
   <h1>Cities With the Shortest Growing Seasons</h1>
   <p class="lede">
-    Frost-free days are not the whole story, but they are one of the clearest ways to compare outdoor gardening pressure. This ranking compares median frost-free windows across the currently published GrowByDate city dataset.
+    Frost-free days are not the whole story, but they are one of the clearest ways to compare outdoor gardening pressure. This ranking compares cities by median frost-free window.
   </p>
 
   <div class="leaderboardStatGrid" aria-label="Ranking summary">
     {% if top %}
       <div class="leaderboardStat">
-        <span class="statLabel">Shortest current season</span>
+        <span class="statLabel">Shortest season</span>
         <strong>{{ top.cityName }}</strong>
         <span>{{ top.frostFreeDays }} frost-free days · {{ top.label }}</span>
       </div>
@@ -27,16 +27,16 @@ canonical: "https://growbydate.com/data/rankings/cities-with-the-shortest-growin
 
     {% if longest %}
       <div class="leaderboardStat">
-        <span class="statLabel">Longest current season</span>
+        <span class="statLabel">Longest season</span>
         <strong>{{ longest.cityName }}</strong>
         <span>{{ longest.frostFreeDays }} frost-free days · {{ longest.label }}</span>
       </div>
     {% endif %}
 
     <div class="leaderboardStat">
-      <span class="statLabel">Dataset</span>
-      <strong>{{ board.entries.length }} cities</strong>
-      <span>Published GrowByDate city pages</span>
+      <span class="statLabel">Cities compared</span>
+      <strong>{{ board.entries.length }}</strong>
+      <span>Cities with frost-date values</span>
     </div>
   </div>
 </section>
@@ -90,7 +90,7 @@ canonical: "https://growbydate.com/data/rankings/cities-with-the-shortest-growin
   <p>{{ board.methodology }}</p>
   <p>{{ board.caveat }}</p>
   <p class="small">
-    Data export: <a href="/assets/data/rankings/cities-with-the-shortest-growing-seasons.json">shortest growing seasons JSON</a>.
+    Download: <a href="/assets/data/rankings/cities-with-the-shortest-growing-seasons.json">shortest growing seasons JSON</a>.
   </p>
 </section>
 

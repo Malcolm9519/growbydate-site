@@ -13,7 +13,7 @@ function heatLabel(gdd) {
 function reason(row) {
   const gdd = Number(row.gddBase50);
   if (gdd >= 3600) {
-    return `${row.cityName} has one of the strongest base 50°F GDD totals in the current GrowByDate city reference set, giving warm-season crops more accumulated heat to work with.`;
+    return `${row.cityName} has one of the strongest base 50°F GDD totals in the current city list, giving warm-season crops more accumulated heat to work with.`;
   }
   if (gdd >= 3000) {
     return `${row.cityName} has a high base 50°F GDD total, which generally gives crops like tomatoes, peppers, corn, squash, and melons more heat margin than cooler locations.`;
@@ -21,7 +21,7 @@ function reason(row) {
   if (gdd >= 2400) {
     return `${row.cityName} has a solid base 50°F GDD profile, though crop choice, variety speed, and frost timing still matter.`;
   }
-  return `${row.cityName} remains part of the ranked reference set, but its base 50°F GDD total is less favorable for long-season warm crops than the top heat-accumulation cities.`;
+  return `${row.cityName} remains part of the ranking, but its base 50°F GDD total is less favorable for long-season warm crops than the top heat-accumulation cities.`;
 }
 
 module.exports = function () {
@@ -54,11 +54,11 @@ module.exports = function () {
     slug: "canadian-cities-with-the-highest-growing-degree-days",
     permalink: "/data/rankings/canadian-cities-with-the-highest-growing-degree-days/",
     description:
-      "A GrowByDate Data Ranking comparing Canadian cities by base 50°F growing degree day accumulation for warm-season crop planning.",
+      "Canadian cities ranked by base 50°F growing degree day accumulation for warm-season crop planning.",
     updated: "2026-05-23",
     category: "Data ranking",
     methodology:
-      "Canadian cities are ranked by their base 50°F seasonal growing degree day reference value in GrowByDate city data. Base 50°F GDD is a useful broad comparison point for warm-season crops, though individual crops may use different base temperatures.",
+      "Canadian cities are ranked by their base 50°F seasonal growing degree day reference value. Base 50°F GDD is a useful broad comparison point for warm-season crops, though individual crops may use different base temperatures.",
     caveat:
       "High GDD does not guarantee crop success. Frost timing, soil temperature, irrigation, cloud cover, variety choice, microclimate, and gardener timing still affect real-world maturity and harvest quality.",
     top: entries[0] || null,

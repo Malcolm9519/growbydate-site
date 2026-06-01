@@ -58,6 +58,6 @@ module.exports = function () {
     warmSeasonRows: rows.filter((row) => row.category === "warm-season"),
     coolSeasonRows: rows.filter((row) => row.category !== "warm-season"),
     methodology:
-      "Crop heat requirements are typical GDD planning targets used by GrowByDate's maturity tools and data rankings. They are not guarantees; variety, transplant size, soil warmth, microclimate, water stress, and weather swings all affect real outcomes."
+      "Crop heat requirements are typical GDD planning targets. They are not guarantees; variety, transplant size, soil warmth, microclimate, water stress, and weather swings all affect real outcomes."
   };
 };

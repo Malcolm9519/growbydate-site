@@ -126,13 +126,13 @@ module.exports = function () {
     slug: "crops-that-lose-the-most-margin-when-planted-late",
     permalink: "/data/rankings/crops-that-lose-the-most-margin-when-planted-late/",
     description:
-      "A GrowByDate Data Ranking of crops that lose the most heat and maturity margin when planting slips by two weeks.",
+      "Crops ranked by how much heat and maturity margin they lose when planting slips by two weeks.",
     updated: "2026-05-23",
     category: "Data ranking",
     methodology:
-      "This ranking compares the typical on-time GDD margin with the margin remaining two weeks later across published GrowByDate crop-city records. Crops rank higher when they lose more margin, cross below zero more often, or are warm-season crops with tighter timing needs.",
+      "This ranking compares the typical on-time GDD margin with the margin remaining two weeks later across published crop-location records. Crops rank higher when they lose more margin, cross below zero more often, or are warm-season crops with tighter timing needs.",
     caveat:
-      "The ranking uses currently published GrowByDate crop-city records. It measures timing pressure in the model, not every factor that can affect real gardens, such as microclimate, transplant size, soil warmth, irrigation, or variety choice.",
+      "This measures modeled timing pressure, not every factor that can affect real gardens, such as microclimate, transplant size, soil warmth, irrigation, or variety choice.",
     top: entries[0] || null,
     entries
   };

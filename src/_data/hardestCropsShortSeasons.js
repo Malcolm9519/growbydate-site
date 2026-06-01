@@ -109,13 +109,13 @@ module.exports = function () {
     slug: "hardest-crops-to-grow-in-short-seasons",
     permalink: "/data/rankings/hardest-crops-to-grow-in-short-seasons/",
     description:
-      "A GrowByDate Data Ranking of crops that create the most trouble in short frost windows and lower-GDD locations.",
+      "Crops ranked by how much timing pressure they create in short frost windows and lower-GDD locations.",
     updated: "2026-05-23",
     category: "Data ranking",
     methodology:
       `This ranking uses published crop-city rows where frost-free days are ${SHORT_SEASON_FROST_FREE_DAYS} or fewer, or available GDD is ${SHORT_SEASON_GDD} or lower. Crops are ranked by average Crop Fit score, GDD margin, risky/borderline locations, and whether variety classes clearly fit the season.`,
     caveat:
-      "The ranking is based on currently published GrowByDate crop-city locations, not every possible city. It identifies crops that are more timing-sensitive outdoors, not crops that are impossible.",
+      "This identifies crops that are more timing-sensitive outdoors, not crops that are impossible. Variety speed, microclimate, protection, and gardener skill can change the result.",
     top: entries[0] || null,
     easiestOfThisSet: entries[entries.length - 1] || null,
     entries

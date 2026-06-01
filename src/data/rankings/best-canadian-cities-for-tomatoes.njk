@@ -1,7 +1,7 @@
 ---
 layout: layout-base.njk
-title: Best Canadian Cities for Tomatoes | GrowByDate Data Rankings
-description: A GrowByDate Data Ranking comparing Canadian tomato locations by outdoor tomato fit, GDD margin, frost-free days, and variety flexibility.
+title: Best Canadian Cities for Tomatoes | GrowByDate
+description: Compare Canadian cities for outdoor tomato growing by heat margin, frost-free days, timing pressure, and variety flexibility.
 canonical: "https://growbydate.com/data/rankings/best-canadian-cities-for-tomatoes/"
 ---
 
@@ -10,16 +10,16 @@ canonical: "https://growbydate.com/data/rankings/best-canadian-cities-for-tomato
 {% set hardest = board.hardest %}
 
 <section class="card leaderboardHero">
-  <p class="eyebrow">GrowByDate Data Ranking</p>
+  <p class="eyebrow">City comparison</p>
   <h1>Best Canadian Cities for Tomatoes</h1>
   <p class="lede">
-    Which Canadian locations in the current GrowByDate dataset give outdoor tomatoes the best shot? This ranking compares tomato fit by GDD margin, frost-free days, delay tolerance, and variety flexibility.
+    Tomatoes need more than a frost-free calendar window. This comparison looks at Canadian cities by heat margin, frost-free days, timing pressure, and variety flexibility so outdoor tomato growing feels easier to judge.
   </p>
 
   <div class="leaderboardStatGrid" aria-label="Ranking summary">
     {% if top %}
       <div class="leaderboardStat">
-        <span class="statLabel">Current leader</span>
+        <span class="statLabel">Top city</span>
         <strong>{{ top.cityName }}</strong>
         <span>{{ top.score }}/100 · {{ top.label }}</span>
       </div>
@@ -27,16 +27,16 @@ canonical: "https://growbydate.com/data/rankings/best-canadian-cities-for-tomato
 
     {% if hardest %}
       <div class="leaderboardStat">
-        <span class="statLabel">Toughest current test</span>
+        <span class="statLabel">Toughest city</span>
         <strong>{{ hardest.cityName }}</strong>
         <span>{{ hardest.score }}/100 · {{ hardest.label }}</span>
       </div>
     {% endif %}
 
     <div class="leaderboardStat">
-      <span class="statLabel">Dataset</span>
-      <strong>{{ board.entries.length }} locations</strong>
-      <span>Published Canadian tomato crop-city pages</span>
+      <span class="statLabel">Locations compared</span>
+      <strong>{{ board.entries.length }}</strong>
+      <span>Canadian tomato locations</span>
     </div>
   </div>
 </section>
@@ -93,7 +93,7 @@ canonical: "https://growbydate.com/data/rankings/best-canadian-cities-for-tomato
 <section class="card leaderboardCallout">
   <h2>What this ranking means</h2>
   <p>
-    Tomatoes are one of the best crops for a city-vs-city data ranking because they are popular, frost-sensitive, and heavily affected by seasonal heat. A tomato page can look fine by calendar days alone, but GDD margin often tells a more useful story.
+    Tomatoes are frost-sensitive, popular, and heavily affected by seasonal heat. A city can have enough calendar days on paper but still be tight if spring starts late, summer heat is modest, or fall frost arrives before fruit has time to ripen.
   </p>
 </section>
 
@@ -102,7 +102,7 @@ canonical: "https://growbydate.com/data/rankings/best-canadian-cities-for-tomato
   <p>{{ board.methodology }}</p>
   <p>{{ board.caveat }}</p>
   <p class="small">
-    Data export: <a href="/assets/data/rankings/best-canadian-cities-for-tomatoes.json">Canadian tomato ranking JSON</a>.
+    Download: <a href="/assets/data/rankings/best-canadian-cities-for-tomatoes.json">Canadian tomato comparison JSON</a>.
   </p>
 </section>
 

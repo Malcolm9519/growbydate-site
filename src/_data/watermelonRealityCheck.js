@@ -66,12 +66,12 @@ module.exports = function () {
     slug: "the-watermelon-reality-check",
     permalink: "/data/rankings/the-watermelon-reality-check/",
     description:
-      "A GrowByDate Data Ranking showing how realistic outdoor watermelon is across the currently published crop-city dataset.",
+      "Watermelon locations ranked by how realistic outdoor watermelon is in a typical outdoor season.",
     updated: "2026-05-23",
     cropKey: "watermelons",
     cropName: "Watermelons",
     methodology:
-      "Scores use GrowByDate crop-city data for watermelons, including local GDD margin, frost-free season length, delay tolerance, and the number of watermelon variety classes that fit the season.",
+      "Scores use local GDD margin, frost-free season length, delay tolerance, and the number of watermelon variety classes that fit the season.",
     caveat:
       "This is a planning signal, not a guarantee. It assumes outdoor growing in a typical season and does not fully capture microclimates, soil warmth, wind exposure, irrigation, or greenhouse conditions.",
     top,

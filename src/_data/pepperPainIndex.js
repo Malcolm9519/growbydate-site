@@ -21,7 +21,7 @@ function getTone(score) {
   if (score >= 70) return "Plan on early starts and warm sites.";
   if (score >= 55) return "Not impossible, but not casual.";
   if (score >= 35) return "Reasonable with good timing.";
-  return "One of the easier pepper climates in this dataset.";
+  return "One of the easier pepper climates in this comparison.";
 }
 
 function reason(row, fit, painScore) {
@@ -121,7 +121,7 @@ module.exports = function () {
     slug: "the-pepper-pain-index",
     permalink: "/data/rankings/the-pepper-pain-index/",
     description:
-      "A GrowByDate Data Ranking of where outdoor peppers are most likely to feel timing-sensitive, heat-limited, or fussy.",
+      "Pepper locations ranked by timing sensitivity, heat pressure, and outdoor fussiness.",
     updated: "2026-05-23",
     category: "Data ranking",
     methodology:

@@ -1,7 +1,7 @@
 ---
 layout: layout-base.njk
-title: The Watermelon Reality Check | GrowByDate Data Rankings
-description: A GrowByDate Data Ranking how realistic outdoor watermelon is using local GDD margin, frost-free days, delay tolerance, and variety fit.
+title: The Watermelon Reality Check | GrowByDate
+description: Compare how realistic outdoor watermelon is using local GDD margin, frost-free days, delay tolerance, and variety fit.
 canonical: "https://growbydate.com/data/rankings/the-watermelon-reality-check/"
 ---
 
@@ -10,16 +10,16 @@ canonical: "https://growbydate.com/data/rankings/the-watermelon-reality-check/"
 {% set hardest = board.hardest %}
 
 <section class="card leaderboardHero">
-  <p class="eyebrow">GrowByDate Data Ranking</p>
+  <p class="eyebrow">Watermelon timing comparison</p>
   <h1>The Watermelon Reality Check</h1>
   <p class="lede">
-    Can you actually grow watermelon outdoors where you live? This data ranking compares currently published GrowByDate watermelon locations by outdoor realism, using GDD margin, frost-free days, delay tolerance, and variety flexibility.
+    Can you actually grow watermelon outdoors where you live? This ranking compares watermelon locations by outdoor realism, using GDD margin, frost-free days, delay tolerance, and variety flexibility.
   </p>
 
   <div class="leaderboardStatGrid" aria-label="Ranking summary">
     {% if top %}
       <div class="leaderboardStat">
-        <span class="statLabel">Current leader</span>
+        <span class="statLabel">Top location</span>
         <strong>{{ top.cityName }}</strong>
         <span>{{ top.score }}/100 · {{ top.label }}</span>
       </div>
@@ -27,16 +27,16 @@ canonical: "https://growbydate.com/data/rankings/the-watermelon-reality-check/"
 
     {% if hardest %}
       <div class="leaderboardStat">
-        <span class="statLabel">Hardest current test</span>
+        <span class="statLabel">Toughest location</span>
         <strong>{{ hardest.cityName }}</strong>
         <span>{{ hardest.score }}/100 · {{ hardest.label }}</span>
       </div>
     {% endif %}
 
     <div class="leaderboardStat">
-      <span class="statLabel">Dataset</span>
-      <strong>{{ board.entries.length }} locations</strong>
-      <span>Published watermelon crop-city pages</span>
+      <span class="statLabel">Locations compared</span>
+      <strong>{{ board.entries.length }}</strong>
+      <span>Watermelon locations</span>
     </div>
   </div>
 </section>
@@ -122,7 +122,7 @@ canonical: "https://growbydate.com/data/rankings/the-watermelon-reality-check/"
   <p>{{ board.caveat }}</p>
   <p class="small">
     Score components: GDD margin, number of fitting watermelon variety classes, frost-free season length, and whether the crop still has margin if planting is delayed by one or two weeks.
-    Data export: <a href="/assets/data/rankings/the-watermelon-reality-check.json">watermelon ranking JSON</a>.
+    Download: <a href="/assets/data/rankings/the-watermelon-reality-check.json">watermelon comparison JSON</a>.
   </p>
 </section>
 

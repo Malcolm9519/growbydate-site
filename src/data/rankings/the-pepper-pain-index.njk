@@ -1,7 +1,7 @@
 ---
 layout: layout-base.njk
-title: The Pepper Pain Index | GrowByDate Data Rankings
-description: A GrowByDate Data Ranking of where outdoor peppers are most timing-sensitive, heat-limited, or fussy.
+title: The Pepper Pain Index | GrowByDate
+description: Compare where outdoor peppers are most timing-sensitive, heat-limited, or fussy.
 canonical: "https://growbydate.com/data/rankings/the-pepper-pain-index/"
 ---
 
@@ -10,10 +10,10 @@ canonical: "https://growbydate.com/data/rankings/the-pepper-pain-index/"
 {% set easiest = board.easiest %}
 
 <section class="card leaderboardHero">
-  <p class="eyebrow">GrowByDate Data Ranking</p>
+  <p class="eyebrow">Pepper timing comparison</p>
   <h1>The Pepper Pain Index</h1>
   <p class="lede">
-    Peppers are not impossible in short seasons, but they are often less forgiving than gardeners expect. This ranking compares currently published GrowByDate pepper locations by how much timing, heat, and variety pressure peppers create outdoors.
+    Peppers are not impossible in short seasons, but they are often less forgiving than gardeners expect. This ranking compares pepper locations by how much timing, heat, and variety pressure peppers create outdoors.
   </p>
 
   <div class="leaderboardStatGrid" aria-label="Ranking summary">
@@ -27,16 +27,16 @@ canonical: "https://growbydate.com/data/rankings/the-pepper-pain-index/"
 
     {% if easiest %}
       <div class="leaderboardStat">
-        <span class="statLabel">Most forgiving current test</span>
+        <span class="statLabel">Most forgiving location</span>
         <strong>{{ easiest.cityName }}</strong>
         <span>{{ easiest.score }}/100 · {{ easiest.label }}</span>
       </div>
     {% endif %}
 
     <div class="leaderboardStat">
-      <span class="statLabel">Dataset</span>
-      <strong>{{ board.entries.length }} locations</strong>
-      <span>Published pepper crop-city pages</span>
+      <span class="statLabel">Locations compared</span>
+      <strong>{{ board.entries.length }}</strong>
+      <span>Pepper locations</span>
     </div>
   </div>
 </section>
@@ -98,7 +98,7 @@ canonical: "https://growbydate.com/data/rankings/the-pepper-pain-index/"
   <p>{{ board.methodology }}</p>
   <p>{{ board.caveat }}</p>
   <p class="small">
-    Data export: <a href="/assets/data/rankings/the-pepper-pain-index.json">Pepper Pain Index JSON</a>.
+    Download: <a href="/assets/data/rankings/the-pepper-pain-index.json">Pepper Pain Index JSON</a>.
   </p>
 </section>
 

@@ -1,7 +1,7 @@
 ---
 layout: layout-base.njk
-title: Crops That Lose the Most Margin When Planted Late | GrowByDate Data Rankings
-description: A GrowByDate Data Ranking of crops that lose the most heat and maturity margin when planting slips by two weeks.
+title: Crops That Lose the Most Margin When Planted Late | GrowByDate
+description: Compare crops by how much heat and maturity margin they lose when planting slips by two weeks.
 canonical: "https://growbydate.com/data/rankings/crops-that-lose-the-most-margin-when-planted-late/"
 ---
 
@@ -9,11 +9,11 @@ canonical: "https://growbydate.com/data/rankings/crops-that-lose-the-most-margin
 {% set top = board.top %}
 
 <section class="card leaderboardHero">
-  <p class="eyebrow">GrowByDate Data Ranking</p>
+  <p class="eyebrow">Crop timing comparison</p>
   <h1>Crops That Lose the Most Margin When Planted Late</h1>
   <p class="lede">
     Some crops forgive a late start. Others quickly lose the heat margin they need before fall frost.
-    This ranking compares crops by how much modeled GDD margin is lost when planting slips by two weeks.
+    A two-week delay does not hurt every crop equally. This comparison shows which crops lose the most heat and maturity margin when planting slips later than planned.
   </p>
 
   <div class="leaderboardStatGrid" aria-label="Ranking summary">
@@ -26,9 +26,9 @@ canonical: "https://growbydate.com/data/rankings/crops-that-lose-the-most-margin
     {% endif %}
 
     <div class="leaderboardStat">
-      <span class="statLabel">Dataset</span>
-      <strong>{{ board.entries.length }} crops</strong>
-      <span>Published crops with two-week delay data</span>
+      <span class="statLabel">Crops compared</span>
+      <strong>{{ board.entries.length }}</strong>
+      <span>Crops with two-week delay data</span>
     </div>
 
     <div class="leaderboardStat">
@@ -96,7 +96,7 @@ canonical: "https://growbydate.com/data/rankings/crops-that-lose-the-most-margin
   <p>{{ board.methodology }}</p>
   <p>{{ board.caveat }}</p>
   <p class="small">
-    Data export: <a href="/assets/data/rankings/crops-that-lose-the-most-margin-when-planted-late.json">late-planting margin loss JSON</a>.
+    Download: <a href="/assets/data/rankings/crops-that-lose-the-most-margin-when-planted-late.json">late-planting margin loss JSON</a>.
   </p>
 </section>
 

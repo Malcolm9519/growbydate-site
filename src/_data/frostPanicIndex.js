@@ -53,7 +53,7 @@ function reason(summary, score) {
   if (Number.isFinite(margin) && margin >= 500) {
     return `${summary.cityName} gives ${cropName.toLowerCase()} a comfortable GDD buffer before fall frost compared with tighter locations.`;
   }
-  return `${summary.cityName} is less frost-stressed for ${cropName.toLowerCase()} than the highest-risk combinations in this dataset.`;
+  return `${summary.cityName} is less frost-stressed for ${cropName.toLowerCase()} than the highest-risk combinations shown here.`;
 }
 
 module.exports = function () {
@@ -133,13 +133,13 @@ module.exports = function () {
     slug: "the-frost-panic-index",
     permalink: "/data/rankings/the-frost-panic-index/",
     description:
-      "A GrowByDate Data Ranking of crop-location combinations where fall frost pressure is highest in the current dataset.",
+      "Crop-location combinations ranked by fall frost pressure.",
     updated: "2026-05-23",
     category: "Data ranking",
     methodology:
       "The Frost Panic Index combines crop fit score, GDD margin, frost sensitivity, planting-delay pressure, and variety flexibility. Higher scores mean the crop-location combination leaves less outdoor margin before first fall frost.",
     caveat:
-      "This ranking highlights the highest-pressure crop-location combinations in the current GrowByDate dataset. It does not account for individual microclimates, protected culture, soil temperature, wind, irrigation, pests, or gardener skill.",
+      "This ranking highlights high-pressure crop-location combinations. It does not account for individual microclimates, protected culture, soil temperature, wind, irrigation, pests, or gardener skill.",
     totalCandidates: allEntries.length,
     top: entries[0] || null,
     lowestDisplayed: entries[entries.length - 1] || null,

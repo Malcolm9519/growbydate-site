@@ -1,7 +1,7 @@
 ---
 layout: layout-base.njk
-title: Canadian Cities With the Longest Growing Seasons | GrowByDate Data Rankings
-description: A GrowByDate Data Ranking comparing Canadian cities by median frost-free season length.
+title: Canadian Cities With the Longest Growing Seasons | GrowByDate
+description: Compare Canadian cities by median frost-free season length.
 canonical: "https://growbydate.com/data/rankings/canadian-cities-with-the-longest-growing-seasons/"
 ---
 
@@ -9,26 +9,26 @@ canonical: "https://growbydate.com/data/rankings/canadian-cities-with-the-longes
 {% set top = board.top %}
 
 <section class="card leaderboardHero">
-  <p class="eyebrow">GrowByDate Data Ranking</p>
+  <p class="eyebrow">City comparison</p>
   <h1>Canadian Cities With the Longest Growing Seasons</h1>
   <p class="lede">
-    This ranking compares currently published Canadian GrowByDate cities by median frost-free season length — the window between
+    This ranking compares Canadian cities by median frost-free season length — the window between
     typical last spring frost and first fall frost.
   </p>
 
   <div class="leaderboardStatGrid" aria-label="Ranking summary">
     {% if top %}
       <div class="leaderboardStat">
-        <span class="statLabel">Longest current season</span>
+        <span class="statLabel">Longest season</span>
         <strong>{{ top.cityName }}</strong>
         <span>{{ top.frostFreeDays }} frost-free days · {{ top.label }}</span>
       </div>
     {% endif %}
 
     <div class="leaderboardStat">
-      <span class="statLabel">Dataset</span>
-      <strong>{{ board.entries.length }} cities</strong>
-      <span>Published Canadian GrowByDate city records</span>
+      <span class="statLabel">Cities compared</span>
+      <strong>{{ board.entries.length }}</strong>
+      <span>Canadian cities with frost-date values</span>
     </div>
 
     <div class="leaderboardStat">
@@ -93,7 +93,7 @@ canonical: "https://growbydate.com/data/rankings/canadian-cities-with-the-longes
   <p>{{ board.methodology }}</p>
   <p>{{ board.caveat }}</p>
   <p class="small">
-    Data export: <a href="/assets/data/rankings/canadian-cities-with-the-longest-growing-seasons.json">longest growing seasons JSON</a>.
+    Download: <a href="/assets/data/rankings/canadian-cities-with-the-longest-growing-seasons.json">longest growing seasons JSON</a>.
   </p>
 </section>
 

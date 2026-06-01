@@ -64,13 +64,13 @@ module.exports = function () {
     slug: "best-canadian-cities-for-tomatoes",
     permalink: "/data/rankings/best-canadian-cities-for-tomatoes/",
     description:
-      "A GrowByDate Data Ranking comparing currently published Canadian tomato locations by outdoor tomato fit.",
+      "Canadian cities ranked by outdoor tomato fit.",
     updated: "2026-05-23",
     category: "Data ranking",
     methodology:
-      "Scores use GrowByDate crop-city data for tomatoes, including local GDD margin, frost-free season length, delay tolerance, and tomato variety flexibility.",
+      "Scores use local GDD margin, frost-free season length, delay tolerance, and tomato variety flexibility.",
     caveat:
-      "This ranking currently covers Canadian locations in the published GrowByDate crop-city dataset. It is a planning signal, not a guarantee; microclimates, soil warmth, wind, irrigation, pests, and gardener skill can change real-world results.",
+      "Use this as a planning signal, not a guarantee. Microclimates, soil warmth, wind, irrigation, pests, and gardener skill can change real-world results.",
     top: entries[0] || null,
     hardest: entries[entries.length - 1] || null,
     entries

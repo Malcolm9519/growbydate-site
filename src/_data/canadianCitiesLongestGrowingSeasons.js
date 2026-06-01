@@ -14,7 +14,7 @@ function seasonLabel(days) {
 function reason(row) {
   const days = Number(row.frostFreeDays);
   if (days >= 210) {
-    return `${row.cityName} has one of the longest frost-free windows in the current Canadian GrowByDate dataset.`;
+    return `${row.cityName} has one of the longest frost-free windows in the current Canadian city list.`;
   }
   if (days >= 180) {
     return `${row.cityName} has a long frost-free window by Canadian standards, giving gardeners more time for warm-season crops.`;
@@ -61,13 +61,13 @@ module.exports = function () {
     slug: "canadian-cities-with-the-longest-growing-seasons",
     permalink: "/data/rankings/canadian-cities-with-the-longest-growing-seasons/",
     description:
-      "A GrowByDate Data Ranking comparing Canadian cities by median frost-free season length.",
+      "Canadian cities ranked by median frost-free season length.",
     updated: "2026-05-23",
     category: "Data ranking",
     methodology:
-      "Canadian cities are ranked by median frost-free days between the typical last spring frost and first fall frost in GrowByDate city data. Ties use remaining base-50 GDD as a secondary signal.",
+      "Canadian cities are ranked by median frost-free days between the typical last spring frost and first fall frost. Ties use remaining base-50 GDD as a secondary signal.",
     caveat:
-      "A longer frost-free season does not guarantee more heat. GrowByDate also uses GDD because cool coastal locations can have long frost-free windows but modest heat accumulation.",
+      "A longer frost-free season does not guarantee more heat. Cool coastal locations can have long frost-free windows but modest heat accumulation.",
     top: entries[0] || null,
     entries
   };

@@ -41,7 +41,7 @@ function getForgivenessLabel(score) {
 
 function reason(group, entry) {
   if (entry.score >= 90) {
-    return `${group.cropName} are highly forgiving in this dataset because they combine strong short-season fit with useful frost tolerance or a lower heat requirement.`;
+    return `${group.cropName} are highly forgiving in short-season comparisons because they combine strong short-season fit with useful frost tolerance or a lower heat requirement.`;
   }
   if (entry.score >= 78) {
     return `${group.cropName} usually leave enough timing margin to be practical in short-season gardens.`;
@@ -140,11 +140,11 @@ module.exports = function () {
     slug: "most-forgiving-crops-for-short-season-gardeners",
     permalink: "/data/rankings/most-forgiving-crops-for-short-season-gardeners/",
     description:
-      "A GrowByDate Data Ranking of crops that leave short-season gardeners the most practical timing margin.",
+      "Crops ranked by how much practical timing margin they leave in short-season gardens.",
     updated: "2026-05-23",
     category: "Data ranking",
     methodology:
-      `This ranking uses published crop-city rows where frost-free days are ${SHORT_SEASON_FROST_FREE_DAYS} or fewer, or available GDD is ${SHORT_SEASON_GDD} or lower. Crops are rewarded for high average Crop Fit score, frost tolerance, lower heat requirement, variety flexibility, and fewer risky or borderline locations.`,
+      `This comparison looks at crop-location rows where frost-free days are ${SHORT_SEASON_FROST_FREE_DAYS} or fewer, or available GDD is ${SHORT_SEASON_GDD} or lower. Crops are rewarded for stronger fit, frost tolerance, lower heat requirement, variety flexibility, and fewer risky or borderline locations.`,
     caveat:
       "Forgiving does not mean foolproof. Local soil temperature, pests, watering, wind, and planting technique still matter.",
     top: entries[0] || null,

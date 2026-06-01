@@ -1,7 +1,7 @@
 ---
 layout: layout-base.njk
-title: Most Forgiving Crops for Short-Season Gardeners | GrowByDate Data Rankings
-description: A GrowByDate Data Ranking of crops that leave the most timing margin in short-season gardens.
+title: Most Forgiving Crops for Short-Season Gardeners | GrowByDate
+description: Compare crops that leave the most practical timing margin in short-season gardens.
 canonical: "https://growbydate.com/data/rankings/most-forgiving-crops-for-short-season-gardeners/"
 ---
 
@@ -10,7 +10,7 @@ canonical: "https://growbydate.com/data/rankings/most-forgiving-crops-for-short-
 {% set leastForgiving = board.leastForgiving %}
 
 <section class="card leaderboardHero">
-  <p class="eyebrow">GrowByDate Data Ranking</p>
+  <p class="eyebrow">Crop comparison</p>
   <h1>Most Forgiving Crops for Short-Season Gardeners</h1>
   <p class="lede">
     Some crops give cold-climate and short-season gardeners more room for imperfect timing. This ranking identifies crops that are more likely to fit short frost windows, lower heat accumulation, and beginner-level timing mistakes.
@@ -27,16 +27,16 @@ canonical: "https://growbydate.com/data/rankings/most-forgiving-crops-for-short-
 
     {% if leastForgiving %}
       <div class="leaderboardStat">
-        <span class="statLabel">Least forgiving in this set</span>
+        <span class="statLabel">Least forgiving</span>
         <strong>{{ leastForgiving.cropName }}</strong>
         <span>{{ leastForgiving.score }}/100 · {{ leastForgiving.label }}</span>
       </div>
     {% endif %}
 
     <div class="leaderboardStat">
-      <span class="statLabel">Dataset</span>
-      <strong>{{ board.entries.length }} crops</strong>
-      <span>Published short-season crop-city data</span>
+      <span class="statLabel">Crops compared</span>
+      <strong>{{ board.entries.length }}</strong>
+      <span>Short-season crop comparisons</span>
     </div>
   </div>
 </section>
@@ -89,7 +89,7 @@ canonical: "https://growbydate.com/data/rankings/most-forgiving-crops-for-short-
   <p>{{ board.methodology }}</p>
   <p>{{ board.caveat }}</p>
   <p class="small">
-    Data export: <a href="/assets/data/rankings/most-forgiving-crops-for-short-season-gardeners.json">most forgiving crops JSON</a>.
+    Download: <a href="/assets/data/rankings/most-forgiving-crops-for-short-season-gardeners.json">most forgiving crops JSON</a>.
   </p>
 </section>
 

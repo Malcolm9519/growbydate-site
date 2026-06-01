@@ -1,7 +1,7 @@
 ---
 layout: layout-base.njk
-title: Canadian Cities With the Highest Growing Degree Days | GrowByDate Data Rankings
-description: A GrowByDate Data Ranking comparing Canadian cities by base 50°F growing degree day accumulation for warm-season crop planning.
+title: Canadian Cities With the Highest Growing Degree Days | GrowByDate
+description: Compare Canadian cities by base 50°F growing degree day accumulation for warm-season crop planning.
 canonical: "https://growbydate.com/data/rankings/canadian-cities-with-the-highest-growing-degree-days/"
 ---
 
@@ -9,26 +9,26 @@ canonical: "https://growbydate.com/data/rankings/canadian-cities-with-the-highes
 {% set top = board.top %}
 
 <section class="card leaderboardHero">
-  <p class="eyebrow">GrowByDate Data Ranking</p>
+  <p class="eyebrow">City comparison</p>
   <h1>Canadian Cities With the Highest Growing Degree Days</h1>
   <p class="lede">
     Frost dates tell you how long the outdoor window is. Growing degree days help explain how much heat accumulates inside that window.
-    This ranking compares currently published Canadian GrowByDate cities by base 50°F GDD, a useful reference point for warm-season crop planning.
+    This ranking compares Canadian cities by base 50°F GDD, a useful reference point for warm-season crop planning.
   </p>
 
   <div class="leaderboardStatGrid" aria-label="Ranking summary">
     {% if top %}
       <div class="leaderboardStat">
-        <span class="statLabel">Highest current GDD</span>
+        <span class="statLabel">Highest GDD</span>
         <strong>{{ top.cityName }}</strong>
         <span>{{ top.gddBase50 }} base 50°F GDD · {{ top.label }}</span>
       </div>
     {% endif %}
 
     <div class="leaderboardStat">
-      <span class="statLabel">Dataset</span>
-      <strong>{{ board.entries.length }} cities</strong>
-      <span>Published Canadian GrowByDate city records with GDD values</span>
+      <span class="statLabel">Cities compared</span>
+      <strong>{{ board.entries.length }}</strong>
+      <span>Canadian cities with GDD values</span>
     </div>
 
     <div class="leaderboardStat">
@@ -81,7 +81,7 @@ canonical: "https://growbydate.com/data/rankings/canadian-cities-with-the-highes
   <h2>What this ranking means</h2>
   <p>
     A city with more base 50°F GDD generally has more heat available for warm-season crops, but it may not always have the longest frost-free window.
-    That is why GrowByDate uses both frost dates and GDD when estimating whether a crop is likely to mature before first frost.
+    That is why both frost dates and GDD matter when estimating whether a crop is likely to mature before first frost.
   </p>
   <p>
     For a full searchable reference table, open <a href="/data/growing-degree-days-by-city/">Growing Degree Days by City</a>.
@@ -93,7 +93,7 @@ canonical: "https://growbydate.com/data/rankings/canadian-cities-with-the-highes
   <p>{{ board.methodology }}</p>
   <p>{{ board.caveat }}</p>
   <p class="small">
-    Data export: <a href="/assets/data/rankings/canadian-cities-with-the-highest-growing-degree-days.json">highest growing degree days JSON</a>.
+    Download: <a href="/assets/data/rankings/canadian-cities-with-the-highest-growing-degree-days.json">highest growing degree days JSON</a>.
   </p>
 </section>
 

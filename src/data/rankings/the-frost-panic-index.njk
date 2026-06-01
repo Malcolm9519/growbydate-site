@@ -1,7 +1,7 @@
 ---
 layout: layout-base.njk
-title: The Frost Panic Index | GrowByDate Data Rankings
-description: A GrowByDate Data Ranking of crop-location combinations with the highest fall frost pressure.
+title: The Frost Panic Index | GrowByDate
+description: Compare crop-location combinations with the highest fall frost pressure.
 canonical: "https://growbydate.com/data/rankings/the-frost-panic-index/"
 ---
 
@@ -10,10 +10,10 @@ canonical: "https://growbydate.com/data/rankings/the-frost-panic-index/"
 {% set lowest = board.lowestDisplayed %}
 
 <section class="card leaderboardHero">
-  <p class="eyebrow">GrowByDate Data Ranking</p>
+  <p class="eyebrow">Frost pressure ranking</p>
   <h1>The Frost Panic Index</h1>
   <p class="lede">
-    Which crop-location combinations are most likely to run out of outdoor season before first fall frost? This ranking surfaces the highest-pressure combinations in the current GrowByDate crop-city dataset.
+    Some crop-location combinations are much closer to the first fall frost than they appear from calendar days alone. This ranking highlights crops and places where timing, heat, and frost margin are especially tight.
   </p>
 
   <div class="leaderboardStatGrid" aria-label="Ranking summary">
@@ -34,9 +34,9 @@ canonical: "https://growbydate.com/data/rankings/the-frost-panic-index/"
     {% endif %}
 
     <div class="leaderboardStat">
-      <span class="statLabel">Dataset</span>
+      <span class="statLabel">Combinations shown</span>
       <strong>Top {{ board.entries.length }} of {{ board.totalCandidates }}</strong>
-      <span>Highest-pressure crop-city combinations</span>
+      <span>Highest-pressure crop and city pairs</span>
     </div>
   </div>
 </section>
@@ -98,7 +98,7 @@ canonical: "https://growbydate.com/data/rankings/the-frost-panic-index/"
   <p>{{ board.methodology }}</p>
   <p>{{ board.caveat }}</p>
   <p class="small">
-    Data export: <a href="/assets/data/rankings/the-frost-panic-index.json">Frost Panic Index JSON</a>.
+    Download: <a href="/assets/data/rankings/the-frost-panic-index.json">Frost Panic Index JSON</a>.
   </p>
 </section>
 
