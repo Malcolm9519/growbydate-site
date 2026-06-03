@@ -1,8 +1,8 @@
 ---
 layout: layout-base.njk
-title: The Watermelon Reality Check | GrowByDate
-description: Compare how realistic outdoor watermelon is using local GDD margin, frost-free days, delay tolerance, and variety fit.
-canonical: "https://growbydate.com/data/rankings/the-watermelon-reality-check/"
+title: Best Canadian Cities for Growing Watermelon | GrowByDate
+description: Compare Canadian cities for outdoor watermelon suitability using GDD margin, frost-free days, delay tolerance, and variety fit.
+canonical: "https://growbydate.com/data/rankings/best-canadian-cities-for-growing-watermelon/"
 ---
 
 {% set board = watermelonRealityCheck %}
@@ -11,9 +11,9 @@ canonical: "https://growbydate.com/data/rankings/the-watermelon-reality-check/"
 
 <section class="card leaderboardHero">
   <p class="eyebrow">Watermelon timing comparison</p>
-  <h1>The Watermelon Reality Check</h1>
+  <h1>Best Canadian Cities for Growing Watermelon</h1>
   <p class="lede">
-    Can you actually grow watermelon outdoors where you live? This ranking compares watermelon locations by outdoor realism, using GDD margin, frost-free days, delay tolerance, and variety flexibility.
+    Which Canadian cities are best suited to outdoor watermelon? This ranking compares watermelon suitability using GDD margin, frost-free days, delay tolerance, and variety flexibility.
   </p>
 
   <div class="leaderboardStatGrid" aria-label="Ranking summary">
@@ -36,7 +36,7 @@ canonical: "https://growbydate.com/data/rankings/the-watermelon-reality-check/"
     <div class="leaderboardStat">
       <span class="statLabel">Locations compared</span>
       <strong>{{ board.entries.length }}</strong>
-      <span>Watermelon locations</span>
+      <span>Canadian cities</span>
     </div>
   </div>
 </section>
@@ -95,11 +95,11 @@ canonical: "https://growbydate.com/data/rankings/the-watermelon-reality-check/"
 <section class="card leaderboardCallout">
   <h2>What the ranking means</h2>
   <p>
-    Watermelon is a useful “reality check” crop because it is heat-hungry, frost-sensitive, and easy to underestimate from a seed-packet maturity number alone.
+    Watermelon is one of the clearest tests of warm-season growing conditions because it is heat-hungry, frost-sensitive, and easy to underestimate from a seed-packet maturity number alone.
     A location can have plenty of calendar days but still be short on warm growing degree days.
   </p>
   <p>
-    The score is intentionally practical: it rewards locations with positive GDD margin, longer frost-free seasons, better tolerance if planting slips late, and more watermelon variety classes that fit the local season.
+    The score is intentionally practical: it rewards cities with positive GDD margin, longer frost-free seasons, better tolerance if planting slips late, and more watermelon variety classes that fit the local season.
   </p>
 </section>
 
@@ -122,7 +122,7 @@ canonical: "https://growbydate.com/data/rankings/the-watermelon-reality-check/"
   <p>{{ board.caveat }}</p>
   <p class="small">
     Score components: GDD margin, number of fitting watermelon variety classes, frost-free season length, and whether the crop still has margin if planting is delayed by one or two weeks.
-    Download: <a href="/assets/data/rankings/the-watermelon-reality-check.json">watermelon comparison JSON</a>.
+    Download: <a href="/assets/data/rankings/best-canadian-cities-for-growing-watermelon.json">watermelon city ranking JSON</a>.
   </p>
 </section>
 
@@ -132,14 +132,14 @@ canonical: "https://growbydate.com/data/rankings/the-watermelon-reality-check/"
   "@type": "ItemList",
   "name": {{ board.title | dump | safe }},
   "description": {{ board.description | dump | safe }},
-  "url": "https://growbydate.com/data/rankings/the-watermelon-reality-check/",
+  "url": "https://growbydate.com/data/rankings/best-canadian-cities-for-growing-watermelon/",
   "numberOfItems": {{ board.entries.length }},
   "itemListElement": [
     {% for row in board.entries %}
       {
         "@type": "ListItem",
         "position": {{ row.rank }},
-        "name": {{ (row.cityName ~ " watermelon reality score") | dump | safe }},
+        "name": {{ (row.cityName ~ " watermelon suitability score") | dump | safe }},
         "url": {{ (site.url ~ row.url) | dump | safe }}
       }{% if not loop.last %},{% endif %}
     {% endfor %}

@@ -1,115 +1,155 @@
 ---
 layout: layout-base.njk
-title: "Garden Data: Frost, Heat and Crop Timing | GrowByDate"
-description: How frost dates, growing degree days, crop heat requirements, and timing rankings are used to help gardeners plan short-season crops.
+title: "Garden Climate Data: Frost Dates, GDD & Crop Timing | GrowByDate"
+description: Explore GrowByDate datasets for frost dates, growing degree days, crop heat requirements, city climate rankings, and short-season crop suitability.
 canonical: "https://growbydate.com/data/"
 ---
 
+{% macro rankingTile(board, titleOverride, descriptionOverride, eyebrowOverride) %}
+  <article class="leaderboardTile">
+    <p class="eyebrow">{{ eyebrowOverride or board.category or "Data ranking" }}</p>
+    <h3><a href="{{ board.url }}">{{ titleOverride or board.title }}</a></h3>
+    <p>{{ descriptionOverride or board.description }}</p>
+    <p class="small">{{ board.entriesCount }} items ranked.</p>
+  </article>
+{% endmacro %}
+
 <section class="card leaderboardHero">
-  <p class="eyebrow">Data methodology</p>
-  <h1>Frost, Heat and Crop Data for Short Season Garden Planning</h1>
+  <p class="eyebrow">Garden climate data</p>
+  <h1>Garden Climate Data for Frost Dates, Growing Degree Days and Crop Timing</h1>
   <p class="lede">
-    Planting dates are easier to use when frost risk, seasonal heat, crop maturity, and timing pressure are explained together.
-    This page shows how the reference tables and rankings on this site are organized, what they can help with, and where their limits are.
+    Explore datasets for frost dates, growing degree days, crop heat requirements, city climate rankings,
+    and short-season crop suitability. These pages are built as clear, linkable references for gardeners, writers, and researchers.
   </p>
 </section>
 
 <section class="card">
-  <h2>Start with the reference tables</h2>
+  <h2>Core Garden Climate Datasets</h2>
   <p>
-    Look up a city, compare nearby places, and understand the basic season window before choosing crops or varieties.
+    These are the main reference datasets for season length, frost dates, seasonal heat, and crop timing.
   </p>
   <div class="leaderboardGrid">
     <article class="leaderboardTile">
       <p class="eyebrow">Frost dates</p>
       <h3><a href="/data/frost-dates-by-city/">Frost Dates by City</a></h3>
-      <p>Look up average last spring frost, first fall frost, and frost-free growing-season length by city.</p>
+      <p>Average last spring frost, first fall frost, and frost-free growing-season length by city.</p>
     </article>
 
     <article class="leaderboardTile">
-      <p class="eyebrow">Seasonal heat</p>
+      <p class="eyebrow">Growing degree days</p>
       <h3><a href="/data/growing-degree-days-by-city/">Growing Degree Days by City</a></h3>
-      <p>Compare seasonal heat accumulation for warm-season crop planning, especially tomatoes, peppers, corn, squash, and melons.</p>
+      <p>Seasonal heat accumulation for comparing warm-season crop potential across locations.</p>
     </article>
 
     <article class="leaderboardTile">
-      <p class="eyebrow">Crop requirements</p>
+      <p class="eyebrow">Crop heat needs</p>
       <h3><a href="/data/crop-heat-requirements/">Crop Heat Requirements</a></h3>
-      <p>See typical crop GDD targets and why some vegetables need much more heat than others.</p>
+      <p>Typical crop GDD targets used to compare crop needs against local seasonal heat.</p>
     </article>
   </div>
 </section>
 
 <section class="card">
-  <h2>Visual resources</h2>
+  <h2>Maps and Visual Climate Explainers</h2>
   <p>
-    These resource pages turn climate and crop-timing data into maps, charts, and visual explainers that are easier to share, cite, and use for planning.
+    These resources turn climate and crop-timing data into visual comparisons and plain-English explanations.
   </p>
   <div class="leaderboardGrid">
     <article class="leaderboardTile">
       <p class="eyebrow">Climate atlas</p>
       <h3><a href="/data/canada-garden-climate-atlas/">Canada Garden Climate Atlas</a></h3>
-      <p>Compare Canadian cities by frost-free days and base-50°F growing degree days using visual map-style views and regional summaries.</p>
-    </article>
-
-    <article class="leaderboardTile">
-      <p class="eyebrow">Timing chart</p>
-      <h3><a href="/data/late-planting-penalty-chart/">Late Planting Penalty Chart</a></h3>
-      <p>See which crops lose the most growing margin when planting slips by two weeks, and which are more forgiving.</p>
+      <p>Compare Canadian cities by frost-free days and base-50°F growing degree days using map-style views and regional summaries.</p>
     </article>
 
     <article class="leaderboardTile">
       <p class="eyebrow">Visual explainer</p>
       <h3><a href="/data/long-season-vs-warm-season/">Long Season vs Warm Season</a></h3>
-      <p>Learn why frost-free days measure time, GDD measures heat, and gardeners need both for warm-season crop planning.</p>
+      <p>Learn why frost-free days measure time, growing degree days measure heat, and gardeners need both for warm-season crop planning.</p>
     </article>
   </div>
 </section>
 
 <section class="card">
-  <h2>Data rankings</h2>
+  <h2>City Climate Rankings</h2>
   <p>
-    Rankings are a more readable way to compare the reference data. They are not guarantees; they are planning signals that highlight short seasons, high-heat cities,
-    difficult crops, forgiving crops, and crop-location combinations where frost timing gets tight.
+    Compare cities by frost-free season length, seasonal heat, and other garden climate signals.
   </p>
   <div class="leaderboardGrid">
     {% for board in dataRankingSummaries %}
-      <article class="leaderboardTile">
-        <p class="eyebrow">{{ board.category }}</p>
-        <h3><a href="{{ board.url }}">{{ board.title }}</a></h3>
-        <p>{{ board.description }}</p>
-        <p class="small">{{ board.entriesCount }} items ranked.</p>
-      </article>
+      {% if board.key == "canadian-cities-with-the-highest-growing-degree-days" %}
+        {{ rankingTile(board, "", "", "Seasonal heat") }}
+      {% endif %}
+      {% if board.key == "cities-with-the-shortest-growing-seasons" %}
+        {{ rankingTile(board, "", "", "Short seasons") }}
+      {% endif %}
+      {% if board.key == "canadian-cities-with-the-longest-growing-seasons" %}
+        {{ rankingTile(board, "", "", "Long seasons") }}
+      {% endif %}
     {% endfor %}
   </div>
 </section>
 
 <section class="card">
-  <h2>The basic method</h2>
+  <h2>Crop Suitability and Short-Season Risk</h2>
   <p>
-    The pages in this section use two different kinds of season signals: frost timing and heat accumulation.
-    Frost dates estimate the outdoor window for tender crops. Growing degree days estimate whether the season is warm enough for a crop to mature inside that window.
+    Compare crops by how demanding they are in cool, short, or timing-sensitive growing seasons.
   </p>
-  <ol class="tight">
-    <li><strong>Find the frost window.</strong> Last spring frost and first fall frost define the average outdoor season for tender crops.</li>
-    <li><strong>Estimate seasonal heat.</strong> Growing degree days measure accumulated warmth, which matters for heat-loving crops.</li>
-    <li><strong>Compare crops against the season.</strong> Crop heat requirements and maturity timing show which crops have room to finish and which are tight.</li>
-    <li><strong>Account for timing pressure.</strong> A crop that works with perfect timing may become risky if it is planted one or two weeks late.</li>
-  </ol>
+  <div class="leaderboardGrid">
+    {% for board in dataRankingSummaries %}
+      {% if board.key == "hardest-crops-to-grow-in-short-seasons" %}
+        {{ rankingTile(board, "", "", "Crop difficulty") }}
+      {% endif %}
+      {% if board.key == "most-forgiving-crops-for-short-season-gardeners" %}
+        {{ rankingTile(board, "", "", "Reliable crops") }}
+      {% endif %}
+      {% if board.key == "crops-that-lose-the-most-margin-when-planted-late" %}
+        {{ rankingTile(board, "", "", "Late planting risk") }}
+      {% endif %}
+    {% endfor %}
 
-  <h3>How to use these pages</h3>
+    <article class="leaderboardTile">
+      <p class="eyebrow">Late planting risk</p>
+      <h3><a href="/data/late-planting-penalty-chart/">Late Planting Penalty Chart</a></h3>
+      <p>See which crops lose the most growing margin when planting slips by two weeks, and which are more forgiving.</p>
+    </article>
+  </div>
+</section>
+
+<section class="card">
+  <h2>Crop-Specific Climate Studies</h2>
   <p>
-    Start with your city’s frost dates, then compare its growing degree days if you are planning warm-season crops. After that, use the crop heat requirements and rankings to decide where to be conservative.
+    These pages apply the same frost, heat, and crop-timing data to specific garden crops and crop-location combinations.
+  </p>
+  <div class="leaderboardGrid">
+    {% for board in dataRankingSummaries %}
+      {% if board.key == "best-canadian-cities-for-tomatoes" %}
+        {{ rankingTile(board, "Best Canadian Cities for Growing Tomatoes", "Canadian cities ranked by outdoor tomato suitability, seasonal heat, and crop timing margin.", "Tomatoes") }}
+      {% endif %}
+      {% if board.key == "best-canadian-cities-for-growing-watermelon" %}
+        {{ rankingTile(board, "", "", "Watermelon") }}
+      {% endif %}
+      {% if board.key == "best-canadian-cities-for-growing-peppers" %}
+        {{ rankingTile(board, "", "", "Peppers") }}
+      {% endif %}
+    {% endfor %}
+  </div>
+</section>
+
+<section class="card">
+  <h2>Data Sources and Limitations</h2>
+  <p>
+    GrowByDate combines public climate normals, frost-date estimates, growing degree day calculations, and crop maturity assumptions
+    to create garden-focused planning datasets. The rankings and comparison pages are derived from those underlying climate and crop-timing signals.
   </p>
   <ul class="tight">
-    <li>For seed starting and transplant timing, begin with the frost-date table.</li>
-    <li>For tomatoes, peppers, corn, squash, and melons, check the GDD table as well.</li>
-    <li>For late planting decisions, use the rankings and the crop maturity planner to see which crops lose margin fastest.</li>
+    <li><strong>Climate records and normals</strong> are used to estimate typical seasonal conditions such as frost timing and heat accumulation.</li>
+    <li><strong>Growing degree days</strong> estimate usable seasonal warmth in a way that is more crop-relevant than calendar days alone.</li>
+    <li><strong>Crop maturity assumptions</strong> help compare crop heat needs against local frost windows and seasonal heat.</li>
+    <li><strong>Derived GrowByDate metrics</strong> translate the reference data into rankings for city climate, crop difficulty, late planting risk, and crop-location suitability.</li>
   </ul>
-
-  <h3>Important limitations</h3>
   <p>
-    Frost dates and GDD are planning models, not weather forecasts. Averages cannot capture every slope, cold pocket, raised bed, windy site, urban heat island, lake effect, soil condition, irrigation pattern, pest issue, or variety difference.
+    These datasets are for long-term planning and comparison, not short-term weather forecasting. Averages cannot capture every slope, cold pocket,
+    raised bed, windy site, urban heat island, lake effect, soil condition, irrigation pattern, pest issue, or variety difference.
     Use the data to make better starting decisions, then adjust with local forecasts and what you know about your own garden.
   </p>
 </section>

@@ -2,9 +2,9 @@ const cropCitySummaries = require("./cropCitySummaries");
 const { clamp, scoreCropFit } = require("./_lib/dataRankingScoring");
 
 function getPainLabel(score) {
-  if (score >= 85) return "High pepper pain";
+  if (score >= 85) return "Very difficult";
   if (score >= 70) return "Very timing-sensitive";
-  if (score >= 55) return "Moderate pepper pain";
+  if (score >= 55) return "Moderately difficult";
   if (score >= 35) return "Manageable with care";
   return "Relatively forgiving";
 }
@@ -17,7 +17,7 @@ function getPainBadgeClass(score) {
 }
 
 function getTone(score) {
-  if (score >= 85) return "Possible, but dramatic.";
+  if (score >= 85) return "Possible, but highly timing-sensitive.";
   if (score >= 70) return "Plan on early starts and warm sites.";
   if (score >= 55) return "Not impossible, but not casual.";
   if (score >= 35) return "Reasonable with good timing.";
@@ -115,19 +115,19 @@ module.exports = function () {
     .map((entry, index) => ({ ...entry, rank: index + 1 }));
 
   return {
-    key: "the-pepper-pain-index",
-    title: "The Pepper Pain Index",
-    shortTitle: "Pepper Pain Index",
-    slug: "the-pepper-pain-index",
-    permalink: "/data/rankings/the-pepper-pain-index/",
+    key: "best-canadian-cities-for-growing-peppers",
+    title: "Best Canadian Cities for Growing Peppers",
+    shortTitle: "Best Pepper Cities",
+    slug: "best-canadian-cities-for-growing-peppers",
+    permalink: "/data/rankings/best-canadian-cities-for-growing-peppers/",
     description:
-      "Pepper locations ranked by timing sensitivity, heat pressure, and outdoor fussiness.",
+      "Canadian cities ranked by outdoor pepper suitability, timing sensitivity, and seasonal heat.",
     updated: "2026-05-23",
     category: "Data ranking",
     methodology:
-      "The Pepper Pain Index starts with each published pepper crop-city fit score, then adds pressure for low or negative GDD margin, shorter frost-free windows, and limited pepper variety flexibility. Higher scores mean peppers are more likely to need early transplants, warm sites, fast varieties, or protection.",
+      "Scores start with each published pepper crop-city fit score, then account for GDD margin, frost-free window length, and pepper variety flexibility. Higher-ranked cities are more forgiving for outdoor peppers in a typical season.",
     caveat:
-      "This is not a claim that peppers are impossible in high-pain locations. It is a practical warning that peppers are less forgiving there than easier warm-season crops.",
+      "This is a planning comparison, not a guarantee. In lower-ranked locations, peppers are more likely to need early transplants, fast varieties, warm sites, or protection.",
     top: entries[0] || null,
     easiest: entries[entries.length - 1] || null,
     entries

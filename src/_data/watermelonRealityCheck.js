@@ -60,13 +60,13 @@ module.exports = function () {
   const longShots = rows.filter((row) => row.score < 40);
 
   return {
-    key: "the-watermelon-reality-check",
-    title: "The Watermelon Reality Check",
-    shortTitle: "Watermelon Reality Check",
-    slug: "the-watermelon-reality-check",
-    permalink: "/data/rankings/the-watermelon-reality-check/",
+    key: "best-canadian-cities-for-growing-watermelon",
+    title: "Best Canadian Cities for Growing Watermelon",
+    shortTitle: "Best Watermelon Cities",
+    slug: "best-canadian-cities-for-growing-watermelon",
+    permalink: "/data/rankings/best-canadian-cities-for-growing-watermelon/",
     description:
-      "Watermelon locations ranked by how realistic outdoor watermelon is in a typical outdoor season.",
+      "Canadian cities ranked by how realistic outdoor watermelon is in a typical outdoor season.",
     updated: "2026-05-23",
     cropKey: "watermelons",
     cropName: "Watermelons",

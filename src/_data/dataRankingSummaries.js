@@ -62,7 +62,7 @@ module.exports = function () {
     summarize(
       pepperPain,
       pepperPain.top
-        ? `${pepperPain.top.cityName} currently has the highest pepper pain score at ${pepperPain.top.score}/100.`
+        ? `${pepperPain.top.cityName} currently has the highest pepper difficulty score at ${pepperPain.top.score}/100.`
         : "Current pepper ranking data is available."
     ),
     summarize(

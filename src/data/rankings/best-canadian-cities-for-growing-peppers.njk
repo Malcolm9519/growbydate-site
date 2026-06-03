@@ -1,8 +1,8 @@
 ---
 layout: layout-base.njk
-title: The Pepper Pain Index | GrowByDate
-description: Compare where outdoor peppers are most timing-sensitive, heat-limited, or fussy.
-canonical: "https://growbydate.com/data/rankings/the-pepper-pain-index/"
+title: Best Canadian Cities for Growing Peppers | GrowByDate
+description: Compare Canadian cities for outdoor pepper suitability using seasonal heat, frost-free days, timing sensitivity, and variety flexibility.
+canonical: "https://growbydate.com/data/rankings/best-canadian-cities-for-growing-peppers/"
 ---
 
 {% set board = pepperPainIndex %}
@@ -11,15 +11,15 @@ canonical: "https://growbydate.com/data/rankings/the-pepper-pain-index/"
 
 <section class="card leaderboardHero">
   <p class="eyebrow">Pepper timing comparison</p>
-  <h1>The Pepper Pain Index</h1>
+  <h1>Best Canadian Cities for Growing Peppers</h1>
   <p class="lede">
-    Peppers are not impossible in short seasons, but they are often less forgiving than gardeners expect. This ranking compares pepper locations by how much timing, heat, and variety pressure peppers create outdoors.
+    Which Canadian cities are best suited to outdoor peppers? This ranking compares pepper suitability using seasonal heat, frost-free days, timing sensitivity, and variety flexibility.
   </p>
 
   <div class="leaderboardStatGrid" aria-label="Ranking summary">
     {% if top %}
       <div class="leaderboardStat">
-        <span class="statLabel">Highest pain</span>
+        <span class="statLabel">Most difficult location</span>
         <strong>{{ top.cityName }}</strong>
         <span>{{ top.score }}/100 · {{ top.label }}</span>
       </div>
@@ -36,7 +36,7 @@ canonical: "https://growbydate.com/data/rankings/the-pepper-pain-index/"
     <div class="leaderboardStat">
       <span class="statLabel">Locations compared</span>
       <strong>{{ board.entries.length }}</strong>
-      <span>Pepper locations</span>
+      <span>Canadian cities</span>
     </div>
   </div>
 </section>
@@ -44,7 +44,7 @@ canonical: "https://growbydate.com/data/rankings/the-pepper-pain-index/"
 <section class="card">
   <h2>The ranking</h2>
   <p>
-    Higher scores mean peppers are more timing-sensitive outdoors. High-pain locations usually need indoor starts, fast varieties, warm sites, and less room for late planting.
+    Higher scores mean outdoor peppers are more difficult and timing-sensitive in a typical season. Lower scores mean the city is more forgiving for peppers outdoors.
   </p>
 
   <div class="tableWrap leaderboardTableWrap">
@@ -53,7 +53,7 @@ canonical: "https://growbydate.com/data/rankings/the-pepper-pain-index/"
         <tr>
           <th>Rank</th>
           <th>Location</th>
-          <th>Pain score</th>
+          <th>Difficulty score</th>
           <th>Plain-English read</th>
           <th>Crop fit</th>
           <th>GDD margin</th>
@@ -84,12 +84,12 @@ canonical: "https://growbydate.com/data/rankings/the-pepper-pain-index/"
 </section>
 
 <section class="card leaderboardCallout">
-  <h2>What the Pepper Pain Index means</h2>
+  <h2>What the ranking means</h2>
   <p>
-    A high score does not mean “do not grow peppers.” It means peppers are likely to punish late starts, cold soil, slow varieties, or casual timing more than forgiving crops do.
+    A high difficulty score does not mean peppers are impossible. It means peppers are more likely to punish late starts, cold soil, slow varieties, or casual timing than forgiving crops do.
   </p>
   <p>
-    For high-pain locations, treat peppers as a planned crop: start indoors, choose fast varieties, transplant after real warmth arrives, and use the warmest microclimate you have.
+    For difficult pepper locations, treat peppers as a planned crop: start indoors, choose fast varieties, transplant after real warmth arrives, and use the warmest microclimate you have.
   </p>
 </section>
 
@@ -98,7 +98,7 @@ canonical: "https://growbydate.com/data/rankings/the-pepper-pain-index/"
   <p>{{ board.methodology }}</p>
   <p>{{ board.caveat }}</p>
   <p class="small">
-    Download: <a href="/assets/data/rankings/the-pepper-pain-index.json">Pepper Pain Index JSON</a>.
+    Download: <a href="/assets/data/rankings/best-canadian-cities-for-growing-peppers.json">pepper city ranking JSON</a>.
   </p>
 </section>
 
@@ -108,14 +108,14 @@ canonical: "https://growbydate.com/data/rankings/the-pepper-pain-index/"
   "@type": "ItemList",
   "name": {{ board.title | dump | safe }},
   "description": {{ board.description | dump | safe }},
-  "url": "https://growbydate.com/data/rankings/the-pepper-pain-index/",
+  "url": "https://growbydate.com/data/rankings/best-canadian-cities-for-growing-peppers/",
   "numberOfItems": {{ board.entries.length }},
   "itemListElement": [
     {% for row in board.entries %}
       {
         "@type": "ListItem",
         "position": {{ row.rank }},
-        "name": {{ (row.cityName ~ " pepper pain score") | dump | safe }},
+        "name": {{ (row.cityName ~ " pepper suitability score") | dump | safe }},
         "url": {{ (site.url ~ row.url) | dump | safe }}
       }{% if not loop.last %},{% endif %}
     {% endfor %}

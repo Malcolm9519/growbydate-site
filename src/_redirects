@@ -1,4 +1,4 @@
-﻿/guides/best-grow-lights-for-starting-vegetable-seedlings-indoors/ /guides/best-grow-lights-for-seedlings/ 301
+/guides/best-grow-lights-for-starting-vegetable-seedlings-indoors/ /guides/best-grow-lights-for-seedlings/ 301
 /guides/best-soil-mix-for-seed-starting-trays/ /guides/best-seed-starting-mix/ 301
 /guides/best-soil-thermometer-for-gardening-in-cold-climates/ /guides/best-soil-thermometer/ 301
 /guides/best-heat-mat-for-peppers-and-tomatoes/ /guides/best-heat-mat-for-seedlings/ 301
@@ -7,6 +7,12 @@
 /guides/do-you-need-a-heat-mat-to-start-seeds/ /guides/when-a-heat-mat-helps-for-seed-starting/ 301
 /guides/will-peppers-mature-before-first-frost-in-a-short-season/ /guides/will-peppers-mature-before-first-frost-in-a-short-growing-season/ 301
 /data/rankings/ /data/ 301
+
+# Renamed data ranking pages.
+/data/rankings/the-watermelon-reality-check/ /data/rankings/best-canadian-cities-for-growing-watermelon/ 301
+/data/rankings/the-pepper-pain-index/ /data/rankings/best-canadian-cities-for-growing-peppers/ 301
+/assets/data/rankings/the-watermelon-reality-check.json /assets/data/rankings/best-canadian-cities-for-growing-watermelon.json 301
+/assets/data/rankings/the-pepper-pain-index.json /assets/data/rankings/best-canadian-cities-for-growing-peppers.json 301
 
 # Moved city-level best-varieties pages into main crop-city pages.
 https://varieties.growbydate.com/planting-dates/canada/:province/:city/:crop/best-varieties/ https://growbydate.com/planting-dates/canada/:province/:city/:crop/ 301!
