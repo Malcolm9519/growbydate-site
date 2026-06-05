@@ -4115,3 +4115,201 @@ ul.tight li + li {
     display: none !important;
   }
 }
+
+/* ---------- Seedling Deadline Method guide modules ---------- */
+.deadlineHeroCard {
+  margin: 1.35rem 0 0;
+  padding: 1.15rem 1.25rem;
+  border: 1px solid var(--borderColor, #d9e2d3);
+  border-radius: 18px;
+  background: linear-gradient(to bottom, #fbfcf7, #f3f8ee);
+}
+
+.deadlineHeroCard h2 {
+  margin: 0.15rem 0 0.55rem;
+  font-size: clamp(1.25rem, 2.4vw, 1.65rem);
+}
+
+.deadlineHeroCard p:last-child {
+  margin-bottom: 0;
+}
+
+.deadlineEyebrow {
+  margin: 0;
+  color: #2f7a32;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.deadlineRace {
+  margin: 1.35rem 0;
+  padding: 1rem;
+  border: 1px solid var(--borderColor, #d9e2d3);
+  border-radius: 18px;
+  background: #fff;
+}
+
+.deadlineRace__track {
+  display: grid;
+  grid-template-columns: max-content 1fr max-content;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.deadlineRace__label {
+  font-size: 0.86rem;
+  font-weight: 800;
+  color: #40513d;
+}
+
+.deadlineRace__line {
+  height: 0.55rem;
+  border-radius: 999px;
+  background: linear-gradient(to right, #d9e2d3, #6b8f3a);
+}
+
+.deadlineRace__seedlings {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.deadlineSeedling {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  padding: 0.9rem;
+  border-radius: 15px;
+  border: 1px solid var(--borderColor, #d9e2d3);
+}
+
+.deadlineSeedling--win {
+  background: #f6fbf2;
+}
+
+.deadlineSeedling--risk {
+  background: #fffaf0;
+}
+
+.deadlineSeedling__plant {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.deadlineSeedling p {
+  margin: 0.25rem 0 0;
+}
+
+.deadlineCallout {
+  border-left: 5px solid #6b8f3a;
+}
+
+.deadlineCheckGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.9rem;
+  margin: 1.15rem 0 1.35rem;
+}
+
+.deadlineCheckCard {
+  position: relative;
+  padding: 1rem;
+  border: 1px solid var(--borderColor, #d9e2d3);
+  border-radius: 16px;
+  background: #fff;
+}
+
+.deadlineCheckCard h3 {
+  margin: 0.65rem 0 0.45rem;
+  font-size: 1rem;
+}
+
+.deadlineCheckCard p {
+  margin: 0;
+}
+
+.deadlineStep {
+  display: inline-grid;
+  place-items: center;
+  width: 1.8rem;
+  height: 1.8rem;
+  border-radius: 999px;
+  background: #edf7e8;
+  color: #2f7a32;
+  font-weight: 800;
+}
+
+.deadlineToolBox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 1.25rem 0;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--borderColor, #d9e2d3);
+  border-radius: 18px;
+  background: linear-gradient(to bottom, #fcfcfa, #f7faf4);
+}
+
+.deadlineToolBox h3,
+.deadlineToolBox p {
+  margin: 0;
+}
+
+.deadlineToolBox p {
+  margin-top: 0.35rem;
+}
+
+.riskPill {
+  display: inline-block;
+  padding: 0.18rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.riskPill--high {
+  background: #fef0d8;
+  color: #8a4b00;
+}
+
+.riskPill--medium {
+  background: #eef4ff;
+  color: #315b8f;
+}
+
+.riskPill--low {
+  background: #edf7e8;
+  color: #2f7a32;
+}
+
+@media (max-width: 920px) {
+  .deadlineCheckGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .deadlineToolBox {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 680px) {
+  .deadlineRace__track {
+    grid-template-columns: 1fr;
+    gap: 0.45rem;
+  }
+
+  .deadlineRace__line {
+    width: 100%;
+  }
+
+  .deadlineRace__seedlings,
+  .deadlineCheckGrid {
+    grid-template-columns: 1fr;
+  }
+}
