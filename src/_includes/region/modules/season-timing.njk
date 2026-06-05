@@ -1,4 +1,5 @@
-  <h3>Typical Season Rhythm</h3>
+<section class="card">
+  <h2>{{ state.name }} Garden Planning Chart</h2>
 
   {% set season = state.season or null %}
   {% set spring = season and season.frost and season.frost.spring or null %}
@@ -21,7 +22,7 @@
 
   {% else %}
     <p class="small" style="margin-top:-0.25rem;">
-      A practical “typical year” rhythm for planning. Use it as a baseline, then adjust for microclimates and variety maturity.
+      A practical “typical year” for planning. Use it as a baseline, then adjust for microclimates and variety maturity.
     </p>
 
     <div class="tableWrap" style="margin-top:0.75rem;">

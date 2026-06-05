@@ -7,7 +7,7 @@ pagination:
   alias: province
 permalink: "/planting-dates/canada/provinces/{{ province.key }}/index.html"
 eleventyComputed:
-  title: "{{ province.name }} Planting Dates, Frost Dates and Growing Season by City"
+  title: "{{ province.name }} Garden Guide: Planting Dates, Frost Dates and Growing Season"
   description: "Browse {{ province.name }} planting dates by city, with average last frost, first frost, frost-free days, and local crop timing links."
   canonical: "https://growbydate.com/planting-dates/canada/provinces/{{ province.key }}/"
 ---
@@ -15,7 +15,7 @@ eleventyComputed:
 {% set state = province %}
 
 <header class="header">
-<h1>{{ province.name }} Planting Dates, Frost Dates & Growing Seasons</h1>
+<h1>{{ province.name }} Garden Guide: Planting Dates, Frost Dates & Growing Season</h1>
 
   {% set hero = (state.content and state.content.hero) or {} %}
 

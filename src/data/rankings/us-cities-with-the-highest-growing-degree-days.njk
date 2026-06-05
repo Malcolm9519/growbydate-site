@@ -1,0 +1,120 @@
+---
+layout: layout-base.njk
+title: US Cities With the Highest Growing Degree Days | GrowByDate
+description: Compare U.S. cities by base 50°F growing degree day accumulation for warm-season crop planning.
+canonical: "https://growbydate.com/data/rankings/us-cities-with-the-highest-growing-degree-days/"
+---
+
+{% set board = usCitiesHighestGdd %}
+{% set top = board.top %}
+
+<section class="card leaderboardHero">
+  <p class="eyebrow">City comparison</p>
+  <h1>US Cities With the Highest Growing Degree Days</h1>
+  <p class="lede">
+    Frost dates tell you how long the outdoor window is. Growing degree days help explain how much heat accumulates inside that window.
+    This ranking compares U.S. cities by base 50°F GDD, a useful reference point for warm-season crop planning.
+  </p>
+
+  <div class="leaderboardStatGrid" aria-label="Ranking summary">
+    {% if top %}
+      <div class="leaderboardStat">
+        <span class="statLabel">Highest GDD</span>
+        <strong>{{ top.cityName }}</strong>
+        <span>{{ top.gddBase50 }} base 50°F GDD · {{ top.label }}</span>
+      </div>
+    {% endif %}
+
+    <div class="leaderboardStat">
+      <span class="statLabel">Cities compared</span>
+      <strong>{{ board.entries.length }}</strong>
+      <span>U.S. cities with GDD values</span>
+    </div>
+
+    <div class="leaderboardStat">
+      <span class="statLabel">Best used for</span>
+      <strong>Warm-season crops</strong>
+      <span>Tomatoes, peppers, corn, squash, cucumbers, melons, okra, and sweet potatoes</span>
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>The ranking</h2>
+  <p>
+    Cities are ranked by base 50°F growing degree day accumulation. Higher values usually mean more seasonal heat for warm-season crops,
+    but water, heat stress, frost timing, and variety choice still matter.
+  </p>
+
+  <div class="tableWrap leaderboardTableWrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>City</th>
+          <th>Base 50°F GDD</th>
+          <th>Base 45°F GDD</th>
+          <th>Base 40°F GDD</th>
+          <th>Heat read</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in board.entries %}
+          <tr>
+            <td><strong>#{{ row.rank }}</strong></td>
+            <td>
+              <a href="{{ row.url }}"><strong>{{ row.cityName }}</strong></a><br>
+              <span class="small muted">{{ row.regionName }}, U.S.</span>
+            </td>
+            <td><strong>{{ row.gddBase50 }}</strong></td>
+            <td>{{ row.gddBase45 if row.gddBase45 != null else "—" }}</td>
+            <td>{{ row.gddBase40 if row.gddBase40 != null else "—" }}</td>
+            <td>{{ row.label }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="card leaderboardCallout">
+  <h2>What this ranking means</h2>
+  <p>
+    A city with more base 50°F GDD generally has more heat available for warm-season crops. In the hottest U.S. locations,
+    that can also mean heat stress, drought pressure, or irrigation needs become part of the gardening picture.
+  </p>
+  <p>
+    Compare with <a href="/data/rankings/us-cities-with-the-longest-growing-seasons/">US Cities With the Longest Growing Seasons</a>
+    and the full <a href="/data/growing-degree-days-by-city/">Growing Degree Days by City</a> reference.
+  </p>
+</section>
+
+<section class="card">
+  <h2>Methodology</h2>
+  <p>{{ board.methodology }}</p>
+  <p>{{ board.caveat }}</p>
+  <p class="small">
+    Download: <a href="/assets/data/rankings/us-cities-with-the-highest-growing-degree-days.json">highest U.S. growing degree days JSON</a>.
+  </p>
+</section>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": {{ board.title | dump | safe }},
+  "description": {{ board.description | dump | safe }},
+  "url": "https://growbydate.com/data/rankings/us-cities-with-the-highest-growing-degree-days/",
+  "numberOfItems": {{ board.entries.length }},
+  "itemListElement": [
+    {% for row in board.entries %}
+      {
+        "@type": "ListItem",
+        "position": {{ row.rank }},
+        "name": {{ (row.cityName ~ " base 50°F growing degree days") | dump | safe }},
+        "url": {{ (site.url ~ row.url) | dump | safe }}
+      }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>

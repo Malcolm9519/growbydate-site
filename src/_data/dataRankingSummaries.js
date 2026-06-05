@@ -8,6 +8,8 @@ const mostForgivingCropsShortSeason = require("./mostForgivingCropsShortSeason")
 const canadianCitiesHighestGdd = require("./canadianCitiesHighestGdd");
 const cropsThatLoseMarginWhenPlantedLate = require("./cropsThatLoseMarginWhenPlantedLate");
 const canadianCitiesLongestGrowingSeasons = require("./canadianCitiesLongestGrowingSeasons");
+const usCitiesHighestGdd = require("./usCitiesHighestGdd");
+const usCitiesLongestGrowingSeasons = require("./usCitiesLongestGrowingSeasons");
 
 function summarize(board, topLine) {
   return {
@@ -33,6 +35,8 @@ module.exports = function () {
   const highestGdd = canadianCitiesHighestGdd();
   const lateMargin = cropsThatLoseMarginWhenPlantedLate();
   const longestSeason = canadianCitiesLongestGrowingSeasons();
+  const usHighestGdd = usCitiesHighestGdd();
+  const usLongestSeason = usCitiesLongestGrowingSeasons();
 
   return [
     summarize(
@@ -94,6 +98,18 @@ module.exports = function () {
       longestSeason.top
         ? `${longestSeason.top.cityName} has the longest current Canadian frost-free window at ${longestSeason.top.frostFreeDays} days.`
         : "Current longest-season ranking data is available."
+    ),
+    summarize(
+      usHighestGdd,
+      usHighestGdd.top
+        ? `${usHighestGdd.top.cityName} leads the current U.S. GDD ranking at ${usHighestGdd.top.gddBase50} base 50°F GDD.`
+        : "Current U.S. GDD city ranking data is available."
+    ),
+    summarize(
+      usLongestSeason,
+      usLongestSeason.top
+        ? `${usLongestSeason.top.cityName} has the longest current U.S. frost-free window at ${usLongestSeason.top.frostFreeDays} days.`
+        : "Current U.S. longest-season ranking data is available."
     )
   ];
 };

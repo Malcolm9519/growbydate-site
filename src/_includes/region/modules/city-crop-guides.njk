@@ -66,11 +66,9 @@
               {{ rotatedBlurb }}
             </p>
 
-            <p class="small" style="margin:0; line-height:1.35;">
-              {% set varietyCropLabel = item.cropNounSingular or item.cropSingularName or item.cropName %}
-              <a href="{{ item.url }}">When to Plant {{ item.cropName }} in {{ city.name }}</a><br>
-              <a href="{{ item.url }}#variety-fit">Best {{ varietyCropLabel | lower }} varieties for {{ city.name }}</a>
-            </p>
+<p class="small" style="margin:0; line-height:1.35;">
+  <a href="{{ item.url }}">When to Plant {{ item.cropName }} in {{ city.name }}</a>
+</p>
           </div>
         {% endfor %}
       </div>

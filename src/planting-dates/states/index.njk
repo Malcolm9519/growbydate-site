@@ -39,15 +39,26 @@ canonical: "https://growbydate.com/planting-dates/states/"
 <section class="card index-card">
   <h1>Planting Dates by State</h1>
   <p class="small intro">
-    Normals-based first frost timing and remaining seasonal heat for each published U.S. state.
+    Normals-based first frost timing and remaining seasonal heat for U.S. states.
     Select a state to see typical frost dates and growing degree day capacity.
   </p>
-</section>
 
-<section class="card">
-  <ul class="index-list">
+  <p class="small">
+    Search by state, city, or abbreviation to find U.S. planting-date guides.
+  </p>
+  <label class="sr-only" for="state-city-search">Search planting dates by state or city</label>
+  <input
+    id="state-city-search"
+    type="search"
+    placeholder="Search state, city, or abbreviation..."
+    autocomplete="off"
+    style="width:100%;max-width:36rem;margin:0.75rem 0 1rem;padding:0.75rem 0.9rem;border:1px solid #d8e2d0;border-radius:999px;"
+  />
+  <p class="small" id="state-city-search-count" aria-live="polite"></p>
+
+  <ul class="index-list" id="state-city-list">
     {% for st in stateSummariesUS %}
-      <li class="index-item">
+      <li class="index-item" data-index-group data-search="{{ st.name | lower }} {{ st.key | lower }}{% if st.lede %} {{ st.lede | lower }}{% endif %}">
         <a class="index-link" href="/planting-dates/states/{{ st.key }}/">
           <strong>{{ st.name }}</strong>
           {% if st.lede %}
@@ -66,7 +77,7 @@ canonical: "https://growbydate.com/planting-dates/states/"
           <ul class="index-city-list">
             {% for city in citySummaries %}
               {% if (city.country == "united-states" or city.country == "usa" or city.country == "us") and city.regionKey == st.key %}
-                <li class="index-city-item">
+                <li class="index-city-item" data-index-child data-search="{{ city.name | lower }} {{ city.regionName | lower }} {{ city.regionKey | lower }} united states us usa planting dates frost timing crop guidance">
                   <a class="index-city-link-main" href="/planting-dates/{{ city.regionKey }}/{{ city.key }}/">
                     <strong>{{ city.name }}</strong>
                     <span class="index-city-region">, {{ city.regionName }}</span>
@@ -84,3 +95,43 @@ canonical: "https://growbydate.com/planting-dates/states/"
     {% endfor %}
   </ul>
 </section>
+
+<script>
+(function () {
+  const input = document.getElementById("state-city-search");
+  const list = document.getElementById("state-city-list");
+  const count = document.getElementById("state-city-search-count");
+  if (!input || !list || !count) return;
+
+  const groups = Array.from(list.querySelectorAll("[data-index-group]"));
+  const children = Array.from(list.querySelectorAll("[data-index-child]"));
+
+  function update() {
+    const query = input.value.trim().toLowerCase();
+    let visibleGroups = 0;
+    let visibleChildren = 0;
+
+    groups.forEach((group) => {
+      const groupMatches = !query || (group.dataset.search || "").includes(query);
+      const groupChildren = Array.from(group.querySelectorAll("[data-index-child]"));
+      let childMatches = 0;
+
+      groupChildren.forEach((child) => {
+        const matches = groupMatches || !query || (child.dataset.search || "").includes(query);
+        child.hidden = !matches;
+        if (matches) childMatches += 1;
+      });
+
+      const showGroup = groupMatches || childMatches > 0;
+      group.hidden = !showGroup;
+      if (showGroup) visibleGroups += 1;
+      visibleChildren += childMatches;
+    });
+
+    count.textContent = `Showing ${visibleGroups} ${visibleGroups === 1 ? "state" : "states"} and ${visibleChildren} ${visibleChildren === 1 ? "city page" : "city pages"}.`;
+  }
+
+  input.addEventListener("input", update);
+  update();
+}());
+</script>

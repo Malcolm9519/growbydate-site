@@ -77,13 +77,19 @@ canonical: "https://growbydate.com/data/"
   <div class="leaderboardGrid">
     {% for board in dataRankingSummaries %}
       {% if board.key == "canadian-cities-with-the-highest-growing-degree-days" %}
-        {{ rankingTile(board, "", "", "Seasonal heat") }}
+        {{ rankingTile(board, "", "", "Canada · Seasonal heat") }}
+      {% endif %}
+      {% if board.key == "us-cities-with-the-highest-growing-degree-days" %}
+        {{ rankingTile(board, "", "", "U.S. · Seasonal heat") }}
       {% endif %}
       {% if board.key == "cities-with-the-shortest-growing-seasons" %}
         {{ rankingTile(board, "", "", "Short seasons") }}
       {% endif %}
       {% if board.key == "canadian-cities-with-the-longest-growing-seasons" %}
-        {{ rankingTile(board, "", "", "Long seasons") }}
+        {{ rankingTile(board, "", "", "Canada · Long seasons") }}
+      {% endif %}
+      {% if board.key == "us-cities-with-the-longest-growing-seasons" %}
+        {{ rankingTile(board, "", "", "U.S. · Long seasons") }}
       {% endif %}
     {% endfor %}
   </div>
