@@ -59,22 +59,17 @@ canonical: "https://growbydate.com/data/canada-garden-climate-atlas/"
         <strong>Canada Frost-Free Season by City</strong>
         <span>Darker/larger dots = longer frost-free season</span>
       </div>
-      <svg class="atlasCanadaShape" aria-hidden="true" viewBox="0 0 1000 430" preserveAspectRatio="none" focusable="false">
-        <path class="atlasLandMain" d="M44 270 L74 226 L130 205 L178 190 L225 160 L286 152 L338 118 L400 132 L455 102 L520 126 L584 114 L648 142 L712 128 L780 160 L842 158 L904 206 L940 250 L900 286 L956 320 L908 362 L836 344 L780 366 L720 338 L665 370 L604 336 L546 356 L484 324 L416 346 L354 314 L292 328 L232 292 L166 296 L108 280 Z"></path>
-        <path class="atlasLandIsland" d="M246 74 L300 54 L356 70 L330 96 L270 98 Z"></path>
-        <path class="atlasLandIsland" d="M380 62 L446 40 L514 62 L484 92 L420 94 Z"></path>
-        <path class="atlasLandIsland" d="M552 72 L626 50 L706 76 L660 106 L590 104 Z"></path>
-        <path class="atlasLandIsland" d="M716 88 L794 74 L860 104 L816 134 L744 124 Z"></path>
-        <path class="atlasWaterHole" d="M590 184 C642 160 704 178 728 224 C750 266 724 310 674 324 C628 337 586 314 572 276 C558 238 560 200 590 184 Z"></path>
-        <path class="atlasProvinceLine" d="M230 170 L214 292"></path>
-        <path class="atlasProvinceLine" d="M346 128 L326 324"></path>
-        <path class="atlasProvinceLine" d="M478 128 L466 330"></path>
-        <path class="atlasProvinceLine" d="M742 150 C720 205 706 270 716 340"></path>
-        <path class="atlasProvinceLine" d="M822 164 C790 220 770 286 780 360"></path>
-      </svg>
-      {% for label in resourceClimateAtlas.atlasRegionLabels %}
-        <span class="atlasRegionLabel" style="left:{{ label.x }}%;top:{{ label.y }}%;">{{ label.label }}</span>
-      {% endfor %}
+      <div class="atlasGuideLayer" aria-hidden="true">
+        {% for x in resourceClimateAtlas.atlasGuideLines %}
+          <span class="atlasGuideLine" style="left:{{ x }}%;"></span>
+        {% endfor %}
+        {% for label in resourceClimateAtlas.atlasNorthLabels %}
+          <span class="atlasNorthLabel" style="left:{{ label.x }}%;top:{{ label.y }}%;">{{ label.label }}</span>
+        {% endfor %}
+        {% for label in resourceClimateAtlas.atlasProvinceGuides %}
+          <span class="atlasProvinceLabel" style="left:{{ label.x }}%;top:{{ label.y }}%;">{{ label.label }}</span>
+        {% endfor %}
+      </div>
       {% for row in resourceClimateAtlas.canadaCities %}
         <a class="atlasPoint frost-{{ row.frostBandClass }}" href="{{ row.cityUrl }}" style="left:{{ row.mapX }}%;top:{{ row.mapY }}%;" title="{{ row.cityName }}, {{ row.regionAbbr }}: {{ row.frostFreeDays }} frost-free days">
           <span class="sr-only">{{ row.cityName }}, {{ row.regionName }}: {{ row.frostFreeDays }} frost-free days.</span>
@@ -88,7 +83,7 @@ canonical: "https://growbydate.com/data/canada-garden-climate-atlas/"
   </div>
   <div class="resourceLegend atlasLegend">
     {% for band in resourceClimateAtlas.frostBands %}
-      <span><i></i>{{ band.label }} <small>{{ band.range }}</small></span>
+      <span class="legend-frost-{{ band.className }}"><i></i>{{ band.label }} <small>{{ band.range }}</small></span>
     {% endfor %}
   </div>
 </section>
@@ -107,22 +102,17 @@ canonical: "https://growbydate.com/data/canada-garden-climate-atlas/"
         <strong>Canada Growing Degree Days by City</strong>
         <span>Darker/larger dots = more seasonal crop heat</span>
       </div>
-      <svg class="atlasCanadaShape" aria-hidden="true" viewBox="0 0 1000 430" preserveAspectRatio="none" focusable="false">
-        <path class="atlasLandMain" d="M44 270 L74 226 L130 205 L178 190 L225 160 L286 152 L338 118 L400 132 L455 102 L520 126 L584 114 L648 142 L712 128 L780 160 L842 158 L904 206 L940 250 L900 286 L956 320 L908 362 L836 344 L780 366 L720 338 L665 370 L604 336 L546 356 L484 324 L416 346 L354 314 L292 328 L232 292 L166 296 L108 280 Z"></path>
-        <path class="atlasLandIsland" d="M246 74 L300 54 L356 70 L330 96 L270 98 Z"></path>
-        <path class="atlasLandIsland" d="M380 62 L446 40 L514 62 L484 92 L420 94 Z"></path>
-        <path class="atlasLandIsland" d="M552 72 L626 50 L706 76 L660 106 L590 104 Z"></path>
-        <path class="atlasLandIsland" d="M716 88 L794 74 L860 104 L816 134 L744 124 Z"></path>
-        <path class="atlasWaterHole" d="M590 184 C642 160 704 178 728 224 C750 266 724 310 674 324 C628 337 586 314 572 276 C558 238 560 200 590 184 Z"></path>
-        <path class="atlasProvinceLine" d="M230 170 L214 292"></path>
-        <path class="atlasProvinceLine" d="M346 128 L326 324"></path>
-        <path class="atlasProvinceLine" d="M478 128 L466 330"></path>
-        <path class="atlasProvinceLine" d="M742 150 C720 205 706 270 716 340"></path>
-        <path class="atlasProvinceLine" d="M822 164 C790 220 770 286 780 360"></path>
-      </svg>
-      {% for label in resourceClimateAtlas.atlasRegionLabels %}
-        <span class="atlasRegionLabel" style="left:{{ label.x }}%;top:{{ label.y }}%;">{{ label.label }}</span>
-      {% endfor %}
+      <div class="atlasGuideLayer" aria-hidden="true">
+        {% for x in resourceClimateAtlas.atlasGuideLines %}
+          <span class="atlasGuideLine" style="left:{{ x }}%;"></span>
+        {% endfor %}
+        {% for label in resourceClimateAtlas.atlasNorthLabels %}
+          <span class="atlasNorthLabel" style="left:{{ label.x }}%;top:{{ label.y }}%;">{{ label.label }}</span>
+        {% endfor %}
+        {% for label in resourceClimateAtlas.atlasProvinceGuides %}
+          <span class="atlasProvinceLabel" style="left:{{ label.x }}%;top:{{ label.y }}%;">{{ label.label }}</span>
+        {% endfor %}
+      </div>
       {% for row in resourceClimateAtlas.canadaCities %}
         <a class="atlasPoint gdd-{{ row.gddBandClass }}" href="{{ row.cityUrl }}" style="left:{{ row.mapX }}%;top:{{ row.mapY }}%;" title="{{ row.cityName }}, {{ row.regionAbbr }}: {{ row.gddBase50 }} base-50 GDD">
           <span class="sr-only">{{ row.cityName }}, {{ row.regionName }}: {{ row.gddBase50 }} base-50 GDD.</span>
@@ -136,7 +126,7 @@ canonical: "https://growbydate.com/data/canada-garden-climate-atlas/"
   </div>
   <div class="resourceLegend atlasLegend">
     {% for band in resourceClimateAtlas.gddBands %}
-      <span><i></i>{{ band.label }} <small>{{ band.range }}</small></span>
+      <span class="legend-gdd-{{ band.className }}"><i></i>{{ band.label }} <small>{{ band.range }}</small></span>
     {% endfor %}
   </div>
 </section>
