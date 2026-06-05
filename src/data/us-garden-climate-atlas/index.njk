@@ -1,29 +1,30 @@
 ---
 layout: layout-base.njk
-title: "Canada Garden Climate Atlas: Frost-Free Days & Growing Degree Days | GrowByDate"
-description: A visual atlas of Canadian garden climates using frost-free days and base-50°F growing degree days.
-canonical: "https://growbydate.com/data/canada-garden-climate-atlas/"
+layoutClass: "dataPage"
+title: "U.S. Garden Climate Atlas: Frost-Free Days & Growing Degree Days | GrowByDate"
+description: A visual atlas of U.S. garden climates using frost-free days and base-50°F growing degree days across the current GrowByDate city dataset.
+canonical: "https://growbydate.com/data/us-garden-climate-atlas/"
 ---
 
 <section class="card leaderboardHero resourceHero">
   <p class="eyebrow">Map-style climate resource</p>
-  <h1>Canada Garden Climate Atlas</h1>
+  <h1>U.S. Garden Climate Atlas</h1>
   <p class="lede">
-    A visual guide to frost-free days, seasonal crop heat, and short-season gardening pressure across Canadian cities.
+    A visual guide to frost-free days, seasonal crop heat, and growing-season pressure across U.S. cities in the GrowByDate dataset.
   </p>
-  <p class="small">Updated {{ resourceClimateAtlas.updated }} · {{ resourceClimateAtlas.totalCanadaCities }} Canadian cities with both frost and GDD reference data.</p>
+  <p class="small">Updated {{ resourceUsClimateAtlas.updated }} · {{ resourceUsClimateAtlas.totalUsCities }} U.S. cities across {{ resourceUsClimateAtlas.totalUsStates }} states with both frost and GDD reference data.</p>
 </section>
 
-<section class="leaderboardStatGrid" aria-label="Canada garden climate atlas summary">
+<section class="leaderboardStatGrid" aria-label="U.S. garden climate atlas summary">
   <article class="leaderboardStat">
     <span class="statLabel">Median frost-free season</span>
-    <strong>{{ resourceClimateAtlas.medianFrostFreeDays }} days</strong>
-    <span class="small">Median across the Canadian cities in the table.</span>
+    <strong>{{ resourceUsClimateAtlas.medianFrostFreeDays }} days</strong>
+    <span class="small">Median across the U.S. cities in the atlas.</span>
   </article>
   <article class="leaderboardStat">
     <span class="statLabel">Median base-50 GDD</span>
-    <strong>{{ resourceClimateAtlas.medianGddBase50 }}</strong>
-    <span class="small">Median seasonal heat accumulation across Canadian cities.</span>
+    <strong>{{ resourceUsClimateAtlas.medianGddBase50 }}</strong>
+    <span class="small">Median seasonal heat accumulation across U.S. cities.</span>
   </article>
   <article class="leaderboardStat">
     <span class="statLabel">Core lesson</span>
@@ -32,16 +33,16 @@ canonical: "https://growbydate.com/data/canada-garden-climate-atlas/"
   </article>
 </section>
 
-<section class="card resourceIntroGrid" aria-label="Canada garden climate atlas takeaways">
+<section class="card resourceIntroGrid" aria-label="U.S. garden climate atlas takeaways">
   <article>
     <p class="eyebrow">Outdoor window</p>
     <h3>Frost-free days show how long tender crops usually have outside.</h2>
-    <p>A short frost window pushes gardeners toward fast varieties, transplants, protection, or conservative crop choices.</p>
+    <p>A shorter frost-free window pushes gardeners toward fast varieties, transplants, frost protection, or more conservative crop choices.</p>
   </article>
   <article>
     <p class="eyebrow">Crop heat</p>
     <h3>GDD shows how much warmth accumulates inside that window.</h2>
-    <p>Warm-season crops such as tomatoes, peppers, squash, corn, and melons need more than a late frost date. They need usable heat.</p>
+    <p>Warm-season crops such as tomatoes, peppers, squash, corn, okra, and melons need more than calendar time. They need usable heat.</p>
   </article>
 </section>
 
@@ -49,40 +50,40 @@ canonical: "https://growbydate.com/data/canada-garden-climate-atlas/"
   <div class="resourceSectionHeader">
     <div>
       <p class="eyebrow">Climate point map</p>
-      <h2>Canada frost-free season by city</h2>
+      <h2>U.S. frost-free season by city</h2>
     </div>
-    <p class="small">Points are positioned by city latitude and longitude. Darker/larger points represent longer frost-free windows.</p>
+    <p class="small">Points are positioned by city latitude and longitude. Larger, warmer-coloured points represent longer frost-free windows.</p>
   </div>
-  <div class="atlasMapFrame" role="img" aria-label="Approximate point map of Canadian cities by frost-free season length.">
+  <div class="atlasMapFrame" role="img" aria-label="Approximate point map of U.S. cities by frost-free season length.">
     <div class="atlasMap atlasMapFrost">
       <div class="atlasMapHeader">
-        <strong>Canada Frost-Free Season by City</strong>
-        <span>Darker/larger dots = longer frost-free season</span>
+        <strong>U.S. Frost-Free Season by City</strong>
+        <span>Larger, warmer dots = longer frost-free season</span>
       </div>
       <div class="atlasGuideLayer" aria-hidden="true">
-        {% for x in resourceClimateAtlas.atlasGuideLines %}
+        {% for x in resourceUsClimateAtlas.atlasGuideLines %}
           <span class="atlasGuideLine" style="left:{{ x }}%;"></span>
         {% endfor %}
-        {% for label in resourceClimateAtlas.atlasNorthLabels %}
+        {% for label in resourceUsClimateAtlas.atlasNorthLabels %}
           <span class="atlasNorthLabel" style="left:{{ label.x }}%;top:{{ label.y }}%;">{{ label.label }}</span>
         {% endfor %}
-        {% for label in resourceClimateAtlas.atlasProvinceGuides %}
+        {% for label in resourceUsClimateAtlas.atlasProvinceGuides %}
           <span class="atlasProvinceLabel" style="left:{{ label.x }}%;top:{{ label.y }}%;">{{ label.label }}</span>
         {% endfor %}
       </div>
-      {% for row in resourceClimateAtlas.canadaCities %}
+      {% for row in resourceUsClimateAtlas.usCities %}
         <a class="atlasPoint frost-{{ row.frostBandClass }}" href="{{ row.cityUrl }}" style="left:{{ row.mapX }}%;top:{{ row.mapY }}%;" title="{{ row.cityName }}, {{ row.regionAbbr }}: {{ row.frostFreeDays }} frost-free days">
           <span class="sr-only">{{ row.cityName }}, {{ row.regionName }}: {{ row.frostFreeDays }} frost-free days.</span>
         </a>
       {% endfor %}
-      {% for row in resourceClimateAtlas.mapLabelCities %}
+      {% for row in resourceUsClimateAtlas.mapLabelCities %}
         <a class="atlasCityLabel" href="{{ row.cityUrl }}" style="left:{{ row.mapX }}%;top:{{ row.mapY }}%;--label-x:{{ row.labelDx }}px;--label-y:{{ row.labelDy }}px;">{{ row.cityName }}</a>
       {% endfor %}
-      <span class="atlasSourceLine">GrowByDate.com · Canada Garden Climate Atlas</span>
+      <span class="atlasSourceLine">GrowByDate.com · U.S. Garden Climate Atlas</span>
     </div>
   </div>
   <div class="resourceLegend atlasLegend">
-    {% for band in resourceClimateAtlas.frostBands %}
+    {% for band in resourceUsClimateAtlas.frostBands %}
       <span class="legend-frost-{{ band.className }}"><i></i>{{ band.label }} <small>{{ band.range }}</small></span>
     {% endfor %}
   </div>
@@ -92,40 +93,40 @@ canonical: "https://growbydate.com/data/canada-garden-climate-atlas/"
   <div class="resourceSectionHeader">
     <div>
       <p class="eyebrow">Climate point map</p>
-      <h2>Canada base-50°F GDD by city</h2>
+      <h2>U.S. base-50°F GDD by city</h2>
     </div>
-    <p class="small">Same city positions, different signal. Darker/larger points represent higher seasonal heat accumulation.</p>
+    <p class="small">Same city positions, different signal. Larger, warmer-coloured points represent higher seasonal heat accumulation.</p>
   </div>
-  <div class="atlasMapFrame" role="img" aria-label="Approximate point map of Canadian cities by base-50 growing degree days.">
+  <div class="atlasMapFrame" role="img" aria-label="Approximate point map of U.S. cities by base-50 growing degree days.">
     <div class="atlasMap atlasMapGdd">
       <div class="atlasMapHeader">
-        <strong>Canada Growing Degree Days by City</strong>
-        <span>Darker/larger dots = more seasonal crop heat</span>
+        <strong>U.S. Growing Degree Days by City</strong>
+        <span>Larger, warmer dots = more seasonal crop heat</span>
       </div>
       <div class="atlasGuideLayer" aria-hidden="true">
-        {% for x in resourceClimateAtlas.atlasGuideLines %}
+        {% for x in resourceUsClimateAtlas.atlasGuideLines %}
           <span class="atlasGuideLine" style="left:{{ x }}%;"></span>
         {% endfor %}
-        {% for label in resourceClimateAtlas.atlasNorthLabels %}
+        {% for label in resourceUsClimateAtlas.atlasNorthLabels %}
           <span class="atlasNorthLabel" style="left:{{ label.x }}%;top:{{ label.y }}%;">{{ label.label }}</span>
         {% endfor %}
-        {% for label in resourceClimateAtlas.atlasProvinceGuides %}
+        {% for label in resourceUsClimateAtlas.atlasProvinceGuides %}
           <span class="atlasProvinceLabel" style="left:{{ label.x }}%;top:{{ label.y }}%;">{{ label.label }}</span>
         {% endfor %}
       </div>
-      {% for row in resourceClimateAtlas.canadaCities %}
+      {% for row in resourceUsClimateAtlas.usCities %}
         <a class="atlasPoint gdd-{{ row.gddBandClass }}" href="{{ row.cityUrl }}" style="left:{{ row.mapX }}%;top:{{ row.mapY }}%;" title="{{ row.cityName }}, {{ row.regionAbbr }}: {{ row.gddBase50 }} base-50 GDD">
           <span class="sr-only">{{ row.cityName }}, {{ row.regionName }}: {{ row.gddBase50 }} base-50 GDD.</span>
         </a>
       {% endfor %}
-      {% for row in resourceClimateAtlas.mapLabelCities %}
+      {% for row in resourceUsClimateAtlas.mapLabelCities %}
         <a class="atlasCityLabel" href="{{ row.cityUrl }}" style="left:{{ row.mapX }}%;top:{{ row.mapY }}%;--label-x:{{ row.labelDx }}px;--label-y:{{ row.labelDy }}px;">{{ row.cityName }}</a>
       {% endfor %}
-      <span class="atlasSourceLine">GrowByDate.com · Canada Garden Climate Atlas</span>
+      <span class="atlasSourceLine">GrowByDate.com · U.S. Garden Climate Atlas</span>
     </div>
   </div>
   <div class="resourceLegend atlasLegend">
-    {% for band in resourceClimateAtlas.gddBands %}
+    {% for band in resourceUsClimateAtlas.gddBands %}
       <span class="legend-gdd-{{ band.className }}"><i></i>{{ band.label }} <small>{{ band.range }}</small></span>
     {% endfor %}
   </div>
@@ -140,7 +141,7 @@ canonical: "https://growbydate.com/data/canada-garden-climate-atlas/"
     <article>
       <h3>Longest frost-free seasons</h3>
       <ol class="tight">
-        {% for row in resourceClimateAtlas.longestSeasons %}
+        {% for row in resourceUsClimateAtlas.longestSeasons %}
           {% if loop.index <= 5 %}<li><a href="{{ row.cityUrl }}">{{ row.cityName }}, {{ row.regionAbbr }}</a> — {{ row.frostFreeDays }} days</li>{% endif %}
         {% endfor %}
       </ol>
@@ -148,7 +149,7 @@ canonical: "https://growbydate.com/data/canada-garden-climate-atlas/"
     <article>
       <h3>Shortest frost-free seasons</h3>
       <ol class="tight">
-        {% for row in resourceClimateAtlas.shortestSeasons %}
+        {% for row in resourceUsClimateAtlas.shortestSeasons %}
           {% if loop.index <= 5 %}<li><a href="{{ row.cityUrl }}">{{ row.cityName }}, {{ row.regionAbbr }}</a> — {{ row.frostFreeDays }} days</li>{% endif %}
         {% endfor %}
       </ol>
@@ -156,7 +157,7 @@ canonical: "https://growbydate.com/data/canada-garden-climate-atlas/"
     <article>
       <h3>Highest base-50 GDD</h3>
       <ol class="tight">
-        {% for row in resourceClimateAtlas.highestGdd %}
+        {% for row in resourceUsClimateAtlas.highestGdd %}
           {% if loop.index <= 5 %}<li><a href="{{ row.cityUrl }}">{{ row.cityName }}, {{ row.regionAbbr }}</a> — {{ row.gddBase50 }} GDD</li>{% endif %}
         {% endfor %}
       </ol>
@@ -164,7 +165,7 @@ canonical: "https://growbydate.com/data/canada-garden-climate-atlas/"
     <article>
       <h3>Lowest base-50 GDD</h3>
       <ol class="tight">
-        {% for row in resourceClimateAtlas.lowestGdd %}
+        {% for row in resourceUsClimateAtlas.lowestGdd %}
           {% if loop.index <= 5 %}<li><a href="{{ row.cityUrl }}">{{ row.cityName }}, {{ row.regionAbbr }}</a> — {{ row.gddBase50 }} GDD</li>{% endif %}
         {% endfor %}
       </ol>
@@ -173,12 +174,12 @@ canonical: "https://growbydate.com/data/canada-garden-climate-atlas/"
 </section>
 
 <section class="card leaderboardTableWrap">
-  <h2>Provincial and territorial summary</h2>
-  <p class="small">Median values are calculated from the Canadian cities in the table.</p>
+  <h2>State summary</h2>
+  <p class="small">Median values are calculated from the U.S. cities currently included in the GrowByDate dataset.</p>
   <table>
     <thead>
       <tr>
-        <th>Region</th>
+        <th>State</th>
         <th>Cities</th>
         <th>Median frost-free days</th>
         <th>Median base-50 GDD</th>
@@ -187,7 +188,7 @@ canonical: "https://growbydate.com/data/canada-garden-climate-atlas/"
       </tr>
     </thead>
     <tbody>
-      {% for row in resourceClimateAtlas.provinceSummaries %}
+      {% for row in resourceUsClimateAtlas.stateSummaries %}
         <tr>
           <td><strong>{{ row.regionName }}</strong></td>
           <td>{{ row.cityCount }}</td>
@@ -208,22 +209,22 @@ canonical: "https://growbydate.com/data/canada-garden-climate-atlas/"
   </p>
   <ul class="tight">
     <li>Use the frost-free map to compare outdoor season length.</li>
-    <li>Use the GDD map to compare seasonal heat for crops such as tomatoes, peppers, corn, squash, and melons.</li>
+    <li>Use the GDD map to compare seasonal heat for crops such as tomatoes, peppers, corn, squash, okra, and melons.</li>
     <li>Use <a href="/data/long-season-vs-warm-season/">Long Season vs Warm Season</a> to understand why the two signals are not interchangeable.</li>
   </ul>
 </section>
 
 <section class="card resourceShareBox">
   <h2>Share, cite, or reference this atlas</h2>
-  <p>Use the atlas when writing about Canadian garden climate, frost-free season length, growing degree days, or short-season crop planning.</p>
+  <p>Use the atlas when writing about U.S. garden climate, frost-free season length, growing degree days, or crop planning across northern and temperate states.</p>
   <div class="shareSnippetGrid">
     <article>
       <h3>Suggested citation</h3>
-      <textarea readonly>GrowByDate. Canada Garden Climate Atlas: Frost-Free Days and Growing Degree Days by City. https://growbydate.com/data/canada-garden-climate-atlas/</textarea>
+      <textarea readonly>GrowByDate. U.S. Garden Climate Atlas: Frost-Free Days and Growing Degree Days by City. https://growbydate.com/data/us-garden-climate-atlas/</textarea>
     </article>
     <article>
       <h3>Image or screenshot credit</h3>
-      <textarea readonly>Map/data: GrowByDate Canada Garden Climate Atlas</textarea>
+      <textarea readonly>Map/data: GrowByDate U.S. Garden Climate Atlas</textarea>
     </article>
     <article>
       <h3>Suggested social caption</h3>
@@ -235,14 +236,16 @@ canonical: "https://growbydate.com/data/canada-garden-climate-atlas/"
 <section class="card leaderboardCallout">
   <h2>Methodology and limits</h2>
   <p>
-    This atlas joins city frost-date records with base-50°F GDD reference records. Frost-free days are calculated from average last spring frost and first fall frost. GDD values represent seasonal accumulated crop heat from the mapped station series. These values are planning averages, not site-specific forecasts.
+    This atlas joins city frost-date records with base-50°F GDD reference records. Frost-free days are calculated from average last spring frost and first fall frost. GDD values represent seasonal accumulated crop heat from the mapped station series. These values are planning averages, not site-specific forecasts. Current U.S. coverage is based on the cities and states available in the GrowByDate dataset.
   </p>
 </section>
 
 <section class="card">
   <h2>Related data</h2>
   <ul class="tight">
-    <li><a href="/data/long-season-vs-warm-season/">Long Season vs Warm Season</a></li>
+    <li><a href="/data/canada-garden-climate-atlas/">Canada Garden Climate Atlas</a></li>
+    <li><a href="/data/rankings/us-cities-with-the-highest-growing-degree-days/">US Cities With the Highest Growing Degree Days</a></li>
+    <li><a href="/data/rankings/us-cities-with-the-longest-growing-seasons/">US Cities With the Longest Growing Seasons</a></li>
     <li><a href="/data/frost-dates-by-city/">Frost Dates by City</a></li>
     <li><a href="/data/growing-degree-days-by-city/">Growing Degree Days by City</a></li>
   </ul>

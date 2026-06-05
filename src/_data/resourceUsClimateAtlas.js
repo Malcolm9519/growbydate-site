@@ -2,7 +2,9 @@ const cities = require("./cities.json");
 const frostDateReference = require("./frostDateReference");
 const gddReference = require("./gddReference");
 
-const UPDATED = "2026-05-28";
+const UPDATED = "2026-06-05";
+
+const EXCLUDED_MAP_STATE_KEYS = new Set(["alaska"]);
 
 function numberOrNull(value) {
   const n = Number(value);
@@ -90,7 +92,7 @@ function chartedRows(rows) {
   }));
 }
 
-function provinceSummaries(rows) {
+function stateSummaries(rows) {
   const byRegion = new Map();
   for (const row of rows) {
     const key = row.regionKey || row.regionName;
@@ -120,42 +122,40 @@ function provinceSummaries(rows) {
 }
 
 const SCATTER_LABELS = {
-  canmore: { dx: 12, dy: 0, note: "Short + cool mountain pressure" },
-  lethbridge: { dx: 12, dy: -24, note: "Shorter window with stronger prairie heat" },
-  edmonton: { dx: 12, dy: 18, note: "Shorter window, moderate crop heat" },
-  winnipeg: { dx: 12, dy: 28, note: "Compressed but warmer inland season" },
-  ottawa: { dx: 12, dy: 0, note: "Longer and warmer eastern example" },
-  toronto: { dx: 12, dy: -10, note: "More heat inside a longer window" },
-  victoria: { dx: 12, dy: -18, note: "Long frost-free season, cooler heat profile" },
-  abbotsford: { dx: -88, dy: -18, note: "Very long outdoor window" }
+  anchorage: { dx: 12, dy: 0, note: "Short, cool northern example" },
+  seattle: { dx: 12, dy: -16, note: "Longer outdoor window with modest heat" },
+  denver: { dx: 12, dy: -16, note: "High-elevation season pressure" },
+  minneapolis: { dx: 12, dy: 18, note: "Compressed northern Midwest season" },
+  "kansas-city-mo": { dx: 12, dy: -18, note: "Warmer inland crop heat" },
+  "st-louis": { dx: 12, dy: -10, note: "Longer, warmer Midwest example" },
+  boston: { dx: 12, dy: 0, note: "Coastal Northeast comparison" },
+  boise: { dx: 12, dy: 16, note: "Interior Northwest heat" }
 };
 
 const MAP_LABEL_KEYS = {
-  vancouver: { dx: 10, dy: -10 },
-  calgary: { dx: 10, dy: -12 },
-  edmonton: { dx: 10, dy: -14 },
-  winnipeg: { dx: 10, dy: -12 },
-  toronto: { dx: 10, dy: 12 },
-  montreal: { dx: 10, dy: -18 },
-  halifax: { dx: 10, dy: -12 }
+  anchorage: { dx: 10, dy: 12 },
+  seattle: { dx: 10, dy: -12 },
+  "portland-or": { dx: 10, dy: 12 },
+  denver: { dx: 10, dy: -12 },
+  minneapolis: { dx: 10, dy: -12 },
+  "st-louis": { dx: 10, dy: 12 },
+  detroit: { dx: 10, dy: -14 },
+  boston: { dx: 10, dy: -12 }
 };
 
-const ATLAS_PROVINCE_GUIDES = [
-  { label: "BC", x: 14, y: 64 },
-  { label: "AB", x: 27, y: 56 },
-  { label: "SK", x: 35, y: 58 },
-  { label: "MB", x: 43, y: 60 },
-  { label: "ON", x: 58, y: 66 },
-  { label: "QC", x: 72, y: 52 },
-  { label: "ATL", x: 88, y: 66 }
+const ATLAS_STATE_GUIDES = [
+  { label: "AK", x: 8, y: 20 },
+  { label: "PNW", x: 35, y: 42 },
+  { label: "Rockies", x: 48, y: 48 },
+  { label: "Plains", x: 61, y: 58 },
+  { label: "Great Lakes", x: 75, y: 50 },
+  { label: "Northeast", x: 91, y: 47 }
 ];
 
-const ATLAS_GUIDE_LINES = [18.5, 26.5, 34.5, 42.8, 61.5, 77.5];
+const ATLAS_GUIDE_LINES = [31, 43, 55, 68, 82];
 
 const ATLAS_NORTH_LABELS = [
-  { label: "YT", x: 17, y: 18 },
-  { label: "NT", x: 36, y: 16 },
-  { label: "NU", x: 63, y: 16 }
+  { label: "Northern U.S. coverage", x: 55, y: 18 }
 ];
 
 module.exports = function () {
@@ -195,17 +195,17 @@ module.exports = function () {
     .filter(Boolean);
 
   const allCities = chartedRows(joined);
-  const canadaCities = chartedRows(allCities.filter((row) => row.country === "canada"));
-  const frostMedian = median(canadaCities.map((row) => row.frostFreeDays));
-  const gddMedian = median(canadaCities.map((row) => row.gddBase50));
+  const usCities = chartedRows(allCities.filter((row) => row.country === "usa" && !EXCLUDED_MAP_STATE_KEYS.has(row.regionKey)));
+  const frostMedian = median(usCities.map((row) => row.frostFreeDays));
+  const gddMedian = median(usCities.map((row) => row.gddBase50));
   const labelKeys = new Set(Object.keys(SCATTER_LABELS));
-  const canadaWithQuadrants = canadaCities.map((row) => ({
+  const usWithQuadrants = usCities.map((row) => ({
     ...row,
     isHighlighted: labelKeys.has(row.cityKey),
     quadrant: quadrant(row, frostMedian, gddMedian)
   }));
 
-  const scatterLabelCities = canadaWithQuadrants
+  const scatterLabelCities = usWithQuadrants
     .filter((row) => labelKeys.has(row.cityKey))
     .map((row) => ({
       ...row,
@@ -214,7 +214,7 @@ module.exports = function () {
       note: SCATTER_LABELS[row.cityKey].note
     }));
 
-  const mapLabelCities = canadaWithQuadrants
+  const mapLabelCities = usWithQuadrants
     .filter((row) => MAP_LABEL_KEYS[row.cityKey])
     .map((row) => ({
       ...row,
@@ -225,29 +225,30 @@ module.exports = function () {
   return {
     updated: UPDATED,
     allCities,
-    canadaCities: canadaWithQuadrants,
-    totalCanadaCities: canadaWithQuadrants.length,
+    usCities: usWithQuadrants,
+    totalUsCities: usWithQuadrants.length,
+    totalUsStates: new Set(usWithQuadrants.map((row) => row.regionAbbr)).size,
     medianFrostFreeDays: frostMedian,
     medianGddBase50: gddMedian,
-    longestSeasons: [...canadaWithQuadrants]
+    longestSeasons: [...usWithQuadrants]
       .filter((row) => Number.isFinite(row.frostFreeDays))
       .sort((a, b) => b.frostFreeDays - a.frostFreeDays)
       .slice(0, 10),
-    shortestSeasons: [...canadaWithQuadrants]
+    shortestSeasons: [...usWithQuadrants]
       .filter((row) => Number.isFinite(row.frostFreeDays))
       .sort((a, b) => a.frostFreeDays - b.frostFreeDays)
       .slice(0, 10),
-    highestGdd: [...canadaWithQuadrants]
+    highestGdd: [...usWithQuadrants]
       .filter((row) => Number.isFinite(row.gddBase50))
       .sort((a, b) => b.gddBase50 - a.gddBase50)
       .slice(0, 10),
-    lowestGdd: [...canadaWithQuadrants]
+    lowestGdd: [...usWithQuadrants]
       .filter((row) => Number.isFinite(row.gddBase50))
       .sort((a, b) => a.gddBase50 - b.gddBase50)
       .slice(0, 10),
-    provinceSummaries: provinceSummaries(canadaWithQuadrants),
+    stateSummaries: stateSummaries(usWithQuadrants),
     mapLabelCities,
-    atlasProvinceGuides: ATLAS_PROVINCE_GUIDES,
+    atlasProvinceGuides: ATLAS_STATE_GUIDES,
     atlasGuideLines: ATLAS_GUIDE_LINES,
     atlasNorthLabels: ATLAS_NORTH_LABELS,
     scatterLabelCities,
