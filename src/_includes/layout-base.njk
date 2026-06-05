@@ -43,6 +43,8 @@
 
   <link rel="stylesheet" href="/styles.css" />
 
+  {% include "seo/structured-data.njk" %}
+
   <script>
     (function () {
       const allowedHosts = ["growbydate.com", "www.growbydate.com"];
@@ -76,6 +78,8 @@
     {% endif %}
     {% include "footer.njk" %}
   </main>
+
+  <script src="/assets/js/table-downloads.js" defer></script>
 
   <script>
     (function () {

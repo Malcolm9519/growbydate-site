@@ -1,0 +1,56 @@
+{% set schemaUrl = metaCanonical or canonical or (site.url ~ page.url) %}
+{% set schemaTitle = metaTitle or title or site.name %}
+{% set schemaDescription = metaDescription or description or site.description %}
+{% set schemaImage = metaImage or ogImage or (site.url ~ "/assets/img/og-default.jpg") %}
+{% set schemaType = page.url | schemaPageType(isGuide, isTool) %}
+{% set breadcrumbs = page.url | breadcrumbsForUrl(site.url) %}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": {{ (site.url ~ "/#organization") | dump | safe }},
+      "name": {{ site.name | dump | safe }},
+      "url": {{ site.url | dump | safe }},
+      "logo": {{ (site.url ~ "/assets/img/GrowByDateLogo.png") | dump | safe }}
+    },
+    {
+      "@type": "WebSite",
+      "@id": {{ (site.url ~ "/#website") | dump | safe }},
+      "name": {{ site.name | dump | safe }},
+      "url": {{ site.url | dump | safe }},
+      "description": {{ site.description | dump | safe }},
+      "publisher": { "@id": {{ (site.url ~ "/#organization") | dump | safe }} }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": {{ (schemaUrl ~ "#breadcrumb") | dump | safe }},
+      "itemListElement": {{ breadcrumbs | dump | safe }}
+    },
+    {
+      "@type": {{ schemaType | dump | safe }},
+      "@id": {{ (schemaUrl ~ "#primary") | dump | safe }},
+      "name": {{ schemaTitle | stripSiteSuffix | dump | safe }},
+      "headline": {{ schemaTitle | stripSiteSuffix | dump | safe }},
+      "description": {{ schemaDescription | dump | safe }},
+      "url": {{ schemaUrl | dump | safe }},
+      "image": {{ schemaImage | dump | safe }},
+      "isAccessibleForFree": true,
+      "publisher": { "@id": {{ (site.url ~ "/#organization") | dump | safe }} },
+      "breadcrumb": { "@id": {{ (schemaUrl ~ "#breadcrumb") | dump | safe }} }{% if schemaType == "SoftwareApplication" and tool %},
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "CAD"
+      }{% elseif schemaType == "Dataset" %},
+      "creator": { "@id": {{ (site.url ~ "/#organization") | dump | safe }} },
+      "license": {{ (site.url ~ page.url) | dump | safe }},
+      "mainEntityOfPage": {{ schemaUrl | dump | safe }}{% endif %}
+    }
+  ]
+}
+</script>

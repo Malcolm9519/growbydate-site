@@ -1,12 +1,12 @@
 ---
 layout: layout-base.njk
-title: Canada Garden Climate Atlas | GrowByDate
+title: "Canada Garden Climate Atlas: Frost-Free Days & Growing Degree Days | GrowByDate"
 description: A visual atlas of Canadian garden climates using frost-free days and base-50°F growing degree days.
 canonical: "https://growbydate.com/data/canada-garden-climate-atlas/"
 ---
 
 <section class="card leaderboardHero resourceHero">
-  <p class="eyebrow">Visual resource</p>
+  <p class="eyebrow">Map-style climate resource</p>
   <h1>Canada Garden Climate Atlas</h1>
   <p class="lede">
     A visual guide to frost-free days, seasonal crop heat, and short-season gardening pressure across Canadian cities.
@@ -49,20 +49,44 @@ canonical: "https://growbydate.com/data/canada-garden-climate-atlas/"
   <div class="resourceSectionHeader">
     <div>
       <p class="eyebrow">Climate point map</p>
-      <h2>Frost-free season by city</h2>
+      <h2>Canada frost-free season by city</h2>
     </div>
     <p class="small">Points are positioned by city latitude and longitude. Darker/larger points represent longer frost-free windows.</p>
   </div>
   <div class="atlasMapFrame" role="img" aria-label="Approximate point map of Canadian cities by frost-free season length.">
-    <div class="atlasMap">
+    <div class="atlasMap atlasMapFrost">
+      <div class="atlasMapHeader">
+        <strong>Canada Frost-Free Season by City</strong>
+        <span>Darker/larger dots = longer frost-free season</span>
+      </div>
+      <svg class="atlasCanadaShape" aria-hidden="true" viewBox="0 0 1000 430" preserveAspectRatio="none" focusable="false">
+        <path class="atlasLandMain" d="M44 270 L74 226 L130 205 L178 190 L225 160 L286 152 L338 118 L400 132 L455 102 L520 126 L584 114 L648 142 L712 128 L780 160 L842 158 L904 206 L940 250 L900 286 L956 320 L908 362 L836 344 L780 366 L720 338 L665 370 L604 336 L546 356 L484 324 L416 346 L354 314 L292 328 L232 292 L166 296 L108 280 Z"></path>
+        <path class="atlasLandIsland" d="M246 74 L300 54 L356 70 L330 96 L270 98 Z"></path>
+        <path class="atlasLandIsland" d="M380 62 L446 40 L514 62 L484 92 L420 94 Z"></path>
+        <path class="atlasLandIsland" d="M552 72 L626 50 L706 76 L660 106 L590 104 Z"></path>
+        <path class="atlasLandIsland" d="M716 88 L794 74 L860 104 L816 134 L744 124 Z"></path>
+        <path class="atlasWaterHole" d="M590 184 C642 160 704 178 728 224 C750 266 724 310 674 324 C628 337 586 314 572 276 C558 238 560 200 590 184 Z"></path>
+        <path class="atlasProvinceLine" d="M230 170 L214 292"></path>
+        <path class="atlasProvinceLine" d="M346 128 L326 324"></path>
+        <path class="atlasProvinceLine" d="M478 128 L466 330"></path>
+        <path class="atlasProvinceLine" d="M742 150 C720 205 706 270 716 340"></path>
+        <path class="atlasProvinceLine" d="M822 164 C790 220 770 286 780 360"></path>
+      </svg>
+      {% for label in resourceClimateAtlas.atlasRegionLabels %}
+        <span class="atlasRegionLabel" style="left:{{ label.x }}%;top:{{ label.y }}%;">{{ label.label }}</span>
+      {% endfor %}
       {% for row in resourceClimateAtlas.canadaCities %}
         <a class="atlasPoint frost-{{ row.frostBandClass }}" href="{{ row.cityUrl }}" style="left:{{ row.mapX }}%;top:{{ row.mapY }}%;" title="{{ row.cityName }}, {{ row.regionAbbr }}: {{ row.frostFreeDays }} frost-free days">
           <span class="sr-only">{{ row.cityName }}, {{ row.regionName }}: {{ row.frostFreeDays }} frost-free days.</span>
         </a>
       {% endfor %}
+      {% for row in resourceClimateAtlas.mapLabelCities %}
+        <a class="atlasCityLabel" href="{{ row.cityUrl }}" style="left:{{ row.mapX }}%;top:{{ row.mapY }}%;--label-x:{{ row.labelDx }}px;--label-y:{{ row.labelDy }}px;">{{ row.cityName }}</a>
+      {% endfor %}
+      <span class="atlasSourceLine">GrowByDate.com · Canada Garden Climate Atlas</span>
     </div>
   </div>
-  <div class="resourceLegend">
+  <div class="resourceLegend atlasLegend">
     {% for band in resourceClimateAtlas.frostBands %}
       <span><i></i>{{ band.label }} <small>{{ band.range }}</small></span>
     {% endfor %}
@@ -73,20 +97,44 @@ canonical: "https://growbydate.com/data/canada-garden-climate-atlas/"
   <div class="resourceSectionHeader">
     <div>
       <p class="eyebrow">Climate point map</p>
-      <h2>Base-50°F GDD by city</h2>
+      <h2>Canada base-50°F GDD by city</h2>
     </div>
     <p class="small">Same city positions, different signal. Darker/larger points represent higher seasonal heat accumulation.</p>
   </div>
   <div class="atlasMapFrame" role="img" aria-label="Approximate point map of Canadian cities by base-50 growing degree days.">
-    <div class="atlasMap">
+    <div class="atlasMap atlasMapGdd">
+      <div class="atlasMapHeader">
+        <strong>Canada Growing Degree Days by City</strong>
+        <span>Darker/larger dots = more seasonal crop heat</span>
+      </div>
+      <svg class="atlasCanadaShape" aria-hidden="true" viewBox="0 0 1000 430" preserveAspectRatio="none" focusable="false">
+        <path class="atlasLandMain" d="M44 270 L74 226 L130 205 L178 190 L225 160 L286 152 L338 118 L400 132 L455 102 L520 126 L584 114 L648 142 L712 128 L780 160 L842 158 L904 206 L940 250 L900 286 L956 320 L908 362 L836 344 L780 366 L720 338 L665 370 L604 336 L546 356 L484 324 L416 346 L354 314 L292 328 L232 292 L166 296 L108 280 Z"></path>
+        <path class="atlasLandIsland" d="M246 74 L300 54 L356 70 L330 96 L270 98 Z"></path>
+        <path class="atlasLandIsland" d="M380 62 L446 40 L514 62 L484 92 L420 94 Z"></path>
+        <path class="atlasLandIsland" d="M552 72 L626 50 L706 76 L660 106 L590 104 Z"></path>
+        <path class="atlasLandIsland" d="M716 88 L794 74 L860 104 L816 134 L744 124 Z"></path>
+        <path class="atlasWaterHole" d="M590 184 C642 160 704 178 728 224 C750 266 724 310 674 324 C628 337 586 314 572 276 C558 238 560 200 590 184 Z"></path>
+        <path class="atlasProvinceLine" d="M230 170 L214 292"></path>
+        <path class="atlasProvinceLine" d="M346 128 L326 324"></path>
+        <path class="atlasProvinceLine" d="M478 128 L466 330"></path>
+        <path class="atlasProvinceLine" d="M742 150 C720 205 706 270 716 340"></path>
+        <path class="atlasProvinceLine" d="M822 164 C790 220 770 286 780 360"></path>
+      </svg>
+      {% for label in resourceClimateAtlas.atlasRegionLabels %}
+        <span class="atlasRegionLabel" style="left:{{ label.x }}%;top:{{ label.y }}%;">{{ label.label }}</span>
+      {% endfor %}
       {% for row in resourceClimateAtlas.canadaCities %}
         <a class="atlasPoint gdd-{{ row.gddBandClass }}" href="{{ row.cityUrl }}" style="left:{{ row.mapX }}%;top:{{ row.mapY }}%;" title="{{ row.cityName }}, {{ row.regionAbbr }}: {{ row.gddBase50 }} base-50 GDD">
           <span class="sr-only">{{ row.cityName }}, {{ row.regionName }}: {{ row.gddBase50 }} base-50 GDD.</span>
         </a>
       {% endfor %}
+      {% for row in resourceClimateAtlas.mapLabelCities %}
+        <a class="atlasCityLabel" href="{{ row.cityUrl }}" style="left:{{ row.mapX }}%;top:{{ row.mapY }}%;--label-x:{{ row.labelDx }}px;--label-y:{{ row.labelDy }}px;">{{ row.cityName }}</a>
+      {% endfor %}
+      <span class="atlasSourceLine">GrowByDate.com · Canada Garden Climate Atlas</span>
     </div>
   </div>
-  <div class="resourceLegend">
+  <div class="resourceLegend atlasLegend">
     {% for band in resourceClimateAtlas.gddBands %}
       <span><i></i>{{ band.label }} <small>{{ band.range }}</small></span>
     {% endfor %}
@@ -176,9 +224,22 @@ canonical: "https://growbydate.com/data/canada-garden-climate-atlas/"
 </section>
 
 <section class="card resourceShareBox">
-  <h2>Use this resource</h2>
-  <p>You may reference this atlas with attribution to GrowByDate.</p>
-  <textarea readonly>Source: GrowByDate, Canada Garden Climate Atlas, https://growbydate.com/data/canada-garden-climate-atlas/</textarea>
+  <h2>Share, cite, or reference this atlas</h2>
+  <p>Use the atlas when writing about Canadian garden climate, frost-free season length, growing degree days, or short-season crop planning.</p>
+  <div class="shareSnippetGrid">
+    <article>
+      <h3>Suggested citation</h3>
+      <textarea readonly>GrowByDate. Canada Garden Climate Atlas: Frost-Free Days and Growing Degree Days by City. https://growbydate.com/data/canada-garden-climate-atlas/</textarea>
+    </article>
+    <article>
+      <h3>Image or screenshot credit</h3>
+      <textarea readonly>Map/data: GrowByDate Canada Garden Climate Atlas</textarea>
+    </article>
+    <article>
+      <h3>Suggested social caption</h3>
+      <textarea readonly>Frost-free days tell you how long the outdoor season is. Growing degree days show how much usable crop heat that season actually provides.</textarea>
+    </article>
+  </div>
 </section>
 
 <section class="card leaderboardCallout">

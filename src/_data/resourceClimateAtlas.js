@@ -76,11 +76,15 @@ function chartedRows(rows) {
   const frostMax = Math.max(...frostValues);
   const gddMin = Math.min(...gddValues);
   const gddMax = Math.max(...gddValues);
+  const mapLeft = 7;
+  const mapRight = 97;
+  const mapTop = 8;
+  const mapBottom = 88;
 
   return rows.map((row) => ({
     ...row,
-    mapX: pct(row.lon, lonMin, lonMax),
-    mapY: pct(row.lat, latMin, latMax, true),
+    mapX: mapLeft + (pct(row.lon, lonMin, lonMax) / 100) * (mapRight - mapLeft),
+    mapY: mapTop + (pct(row.lat, latMin, latMax, true) / 100) * (mapBottom - mapTop),
     scatterX: pct(row.frostFreeDays, frostMin, frostMax),
     scatterY: pct(row.gddBase50, gddMin, gddMax, true)
   }));
@@ -125,6 +129,34 @@ const SCATTER_LABELS = {
   victoria: { dx: 12, dy: -18, note: "Long frost-free season, cooler heat profile" },
   abbotsford: { dx: -88, dy: -18, note: "Very long outdoor window" }
 };
+
+const MAP_LABEL_KEYS = {
+  vancouver: { dx: 10, dy: -10 },
+  calgary: { dx: 10, dy: -12 },
+  edmonton: { dx: 10, dy: -14 },
+  winnipeg: { dx: 10, dy: -12 },
+  toronto: { dx: 10, dy: 12 },
+  montreal: { dx: 10, dy: -18 },
+  halifax: { dx: 10, dy: -12 }
+};
+
+const ATLAS_PROVINCE_GUIDES = [
+  { label: "BC", x: 14, y: 64 },
+  { label: "AB", x: 27, y: 56 },
+  { label: "SK", x: 35, y: 58 },
+  { label: "MB", x: 43, y: 60 },
+  { label: "ON", x: 58, y: 66 },
+  { label: "QC", x: 72, y: 52 },
+  { label: "ATL", x: 88, y: 66 }
+];
+
+const ATLAS_GUIDE_LINES = [18.5, 26.5, 34.5, 42.8, 61.5, 77.5];
+
+const ATLAS_NORTH_LABELS = [
+  { label: "YT", x: 17, y: 18 },
+  { label: "NT", x: 36, y: 16 },
+  { label: "NU", x: 63, y: 16 }
+];
 
 module.exports = function () {
   const frostByKey = new Map(frostDateReference().cityRecords.map((record) => [record.cityKey, record]));
@@ -182,6 +214,14 @@ module.exports = function () {
       note: SCATTER_LABELS[row.cityKey].note
     }));
 
+  const mapLabelCities = canadaWithQuadrants
+    .filter((row) => MAP_LABEL_KEYS[row.cityKey])
+    .map((row) => ({
+      ...row,
+      labelDx: MAP_LABEL_KEYS[row.cityKey].dx,
+      labelDy: MAP_LABEL_KEYS[row.cityKey].dy
+    }));
+
   return {
     updated: UPDATED,
     allCities,
@@ -206,21 +246,25 @@ module.exports = function () {
       .sort((a, b) => a.gddBase50 - b.gddBase50)
       .slice(0, 10),
     provinceSummaries: provinceSummaries(canadaWithQuadrants),
+    mapLabelCities,
+    atlasProvinceGuides: ATLAS_PROVINCE_GUIDES,
+    atlasGuideLines: ATLAS_GUIDE_LINES,
+    atlasNorthLabels: ATLAS_NORTH_LABELS,
     scatterLabelCities,
     exampleCities: scatterLabelCities.slice(0, 8),
     frostBands: [
-      { label: "Very short", range: "Under 100 days" },
-      { label: "Short", range: "100–129 days" },
-      { label: "Moderate", range: "130–159 days" },
-      { label: "Long", range: "160–189 days" },
-      { label: "Very long", range: "190+ days" }
+      { label: "Very short", range: "Under 100 days", className: "very-short" },
+      { label: "Short", range: "100–129 days", className: "short" },
+      { label: "Moderate", range: "130–159 days", className: "moderate" },
+      { label: "Long", range: "160–189 days", className: "long" },
+      { label: "Very long", range: "190+ days", className: "very-long" }
     ],
     gddBands: [
-      { label: "Very cool", range: "Under 1,000 base-50 GDD" },
-      { label: "Cool", range: "1,000–1,499" },
-      { label: "Moderate heat", range: "1,500–1,999" },
-      { label: "Warm", range: "2,000–2,499" },
-      { label: "High heat", range: "2,500+" }
+      { label: "Very cool", range: "Under 1,000 base-50 GDD", className: "very-cool" },
+      { label: "Cool", range: "1,000–1,499", className: "cool" },
+      { label: "Moderate heat", range: "1,500–1,999", className: "moderate" },
+      { label: "Warm", range: "2,000–2,499", className: "warm" },
+      { label: "High heat", range: "2,500+", className: "high-heat" }
     ],
     scatterQuadrants: [
       { label: "Long + warm", meaning: "More outdoor time and more seasonal crop heat." },

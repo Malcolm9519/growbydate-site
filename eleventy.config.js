@@ -163,6 +163,48 @@ module.exports = function (eleventyConfig) {
     return `${months[mi]} ${di}`;
   });
 
+
+  eleventyConfig.addFilter("schemaPageType", function (url, isGuide, isTool) {
+    const pageUrl = String(url || "");
+    if (isTool || pageUrl.startsWith("/tools/")) return "SoftwareApplication";
+    if (isGuide || pageUrl.startsWith("/guides/")) return "Article";
+    if (pageUrl.startsWith("/data/")) return "Dataset";
+    return "WebPage";
+  });
+
+  eleventyConfig.addFilter("breadcrumbsForUrl", function (url, siteUrl) {
+    const base = String(siteUrl || "https://growbydate.com").replace(/\/$/, "");
+    const pageUrl = String(url || "/");
+    const clean = pageUrl.split("?")[0].replace(/index\.html$/, "");
+    const segments = clean.split("/").filter(Boolean);
+
+    const crumbs = [{
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: `${base}/`
+    }];
+
+    let pathAcc = "";
+    segments.forEach((segment, index) => {
+      pathAcc += `/${segment}`;
+      const name = segment
+        .split("-")
+        .filter(Boolean)
+        .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+        .join(" ");
+
+      crumbs.push({
+        "@type": "ListItem",
+        position: index + 2,
+        name,
+        item: `${base}${pathAcc}/`
+      });
+    });
+
+    return crumbs;
+  });
+
   eleventyConfig.addFilter("fileExists", function (relativeIncludePath) {
     const fullPath = path.join(process.cwd(), "src", "_includes", relativeIncludePath);
     return fs.existsSync(fullPath);

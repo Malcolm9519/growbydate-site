@@ -1389,7 +1389,7 @@ p + .tableWrap {
   background: #fff;
   color: inherit;
   font: inherit;
-  font-size: 0.98rem;
+  font-size: 0.94rem;
   line-height: 1.35;
   box-sizing: border-box;
   box-shadow: none;
@@ -3675,24 +3675,32 @@ ul.tight li + li {
 
 .frost-very-short,
 .gdd-very-cool,
-.band-very-cool { background: #8b9a7e; }
+.band-very-cool { background: #6f93b3; }
 .frost-short,
 .gdd-cool,
-.band-cool { background: #6f8f5e; }
+.band-cool { background: #87a98a; }
 .frost-moderate,
 .gdd-moderate,
-.band-moderate { background: #527a44; }
+.band-moderate { background: #c4bf77; }
 .frost-long,
 .gdd-warm,
-.band-warm { background: #315f34; }
+.band-warm { background: #d49b68; }
 .frost-very-long,
 .gdd-high-heat,
-.band-high-heat { background: #1f4729; }
+.band-high-heat { background: #c86e58; }
 
 .frost-long,
 .gdd-warm { width: 10px; height: 10px; }
+.frost-very-short,
+.gdd-very-cool { width: 6px; height: 6px; opacity: 0.5; }
+.frost-short,
+.gdd-cool { width: 7px; height: 7px; opacity: 0.58; }
+.frost-moderate,
+.gdd-moderate { width: 9px; height: 9px; opacity: 0.72; }
+.frost-long,
+.gdd-warm { width: 11px; height: 11px; opacity: 0.84; }
 .frost-very-long,
-.gdd-high-heat { width: 12px; height: 12px; }
+.gdd-high-heat { width: 13px; height: 13px; opacity: 0.95; }
 
 .resourceLegend {
   display: flex;
@@ -3887,5 +3895,223 @@ ul.tight li + li {
   .marginValue {
     grid-column: 2;
     margin-top: -0.3rem;
+  }
+}
+
+/* Canada Garden Climate Atlas map polish */
+.atlasMap {
+  overflow: hidden;
+  isolation: isolate;
+  border-color: rgba(58, 97, 62, 0.24);
+  background:
+    linear-gradient(180deg, rgba(239, 246, 250, 0.95), rgba(251, 251, 246, 0.98)),
+    linear-gradient(90deg, rgba(76, 96, 116, 0.07) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(76, 96, 116, 0.07) 1px, transparent 1px),
+    radial-gradient(circle at 24% 78%, rgba(213, 234, 221, 0.32), transparent 20%),
+    radial-gradient(circle at 83% 82%, rgba(241, 222, 194, 0.22), transparent 18%),
+    #fbfdf8;
+  background-size: auto, 12.5% 100%, 100% 16.666%, auto, auto, auto;
+}
+
+.atlasMapHeader {
+  position: absolute;
+  z-index: 6;
+  left: 1rem;
+  top: 1rem;
+  max-width: min(21rem, calc(100% - 15rem));
+  padding: 0.58rem 0.72rem;
+  border: 1px solid rgba(58, 97, 62, 0.18);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.87);
+  box-shadow: 0 8px 22px rgba(31, 71, 41, 0.08);
+}
+
+.atlasMapHeader strong,
+.atlasMapHeader span {
+  display: block;
+}
+
+.atlasMapHeader strong {
+  color: #263d24;
+  font-size: 0.94rem;
+  line-height: 1.2;
+}
+
+.atlasMapHeader span {
+  margin-top: 0.15rem;
+  color: #53644d;
+  font-size: 0.78rem;
+}
+
+.atlasGuideLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.atlasGuideLine {
+  position: absolute;
+  top: 13%;
+  bottom: 14%;
+  width: 1px;
+  border-left: 1px dashed rgba(84, 104, 124, 0.22);
+}
+
+.atlasProvinceLabel,
+.atlasNorthLabel {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  color: rgba(66, 85, 64, 0.58);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+.atlasNorthLabel {
+  color: rgba(84, 104, 124, 0.52);
+}
+
+.atlasPoint {
+  z-index: 4;
+  border: 1px solid rgba(255, 255, 255, 0.92);
+  box-shadow: 0 1px 5px rgba(31, 71, 41, 0.16);
+}
+
+.atlasCityLabel {
+  position: absolute;
+  z-index: 5;
+  transform: translate(var(--label-x, 8px), var(--label-y, -50%));
+  max-width: 8.5rem;
+  color: #263d24;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(66, 85, 64, 0.16);
+  border-radius: 999px;
+  padding: 0.14rem 0.42rem;
+  font-size: 0.68rem;
+  font-weight: 800;
+  line-height: 1.2;
+  text-decoration: none;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(31, 71, 41, 0.08);
+}
+
+.atlasCityLabel:hover,
+.atlasCityLabel:focus {
+  z-index: 8;
+  outline: 2px solid #263d24;
+  outline-offset: 2px;
+}
+
+.atlasSourceLine {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  z-index: 6;
+  color: #53644d;
+  background: rgba(255, 255, 255, 0.87);
+  border: 1px solid rgba(66, 85, 64, 0.14);
+  border-radius: 999px;
+  padding: 0.24rem 0.55rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.atlasLegend {
+  margin-top: 0.9rem;
+}
+
+.atlasLegend .legend-frost-very-short i,
+.atlasLegend .legend-gdd-very-cool i { background: #6f93b3; }
+.atlasLegend .legend-frost-short i,
+.atlasLegend .legend-gdd-cool i { background: #87a98a; }
+.atlasLegend .legend-frost-moderate i,
+.atlasLegend .legend-gdd-moderate i { background: #c4bf77; }
+.atlasLegend .legend-frost-long i,
+.atlasLegend .legend-gdd-warm i { background: #d49b68; }
+.atlasLegend .legend-frost-very-long i,
+.atlasLegend .legend-gdd-high-heat i { background: #c86e58; }
+
+.shareSnippetGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.shareSnippetGrid article {
+  border: 1px solid #d8e2d0;
+  border-radius: 18px;
+  padding: 1rem;
+  background: #fbfdf8;
+}
+
+.shareSnippetGrid h3 {
+  margin-top: 0;
+  font-size: 1rem;
+}
+
+.shareSnippetGrid textarea {
+  min-height: 7rem;
+}
+
+@media (max-width: 900px) {
+  .shareSnippetGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .atlasMapHeader {
+    max-width: 18rem;
+  }
+
+  .atlasCityLabel {
+    font-size: 0.64rem;
+  }
+}
+
+/* ---------- Table downloads ---------- */
+.tableDownloadBar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin: 0.45rem 0 1rem;
+}
+
+.tableDownloadBrand {
+  margin-right: auto;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 750;
+  letter-spacing: 0.02em;
+}
+
+.tableDownloadButton,
+.tableCopyButton,
+.tablePdfButton {
+  padding: 0.38rem 0.58rem;
+  font-size: 0.78rem;
+  line-height: 1.15;
+}
+
+@media (max-width: 620px) {
+  .tableDownloadBar {
+    justify-content: flex-start;
+  }
+
+  .tableDownloadBrand {
+    flex: 0 0 100%;
+    margin-right: 0;
+  }
+}
+
+@media print {
+  .tableDownloadBar,
+  [data-no-print="true"] {
+    display: none !important;
   }
 }
