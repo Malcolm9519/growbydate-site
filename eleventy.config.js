@@ -168,7 +168,6 @@ module.exports = function (eleventyConfig) {
     const pageUrl = String(url || "");
     if (isTool || pageUrl.startsWith("/tools/")) return "SoftwareApplication";
     if (isGuide || pageUrl.startsWith("/guides/")) return "Article";
-    if (pageUrl === "/data/" || pageUrl === "/data/index.html") return "CollectionPage";
     if (pageUrl.startsWith("/data/")) return "Dataset";
     return "WebPage";
   });

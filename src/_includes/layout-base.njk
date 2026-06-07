@@ -4,7 +4,6 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="msvalidate.01" content="36463B72E888E6ABB75B3839706656AA" />
-  <meta name="p:domain_verify" content="58a3d53cae6bea1a4fd21252cd5ae043"/>
 
   {% set metaTitle = title or site.name %}
   {% set metaDescription = description or site.description %}
@@ -72,28 +71,15 @@
     </div>
   </header>
 
-  <main class="container siteMain{% if isGuide %} guideMain{% endif %}" data-page-url="{{ page.url }}">
-    <div class="pageShell">
-      <div class="pageContent" id="page-content">
-        {{ content | safe }}
-        {% if isGuide and page.url != "/guides/" and guideRelated[page.fileSlug] %}
-          {% include "guides/related-guides.njk" %}
-        {% endif %}
-      </div>
-
-      <aside class="onThisPage" aria-label="On this page" hidden>
-        <details class="onThisPageDetails">
-          <summary>On this page</summary>
-          <nav class="onThisPageNav" aria-label="Page sections"></nav>
-        </details>
-      </aside>
-    </div>
-
+  <main class="container{% if isGuide %} guideMain{% endif %}">
+    {{ content | safe }}
+    {% if isGuide and page.url != "/guides/" and guideRelated[page.fileSlug] %}
+      {% include "guides/related-guides.njk" %}
+    {% endif %}
     {% include "footer.njk" %}
   </main>
 
   <script src="/assets/js/table-downloads.js" defer></script>
-  <script src="/assets/js/on-this-page.js" defer></script>
 
   <script>
     (function () {
