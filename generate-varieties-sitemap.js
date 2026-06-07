@@ -1,38 +1,27 @@
 const fs = require("fs");
 const path = require("path");
+const {
+  escapeXml,
+  lastmodForUrl,
+  normalizeUrlPathFromHtml,
+  resolveVarietiesSourceFiles,
+  walk
+} = require("./sitemap-utils")
 
 const siteUrl = "https://varieties.growbydate.com";
-const outputDir = path.join(process.cwd(), "_site-varieties");
+const projectRoot = process.cwd();
+const outputDir = path.join(projectRoot, "_site-varieties");
 const sitemapPath = path.join(outputDir, "sitemap.xml");
-
-function walk(dir) {
-  let files = [];
-
-  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-    const fullPath = path.join(dir, entry.name);
-
-    if (entry.isDirectory()) {
-      files = files.concat(walk(fullPath));
-    } else if (entry.isFile() && entry.name === "index.html") {
-      files.push(fullPath);
-    }
-  }
-
-  return files;
-}
 
 const htmlFiles = walk(outputDir);
 
 const urls = htmlFiles
   .map((file) => {
-    const relative = path.relative(outputDir, file);
-    const urlPath = "/" + relative.replace(/\\/g, "/").replace(/index\.html$/, "");
-    const lastmod = fs.statSync(file).mtime.toISOString();
-
+    const urlPath = normalizeUrlPathFromHtml(outputDir, file);
     return {
       urlPath,
       loc: siteUrl + urlPath,
-      lastmod
+      lastmod: lastmodForUrl(projectRoot, urlPath, resolveVarietiesSourceFiles)
     };
   })
   .filter((url) =>
@@ -43,7 +32,10 @@ const urls = htmlFiles
 
 const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls.map((url) => `  <url><loc>${url.loc}</loc><lastmod>${url.lastmod}</lastmod></url>`).join("\n")}
+${urls.map((url) => {
+  const lastmod = url.lastmod ? `<lastmod>${escapeXml(url.lastmod)}</lastmod>` : "";
+  return `  <url><loc>${escapeXml(url.loc)}</loc>${lastmod}</url>`;
+}).join("\n")}
 </urlset>
 `;
 
