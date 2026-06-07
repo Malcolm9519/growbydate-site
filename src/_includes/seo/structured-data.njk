@@ -4,6 +4,7 @@
 {% set schemaImage = metaImage or ogImage or (site.url ~ "/assets/img/og-default.jpg") %}
 {% set schemaType = page.url | schemaPageType(isGuide, isTool) %}
 {% set breadcrumbs = page.url | breadcrumbsForUrl(site.url) %}
+{% set schemaDataset = datasetSchema or {} %}
 
 <script type="application/ld+json">
 {
@@ -48,8 +49,29 @@
         "priceCurrency": "CAD"
       }{% elseif schemaType == "Dataset" %},
       "creator": { "@id": {{ (site.url ~ "/#organization") | dump | safe }} },
-      "license": {{ (site.url ~ page.url) | dump | safe }},
-      "mainEntityOfPage": {{ schemaUrl | dump | safe }}{% endif %}
+      "includedInDataCatalog": {
+        "@type": "DataCatalog",
+        "@id": {{ (site.url ~ "/data/#catalog") | dump | safe }},
+        "name": "GrowByDate Garden Climate Data"
+      },
+      "mainEntityOfPage": { "@id": {{ schemaUrl | dump | safe }} },
+      "inLanguage": "en",
+      "isBasedOn": {{ (schemaDataset.isBasedOn or (site.url ~ "/data/methodology/")) | dump | safe }},
+      "usageInfo": {{ (schemaDataset.usageInfo or (site.url ~ "/data/methodology/")) | dump | safe }}{% if schemaDataset.dateModified %},
+      "dateModified": {{ schemaDataset.dateModified | dump | safe }}{% endif %}{% if schemaDataset.temporalCoverage %},
+      "temporalCoverage": {{ schemaDataset.temporalCoverage | dump | safe }}{% endif %}{% if schemaDataset.spatialCoverage %},
+      "spatialCoverage": {{ schemaDataset.spatialCoverage | dump | safe }}{% endif %}{% if schemaDataset.variableMeasured %},
+      "variableMeasured": {{ schemaDataset.variableMeasured | dump | safe }}{% endif %}{% if schemaDataset.measurementTechnique %},
+      "measurementTechnique": {{ schemaDataset.measurementTechnique | dump | safe }}{% endif %}{% if schemaDataset.keywords %},
+      "keywords": {{ schemaDataset.keywords | dump | safe }}{% endif %},
+      "distribution": [
+        {
+          "@type": "DataDownload",
+          "name": {{ (schemaDataset.distributionName or schemaTitle | stripSiteSuffix) | dump | safe }},
+          "encodingFormat": {{ (schemaDataset.encodingFormat or "text/html") | dump | safe }},
+          "contentUrl": {{ (schemaDataset.contentUrl or schemaUrl) | dump | safe }}
+        }
+      ]{% endif %}
     }
   ]
 }

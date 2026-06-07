@@ -1,0 +1,247 @@
+---
+layout: layout-base.njk
+title: "GrowByDate Data Methodology: Frost Dates, GDD & Crop Timing"
+description: "How GrowByDate estimates frost dates, growing degree days, crop heat needs, planting windows, and short-season crop fit for garden planning."
+canonical: "https://growbydate.com/data/methodology/"
+---
+
+<section class="card leaderboardHero methodologyHero">
+  <p class="eyebrow">Data methodology</p>
+  <h1>How GrowByDate Calculates Frost Dates, Growing Degree Days and Crop Timing</h1>
+  <p class="lede">
+    GrowByDate turns climate references and crop timing assumptions into practical garden planning signals.
+    This page explains how the site thinks about frost risk, seasonal heat, planting windows, crop maturity,
+    and the limits of any location-based garden dataset.
+  </p>
+</section>
+
+<section class="card methodologySummary" aria-labelledby="methodology-summary-heading">
+  <h2 id="methodology-summary-heading">The short version</h2>
+  <div class="methodologyStepGrid">
+    <article class="methodologyStep">
+      <span class="methodologyStepNumber" aria-hidden="true">1</span>
+      <h3>Start with local climate signals</h3>
+      <p>Each location is anchored to frost timing, frost-free season length, and growing degree day estimates.</p>
+    </article>
+    <article class="methodologyStep">
+      <span class="methodologyStepNumber" aria-hidden="true">2</span>
+      <h3>Compare time and heat</h3>
+      <p>Frost-free days show the calendar window. Growing degree days show how much usable warmth usually accumulates inside that window.</p>
+    </article>
+    <article class="methodologyStep">
+      <span class="methodologyStepNumber" aria-hidden="true">3</span>
+      <h3>Match crops to local margin</h3>
+      <p>Crop pages compare likely local heat and season length against crop maturity needs, then translate that into practical planting guidance.</p>
+    </article>
+  </div>
+</section>
+
+<nav class="card methodologyToc" aria-labelledby="methodology-toc-heading">
+  <h2 id="methodology-toc-heading">On this page</h2>
+  <div class="methodologyTocGrid">
+    <a href="#frost-dates">Frost dates</a>
+    <a href="#gdd">Growing degree days</a>
+    <a href="#crop-heat">Crop heat needs</a>
+    <a href="#planting-windows">Planting windows</a>
+    <a href="#crop-fit">Crop fit and margin</a>
+    <a href="#rankings">Rankings and comparison pages</a>
+    <a href="#limitations">Limitations</a>
+    <a href="#how-to-use">How to use the data</a>
+    <a href="#citation">Citation and reuse</a>
+  </div>
+</nav>
+
+<section class="card methodologySection" id="frost-dates">
+  <p class="eyebrow">Frost timing</p>
+  <h2>How frost dates are used</h2>
+  <p>
+    Frost dates are used as planning reference points, not promises about the weather in a specific year.
+    GrowByDate pages commonly use a typical last spring frost date, a typical first fall frost date, and a derived
+    frost-free season length to describe the outdoor growing window for a location.
+  </p>
+  <div class="methodologyDefinitionList">
+    <div>
+      <h3>Last spring frost</h3>
+      <p>The approximate date after which the risk of a spring frost has usually dropped enough to begin planning tender outdoor crops.</p>
+    </div>
+    <div>
+      <h3>First fall frost</h3>
+      <p>The approximate date when frost risk usually returns in fall and tender warm-season crops become vulnerable.</p>
+    </div>
+    <div>
+      <h3>Frost-free days</h3>
+      <p>The number of calendar days between the typical spring and fall frost dates.</p>
+    </div>
+  </div>
+  <p>
+    A frost-date average is best treated as a planning middle point. Gardeners who want a safer planting date usually wait longer
+    after the typical last spring frost, while gardeners using protection, transplants, raised beds, or warm microclimates may start earlier.
+  </p>
+</section>
+
+<section class="card methodologySection" id="gdd">
+  <p class="eyebrow">Seasonal heat</p>
+  <h2>How growing degree days are used</h2>
+  <p>
+    Growing degree days, often shortened to GDD, estimate how much useful heat a crop receives over time.
+    GrowByDate uses GDD because two places with the same frost-free season length can feel very different to tomatoes,
+    peppers, melons, corn, squash, and other heat-sensitive crops.
+  </p>
+  <div class="methodologyCallout">
+    <h3>The GrowByDate rule of thumb</h3>
+    <p>
+      Frost-free days measure <strong>time</strong>. Growing degree days measure <strong>heat</strong>.
+      For warm-season crops, gardeners usually need to consider both.
+    </p>
+  </div>
+  <p>
+    The site most often compares locations using base-50°F growing degree days, a common garden-friendly threshold for many warm-season crops.
+    The exact base temperature is a simplification: different crops respond differently to cool and warm conditions, but a consistent base makes
+    locations easier to compare.
+  </p>
+</section>
+
+<section class="card methodologySection" id="crop-heat">
+  <p class="eyebrow">Crop assumptions</p>
+  <h2>How crop heat requirements are estimated</h2>
+  <p>
+    Crop heat requirements are planning estimates used to compare a crop's expected needs with a location's typical seasonal heat.
+    They are not exact biological limits. Variety speed, transplant size, soil temperature, daylight, stress, irrigation, pests,
+    and harvest stage can all change the real-world result.
+  </p>
+  <p>
+    GrowByDate uses crop-level heat targets to help answer practical questions such as whether a crop is usually comfortable,
+    tight, risky, or unrealistic outdoors in a given location. A fast cherry tomato, a large slicing tomato, and a paste tomato may not behave
+    exactly the same, so crop-level targets should be read as planning signals rather than guarantees.
+  </p>
+</section>
+
+<section class="card methodologySection" id="planting-windows">
+  <p class="eyebrow">Planting windows</p>
+  <h2>How planting windows are built</h2>
+  <p>
+    Planting windows combine frost timing, crop temperature tolerance, and the way the crop is usually started.
+    Cool-season crops can often be planted before or after the frost-free window. Tender warm-season crops usually depend more heavily
+    on the last spring frost date, soil warmth, and the time left before fall frost.
+  </p>
+  <div class="methodologyDefinitionList">
+    <div>
+      <h3>Cool-season crops</h3>
+      <p>Often planned around early spring, late summer, or fall windows where cooler temperatures improve quality.</p>
+    </div>
+    <div>
+      <h3>Warm-season crops</h3>
+      <p>Usually planned after frost risk drops and after soil and air temperatures are warm enough for steady growth.</p>
+    </div>
+    <div>
+      <h3>Transplants vs. direct seeding</h3>
+      <p>Transplants can protect calendar time, while direct-seeded crops need enough warm outdoor time from germination to harvest.</p>
+    </div>
+  </div>
+</section>
+
+<section class="card methodologySection" id="crop-fit">
+  <p class="eyebrow">Local crop fit</p>
+  <h2>How GrowByDate thinks about margin</h2>
+  <p>
+    Many GrowByDate crop-location pages are built around margin: the difference between what a crop usually needs and what a location
+    usually provides from a realistic planting window. A large positive margin means the crop has more room for slow starts, cooler weeks,
+    and normal garden mistakes. A narrow or negative margin means variety speed, transplant timing, protection, and site warmth matter more.
+  </p>
+  <div class="methodologyFitGrid">
+    <article>
+      <h3>Comfortable</h3>
+      <p>The crop usually has enough local season and heat for a normal home-garden approach.</p>
+    </article>
+    <article>
+      <h3>Tight</h3>
+      <p>The crop may still work, but delays, slow varieties, or cool starts become more expensive.</p>
+    </article>
+    <article>
+      <h3>Risky</h3>
+      <p>The crop often needs a strong strategy, such as fast varieties, transplants, protection, or a warm microclimate.</p>
+    </article>
+    <article>
+      <h3>Usually unrealistic</h3>
+      <p>The local outdoor season is usually too short or too cool for dependable results without extra help.</p>
+    </article>
+  </div>
+</section>
+
+<section class="card methodologySection" id="rankings">
+  <p class="eyebrow">Derived datasets</p>
+  <h2>How rankings and comparison pages are created</h2>
+  <p>
+    GrowByDate ranking pages are derived from the same underlying planning signals used across the site:
+    frost-free days, growing degree days, crop heat requirements, crop timing margin, and short-season risk.
+    Rankings are designed to make comparisons easier, not to declare one city or crop universally better than another.
+  </p>
+  <p>
+    For example, a city may have a long frost-free season but modest heat accumulation, while another city may have fewer frost-free days
+    but stronger summer heat. That is why GrowByDate separates season length from seasonal warmth instead of treating them as the same thing.
+  </p>
+</section>
+
+<section class="card methodologySection" id="limitations">
+  <p class="eyebrow">Important limits</p>
+  <h2>What the data cannot know about your garden</h2>
+  <p>
+    Location-based planning data is a starting point. It cannot fully account for the differences between two gardens in the same city,
+    or even two beds in the same yard.
+  </p>
+  <ul class="tight methodologyLimitList">
+    <li><strong>Microclimates:</strong> slopes, cold pockets, shelter, wind exposure, pavement, buildings, and tree cover can shift local frost risk and warmth.</li>
+    <li><strong>Soil temperature:</strong> warm air does not always mean warm soil, especially in spring.</li>
+    <li><strong>Elevation and water effects:</strong> hills, valleys, lakes, oceans, and rivers can change frost and heat patterns.</li>
+    <li><strong>Weather in the current year:</strong> a late frost, cold June, heat wave, hailstorm, or smoky period can overpower the average.</li>
+    <li><strong>Variety differences:</strong> days-to-maturity labels and crop heat needs vary by cultivar and seed source.</li>
+    <li><strong>Garden management:</strong> transplants, row cover, mulch, irrigation, pruning, fertility, pest pressure, and disease can all change outcomes.</li>
+  </ul>
+</section>
+
+<section class="card methodologySection" id="how-to-use">
+  <p class="eyebrow">Practical use</p>
+  <h2>How gardeners should use GrowByDate data</h2>
+  <ol class="methodologyOrderedList">
+    <li><strong>Use the local page as your baseline.</strong> Start with your city or nearest comparable location.</li>
+    <li><strong>Check both frost dates and GDD.</strong> Do not assume a long season is always a warm season.</li>
+    <li><strong>Choose the right crop strategy.</strong> Tight crops need faster varieties, earlier starts, warmer beds, or season extension.</li>
+    <li><strong>Adjust for your actual garden.</strong> A protected raised bed may behave differently than an open, windy, low-lying garden.</li>
+    <li><strong>Watch the current forecast.</strong> GrowByDate helps with planning; it does not replace short-term weather decisions.</li>
+  </ol>
+</section>
+
+<section class="card methodologySection methodologyCitation" id="citation">
+  <p class="eyebrow">Citation</p>
+  <h2>How to cite this methodology</h2>
+  <p>
+    Writers, gardeners, and researchers are welcome to cite GrowByDate pages as planning references. Please link to the specific page used
+    whenever possible, because city pages, crop pages, tools, rankings, and datasets answer different questions.
+  </p>
+  <div class="methodologyCitationBox">
+    <h3>Suggested citation</h3>
+    <textarea readonly>GrowByDate. Data Methodology: Frost Dates, Growing Degree Days and Crop Timing. https://growbydate.com/data/methodology/</textarea>
+  </div>
+  <p class="small">
+    For source pages with tables, maps, or rankings, cite the specific dataset page in addition to this methodology page.
+  </p>
+</section>
+
+<section class="card methodologySection">
+  <p class="eyebrow">Explore the data</p>
+  <h2>Related GrowByDate references</h2>
+  <div class="leaderboardGrid">
+    <article class="leaderboardTile">
+      <h3><a href="/data/frost-dates-by-city/">Frost Dates by City</a></h3>
+      <p>Average last spring frost, first fall frost, and frost-free season length by city.</p>
+    </article>
+    <article class="leaderboardTile">
+      <h3><a href="/data/growing-degree-days-by-city/">Growing Degree Days by City</a></h3>
+      <p>Compare seasonal heat accumulation across locations.</p>
+    </article>
+    <article class="leaderboardTile">
+      <h3><a href="/data/crop-heat-requirements/">Crop Heat Requirements</a></h3>
+      <p>Reference crop-level heat needs used in GrowByDate planning tools.</p>
+    </article>
+  </div>
+</section>
