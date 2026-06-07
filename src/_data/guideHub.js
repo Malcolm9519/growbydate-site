@@ -122,6 +122,7 @@ module.exports = [
     title: "Season Extension & Plant Protection",
     description: "Row cover, frost cloth, cold frames, low tunnels, greenhouse repairs, shade cloth, and plant protection setups.",
     slugs: [
+      "best-beneficial-nematodes-for-fungus-gnats",
       "best-clips-and-hoops-for-securing-frost-cloth",
       "best-clips-for-holding-shade-cloth-in-wind",
       "best-cold-frame-for-raised-beds",
