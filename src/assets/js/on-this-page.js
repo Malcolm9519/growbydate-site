@@ -22,6 +22,10 @@
 
   if (!isUsefulPage) return;
 
+  if (window.matchMedia("(max-width: 860px)").matches) {
+  return;
+}
+
 const selector = "h2";
 
   const headings = Array.from(content.querySelectorAll(selector)).filter((heading) => {
@@ -89,10 +93,6 @@ const selector = "h2";
   nav.appendChild(list);
   aside.hidden = false;
   main.classList.add("hasOnThisPage");
-
-  if (!window.matchMedia("(max-width: 860px)").matches) {
-    details.setAttribute("open", "");
-  }
 
   const links = Array.from(nav.querySelectorAll("a[href^='#']"));
   const linksById = new Map(
