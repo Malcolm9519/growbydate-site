@@ -3274,6 +3274,17 @@ body.cropCityPage main details[open] {
   }
 }
 
+.onThisPageItem a {
+  border-left: 3px solid transparent;
+}
+
+.onThisPageItem a.is-active {
+  color: #1f7a2e;
+  font-weight: 800;
+  border-left-color: #3bbc3d;
+  background: rgba(59, 188, 61, 0.08);
+}
+
 /* Prevent guide related links from colliding with the "On this page" sidebar */
 
 /* ---------- Leaderboards ---------- */
