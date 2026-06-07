@@ -108,14 +108,18 @@ const selector = "h2";
 
     activeLink.classList.add("is-active");
 
-    const activeItem = activeLink.closest(".onThisPageItem");
-    if (activeItem && activeItem.scrollIntoView) {
-      activeItem.scrollIntoView({
-        block: "nearest",
-        inline: "nearest"
-      });
-    }
+const activeItem = activeLink.closest(".onThisPageItem");
+
+if (activeItem) {
+  const navRect = nav.getBoundingClientRect();
+  const itemRect = activeItem.getBoundingClientRect();
+
+  const navMiddle = nav.clientHeight / 2;
+  const itemMiddle = itemRect.top - navRect.top + activeItem.offsetHeight / 2;
+
+  nav.scrollTop += itemMiddle - navMiddle;
   }
+}
 
   if (headings[0] && headings[0].id) {
     setActiveLink(headings[0].id);
