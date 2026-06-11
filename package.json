@@ -8,6 +8,7 @@
     "dev": "npm run clean && cross-env SITE_BUILD_TARGET=main node --max-old-space-size=12288 ./node_modules/@11ty/eleventy/cmd.cjs --serve",
 
     "build": "npm run clean && npm run build:eleventy && npm run build:sitemap",
+    "build:cloudflare": "(git fetch --unshallow || true) && npm run build",
 
     "build:eleventy": "cross-env SITE_BUILD_TARGET=main node --max-old-space-size=12288 ./node_modules/@11ty/eleventy/cmd.cjs",
 

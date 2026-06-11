@@ -123,7 +123,10 @@ function dateForFile(projectRoot, file) {
   const gitDate = gitLastModifiedDate(projectRoot, file);
   if (gitDate) return gitDate;
 
-  return fsLastModifiedDate(file);
+  // Avoid using deploy/build-time filesystem mtimes by default.
+  // On hosts like Cloudflare Pages, those mtimes can make every URL
+  // look freshly updated on every deploy.
+  return process.env.SITEMAP_ALLOW_FS_MTIME === "true" ? fsLastModifiedDate(file) : null;
 }
 
 function latestDateForFiles(projectRoot, files) {
@@ -156,6 +159,19 @@ function staticSourceCandidates(projectRoot, urlPath) {
       `src/${clean}.njk`,
       `src/${clean}.md`
     );
+
+    // Many crop variety/cluster pages are stored outside /src/crops/ but
+    // publish to /crops/{crop}/{page}/ through front matter permalinks.
+    const cropPageMatch = clean.match(/^crops\/([^/]+)\/([^/]+)$/);
+    if (cropPageMatch) {
+      const [, cropSlug, pageSlug] = cropPageMatch;
+      candidates.push(
+        `src/${cropSlug}/${pageSlug}.njk`,
+        `src/${cropSlug}/${pageSlug}.md`,
+        `src/${cropSlug}/${pageSlug}/index.njk`,
+        `src/${cropSlug}/${pageSlug}/index.md`
+      );
+    }
   }
 
   return existingFiles(projectRoot, candidates);
@@ -165,12 +181,11 @@ function resolveMainSourceFiles(projectRoot, urlPath) {
   const staticFiles = staticSourceCandidates(projectRoot, urlPath);
   if (staticFiles.length) return staticFiles;
 
-  const commonGeneratedData = [
-    "src/_data/site.json",
-    "src/_includes/layout-base.njk",
-    "src/_includes/seo/structured-data.njk"
-  ];
-
+  // Keep shared layout/sitewide files out of URL-level lastmod calculations.
+  // Otherwise a layout or SEO partial edit can make the entire sitemap appear
+  // freshly updated, even when the page content did not materially change.
+  const commonGeneratedData = [];
+  
   const regionData = [
     "src/_data/cities.json",
     "src/_data/frostDates.json",
