@@ -104,6 +104,7 @@ module.exports = [
       "seed-starting-schedule-zone-3-to-5",
       "seed-starting-supplies-checklist",
       "shop-lights-vs-grow-lights",
+      "gardening-as-a-hobby",
       "starting-seeds-too-early",
       "what-happens-to-seedlings-at-32-degrees",
       "what-is-seed-starting-mix",
