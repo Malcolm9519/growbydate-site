@@ -169,6 +169,7 @@ module.exports = function (eleventyConfig) {
     if (isTool || pageUrl.startsWith("/tools/")) return "SoftwareApplication";
     if (isGuide || pageUrl.startsWith("/guides/")) return "Article";
     if (pageUrl === "/data/" || pageUrl === "/data/index.html") return "CollectionPage";
+    if (pageUrl === "/data/methodology/" || pageUrl === "/data/methodology/index.html") return "Article";
     if (pageUrl.startsWith("/data/")) return "Dataset";
     return "WebPage";
   });
