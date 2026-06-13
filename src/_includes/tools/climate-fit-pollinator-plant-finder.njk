@@ -1,0 +1,433 @@
+<section class="gbd-tool" id="pollinator-fit-tool">
+  <section class="card">
+    <span class="gbd-kicker">Free climate-fit plant matrix</span>
+    <p class="lede">
+      Filter pollinator plants by cold hardiness, sun, moisture, height, bloom season, deer pressure, and garden goal. Use it to build a climate-aware shortlist before you shop at a nursery or build a planting plan.
+    </p>
+    <p class="muted">
+      This is a selection matrix, not a custom landscape design. Regional native status varies, so verify local nativity and invasive status with your extension office, native plant society, or provincial/state resources before planting.
+    </p>
+  </section>
+
+  <section class="card" aria-labelledby="pft-filters-title">
+    <h2 id="pft-filters-title">1. Filter your site conditions</h2>
+    <div class="gbd-grid three">
+      <div class="gbd-field">
+        <label for="pft-zone">Hardiness zone</label>
+        <select id="pft-zone">
+          <option value="2">Zone 2</option>
+          <option value="3">Zone 3</option>
+          <option value="4" selected>Zone 4</option>
+          <option value="5">Zone 5</option>
+          <option value="6">Zone 6</option>
+          <option value="7">Zone 7</option>
+          <option value="8">Zone 8</option>
+          <option value="9">Zone 9</option>
+        </select>
+      </div>
+      <div class="gbd-field">
+        <label for="pft-sun">Sun exposure</label>
+        <select id="pft-sun">
+          <option value="any">Any</option>
+          <option value="full" selected>Full sun</option>
+          <option value="part">Part sun</option>
+          <option value="shade">Shade / part shade</option>
+        </select>
+      </div>
+      <div class="gbd-field">
+        <label for="pft-moisture">Soil moisture</label>
+        <select id="pft-moisture">
+          <option value="any">Any</option>
+          <option value="dry" selected>Dry / drought-prone</option>
+          <option value="average">Average</option>
+          <option value="moist">Moist / rain garden</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="gbd-grid three" style="margin-top:1rem;">
+      <div class="gbd-field">
+        <label for="pft-height">Maximum mature height</label>
+        <select id="pft-height">
+          <option value="999">Any height</option>
+          <option value="18">Under 18 in.</option>
+          <option value="36" selected>Under 3 ft.</option>
+          <option value="60">Under 5 ft.</option>
+          <option value="96">Under 8 ft.</option>
+        </select>
+      </div>
+      <div class="gbd-field">
+        <label for="pft-bloom">Bloom season needed</label>
+        <select id="pft-bloom">
+          <option value="any">Any</option>
+          <option value="spring">Spring</option>
+          <option value="early-summer">Early summer</option>
+          <option value="summer" selected>Summer</option>
+          <option value="late-summer">Late summer</option>
+          <option value="fall">Fall</option>
+        </select>
+      </div>
+      <div class="gbd-field">
+        <label for="pft-goal">Primary goal</label>
+        <select id="pft-goal">
+          <option value="any">Any pollinator value</option>
+          <option value="bees" selected>Bees</option>
+          <option value="butterflies">Butterflies</option>
+          <option value="hummingbirds">Hummingbirds</option>
+          <option value="monarchs">Monarch support</option>
+          <option value="front-yard">Front-yard friendly</option>
+          <option value="rain-garden">Rain garden</option>
+          <option value="drought">Drought-tolerant planting</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="gbd-grid three" style="margin-top:1rem;">
+      <div class="gbd-field">
+        <label for="pft-deer">Deer pressure</label>
+        <select id="pft-deer">
+          <option value="any" selected>Any</option>
+          <option value="prefer-resistant">Prefer deer-resistant options</option>
+          <option value="strict-resistant">Only stronger deer-resistance candidates</option>
+        </select>
+      </div>
+      <div class="gbd-field">
+        <label for="pft-type">Plant type</label>
+        <select id="pft-type">
+          <option value="any" selected>Any type</option>
+          <option value="perennial">Perennial</option>
+          <option value="grass">Grass / sedge</option>
+          <option value="shrub">Shrub</option>
+          <option value="annual">Annual / self-seeding</option>
+        </select>
+      </div>
+      <div class="gbd-field">
+        <label for="pft-strict">Match strictness</label>
+        <select id="pft-strict">
+          <option value="ranked" selected>Ranked matches, include near-fits</option>
+          <option value="strict">Strict matches only</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="gbd-actions" style="margin-top:1rem;">
+      <button class="gbd-button primary" type="button" id="pft-filter">Find plants</button>
+      <button class="gbd-button" type="button" id="pft-reset">Reset filters</button>
+      <button class="gbd-button" type="button" id="pft-csv">Download shortlist CSV</button>
+      <button class="gbd-button" type="button" onclick="window.print()">Print</button>
+    </div>
+  </section>
+
+  <section class="card" id="pft-results-card" data-gbd-results tabindex="-1" aria-live="polite" aria-labelledby="pft-results-title">
+    <h2 id="pft-results-title">2. Climate-fit shortlist</h2>
+    <div class="gbd-kpis" id="pft-kpis" style="margin-top:.75rem;"></div>
+    <div class="gbd-grid two" style="margin-top:1rem;">
+      <div class="gbd-panel soft">
+        <h3 style="margin-top:0;">Bloom coverage</h3>
+        <div class="gbd-bars" id="pft-bloom-bars"></div>
+      </div>
+      <div class="gbd-panel soft">
+        <h3 style="margin-top:0;">Shopping strategy</h3>
+        <ul class="gbd-summary-list" id="pft-strategy"></ul>
+      </div>
+    </div>
+    <div class="gbd-table-wrap" style="margin-top:1rem;">
+      <table aria-label="Climate-fit pollinator plant finder results">
+        <thead>
+          <tr>
+            <th>Plant</th>
+            <th>Fit</th>
+            <th>Zones</th>
+            <th>Sun</th>
+            <th>Moisture</th>
+            <th>Height</th>
+            <th>Bloom</th>
+            <th>Best for</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody id="pft-results"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>How to use this plant matrix</h2>
+    <p>
+      Build a resilient pollinator planting by combining climate fit with season-long bloom. A good shortlist usually includes spring, summer, late-summer, and fall bloomers plus a few grasses or structural plants for habitat and winter interest.
+    </p>
+    <ul class="tight">
+      <li><strong>Cold climates:</strong> prioritize zone margin. A Zone 4 garden is safer with Zone 3–4 hardy plants than plants barely listed to Zone 4.</li>
+      <li><strong>Dry front yards:</strong> choose shorter drought-tolerant plants that look intentional, not just ecologically useful.</li>
+      <li><strong>Rain gardens:</strong> filter for moist-soil plants, then check mature height before placing them near walkways.</li>
+      <li><strong>Monarch support:</strong> include milkweeds plus nectar plants that bloom before and after milkweed flowering.</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>Important native plant caveat</h2>
+    <p>
+      “Native” is local. A plant can be native to parts of North America but not to your county, province, state, or ecoregion. This tool is a climate and site-condition filter, not a definitive native-range authority. Use it to create a shortlist, then verify local suitability before buying.
+    </p>
+  </section>
+
+  {% set sourceLinksVariant = "pollinator-plants" %}
+  {% set sourceLinksId = "tool-climate-fit-pollinator-plants" %}
+  {% set sourceLinksHeading = "Sources and limits for the Climate-Fit Pollinator Plant Finder" %}
+  {% set sourceLinksIntro = "This finder combines hardiness-zone, site-condition, bloom-season, and pollinator-value filters. It is a climate and site shortlist tool, not a final native-range or invasive-status authority." %}
+  {% include "components/external-source-links.njk" %}
+
+</section>
+
+<script>
+(function () {
+  const root = document.getElementById("pollinator-fit-tool");
+  if (!root) return;
+
+  const plants = [
+    { common: "Yarrow", botanical: "Achillea millefolium", type: "perennial", zMin: 3, zMax: 9, sun: ["full"], moisture: ["dry", "average"], hMin: 18, hMax: 36, bloom: ["summer"], goals: ["bees", "butterflies", "front-yard", "drought"], deer: true, notes: "Tough, drought-tolerant, easy to divide." },
+    { common: "Anise hyssop", botanical: "Agastache foeniculum", type: "perennial", zMin: 4, zMax: 8, sun: ["full", "part"], moisture: ["dry", "average"], hMin: 24, hMax: 48, bloom: ["summer", "late-summer"], goals: ["bees", "butterflies", "front-yard", "drought"], deer: true, notes: "Long bloom and strong bee value." },
+    { common: "Butterfly weed", botanical: "Asclepias tuberosa", type: "perennial", zMin: 3, zMax: 9, sun: ["full"], moisture: ["dry", "average"], hMin: 18, hMax: 36, bloom: ["summer"], goals: ["butterflies", "monarchs", "front-yard", "drought"], deer: true, notes: "Milkweed for monarchs; dislikes wet soil." },
+    { common: "Common milkweed", botanical: "Asclepias syriaca", type: "perennial", zMin: 3, zMax: 9, sun: ["full"], moisture: ["dry", "average"], hMin: 36, hMax: 60, bloom: ["summer"], goals: ["monarchs", "butterflies", "bees"], deer: false, notes: "Excellent monarch host; can spread aggressively." },
+    { common: "Swamp milkweed", botanical: "Asclepias incarnata", type: "perennial", zMin: 3, zMax: 9, sun: ["full", "part"], moisture: ["average", "moist"], hMin: 36, hMax: 60, bloom: ["summer"], goals: ["monarchs", "butterflies", "rain-garden"], deer: false, notes: "Good milkweed for moist sites and rain gardens." },
+    { common: "New England aster", botanical: "Symphyotrichum novae-angliae", type: "perennial", zMin: 3, zMax: 8, sun: ["full", "part"], moisture: ["average", "moist"], hMin: 36, hMax: 72, bloom: ["fall"], goals: ["bees", "butterflies"], deer: false, notes: "Critical late-season nectar; can be tall." },
+    { common: "Smooth aster", botanical: "Symphyotrichum laeve", type: "perennial", zMin: 3, zMax: 8, sun: ["full"], moisture: ["dry", "average"], hMin: 24, hMax: 48, bloom: ["fall"], goals: ["bees", "butterflies", "drought"], deer: false, notes: "Good fall option for drier sites." },
+    { common: "Bee balm", botanical: "Monarda fistulosa", type: "perennial", zMin: 3, zMax: 9, sun: ["full", "part"], moisture: ["average"], hMin: 24, hMax: 48, bloom: ["summer"], goals: ["bees", "butterflies", "hummingbirds"], deer: true, notes: "Aromatic foliage; good for hummingbirds." },
+    { common: "Black-eyed Susan", botanical: "Rudbeckia hirta", type: "perennial", zMin: 3, zMax: 9, sun: ["full", "part"], moisture: ["dry", "average"], hMin: 18, hMax: 36, bloom: ["summer", "late-summer"], goals: ["bees", "butterflies", "front-yard", "drought"], deer: false, notes: "Easy color; often short-lived but reseeds." },
+    { common: "Purple coneflower", botanical: "Echinacea purpurea", type: "perennial", zMin: 3, zMax: 8, sun: ["full", "part"], moisture: ["average"], hMin: 24, hMax: 48, bloom: ["summer", "late-summer"], goals: ["bees", "butterflies", "front-yard"], deer: false, notes: "Useful seedheads; many cultivars vary in vigor." },
+    { common: "Pale purple coneflower", botanical: "Echinacea pallida", type: "perennial", zMin: 3, zMax: 8, sun: ["full"], moisture: ["dry", "average"], hMin: 24, hMax: 42, bloom: ["early-summer", "summer"], goals: ["bees", "butterflies", "drought"], deer: false, notes: "Good prairie-style coneflower." },
+    { common: "Blazing star", botanical: "Liatris spicata", type: "perennial", zMin: 3, zMax: 9, sun: ["full"], moisture: ["average", "moist"], hMin: 24, hMax: 48, bloom: ["summer", "late-summer"], goals: ["bees", "butterflies", "front-yard"], deer: true, notes: "Vertical spikes; strong butterfly value." },
+    { common: "Dotted blazing star", botanical: "Liatris punctata", type: "perennial", zMin: 3, zMax: 8, sun: ["full"], moisture: ["dry"], hMin: 12, hMax: 30, bloom: ["late-summer"], goals: ["bees", "butterflies", "front-yard", "drought"], deer: true, notes: "Shorter, drought-tolerant liatris." },
+    { common: "Showy goldenrod", botanical: "Solidago speciosa", type: "perennial", zMin: 3, zMax: 8, sun: ["full", "part"], moisture: ["dry", "average"], hMin: 24, hMax: 48, bloom: ["late-summer", "fall"], goals: ["bees", "butterflies", "drought"], deer: true, notes: "Excellent late nectar; not wind-pollinated ragweed." },
+    { common: "Stiff goldenrod", botanical: "Solidago rigida", type: "perennial", zMin: 3, zMax: 8, sun: ["full"], moisture: ["dry", "average"], hMin: 24, hMax: 60, bloom: ["late-summer", "fall"], goals: ["bees", "butterflies", "drought"], deer: true, notes: "Prairie plant for tough sites." },
+    { common: "Lanceleaf coreopsis", botanical: "Coreopsis lanceolata", type: "perennial", zMin: 4, zMax: 9, sun: ["full"], moisture: ["dry", "average"], hMin: 12, hMax: 30, bloom: ["early-summer", "summer"], goals: ["bees", "front-yard", "drought"], deer: true, notes: "Compact and cheerful; deadhead for rebloom." },
+    { common: "Blanket flower", botanical: "Gaillardia aristata", type: "perennial", zMin: 3, zMax: 9, sun: ["full"], moisture: ["dry"], hMin: 12, hMax: 30, bloom: ["summer", "late-summer"], goals: ["bees", "butterflies", "front-yard", "drought"], deer: true, notes: "Strong for hot, dry, lean soil." },
+    { common: "Foxglove beardtongue", botanical: "Penstemon digitalis", type: "perennial", zMin: 3, zMax: 8, sun: ["full", "part"], moisture: ["dry", "average"], hMin: 24, hMax: 42, bloom: ["early-summer"], goals: ["bees", "hummingbirds", "front-yard"], deer: true, notes: "Early flowers; tidy seedheads." },
+    { common: "Prairie smoke", botanical: "Geum triflorum", type: "perennial", zMin: 3, zMax: 7, sun: ["full"], moisture: ["dry", "average"], hMin: 8, hMax: 18, bloom: ["spring"], goals: ["bees", "front-yard", "drought"], deer: true, notes: "Low, early, ornamental seedheads." },
+    { common: "Wild columbine", botanical: "Aquilegia canadensis", type: "perennial", zMin: 3, zMax: 8, sun: ["part", "shade"], moisture: ["average"], hMin: 18, hMax: 36, bloom: ["spring"], goals: ["hummingbirds", "bees", "front-yard"], deer: false, notes: "Good for part shade and early hummingbirds." },
+    { common: "Jacob's ladder", botanical: "Polemonium reptans", type: "perennial", zMin: 3, zMax: 8, sun: ["part", "shade"], moisture: ["average", "moist"], hMin: 12, hMax: 24, bloom: ["spring"], goals: ["bees", "front-yard"], deer: false, notes: "Low spring bloom for part shade." },
+    { common: "Wild geranium", botanical: "Geranium maculatum", type: "perennial", zMin: 3, zMax: 8, sun: ["part", "shade"], moisture: ["average"], hMin: 12, hMax: 24, bloom: ["spring", "early-summer"], goals: ["bees", "front-yard"], deer: true, notes: "Good woodland-edge ground layer." },
+    { common: "Mountain mint", botanical: "Pycnanthemum virginianum", type: "perennial", zMin: 3, zMax: 8, sun: ["full", "part"], moisture: ["average", "moist"], hMin: 24, hMax: 42, bloom: ["summer"], goals: ["bees", "butterflies", "rain-garden"], deer: true, notes: "Outstanding insect activity; aromatic foliage." },
+    { common: "Joe Pye weed", botanical: "Eutrochium purpureum", type: "perennial", zMin: 4, zMax: 9, sun: ["full", "part"], moisture: ["average", "moist"], hMin: 48, hMax: 84, bloom: ["late-summer"], goals: ["butterflies", "bees", "rain-garden"], deer: false, notes: "Tall, structural plant for bigger beds." },
+    { common: "Blue vervain", botanical: "Verbena hastata", type: "perennial", zMin: 3, zMax: 8, sun: ["full", "part"], moisture: ["moist"], hMin: 36, hMax: 60, bloom: ["summer", "late-summer"], goals: ["bees", "butterflies", "rain-garden"], deer: false, notes: "Good for moist meadows and rain gardens." },
+    { common: "Cardinal flower", botanical: "Lobelia cardinalis", type: "perennial", zMin: 3, zMax: 9, sun: ["part", "shade"], moisture: ["moist"], hMin: 24, hMax: 48, bloom: ["late-summer"], goals: ["hummingbirds", "rain-garden"], deer: true, notes: "Brilliant red; needs moisture." },
+    { common: "Great blue lobelia", botanical: "Lobelia siphilitica", type: "perennial", zMin: 4, zMax: 9, sun: ["part", "shade"], moisture: ["average", "moist"], hMin: 18, hMax: 36, bloom: ["late-summer", "fall"], goals: ["bees", "rain-garden", "front-yard"], deer: true, notes: "Good blue flowers for moist part shade." },
+    { common: "Blue flag iris", botanical: "Iris versicolor", type: "perennial", zMin: 3, zMax: 9, sun: ["full", "part"], moisture: ["moist"], hMin: 24, hMax: 36, bloom: ["early-summer"], goals: ["bees", "rain-garden", "front-yard"], deer: true, notes: "Excellent for rain gardens and wet edges." },
+    { common: "Sneezeweed", botanical: "Helenium autumnale", type: "perennial", zMin: 3, zMax: 8, sun: ["full"], moisture: ["average", "moist"], hMin: 30, hMax: 54, bloom: ["late-summer", "fall"], goals: ["bees", "butterflies", "rain-garden"], deer: true, notes: "Late color; better with moisture." },
+    { common: "Culver's root", botanical: "Veronicastrum virginicum", type: "perennial", zMin: 3, zMax: 8, sun: ["full", "part"], moisture: ["average", "moist"], hMin: 36, hMax: 72, bloom: ["summer"], goals: ["bees", "butterflies"], deer: true, notes: "Elegant vertical form; slow to establish." },
+    { common: "Prairie clover", botanical: "Dalea purpurea", type: "perennial", zMin: 3, zMax: 8, sun: ["full"], moisture: ["dry"], hMin: 12, hMax: 30, bloom: ["summer"], goals: ["bees", "front-yard", "drought"], deer: true, notes: "Compact legume for dry prairie plantings." },
+    { common: "Nodding onion", botanical: "Allium cernuum", type: "perennial", zMin: 3, zMax: 8, sun: ["full", "part"], moisture: ["dry", "average"], hMin: 12, hMax: 20, bloom: ["summer"], goals: ["bees", "front-yard", "drought"], deer: true, notes: "Short, tidy, good for edges." },
+    { common: "Wild bergamot", botanical: "Monarda fistulosa", type: "perennial", zMin: 3, zMax: 9, sun: ["full", "part"], moisture: ["dry", "average"], hMin: 24, hMax: 48, bloom: ["summer"], goals: ["bees", "butterflies", "hummingbirds", "drought"], deer: true, notes: "Aromatic prairie mint; attracts many insects." },
+    { common: "Hoary vervain", botanical: "Verbena stricta", type: "perennial", zMin: 3, zMax: 8, sun: ["full"], moisture: ["dry", "average"], hMin: 24, hMax: 48, bloom: ["summer", "late-summer"], goals: ["bees", "butterflies", "drought"], deer: true, notes: "Tough plant for dry sunny sites." },
+    { common: "Little bluestem", botanical: "Schizachyrium scoparium", type: "grass", zMin: 3, zMax: 9, sun: ["full"], moisture: ["dry", "average"], hMin: 24, hMax: 48, bloom: ["fall"], goals: ["front-yard", "drought"], deer: true, notes: "Habitat structure; not a nectar plant." },
+    { common: "Prairie dropseed", botanical: "Sporobolus heterolepis", type: "grass", zMin: 3, zMax: 9, sun: ["full"], moisture: ["dry", "average"], hMin: 18, hMax: 36, bloom: ["late-summer"], goals: ["front-yard", "drought"], deer: true, notes: "Tidy ornamental native grass." },
+    { common: "Switchgrass", botanical: "Panicum virgatum", type: "grass", zMin: 3, zMax: 9, sun: ["full"], moisture: ["average", "moist"], hMin: 36, hMax: 72, bloom: ["late-summer"], goals: ["rain-garden"], deer: true, notes: "Structure and cover; choose size carefully." },
+    { common: "Pennsylvania sedge", botanical: "Carex pensylvanica", type: "grass", zMin: 3, zMax: 8, sun: ["part", "shade"], moisture: ["dry", "average"], hMin: 6, hMax: 12, bloom: ["spring"], goals: ["front-yard", "drought"], deer: true, notes: "Low ground layer for dry shade." },
+    { common: "Serviceberry", botanical: "Amelanchier spp.", type: "shrub", zMin: 3, zMax: 8, sun: ["full", "part"], moisture: ["average"], hMin: 72, hMax: 240, bloom: ["spring"], goals: ["bees", "front-yard"], deer: false, notes: "Spring bloom plus fruit for wildlife." },
+    { common: "Red osier dogwood", botanical: "Cornus sericea", type: "shrub", zMin: 2, zMax: 8, sun: ["full", "part"], moisture: ["moist"], hMin: 72, hMax: 120, bloom: ["spring"], goals: ["bees", "rain-garden"], deer: false, notes: "Shrub for wet sites; winter stems." },
+    { common: "Ninebark", botanical: "Physocarpus opulifolius", type: "shrub", zMin: 2, zMax: 8, sun: ["full", "part"], moisture: ["dry", "average"], hMin: 60, hMax: 120, bloom: ["early-summer"], goals: ["bees", "front-yard", "drought"], deer: true, notes: "Durable flowering shrub; cultivars vary." },
+    { common: "Shrubby cinquefoil", botanical: "Dasiphora fruticosa", type: "shrub", zMin: 2, zMax: 7, sun: ["full"], moisture: ["dry", "average"], hMin: 24, hMax: 48, bloom: ["summer", "late-summer"], goals: ["bees", "front-yard", "drought"], deer: true, notes: "Very cold-hardy and compact." },
+    { common: "Elderberry", botanical: "Sambucus canadensis / racemosa", type: "shrub", zMin: 3, zMax: 8, sun: ["full", "part"], moisture: ["average", "moist"], hMin: 72, hMax: 144, bloom: ["early-summer"], goals: ["bees", "rain-garden"], deer: false, notes: "Large shrub; flowers and berries." },
+    { common: "Wild lupine", botanical: "Lupinus perennis", type: "perennial", zMin: 3, zMax: 8, sun: ["full", "part"], moisture: ["dry", "average"], hMin: 12, hMax: 30, bloom: ["spring", "early-summer"], goals: ["bees", "butterflies", "front-yard", "drought"], deer: false, notes: "Needs well-drained soil; regional suitability varies." },
+    { common: "Partridge pea", botanical: "Chamaecrista fasciculata", type: "annual", zMin: 3, zMax: 9, sun: ["full"], moisture: ["dry", "average"], hMin: 18, hMax: 36, bloom: ["summer", "late-summer"], goals: ["bees", "butterflies", "drought"], deer: false, notes: "Annual legume; can self-sow." },
+    { common: "Mexican sunflower", botanical: "Tithonia rotundifolia", type: "annual", zMin: 2, zMax: 11, sun: ["full"], moisture: ["average"], hMin: 48, hMax: 84, bloom: ["late-summer", "fall"], goals: ["butterflies", "hummingbirds"], deer: false, notes: "Not native in most regions; excellent annual nectar." },
+    { common: "Borage", botanical: "Borago officinalis", type: "annual", zMin: 2, zMax: 11, sun: ["full", "part"], moisture: ["average"], hMin: 18, hMax: 36, bloom: ["summer"], goals: ["bees", "front-yard"], deer: true, notes: "Annual herb; prolific bee plant." },
+    { common: "Calendula", botanical: "Calendula officinalis", type: "annual", zMin: 2, zMax: 11, sun: ["full", "part"], moisture: ["average"], hMin: 12, hMax: 24, bloom: ["summer", "fall"], goals: ["bees", "front-yard"], deer: false, notes: "Cool-tolerant annual for edges." },
+    { common: "Cosmos", botanical: "Cosmos bipinnatus", type: "annual", zMin: 2, zMax: 11, sun: ["full"], moisture: ["dry", "average"], hMin: 36, hMax: 60, bloom: ["summer", "late-summer", "fall"], goals: ["bees", "butterflies", "drought"], deer: false, notes: "Easy annual nectar; can get tall/floppy." },
+    { common: "Zinnia", botanical: "Zinnia elegans", type: "annual", zMin: 2, zMax: 11, sun: ["full"], moisture: ["average"], hMin: 18, hMax: 48, bloom: ["summer", "late-summer", "fall"], goals: ["butterflies", "bees", "front-yard"], deer: false, notes: "Annual flower; excellent butterfly magnet." },
+    { common: "Sunflower", botanical: "Helianthus annuus", type: "annual", zMin: 2, zMax: 11, sun: ["full"], moisture: ["dry", "average"], hMin: 36, hMax: 120, bloom: ["summer", "late-summer"], goals: ["bees", "butterflies", "drought"], deer: false, notes: "Annual; supports bees and birds if seedheads remain." },
+    { common: "Purple prairie clover", botanical: "Dalea purpurea", type: "perennial", zMin: 3, zMax: 8, sun: ["full"], moisture: ["dry"], hMin: 12, hMax: 30, bloom: ["summer"], goals: ["bees", "front-yard", "drought"], deer: true, notes: "Compact and drought-adapted." },
+    { common: "Golden alexanders", botanical: "Zizia aurea", type: "perennial", zMin: 3, zMax: 8, sun: ["full", "part"], moisture: ["average", "moist"], hMin: 18, hMax: 36, bloom: ["spring", "early-summer"], goals: ["bees", "butterflies", "front-yard", "rain-garden"], deer: false, notes: "Early umbel; useful in layered plantings." },
+    { common: "Obedient plant", botanical: "Physostegia virginiana", type: "perennial", zMin: 3, zMax: 9, sun: ["full", "part"], moisture: ["average", "moist"], hMin: 24, hMax: 48, bloom: ["late-summer", "fall"], goals: ["bees", "hummingbirds", "rain-garden"], deer: true, notes: "Can spread; good late bloom." },
+    { common: "Blue giant hyssop", botanical: "Agastache foeniculum", type: "perennial", zMin: 4, zMax: 8, sun: ["full"], moisture: ["dry", "average"], hMin: 24, hMax: 48, bloom: ["summer", "late-summer"], goals: ["bees", "butterflies", "hummingbirds", "drought"], deer: true, notes: "Strong nectar plant, aromatic leaves." }
+  ];
+
+  let lastMatches = [];
+
+  function labelJoin(values) {
+    return values.map((v) => v.replace("early-summer", "early summer").replace("late-summer", "late summer")).join(", ");
+  }
+
+  function pill(label, cls) {
+    return '<span class="gbd-pill ' + cls + '">' + label + '</span>';
+  }
+
+  function scorePlant(plant, filters) {
+    let score = 0;
+    let hardFail = false;
+    const reasons = [];
+
+    if (filters.zone >= plant.zMin && filters.zone <= plant.zMax) {
+      score += 32;
+      if (filters.zone > plant.zMin) score += 5;
+    } else {
+      score -= 60;
+      hardFail = true;
+      reasons.push("outside listed zone range");
+    }
+
+    if (filters.sun === "any" || plant.sun.includes(filters.sun)) score += 18;
+    else { score -= 18; reasons.push("sun mismatch"); }
+
+    if (filters.moisture === "any" || plant.moisture.includes(filters.moisture)) score += 18;
+    else { score -= 18; reasons.push("moisture mismatch"); }
+
+    if (plant.hMax <= filters.height) score += 12;
+    else { score -= 10; reasons.push("too tall"); }
+
+    if (filters.bloom === "any" || plant.bloom.includes(filters.bloom)) score += 10;
+    else score -= 4;
+
+    if (filters.goal === "any" || plant.goals.includes(filters.goal)) score += 16;
+    else score -= 2;
+
+    if (filters.deer === "strict-resistant" && !plant.deer) { score -= 25; reasons.push("not a deer-resistance candidate"); }
+    if (filters.deer === "prefer-resistant" && plant.deer) score += 8;
+    if (filters.deer === "prefer-resistant" && !plant.deer) score -= 3;
+
+    if (filters.type !== "any" && plant.type !== filters.type) { score -= 20; reasons.push("type mismatch"); }
+    if (filters.type === plant.type) score += 8;
+
+    if (filters.goal === "front-yard" && plant.hMax <= 36) score += 8;
+    if (filters.goal === "rain-garden" && plant.moisture.includes("moist")) score += 8;
+    if (filters.goal === "drought" && plant.moisture.includes("dry")) score += 8;
+
+    return { score, hardFail, reasons };
+  }
+
+  function fitLabel(score) {
+    if (score >= 82) return { text: "Excellent", cls: "good" };
+    if (score >= 62) return { text: "Good", cls: "good" };
+    if (score >= 42) return { text: "Near fit", cls: "warn" };
+    return { text: "Weak fit", cls: "bad" };
+  }
+
+  function getFilters() {
+    return {
+      zone: Number(document.getElementById("pft-zone").value),
+      sun: document.getElementById("pft-sun").value,
+      moisture: document.getElementById("pft-moisture").value,
+      height: Number(document.getElementById("pft-height").value),
+      bloom: document.getElementById("pft-bloom").value,
+      goal: document.getElementById("pft-goal").value,
+      deer: document.getElementById("pft-deer").value,
+      type: document.getElementById("pft-type").value,
+      strict: document.getElementById("pft-strict").value
+    };
+  }
+
+  function calculate() {
+    const filters = getFilters();
+    lastMatches = plants.map((plant) => ({ plant, result: scorePlant(plant, filters) }))
+      .filter((item) => filters.strict === "strict" ? (!item.result.hardFail && item.result.score >= 62) : item.result.score >= 35)
+      .sort((a, b) => b.result.score - a.result.score)
+      .slice(0, 30);
+
+    const excellent = lastMatches.filter((item) => item.result.score >= 82).length;
+    const nativeCaution = lastMatches.filter((item) => item.plant.type === "annual").length;
+    const avgHeight = lastMatches.length ? Math.round(lastMatches.reduce((s, item) => s + item.plant.hMax, 0) / lastMatches.length) : 0;
+    const seasons = ["spring", "early-summer", "summer", "late-summer", "fall"];
+
+    document.getElementById("pft-kpis").innerHTML = [
+      { label: "Shortlist plants", value: lastMatches.length },
+      { label: "Excellent matches", value: excellent },
+      { label: "Average max height", value: avgHeight ? avgHeight + " in" : "—" },
+      { label: "Hardiness zone", value: "Zone " + filters.zone },
+      { label: "Annual / non-perennial options", value: nativeCaution },
+      { label: "Database plants screened", value: plants.length }
+    ].map((item) => '<div class="gbd-kpi"><span class="label">' + item.label + '</span><span class="value">' + item.value + '</span></div>').join("");
+
+    const seasonCounts = seasons.map((season) => ({
+      season,
+      count: lastMatches.filter((item) => item.plant.bloom.includes(season)).length
+    }));
+    const maxCount = Math.max(1, ...seasonCounts.map((item) => item.count));
+    document.getElementById("pft-bloom-bars").innerHTML = seasonCounts.map((item) => {
+      const label = item.season.replace("early-summer", "early summer").replace("late-summer", "late summer");
+      return '<div class="gbd-bar-row"><strong>' + label + '</strong><span class="gbd-bar-track"><span class="gbd-bar-fill" style="width:' + Math.round(item.count / maxCount * 100) + '%"></span></span><span>' + item.count + '</span></div>';
+    }).join("");
+
+    const missing = seasonCounts.filter((item) => item.count === 0).map((item) => item.season.replace("early-summer", "early summer").replace("late-summer", "late summer"));
+    const strategy = [];
+    if (!lastMatches.length) strategy.push("No strong matches. Loosen height, sun, moisture, or strictness filters.");
+    else strategy.push("Start with 3–5 excellent or good matches, then add plants to cover missing bloom seasons.");
+    if (missing.length) strategy.push("Bloom gaps in this shortlist: " + missing.join(", ") + ". Consider relaxing the bloom filter or adding complementary plants.");
+    if (filters.goal === "monarchs") strategy.push("For monarch support, include at least one milkweed plus nectar plants before and after milkweed bloom.");
+    if (filters.deer !== "any") strategy.push("Deer resistance is never absolute. Treat it as pressure reduction, not a guarantee.");
+    strategy.push("Verify regional native status and local invasive concerns before buying.");
+    document.getElementById("pft-strategy").innerHTML = strategy.map((item) => '<li>' + item + '</li>').join("");
+
+    document.getElementById("pft-results").innerHTML = lastMatches.map((item) => {
+      const plant = item.plant;
+      const fit = fitLabel(item.result.score);
+      const reasonText = item.result.reasons.length ? ' Near-fit cautions: ' + item.result.reasons.join(", ") + '.' : '';
+      return '<tr>' +
+        '<td><strong>' + plant.common + '</strong><br><span class="muted"><em>' + plant.botanical + '</em> · ' + plant.type + '</span></td>' +
+        '<td>' + pill(fit.text, fit.cls) + '<br><span class="muted">Score ' + Math.max(0, Math.round(item.result.score)) + '</span></td>' +
+        '<td>' + plant.zMin + '–' + plant.zMax + '</td>' +
+        '<td>' + labelJoin(plant.sun) + '</td>' +
+        '<td>' + labelJoin(plant.moisture) + '</td>' +
+        '<td>' + plant.hMin + '–' + plant.hMax + ' in</td>' +
+        '<td>' + labelJoin(plant.bloom) + '</td>' +
+        '<td>' + labelJoin(plant.goals) + '</td>' +
+        '<td>' + plant.notes + (plant.deer ? ' Often considered less deer-preferred.' : '') + reasonText + '</td>' +
+      '</tr>';
+    }).join("");
+  }
+
+  function reset() {
+    document.getElementById("pft-zone").value = "4";
+    document.getElementById("pft-sun").value = "full";
+    document.getElementById("pft-moisture").value = "dry";
+    document.getElementById("pft-height").value = "36";
+    document.getElementById("pft-bloom").value = "summer";
+    document.getElementById("pft-goal").value = "bees";
+    document.getElementById("pft-deer").value = "any";
+    document.getElementById("pft-type").value = "any";
+    document.getElementById("pft-strict").value = "ranked";
+    calculate();
+  }
+
+  function csvEscape(value) {
+    return '"' + String(value == null ? "" : value).replace(/"/g, '""') + '"';
+  }
+
+  function downloadCsv() {
+    if (!lastMatches.length) calculate();
+    const header = ["Common name", "Botanical name", "Fit score", "Zones", "Sun", "Moisture", "Height", "Bloom", "Best for", "Notes"];
+    const lines = [header.map(csvEscape).join(",")].concat(lastMatches.map((item) => {
+      const p = item.plant;
+      return [p.common, p.botanical, Math.round(item.result.score), p.zMin + "-" + p.zMax, labelJoin(p.sun), labelJoin(p.moisture), p.hMin + "-" + p.hMax + " in", labelJoin(p.bloom), labelJoin(p.goals), p.notes].map(csvEscape).join(",");
+    }));
+    const blob = new Blob([lines.join("\n")], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "climate-fit-pollinator-shortlist.csv";
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+
+  const pftResultsCard = document.getElementById("pft-results-card");
+
+  function pftScrollToResults() {
+    if (!pftResultsCard) return;
+    const header = document.querySelector(".siteHeader");
+    const headerOffset = header ? Math.ceil(header.getBoundingClientRect().height) : 0;
+    const top = pftResultsCard.getBoundingClientRect().top + window.scrollY - headerOffset - 16;
+    const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.scrollTo({ top: Math.max(0, top), behavior: reduceMotion ? "auto" : "smooth" });
+    window.setTimeout(() => {
+      try { pftResultsCard.focus({ preventScroll: true }); } catch (error) {}
+    }, reduceMotion ? 0 : 350);
+  }
+  document.getElementById("pft-filter").addEventListener("click", () => { calculate(); pftScrollToResults(); });
+  document.getElementById("pft-reset").addEventListener("click", reset);
+  document.getElementById("pft-csv").addEventListener("click", downloadCsv);
+  root.addEventListener("change", (event) => {
+    if (event.target.closest("input, select")) calculate();
+  });
+  calculate();
+})();
+</script>
