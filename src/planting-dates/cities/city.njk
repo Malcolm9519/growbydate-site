@@ -68,3 +68,15 @@ eleventyComputed:
     <a href="/planting-dates/{% if city.country == 'canada' %}canada/provinces{% else %}states{% endif %}/{{ city.regionKey }}/">{{ city.regionName }}</a>
   </p>
 </section>
+
+{% if city.country == "canada" %}
+  {% set sourceLinksVariant = "canada-planting-dates" %}
+  {% set sourceLinksHeading = "Sources for Canadian local planting-date context" %}
+  {% set sourceLinksIntro = "This local planting-date guide uses long-term Canadian climate-normal, frost-date, and hardiness-zone references to estimate typical gardening windows for this location. Use these dates as planning ranges, then adjust for your current forecast, yard microclimate, soil temperature, and crop tolerance." %}
+{% else %}
+  {% set sourceLinksVariant = "us-planting-dates" %}
+  {% set sourceLinksHeading = "Sources for U.S. local planting-date context" %}
+  {% set sourceLinksIntro = "This local planting-date guide uses long-term U.S. climate-normal, frost-date, growing degree day, and hardiness-zone references to estimate typical gardening windows for this location. Use these dates as planning ranges, then adjust for your current forecast, yard microclimate, soil temperature, and crop tolerance." %}
+{% endif %}
+{% set sourceLinksId = "planting-dates-city-" + city.regionKey + "-" + city.key %}
+{% include "components/external-source-links.njk" %}

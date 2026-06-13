@@ -48,3 +48,9 @@ eleventyComputed:
 
 {% set detailsPath = "region/" + state.key + "-details.njk" %}
 {% include detailsPath ignore missing %}
+
+{% set sourceLinksVariant = "us-planting-dates" %}
+{% set sourceLinksId = "planting-dates-state-" + state.key %}
+{% set sourceLinksHeading = "Sources for U.S. planting-date context" %}
+{% set sourceLinksIntro = "This state planting-date guide uses long-term U.S. climate-normal, frost-date, growing degree day, and hardiness-zone references to explain typical regional gardening windows. These are planning references, not a forecast for this season." %}
+{% include "components/external-source-links.njk" %}

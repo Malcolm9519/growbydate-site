@@ -470,3 +470,14 @@ eleventyComputed:
   You can also use the <a href="/tools/growing-degree-day-planner/">Growing Degree Day Planner</a> to test planting dates and crop timing.
 </p>
 
+{% if pageData.country == "canada" %}
+  {% set sourceLinksVariant = "canada-planting-dates" %}
+  {% set sourceLinksHeading = "Sources for Canadian local planting-date context" %}
+  {% set sourceLinksIntro = "This crop-city planting guide combines local Canadian climate-normal and frost-date context with crop timing and heat-margin assumptions. Treat the result as a planning window, not a guarantee for this season." %}
+{% else %}
+  {% set sourceLinksVariant = "us-planting-dates" %}
+  {% set sourceLinksHeading = "Sources for U.S. local planting-date context" %}
+  {% set sourceLinksIntro = "This crop-city planting guide combines local U.S. climate-normal and frost-date context with crop timing and heat-margin assumptions. Treat the result as a planning window, not a guarantee for this season." %}
+{% endif %}
+{% set sourceLinksId = "planting-dates-crop-city-" + pageData.regionKey + "-" + pageData.cityKey + "-" + pageData.cropKey %}
+{% include "components/external-source-links.njk" %}

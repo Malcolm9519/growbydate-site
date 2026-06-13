@@ -50,3 +50,9 @@ eleventyComputed:
 
 {% set detailsPath = "region/" + state.key + "-details.njk" %}
 {% include detailsPath ignore missing %}
+
+{% set sourceLinksVariant = "canada-planting-dates" %}
+{% set sourceLinksId = "planting-dates-province-" + province.key %}
+{% set sourceLinksHeading = "Sources for Canadian planting-date context" %}
+{% set sourceLinksIntro = "This province planting-date guide uses long-term Canadian climate-normal, frost-date, and hardiness-zone references to explain typical regional gardening windows. These are planning references, not a forecast for this season." %}
+{% include "components/external-source-links.njk" %}
