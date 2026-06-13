@@ -255,6 +255,14 @@ module.exports = [
       "ai-raised-bed-garden-planner",
     ],
   },
+    {
+    title: "Short-Season Flowers & Pollinators",
+    description: "Cut flowers, dahlias, pollinator plants, and bloom planning for cold climates and short growing seasons.",
+    slugs: [
+      "best-cold-climate-pollinator-plants",
+      "best-dahlias-for-short-growing-seasons",
+    ],
+  },
   {
     title: "Planting Tools, Storage & Garden Gear",
     description: "Small practical tools that do not fit neatly into the planning, seed-starting, or protection groups.",
