@@ -1,0 +1,388 @@
+<section class="gbd-tool" id="dahlia-frost-tool">
+  <section class="card">
+    <span class="gbd-kicker">Free dahlia timing and tuber planning tool</span>
+    <p class="lede">
+      Estimate whether a dahlia variety is likely to produce enough bloom weeks before your first frost. Compare multiple varieties, pre-sprouting choices, pinch delays, frost protection, plant count, and expected stems.
+    </p>
+    <p class="muted">
+      This is designed for short-season dahlia growers who want to avoid buying beautiful tubers that bloom too late to pay off.
+    </p>
+  </section>
+
+  <section class="card" aria-labelledby="dbf-inputs-title">
+    <h2 id="dbf-inputs-title">1. Season and growing assumptions</h2>
+    <div class="gbd-grid three">
+      <div class="gbd-field">
+        <label for="dbf-last-frost">Average last spring frost</label>
+        <input type="date" id="dbf-last-frost" value="2026-05-20">
+      </div>
+      <div class="gbd-field">
+        <label for="dbf-first-frost">Average first fall frost</label>
+        <input type="date" id="dbf-first-frost" value="2026-09-25">
+      </div>
+      <div class="gbd-field">
+        <label for="dbf-plant-date">Outdoor planting date</label>
+        <input type="date" id="dbf-plant-date" value="2026-06-01">
+        <div class="gbd-help">Use your realistic planting-out date, not the last frost date if soil is still cold.</div>
+      </div>
+    </div>
+
+    <div class="gbd-grid three" style="margin-top:1rem;">
+      <div class="gbd-field">
+        <label for="dbf-presprout">Pre-sprouting / potting up</label>
+        <select id="dbf-presprout">
+          <option value="0">No pre-sprouting</option>
+          <option value="10">Pre-sprouted — modest head start</option>
+          <option value="18" selected>Potted up indoors — strong head start</option>
+          <option value="25">Greenhouse-grown transplant</option>
+        </select>
+      </div>
+      <div class="gbd-field">
+        <label for="dbf-pinch">Pinching choice</label>
+        <select id="dbf-pinch">
+          <option value="0">Do not pinch</option>
+          <option value="7" selected>Pinch once — +7 days to bloom</option>
+          <option value="12">Late/heavy pinch — +12 days</option>
+        </select>
+      </div>
+      <div class="gbd-field">
+        <label for="dbf-protection">Fall protection</label>
+        <select id="dbf-protection">
+          <option value="0" selected>None</option>
+          <option value="7">Light frost cloth — +1 week</option>
+          <option value="14">Tunnel / strong protection — +2 weeks</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="gbd-grid three" style="margin-top:1rem;">
+      <div class="gbd-field">
+        <label for="dbf-stems-week">Expected stems per plant per week once blooming</label>
+        <input type="number" id="dbf-stems-week" min="0.2" max="10" step="0.1" value="2.2">
+        <div class="gbd-help">A planning estimate; update with your own harvest records later.</div>
+      </div>
+      <div class="gbd-field">
+        <label for="dbf-cull">Cull / short stem rate</label>
+        <select id="dbf-cull">
+          <option value="0.1">10%</option>
+          <option value="0.2" selected>20%</option>
+          <option value="0.3">30%</option>
+          <option value="0.4">40%</option>
+        </select>
+      </div>
+      <div class="gbd-field">
+        <label for="dbf-min-weeks">Minimum worthwhile bloom weeks</label>
+        <input type="number" id="dbf-min-weeks" min="1" max="12" step="1" value="5">
+      </div>
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="dbf-varieties-title">
+    <h2 id="dbf-varieties-title">2. Compare dahlia varieties</h2>
+    <p class="muted">Use catalog days-to-bloom if available. If not, 85–100 days is a reasonable testing range for many dahlias, with some late dinnerplates taking longer.</p>
+    <div class="gbd-table-wrap gbd-input-table">
+      <table aria-label="Dahlia variety comparison inputs">
+        <thead>
+          <tr>
+            <th>Use</th>
+            <th>Variety</th>
+            <th>Type</th>
+            <th>Days to first bloom</th>
+            <th>Plants / tubers</th>
+            <th>Tuber cost</th>
+            <th>Target use</th>
+          </tr>
+        </thead>
+        <tbody id="dbf-variety-rows"></tbody>
+      </table>
+    </div>
+    <div class="gbd-actions" style="margin-top:1rem;">
+      <button class="gbd-button primary" type="button" id="dbf-calc">Check bloom risk</button>
+      <button class="gbd-button" type="button" id="dbf-add">Add blank row</button>
+      <button class="gbd-button" type="button" id="dbf-reset">Reset example</button>
+      <button class="gbd-button" type="button" id="dbf-csv">Download CSV</button>
+      <button class="gbd-button" type="button" onclick="window.print()">Print</button>
+    </div>
+  </section>
+
+  <section class="card" id="dbf-results-card" data-gbd-results tabindex="-1" aria-live="polite" aria-labelledby="dbf-results-title">
+    <h2 id="dbf-results-title">3. Bloom-before-frost readout</h2>
+    <div id="dbf-warning" class="gbd-warning" hidden></div>
+    <div class="gbd-kpis" id="dbf-kpis" style="margin-top:.75rem;"></div>
+    <div class="gbd-grid two" style="margin-top:1rem;">
+      <div class="gbd-panel soft">
+        <h3 style="margin-top:0;">Best bets</h3>
+        <ul class="gbd-summary-list" id="dbf-best"></ul>
+      </div>
+      <div class="gbd-panel soft">
+        <h3 style="margin-top:0;">Action notes</h3>
+        <ul class="gbd-summary-list" id="dbf-notes"></ul>
+      </div>
+    </div>
+    <div class="gbd-table-wrap" style="margin-top:1rem;">
+      <table aria-label="Dahlia bloom before frost results">
+        <thead>
+          <tr>
+            <th>Variety</th>
+            <th>Risk</th>
+            <th>Projected first bloom</th>
+            <th>Effective frost cutoff</th>
+            <th>Bloom weeks</th>
+            <th>Usable stems</th>
+            <th>Cost / usable stem</th>
+            <th>Recommendation</th>
+          </tr>
+        </thead>
+        <tbody id="dbf-results"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>How to interpret dahlia risk</h2>
+    <p>
+      Dahlias are not only “can I grow it?” plants. In short seasons, the better question is “will it bloom long enough to justify the tuber, space, and care?” A late variety that gives two bloom weeks before frost may be a poor production crop even if it technically blooms.
+    </p>
+    <ul class="tight">
+      <li><strong>Good fit:</strong> enough bloom weeks remain after projected first bloom to meet your minimum threshold.</li>
+      <li><strong>Borderline:</strong> likely to bloom, but a cool summer, late planting, or early frost could sharply reduce return.</li>
+      <li><strong>High risk:</strong> projected bloom is too close to frost. Pre-sprout, protect, choose earlier varieties, or skip for production.</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>Model assumptions and limits</h2>
+    <p>
+      This tool is a planning model. It does not account for cultivar-specific vigor, tuber eye strength, soil temperature, storage quality, disease, pest pressure, or current-year weather. Use it to compare buying decisions and planting strategies before spending money on tubers.
+    </p>
+  </section>
+
+  {% set sourceLinksVariant = "dahlia" %}
+  {% set sourceLinksId = "tool-dahlia-bloom-before-frost" %}
+  {% set sourceLinksHeading = "Sources and limits for the Dahlia Bloom-Before-Frost Calculator" %}
+  {% set sourceLinksIntro = "This calculator uses frost-window logic and editable dahlia timing assumptions to estimate bloom weeks before frost. Variety behavior, tuber quality, pinching, soil warmth, and weather can shift the result." %}
+  {% include "components/external-source-links.njk" %}
+
+</section>
+
+<script>
+(function () {
+  const root = document.getElementById("dahlia-frost-tool");
+  if (!root) return;
+
+  const examples = [
+    { use: true, name: "Café au Lait", type: "Dinnerplate", days: 100, plants: 3, cost: 18, useCase: "Premium bouquets" },
+    { use: true, name: "Cornel Bronze", type: "Ball", days: 85, plants: 5, cost: 12, useCase: "Market bouquets" },
+    { use: true, name: "Ivanetti", type: "Ball", days: 85, plants: 4, cost: 10, useCase: "Dark contrast" },
+    { use: true, name: "Bishop of Llandaff", type: "Open-center", days: 80, plants: 2, cost: 9, useCase: "Pollinator / garden" },
+    { use: false, name: "Kelvin Floodlight", type: "Dinnerplate", days: 105, plants: 2, cost: 15, useCase: "Show flowers" },
+    { use: false, name: "", type: "Ball", days: 90, plants: 1, cost: 0, useCase: "" }
+  ];
+
+  const types = ["Ball", "Decorative", "Dinnerplate", "Pompon", "Cactus", "Waterlily", "Collarette", "Open-center", "Unknown"];
+  let rowCount = 0;
+  let lastRows = [];
+
+  function parseDate(id) {
+    const value = document.getElementById(id).value;
+    if (!value) return null;
+    const date = new Date(value + "T12:00:00");
+    return Number.isNaN(date.getTime()) ? null : date;
+  }
+
+  function addDays(date, days) {
+    const d = new Date(date.getTime());
+    d.setDate(d.getDate() + Number(days || 0));
+    return d;
+  }
+
+  function daysBetween(a, b) {
+    return Math.round((b - a) / 86400000);
+  }
+
+  function fmt(date) {
+    if (!date || Number.isNaN(date.getTime())) return "—";
+    return date.toLocaleDateString(undefined, { month: "short", day: "numeric" });
+  }
+
+  function num(value, fallback) {
+    const n = Number(value);
+    return Number.isFinite(n) ? n : fallback;
+  }
+
+  function pill(label, cls) {
+    return '<span class="gbd-pill ' + cls + '">' + label + '</span>';
+  }
+
+  function typeOptions(selected) {
+    return types.map((type) => '<option value="' + type + '"' + (type === selected ? ' selected' : '') + '>' + type + '</option>').join("");
+  }
+
+  function rowHtml(item) {
+    rowCount += 1;
+    return '<tr>' +
+      '<td><input type="checkbox" class="dbf-use" ' + (item.use ? 'checked' : '') + ' aria-label="Use this dahlia variety"></td>' +
+      '<td><input type="text" class="dbf-name" value="' + item.name + '" placeholder="Variety name"></td>' +
+      '<td><select class="dbf-type">' + typeOptions(item.type || "Unknown") + '</select></td>' +
+      '<td><input type="number" class="dbf-days" min="45" max="150" step="1" value="' + item.days + '"></td>' +
+      '<td><input type="number" class="dbf-plants" min="1" max="999" step="1" value="' + item.plants + '"></td>' +
+      '<td><input type="number" class="dbf-cost" min="0" step="0.01" value="' + item.cost + '"></td>' +
+      '<td><input type="text" class="dbf-use-case" value="' + item.useCase + '" placeholder="Bouquets, garden, tuber increase"></td>' +
+    '</tr>';
+  }
+
+  function renderRows() {
+    document.getElementById("dbf-variety-rows").innerHTML = examples.map(rowHtml).join("");
+  }
+
+  function collect() {
+    return Array.from(document.querySelectorAll("#dbf-variety-rows tr")).map((row) => ({
+      use: row.querySelector(".dbf-use").checked,
+      name: row.querySelector(".dbf-name").value.trim() || "Unnamed dahlia",
+      type: row.querySelector(".dbf-type").value,
+      days: Math.max(45, num(row.querySelector(".dbf-days").value, 90)),
+      plants: Math.max(1, num(row.querySelector(".dbf-plants").value, 1)),
+      cost: Math.max(0, num(row.querySelector(".dbf-cost").value, 0)),
+      useCase: row.querySelector(".dbf-use-case").value.trim()
+    })).filter((item) => item.use);
+  }
+
+  function recommendation(cls, weeks, minWeeks) {
+    if (cls === "good") return "Good candidate. Keep or expand if it matches your market/use.";
+    if (cls === "warn") return "Borderline. Pre-sprout, plant warm, protect early fall, or grow for personal use first.";
+    return "High risk. Choose earlier varieties unless this is a must-have specialty bloom.";
+  }
+
+  function calculate() {
+    const lastFrost = parseDate("dbf-last-frost");
+    const firstFrost = parseDate("dbf-first-frost");
+    const plantDate = parseDate("dbf-plant-date");
+    const presprout = num(document.getElementById("dbf-presprout").value, 0);
+    const pinch = num(document.getElementById("dbf-pinch").value, 0);
+    const protection = num(document.getElementById("dbf-protection").value, 0);
+    const stemsWeek = Math.max(0.1, num(document.getElementById("dbf-stems-week").value, 2.2));
+    const cull = num(document.getElementById("dbf-cull").value, 0.2);
+    const minWeeks = Math.max(1, num(document.getElementById("dbf-min-weeks").value, 5));
+    const rows = collect();
+    const warning = document.getElementById("dbf-warning");
+
+    if (!lastFrost || !firstFrost || !plantDate || firstFrost <= lastFrost || !rows.length) {
+      warning.hidden = false;
+      warning.textContent = "Enter valid dates and select at least one variety.";
+      return;
+    }
+
+    warning.hidden = true;
+    const effectiveFrost = addDays(firstFrost, protection);
+    const seasonDays = daysBetween(plantDate, effectiveFrost);
+
+    lastRows = rows.map((item) => {
+      const adjustedDays = Math.max(35, item.days - presprout + pinch);
+      const firstBloom = addDays(plantDate, adjustedDays);
+      const bloomDays = Math.max(0, daysBetween(firstBloom, effectiveFrost));
+      const bloomWeeks = Math.round((bloomDays / 7) * 10) / 10;
+      const usableStems = Math.max(0, Math.floor(bloomWeeks * stemsWeek * item.plants * (1 - cull)));
+      const totalCost = item.cost * item.plants;
+      const costPerStem = usableStems > 0 && totalCost > 0 ? totalCost / usableStems : null;
+      let risk = "Good fit";
+      let cls = "good";
+      if (bloomWeeks < Math.max(2, minWeeks * 0.45)) {
+        risk = "High risk";
+        cls = "bad";
+      } else if (bloomWeeks < minWeeks) {
+        risk = "Borderline";
+        cls = "warn";
+      }
+      return { item, adjustedDays, firstBloom, effectiveFrost, bloomWeeks, usableStems, costPerStem, risk, cls, recommendation: recommendation(cls, bloomWeeks, minWeeks) };
+    });
+
+    const totalPlants = lastRows.reduce((sum, row) => sum + row.item.plants, 0);
+    const totalStems = lastRows.reduce((sum, row) => sum + row.usableStems, 0);
+    const good = lastRows.filter((row) => row.cls === "good").length;
+    const bad = lastRows.filter((row) => row.cls === "bad").length;
+    const best = lastRows.slice().sort((a, b) => b.bloomWeeks - a.bloomWeeks).slice(0, 4);
+
+    document.getElementById("dbf-kpis").innerHTML = [
+      { label: "Effective season after planting", value: seasonDays + " days" },
+      { label: "Varieties checked", value: lastRows.length },
+      { label: "Good-fit varieties", value: good },
+      { label: "High-risk varieties", value: bad },
+      { label: "Total plants / tubers", value: totalPlants },
+      { label: "Estimated usable stems", value: totalStems.toLocaleString() }
+    ].map((item) => '<div class="gbd-kpi"><span class="label">' + item.label + '</span><span class="value">' + item.value + '</span></div>').join("");
+
+    document.getElementById("dbf-best").innerHTML = best.map((row) => '<li><strong>' + row.item.name + '</strong>: about ' + row.bloomWeeks + ' bloom weeks, first bloom around ' + fmt(row.firstBloom) + '.</li>').join("");
+
+    const notes = [];
+    if (presprout >= 18) notes.push("Your pre-sprouting assumption creates a meaningful head start. Without it, late varieties may shift risk categories.");
+    if (pinch > 0) notes.push("Pinching delays first bloom in this model, but can improve branching and total later stems.");
+    if (protection > 0) notes.push("Fall protection extends the effective cutoff, but it does not create summer heat. Borderline varieties still need a strong start.");
+    if (bad) notes.push("High-risk varieties should be treated as specialty/personal flowers unless you can start earlier or protect later.");
+    if (!notes.length) notes.push("Most selected varieties look workable under these assumptions. Compare against your own harvest records after the season.");
+    document.getElementById("dbf-notes").innerHTML = notes.map((note) => '<li>' + note + '</li>').join("");
+
+    document.getElementById("dbf-results").innerHTML = lastRows.map((row) => {
+      return '<tr>' +
+        '<td><strong>' + row.item.name + '</strong><br><span class="muted">' + row.item.type + (row.item.useCase ? ' · ' + row.item.useCase : '') + '</span></td>' +
+        '<td>' + pill(row.risk, row.cls) + '</td>' +
+        '<td>' + fmt(row.firstBloom) + '<br><span class="muted">' + row.adjustedDays + ' adjusted days</span></td>' +
+        '<td>' + fmt(row.effectiveFrost) + '</td>' +
+        '<td>' + row.bloomWeeks + '</td>' +
+        '<td>' + row.usableStems.toLocaleString() + '</td>' +
+        '<td>' + (row.costPerStem == null ? '—' : '$' + row.costPerStem.toFixed(2)) + '</td>' +
+        '<td>' + row.recommendation + '</td>' +
+      '</tr>';
+    }).join("");
+  }
+
+  function addBlank() {
+    document.getElementById("dbf-variety-rows").insertAdjacentHTML("beforeend", rowHtml({ use: true, name: "", type: "Unknown", days: 90, plants: 1, cost: 0, useCase: "" }));
+  }
+
+  function reset() {
+    renderRows();
+    calculate();
+  }
+
+  function csvEscape(value) {
+    return '"' + String(value == null ? "" : value).replace(/"/g, '""') + '"';
+  }
+
+  function downloadCsv() {
+    if (!lastRows.length) calculate();
+    const header = ["Variety", "Type", "Risk", "Projected first bloom", "Effective frost cutoff", "Bloom weeks", "Usable stems", "Cost per usable stem", "Recommendation"];
+    const lines = [header.map(csvEscape).join(",")].concat(lastRows.map((row) => [row.item.name, row.item.type, row.risk, fmt(row.firstBloom), fmt(row.effectiveFrost), row.bloomWeeks, row.usableStems, row.costPerStem == null ? "" : row.costPerStem.toFixed(2), row.recommendation].map(csvEscape).join(",")));
+    const blob = new Blob([lines.join("\n")], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "dahlia-bloom-before-frost.csv";
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  renderRows();
+
+  const dbfResultsCard = document.getElementById("dbf-results-card");
+
+  function dbfScrollToResults() {
+    if (!dbfResultsCard) return;
+    const header = document.querySelector(".siteHeader");
+    const headerOffset = header ? Math.ceil(header.getBoundingClientRect().height) : 0;
+    const top = dbfResultsCard.getBoundingClientRect().top + window.scrollY - headerOffset - 16;
+    const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.scrollTo({ top: Math.max(0, top), behavior: reduceMotion ? "auto" : "smooth" });
+    window.setTimeout(() => {
+      try { dbfResultsCard.focus({ preventScroll: true }); } catch (error) {}
+    }, reduceMotion ? 0 : 350);
+  }
+  document.getElementById("dbf-calc").addEventListener("click", () => { calculate(); dbfScrollToResults(); });
+  document.getElementById("dbf-add").addEventListener("click", addBlank);
+  document.getElementById("dbf-reset").addEventListener("click", reset);
+  document.getElementById("dbf-csv").addEventListener("click", downloadCsv);
+  root.addEventListener("change", (event) => {
+    if (event.target.closest("input, select")) calculate();
+  });
+  calculate();
+})();
+</script>

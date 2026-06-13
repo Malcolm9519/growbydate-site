@@ -1,0 +1,482 @@
+<section class="gbd-tool" id="seed-reality-tool">
+  <section class="card">
+    <span class="gbd-kicker">Free seed buying and sowing decision tool</span>
+    <p class="lede">
+      Seed packets make maturity sound simple, but days-to-maturity only helps when you compare it against your frost window, planting method, crop profile, and seasonal slowdown. Use this checker before buying or sowing long-season varieties.
+    </p>
+    <p class="muted">
+      This tool is not a replacement for the Growing Degree Day planner. It is a quick “reality check” for packet labels, seed orders, and variety comparisons. Choose a crop profile to auto-fill the assumptions, then use the variety field for the exact packet name you want to test.
+    </p>
+  </section>
+
+  <section class="card" aria-labelledby="spr-settings-title">
+    <h2 id="spr-settings-title">1. Season assumptions</h2>
+    <div class="gbd-grid three">
+      <div class="gbd-field">
+        <label for="spr-last-frost">Average last spring frost</label>
+        <input type="date" id="spr-last-frost" value="2026-05-20">
+      </div>
+      <div class="gbd-field">
+        <label for="spr-first-frost">Average first fall frost</label>
+        <input type="date" id="spr-first-frost" value="2026-09-25">
+      </div>
+      <div class="gbd-field">
+        <label for="spr-safety">Safety buffer before frost</label>
+        <select id="spr-safety">
+          <option value="0">No buffer</option>
+          <option value="7">7 days</option>
+          <option value="14" selected>14 days</option>
+          <option value="21">21 days</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="gbd-grid three" style="margin-top:1rem;">
+      <div class="gbd-field">
+        <label for="spr-fall-slowdown">Fall slowdown factor</label>
+        <select id="spr-fall-slowdown">
+          <option value="1">None — packet days as written</option>
+          <option value="1.12" selected>Normal — add 12% to late plantings</option>
+          <option value="1.25">Cool fall — add 25% to late plantings</option>
+          <option value="1.40">Very conservative — add 40%</option>
+        </select>
+        <div class="gbd-help">Applied when a planting date is after mid-summer.</div>
+      </div>
+      <div class="gbd-field">
+        <label for="spr-protection">Season extension</label>
+        <select id="spr-protection">
+          <option value="0" selected>None</option>
+          <option value="7">Light row cover — +7 days</option>
+          <option value="14">Low tunnel / cold frame — +14 days</option>
+          <option value="21">Protected tunnel — +21 days</option>
+        </select>
+      </div>
+      <div class="gbd-field">
+        <label for="spr-today">Reference date for “already late?”</label>
+        <input type="date" id="spr-today">
+      </div>
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="spr-packets-title">
+    <h2 id="spr-packets-title">2. Enter seed packets or varieties</h2>
+    <p class="muted">
+      The crop profile controls the default category, warmth need, starting method, and typical packet days. The variety field is for the exact seed packet name, cultivar, or note. You can override packet days, method, date, and warmth need after choosing a profile.
+    </p>
+    <div class="gbd-table-wrap gbd-input-table">
+      <table aria-label="Seed packet reality checker inputs">
+        <thead>
+          <tr>
+            <th>Use</th>
+            <th>Crop profile</th>
+            <th>Variety / packet name</th>
+            <th>Packet days</th>
+            <th>Method</th>
+            <th>Sow / transplant date</th>
+            <th>Warmth need</th>
+          </tr>
+        </thead>
+        <tbody id="spr-packet-rows"></tbody>
+      </table>
+    </div>
+    <div class="gbd-actions" style="margin-top:1rem;">
+      <button class="gbd-button primary" type="button" id="spr-calc">Check packets</button>
+      <button class="gbd-button" type="button" id="spr-add">Add blank row</button>
+      <button class="gbd-button" type="button" id="spr-reset">Reset example</button>
+      <button class="gbd-button" type="button" id="spr-csv">Download CSV</button>
+      <button class="gbd-button" type="button" onclick="window.print()">Print</button>
+    </div>
+  </section>
+
+  <section class="card" id="spr-results-card" data-gbd-results tabindex="-1" aria-live="polite" aria-labelledby="spr-results-title">
+    <h2 id="spr-results-title">3. Reality check results</h2>
+    <div id="spr-warning" class="gbd-warning" hidden></div>
+    <div class="gbd-kpis" id="spr-kpis" style="margin-top:.75rem;"></div>
+    <div class="gbd-grid two" style="margin-top:1rem;">
+      <div class="gbd-panel soft">
+        <h3 style="margin-top:0;">Decision summary</h3>
+        <ul class="gbd-summary-list" id="spr-summary"></ul>
+      </div>
+      <div class="gbd-panel soft">
+        <h3 style="margin-top:0;">How to improve risky packets</h3>
+        <ul class="gbd-summary-list">
+          <li>Choose a faster variety with fewer packet days.</li>
+          <li>Start indoors or buy transplants for long-season crops.</li>
+          <li>Use season extension for frost-sensitive borderline crops.</li>
+          <li>For fall crops, add margin because cool nights stretch maturity.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="gbd-table-wrap" style="margin-top:1rem;">
+      <table aria-label="Seed packet reality checker results">
+        <thead>
+          <tr>
+            <th>Crop profile / variety</th>
+            <th>Decision</th>
+            <th>Adjusted maturity</th>
+            <th>Projected harvest</th>
+            <th>Deadline with buffer</th>
+            <th>Margin</th>
+            <th>Latest safe sow/transplant</th>
+            <th>Recommendation</th>
+          </tr>
+        </thead>
+        <tbody id="spr-results"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>What this tool is good for</h2>
+    <ul class="tight">
+      <li><strong>Seed shopping:</strong> compare “75 day” vs “95 day” varieties before you buy.</li>
+      <li><strong>Short-season crops:</strong> flag melons, peppers, squash, long-season tomatoes, onions, leeks, and late flowers.</li>
+      <li><strong>Fall planting:</strong> account for slower late-season growth instead of trusting packet days literally.</li>
+      <li><strong>Transplant decisions:</strong> see whether buying starts makes more sense than direct sowing.</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>Model assumptions and limits</h2>
+    <p>
+      Packet days are not standardized across seed companies. Some count from direct sowing, some from transplant, and some assume warm, ideal field conditions. This calculator treats packet days as a planning input and layers on profile defaults, buffer, protection, and fall slowdown. For heat-sensitive crops, confirm borderline decisions with the <a href="/tools/growing-degree-day-planner/">Growing Degree Day Garden Calculator</a>.
+    </p>
+    <p>
+      The crop profile is a shortcut, not a variety database. If your seed packet gives a different maturity number or starting method, override the default fields and trust your packet or grower records.
+    </p>
+  </section>
+
+  {% set sourceLinksVariant = "seed-packet" %}
+  {% set sourceLinksId = "tool-seed-packet-reality-checker" %}
+  {% set sourceLinksHeading = "Sources and limits for the Seed Packet Reality Checker" %}
+  {% set sourceLinksIntro = "This checker combines public frost, degree-day, soil-temperature, and seed-starting concepts with editable crop-profile defaults. Packet days and crop profiles are planning assumptions, not guarantees." %}
+  {% include "components/external-source-links.njk" %}
+</section>
+
+<script>
+(function () {
+  const root = document.getElementById("seed-reality-tool");
+  if (!root) return;
+
+  const methods = ["Direct sow", "Transplant", "Indoor start then transplant", "Buy transplant"];
+  const warmth = ["Cool-season", "Flexible", "Warm-season", "Heat-loving"];
+
+  const cropProfiles = [
+    { key: "custom", label: "Custom / other", category: "Other", days: 70, method: "Direct sow", warmth: "Flexible", note: "Use when a crop is not listed; override the assumptions manually." },
+    { key: "tomato", label: "Tomato", category: "Vegetable", days: 70, method: "Transplant", warmth: "Warm-season", note: "Usually counted from transplant; long-season slicers and paste tomatoes may need more time." },
+    { key: "pepper", label: "Pepper", category: "Vegetable", days: 75, method: "Transplant", warmth: "Heat-loving", note: "Heat-loving and often slow in cool summers; transplants are usually required in short seasons." },
+    { key: "eggplant", label: "Eggplant", category: "Vegetable", days: 75, method: "Transplant", warmth: "Heat-loving", note: "Warm soil and warm nights matter; borderline in cool climates." },
+    { key: "watermelon", label: "Watermelon", category: "Vegetable", days: 80, method: "Transplant", warmth: "Heat-loving", note: "Use faster varieties and warm planting conditions in short seasons." },
+    { key: "melon", label: "Melon / cantaloupe", category: "Vegetable", days: 80, method: "Transplant", warmth: "Heat-loving", note: "Often needs transplants and warm soil to finish before frost." },
+    { key: "cucumber", label: "Cucumber", category: "Vegetable", days: 58, method: "Direct sow", warmth: "Warm-season", note: "Fast enough for many short seasons if planted after frost." },
+    { key: "zucchini", label: "Zucchini / summer squash", category: "Vegetable", days: 52, method: "Direct sow", warmth: "Warm-season", note: "Fast crop; late plantings can still work with enough frost margin." },
+    { key: "winter-squash", label: "Winter squash", category: "Vegetable", days: 100, method: "Direct sow", warmth: "Warm-season", note: "Storage squash often needs a long, warm season." },
+    { key: "pumpkin", label: "Pumpkin", category: "Vegetable", days: 100, method: "Direct sow", warmth: "Warm-season", note: "Large pumpkins and carving types often need extra margin." },
+    { key: "corn", label: "Sweet corn", category: "Vegetable", days: 78, method: "Direct sow", warmth: "Warm-season", note: "Needs warm soil and enough heat accumulation, not just calendar days." },
+    { key: "beans", label: "Beans", category: "Vegetable", days: 55, method: "Direct sow", warmth: "Warm-season", note: "Bush beans can work well in short windows; pole beans may need more time." },
+    { key: "peas", label: "Peas", category: "Vegetable", days: 60, method: "Direct sow", warmth: "Cool-season", note: "Best in cool spring or late-summer windows; heat can shorten harvest." },
+    { key: "carrot", label: "Carrot", category: "Vegetable", days: 75, method: "Direct sow", warmth: "Cool-season", note: "Fall carrots need extra margin because growth slows as days shorten." },
+    { key: "beet", label: "Beet", category: "Vegetable", days: 55, method: "Direct sow", warmth: "Cool-season", note: "Generally forgiving, especially for baby harvests." },
+    { key: "lettuce", label: "Lettuce", category: "Vegetable", days: 45, method: "Direct sow", warmth: "Cool-season", note: "Baby-leaf harvests are faster than full heads." },
+    { key: "spinach", label: "Spinach", category: "Vegetable", days: 45, method: "Direct sow", warmth: "Cool-season", note: "Good fall candidate but slows sharply in cold, dark conditions." },
+    { key: "kale", label: "Kale", category: "Vegetable", days: 55, method: "Direct sow", warmth: "Cool-season", note: "Baby harvests are faster; mature bunching kale needs more time." },
+    { key: "broccoli", label: "Broccoli", category: "Vegetable", days: 70, method: "Transplant", warmth: "Cool-season", note: "Usually easier from transplants than direct sowing in short seasons." },
+    { key: "cabbage", label: "Cabbage", category: "Vegetable", days: 75, method: "Transplant", warmth: "Cool-season", note: "Short-season varieties matter for fall heads." },
+    { key: "onion", label: "Onion", category: "Vegetable", days: 105, method: "Indoor start then transplant", warmth: "Flexible", note: "Day-length compatibility and early starting matter as much as packet days." },
+    { key: "leek", label: "Leek", category: "Vegetable", days: 110, method: "Indoor start then transplant", warmth: "Flexible", note: "Long-season crop; baby leeks are more realistic in short summers." },
+    { key: "basil", label: "Basil", category: "Herb", days: 65, method: "Transplant", warmth: "Warm-season", note: "Frost-sensitive; benefits from warmth after transplanting." },
+    { key: "cilantro", label: "Cilantro", category: "Herb", days: 45, method: "Direct sow", warmth: "Cool-season", note: "Best in cool windows; heat can trigger bolting before full harvest." },
+    { key: "dill", label: "Dill", category: "Herb", days: 50, method: "Direct sow", warmth: "Flexible", note: "Usually direct sown; succession plantings help keep usable foliage." },
+    { key: "zinnia", label: "Zinnia", category: "Cut flower", days: 75, method: "Direct sow", warmth: "Warm-season", note: "Strong short-season cut flower if started after frost or transplanted." },
+    { key: "sunflower", label: "Sunflower", category: "Cut flower", days: 65, method: "Direct sow", warmth: "Warm-season", note: "One-cut successions need repeated sowings." },
+    { key: "cosmos", label: "Cosmos", category: "Cut flower", days: 75, method: "Transplant", warmth: "Warm-season", note: "Can be late in cool summers; transplants improve odds." },
+    { key: "dahlia", label: "Dahlia", category: "Cut flower", days: 90, method: "Transplant", warmth: "Warm-season", note: "Expensive and frost-sensitive; compare bloom weeks before buying tubers." },
+    { key: "lisianthus", label: "Lisianthus", category: "Cut flower", days: 150, method: "Indoor start then transplant", warmth: "Flexible", note: "Very slow crop; best handled as plugs or very early starts." },
+    { key: "snapdragon", label: "Snapdragon", category: "Cut flower", days: 110, method: "Indoor start then transplant", warmth: "Cool-season", note: "Cool-tolerant but slow; start early." },
+    { key: "celosia", label: "Celosia", category: "Cut flower", days: 85, method: "Transplant", warmth: "Heat-loving", note: "Needs heat and usually dislikes cold transplant conditions." },
+    { key: "stock", label: "Stock", category: "Cut flower", days: 90, method: "Transplant", warmth: "Cool-season", note: "Cool-season one-cut flower; start early for short seasons." },
+    { key: "calendula", label: "Calendula", category: "Cut flower", days: 55, method: "Direct sow", warmth: "Cool-season", note: "Relatively forgiving and useful in cool shoulder seasons." },
+    { key: "sweet-pea", label: "Sweet pea", category: "Cut flower", days: 90, method: "Indoor start then transplant", warmth: "Cool-season", note: "Cool-season crop; hot summers reduce performance." }
+  ];
+
+  const profileByKey = Object.fromEntries(cropProfiles.map((profile) => [profile.key, profile]));
+  const examples = [
+    { use: true, profile: "watermelon", variety: "short-season", days: 80, method: "Transplant", date: "2026-06-05", warmth: "Heat-loving" },
+    { use: true, profile: "tomato", variety: "early slicer", days: 65, method: "Transplant", date: "2026-06-01", warmth: "Warm-season" },
+    { use: true, profile: "pepper", variety: "bell", days: 75, method: "Transplant", date: "2026-06-01", warmth: "Heat-loving" },
+    { use: true, profile: "zinnia", variety: "Benary type", days: 75, method: "Direct sow", date: "2026-06-10", warmth: "Warm-season" },
+    { use: true, profile: "carrot", variety: "storage", days: 75, method: "Direct sow", date: "2026-07-15", warmth: "Cool-season" },
+    { use: true, profile: "spinach", variety: "fall crop", days: 45, method: "Direct sow", date: "2026-08-10", warmth: "Cool-season" },
+    { use: false, profile: "winter-squash", variety: "storage", days: 105, method: "Direct sow", date: "2026-06-10", warmth: "Warm-season" },
+    { use: false, profile: "custom", variety: "", days: 70, method: "Direct sow", date: "2026-06-15", warmth: "Flexible" }
+  ];
+  let lastRows = [];
+
+  function esc(value) {
+    return String(value == null ? "" : value).replace(/[&<>"']/g, (char) => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;"
+    }[char]));
+  }
+
+  function options(list, selected) {
+    return list.map((item) => '<option value="' + esc(item) + '"' + (item === selected ? ' selected' : '') + '>' + esc(item) + '</option>').join("");
+  }
+
+  function profileOptions(selected) {
+    return cropProfiles.map((profile) => '<option value="' + esc(profile.key) + '"' + (profile.key === selected ? ' selected' : '') + '>' + esc(profile.label) + '</option>').join("");
+  }
+
+  function getProfile(key) {
+    return profileByKey[key] || profileByKey.custom;
+  }
+
+  function parseDateValue(value) {
+    if (!value) return null;
+    const date = new Date(value + "T12:00:00");
+    return Number.isNaN(date.getTime()) ? null : date;
+  }
+
+  function parseDate(id) {
+    return parseDateValue(document.getElementById(id).value);
+  }
+
+  function addDays(date, days) {
+    const d = new Date(date.getTime());
+    d.setDate(d.getDate() + Number(days || 0));
+    return d;
+  }
+
+  function daysBetween(a, b) {
+    return Math.round((b - a) / 86400000);
+  }
+
+  function fmt(date) {
+    if (!date || Number.isNaN(date.getTime())) return "—";
+    return date.toLocaleDateString(undefined, { month: "short", day: "numeric" });
+  }
+
+  function num(value, fallback) {
+    const n = Number(value);
+    return Number.isFinite(n) ? n : fallback;
+  }
+
+  function pill(label, cls) {
+    return '<span class="gbd-pill ' + esc(cls) + '">' + esc(label) + '</span>';
+  }
+
+  function rowHtml(item) {
+    const profile = getProfile(item.profile);
+    const selectedProfile = profile.key;
+    const days = item.days == null ? profile.days : item.days;
+    const method = item.method || profile.method;
+    const warmthNeed = item.warmth || profile.warmth;
+    return '<tr>' +
+      '<td><input type="checkbox" class="spr-use" ' + (item.use ? 'checked' : '') + ' aria-label="Use this seed packet"></td>' +
+      '<td><select class="spr-profile" aria-label="Crop profile">' + profileOptions(selectedProfile) + '</select><div class="gbd-help spr-profile-note">' + esc(profile.category) + '</div></td>' +
+      '<td><input type="text" class="spr-variety" value="' + esc(item.variety || "") + '" placeholder="Variety, cultivar, or packet note"></td>' +
+      '<td><input type="number" class="spr-days" min="10" max="220" step="1" value="' + esc(days) + '"></td>' +
+      '<td><select class="spr-method">' + options(methods, method) + '</select></td>' +
+      '<td><input type="date" class="spr-date" value="' + esc(item.date || "2026-06-15") + '"></td>' +
+      '<td><select class="spr-warmth">' + options(warmth, warmthNeed) + '</select></td>' +
+    '</tr>';
+  }
+
+  function renderRows() {
+    document.getElementById("spr-packet-rows").innerHTML = examples.map(rowHtml).join("");
+  }
+
+  function updateProfileNote(row) {
+    const profile = getProfile(row.querySelector(".spr-profile").value);
+    const note = row.querySelector(".spr-profile-note");
+    if (note) note.textContent = profile.category;
+  }
+
+  function applyProfile(row) {
+    const profile = getProfile(row.querySelector(".spr-profile").value);
+    updateProfileNote(row);
+    if (profile.key === "custom") return;
+    row.querySelector(".spr-days").value = profile.days;
+    row.querySelector(".spr-method").value = profile.method;
+    row.querySelector(".spr-warmth").value = profile.warmth;
+  }
+
+  function displayName(packet) {
+    if (packet.profile.key === "custom") return packet.variety || "Custom packet";
+    return packet.variety ? packet.profile.label + " — " + packet.variety : packet.profile.label;
+  }
+
+  function collect() {
+    return Array.from(document.querySelectorAll("#spr-packet-rows tr")).map((row) => {
+      const profile = getProfile(row.querySelector(".spr-profile").value);
+      const variety = row.querySelector(".spr-variety").value.trim();
+      return {
+        use: row.querySelector(".spr-use").checked,
+        profile,
+        variety,
+        name: displayName({ profile, variety }),
+        category: profile.category,
+        days: Math.max(10, num(row.querySelector(".spr-days").value, profile.days || 70)),
+        method: row.querySelector(".spr-method").value,
+        plantDate: parseDateValue(row.querySelector(".spr-date").value),
+        warmth: row.querySelector(".spr-warmth").value,
+        note: profile.note
+      };
+    }).filter((item) => item.use);
+  }
+
+  function warmthPenalty(warmthNeed, plantDate, lastFrost) {
+    if (!plantDate || !lastFrost) return 0;
+    const afterLastFrost = daysBetween(lastFrost, plantDate);
+    if (warmthNeed === "Heat-loving" && afterLastFrost < 21) return 10;
+    if (warmthNeed === "Warm-season" && afterLastFrost < 14) return 6;
+    if (warmthNeed === "Cool-season" && afterLastFrost > 80) return 5;
+    return 0;
+  }
+
+  function calculate() {
+    const lastFrost = parseDate("spr-last-frost");
+    const firstFrost = parseDate("spr-first-frost");
+    const today = parseDate("spr-today");
+    const safety = num(document.getElementById("spr-safety").value, 14);
+    const protection = num(document.getElementById("spr-protection").value, 0);
+    const slowdown = num(document.getElementById("spr-fall-slowdown").value, 1.12);
+    const packets = collect();
+    const warning = document.getElementById("spr-warning");
+
+    if (!lastFrost || !firstFrost || firstFrost <= lastFrost || !packets.length) {
+      warning.hidden = false;
+      warning.textContent = "Enter valid frost dates and at least one seed packet row.";
+      return;
+    }
+
+    warning.hidden = true;
+    const effectiveDeadline = addDays(firstFrost, protection - safety);
+    const midSummer = addDays(lastFrost, Math.round(daysBetween(lastFrost, firstFrost) * 0.55));
+
+    lastRows = packets.map((packet) => {
+      const plantDate = packet.plantDate || today || lastFrost;
+      const fallPlanting = plantDate > midSummer;
+      const methodOffset = packet.method === "Buy transplant" ? -7 : 0;
+      const adjustedDays = Math.ceil((packet.days + warmthPenalty(packet.warmth, plantDate, lastFrost) + methodOffset) * (fallPlanting ? slowdown : 1));
+      const projectedHarvest = addDays(plantDate, adjustedDays);
+      const margin = daysBetween(projectedHarvest, effectiveDeadline);
+      const latestSafe = addDays(effectiveDeadline, -adjustedDays);
+      let decision = "Good fit";
+      let cls = "good";
+      let recommendation = "Looks realistic under these assumptions.";
+      if (margin < 0) {
+        decision = "Too risky";
+        cls = "bad";
+        recommendation = "Choose a faster variety, use transplants, start earlier, or treat as experimental.";
+      } else if (margin < 14) {
+        decision = "Borderline";
+        cls = "warn";
+        recommendation = "Add protection or build more margin. A normal early frost could erase this window.";
+      }
+      if (packet.profile.key !== "custom" && packet.note) {
+        recommendation += " Profile note: " + packet.note;
+      }
+      if (today && plantDate < today && decision !== "Too risky") {
+        recommendation += " Note: your entered planting date is already in the past relative to the reference date.";
+      }
+      return { packet, plantDate, adjustedDays, projectedHarvest, effectiveDeadline, margin, latestSafe, decision, cls, recommendation, fallPlanting };
+    });
+
+    const good = lastRows.filter((row) => row.cls === "good").length;
+    const warn = lastRows.filter((row) => row.cls === "warn").length;
+    const bad = lastRows.filter((row) => row.cls === "bad").length;
+    const seasonDays = daysBetween(lastFrost, firstFrost);
+
+    document.getElementById("spr-kpis").innerHTML = [
+      { label: "Frost-free window", value: seasonDays + " days" },
+      { label: "Safe maturity deadline", value: fmt(effectiveDeadline) },
+      { label: "Good-fit packets", value: good },
+      { label: "Borderline packets", value: warn },
+      { label: "Too risky", value: bad },
+      { label: "Packets checked", value: lastRows.length }
+    ].map((item) => '<div class="gbd-kpi"><span class="label">' + esc(item.label) + '</span><span class="value">' + esc(item.value) + '</span></div>').join("");
+
+    const summary = [];
+    if (bad) summary.push('<strong>' + bad + '</strong> packet(s) project after your safe deadline. These are candidates to swap for faster varieties.');
+    if (warn) summary.push('<strong>' + warn + '</strong> packet(s) are borderline. They may work in a warm year but need margin.');
+    if (good) summary.push('<strong>' + good + '</strong> packet(s) have enough calendar margin under the selected assumptions.');
+    summary.push('The crop profile supplies defaults; packet days, method, date, and warmth need remain editable.');
+    summary.push('The safe deadline is your first frost adjusted by protection and the selected safety buffer.');
+    document.getElementById("spr-summary").innerHTML = summary.map((item) => '<li>' + item + '</li>').join("");
+
+    document.getElementById("spr-results").innerHTML = lastRows.map((row) => {
+      const marginText = row.margin >= 0 ? row.margin + ' days before deadline' : Math.abs(row.margin) + ' days too late';
+      return '<tr>' +
+        '<td><strong>' + esc(row.packet.name) + '</strong><br><span class="muted">' + esc(row.packet.category) + ' · ' + esc(row.packet.method) + ' · ' + esc(row.packet.warmth) + '</span></td>' +
+        '<td>' + pill(row.decision, row.cls) + '</td>' +
+        '<td>' + esc(row.adjustedDays) + ' days' + (row.fallPlanting ? '<br><span class="muted">fall slowdown applied</span>' : '') + '</td>' +
+        '<td>' + esc(fmt(row.projectedHarvest)) + '</td>' +
+        '<td>' + esc(fmt(row.effectiveDeadline)) + '</td>' +
+        '<td>' + esc(marginText) + '</td>' +
+        '<td>' + esc(fmt(row.latestSafe)) + '</td>' +
+        '<td>' + esc(row.recommendation) + '</td>' +
+      '</tr>';
+    }).join("");
+  }
+
+  function addBlank() {
+    document.getElementById("spr-packet-rows").insertAdjacentHTML("beforeend", rowHtml({ use: true, profile: "custom", variety: "", days: 70, method: "Direct sow", date: "2026-06-15", warmth: "Flexible" }));
+  }
+
+  function reset() {
+    renderRows();
+    calculate();
+  }
+
+  function csvEscape(value) {
+    return '"' + String(value == null ? "" : value).replace(/"/g, '""') + '"';
+  }
+
+  function downloadCsv() {
+    if (!lastRows.length) calculate();
+    const header = ["Crop profile", "Variety or packet name", "Category", "Decision", "Adjusted maturity", "Projected harvest", "Deadline", "Margin", "Latest safe sow/transplant", "Recommendation"];
+    const lines = [header.map(csvEscape).join(",")].concat(lastRows.map((row) => [row.packet.profile.label, row.packet.variety, row.packet.category, row.decision, row.adjustedDays, fmt(row.projectedHarvest), fmt(row.effectiveDeadline), row.margin, fmt(row.latestSafe), row.recommendation].map(csvEscape).join(",")));
+    const blob = new Blob([lines.join("\n")], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "seed-packet-reality-check.csv";
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  document.getElementById("spr-today").value = new Date().toISOString().slice(0, 10);
+  renderRows();
+
+  const sprResultsCard = document.getElementById("spr-results-card");
+
+  function sprScrollToResults() {
+    if (!sprResultsCard) return;
+    const header = document.querySelector(".siteHeader");
+    const headerOffset = header ? Math.ceil(header.getBoundingClientRect().height) : 0;
+    const top = sprResultsCard.getBoundingClientRect().top + window.scrollY - headerOffset - 16;
+    const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.scrollTo({ top: Math.max(0, top), behavior: reduceMotion ? "auto" : "smooth" });
+    window.setTimeout(() => {
+      try { sprResultsCard.focus({ preventScroll: true }); } catch (error) {}
+    }, reduceMotion ? 0 : 350);
+  }
+
+  document.getElementById("spr-calc").addEventListener("click", () => { calculate(); sprScrollToResults(); });
+  document.getElementById("spr-add").addEventListener("click", addBlank);
+  document.getElementById("spr-reset").addEventListener("click", reset);
+  document.getElementById("spr-csv").addEventListener("click", downloadCsv);
+  root.addEventListener("change", (event) => {
+    if (event.target.classList && event.target.classList.contains("spr-profile")) {
+      const row = event.target.closest("tr");
+      if (row) applyProfile(row);
+    }
+    if (event.target.closest("input, select")) calculate();
+  });
+  calculate();
+})();
+</script>

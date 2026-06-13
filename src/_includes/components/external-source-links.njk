@@ -76,6 +76,34 @@
       <li><a href="https://extension.oregonstate.edu/gardening/soil-compost/soil-temperature-conditions-vegetable-seed-germination" target="_blank" rel="noopener">Oregon State University Extension: soil temperature conditions for vegetable seed germination</a> — soil-temperature reference for direct seeding.</li>
       <li><a href="/data/methodology/">GrowByDate data methodology</a> — how frost, GDD, and planting-window assumptions are interpreted on this site.</li>
     </ul>
+  {% elseif sourceLinkVariant == "cut-flower-production" %}
+    <ul class="tight sourceLinkList">
+      <li><a href="https://www.johnnyseeds.com/growers-library/online-tools-calculators.html" target="_blank" rel="noopener">Johnny’s Selected Seeds: planting calculators, charts, and spreadsheets</a> — grower planning tools for seed quantities, succession timing, and yield assumptions.</li>
+      <li><a href="https://www.johnnyseeds.com/growers-library/methods-tools-supplies/succession-planting/succession-planting-interval-chart-flowers.html" target="_blank" rel="noopener">Johnny’s Selected Seeds: succession-planting chart for flowers</a> — cut-flower succession interval context.</li>
+      <li><a href="https://extension.umn.edu/small-farms/choosing-plants-your-cut-flower-farm" target="_blank" rel="noopener">University of Minnesota Extension: choosing plants for your cut flower farm</a> — crop-selection context for small flower farms.</li>
+      <li><a href="/data/methodology/">GrowByDate data methodology</a> — how frost boundaries and timing margin are interpreted on this site.</li>
+    </ul>
+  {% elseif sourceLinkVariant == "dahlia" %}
+    <ul class="tight sourceLinkList">
+      <li><a href="https://extension.umn.edu/how/planting-bulbs-tubers-and-rhizomes" target="_blank" rel="noopener">University of Minnesota Extension: planting bulbs, tubers, and rhizomes</a> — tender-bulb and dahlia planting context.</li>
+      <li><a href="https://extension.umn.edu/small-farms/choosing-plants-your-cut-flower-farm" target="_blank" rel="noopener">University of Minnesota Extension: choosing plants for your cut flower farm</a> — cut-flower crop context including dahlias.</li>
+      <li><a href="https://www.ncei.noaa.gov/products/land-based-station/us-climate-normals" target="_blank" rel="noopener">NOAA/NCEI U.S. Climate Normals</a> and <a href="https://climate.weather.gc.ca/climate_normals/" target="_blank" rel="noopener">Environment and Climate Change Canada Climate Normals</a> — frost-date and typical-season context.</li>
+      <li><a href="/data/methodology/">GrowByDate data methodology</a> — how frost boundaries, buffers, and short-season margin are interpreted on this site.</li>
+    </ul>
+  {% elseif sourceLinkVariant == "seed-packet" %}
+    <ul class="tight sourceLinkList">
+      <li><a href="https://extension.umn.edu/planting-and-growing-guides/starting-seeds-indoors" target="_blank" rel="noopener">University of Minnesota Extension: starting seeds indoors</a> — seed-starting and transplant timing context.</li>
+      <li><a href="https://extension.oregonstate.edu/gardening/soil-compost/soil-temperature-conditions-vegetable-seed-germination" target="_blank" rel="noopener">Oregon State University Extension: soil temperature conditions for vegetable seed germination</a> — direct-sowing temperature context.</li>
+      <li><a href="https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/cdus/degree_days/" target="_blank" rel="noopener">NOAA Climate Prediction Center degree day resources</a> — heat-accumulation terminology and reference material.</li>
+      <li><a href="/data/methodology/">GrowByDate data methodology</a> — how frost, GDD, crop timing, and margin are interpreted on this site.</li>
+    </ul>
+  {% elseif sourceLinkVariant == "pollinator-plants" %}
+    <ul class="tight sourceLinkList">
+      <li><a href="https://xerces.org/pollinator-conservation/pollinator-friendly-plant-lists" target="_blank" rel="noopener">Xerces Society: pollinator-friendly native plant lists</a> — regional pollinator plant-list context.</li>
+      <li><a href="https://plants.sc.egov.usda.gov/" target="_blank" rel="noopener">USDA PLANTS Database</a> — U.S. plant names, attributes, and distribution context.</li>
+      <li><a href="https://planthardiness.ars.usda.gov/" target="_blank" rel="noopener">USDA Plant Hardiness Zone Map</a> and <a href="https://planthardiness.gc.ca/" target="_blank" rel="noopener">Natural Resources Canada Plant Hardiness Zones</a> — hardiness-zone context.</li>
+      <li><a href="/data/methodology/">GrowByDate data methodology</a> — how climate-fit signals are interpreted on this site.</li>
+    </ul>
   {% else %}
     <ul class="tight sourceLinkList">
       <li><a href="https://www.ncei.noaa.gov/products/land-based-station/us-climate-normals" target="_blank" rel="noopener">NOAA/NCEI U.S. Climate Normals</a> — U.S. climate-normal and station-reference context.</li>

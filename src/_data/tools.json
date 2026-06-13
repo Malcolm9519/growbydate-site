@@ -3,24 +3,112 @@
     "slug": "seed-start-planner",
     "name": "Seed Starting Calculator: When to Start Seeds Indoors",
     "description": "Generate indoor start, transplant, and direct sow dates based on your last frost.",
-    "order": 1
+    "order": 1,
+    "featureList": [
+      "Indoor seed-start date calculator",
+      "Transplant timing",
+      "Direct-sow timing",
+      "Frost-date based planning"
+    ],
+    "keywords": "seed starting calculator, last frost date, transplant date, direct sow date, garden planning tool"
   },
   {
     "slug": "first-frost-planner",
     "name": "Fall Planting Calculator: Is It Too Late to Plant?",
     "description": "Plan fall planting and harvest timing before your first frost.",
-    "order": 2
+    "order": 2,
+    "featureList": [
+      "Fall planting feasibility check",
+      "First frost timing",
+      "Harvest buffer calculation",
+      "Late-season crop planning"
+    ],
+    "keywords": "fall planting calculator, first frost planner, too late to plant, harvest before frost"
   },
   {
     "slug": "frost-date-finder",
     "name": "Frost Date Calculator (ZIP / Postal Code)",
-    "description": "Look up your average last spring frost and first fall frost dates at the 32°F / 0°C freeze threshold; the baseline used for frost-based planting schedules.",
-    "order": 3
+    "description": "Look up your average last spring frost and first fall frost dates at the 32\u00b0F / 0\u00b0C freeze threshold; the baseline used for frost-based planting schedules.",
+    "order": 3,
+    "featureList": [
+      "ZIP and postal-code frost lookup",
+      "Last spring frost date",
+      "First fall frost date",
+      "Frost-free growing season estimate"
+    ],
+    "keywords": "frost date calculator, last frost date, first frost date, ZIP code, postal code"
   },
   {
     "slug": "growing-degree-day-planner",
-      "name": "Growing Degree Day Garden Calculator: Will Your Crop Mature Before Frost?",
+    "name": "Growing Degree Day Garden Calculator: Will Your Crop Mature Before Frost?",
     "description": "Estimate whether a crop can reach maturity before your typical first frost using climate normals growing degree days (GDD).",
-    "order": 4
+    "order": 4,
+    "featureList": [
+      "Growing degree day estimate",
+      "Crop maturity feasibility check",
+      "Frost margin calculation",
+      "Seasonal heat comparison"
+    ],
+    "keywords": "growing degree day calculator, GDD calculator, crop maturity before frost, short season gardening"
+  },
+  {
+    "slug": "cut-flower-stem-yield-calculator",
+    "name": "Cut Flower Stem Yield Calculator for Short Seasons",
+    "description": "Estimate bouquet stem needs, plants, seed quantities, bed feet, succession waves, and frost-risk gaps for short-season cut flower production.",
+    "order": 5,
+    "featureList": [
+      "Bouquet stem demand calculator",
+      "Cut flower plant quantity estimate",
+      "Succession wave planning",
+      "Bed-foot estimate",
+      "Short-season bloom risk flags",
+      "CSV export"
+    ],
+    "keywords": "cut flower stem yield calculator, flower farm spreadsheet, bouquet production calculator, succession planting flowers, short season cut flowers"
+  },
+  {
+    "slug": "dahlia-bloom-before-frost-calculator",
+    "name": "Dahlia Bloom-Before-Frost Calculator",
+    "description": "Check whether dahlia varieties are likely to bloom long enough before frost, with pre-sprouting, pinching, protection, and stem-yield assumptions.",
+    "order": 6,
+    "featureList": [
+      "Dahlia bloom-before-frost check",
+      "Days-to-bloom comparison",
+      "Pre-sprout and pinching adjustments",
+      "Bloom weeks estimate",
+      "Tuber cost per usable stem estimate",
+      "CSV export"
+    ],
+    "keywords": "dahlia bloom before frost calculator, short season dahlias, dahlia tuber planner, dahlia bloom risk"
+  },
+  {
+    "slug": "seed-packet-reality-checker",
+    "name": "Seed Packet Reality Checker",
+    "description": "Compare seed packet days-to-maturity against your frost window, planting method, fall slowdown, and safety buffer before you buy or sow.",
+    "order": 7,
+    "featureList": [
+      "Crop profile defaults",
+      "Seed packet days-to-maturity check",
+      "Direct-sow and transplant comparison",
+      "Fall slowdown adjustment",
+      "Frost buffer and protection margin",
+      "CSV export"
+    ],
+    "keywords": "seed packet reality checker, days to maturity calculator, will this seed mature before frost, short season seed checker"
+  },
+  {
+    "slug": "climate-fit-pollinator-plant-finder",
+    "name": "Climate-Fit Pollinator Plant Finder",
+    "description": "Filter a pollinator plant matrix by hardiness zone, sun, moisture, height, bloom season, deer pressure, and pollinator goal.",
+    "order": 8,
+    "featureList": [
+      "Pollinator plant matrix",
+      "Hardiness-zone filtering",
+      "Sun and moisture filtering",
+      "Bloom-season matching",
+      "Height and deer-pressure filters",
+      "CSV export"
+    ],
+    "keywords": "pollinator plant finder, climate fit native plants, hardiness zone plant matrix, pollinator garden plant list"
   }
 ]

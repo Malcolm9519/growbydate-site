@@ -1,0 +1,427 @@
+<section class="gbd-tool" id="cut-flower-yield-tool">
+  <section class="card">
+    <span class="gbd-kicker">Free cut flower production tool</span>
+    <p class="lede">
+      Plan backward from bouquet goals, harvest weeks, bed space, and frost dates. This calculator estimates stems needed, plants, seed quantity, bed feet, succession waves, first bloom timing, and short-season risk by crop.
+    </p>
+    <p class="muted">
+      It is intentionally built for cold-climate and short-season growers where the practical question is not only “how many seeds?” but “will these flowers produce enough stems before frost?”
+    </p>
+  </section>
+
+  <section class="card" aria-labelledby="cfs-inputs-title">
+    <h2 id="cfs-inputs-title">1. Set your production goal</h2>
+    <div class="gbd-grid three">
+      <div class="gbd-field">
+        <label for="cfs-last-frost">Average last spring frost</label>
+        <input type="date" id="cfs-last-frost" value="2026-05-20">
+        <div class="gbd-help">Use your local 32°F / 0°C last frost date.</div>
+      </div>
+      <div class="gbd-field">
+        <label for="cfs-first-frost">Average first fall frost</label>
+        <input type="date" id="cfs-first-frost" value="2026-09-25">
+        <div class="gbd-help">This sets the end of your open-field harvest window.</div>
+      </div>
+      <div class="gbd-field">
+        <label for="cfs-space">Usable bed length</label>
+        <input type="number" id="cfs-space" min="1" step="1" value="120">
+        <div class="gbd-help">Total linear bed feet available for annual cut flowers.</div>
+      </div>
+    </div>
+
+    <div class="gbd-grid three" style="margin-top:1rem;">
+      <div class="gbd-field">
+        <label for="cfs-bouquets">Bouquets per week</label>
+        <input type="number" id="cfs-bouquets" min="1" step="1" value="10">
+      </div>
+      <div class="gbd-field">
+        <label for="cfs-stems">Stems per bouquet</label>
+        <input type="number" id="cfs-stems" min="3" step="1" value="18">
+      </div>
+      <div class="gbd-field">
+        <label for="cfs-weeks">Target harvest weeks</label>
+        <input type="number" id="cfs-weeks" min="1" max="24" step="1" value="8">
+      </div>
+    </div>
+
+    <div class="gbd-grid three" style="margin-top:1rem;">
+      <div class="gbd-field">
+        <label for="cfs-waste">Cull / waste rate</label>
+        <select id="cfs-waste">
+          <option value="0.10">Low — 10%</option>
+          <option value="0.18" selected>Normal — 18%</option>
+          <option value="0.25">High — 25%</option>
+          <option value="0.35">Very high — 35%</option>
+        </select>
+      </div>
+      <div class="gbd-field">
+        <label for="cfs-buffer">Extra production buffer</label>
+        <select id="cfs-buffer">
+          <option value="0">None</option>
+          <option value="0.10" selected>10% buffer</option>
+          <option value="0.20">20% buffer</option>
+          <option value="0.30">30% buffer</option>
+        </select>
+      </div>
+      <div class="gbd-field">
+        <label for="cfs-system">Growing system</label>
+        <select id="cfs-system">
+          <option value="intensive" selected>Intensive beds</option>
+          <option value="casual">Casual backyard spacing</option>
+          <option value="tight">Very tight production spacing</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="cfs-crops-title">
+    <h2 id="cfs-crops-title">2. Choose your crop mix</h2>
+    <p class="muted">Select crops and adjust the target stem mix. Percentages do not need to total exactly 100; the calculator normalizes the selected mix.</p>
+    <div class="gbd-table-wrap gbd-input-table">
+      <table aria-label="Cut flower crop mix inputs">
+        <thead>
+          <tr>
+            <th>Use</th>
+            <th>Crop</th>
+            <th>Stem mix %</th>
+            <th>Succession interval</th>
+            <th>Start method</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody id="cfs-crop-rows"></tbody>
+      </table>
+    </div>
+    <div class="gbd-actions" style="margin-top:1rem;">
+      <button class="gbd-button primary" type="button" id="cfs-calc">Calculate stem plan</button>
+      <button class="gbd-button" type="button" id="cfs-reset">Reset example</button>
+      <button class="gbd-button" type="button" id="cfs-copy">Copy summary</button>
+      <button class="gbd-button" type="button" id="cfs-csv">Download CSV</button>
+      <button class="gbd-button" type="button" onclick="window.print()">Print</button>
+    </div>
+  </section>
+
+  <section class="card" id="cfs-results-card" data-gbd-results tabindex="-1" aria-live="polite" aria-labelledby="cfs-results-title">
+    <h2 id="cfs-results-title">3. Production estimate</h2>
+    <div id="cfs-warning" class="gbd-warning" hidden></div>
+    <div class="gbd-kpis" id="cfs-kpis" style="margin-top:.75rem;"></div>
+    <div class="gbd-grid two" style="margin-top:1rem;">
+      <div class="gbd-panel soft">
+        <h3 style="margin-top:0;">Crop mix by target stems</h3>
+        <div class="gbd-bars" id="cfs-bars"></div>
+      </div>
+      <div class="gbd-panel soft">
+        <h3 style="margin-top:0;">Planning readout</h3>
+        <ul class="gbd-summary-list" id="cfs-readout"></ul>
+      </div>
+    </div>
+    <div class="gbd-table-wrap" style="margin-top:1rem;">
+      <table aria-label="Cut flower succession results">
+        <thead>
+          <tr>
+            <th>Crop</th>
+            <th>Risk</th>
+            <th>Target stems</th>
+            <th>Plants</th>
+            <th>Seed / plugs</th>
+            <th>Bed feet</th>
+            <th>Waves</th>
+            <th>Start / sow</th>
+            <th>Transplant</th>
+            <th>First bloom</th>
+            <th>Harvest weeks before frost</th>
+          </tr>
+        </thead>
+        <tbody id="cfs-results"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>How to use this as a small flower farm planning tool</h2>
+    <p>
+      Start with a realistic weekly bouquet target, then watch the bottlenecks: plant count, bed feet, bloom timing, and harvest gaps. If bed feet exceed your space, reduce bouquet count, raise stems per plant by choosing cut-and-come-again crops, or shorten the target harvest period.
+    </p>
+    <ul class="tight">
+      <li><strong>High-stem crops</strong> like zinnias, cosmos, and calendula can carry many mixed bouquets in short seasons.</li>
+      <li><strong>One-cut crops</strong> like sunflowers need repeated waves or they create feast-or-famine harvests.</li>
+      <li><strong>Slow crops</strong> like lisianthus and dahlias may be profitable, but they need earlier starts and more climate margin.</li>
+      <li><strong>Fillers matter.</strong> A bouquet plan that ignores fillers usually underestimates plants and bed space.</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>Model assumptions and limits</h2>
+    <p>
+      This calculator uses typical crop planning assumptions, not a harvest guarantee. Actual yield depends on cultivar, fertility, irrigation, pest pressure, harvest frequency, spacing, stem length standards, and weather. Use it to compare scenarios and build a first production plan, then update assumptions with your own records.
+    </p>
+    <p>
+      Frost dates are planning anchors, not predictions for the current year. If you need a local frost baseline, use the <a href="/tools/frost-date-finder/">Frost Date Finder</a> and return here with your dates.
+    </p>
+  </section>
+
+  {% set sourceLinksVariant = "cut-flower-production" %}
+  {% set sourceLinksId = "tool-cut-flower-stem-yield" %}
+  {% set sourceLinksHeading = "Sources and limits for the Cut Flower Stem Yield Calculator" %}
+  {% set sourceLinksIntro = "This calculator combines frost-window planning, cut-flower succession concepts, and editable crop-yield assumptions. Use the output as a starting estimate, then replace defaults with your own harvest records." %}
+  {% include "components/external-source-links.njk" %}
+
+</section>
+
+<script>
+(function () {
+  const root = document.getElementById("cut-flower-yield-tool");
+  if (!root) return;
+
+  const crops = [
+    { key: "zinnia", name: "Zinnia", role: "focal / color", mix: 22, yield: 8, spacing: 9, rows: 3, bloomDays: 55, startLead: 28, transplantAfter: 7, seedFactor: 1.25, interval: 21, harvestWeeks: 5, method: "Transplant or direct sow", riskDays: 95, note: "Excellent short-season workhorse." },
+    { key: "sunflower", name: "Sunflower", role: "focal", mix: 16, yield: 1.2, spacing: 6, rows: 3, bloomDays: 65, startLead: 14, transplantAfter: 7, seedFactor: 1.15, interval: 10, harvestWeeks: 1.5, method: "Direct sow / plug", riskDays: 90, note: "Mostly one-cut; succession matters." },
+    { key: "cosmos", name: "Cosmos", role: "airy filler", mix: 12, yield: 7, spacing: 12, rows: 2, bloomDays: 75, startLead: 28, transplantAfter: 7, seedFactor: 1.2, interval: 28, harvestWeeks: 5, method: "Transplant", riskDays: 105, note: "Can be late in cool summers." },
+    { key: "snapdragon", name: "Snapdragon", role: "spike", mix: 10, yield: 5, spacing: 6, rows: 4, bloomDays: 110, startLead: 70, transplantAfter: -14, seedFactor: 1.35, interval: 21, harvestWeeks: 4, method: "Early transplant", riskDays: 115, note: "Cool tolerant; start early." },
+    { key: "dahlia", name: "Dahlia", role: "premium focal", mix: 10, yield: 10, spacing: 18, rows: 1, bloomDays: 90, startLead: 28, transplantAfter: 14, seedFactor: 1.05, interval: 0, harvestWeeks: 6, method: "Tuber / transplant", riskDays: 120, note: "High value but late to bloom." },
+    { key: "lisianthus", name: "Lisianthus", role: "premium focal", mix: 8, yield: 4, spacing: 6, rows: 4, bloomDays: 150, startLead: 110, transplantAfter: -21, seedFactor: 1.45, interval: 21, harvestWeeks: 3, method: "Plug / very early start", riskDays: 130, note: "Advanced crop; slow in cold seasons." },
+    { key: "stock", name: "Stock", role: "spike / scent", mix: 7, yield: 1, spacing: 6, rows: 4, bloomDays: 90, startLead: 56, transplantAfter: -14, seedFactor: 1.3, interval: 14, harvestWeeks: 1.5, method: "Cool-season transplant", riskDays: 95, note: "One-cut cool flower." },
+    { key: "celosia", name: "Celosia", role: "texture", mix: 6, yield: 5, spacing: 9, rows: 3, bloomDays: 85, startLead: 42, transplantAfter: 14, seedFactor: 1.25, interval: 21, harvestWeeks: 4, method: "Warm transplant", riskDays: 105, note: "Needs heat after transplant." },
+    { key: "amaranth", name: "Amaranth", role: "texture / trailing", mix: 5, yield: 5, spacing: 12, rows: 2, bloomDays: 75, startLead: 28, transplantAfter: 14, seedFactor: 1.2, interval: 21, harvestWeeks: 4, method: "Warm transplant", riskDays: 100, note: "Useful dramatic filler." },
+    { key: "calendula", name: "Calendula", role: "filler / edible", mix: 4, yield: 7, spacing: 9, rows: 3, bloomDays: 55, startLead: 28, transplantAfter: -7, seedFactor: 1.2, interval: 21, harvestWeeks: 5, method: "Cool direct sow / transplant", riskDays: 80, note: "Forgiving in cool climates." }
+  ];
+
+  const selectedDefaults = new Set(["zinnia", "sunflower", "cosmos", "snapdragon", "dahlia", "calendula"]);
+  const cropRows = document.getElementById("cfs-crop-rows");
+  const resultsBody = document.getElementById("cfs-results");
+  const kpis = document.getElementById("cfs-kpis");
+  const bars = document.getElementById("cfs-bars");
+  const readout = document.getElementById("cfs-readout");
+  const warning = document.getElementById("cfs-warning");
+
+  function parseDate(id) {
+    const value = document.getElementById(id).value;
+    if (!value) return null;
+    const date = new Date(value + "T12:00:00");
+    return Number.isNaN(date.getTime()) ? null : date;
+  }
+
+  function addDays(date, days) {
+    const d = new Date(date.getTime());
+    d.setDate(d.getDate() + Number(days || 0));
+    return d;
+  }
+
+  function daysBetween(a, b) {
+    return Math.round((b - a) / 86400000);
+  }
+
+  function fmt(date) {
+    if (!date || Number.isNaN(date.getTime())) return "—";
+    return date.toLocaleDateString(undefined, { month: "short", day: "numeric" });
+  }
+
+  function num(value, fallback) {
+    const n = Number(value);
+    return Number.isFinite(n) ? n : fallback;
+  }
+
+  function pill(label, cls) {
+    return '<span class="gbd-pill ' + cls + '">' + label + '</span>';
+  }
+
+  function renderCropRows() {
+    cropRows.innerHTML = crops.map((crop) => {
+      const checked = selectedDefaults.has(crop.key) ? "checked" : "";
+      return '<tr data-crop="' + crop.key + '">' +
+        '<td><input type="checkbox" class="cfs-use" ' + checked + ' aria-label="Use ' + crop.name + '"></td>' +
+        '<td><strong>' + crop.name + '</strong><br><span class="muted">' + crop.role + '</span></td>' +
+        '<td><input type="number" class="cfs-mix" min="0" max="100" step="1" value="' + crop.mix + '"></td>' +
+        '<td><input type="number" class="cfs-interval" min="0" max="45" step="1" value="' + crop.interval + '"></td>' +
+        '<td>' + crop.method + '</td>' +
+        '<td class="mutedCell">' + crop.note + '</td>' +
+      '</tr>';
+    }).join("");
+  }
+
+  function cropByKey(key) {
+    return crops.find((crop) => crop.key === key);
+  }
+
+  function collectSelected() {
+    return Array.from(cropRows.querySelectorAll("tr")).map((row) => {
+      const crop = cropByKey(row.dataset.crop);
+      return {
+        crop,
+        use: row.querySelector(".cfs-use").checked,
+        mix: Math.max(0, num(row.querySelector(".cfs-mix").value, crop.mix)),
+        interval: Math.max(0, num(row.querySelector(".cfs-interval").value, crop.interval))
+      };
+    }).filter((item) => item.use && item.mix > 0);
+  }
+
+  function systemMultiplier() {
+    const system = document.getElementById("cfs-system").value;
+    if (system === "casual") return 1.22;
+    if (system === "tight") return 0.9;
+    return 1;
+  }
+
+  let lastRows = [];
+
+  function calculate() {
+    const lastFrost = parseDate("cfs-last-frost");
+    const firstFrost = parseDate("cfs-first-frost");
+    const bouquets = Math.max(1, num(document.getElementById("cfs-bouquets").value, 10));
+    const stems = Math.max(1, num(document.getElementById("cfs-stems").value, 18));
+    const weeks = Math.max(1, num(document.getElementById("cfs-weeks").value, 8));
+    const space = Math.max(1, num(document.getElementById("cfs-space").value, 120));
+    const waste = num(document.getElementById("cfs-waste").value, 0.18);
+    const buffer = num(document.getElementById("cfs-buffer").value, 0.1);
+    const selected = collectSelected();
+
+    if (!lastFrost || !firstFrost || firstFrost <= lastFrost || !selected.length) {
+      warning.hidden = false;
+      warning.textContent = "Enter valid frost dates and select at least one crop to calculate the plan.";
+      resultsBody.innerHTML = "";
+      kpis.innerHTML = "";
+      bars.innerHTML = "";
+      readout.innerHTML = "";
+      return;
+    }
+
+    warning.hidden = true;
+    const seasonDays = daysBetween(lastFrost, firstFrost);
+    const usableStems = bouquets * stems * weeks;
+    const grossStems = Math.ceil((usableStems / Math.max(0.1, 1 - waste)) * (1 + buffer));
+    const totalMix = selected.reduce((sum, item) => sum + item.mix, 0) || 1;
+    const spacingAdjust = systemMultiplier();
+
+    lastRows = selected.map((item) => {
+      const crop = item.crop;
+      const share = item.mix / totalMix;
+      const targetStems = Math.ceil(grossStems * share);
+      const plants = Math.ceil(targetStems / crop.yield);
+      const seed = Math.ceil(plants * crop.seedFactor);
+      const bedFeet = Math.ceil((plants * crop.spacing * spacingAdjust) / (12 * crop.rows));
+      const transplantDate = addDays(lastFrost, crop.transplantAfter);
+      const startDate = addDays(transplantDate, -crop.startLead);
+      const firstBloom = addDays(transplantDate, crop.bloomDays);
+      const harvestDays = Math.max(0, daysBetween(firstBloom, firstFrost));
+      const harvestWeeksAvailable = Math.max(0, Math.round((harvestDays / 7) * 10) / 10);
+      const waves = item.interval > 0 ? Math.max(1, Math.ceil(weeks / Math.max(1, crop.harvestWeeks))) : 1;
+      const plantsPerWave = Math.ceil(plants / waves);
+      let risk = "Good fit";
+      let riskClass = "good";
+      if (seasonDays < crop.riskDays || harvestWeeksAvailable < Math.min(weeks, 3)) {
+        risk = "High risk";
+        riskClass = "bad";
+      } else if (harvestWeeksAvailable < weeks || seasonDays < crop.riskDays + 14) {
+        risk = "Borderline";
+        riskClass = "warn";
+      }
+      return { crop, share, targetStems, plants, seed, bedFeet, waves, plantsPerWave, startDate, transplantDate, firstBloom, harvestWeeksAvailable, risk, riskClass, interval: item.interval };
+    });
+
+    const totalPlants = lastRows.reduce((s, r) => s + r.plants, 0);
+    const totalSeed = lastRows.reduce((s, r) => s + r.seed, 0);
+    const totalBedFeet = lastRows.reduce((s, r) => s + r.bedFeet, 0);
+    const highRisk = lastRows.filter((r) => r.riskClass === "bad").length;
+    const borderline = lastRows.filter((r) => r.riskClass === "warn").length;
+
+    kpis.innerHTML = [
+      { label: "Usable bouquet stems", value: usableStems.toLocaleString() },
+      { label: "Gross stems to produce", value: grossStems.toLocaleString() },
+      { label: "Plants estimated", value: totalPlants.toLocaleString() },
+      { label: "Bed feet needed", value: totalBedFeet.toLocaleString() },
+      { label: "Space fit", value: totalBedFeet <= space ? "Fits" : "Over by " + (totalBedFeet - space) + " ft" },
+      { label: "Season length", value: seasonDays + " days" }
+    ].map((item) => '<div class="gbd-kpi"><span class="label">' + item.label + '</span><span class="value">' + item.value + '</span></div>').join("");
+
+    bars.innerHTML = lastRows.map((r) => {
+      const pct = Math.round(r.share * 100);
+      return '<div class="gbd-bar-row"><strong>' + r.crop.name + '</strong><span class="gbd-bar-track"><span class="gbd-bar-fill" style="width:' + pct + '%"></span></span><span>' + pct + '%</span></div>';
+    }).join("");
+
+    readout.innerHTML = [
+      'Plan for <strong>' + bouquets + '</strong> bouquets/week × <strong>' + stems + '</strong> stems × <strong>' + weeks + '</strong> weeks.',
+      'After cull rate and buffer, aim for about <strong>' + grossStems.toLocaleString() + '</strong> gross stems.',
+      totalBedFeet <= space ? 'Estimated bed use is within your entered space.' : 'Estimated bed use exceeds entered space. Reduce bouquet goal, crop count, or choose higher-yield crops.',
+      highRisk ? '<strong>' + highRisk + '</strong> crop(s) are high risk for this frost window.' : 'No selected crop is flagged high risk on the default assumptions.',
+      borderline ? '<strong>' + borderline + '</strong> crop(s) are borderline and should be started early or protected.' : 'Borderline risk is limited on the current crop mix.'
+    ].map((line) => '<li>' + line + '</li>').join("");
+
+    resultsBody.innerHTML = lastRows.map((r) => {
+      return '<tr>' +
+        '<td><strong>' + r.crop.name + '</strong><br><span class="muted">' + r.crop.role + '</span></td>' +
+        '<td>' + pill(r.risk, r.riskClass) + '</td>' +
+        '<td>' + r.targetStems.toLocaleString() + '</td>' +
+        '<td>' + r.plants.toLocaleString() + '<br><span class="muted">~' + r.plantsPerWave + '/wave</span></td>' +
+        '<td>' + r.seed.toLocaleString() + '</td>' +
+        '<td>' + r.bedFeet.toLocaleString() + '</td>' +
+        '<td>' + r.waves + (r.interval ? '<br><span class="muted">every ' + r.interval + ' days</span>' : '') + '</td>' +
+        '<td>' + fmt(r.startDate) + '</td>' +
+        '<td>' + fmt(r.transplantDate) + '</td>' +
+        '<td>' + fmt(r.firstBloom) + '</td>' +
+        '<td>' + r.harvestWeeksAvailable + '</td>' +
+      '</tr>';
+    }).join("");
+  }
+
+  function reset() {
+    document.getElementById("cfs-last-frost").value = "2026-05-20";
+    document.getElementById("cfs-first-frost").value = "2026-09-25";
+    document.getElementById("cfs-space").value = "120";
+    document.getElementById("cfs-bouquets").value = "10";
+    document.getElementById("cfs-stems").value = "18";
+    document.getElementById("cfs-weeks").value = "8";
+    document.getElementById("cfs-waste").value = "0.18";
+    document.getElementById("cfs-buffer").value = "0.10";
+    document.getElementById("cfs-system").value = "intensive";
+    renderCropRows();
+    calculate();
+  }
+
+  function csvEscape(value) {
+    return '"' + String(value == null ? "" : value).replace(/"/g, '""') + '"';
+  }
+
+  function downloadCsv() {
+    if (!lastRows.length) calculate();
+    const header = ["Crop", "Risk", "Target stems", "Plants", "Seed or plugs", "Bed feet", "Waves", "Start or sow", "Transplant", "First bloom", "Harvest weeks before frost"];
+    const lines = [header.map(csvEscape).join(",")].concat(lastRows.map((r) => [r.crop.name, r.risk, r.targetStems, r.plants, r.seed, r.bedFeet, r.waves, fmt(r.startDate), fmt(r.transplantDate), fmt(r.firstBloom), r.harvestWeeksAvailable].map(csvEscape).join(",")));
+    const blob = new Blob([lines.join("\n")], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "cut-flower-stem-yield-plan.csv";
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function copySummary() {
+    if (!lastRows.length) calculate();
+    const text = lastRows.map((r) => r.crop.name + ": " + r.risk + ", " + r.plants + " plants, " + r.bedFeet + " bed ft, first bloom " + fmt(r.firstBloom)).join("\n");
+    navigator.clipboard && navigator.clipboard.writeText(text);
+  }
+
+  renderCropRows();
+
+  const cfsResultsCard = document.getElementById("cfs-results-card");
+
+  function cfsScrollToResults() {
+    if (!cfsResultsCard) return;
+    const header = document.querySelector(".siteHeader");
+    const headerOffset = header ? Math.ceil(header.getBoundingClientRect().height) : 0;
+    const top = cfsResultsCard.getBoundingClientRect().top + window.scrollY - headerOffset - 16;
+    const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.scrollTo({ top: Math.max(0, top), behavior: reduceMotion ? "auto" : "smooth" });
+    window.setTimeout(() => {
+      try { cfsResultsCard.focus({ preventScroll: true }); } catch (error) {}
+    }, reduceMotion ? 0 : 350);
+  }
+  document.getElementById("cfs-calc").addEventListener("click", () => { calculate(); cfsScrollToResults(); });
+  document.getElementById("cfs-reset").addEventListener("click", reset);
+  document.getElementById("cfs-csv").addEventListener("click", downloadCsv);
+  document.getElementById("cfs-copy").addEventListener("click", copySummary);
+  root.addEventListener("change", (event) => {
+    if (event.target.closest("input, select")) calculate();
+  });
+  calculate();
+})();
+</script>

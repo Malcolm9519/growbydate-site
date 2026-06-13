@@ -41,13 +41,15 @@
       "isAccessibleForFree": true,
       "publisher": { "@id": {{ (site.url ~ "/#organization") | dump | safe }} },
       "breadcrumb": { "@id": {{ (schemaUrl ~ "#breadcrumb") | dump | safe }} }{% if schemaType == "SoftwareApplication" and tool %},
-      "applicationCategory": "UtilityApplication",
+      "applicationCategory": {{ (tool.applicationCategory or "LifestyleApplication") | dump | safe }},
       "operatingSystem": "Web",
       "offers": {
         "@type": "Offer",
         "price": "0",
         "priceCurrency": "CAD"
-      }{% elseif schemaType == "Dataset" %},
+      }{% if tool.featureList %},
+      "featureList": {{ tool.featureList | dump | safe }}{% endif %}{% if tool.keywords %},
+      "keywords": {{ tool.keywords | dump | safe }}{% endif %}{% elseif schemaType == "Dataset" %},
       "creator": { "@id": {{ (site.url ~ "/#organization") | dump | safe }} },
       "includedInDataCatalog": {
         "@type": "DataCatalog",
