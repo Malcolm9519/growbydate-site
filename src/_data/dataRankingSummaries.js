@@ -1,7 +1,11 @@
 const watermelonRealityCheck = require("./watermelonRealityCheck");
 const bestCanadianCitiesForTomatoes = require("./bestCanadianCitiesForTomatoes");
+const bestUsNorthernCitiesForTomatoes = require("./bestUsNorthernCitiesForTomatoes");
 const hardestCropsShortSeasons = require("./hardestCropsShortSeasons");
 const citiesWithShortestGrowingSeasons = require("./citiesWithShortestGrowingSeasons");
+const citiesWhereFrostFreeDaysAreMisleading = require("./citiesWhereFrostFreeDaysAreMisleading");
+const longGrowingSeasonsWithLowGdd = require("./longGrowingSeasonsWithLowGdd");
+const shortGrowingSeasonsWithHighGdd = require("./shortGrowingSeasonsWithHighGdd");
 const pepperPainIndex = require("./pepperPainIndex");
 const frostPanicIndex = require("./frostPanicIndex");
 const mostForgivingCropsShortSeason = require("./mostForgivingCropsShortSeason");
@@ -27,8 +31,12 @@ function summarize(board, topLine) {
 module.exports = function () {
   const watermelon = watermelonRealityCheck();
   const tomatoes = bestCanadianCitiesForTomatoes();
+  const usNorthernTomatoes = bestUsNorthernCitiesForTomatoes();
   const hardest = hardestCropsShortSeasons();
   const shortest = citiesWithShortestGrowingSeasons();
+  const frostMismatch = citiesWhereFrostFreeDaysAreMisleading();
+  const longLowGdd = longGrowingSeasonsWithLowGdd();
+  const shortHighGdd = shortGrowingSeasonsWithHighGdd();
   const pepperPain = pepperPainIndex();
   const frostPanic = frostPanicIndex();
   const forgiving = mostForgivingCropsShortSeason();
@@ -40,6 +48,24 @@ module.exports = function () {
 
   return [
     summarize(
+      frostMismatch,
+      frostMismatch.top
+        ? `${frostMismatch.top.cityName} has the largest frost-free-days vs GDD mismatch in the current dataset.`
+        : "Current frost/GDD mismatch ranking data is available."
+    ),
+    summarize(
+      longLowGdd,
+      longLowGdd.top
+        ? `${longLowGdd.top.cityName} has one of the strongest long-season, lower-heat signals in the current dataset.`
+        : "Current long-season, lower-GDD ranking data is available."
+    ),
+    summarize(
+      shortHighGdd,
+      shortHighGdd.top
+        ? `${shortHighGdd.top.cityName} has one of the strongest short-season, higher-heat signals in the current dataset.`
+        : "Current short-season, higher-GDD ranking data is available."
+    ),
+    summarize(
       watermelon,
       watermelon.top
         ? `${watermelon.top.cityName} leads the current ranking at ${watermelon.top.score}/100.`
@@ -50,6 +76,12 @@ module.exports = function () {
       tomatoes.top
         ? `${tomatoes.top.cityName} leads the current Canadian tomato ranking at ${tomatoes.top.score}/100.`
         : "Current tomato ranking data is available."
+    ),
+    summarize(
+      usNorthernTomatoes,
+      usNorthernTomatoes.top
+        ? `${usNorthernTomatoes.top.cityName} leads the current northern U.S. tomato ranking at ${usNorthernTomatoes.top.score}/100.`
+        : "Current northern U.S. tomato ranking data is available."
     ),
     summarize(
       hardest,

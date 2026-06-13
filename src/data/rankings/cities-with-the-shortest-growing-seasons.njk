@@ -4,7 +4,7 @@ title: North American Cities With the Shortest Growing Seasons | GrowByDate
 description: Compare North American cities by median frost-free days and typical outdoor growing-season length.
 canonical: "https://growbydate.com/data/rankings/cities-with-the-shortest-growing-seasons/"
 datasetSchema:
-  dateModified: "2026-06-07"
+  dateModified: "2026-06-13"
   spatialCoverage: "North America"
   temporalCoverage: "Long-term climate planning normals"
   variableMeasured:
@@ -72,7 +72,7 @@ datasetSchema:
           <th>Frost-free days</th>
           <th>Typical last frost</th>
           <th>Typical first frost</th>
-          <th>GDD remaining May 1</th>
+          <th>Base 50°F GDD</th>
         </tr>
       </thead>
       <tbody>
@@ -86,7 +86,7 @@ datasetSchema:
             <td><strong>{{ row.frostFreeDays }}</strong><br>{{ row.label }}</td>
             <td>{{ row.springFrost }}</td>
             <td>{{ row.fallFrost }}</td>
-            <td>{{ row.gddRemainingMay1 }}</td>
+            <td>{{ row.gddBase50 if row.gddBase50 != null else "—" }}</td>
           </tr>
         {% endfor %}
       </tbody>

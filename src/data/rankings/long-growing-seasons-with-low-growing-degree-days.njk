@@ -1,0 +1,145 @@
+---
+layout: layout-base.njk
+title: Long Growing Seasons With Low Growing Degree Days | GrowByDate
+description: Compare cities with long frost-free seasons but comparatively modest base 50°F growing degree day accumulation.
+canonical: "https://growbydate.com/data/rankings/long-growing-seasons-with-low-growing-degree-days/"
+datasetSchema:
+  dateModified: "2026-06-13"
+  spatialCoverage: "North America"
+  temporalCoverage: "Long-term climate planning normals"
+  variableMeasured:
+    - "Frost-free season length"
+    - "Base 50°F growing degree days"
+    - "Season percentile"
+    - "Heat percentile"
+    - "Season-heat mismatch score"
+  measurementTechnique: "North American city ranking by excess frost-free-days percentile relative to base-50°F growing degree day percentile."
+  keywords:
+    - "garden climate ranking"
+    - "long growing season"
+    - "low growing degree days"
+    - "cool summer gardening"
+  distributionName: "Long Growing Seasons With Low Growing Degree Days"
+---
+
+{% set board = longGrowingSeasonsWithLowGdd %}
+{% set top = board.top %}
+
+<section class="card leaderboardHero">
+  <p class="eyebrow">City comparison</p>
+  <h1>Long Growing Seasons With Low Growing Degree Days</h1>
+  <p class="lede">
+    Some places have a generous frost-free calendar but do not accumulate as much warm-season crop heat as the season length suggests. This ranking highlights cities where the outdoor window looks longer than the base 50°F GDD budget feels.
+  </p>
+
+  <div class="leaderboardStatGrid" aria-label="Ranking summary">
+    {% if top %}
+      <div class="leaderboardStat">
+        <span class="statLabel">Strongest long/cool signal</span>
+        <strong>{{ top.cityName }}</strong>
+        <span>{{ top.frostFreeDays }} days · {{ top.gddBase50 }} base 50°F GDD</span>
+      </div>
+    {% endif %}
+
+    <div class="leaderboardStat">
+      <span class="statLabel">Cities ranked</span>
+      <strong>{{ board.entries.length }}</strong>
+      <span>Longer-season cities with lower relative GDD</span>
+    </div>
+
+    <div class="leaderboardStat">
+      <span class="statLabel">Best used for</span>
+      <strong>Cool-summer caution</strong>
+      <span>Tomatoes, peppers, melons, corn, squash, and other heat lovers</span>
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>The ranking</h2>
+  <p>
+    These cities have at least 150 frost-free days, but their frost-free season percentile is noticeably higher than their base 50°F GDD percentile. That does not make them bad garden climates; it means long-season crops may still need realistic heat expectations.
+  </p>
+
+  <div class="tableWrap leaderboardTableWrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>City</th>
+          <th>Frost-free days</th>
+          <th>Base 50°F GDD</th>
+          <th>Season vs heat gap</th>
+          <th>Interpretation</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in board.entries %}
+          <tr>
+            <td><strong>#{{ row.rank }}</strong></td>
+            <td>
+              <a href="{{ row.url }}"><strong>{{ row.cityName }}</strong></a><br>
+              <span class="small muted">{{ row.regionName }}, {{ row.countryLabel }}</span>
+            </td>
+            <td>
+              <strong>{{ row.frostFreeDays }}</strong><br>
+              <span class="small muted">{{ row.springFrost }} to {{ row.fallFrost }}</span>
+            </td>
+            <td><strong>{{ row.gddBase50 }}</strong></td>
+            <td>
+              <strong>+{{ row.seasonHeatGap }}</strong><br>
+              <span class="small muted">season percentile above heat percentile</span>
+            </td>
+            <td>{{ row.reason }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="card leaderboardCallout">
+  <h2>What this ranking means</h2>
+  <p>
+    A long frost-free season is still valuable. It helps with succession planting, cool-season crops, and reducing hard frost pressure. The caution is that warm-season crops do not mature from calendar days alone; they also need enough accumulated heat.
+  </p>
+  <p>
+    Compare the opposite pattern: <a href="/data/rankings/short-growing-seasons-with-high-growing-degree-days/">Short Growing Seasons With Surprisingly High Heat</a>.
+  </p>
+</section>
+
+{% set sourceLinksVariant = "climate-data" %}
+{% set sourceLinksId = "ranking-long-growing-seasons-with-low-growing-degree-days" %}
+{% set sourceLinksHeading = "Official source context for this ranking" %}
+{% set sourceLinksIntro = "This ranking is a GrowByDate interpretation of frost-date and seasonal heat signals. These links show the official source concepts behind the derived metrics." %}
+{% include "components/external-source-links.njk" %}
+
+<section class="card">
+  <h2>Methodology</h2>
+  <p>{{ board.methodology }}</p>
+  <p>{{ board.caveat }}</p>
+  <p class="small">
+    Download: <a href="/assets/data/rankings/long-growing-seasons-with-low-growing-degree-days.json">long season, lower GDD JSON</a>.
+  </p>
+</section>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": {{ board.title | dump | safe }},
+  "description": {{ board.description | dump | safe }},
+  "url": "https://growbydate.com/data/rankings/long-growing-seasons-with-low-growing-degree-days/",
+  "numberOfItems": {{ board.entries.length }},
+  "itemListElement": [
+    {% for row in board.entries %}
+      {
+        "@type": "ListItem",
+        "position": {{ row.rank }},
+        "name": {{ (row.cityName ~ " long growing season lower GDD") | dump | safe }},
+        "url": {{ (site.url ~ row.url) | dump | safe }}
+      }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>

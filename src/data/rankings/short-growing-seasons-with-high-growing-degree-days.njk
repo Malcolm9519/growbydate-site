@@ -1,0 +1,145 @@
+---
+layout: layout-base.njk
+title: Short Growing Seasons With Surprisingly High Heat | GrowByDate
+description: Compare cities with shorter frost-free windows but stronger-than-expected base 50°F growing degree day accumulation.
+canonical: "https://growbydate.com/data/rankings/short-growing-seasons-with-high-growing-degree-days/"
+datasetSchema:
+  dateModified: "2026-06-13"
+  spatialCoverage: "North America"
+  temporalCoverage: "Long-term climate planning normals"
+  variableMeasured:
+    - "Frost-free season length"
+    - "Base 50°F growing degree days"
+    - "Season percentile"
+    - "Heat percentile"
+    - "Season-heat mismatch score"
+  measurementTechnique: "North American city ranking by excess base-50°F growing degree day percentile relative to frost-free-days percentile."
+  keywords:
+    - "garden climate ranking"
+    - "short growing season"
+    - "high growing degree days"
+    - "short-season gardening"
+  distributionName: "Short Growing Seasons With Surprisingly High Heat"
+---
+
+{% set board = shortGrowingSeasonsWithHighGdd %}
+{% set top = board.top %}
+
+<section class="card leaderboardHero">
+  <p class="eyebrow">City comparison</p>
+  <h1>Short Growing Seasons With Surprisingly High Heat</h1>
+  <p class="lede">
+    Short frost-free seasons are not all equal. Some places have tight frost windows but accumulate strong summer heat inside that window. This ranking highlights cities where the calendar is short, but the warm-season heat signal is better than expected.
+  </p>
+
+  <div class="leaderboardStatGrid" aria-label="Ranking summary">
+    {% if top %}
+      <div class="leaderboardStat">
+        <span class="statLabel">Strongest short/warm signal</span>
+        <strong>{{ top.cityName }}</strong>
+        <span>{{ top.frostFreeDays }} days · {{ top.gddBase50 }} base 50°F GDD</span>
+      </div>
+    {% endif %}
+
+    <div class="leaderboardStat">
+      <span class="statLabel">Cities ranked</span>
+      <strong>{{ board.entries.length }}</strong>
+      <span>Shorter-season cities with higher relative GDD</span>
+    </div>
+
+    <div class="leaderboardStat">
+      <span class="statLabel">Best used for</span>
+      <strong>Timing strategy</strong>
+      <span>Fast varieties, prompt transplanting, and warm microclimates</span>
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>The ranking</h2>
+  <p>
+    These cities have 180 or fewer frost-free days, but their base 50°F GDD percentile is noticeably higher than their frost-free-days percentile. They still require short-season discipline, but the heat available inside the window can be better than the calendar suggests.
+  </p>
+
+  <div class="tableWrap leaderboardTableWrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>City</th>
+          <th>Frost-free days</th>
+          <th>Base 50°F GDD</th>
+          <th>Heat vs season gap</th>
+          <th>Interpretation</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in board.entries %}
+          <tr>
+            <td><strong>#{{ row.rank }}</strong></td>
+            <td>
+              <a href="{{ row.url }}"><strong>{{ row.cityName }}</strong></a><br>
+              <span class="small muted">{{ row.regionName }}, {{ row.countryLabel }}</span>
+            </td>
+            <td>
+              <strong>{{ row.frostFreeDays }}</strong><br>
+              <span class="small muted">{{ row.springFrost }} to {{ row.fallFrost }}</span>
+            </td>
+            <td><strong>{{ row.gddBase50 }}</strong></td>
+            <td>
+              <strong>{{ row.seasonHeatGap }}</strong><br>
+              <span class="small muted">heat percentile above season percentile</span>
+            </td>
+            <td>{{ row.reason }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="card leaderboardCallout">
+  <h2>What this ranking means</h2>
+  <p>
+    These are not frost-safe climates. The first and last frost dates still set hard boundaries. The useful insight is that once the season opens, the summer heat budget can be strong enough to reward fast crops, warm sites, and timely planting.
+  </p>
+  <p>
+    Compare the opposite pattern: <a href="/data/rankings/long-growing-seasons-with-low-growing-degree-days/">Long Growing Seasons With Low Growing Degree Days</a>.
+  </p>
+</section>
+
+{% set sourceLinksVariant = "climate-data" %}
+{% set sourceLinksId = "ranking-short-growing-seasons-with-high-growing-degree-days" %}
+{% set sourceLinksHeading = "Official source context for this ranking" %}
+{% set sourceLinksIntro = "This ranking is a GrowByDate interpretation of frost-date and seasonal heat signals. These links show the official source concepts behind the derived metrics." %}
+{% include "components/external-source-links.njk" %}
+
+<section class="card">
+  <h2>Methodology</h2>
+  <p>{{ board.methodology }}</p>
+  <p>{{ board.caveat }}</p>
+  <p class="small">
+    Download: <a href="/assets/data/rankings/short-growing-seasons-with-high-growing-degree-days.json">short season, higher GDD JSON</a>.
+  </p>
+</section>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": {{ board.title | dump | safe }},
+  "description": {{ board.description | dump | safe }},
+  "url": "https://growbydate.com/data/rankings/short-growing-seasons-with-high-growing-degree-days/",
+  "numberOfItems": {{ board.entries.length }},
+  "itemListElement": [
+    {% for row in board.entries %}
+      {
+        "@type": "ListItem",
+        "position": {{ row.rank }},
+        "name": {{ (row.cityName ~ " short growing season high GDD") | dump | safe }},
+        "url": {{ (site.url ~ row.url) | dump | safe }}
+      }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>

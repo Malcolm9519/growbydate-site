@@ -4,7 +4,7 @@ title: Canadian Cities With the Longest Growing Seasons | GrowByDate
 description: Compare Canadian cities by median frost-free season length.
 canonical: "https://growbydate.com/data/rankings/canadian-cities-with-the-longest-growing-seasons/"
 datasetSchema:
-  dateModified: "2026-06-07"
+  dateModified: "2026-06-13"
   spatialCoverage: "Canada"
   temporalCoverage: "Long-term climate planning normals"
   variableMeasured:
@@ -70,6 +70,7 @@ datasetSchema:
           <th>Last spring frost</th>
           <th>First fall frost</th>
           <th>Frost-free days</th>
+          <th>Base 50°F GDD</th>
           <th>Season read</th>
         </tr>
       </thead>
@@ -84,6 +85,7 @@ datasetSchema:
             <td>{{ row.springFrost }}</td>
             <td>{{ row.fallFrost }}</td>
             <td><strong>{{ row.frostFreeDays }}</strong></td>
+            <td>{{ row.gddBase50 if row.gddBase50 != null else "—" }}</td>
             <td>{{ row.label }}</td>
           </tr>
         {% endfor %}

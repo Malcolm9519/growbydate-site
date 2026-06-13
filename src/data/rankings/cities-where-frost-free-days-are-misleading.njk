@@ -1,0 +1,149 @@
+---
+layout: layout-base.njk
+title: Cities Where Frost-Free Days Are Misleading | GrowByDate
+description: Compare North American garden cities where frost-free season length and growing degree days tell different stories.
+canonical: "https://growbydate.com/data/rankings/cities-where-frost-free-days-are-misleading/"
+datasetSchema:
+  dateModified: "2026-06-13"
+  spatialCoverage: "North America"
+  temporalCoverage: "Long-term climate planning normals"
+  variableMeasured:
+    - "Frost-free season length"
+    - "Base 50°F growing degree days"
+    - "Season percentile"
+    - "Heat percentile"
+    - "Season-heat mismatch score"
+  measurementTechnique: "North American city ranking by the percentile gap between frost-free days and base-50°F growing degree days."
+  keywords:
+    - "garden climate ranking"
+    - "frost-free days"
+    - "growing degree days"
+    - "short-season gardening"
+    - "warm-season crops"
+  distributionName: "Cities Where Frost-Free Days Are Misleading"
+---
+
+{% set board = citiesWhereFrostFreeDaysAreMisleading %}
+{% set top = board.top %}
+
+<section class="card leaderboardHero">
+  <p class="eyebrow">City comparison</p>
+  <h1>Cities Where Frost-Free Days Are Misleading</h1>
+  <p class="lede">
+    Frost-free days measure how much calendar room a garden has between spring and fall frost. Growing degree days measure how much usable warmth builds up inside that window. This ranking highlights cities where those two signals point in different directions.
+  </p>
+
+  <div class="leaderboardStatGrid" aria-label="Ranking summary">
+    {% if top %}
+      <div class="leaderboardStat">
+        <span class="statLabel">Largest mismatch</span>
+        <strong>{{ top.cityName }}</strong>
+        <span>{{ top.mismatchScore }} percentile-point gap · {{ top.label }}</span>
+      </div>
+    {% endif %}
+
+    <div class="leaderboardStat">
+      <span class="statLabel">Cities compared</span>
+      <strong>{{ board.citiesCompared }}</strong>
+      <span>North American cities with frost and GDD values</span>
+    </div>
+
+    <div class="leaderboardStat">
+      <span class="statLabel">Two warning signs</span>
+      <strong>{{ board.longLowGddCount }} / {{ board.shortHighGddCount }}</strong>
+      <span>Long-but-cool and short-but-warm mismatches</span>
+    </div>
+  </div>
+</section>
+
+<section class="card leaderboardCallout">
+  <h2>Why frost-free days can mislead gardeners</h2>
+  <p>
+    A long frost-free season can still be cool if summer heat builds slowly. A shorter season can still grow warm-season crops surprisingly well if heat accumulates quickly once frost risk passes. GrowByDate uses both signals because time and heat are not the same thing.
+  </p>
+  <p>
+    This page is the broad diagnostic view. For the two sides of the pattern, compare <a href="/data/rankings/long-growing-seasons-with-low-growing-degree-days/">Long Growing Seasons With Low Growing Degree Days</a> and <a href="/data/rankings/short-growing-seasons-with-high-growing-degree-days/">Short Growing Seasons With Surprisingly High Heat</a>.
+  </p>
+</section>
+
+<section class="card">
+  <h2>The ranking</h2>
+  <p>
+    Cities are ranked by the size of the gap between their frost-free-days percentile and base 50°F GDD percentile. Bigger gaps mean the calendar season and heat budget disagree more strongly.
+  </p>
+
+  <div class="tableWrap leaderboardTableWrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>City</th>
+          <th>Frost-free days</th>
+          <th>Base 50°F GDD</th>
+          <th>Mismatch</th>
+          <th>Why it matters</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in board.entries %}
+          <tr>
+            <td><strong>#{{ row.rank }}</strong></td>
+            <td>
+              <a href="{{ row.url }}"><strong>{{ row.cityName }}</strong></a><br>
+              <span class="small muted">{{ row.regionName }}, {{ row.countryLabel }}</span>
+            </td>
+            <td>
+              <strong>{{ row.frostFreeDays }}</strong><br>
+              <span class="small muted">{{ row.seasonPercentile }}th season percentile</span>
+            </td>
+            <td>
+              <strong>{{ row.gddBase50 }}</strong><br>
+              <span class="small muted">{{ row.heatPercentile }}th heat percentile</span>
+            </td>
+            <td>
+              <strong>{{ row.mismatchScore }}</strong><br>
+              <span class="small muted">{{ row.label }}</span>
+            </td>
+            <td>{{ row.reason }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+{% set sourceLinksVariant = "climate-data" %}
+{% set sourceLinksId = "ranking-cities-where-frost-free-days-are-misleading" %}
+{% set sourceLinksHeading = "Official source context for this ranking" %}
+{% set sourceLinksIntro = "This ranking is a GrowByDate interpretation of frost-date, seasonal heat, and crop-margin signals. These links show the official source concepts behind the derived metrics." %}
+{% include "components/external-source-links.njk" %}
+
+<section class="card">
+  <h2>Methodology</h2>
+  <p>{{ board.methodology }}</p>
+  <p>{{ board.caveat }}</p>
+  <p class="small">
+    Download: <a href="/assets/data/rankings/cities-where-frost-free-days-are-misleading.json">frost-free days mismatch JSON</a>.
+  </p>
+</section>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": {{ board.title | dump | safe }},
+  "description": {{ board.description | dump | safe }},
+  "url": "https://growbydate.com/data/rankings/cities-where-frost-free-days-are-misleading/",
+  "numberOfItems": {{ board.entries.length }},
+  "itemListElement": [
+    {% for row in board.entries %}
+      {
+        "@type": "ListItem",
+        "position": {{ row.rank }},
+        "name": {{ (row.cityName ~ " frost-free days and GDD mismatch") | dump | safe }},
+        "url": {{ (site.url ~ row.url) | dump | safe }}
+      }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>

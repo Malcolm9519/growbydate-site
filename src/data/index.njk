@@ -83,6 +83,15 @@ canonical: "https://growbydate.com/data/"
   </p>
   <div class="leaderboardGrid">
     {% for board in dataRankingSummaries %}
+      {% if board.key == "cities-where-frost-free-days-are-misleading" %}
+        {{ rankingTile(board, "", "", "Frost vs heat") }}
+      {% endif %}
+      {% if board.key == "short-growing-seasons-with-high-growing-degree-days" %}
+        {{ rankingTile(board, "", "", "Short season · Strong heat") }}
+      {% endif %}
+      {% if board.key == "long-growing-seasons-with-low-growing-degree-days" %}
+        {{ rankingTile(board, "", "", "Long season · Lower heat") }}
+      {% endif %}
       {% if board.key == "canadian-cities-with-the-highest-growing-degree-days" %}
         {{ rankingTile(board, "", "", "Canada · Seasonal heat") }}
       {% endif %}
@@ -137,6 +146,9 @@ canonical: "https://growbydate.com/data/"
     {% for board in dataRankingSummaries %}
       {% if board.key == "best-canadian-cities-for-tomatoes" %}
         {{ rankingTile(board, "Best Canadian Cities for Growing Tomatoes", "Canadian cities ranked by outdoor tomato suitability, seasonal heat, and crop timing margin.", "Tomatoes") }}
+      {% endif %}
+      {% if board.key == "best-us-northern-cities-for-tomatoes" %}
+        {{ rankingTile(board, "", "", "Northern U.S. tomatoes") }}
       {% endif %}
       {% if board.key == "best-canadian-cities-for-growing-watermelon" %}
         {{ rankingTile(board, "", "", "Watermelon") }}
