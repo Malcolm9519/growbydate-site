@@ -137,6 +137,12 @@ canonical: "https://growbydate.com/data/late-planting-penalty-chart/"
   <textarea readonly>Source: GrowByDate, Late Planting Penalty Chart, https://growbydate.com/data/late-planting-penalty-chart/</textarea>
 </section>
 
+{% set sourceLinksVariant = "gdd" %}
+{% set sourceLinksId = "late-planting-penalty" %}
+{% set sourceLinksHeading = "Official GDD source context" %}
+{% set sourceLinksIntro = "This chart is based on the idea that late planting removes usable seasonal heat. These links explain the degree-day and climate-normal concepts behind that model." %}
+{% include "components/external-source-links.njk" %}
+
 <section class="card leaderboardCallout">
   <h2>Methodology and limits</h2>
   <p>

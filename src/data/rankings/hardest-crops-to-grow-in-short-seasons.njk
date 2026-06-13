@@ -98,6 +98,12 @@ datasetSchema:
   </p>
 </section>
 
+{% set sourceLinksVariant = "gdd" %}
+{% set sourceLinksId = "ranking-hardest-crops-to-grow-in-short-seasons" %}
+{% set sourceLinksHeading = "Official source context for this ranking" %}
+{% set sourceLinksIntro = "This ranking is a GrowByDate interpretation of frost, seasonal heat, crop margin, and timing signals. These links show the official source concepts behind the derived metrics." %}
+{% include "components/external-source-links.njk" %}
+
 <section class="card">
   <h2>Methodology</h2>
   <p>{{ board.methodology }}</p>

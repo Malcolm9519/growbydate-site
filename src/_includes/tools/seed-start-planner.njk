@@ -559,6 +559,12 @@
   </p>
 </section>
 
+{% set sourceLinksVariant = "seed-starting" %}
+{% set sourceLinksId = "tool-seed-start-planner" %}
+{% set sourceLinksHeading = "Sources and limits for the Seed Start Planner" %}
+{% set sourceLinksIntro = "The Seed Start Planner combines frost-boundary timing with general seedling-care assumptions. These source links support the main climate, light, and soil-temperature concepts behind the tool." %}
+{% include "components/external-source-links.njk" %}
+
 <script type="application/json" id="siteCropsJson">{{ crops | dump | safe }}</script>
 
 <script>

@@ -4572,3 +4572,31 @@ ul.tight li + li {
   }
 }
 
+
+
+
+
+
+
+
+/* Editorial source/citation boxes */
+.sourceLinkBox {
+  background: linear-gradient(135deg, rgba(245, 250, 239, 0.92), rgba(255, 255, 255, 0.96));
+  border-color: #d4dfc8;
+}
+
+.sourceLinkBox h2 {
+  margin-bottom: 0.5rem;
+}
+
+.sourceLinkBox p:last-child {
+  margin-bottom: 0;
+}
+
+.sourceLinkList a {
+  font-weight: 700;
+}
+
+.sourceLinkNote {
+  margin-top: 0.85rem;
+}

@@ -1,0 +1,79 @@
+{% set sourceLinkVariant = sourceLinksVariant or "climate-data" %}
+{% set sourceLinkId = sourceLinksId or sourceLinkVariant %}
+{% set sourceLinkHeading = sourceLinksHeading or "Sources and limits" %}
+{% set sourceLinkIntro = sourceLinksIntro or "GrowByDate uses public climate references, crop-planning assumptions, and garden-specific interpretation to turn long-term averages into practical planning guidance." %}
+
+<section class="card sourceLinkBox" aria-labelledby="source-links-{{ sourceLinkId }}">
+  <p class="eyebrow">Sources and methodology</p>
+  <h2 id="source-links-{{ sourceLinkId }}">{{ sourceLinkHeading }}</h2>
+  <p>{{ sourceLinkIntro }}</p>
+
+  {% if sourceLinkVariant == "us-climate" %}
+    <ul class="tight sourceLinkList">
+      <li><a href="https://www.ncei.noaa.gov/products/land-based-station/us-climate-normals" target="_blank" rel="noopener">NOAA/NCEI U.S. Climate Normals</a> — U.S. climate-normal and station-reference context.</li>
+      <li><a href="https://www.ncei.noaa.gov/access/us-climate-normals/" target="_blank" rel="noopener">NOAA U.S. Climate Normals Quick Access</a> — 1991–2020 normals lookup and period reference.</li>
+      <li><a href="https://planthardiness.ars.usda.gov/" target="_blank" rel="noopener">USDA Plant Hardiness Zone Map</a> — official U.S. winter-hardiness zone reference.</li>
+      <li><a href="/data/methodology/">GrowByDate data methodology</a> — how frost, GDD, crop timing, and margin are interpreted on this site.</li>
+    </ul>
+  {% elseif sourceLinkVariant == "canada-climate" %}
+    <ul class="tight sourceLinkList">
+      <li><a href="https://climate.weather.gc.ca/climate_normals/" target="_blank" rel="noopener">Environment and Climate Change Canada Climate Normals</a> — Canadian climate-normal and station-reference context.</li>
+      <li><a href="https://climate.weather.gc.ca/climate_normals/station_select_1991_2020_e.html" target="_blank" rel="noopener">ECCC 1991–2020 Climate Normals search</a> — current Canadian normals period used for many location comparisons.</li>
+      <li><a href="https://planthardiness.gc.ca/" target="_blank" rel="noopener">Natural Resources Canada Plant Hardiness Zones</a> — Canadian hardiness-zone reference.</li>
+      <li><a href="/data/methodology/">GrowByDate data methodology</a> — how frost, GDD, crop timing, and margin are interpreted on this site.</li>
+    </ul>
+  {% elseif sourceLinkVariant == "gdd" %}
+    <ul class="tight sourceLinkList">
+      <li><a href="https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/cdus/degree_days/" target="_blank" rel="noopener">NOAA Climate Prediction Center degree day resources</a> — official degree-day reference material.</li>
+      <li><a href="https://www.ncei.noaa.gov/products/land-based-station/us-climate-normals" target="_blank" rel="noopener">NOAA/NCEI U.S. Climate Normals</a> — U.S. climate-normal and station-reference context.</li>
+      <li><a href="https://climate.weather.gc.ca/climate_normals/" target="_blank" rel="noopener">Environment and Climate Change Canada Climate Normals</a> — Canadian climate-normal and station-reference context.</li>
+      <li><a href="/data/methodology/">GrowByDate data methodology</a> — how base-temperature GDD, frost boundaries, and crop margin are interpreted on this site.</li>
+    </ul>
+  {% elseif sourceLinkVariant == "hardiness" %}
+    <ul class="tight sourceLinkList">
+      <li><a href="https://planthardiness.ars.usda.gov/" target="_blank" rel="noopener">USDA Plant Hardiness Zone Map</a> — official U.S. hardiness-zone reference.</li>
+      <li><a href="https://planthardiness.gc.ca/" target="_blank" rel="noopener">Natural Resources Canada Plant Hardiness Zones</a> — Canadian hardiness-zone reference.</li>
+      <li><a href="https://www.ncei.noaa.gov/products/land-based-station/us-climate-normals" target="_blank" rel="noopener">NOAA/NCEI U.S. Climate Normals</a> — long-term U.S. climate-normal context.</li>
+      <li><a href="https://climate.weather.gc.ca/climate_normals/" target="_blank" rel="noopener">Environment and Climate Change Canada Climate Normals</a> — long-term Canadian climate-normal context.</li>
+    </ul>
+  {% elseif sourceLinkVariant == "fungus-gnats" %}
+    <ul class="tight sourceLinkList">
+      <li><a href="https://extension.colostate.edu/resource/fungus-gnats-as-houseplant-and-indoor-pests/" target="_blank" rel="noopener">Colorado State University Extension: fungus gnats as houseplant and indoor pests</a> — fungus gnat lifecycle and biological control context.</li>
+      <li><a href="https://cals.cornell.edu/integrated-pest-management/outreach-education/fact-sheets/steinernema-feltiae-beneficial-nematode-sf" target="_blank" rel="noopener">Cornell CALS IPM: <em>Steinernema feltiae</em></a> — beneficial nematode species reference.</li>
+    </ul>
+  {% elseif sourceLinkVariant == "damping-off" %}
+    <ul class="tight sourceLinkList">
+      <li><a href="https://extension.umn.edu/solve-problem/how-prevent-seedling-damping" target="_blank" rel="noopener">University of Minnesota Extension: how to prevent seedling damping off</a> — damping-off causes and prevention guidance.</li>
+      <li><a href="https://hort.extension.wisc.edu/articles/damping/" target="_blank" rel="noopener">Wisconsin Horticulture: damping off</a> — seedling disease background and prevention context.</li>
+    </ul>
+  {% elseif sourceLinkVariant == "seedling-lights" %}
+    <ul class="tight sourceLinkList">
+      <li><a href="https://extension.umn.edu/planting-and-growing-guides/lighting-indoor-plants" target="_blank" rel="noopener">University of Minnesota Extension: lighting for indoor plants</a> — indoor light duration and intensity guidance.</li>
+      <li><a href="https://extension.umn.edu/planting-and-growing-guides/starting-seeds-indoors" target="_blank" rel="noopener">University of Minnesota Extension: starting seeds indoors</a> — seed-starting setup and seedling care context.</li>
+    </ul>
+  {% elseif sourceLinkVariant == "soil-temperature" %}
+    <ul class="tight sourceLinkList">
+      <li><a href="https://extension.oregonstate.edu/gardening/soil-compost/soil-temperature-conditions-vegetable-seed-germination" target="_blank" rel="noopener">Oregon State University Extension: soil temperature conditions for vegetable seed germination</a> — crop-by-crop germination temperature table.</li>
+      <li><a href="https://hort.extension.wisc.edu/articles/when-is-the-right-time-to-plant-vegetable-seeds-check-soil-temperature/" target="_blank" rel="noopener">Wisconsin Horticulture: check soil temperature before planting vegetable seeds</a> — soil-temperature planting reference.</li>
+    </ul>
+  {% elseif sourceLinkVariant == "seed-starting" %}
+    <ul class="tight sourceLinkList">
+      <li><a href="https://extension.umn.edu/planting-and-growing-guides/starting-seeds-indoors" target="_blank" rel="noopener">University of Minnesota Extension: starting seeds indoors</a> — seed-starting setup and timing context.</li>
+      <li><a href="https://extension.umn.edu/planting-and-growing-guides/lighting-indoor-plants" target="_blank" rel="noopener">University of Minnesota Extension: lighting for indoor plants</a> — grow-light schedule and seedling-light context.</li>
+      <li><a href="https://extension.oregonstate.edu/gardening/soil-compost/soil-temperature-conditions-vegetable-seed-germination" target="_blank" rel="noopener">Oregon State University Extension: soil temperature conditions for vegetable seed germination</a> — soil-temperature reference for direct seeding.</li>
+      <li><a href="/data/methodology/">GrowByDate data methodology</a> — how frost, GDD, and planting-window assumptions are interpreted on this site.</li>
+    </ul>
+  {% else %}
+    <ul class="tight sourceLinkList">
+      <li><a href="https://www.ncei.noaa.gov/products/land-based-station/us-climate-normals" target="_blank" rel="noopener">NOAA/NCEI U.S. Climate Normals</a> — U.S. climate-normal and station-reference context.</li>
+      <li><a href="https://climate.weather.gc.ca/climate_normals/" target="_blank" rel="noopener">Environment and Climate Change Canada Climate Normals</a> — Canadian climate-normal and station-reference context.</li>
+      <li><a href="https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/cdus/degree_days/" target="_blank" rel="noopener">NOAA Climate Prediction Center degree day resources</a> — degree-day terminology and reference material.</li>
+      <li><a href="https://planthardiness.ars.usda.gov/" target="_blank" rel="noopener">USDA Plant Hardiness Zone Map</a> and <a href="https://planthardiness.gc.ca/" target="_blank" rel="noopener">Natural Resources Canada Plant Hardiness Zones</a> — hardiness-zone context.</li>
+      <li><a href="/data/methodology/">GrowByDate data methodology</a> — how source references are turned into garden-planning signals.</li>
+    </ul>
+  {% endif %}
+
+  <p class="small muted sourceLinkNote">
+    These links support the reference concepts behind the page. GrowByDate values are planning averages, not live forecasts or guarantees for a specific garden bed.
+  </p>
+</section>

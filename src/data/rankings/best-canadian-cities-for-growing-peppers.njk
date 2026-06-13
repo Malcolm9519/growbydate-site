@@ -109,6 +109,12 @@ datasetSchema:
   </p>
 </section>
 
+{% set sourceLinksVariant = "canada-climate" %}
+{% set sourceLinksId = "ranking-best-canadian-cities-for-growing-peppers" %}
+{% set sourceLinksHeading = "Official source context for this ranking" %}
+{% set sourceLinksIntro = "This ranking is a GrowByDate interpretation of frost, seasonal heat, crop margin, and timing signals. These links show the official source concepts behind the derived metrics." %}
+{% include "components/external-source-links.njk" %}
+
 <section class="card">
   <h2>Methodology</h2>
   <p>{{ board.methodology }}</p>

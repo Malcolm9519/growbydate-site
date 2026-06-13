@@ -227,7 +227,13 @@
     </p>
   </section>
   
-  <section class="card" aria-label="Frequently Asked Questions">
+  {% set sourceLinksVariant = "gdd" %}
+{% set sourceLinksId = "tool-gdd-planner" %}
+{% set sourceLinksHeading = "Sources and limits for the GDD planner" %}
+{% set sourceLinksIntro = "The planner uses typical-year climate-normal and degree-day concepts. These source links explain the public reference concepts behind the model." %}
+{% include "components/external-source-links.njk" %}
+
+<section class="card" aria-label="Frequently Asked Questions">
     <h2>Frequently Asked Questions</h2>
   
     <details>
