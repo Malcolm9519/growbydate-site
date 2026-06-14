@@ -4,7 +4,7 @@ title: Crops That Lose the Most Margin When Planted Late | GrowByDate
 description: Compare crops by how much heat and maturity margin they lose when planting slips by two weeks.
 canonical: "https://growbydate.com/data/rankings/crops-that-lose-the-most-margin-when-planted-late/"
 datasetSchema:
-  dateModified: "2026-06-07"
+  dateModified: "2026-06-14"
   spatialCoverage: "Short-season vegetable gardens"
   temporalCoverage: "Long-term climate planning normals"
   variableMeasured:
@@ -59,7 +59,8 @@ datasetSchema:
   <h2>The ranking</h2>
   <p>
     Crops rank higher when they lose more heat margin after a two-week planting delay, especially when that delay pushes more locations
-    into negative maturity margin.
+    into negative maturity margin. The score is designed for practical late-season decisions: which crops should be protected, transplanted,
+    started first, switched to faster varieties, or dropped when the planting window gets tight.
   </p>
 
   <div class="tableWrap leaderboardTableWrap">
@@ -89,6 +90,19 @@ datasetSchema:
 </section>
 
 <section class="card">
+  <h2>How to read this ranking</h2>
+  <p>
+    This page is not only measuring how many growing degree days disappear from the calendar. It also looks at what that loss does to the crop’s remaining margin.
+    A crop with a high late-planting pressure score is one where a two-week delay can quickly turn a comfortable season into a tight one.
+  </p>
+  <p>
+    The <strong>two-week margin loss</strong> column shows the average amount of heat margin removed by a two-week delay. The <strong>average late margin</strong> column shows
+    how much cushion remains after that delay. A crop can be risky even when the margin loss looks similar to another crop, because the important question is whether enough
+    heat is still left to mature before frost.
+  </p>
+</section>
+
+<section class="card">
   <h2>Visual chart</h2>
   <p>
     For a more visual version of this ranking, see the <a href="/data/late-planting-penalty-chart/">Late Planting Penalty Chart</a>.
@@ -102,9 +116,36 @@ datasetSchema:
     and the difference between “probably fine” and “too tight” can shrink quickly.
   </p>
   <p>
-    For a crop-specific answer, use the <a href="/tools/growing-degree-day-planner/">GDD planner</a> or compare the crop against
+    Late planting is usually most punishing when a crop has a long maturity window, a high heat requirement, slow establishment, or very little remaining cushion after the normal planting date.
+    In short-season gardens, those problems can compound. A small delay in spring can become a much larger risk at harvest because cool late-summer weather adds heat more slowly than warm early-summer weather.
+  </p>
+</section>
+
+<section class="card">
+  <h2>What to do when timing is tight</h2>
+  <p>
+    If a crop ranks high on this list, treat timing as part of the crop plan. That can mean using healthy transplants, choosing faster-maturing varieties,
+    planting into the warmest available microclimate, adding temporary protection, or switching to a crop with more timing flexibility.
+  </p>
+  <p>
+    For a location-specific answer, use the <a href="/tools/growing-degree-day-planner/">GDD planner</a> or compare the crop against
     <a href="/data/crop-heat-requirements/">Crop Heat Requirements</a>.
   </p>
+</section>
+
+<section class="card">
+  <h2>Crop-specific late planting guides</h2>
+  <p>
+    This ranking shows which crops lose the most margin after a two-week delay. If you are deciding whether a specific crop is still worth planting,
+    use the crop guides below.
+  </p>
+  <ul class="tight">
+    <li><a href="/guides/is-it-too-late-to-plant-peppers/">Is It Too Late to Plant Peppers?</a></li>
+    <li><a href="/guides/is-it-too-late-to-plant-tomatoes/">Is It Too Late to Plant Tomatoes?</a></li>
+    <li><a href="/guides/is-it-too-late-to-plant-beans/">Is It Too Late to Plant Beans?</a></li>
+    <li><a href="/guides/is-it-too-late-to-plant-pumpkins/">Is It Too Late to Plant Pumpkins?</a></li>
+    <li><a href="/guides/is-it-too-late-to-plant-cucumbers/">Is It Too Late to Plant Cucumbers?</a></li>
+  </ul>
 </section>
 
 {% set sourceLinksVariant = "gdd" %}
