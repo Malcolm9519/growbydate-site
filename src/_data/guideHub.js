@@ -60,7 +60,7 @@ module.exports = [
     ],
   },
   {
-    title: "Seed Starting & Transplanting",
+    title: "Seed Starting, Transplanting and Growing",
     description: "Indoor starts, hardening off, transplant timing, grow lights, trays, and seedling problems.",
     slugs: [
       "72-cell-vs-128-cell-seed-trays",
@@ -69,6 +69,8 @@ module.exports = [
       "best-fan-for-seedlings-indoors",
       "best-fan-setup-for-seed-starting-shelves",
       "best-grow-lights-for-seedlings",
+      "best-grow-tent",
+      "best-hydroponic-fertilizer",
       "best-heat-mat-for-seedlings",
       "best-humidity-dome-for-seed-starting",
       "best-labels-for-seed-starting-that-dont-fade",
