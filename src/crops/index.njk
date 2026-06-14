@@ -34,9 +34,9 @@ canonical: "https://growbydate.com/crops/"
     Use these references to evaluate feasibility first — then convert that feasibility into planting dates using your frost window and seasonal heat supply.
   </p>
 
-  <ul class="index-list" style="margin-top:1rem;">
+  <ul class="index-list" style="margin-top:1rem;" data-on-this-page-list>
     {% for crop in crops | sort(attribute="name") %}
-      <li class="index-item">
+      <li class="index-item" data-on-this-page-label="{{ crop.name }}">
         <a class="index-link" href="/crops/{{ crop.slug }}/">
           <strong>{{ crop.name }}</strong>
         </a>

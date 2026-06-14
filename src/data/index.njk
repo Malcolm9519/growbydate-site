@@ -150,6 +150,12 @@ canonical: "https://growbydate.com/data/"
       {% if board.key == "best-us-northern-cities-for-tomatoes" %}
         {{ rankingTile(board, "", "", "Northern U.S. tomatoes") }}
       {% endif %}
+      {% if board.key == "best-us-northern-cities-for-peppers" %}
+        {{ rankingTile(board, "", "", "Northern U.S. peppers") }}
+      {% endif %}
+      {% if board.key == "best-us-northern-cities-for-watermelon" %}
+        {{ rankingTile(board, "", "", "Northern U.S. watermelon") }}
+      {% endif %}
       {% if board.key == "best-canadian-cities-for-growing-watermelon" %}
         {{ rankingTile(board, "", "", "Watermelon") }}
       {% endif %}
@@ -162,7 +168,7 @@ canonical: "https://growbydate.com/data/"
 
 <section class="card">
   <p class="eyebrow">How the data works</p>
-  <h2>Data Sources and Methodology</h2>
+  <h2>Climate Data Interpretation and Limitations</h2>
 
   <p>
     GrowByDate combines public climate normals, frost-date estimates, growing degree day calculations, and crop maturity assumptions
@@ -184,6 +190,6 @@ canonical: "https://growbydate.com/data/"
 {% set sourceLinksVariant = "climate-data" %}
 {% set sourceLinksId = "data-index" %}
 {% set sourceLinksHeading = "Official source links for the data hub" %}
-{% set sourceLinksIntro = "Use these official references to verify the climate-normal, growing degree day, and hardiness-zone concepts behind the GrowByDate data hub." %}
+{% set sourceLinksIntro = "Use these official references to verify the climate-normal, frost-date, and growing degree day concepts behind the GrowByDate data hub." %}
 {% include "components/external-source-links.njk" %}
 

@@ -12,6 +12,7 @@ module.exports = [
       "why-days-to-maturity-isnt-enough-in-cold-climates",
       "will-my-crop-mature-before-first-frost",
       "what-crops-grow-in-short-growing-seasons",
+      "why-usda-zone-is-the-most-misunderstood-gardening-number",
     ],
   },
   {

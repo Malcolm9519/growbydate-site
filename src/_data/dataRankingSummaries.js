@@ -1,6 +1,8 @@
 const watermelonRealityCheck = require("./watermelonRealityCheck");
 const bestCanadianCitiesForTomatoes = require("./bestCanadianCitiesForTomatoes");
 const bestUsNorthernCitiesForTomatoes = require("./bestUsNorthernCitiesForTomatoes");
+const bestUsNorthernCitiesForPeppers = require("./bestUsNorthernCitiesForPeppers");
+const bestUsNorthernCitiesForWatermelon = require("./bestUsNorthernCitiesForWatermelon");
 const hardestCropsShortSeasons = require("./hardestCropsShortSeasons");
 const citiesWithShortestGrowingSeasons = require("./citiesWithShortestGrowingSeasons");
 const citiesWhereFrostFreeDaysAreMisleading = require("./citiesWhereFrostFreeDaysAreMisleading");
@@ -32,6 +34,8 @@ module.exports = function () {
   const watermelon = watermelonRealityCheck();
   const tomatoes = bestCanadianCitiesForTomatoes();
   const usNorthernTomatoes = bestUsNorthernCitiesForTomatoes();
+  const usNorthernPeppers = bestUsNorthernCitiesForPeppers();
+  const usNorthernWatermelon = bestUsNorthernCitiesForWatermelon();
   const hardest = hardestCropsShortSeasons();
   const shortest = citiesWithShortestGrowingSeasons();
   const frostMismatch = citiesWhereFrostFreeDaysAreMisleading();
@@ -82,6 +86,18 @@ module.exports = function () {
       usNorthernTomatoes.top
         ? `${usNorthernTomatoes.top.cityName} leads the current northern U.S. tomato ranking at ${usNorthernTomatoes.top.score}/100.`
         : "Current northern U.S. tomato ranking data is available."
+    ),
+    summarize(
+      usNorthernPeppers,
+      usNorthernPeppers.top
+        ? `${usNorthernPeppers.top.cityName} leads the current northern U.S. pepper ranking at ${usNorthernPeppers.top.score}/100.`
+        : "Current northern U.S. pepper ranking data is available."
+    ),
+    summarize(
+      usNorthernWatermelon,
+      usNorthernWatermelon.top
+        ? `${usNorthernWatermelon.top.cityName} leads the current northern U.S. watermelon ranking at ${usNorthernWatermelon.top.score}/100.`
+        : "Current northern U.S. watermelon ranking data is available."
     ),
     summarize(
       hardest,

@@ -56,9 +56,9 @@ canonical: "https://growbydate.com/planting-dates/canada/provinces/"
   />
   <p class="small" id="province-city-search-count" aria-live="polite"></p>
 
-  <ul class="index-list" id="province-city-list">
+  <ul class="index-list" id="province-city-list" data-on-this-page-list>
     {% for prov in provinceSummariesCA %}
-      <li class="index-item" data-index-group data-search="{{ prov.name | lower }} {{ prov.key | lower }}{% if prov.lede %} {{ prov.lede | lower }}{% endif %}">
+      <li class="index-item" data-index-group data-on-this-page-label="{{ prov.name }}" data-search="{{ prov.name | lower }} {{ prov.key | lower }}{% if prov.lede %} {{ prov.lede | lower }}{% endif %}">
         <a class="index-link" href="/planting-dates/canada/provinces/{{ prov.key }}/">
           <strong>{{ prov.name }}</strong>
           {% if prov.lede %}
@@ -139,5 +139,5 @@ canonical: "https://growbydate.com/planting-dates/canada/provinces/"
 {% set sourceLinksVariant = "canada-planting-dates" %}
 {% set sourceLinksId = "planting-dates-provinces-index" %}
 {% set sourceLinksHeading = "Sources for Canadian planting-date context" %}
-{% set sourceLinksIntro = "These Canadian planting-date pages use long-term climate-normal, frost-date, and hardiness-zone references to compare typical gardening windows by province and city. They are planning references, not a forecast for this season." %}
+{% set sourceLinksIntro = "These Canadian planting-date pages use long-term climate-normal, frost-date, and degree-day references to compare typical gardening windows by province and city. They are planning references, not a forecast for this season." %}
 {% include "components/external-source-links.njk" %}

@@ -10,36 +10,31 @@
 
   {% if sourceLinkVariant == "us-climate" %}
     <ul class="tight sourceLinkList">
-      <li><a href="https://www.ncei.noaa.gov/products/land-based-station/us-climate-normals" target="_blank" rel="noopener">NOAA/NCEI U.S. Climate Normals</a> — U.S. climate-normal and station-reference context.</li>
-      <li><a href="https://www.ncei.noaa.gov/access/us-climate-normals/" target="_blank" rel="noopener">NOAA U.S. Climate Normals Quick Access</a> — 1991–2020 normals lookup and period reference.</li>
-      <li><a href="https://planthardiness.ars.usda.gov/" target="_blank" rel="noopener">USDA Plant Hardiness Zone Map</a> — official U.S. winter-hardiness zone reference.</li>
+      <li><a href="https://www.ncei.noaa.gov/products/land-based-station/us-climate-normals" target="_blank" rel="noopener">NOAA/NCEI U.S. Climate Normals</a> — official U.S. climate-normal context, including frost/freeze probabilities, season length, and growing degree day statistics.</li>
+      <li><a href="https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/cdus/degree_days/" target="_blank" rel="noopener">NOAA Climate Prediction Center degree day resources</a> — degree-day terminology and reference material.</li>
       <li><a href="/data/methodology/">GrowByDate data methodology</a> — how frost, GDD, crop timing, and margin are interpreted on this site.</li>
     </ul>
   {% elseif sourceLinkVariant == "canada-climate" %}
     <ul class="tight sourceLinkList">
-      <li><a href="https://climate.weather.gc.ca/climate_normals/" target="_blank" rel="noopener">Environment and Climate Change Canada Climate Normals</a> — Canadian climate-normal and station-reference context.</li>
-      <li><a href="https://climate.weather.gc.ca/climate_normals/station_select_1991_2020_e.html" target="_blank" rel="noopener">ECCC 1991–2020 Climate Normals search</a> — current Canadian normals period used for many location comparisons.</li>
-      <li><a href="https://planthardiness.gc.ca/" target="_blank" rel="noopener">Natural Resources Canada Plant Hardiness Zones</a> — Canadian hardiness-zone reference.</li>
+      <li><a href="https://climate.weather.gc.ca/climate_normals/" target="_blank" rel="noopener">Environment and Climate Change Canada Climate Normals</a> — official Canadian climate-normal context, including frost-free period, frost probabilities, and degree-day elements where available.</li>
       <li><a href="/data/methodology/">GrowByDate data methodology</a> — how frost, GDD, crop timing, and margin are interpreted on this site.</li>
     </ul>
   {% elseif sourceLinkVariant == "us-planting-dates" %}
     <ul class="tight sourceLinkList">
-      <li><a href="https://www.ncei.noaa.gov/products/land-based-station/us-climate-normals" target="_blank" rel="noopener">NOAA/NCEI U.S. Climate Normals</a> — U.S. climate-normal and station-reference context for typical conditions.</li>
-      <li><a href="https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/cdus/degree_days/" target="_blank" rel="noopener">NOAA Climate Prediction Center degree day resources</a> — growing degree day terminology and reference material.</li>
-      <li><a href="https://planthardiness.ars.usda.gov/" target="_blank" rel="noopener">USDA Plant Hardiness Zone Map</a> — official U.S. winter-hardiness zone reference.</li>
+      <li><a href="https://www.ncei.noaa.gov/products/land-based-station/us-climate-normals" target="_blank" rel="noopener">NOAA/NCEI U.S. Climate Normals</a> — official U.S. frost/freeze, frost-free season, and growing degree day normal context.</li>
+      <li><a href="https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/cdus/degree_days/" target="_blank" rel="noopener">NOAA Climate Prediction Center degree day resources</a> — degree-day terminology and calculation context.</li>
       <li><a href="/data/methodology/">GrowByDate data methodology</a> — how frost dates, GDD, crop timing, and planting-window assumptions are interpreted on this site.</li>
     </ul>
   {% elseif sourceLinkVariant == "canada-planting-dates" %}
     <ul class="tight sourceLinkList">
-      <li><a href="https://climate.weather.gc.ca/climate_normals/" target="_blank" rel="noopener">Environment and Climate Change Canada Climate Normals</a> — Canadian climate-normal and station-reference context for typical conditions.</li>
-      <li><a href="https://planthardiness.gc.ca/" target="_blank" rel="noopener">Natural Resources Canada Plant Hardiness Zones</a> — Canadian hardiness-zone reference.</li>
+      <li><a href="https://climate.weather.gc.ca/climate_normals/" target="_blank" rel="noopener">Environment and Climate Change Canada Climate Normals</a> — official Canadian frost-free period, frost probability, climate-normal, and degree-day context.</li>
       <li><a href="/data/methodology/">GrowByDate data methodology</a> — how frost dates, GDD, crop timing, and planting-window assumptions are interpreted on this site.</li>
     </ul>
   {% elseif sourceLinkVariant == "gdd" %}
     <ul class="tight sourceLinkList">
-      <li><a href="https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/cdus/degree_days/" target="_blank" rel="noopener">NOAA Climate Prediction Center degree day resources</a> — official degree-day reference material.</li>
-      <li><a href="https://www.ncei.noaa.gov/products/land-based-station/us-climate-normals" target="_blank" rel="noopener">NOAA/NCEI U.S. Climate Normals</a> — U.S. climate-normal and station-reference context.</li>
-      <li><a href="https://climate.weather.gc.ca/climate_normals/" target="_blank" rel="noopener">Environment and Climate Change Canada Climate Normals</a> — Canadian climate-normal and station-reference context.</li>
+      <li><a href="https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/cdus/degree_days/" target="_blank" rel="noopener">NOAA Climate Prediction Center degree day resources</a> — degree-day terminology and reference material.</li>
+      <li><a href="https://www.ncei.noaa.gov/products/land-based-station/us-climate-normals" target="_blank" rel="noopener">NOAA/NCEI U.S. Climate Normals</a> — U.S. climate-normal context for growing degree days, season length, and frost probabilities.</li>
+      <li><a href="https://climate.weather.gc.ca/climate_normals/" target="_blank" rel="noopener">Environment and Climate Change Canada Climate Normals</a> — Canadian climate-normal context for degree-day and frost-free-period elements.</li>
       <li><a href="/data/methodology/">GrowByDate data methodology</a> — how base-temperature GDD, frost boundaries, and crop margin are interpreted on this site.</li>
     </ul>
   {% elseif sourceLinkVariant == "hardiness" %}
@@ -104,12 +99,19 @@
       <li><a href="https://planthardiness.ars.usda.gov/" target="_blank" rel="noopener">USDA Plant Hardiness Zone Map</a> and <a href="https://planthardiness.gc.ca/" target="_blank" rel="noopener">Natural Resources Canada Plant Hardiness Zones</a> — hardiness-zone context.</li>
       <li><a href="/data/methodology/">GrowByDate data methodology</a> — how climate-fit signals are interpreted on this site.</li>
     </ul>
+  {% elseif sourceLinkVariant == "frost-protection" %}
+    <ul class="tight sourceLinkList">
+      <li><a href="https://extension.umn.edu/planting-and-growing-guides/extending-growing-season" target="_blank" rel="noopener">University of Minnesota Extension: extending the growing season</a> — row cover, cold frame, and protected growing context.</li>
+      <li><a href="https://extension.unh.edu/blog/2020/10/using-row-covers-garden" target="_blank" rel="noopener">UNH Extension: using row covers in the garden</a> — row-cover frost-protection ranges and season-extension context.</li>
+      <li><a href="https://extension.umaine.edu/publications/2752e/" target="_blank" rel="noopener">University of Maine Extension: extending the gardening season</a> — cold frames, row covers, and season-extension tradeoffs.</li>
+      <li><a href="https://extension.usu.edu/yardandgarden/research/extending-the-garden-season" target="_blank" rel="noopener">Utah State University Extension: extending the garden season</a> — row-cover and season-extension methods for gardeners.</li>
+      <li><a href="/data/methodology/">GrowByDate data methodology</a> — how frost boundaries and timing margin are interpreted on this site.</li>
+    </ul>
   {% else %}
     <ul class="tight sourceLinkList">
-      <li><a href="https://www.ncei.noaa.gov/products/land-based-station/us-climate-normals" target="_blank" rel="noopener">NOAA/NCEI U.S. Climate Normals</a> — U.S. climate-normal and station-reference context.</li>
-      <li><a href="https://climate.weather.gc.ca/climate_normals/" target="_blank" rel="noopener">Environment and Climate Change Canada Climate Normals</a> — Canadian climate-normal and station-reference context.</li>
+      <li><a href="https://www.ncei.noaa.gov/products/land-based-station/us-climate-normals" target="_blank" rel="noopener">NOAA/NCEI U.S. Climate Normals</a> — U.S. climate-normal context for frost/freeze probabilities, season length, and growing degree day statistics.</li>
+      <li><a href="https://climate.weather.gc.ca/climate_normals/" target="_blank" rel="noopener">Environment and Climate Change Canada Climate Normals</a> — Canadian climate-normal context for frost-free period, frost probabilities, and degree-day elements.</li>
       <li><a href="https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/cdus/degree_days/" target="_blank" rel="noopener">NOAA Climate Prediction Center degree day resources</a> — degree-day terminology and reference material.</li>
-      <li><a href="https://planthardiness.ars.usda.gov/" target="_blank" rel="noopener">USDA Plant Hardiness Zone Map</a> and <a href="https://planthardiness.gc.ca/" target="_blank" rel="noopener">Natural Resources Canada Plant Hardiness Zones</a> — hardiness-zone context.</li>
       <li><a href="/data/methodology/">GrowByDate data methodology</a> — how source references are turned into garden-planning signals.</li>
     </ul>
   {% endif %}

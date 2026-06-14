@@ -3263,13 +3263,15 @@ body.cropCityPage main details[open] {
 
 /* Offset automatic "On this page" heading anchors below sticky header */
 #page-content h2[id],
-#page-content h3[id] {
+#page-content h3[id],
+#page-content [data-on-this-page-list] > [id] {
   scroll-margin-top: 120px;
 }
 
 @media (max-width: 720px) {
   #page-content h2[id],
-  #page-content h3[id] {
+  #page-content h3[id],
+  #page-content [data-on-this-page-list] > [id] {
     scroll-margin-top: 96px;
   }
 }

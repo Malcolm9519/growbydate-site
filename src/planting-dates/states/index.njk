@@ -56,9 +56,9 @@ canonical: "https://growbydate.com/planting-dates/states/"
   />
   <p class="small" id="state-city-search-count" aria-live="polite"></p>
 
-  <ul class="index-list" id="state-city-list">
+  <ul class="index-list" id="state-city-list" data-on-this-page-list>
     {% for st in stateSummariesUS %}
-      <li class="index-item" data-index-group data-search="{{ st.name | lower }} {{ st.key | lower }}{% if st.lede %} {{ st.lede | lower }}{% endif %}">
+      <li class="index-item" data-index-group data-on-this-page-label="{{ st.name }}" data-search="{{ st.name | lower }} {{ st.key | lower }}{% if st.lede %} {{ st.lede | lower }}{% endif %}">
         <a class="index-link" href="/planting-dates/states/{{ st.key }}/">
           <strong>{{ st.name }}</strong>
           {% if st.lede %}
@@ -139,5 +139,5 @@ canonical: "https://growbydate.com/planting-dates/states/"
 {% set sourceLinksVariant = "us-planting-dates" %}
 {% set sourceLinksId = "planting-dates-states-index" %}
 {% set sourceLinksHeading = "Sources for U.S. planting-date context" %}
-{% set sourceLinksIntro = "These U.S. planting-date pages use long-term climate-normal, frost-date, growing degree day, and hardiness-zone references to compare typical gardening windows by state and city. They are planning references, not a forecast for this season." %}
+{% set sourceLinksIntro = "These U.S. planting-date pages use long-term climate-normal, frost-date, and growing degree day references to compare typical gardening windows by state and city. They are planning references, not a forecast for this season." %}
 {% include "components/external-source-links.njk" %}

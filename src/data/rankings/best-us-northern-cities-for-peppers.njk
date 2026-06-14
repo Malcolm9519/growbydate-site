@@ -1,0 +1,155 @@
+---
+layout: layout-base.njk
+title: Best U.S. Northern Cities for Peppers | GrowByDate
+description: Compare northern U.S. cities for outdoor pepper growing by heat margin, frost-free days, timing pressure, and variety flexibility.
+canonical: "https://growbydate.com/data/rankings/best-us-northern-cities-for-peppers/"
+datasetSchema:
+  dateModified: "2026-06-13"
+  spatialCoverage: "Northern United States"
+  temporalCoverage: "Long-term climate planning normals"
+  variableMeasured:
+    - "Pepper growing suitability score"
+    - "Frost-free season length"
+    - "Growing degree day margin"
+    - "Variety flexibility"
+    - "City latitude"
+  measurementTechnique: "Northern U.S. city ranking for outdoor pepper growing suitability using heat margin, frost-free days, timing pressure, and variety flexibility."
+  keywords:
+    - "best cities for peppers"
+    - "northern pepper gardening"
+    - "garden climate ranking"
+    - "growing degree days"
+    - "short-season gardening"
+  distributionName: "Best U.S. Northern Cities For Peppers"
+---
+
+{% set board = bestUsNorthernCitiesForPeppers %}
+{% set top = board.top %}
+{% set hardest = board.hardest %}
+
+<section class="card leaderboardHero">
+  <p class="eyebrow">Crop-city comparison</p>
+  <h1>Best U.S. Northern Cities for Peppers</h1>
+  <p class="lede">
+    Peppers are possible in many northern gardens, but they are less forgiving than tomatoes when spring warmth arrives late or the season runs cool. This ranking compares northern U.S. cities by outdoor pepper fit, GDD margin, timing pressure, and variety flexibility.
+  </p>
+
+  <div class="leaderboardStatGrid" aria-label="Ranking summary">
+    {% if top %}
+      <div class="leaderboardStat">
+        <span class="statLabel">Top city</span>
+        <strong>{{ top.cityName }}</strong>
+        <span>{{ top.score }}/100 · {{ top.label }}</span>
+      </div>
+    {% endif %}
+
+    {% if hardest %}
+      <div class="leaderboardStat">
+        <span class="statLabel">Tightest fit</span>
+        <strong>{{ hardest.cityName }}</strong>
+        <span>{{ hardest.score }}/100 · {{ hardest.label }}</span>
+      </div>
+    {% endif %}
+
+    <div class="leaderboardStat">
+      <span class="statLabel">Cities compared</span>
+      <strong>{{ board.entries.length }}</strong>
+      <span>U.S. cities at or above {{ board.northernLatitudeCutoff }}°N</span>
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>The ranking</h2>
+  <p>
+    Higher scores mean peppers have more outdoor breathing room in a typical season. Lower scores usually mean fast varieties, early indoor starts, warmer garden sites, or protection become more important.
+  </p>
+
+  <div class="tableWrap leaderboardTableWrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Location</th>
+          <th>Pepper fit</th>
+          <th>GDD margin</th>
+          <th>Frost-free days</th>
+          <th>Best variety fit</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in board.entries %}
+          <tr>
+            <td><strong>#{{ row.rank }}</strong></td>
+            <td>
+              <a href="{{ row.url }}"><strong>{{ row.cityName }}</strong></a><br>
+              <span class="small muted">{{ row.regionName }}, U.S. · {{ row.latitude }}°N</span>
+            </td>
+            <td>
+              <strong>{{ row.score }}/100</strong><br>
+              <span class="fitBadge fitBadge-{{ row.badgeClass }}">{{ row.label }}</span>
+            </td>
+            <td>
+              {% if row.gddMargin >= 0 %}+{% endif %}{{ row.gddMargin }} GDD<br>
+              <span class="small muted">{{ row.availableGddFromPlanting }} available / {{ row.targetGdd }} target</span>
+            </td>
+            <td>{{ row.frostFreeDays }}</td>
+            <td>
+              {% if row.fittingVarietyLabels.length %}
+                {{ row.fittingVarietyLabels | join(", ") }}
+              {% else %}
+                No clear outdoor fit
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="card leaderboardCallout">
+  <h2>What this ranking means</h2>
+  <p>
+    This is a pepper climate-fit ranking, not a promise that every garden in a city will behave the same way. The strongest northern pepper cities usually give gardeners enough heat margin to think beyond the fastest possible varieties.
+  </p>
+  <p>
+    For the raw climate side of the story, compare <a href="/data/rankings/us-cities-with-the-highest-growing-degree-days/">U.S. Cities With the Highest Growing Degree Days</a> and <a href="/data/rankings/us-cities-with-the-longest-growing-seasons/">U.S. Cities With the Longest Growing Seasons</a>.
+  </p>
+</section>
+
+{% set sourceLinksVariant = "us-climate" %}
+{% set sourceLinksId = "ranking-best-us-northern-cities-for-peppers" %}
+{% set sourceLinksHeading = "Official source context for this ranking" %}
+{% set sourceLinksIntro = "This ranking is a GrowByDate interpretation of frost, seasonal heat, crop margin, and timing signals. These links show the official source concepts behind the derived metrics." %}
+{% include "components/external-source-links.njk" %}
+
+<section class="card">
+  <h2>Methodology</h2>
+  <p>{{ board.methodology }}</p>
+  <p>{{ board.caveat }}</p>
+  <p class="small">
+    Download: <a href="/assets/data/rankings/best-us-northern-cities-for-peppers.json">northern U.S. pepper comparison JSON</a>.
+  </p>
+</section>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": {{ board.title | dump | safe }},
+  "description": {{ board.description | dump | safe }},
+  "url": "https://growbydate.com/data/rankings/best-us-northern-cities-for-peppers/",
+  "numberOfItems": {{ board.entries.length }},
+  "itemListElement": [
+    {% for row in board.entries %}
+      {
+        "@type": "ListItem",
+        "position": {{ row.rank }},
+        "name": {{ (row.cityName ~ " pepper fit score") | dump | safe }},
+        "url": {{ (site.url ~ row.url) | dump | safe }}
+      }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>

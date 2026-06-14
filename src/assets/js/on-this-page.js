@@ -16,6 +16,7 @@
     isCityPage ||
     isCropCityPage ||
     pageUrl.startsWith("/data/") ||
+    pageUrl.startsWith("/guides/") ||
     pageUrl.startsWith("/crops/") ||
     pageUrl.startsWith("/planting-dates/canada/provinces/") ||
     pageUrl.startsWith("/planting-dates/states/");
@@ -23,26 +24,66 @@
   if (!isUsefulPage) return;
 
   if (window.matchMedia("(max-width: 860px)").matches) {
-  return;
-}
+    return;
+  }
 
-const selector = "h2";
-
-  const headings = Array.from(content.querySelectorAll(selector)).filter((heading) => {
-    if (!heading.textContent.trim()) return false;
-
-    if (
-      heading.closest(
+  function isIgnoredTarget(target) {
+    return Boolean(
+      target.closest(
         ".onThisPage, .relatedGuides, .footer, nav, header, [hidden], [aria-hidden='true'], [data-toc-ignore], [data-role='resultsCard']"
       )
-    ) {
-      return false;
-    }
+    );
+  }
+
+  function cleanLabel(text) {
+    return String(text || "").replace(/\s+/g, " ").trim();
+  }
+
+  function getIndexItemLabel(item) {
+    return cleanLabel(
+      item.getAttribute("data-on-this-page-label") ||
+      (item.querySelector("[data-on-this-page-label]") || {}).textContent ||
+      (item.querySelector(".index-link strong") || {}).textContent ||
+      (item.querySelector("a strong") || {}).textContent ||
+      (item.querySelector("a") || {}).textContent ||
+      item.textContent
+    );
+  }
+
+  const headingTargets = Array.from(content.querySelectorAll("h2")).filter((heading) => {
+    if (!cleanLabel(heading.textContent)) return false;
+
+    if (isIgnoredTarget(heading)) return false;
 
     return true;
+  }).map((heading) => ({
+    target: heading,
+    label: cleanLabel(heading.textContent),
+    className: `onThisPageItem--${heading.tagName.toLowerCase()}`
+  }));
+
+  const indexTargets = Array.from(content.querySelectorAll("[data-on-this-page-list]")).flatMap((list) => {
+    if (isIgnoredTarget(list)) return [];
+
+    return Array.from(list.children).filter((item) => {
+      const label = getIndexItemLabel(item);
+
+      if (!label) return false;
+
+      if (item.hasAttribute("hidden")) return false;
+      if (isIgnoredTarget(item)) return false;
+
+      return true;
+    }).map((item) => ({
+      target: item,
+      label: getIndexItemLabel(item),
+      className: "onThisPageItem--index"
+    }));
   });
 
-  if (headings.length < 3) return;
+  const items = headingTargets.length >= 3 ? headingTargets : indexTargets;
+
+  if (items.length < 3) return;
 
   const usedIds = new Set(Array.from(document.querySelectorAll("[id]")).map((el) => el.id));
 
@@ -57,10 +98,10 @@ const selector = "h2";
       .slice(0, 70) || "section";
   }
 
-  function ensureId(heading) {
-    if (heading.id) return heading.id;
+  function ensureId(target, label) {
+    if (target.id) return target.id;
 
-    const base = slugify(heading.textContent);
+    const base = slugify(label || target.textContent);
     let id = base;
     let index = 2;
 
@@ -69,7 +110,7 @@ const selector = "h2";
       index += 1;
     }
 
-    heading.id = id;
+    target.id = id;
     usedIds.add(id);
     return id;
   }
@@ -77,14 +118,14 @@ const selector = "h2";
   const list = document.createElement("ol");
   list.className = "onThisPageList";
 
-  headings.forEach((heading) => {
-    const id = ensureId(heading);
+  items.forEach((navItem) => {
+    const id = ensureId(navItem.target, navItem.label);
     const item = document.createElement("li");
-    item.className = `onThisPageItem onThisPageItem--${heading.tagName.toLowerCase()}`;
+    item.className = `onThisPageItem ${navItem.className}`;
 
     const link = document.createElement("a");
     link.href = `#${id}`;
-    link.textContent = heading.textContent.trim();
+    link.textContent = navItem.label;
 
     item.appendChild(link);
     list.appendChild(item);
@@ -117,8 +158,8 @@ const selector = "h2";
     }
   }
 
-  if (headings[0] && headings[0].id) {
-    setActiveLink(headings[0].id);
+  if (items[0] && items[0].target.id) {
+    setActiveLink(items[0].target.id);
   }
 
   if (!("IntersectionObserver" in window)) return;
@@ -139,5 +180,5 @@ const selector = "h2";
     }
   );
 
-  headings.forEach((heading) => observer.observe(heading));
+  items.forEach((navItem) => observer.observe(navItem.target));
 })();
