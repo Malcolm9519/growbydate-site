@@ -209,7 +209,7 @@ function resolveMainSourceFiles(projectRoot, urlPath) {
     "src/_data/cropCityCrops.js"
   ];
 
-  if (/^\/planting-dates\/canada\/provinces\/[^/]+\/$/.test(urlPath)) {
+  if (/^\/planting-dates\/canada\/[^/]+\/$/.test(urlPath) && urlPath !== "/planting-dates/canada/") {
     return existingFiles(projectRoot, [
       "src/planting-dates/canada/provinces/province.njk",
       ...regionData,
@@ -217,7 +217,7 @@ function resolveMainSourceFiles(projectRoot, urlPath) {
     ]);
   }
 
-  if (/^\/planting-dates\/states\/[^/]+\/$/.test(urlPath)) {
+  if (/^\/planting-dates\/(?!canada\/|states\/)[^/]+\/$/.test(urlPath)) {
     return existingFiles(projectRoot, [
       "src/planting-dates/states/state.njk",
       ...regionData,

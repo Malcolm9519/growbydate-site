@@ -65,7 +65,7 @@ eleventyComputed:
 <section class="small muted" style="margin-top:1rem;">
   <p>
     Looking for broader guidance? See planting timing across
-    <a href="/planting-dates/{% if city.country == 'canada' %}canada/provinces{% else %}states{% endif %}/{{ city.regionKey }}/">{{ city.regionName }}</a>
+    <a href="/planting-dates/{% if city.country == 'canada' %}canada/{% endif %}{{ city.regionKey }}/">{{ city.regionName }}</a>
   </p>
 </section>
 

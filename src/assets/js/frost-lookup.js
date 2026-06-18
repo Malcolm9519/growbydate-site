@@ -194,7 +194,7 @@ export function renderExpandedFrostResults(targetEl, frost) {
   const isCanada = country === "CA";
 
   const regionalBrowseLink = isCanada
-    ? "/planting-dates/canada/provinces/"
+    ? "/planting-dates/canada/"
     : "/planting-dates/states/";
 
   const regionalBrowseLabel = isCanada

@@ -18,7 +18,7 @@
     pageUrl.startsWith("/data/") ||
     pageUrl.startsWith("/guides/") ||
     pageUrl.startsWith("/crops/") ||
-    pageUrl.startsWith("/planting-dates/canada/provinces/") ||
+    pageUrl.startsWith("/planting-dates/canada/") ||
     pageUrl.startsWith("/planting-dates/states/");
 
   if (!isUsefulPage) return;

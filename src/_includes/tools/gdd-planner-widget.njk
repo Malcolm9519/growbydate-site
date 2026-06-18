@@ -93,8 +93,20 @@
   {% if cfg.hideCrops is defined %}data-hide-crops="{{ cfg.hideCrops }}"{% endif %}
 >
 
-  {# Embedded canonical build-time data (scoped to this widget instance) #}
-  <script type="application/json" data-site-crops>{{ crops | dump | safe }}</script>
+  {# Embedded canonical build-time data (scoped to this widget instance).
+     Keep this intentionally compact so city pages do not ship the full crop registry. #}
+  {% set gddPlannerCrops = [] %}
+  {% for crop in (crops or []) %}
+    {% if crop and crop.id and crop.relatedTools and ("gdd-planner" in crop.relatedTools) %}
+      {% set gddPlannerCrops = gddPlannerCrops.concat([{
+        "id": crop.id,
+        "slug": crop.slug or crop.id,
+        "name": crop.name or crop.id,
+        "relatedTools": ["gdd-planner"]
+      }]) %}
+    {% endif %}
+  {% endfor %}
+  <script type="application/json" data-site-crops>{{ gddPlannerCrops | dump | safe }}</script>
   <script type="application/json" data-gdd-crops>{{ gddCrops | dump | safe }}</script>
 
 <section class="gddHybridTool" aria-label="Growing degree day planner">

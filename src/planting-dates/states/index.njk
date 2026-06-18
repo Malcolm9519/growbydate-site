@@ -62,7 +62,7 @@ canonical: "https://growbydate.com/planting-dates/states/"
   <ul class="index-list" id="state-city-list" data-on-this-page-list>
     {% for st in stateSummariesUS %}
       <li class="index-item" data-index-group data-on-this-page-label="{{ st.name }}" data-search="{{ st.name | lower }} {{ st.key | lower }}{% if st.lede %} {{ st.lede | lower }}{% endif %}">
-        <a class="index-link" href="/planting-dates/states/{{ st.key }}/">
+        <a class="index-link" href="/planting-dates/{{ st.key }}/">
           <strong>{{ st.name }}</strong>
           {% if st.lede %}
             <div class="index-desc">{{ st.lede }}</div>

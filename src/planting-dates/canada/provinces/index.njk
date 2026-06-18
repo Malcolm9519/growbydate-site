@@ -1,9 +1,9 @@
 ---
 layout: layout-base.njk
-permalink: "/planting-dates/canada/provinces/"
+permalink: "/planting-dates/canada/"
 title: "Canada Planting Dates by Province (Frost & GDD Normals)"
 description: "Browse published Canadian province planting date guides with normals-based frost timing, growing degree days, and local city pages."
-canonical: "https://growbydate.com/planting-dates/canada/provinces/"
+canonical: "https://growbydate.com/planting-dates/canada/"
 ---
 
 <style>
@@ -62,7 +62,7 @@ canonical: "https://growbydate.com/planting-dates/canada/provinces/"
   <ul class="index-list" id="province-city-list" data-on-this-page-list>
     {% for prov in provinceSummariesCA %}
       <li class="index-item" data-index-group data-on-this-page-label="{{ prov.name }}" data-search="{{ prov.name | lower }} {{ prov.key | lower }}{% if prov.lede %} {{ prov.lede | lower }}{% endif %}">
-        <a class="index-link" href="/planting-dates/canada/provinces/{{ prov.key }}/">
+        <a class="index-link" href="/planting-dates/canada/{{ prov.key }}/">
           <strong>{{ prov.name }}</strong>
           {% if prov.lede %}
             <div class="index-desc">{{ prov.lede }}</div>

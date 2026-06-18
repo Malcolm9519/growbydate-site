@@ -5,11 +5,11 @@ pagination:
   data: stateSummariesUS
   size: 1
   alias: state
-permalink: "/planting-dates/states/{{ state.key }}/index.html"
+permalink: "/planting-dates/{{ state.key }}/index.html"
 eleventyComputed:
   title: "{{ state.name }} Garden Guide: Planting Dates, Frost Dates and Growing Season"
   description: "Browse {{ state.name }} planting dates by city, with average last frost, first frost, frost-free days, and local crop timing links."
-  canonical: "https://growbydate.com/planting-dates/states/{{ state.key }}/"
+  canonical: "https://growbydate.com/planting-dates/{{ state.key }}/"
 ---
 
 <header class="header">

@@ -1,4 +1,9 @@
-﻿/guides/best-grow-lights-for-starting-vegetable-seedlings-indoors/ /guides/best-grow-lights-for-seedlings/ 301
+# Canonical planting-date hierarchy cleanup.
+/planting-dates/canada/provinces/ /planting-dates/canada/ 301
+/planting-dates/canada/provinces/:province/ /planting-dates/canada/:province/ 301
+/planting-dates/states/:state/ /planting-dates/:state/ 301
+
+/guides/best-grow-lights-for-starting-vegetable-seedlings-indoors/ /guides/best-grow-lights-for-seedlings/ 301
 /guides/best-soil-mix-for-seed-starting-trays/ /guides/best-seed-starting-mix/ 301
 /guides/best-grow-lights-for-starting-vegetable-seedlings-indoors/ /guides/best-grow-lights-for-seedlings/ 301
 /guides/best-soil-thermometer-for-gardening-in-cold-climates/ /guides/best-soil-thermometer/ 301
