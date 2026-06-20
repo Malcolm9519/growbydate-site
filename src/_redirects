@@ -1,14 +1,18 @@
-# Canonical planting-date hierarchy cleanup.
+﻿# Canonical planting-date hierarchy cleanup.
 /planting-dates/canada/provinces/ /planting-dates/canada/ 301
 /planting-dates/canada/provinces/:province/ /planting-dates/canada/:province/ 301
 /planting-dates/states/:state/ /planting-dates/:state/ 301
 
+# Renamed / consolidated guide pages.
 /guides/best-grow-lights-for-starting-vegetable-seedlings-indoors/ /guides/best-grow-lights-for-seedlings/ 301
 /guides/best-soil-mix-for-seed-starting-trays/ /guides/best-seed-starting-mix/ 301
-/guides/best-grow-lights-for-starting-vegetable-seedlings-indoors/ /guides/best-grow-lights-for-seedlings/ 301
 /guides/best-soil-thermometer-for-gardening-in-cold-climates/ /guides/best-soil-thermometer/ 301
 /guides/best-heat-mat-for-peppers-and-tomatoes/ /guides/best-heat-mat-for-seedlings/ 301
 /guides/best-seed-starting-trays-for-tomatoes-and-peppers/ /guides/best-seed-starting-trays/ 301
+/guides/best-seed-organizer-binder-for-gardeners/ /guides/best-seed-storage-organizer-for-gardeners/ 301
+/guides/best-seed-storage-box-for-vegetable-seeds/ /guides/best-seed-storage-organizer-for-gardeners/ 301
+
+# Renamed informational guide pages.
 /guides/seed-starting-short-season/ /guides/seed-starting-in-a-short-growing-season/ 301
 /guides/too-late-to-plant-peppers/ /guides/is-it-too-late-to-plant-peppers/ 301
 /guides/do-you-need-a-heat-mat-to-start-seeds/ /guides/when-a-heat-mat-helps-for-seed-starting/ 301
@@ -18,6 +22,8 @@
 /guides/too-late-to-start-peppers-in-zone-4/ /guides/is-it-too-late-to-plant-peppers/ 301
 /guides/can-i-plant-tomatoes-after-the-last-frost-date/ /guides/is-it-too-late-to-plant-tomatoes/ 301
 /guides/when-to-start-tomatoes-in-zone-3/ /guides/is-it-too-late-to-plant-tomatoes/ 301
+
+# Data index cleanup.
 /data/rankings/ /data/ 301
 
 # Renamed data ranking pages.
@@ -34,4 +40,3 @@ https://varieties.growbydate.com/planting-dates/:state/:city/:crop/best-varietie
 https://varieties.growbydate.com/:crop/:slug/ https://growbydate.com/crops/:crop/:slug/ 301!
 https://varieties.growbydate.com/:crop/ https://growbydate.com/crops/:crop/ 301!
 https://varieties.growbydate.com/ https://growbydate.com/crops/ 301!
-
