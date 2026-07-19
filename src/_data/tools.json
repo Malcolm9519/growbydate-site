@@ -110,5 +110,20 @@
       "CSV export"
     ],
     "keywords": "pollinator plant finder, climate fit native plants, hardiness zone plant matrix, pollinator garden plant list"
+  },
+  {
+    "slug": "frost-protection-calculator",
+    "name": "Frost Protection Calculator",
+    "description": "Compare frost cloth, row cover, low tunnels, and cold frames to decide whether covering your plants is worth the cost, effort, and expected extra growing time.",
+    "order": 9,
+    "featureList": [
+      "Plain-language protect or skip recommendation",
+      "Crop profiles for vegetables, herbs, flowers, dahlias, and greens",
+      "Frost cloth, row cover, low tunnel, and cold frame comparison",
+      "Estimated added growing days and protected harvest cutoff",
+      "Simple effort and cost notes with optional advanced math",
+      "CSV export"
+    ],
+    "keywords": "frost protection calculator, is frost cloth worth it, should I cover my plants, row cover calculator, frost blanket calculator, low tunnel calculator, season extension calculator"
   }
 ]

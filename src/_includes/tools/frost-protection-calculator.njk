@@ -1,0 +1,639 @@
+<section class="gbd-tool" id="frost-protection-tool">
+  <section class="card">
+    <span class="gbd-kicker">Free frost protection decision tool</span>
+    <p class="lede">
+      Frost cloth, row cover, low tunnels, and cold frames can help save tender plants or stretch a harvest window — but they are not always worth the cost or effort. Use this calculator to decide whether covering your plants makes sense for a specific crop, bed, and protection method.
+    </p>
+    <p class="muted">
+      This is a planning tool, not a live frost forecast. It gives a practical protect / maybe / skip recommendation using crop sensitivity, expected added growing time, bed size, method cost, reuse, and setup effort.
+    </p>
+  </section>
+
+  <section class="card" aria-labelledby="fpc-quick-title">
+    <h2 id="fpc-quick-title">1. Quick frost protection decision</h2>
+
+    <div class="gbd-grid three">
+      <div class="gbd-field">
+        <label for="fpc-date">Frost or cold-night date</label>
+        <input type="date" id="fpc-date" value="2026-09-25">
+        <div class="gbd-help">Use your average first fall frost, last spring frost, or the cold night you are planning around.</div>
+      </div>
+      <div class="gbd-field">
+        <label for="fpc-season">Protection goal</label>
+        <select id="fpc-season">
+          <option value="fall" selected>Fall — keep harvesting longer</option>
+          <option value="spring">Spring — plant or transplant earlier</option>
+          <option value="single-night">Single cold night — save plants</option>
+        </select>
+        <div class="gbd-help">The goal changes how aggressively the recommendation treats added days.</div>
+      </div>
+      <div class="gbd-field">
+        <label for="fpc-crop-profile">What are you protecting?</label>
+        <select id="fpc-crop-profile"></select>
+        <div class="gbd-help">Choose the closest profile. You can adjust the advanced assumptions below.</div>
+      </div>
+    </div>
+
+    <div class="gbd-grid three" style="margin-top:1rem;">
+      <div class="gbd-field">
+        <label for="fpc-method">Protection method</label>
+        <select id="fpc-method"></select>
+        <div class="gbd-help">Selecting a method fills typical cost, effort, and added-day assumptions.</div>
+      </div>
+      <div class="gbd-field">
+        <label for="fpc-beds">Beds / blocks to protect</label>
+        <input type="number" id="fpc-beds" min="1" max="200" step="1" value="2">
+      </div>
+      <div class="gbd-field">
+        <label for="fpc-purpose">How important is this crop?</label>
+        <select id="fpc-purpose">
+          <option value="home" selected>Home harvest — useful but not critical</option>
+          <option value="favorite">Favorite crop — I really want to save it</option>
+          <option value="flowers">Bouquets / cut flowers</option>
+          <option value="market">Selling harvests / market garden</option>
+        </select>
+        <div class="gbd-help">This adjusts the default crop-value and labor assumptions without turning the tool into a business-only calculator.</div>
+      </div>
+    </div>
+
+    <div class="gbd-grid three" style="margin-top:1rem;">
+      <div class="gbd-field">
+        <label for="fpc-bed-length">Bed length</label>
+        <input type="number" id="fpc-bed-length" min="1" max="300" step="1" value="20">
+        <div class="gbd-help">Feet.</div>
+      </div>
+      <div class="gbd-field">
+        <label for="fpc-bed-width">Bed width</label>
+        <input type="number" id="fpc-bed-width" min="1" max="10" step="0.5" value="3">
+        <div class="gbd-help">Feet.</div>
+      </div>
+      <div class="gbd-field">
+        <label for="fpc-cold-nights">Cold nights you are worried about</label>
+        <input type="number" id="fpc-cold-nights" min="1" max="30" step="1" value="2">
+        <div class="gbd-help">Useful for single-night saves or short cold snaps.</div>
+      </div>
+    </div>
+
+    <div class="gbd-actions" style="margin-top:1rem;">
+      <button class="gbd-button primary" type="button" id="fpc-calc">Check protection plan</button>
+      <button class="gbd-button" type="button" id="fpc-reset">Reset example</button>
+      <button class="gbd-button" type="button" id="fpc-csv">Download CSV</button>
+      <button class="gbd-button" type="button" onclick="window.print()">Print</button>
+    </div>
+  </section>
+
+  <section class="card" id="fpc-results-card" data-gbd-results tabindex="-1" aria-live="polite" aria-labelledby="fpc-results-title">
+    <h2 id="fpc-results-title">2. Frost protection recommendation</h2>
+    <div id="fpc-warning" class="gbd-warning" hidden></div>
+
+    <div class="gbd-kpis" id="fpc-kpis" style="margin-top:.75rem;"></div>
+
+    <div class="gbd-grid two" style="margin-top:1rem;">
+      <div class="gbd-panel soft">
+        <h3 style="margin-top:0;">Plain-language readout</h3>
+        <ul class="gbd-summary-list" id="fpc-summary"></ul>
+      </div>
+      <div class="gbd-panel soft">
+        <h3 style="margin-top:0;">What to do next</h3>
+        <ul class="gbd-summary-list" id="fpc-actions"></ul>
+      </div>
+    </div>
+
+    <details class="gbd-panel" style="margin-top:1rem;">
+      <summary><strong>Show the cost and break-even math</strong></summary>
+      <p class="muted" style="margin-top:.75rem;">
+        These numbers are optional planning estimates. Home gardeners can treat the crop value as a rough “worth saving” value rather than a true sales value.
+      </p>
+      <div class="gbd-kpis" id="fpc-advanced-kpis" style="margin-top:.75rem;"></div>
+      <div class="gbd-table-wrap" style="margin-top:1rem;">
+        <table aria-label="Frost protection method comparison results">
+          <thead>
+            <tr>
+              <th>Method</th>
+              <th>Added days</th>
+              <th>Typical protection</th>
+              <th>Effort</th>
+              <th>Seasonal cost</th>
+              <th>Expected benefit</th>
+              <th>Net estimate</th>
+              <th>Break-even</th>
+              <th>Fit</th>
+            </tr>
+          </thead>
+          <tbody id="fpc-comparison"></tbody>
+        </table>
+      </div>
+    </details>
+  </section>
+
+  <section class="card" aria-labelledby="fpc-advanced-title">
+    <h2 id="fpc-advanced-title">Advanced assumptions</h2>
+    <p>
+      You can use the quick defaults above, or edit the assumptions below if you know your actual material cost, crop value, reuse seasons, or setup time.
+    </p>
+
+    <details>
+      <summary><strong>Edit advanced cost and crop assumptions</strong></summary>
+      <div class="gbd-grid three" style="margin-top:1rem;">
+        <div class="gbd-field">
+          <label for="fpc-value-week">Crop value per bed per harvest week</label>
+          <input type="number" id="fpc-value-week" min="0" step="1" value="24">
+          <div class="gbd-help">Use grocery replacement value, bouquet value, market value, or a personal “worth saving” estimate.</div>
+        </div>
+        <div class="gbd-field">
+          <label for="fpc-productivity">Protected-period productivity</label>
+          <select id="fpc-productivity">
+            <option value="0.45">Low — 45% of peak harvest</option>
+            <option value="0.60">Modest — 60% of peak harvest</option>
+            <option value="0.75" selected>Normal — 75% of peak harvest</option>
+            <option value="0.90">Strong — 90% of peak harvest</option>
+            <option value="1.00">Full — 100% of peak harvest</option>
+          </select>
+          <div class="gbd-help">Late-season harvests are often slower than peak summer production.</div>
+        </div>
+        <div class="gbd-field">
+          <label for="fpc-reliability">Protection confidence</label>
+          <select id="fpc-reliability">
+            <option value="0.55">Low — 55%</option>
+            <option value="0.70">Moderate — 70%</option>
+            <option value="0.85" selected>Good — 85%</option>
+            <option value="0.95">High — 95%</option>
+          </select>
+          <div class="gbd-help">Use lower confidence for windy sites, severe freezes, or improvised covers.</div>
+        </div>
+      </div>
+
+      <div class="gbd-grid three" style="margin-top:1rem;">
+        <div class="gbd-field">
+          <label for="fpc-crop-tolerance">Uncovered tolerance after frost date</label>
+          <input type="number" id="fpc-crop-tolerance" min="0" max="45" step="1" value="0">
+          <div class="gbd-help">Tender crops are 0. Kale, spinach, and hardy greens may tolerate longer.</div>
+        </div>
+        <div class="gbd-field">
+          <label for="fpc-added-days">Expected extra growing days</label>
+          <input type="number" id="fpc-added-days" min="0" max="60" step="1" value="10">
+        </div>
+        <div class="gbd-field">
+          <label for="fpc-reuse-seasons">Reuse seasons</label>
+          <input type="number" id="fpc-reuse-seasons" min="1" max="20" step="1" value="3">
+          <div class="gbd-help">Allocates material cost across multiple seasons.</div>
+        </div>
+      </div>
+
+      <div class="gbd-grid three" style="margin-top:1rem;">
+        <div class="gbd-field">
+          <label for="fpc-cost-bed">Material + hardware cost per bed</label>
+          <input type="number" id="fpc-cost-bed" min="0" step="1" value="24">
+          <div class="gbd-help">Cover, hoops, clips, weights, repair tape, or frame materials.</div>
+        </div>
+        <div class="gbd-field">
+          <label for="fpc-other-cost">Other one-time cost</label>
+          <input type="number" id="fpc-other-cost" min="0" step="1" value="0">
+          <div class="gbd-help">Optional: storage bins, extra stakes, replacement parts.</div>
+        </div>
+        <div class="gbd-field">
+          <label for="fpc-labor-rate">Labor value per hour</label>
+          <input type="number" id="fpc-labor-rate" min="0" step="1" value="0">
+          <div class="gbd-help">Use 0 for most home-garden decisions. Use an hourly value for market/flower production.</div>
+        </div>
+      </div>
+
+      <div class="gbd-grid three" style="margin-top:1rem;">
+        <div class="gbd-field">
+          <label for="fpc-minutes-bed">Setup + takedown minutes per bed</label>
+          <input type="number" id="fpc-minutes-bed" min="0" max="240" step="1" value="15">
+        </div>
+        <div class="gbd-field">
+          <label for="fpc-repair-rate">Annual replacement / repair allowance</label>
+          <select id="fpc-repair-rate">
+            <option value="0">None</option>
+            <option value="0.10" selected>10% of material cost</option>
+            <option value="0.20">20% of material cost</option>
+            <option value="0.30">30% of material cost</option>
+          </select>
+        </div>
+        <div class="gbd-field">
+          <label for="fpc-scenario-name">Scenario name</label>
+          <input type="text" id="fpc-scenario-name" value="Tomatoes under heavy row cover">
+        </div>
+      </div>
+    </details>
+  </section>
+
+  <section class="card">
+    <h2>What this calculator is good for</h2>
+    <ul class="tight">
+      <li><strong>Emergency cold snaps:</strong> decide whether a crop is worth covering for one or more cold nights.</li>
+      <li><strong>Fall harvest decisions:</strong> estimate whether row cover or frost cloth could buy enough time for tomatoes, peppers, dahlias, basil, greens, or flowers.</li>
+      <li><strong>Spring planting decisions:</strong> compare simple covers, tunnels, and cold frames before planting earlier than usual.</li>
+      <li><strong>Material choices:</strong> see when cheap frost cloth is enough and when a heavier tunnel or cold frame is more appropriate.</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>Model assumptions and limits</h2>
+    <p>
+      The calculator estimates whether protection is likely to be useful by comparing expected extra growing time, crop sensitivity, method reliability, setup effort, and seasonalized material cost. The recommendation is a planning signal, not a guarantee.
+    </p>
+    <p>
+      Actual protection depends on freeze severity, wind, soil moisture, plant health, cover weight, cover placement, and whether the cover is sealed at the edges. Always check your local forecast before relying on protection during a real freeze event.
+    </p>
+  </section>
+
+  {% set sourceLinksVariant = "frost-protection" %}
+  {% set sourceLinksId = "tool-frost-protection" %}
+  {% set sourceLinksHeading = "Sources and limits for the Frost Protection Calculator" %}
+  {% set sourceLinksIntro = "This calculator combines frost-window planning with extension guidance on row covers, cold frames, and season-extension structures. Costs, added days, and crop values are editable planning assumptions." %}
+  {% include "components/external-source-links.njk" %}
+</section>
+
+<script>
+(function () {
+  const root = document.getElementById("frost-protection-tool");
+  if (!root) return;
+
+  const cropProfiles = [
+    { key: "tomato", label: "Tomato", valueWeek: 24, productivity: 0.75, tolerance: 0, sensitivity: "tender", note: "High-value tender crop; protection can be worthwhile when fruit is still ripening." },
+    { key: "pepper", label: "Pepper", valueWeek: 22, productivity: 0.65, tolerance: 0, sensitivity: "tender", note: "Tender and slow in cool weather; protection is most useful when plants are loaded with fruit." },
+    { key: "dahlia", label: "Dahlia / cut flowers", valueWeek: 34, productivity: 0.80, tolerance: 0, sensitivity: "tender", note: "Often worth protecting for late bouquet stems if setup is fast and frost is light." },
+    { key: "zinnia", label: "Zinnia / annual flowers", valueWeek: 20, productivity: 0.65, tolerance: 0, sensitivity: "tender", note: "Tender annual flowers may produce less during cool protected weeks." },
+    { key: "basil", label: "Basil", valueWeek: 18, productivity: 0.55, tolerance: 0, sensitivity: "very tender", note: "Very cold-sensitive; protection helps only with light frost and mild nights." },
+    { key: "lettuce", label: "Lettuce / salad greens", valueWeek: 16, productivity: 0.90, tolerance: 7, sensitivity: "cool-season", note: "Cool-season crop; may already tolerate light frost without heavy protection." },
+    { key: "spinach", label: "Spinach", valueWeek: 14, productivity: 0.90, tolerance: 10, sensitivity: "hardy", note: "Naturally frost tolerant; protection may be more about harvest quality than survival." },
+    { key: "kale", label: "Kale / hardy greens", valueWeek: 12, productivity: 0.85, tolerance: 14, sensitivity: "hardy", note: "Often keeps producing after frost; heavy protection may not be needed unless freezes are severe." },
+    { key: "custom", label: "Custom crop", valueWeek: 20, productivity: 0.75, tolerance: 0, sensitivity: "custom", note: "Enter your own crop value and tolerance assumptions." }
+  ];
+
+  const protectionProfiles = [
+    { key: "light-row-cover", label: "Light row cover / frost cloth", days: 7, temp: "~2–4°F", costSqft: 0.10, fixedBed: 6, reuse: 3, minutes: 10, confidence: 0.70, effort: "Low", note: "Best for quick light-frost protection." },
+    { key: "heavy-row-cover", label: "Heavy frost blanket", days: 10, temp: "~6–10°F", costSqft: 0.18, fixedBed: 8, reuse: 4, minutes: 15, confidence: 0.85, effort: "Low–medium", note: "More insulation, but lower light and more handling." },
+    { key: "hoops-row-cover", label: "Hoops + row cover tunnel", days: 14, temp: "~4–8°F", costSqft: 0.28, fixedBed: 14, reuse: 4, minutes: 20, confidence: 0.85, effort: "Medium", note: "Good balance for greens, flowers, and compact beds." },
+    { key: "plastic-low-tunnel", label: "Plastic low tunnel", days: 21, temp: "stronger heat gain", costSqft: 0.42, fixedBed: 22, reuse: 4, minutes: 28, confidence: 0.80, effort: "Medium–high", note: "More season extension, but ventilation matters on sunny days." },
+    { key: "cold-frame", label: "Cold frame / rigid cover", days: 28, temp: "highest passive protection", costSqft: 1.20, fixedBed: 35, reuse: 6, minutes: 25, confidence: 0.88, effort: "Medium", note: "High upfront cost; best when reused for spring and fall." },
+    { key: "custom", label: "Custom / manual", days: 10, temp: "custom", costSqft: 0, fixedBed: 0, reuse: 3, minutes: 15, confidence: 0.85, effort: "Custom", note: "Use your own costs, added days, and confidence." }
+  ];
+
+  const purposeProfiles = {
+    home: { label: "Home harvest", valueMultiplier: 1, laborRate: 0, note: "Home-garden mode ignores labor by default and treats value as a practical worth-saving estimate." },
+    favorite: { label: "Favorite crop", valueMultiplier: 1.5, laborRate: 0, note: "Favorite-crop mode gives more weight to saving a crop you especially care about." },
+    flowers: { label: "Bouquets / cut flowers", valueMultiplier: 1.35, laborRate: 10, note: "Flower mode assumes the crop has bouquet or stem value and some setup effort matters." },
+    market: { label: "Selling harvests", valueMultiplier: 2, laborRate: 20, note: "Market mode includes labor and assumes crop value matters more directly." }
+  };
+
+  const methodSelect = document.getElementById("fpc-method");
+  const cropSelect = document.getElementById("fpc-crop-profile");
+  const purposeSelect = document.getElementById("fpc-purpose");
+  const resultsCard = document.getElementById("fpc-results-card");
+  let lastComparison = [];
+
+  function escapeHtml(value) {
+    return String(value == null ? "" : value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function money(value) {
+    if (!Number.isFinite(value)) return "—";
+    const rounded = Math.round(value);
+    const sign = rounded < 0 ? "-" : "";
+    return sign + "$" + Math.abs(rounded).toLocaleString();
+  }
+
+  function num(value, fallback) {
+    const n = Number(value);
+    return Number.isFinite(n) ? n : fallback;
+  }
+
+  function parseDate(id) {
+    const value = document.getElementById(id).value;
+    if (!value) return null;
+    const date = new Date(value + "T12:00:00");
+    return Number.isNaN(date.getTime()) ? null : date;
+  }
+
+  function addDays(date, days) {
+    if (!date) return null;
+    const next = new Date(date.getTime());
+    next.setDate(next.getDate() + Number(days || 0));
+    return next;
+  }
+
+  function fmt(date) {
+    if (!date || Number.isNaN(date.getTime())) return "—";
+    return date.toLocaleDateString(undefined, { month: "short", day: "numeric" });
+  }
+
+  function pill(label, cls) {
+    return '<span class="gbd-pill ' + cls + '">' + escapeHtml(label) + '</span>';
+  }
+
+  function methodOptions() {
+    methodSelect.innerHTML = protectionProfiles.map((method) => '<option value="' + method.key + '">' + escapeHtml(method.label) + '</option>').join("");
+    methodSelect.value = "heavy-row-cover";
+  }
+
+  function cropOptions() {
+    cropSelect.innerHTML = cropProfiles.map((crop) => '<option value="' + crop.key + '">' + escapeHtml(crop.label) + '</option>').join("");
+    cropSelect.value = "tomato";
+  }
+
+  function getMethod(key) {
+    return protectionProfiles.find((method) => method.key === key) || protectionProfiles[0];
+  }
+
+  function getCrop(key) {
+    return cropProfiles.find((crop) => crop.key === key) || cropProfiles[0];
+  }
+
+  function getPurpose(key) {
+    return purposeProfiles[key] || purposeProfiles.home;
+  }
+
+  function bedAreaPerBed() {
+    return Math.max(0, num(document.getElementById("fpc-bed-length").value, 20) * num(document.getElementById("fpc-bed-width").value, 3));
+  }
+
+  function estimatedCostPerBed(method) {
+    return Math.round((bedAreaPerBed() * method.costSqft) + method.fixedBed);
+  }
+
+  function applyCropDefaults() {
+    const crop = getCrop(cropSelect.value);
+    const purpose = getPurpose(purposeSelect.value);
+    document.getElementById("fpc-value-week").value = Math.round(crop.valueWeek * purpose.valueMultiplier);
+    document.getElementById("fpc-productivity").value = String(crop.productivity);
+    document.getElementById("fpc-crop-tolerance").value = crop.tolerance;
+    document.getElementById("fpc-labor-rate").value = purpose.laborRate;
+  }
+
+  function applyMethodDefaults() {
+    const method = getMethod(methodSelect.value);
+    if (method.key === "custom") return;
+    document.getElementById("fpc-added-days").value = method.days;
+    document.getElementById("fpc-reuse-seasons").value = method.reuse;
+    document.getElementById("fpc-minutes-bed").value = method.minutes;
+    document.getElementById("fpc-cost-bed").value = estimatedCostPerBed(method);
+    document.getElementById("fpc-reliability").value = String(method.confidence);
+  }
+
+  function collectInputs(methodOverride) {
+    const method = methodOverride || getMethod(methodSelect.value);
+    const beds = Math.max(1, num(document.getElementById("fpc-beds").value, 1));
+    const valueWeek = Math.max(0, num(document.getElementById("fpc-value-week").value, 0));
+    const productivity = Math.max(0, num(document.getElementById("fpc-productivity").value, 0.75));
+    const confidence = Math.max(0, Math.min(1, methodOverride ? method.confidence : num(document.getElementById("fpc-reliability").value, 0.85)));
+    const cropTolerance = Math.max(0, num(document.getElementById("fpc-crop-tolerance").value, 0));
+    const addedDays = Math.max(0, methodOverride ? method.days : num(document.getElementById("fpc-added-days").value, method.days));
+    const reuse = Math.max(1, methodOverride ? method.reuse : num(document.getElementById("fpc-reuse-seasons").value, method.reuse));
+    const costPerBed = Math.max(0, methodOverride ? estimatedCostPerBed(method) : num(document.getElementById("fpc-cost-bed").value, estimatedCostPerBed(method)));
+    const otherCost = Math.max(0, methodOverride ? 0 : num(document.getElementById("fpc-other-cost").value, 0));
+    const minutesBed = Math.max(0, methodOverride ? method.minutes : num(document.getElementById("fpc-minutes-bed").value, method.minutes));
+    const laborRate = Math.max(0, num(document.getElementById("fpc-labor-rate").value, 0));
+    const repairRate = Math.max(0, num(document.getElementById("fpc-repair-rate").value, 0.10));
+    const coldNights = Math.max(1, num(document.getElementById("fpc-cold-nights").value, 2));
+    const date = parseDate("fpc-date");
+    const season = document.getElementById("fpc-season").value;
+    return { method, beds, valueWeek, productivity, confidence, cropTolerance, addedDays, reuse, costPerBed, otherCost, minutesBed, laborRate, repairRate, coldNights, date, season };
+  }
+
+  function calculateScenario(inputs) {
+    const materialTotal = (inputs.costPerBed * inputs.beds) + inputs.otherCost;
+    const annualizedMaterial = materialTotal / inputs.reuse;
+    const repairAllowance = materialTotal * inputs.repairRate;
+    const laborCost = (inputs.minutesBed * inputs.beds / 60) * inputs.laborRate;
+    const seasonalCost = annualizedMaterial + repairAllowance + laborCost;
+    const addedWeeks = inputs.addedDays / 7;
+    const productiveWeeks = addedWeeks * inputs.productivity;
+    const grossValue = inputs.valueWeek * inputs.beds * productiveWeeks;
+    const expectedBenefit = grossValue * inputs.confidence;
+    const netEstimate = expectedBenefit - seasonalCost;
+    const benefitCost = seasonalCost > 0 ? expectedBenefit / seasonalCost : Infinity;
+    const valuePerProtectedDay = inputs.valueWeek * inputs.beds * inputs.productivity * inputs.confidence / 7;
+    const breakEvenDays = valuePerProtectedDay > 0 ? seasonalCost / valuePerProtectedDay : Infinity;
+    const unprotectedCutoff = addDays(inputs.date, inputs.cropTolerance);
+    const protectedCutoff = addDays(inputs.date, inputs.cropTolerance + inputs.addedDays);
+
+    let status = "Probably skip";
+    let statusClass = "bad";
+    let plain = "This setup may cost more effort or money than the added growing time is likely to justify.";
+    if (netEstimate >= seasonalCost * 0.5 && benefitCost >= 1.5) {
+      status = "Worth it";
+      statusClass = "good";
+      plain = "This protection plan is likely worth using if the forecast matches the method's protection range.";
+    } else if (netEstimate > -seasonalCost * 0.25 || benefitCost >= 0.85) {
+      status = "Maybe";
+      statusClass = "warn";
+      plain = "This is a borderline case. It may be worth it if materials are already on hand, setup is easy, or the crop matters to you.";
+    }
+
+    return { materialTotal, annualizedMaterial, repairAllowance, laborCost, seasonalCost, addedWeeks, productiveWeeks, grossValue, expectedBenefit, netEstimate, benefitCost, valuePerProtectedDay, breakEvenDays, unprotectedCutoff, protectedCutoff, status, statusClass, plain };
+  }
+
+  function kpi(label, value, help) {
+    return '<div class="gbd-kpi"><span class="label">' + escapeHtml(label) + '</span><span class="value">' + value + '</span>' + (help ? '<div class="gbd-help">' + escapeHtml(help) + '</div>' : '') + '</div>';
+  }
+
+  function fitDescription(row) {
+    if (row.result.status === "Worth it") return "Good fit when the crop is still producing and the forecast is within the method's range.";
+    if (row.result.status === "Maybe") return "Use if materials are already available, setup is easy, or the crop is especially important.";
+    return "Usually skip unless assumptions change or the crop has strong non-financial value.";
+  }
+
+  function practicalAddedDays(inputs) {
+    if (inputs.season === "single-night") return Math.min(inputs.addedDays, Math.max(2, inputs.coldNights * 2));
+    return inputs.addedDays;
+  }
+
+  function render() {
+    const crop = getCrop(cropSelect.value);
+    const purpose = getPurpose(purposeSelect.value);
+    const inputs = collectInputs();
+    const result = calculateScenario(inputs);
+    const warning = document.getElementById("fpc-warning");
+    const kpis = document.getElementById("fpc-kpis");
+    const advancedKpis = document.getElementById("fpc-advanced-kpis");
+    const summary = document.getElementById("fpc-summary");
+    const actions = document.getElementById("fpc-actions");
+    const comparison = document.getElementById("fpc-comparison");
+
+    if (!inputs.date) {
+      warning.hidden = false;
+      warning.textContent = "Enter a valid frost or cold-night date to calculate cutoff dates.";
+    } else {
+      warning.hidden = true;
+      warning.textContent = "";
+    }
+
+    const costRange = money(inputs.costPerBed * inputs.beds) + " upfront";
+    kpis.innerHTML = [
+      kpi("Recommendation", pill(result.status, result.statusClass), result.plain),
+      kpi("Extra growing time", practicalAddedDays(inputs) + "–" + inputs.addedDays + " days", "Typical planning range for the selected method."),
+      kpi("Setup effort", inputs.method.effort, "Selected method: " + inputs.method.label),
+      kpi("Approx. material cost", costRange, "Before reuse across future seasons.")
+    ].join("");
+
+    advancedKpis.innerHTML = [
+      kpi("Expected benefit", money(result.expectedBenefit), "Reliability-adjusted crop or worth-saving value."),
+      kpi("Seasonal cost", money(result.seasonalCost), "Annualized materials, repairs, and optional labor."),
+      kpi("Net estimate", money(result.netEstimate), "Expected benefit minus seasonal protection cost."),
+      kpi("Break-even", Number.isFinite(result.breakEvenDays) ? Math.ceil(result.breakEvenDays) + " days" : "not reachable", "Protected days needed to cover the seasonal cost.")
+    ].join("");
+
+    const cutoffText = inputs.season === "spring"
+      ? "Estimated protected planting window begins around <strong>" + fmt(addDays(inputs.date, -inputs.addedDays)) + "</strong>, depending on soil temperature and crop tolerance."
+      : "Unprotected cutoff: <strong>" + fmt(result.unprotectedCutoff) + "</strong>. Protected cutoff estimate: <strong>" + fmt(result.protectedCutoff) + "</strong>.";
+
+    summary.innerHTML = [
+      result.plain,
+      cutoffText,
+      "The selected method is best thought of as about <strong>" + inputs.addedDays + " extra calendar days</strong>, not a guarantee against every freeze.",
+      purpose.note,
+      crop.note
+    ].map((text) => "<li>" + text + "</li>").join("");
+
+    const actionItems = [];
+    if (result.status === "Worth it") {
+      actionItems.push("Prepare covers, clips, weights, or hoops before the cold night rather than installing them at the last minute.");
+      actionItems.push("Protect the most productive or hardest-to-replace plants first.");
+    } else if (result.status === "Maybe") {
+      actionItems.push("Use materials you already own before buying a more expensive setup.");
+      actionItems.push("Protect a smaller block first if only part of the crop is still productive.");
+    } else {
+      actionItems.push("Consider harvesting what you can instead of buying new materials for this crop.");
+      actionItems.push("Save the higher-cost setup for crops with more remaining harvest value or for spring reuse.");
+    }
+    if (inputs.method.key === "plastic-low-tunnel" || inputs.method.key === "cold-frame") {
+      actionItems.push("Ventilate on sunny days. High-protection structures can overheat even in cool seasons.");
+    } else {
+      actionItems.push("Seal the cover edges. Loose edges can remove much of the protection benefit in wind.");
+    }
+    actions.innerHTML = actionItems.map((text) => "<li>" + escapeHtml(text) + "</li>").join("");
+
+    lastComparison = protectionProfiles.filter((method) => method.key !== "custom").map((method) => {
+      const rowInputs = collectInputs(method);
+      const rowResult = calculateScenario(rowInputs);
+      return { method, inputs: rowInputs, result: rowResult };
+    });
+
+    comparison.innerHTML = lastComparison.map((row) => {
+      const be = Number.isFinite(row.result.breakEvenDays) ? Math.ceil(row.result.breakEvenDays) + " days" : "—";
+      return '<tr>' +
+        '<td><strong>' + escapeHtml(row.method.label) + '</strong><div class="gbd-help">' + escapeHtml(row.method.note) + '</div></td>' +
+        '<td>' + row.inputs.addedDays + '</td>' +
+        '<td>' + escapeHtml(row.method.temp) + '</td>' +
+        '<td>' + escapeHtml(row.method.effort) + '</td>' +
+        '<td>' + money(row.result.seasonalCost) + '</td>' +
+        '<td>' + money(row.result.expectedBenefit) + '</td>' +
+        '<td>' + money(row.result.netEstimate) + '</td>' +
+        '<td>' + be + '</td>' +
+        '<td>' + pill(row.result.status, row.result.statusClass) + '<div class="gbd-help">' + escapeHtml(fitDescription(row)) + '</div></td>' +
+      '</tr>';
+    }).join("");
+  }
+
+  function scrollToResults() {
+    if (!resultsCard) return;
+    const header = document.querySelector(".siteHeader, header[role='banner'], .headerBar");
+    const headerOffset = header ? header.getBoundingClientRect().height : 88;
+    const top = resultsCard.getBoundingClientRect().top + window.scrollY - headerOffset - 16;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.scrollTo({ top: Math.max(0, top), behavior: reduceMotion ? "auto" : "smooth" });
+    window.setTimeout(() => resultsCard.focus({ preventScroll: true }), reduceMotion ? 0 : 350);
+  }
+
+  function calculateAndScroll() {
+    render();
+    scrollToResults();
+  }
+
+  function resetExample() {
+    document.getElementById("fpc-date").value = "2026-09-25";
+    document.getElementById("fpc-season").value = "fall";
+    document.getElementById("fpc-beds").value = "2";
+    document.getElementById("fpc-bed-length").value = "20";
+    document.getElementById("fpc-bed-width").value = "3";
+    document.getElementById("fpc-cold-nights").value = "2";
+    document.getElementById("fpc-other-cost").value = "0";
+    document.getElementById("fpc-repair-rate").value = "0.10";
+    document.getElementById("fpc-scenario-name").value = "Tomatoes under heavy row cover";
+    cropSelect.value = "tomato";
+    methodSelect.value = "heavy-row-cover";
+    purposeSelect.value = "home";
+    applyCropDefaults();
+    applyMethodDefaults();
+    render();
+  }
+
+  function csvEscape(value) {
+    const text = String(value == null ? "" : value);
+    return '"' + text.replace(/"/g, '""') + '"';
+  }
+
+  function downloadCsv() {
+    if (!lastComparison.length) render();
+    const scenario = document.getElementById("fpc-scenario-name").value || "Frost protection";
+    const crop = getCrop(cropSelect.value).label;
+    const rows = [["Scenario", "Crop", "Method", "Added days", "Typical protection", "Effort", "Seasonal cost", "Expected benefit", "Net estimate", "Break-even days", "Recommendation"]];
+    lastComparison.forEach((row) => {
+      rows.push([
+        scenario,
+        crop,
+        row.method.label,
+        row.inputs.addedDays,
+        row.method.temp,
+        row.method.effort,
+        row.result.seasonalCost.toFixed(2),
+        row.result.expectedBenefit.toFixed(2),
+        row.result.netEstimate.toFixed(2),
+        Number.isFinite(row.result.breakEvenDays) ? Math.ceil(row.result.breakEvenDays) : "",
+        row.result.status
+      ]);
+    });
+    const csv = rows.map((row) => row.map(csvEscape).join(",")).join("\n");
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "frost-protection-comparison.csv";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  methodOptions();
+  cropOptions();
+  applyCropDefaults();
+  applyMethodDefaults();
+  render();
+
+  cropSelect.addEventListener("change", () => {
+    applyCropDefaults();
+    render();
+  });
+  purposeSelect.addEventListener("change", () => {
+    applyCropDefaults();
+    render();
+  });
+  methodSelect.addEventListener("change", () => {
+    applyMethodDefaults();
+    render();
+  });
+  ["fpc-beds", "fpc-bed-length", "fpc-bed-width"].forEach((id) => {
+    document.getElementById(id).addEventListener("input", () => {
+      if (methodSelect.value !== "custom") applyMethodDefaults();
+      render();
+    });
+  });
+  root.querySelectorAll("input, select").forEach((el) => {
+    if (["fpc-beds", "fpc-bed-length", "fpc-bed-width", "fpc-method", "fpc-crop-profile", "fpc-purpose"].includes(el.id)) return;
+    el.addEventListener("input", render);
+    el.addEventListener("change", render);
+  });
+  document.getElementById("fpc-calc").addEventListener("click", calculateAndScroll);
+  document.getElementById("fpc-reset").addEventListener("click", resetExample);
+  document.getElementById("fpc-csv").addEventListener("click", downloadCsv);
+})();
+</script>

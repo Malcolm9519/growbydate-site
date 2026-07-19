@@ -1,0 +1,21 @@
+{% if mascotMessage and mascotMessage.text %}
+<div class="mascotNote">
+  {% if mascotNoteImageSrc %}
+    <div class="mascotNote-art" aria-hidden="true">
+      <img
+        src="{{ mascotNoteImageSrc }}"
+        alt=""
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
+  {% endif %}
+
+  <div class="mascotNote-body">
+    {% if mascotMessage.label %}
+      <div class="mascotNote-label">{{ mascotMessage.label }}</div>
+    {% endif %}
+    <p class="mascotNote-text">{{ mascotMessage.text }}</p>
+  </div>
+</div>
+{% endif %}
